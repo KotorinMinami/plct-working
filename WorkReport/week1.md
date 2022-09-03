@@ -8,4 +8,4 @@
 - VLC验证文档修改，增加了测试用视音频链接 （[commit](https://github.com/KotorinMinami/testing/commit/0491b9e228c2a024fcd1d7df859b042e6f3140ea)）
 
 ### 将gimp使用文档中的图片替换成qemu下oe的截图
- 已上传的截图
+ [已上传的截图](https://github.com/KotorinMinami/plct-working/tree/main/WorkReport/image)
