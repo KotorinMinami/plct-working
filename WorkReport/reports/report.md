@@ -16,7 +16,7 @@
 - 今后移植可能用得到的[源码仓库](https://salsa.debian.org/debian/piuparts)
 - 目前QA放到官方网页（https://piuparts.debian.org） 的一些[log](https://piuparts.debian.org/bullseye/)
 
-![char.img](./image/states_1.png)
+![char.img](https://github.com/KotorinMinami/plct-working/blob/main/WorkReport/image/states_1.png)
 
                                                        样例通过与时间关系的图表
                                                        
