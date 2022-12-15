@@ -1,0 +1,738 @@
++ source ../common/comlib.sh
+++ source /root/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen-riscv/libs/locallibs/common_lib_python.sh
++++ find /etc -name auditd.conf
+++ AUDIT_PATH=/etc/audit/auditd.conf
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Dec  7 06:36:47 2022 - INFO  - Start to prepare the test environment.
++ cp -raf /var/log/ /tmp/
++ sed -i 's/log_file = \/var\/log\/audit\/audit.log/log_file = \/tmp\/log\/audit\/audit.log/g' /etc/audit/auditd.conf
++ sed -i 's/max_log_file_action = ROTATE/max_log_file_action = KEEP_LOGS/g' /etc/audit/auditd.conf
++ service auditd restart
+Stopping logging: 
+Redirecting start to /bin/systemctl start auditd.service
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Wed Dec  7 06:36:52 2022 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Dec  7 06:36:53 2022 - INFO  - Start to run test.
+++ df -m /tmp/log/audit/
+++ awk NR==2
+++ awk '{print $4-74}'
++ count_size=3843
++ dd if=/dev/zero of=/tmp/log/audit/audit_log bs=1M count=3843
+3843+0 records in
+3843+0 records out
+4029677568 bytes (4.0 GB, 3.8 GiB) copied, 55.5846 s, 72.5 MB/s
++ (( j=0 ))
++ (( j<10 ))
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ search_log available_disk_space
++ audit_key=available_disk_space
++ auditctl -w /tmp/available_disk_space -p rwxa -k available_disk_space
++ CHECK_RESULT 0 0 0 ' add rules failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=' add rules failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ date +%T
++ starttime=06:37:50
++ touch /tmp/available_disk_space
++ rm -rf /tmp/available_disk_space
+++ date +%T
++ endtime=06:37:50
++ auditctl -W /tmp/available_disk_space -p rwxa -k available_disk_space
++ CHECK_RESULT 0 0 0 'second failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='second failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ (( i=0 ))
++ (( i<10 ))
++ ausearch -k available_disk_space -ts 06:37:50 -te 06:37:50
+----
+time->Wed Dec  7 06:37:50 2022
+type=CONFIG_CHANGE msg=audit(1670413070.795:896): auid=0 ses=2 op=add_rule key="available_disk_space" list=4 res=1
++ [[ 0 -ne 0 ]]
++ break
++ [[ 0 -eq 10 ]]
++ CHECK_RESULT 0 0 0 'search first'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='search first'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ (( j++ ))
++ (( j<10 ))
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ search_log available_disk_space
++ audit_key=available_disk_space
++ auditctl -w /tmp/available_disk_space -p rwxa -k available_disk_space
++ CHECK_RESULT 0 0 0 ' add rules failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=' add rules failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ date +%T
++ starttime=06:37:52
++ touch /tmp/available_disk_space
++ rm -rf /tmp/available_disk_space
+++ date +%T
++ endtime=06:37:53
++ auditctl -W /tmp/available_disk_space -p rwxa -k available_disk_space
++ CHECK_RESULT 0 0 0 'second failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='second failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ (( i=0 ))
++ (( i<10 ))
++ ausearch -k available_disk_space -ts 06:37:52 -te 06:37:53
+----
+time->Wed Dec  7 06:37:52 2022
+type=CONFIG_CHANGE msg=audit(1670413072.895:898): auid=0 ses=2 op=add_rule key="available_disk_space" list=4 res=1
+----
+time->Wed Dec  7 06:37:53 2022
+type=CONFIG_CHANGE msg=audit(1670413073.145:899): auid=0 ses=2 op=remove_rule key="available_disk_space" list=4 res=1
++ [[ 0 -ne 0 ]]
++ break
++ [[ 0 -eq 10 ]]
++ CHECK_RESULT 0 0 0 'search first'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='search first'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ (( j++ ))
++ (( j<10 ))
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ search_log available_disk_space
++ audit_key=available_disk_space
++ auditctl -w /tmp/available_disk_space -p rwxa -k available_disk_space
++ CHECK_RESULT 0 0 0 ' add rules failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=' add rules failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ date +%T
++ starttime=06:37:55
++ touch /tmp/available_disk_space
++ rm -rf /tmp/available_disk_space
+++ date +%T
++ endtime=06:37:55
++ auditctl -W /tmp/available_disk_space -p rwxa -k available_disk_space
++ CHECK_RESULT 0 0 0 'second failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='second failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ (( i=0 ))
++ (( i<10 ))
++ ausearch -k available_disk_space -ts 06:37:55 -te 06:37:55
+----
+time->Wed Dec  7 06:37:55 2022
+type=CONFIG_CHANGE msg=audit(1670413075.195:901): auid=0 ses=2 op=remove_rule key="available_disk_space" list=4 res=1
++ [[ 0 -ne 0 ]]
++ break
++ [[ 0 -eq 10 ]]
++ CHECK_RESULT 0 0 0 'search first'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='search first'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ (( j++ ))
++ (( j<10 ))
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ search_log available_disk_space
++ audit_key=available_disk_space
++ auditctl -w /tmp/available_disk_space -p rwxa -k available_disk_space
++ CHECK_RESULT 0 0 0 ' add rules failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=' add rules failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ date +%T
++ starttime=06:37:57
++ touch /tmp/available_disk_space
++ rm -rf /tmp/available_disk_space
+++ date +%T
++ endtime=06:37:57
++ auditctl -W /tmp/available_disk_space -p rwxa -k available_disk_space
++ CHECK_RESULT 0 0 0 'second failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='second failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ (( i=0 ))
++ (( i<10 ))
++ ausearch -k available_disk_space -ts 06:37:57 -te 06:37:57
+----
+time->Wed Dec  7 06:37:57 2022
+type=CONFIG_CHANGE msg=audit(1670413077.255:903): auid=0 ses=2 op=remove_rule key="available_disk_space" list=4 res=1
++ [[ 0 -ne 0 ]]
++ break
++ [[ 0 -eq 10 ]]
++ CHECK_RESULT 0 0 0 'search first'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='search first'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ (( j++ ))
++ (( j<10 ))
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ search_log available_disk_space
++ audit_key=available_disk_space
++ auditctl -w /tmp/available_disk_space -p rwxa -k available_disk_space
++ CHECK_RESULT 0 0 0 ' add rules failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=' add rules failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ date +%T
++ starttime=06:37:59
++ touch /tmp/available_disk_space
++ rm -rf /tmp/available_disk_space
+++ date +%T
++ endtime=06:37:59
++ auditctl -W /tmp/available_disk_space -p rwxa -k available_disk_space
++ CHECK_RESULT 0 0 0 'second failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='second failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ (( i=0 ))
++ (( i<10 ))
++ ausearch -k available_disk_space -ts 06:37:59 -te 06:37:59
+----
+time->Wed Dec  7 06:37:59 2022
+type=CONFIG_CHANGE msg=audit(1670413079.055:904): auid=0 ses=2 op=add_rule key="available_disk_space" list=4 res=1
+----
+time->Wed Dec  7 06:37:59 2022
+type=CONFIG_CHANGE msg=audit(1670413079.305:905): auid=0 ses=2 op=remove_rule key="available_disk_space" list=4 res=1
++ [[ 0 -ne 0 ]]
++ break
++ [[ 0 -eq 10 ]]
++ CHECK_RESULT 0 0 0 'search first'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='search first'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ (( j++ ))
++ (( j<10 ))
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ search_log available_disk_space
++ audit_key=available_disk_space
++ auditctl -w /tmp/available_disk_space -p rwxa -k available_disk_space
++ CHECK_RESULT 0 0 0 ' add rules failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=' add rules failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ date +%T
++ starttime=06:38:01
++ touch /tmp/available_disk_space
++ rm -rf /tmp/available_disk_space
+++ date +%T
++ endtime=06:38:01
++ auditctl -W /tmp/available_disk_space -p rwxa -k available_disk_space
++ CHECK_RESULT 0 0 0 'second failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='second failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ (( i=0 ))
++ (( i<10 ))
++ ausearch -k available_disk_space -ts 06:38:01 -te 06:38:01
+----
+time->Wed Dec  7 06:38:01 2022
+type=CONFIG_CHANGE msg=audit(1670413081.125:906): auid=0 ses=2 op=add_rule key="available_disk_space" list=4 res=1
+----
+time->Wed Dec  7 06:38:01 2022
+type=CONFIG_CHANGE msg=audit(1670413081.365:907): auid=0 ses=2 op=remove_rule key="available_disk_space" list=4 res=1
++ [[ 0 -ne 0 ]]
++ break
++ [[ 0 -eq 10 ]]
++ CHECK_RESULT 0 0 0 'search first'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='search first'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ (( j++ ))
++ (( j<10 ))
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ search_log available_disk_space
++ audit_key=available_disk_space
++ auditctl -w /tmp/available_disk_space -p rwxa -k available_disk_space
++ CHECK_RESULT 0 0 0 ' add rules failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=' add rules failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ date +%T
++ starttime=06:38:03
++ touch /tmp/available_disk_space
++ rm -rf /tmp/available_disk_space
+++ date +%T
++ endtime=06:38:03
++ auditctl -W /tmp/available_disk_space -p rwxa -k available_disk_space
++ CHECK_RESULT 0 0 0 'second failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='second failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ (( i=0 ))
++ (( i<10 ))
++ ausearch -k available_disk_space -ts 06:38:03 -te 06:38:03
+----
+time->Wed Dec  7 06:38:03 2022
+type=CONFIG_CHANGE msg=audit(1670413083.155:908): auid=0 ses=2 op=add_rule key="available_disk_space" list=4 res=1
+----
+time->Wed Dec  7 06:38:03 2022
+type=CONFIG_CHANGE msg=audit(1670413083.405:909): auid=0 ses=2 op=remove_rule key="available_disk_space" list=4 res=1
++ [[ 0 -ne 0 ]]
++ break
++ [[ 0 -eq 10 ]]
++ CHECK_RESULT 0 0 0 'search first'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='search first'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ (( j++ ))
++ (( j<10 ))
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ search_log available_disk_space
++ audit_key=available_disk_space
++ auditctl -w /tmp/available_disk_space -p rwxa -k available_disk_space
++ CHECK_RESULT 0 0 0 ' add rules failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=' add rules failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ date +%T
++ starttime=06:38:05
++ touch /tmp/available_disk_space
++ rm -rf /tmp/available_disk_space
+++ date +%T
++ endtime=06:38:05
++ auditctl -W /tmp/available_disk_space -p rwxa -k available_disk_space
++ CHECK_RESULT 0 0 0 'second failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='second failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ (( i=0 ))
++ (( i<10 ))
++ ausearch -k available_disk_space -ts 06:38:05 -te 06:38:05
+----
+time->Wed Dec  7 06:38:05 2022
+type=CONFIG_CHANGE msg=audit(1670413085.225:910): auid=0 ses=2 op=add_rule key="available_disk_space" list=4 res=1
+----
+time->Wed Dec  7 06:38:05 2022
+type=CONFIG_CHANGE msg=audit(1670413085.465:911): auid=0 ses=2 op=remove_rule key="available_disk_space" list=4 res=1
++ [[ 0 -ne 0 ]]
++ break
++ [[ 0 -eq 10 ]]
++ CHECK_RESULT 0 0 0 'search first'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='search first'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ (( j++ ))
++ (( j<10 ))
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ search_log available_disk_space
++ audit_key=available_disk_space
++ auditctl -w /tmp/available_disk_space -p rwxa -k available_disk_space
++ CHECK_RESULT 0 0 0 ' add rules failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=' add rules failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ date +%T
++ starttime=06:38:07
++ touch /tmp/available_disk_space
++ rm -rf /tmp/available_disk_space
+++ date +%T
++ endtime=06:38:07
++ auditctl -W /tmp/available_disk_space -p rwxa -k available_disk_space
++ CHECK_RESULT 0 0 0 'second failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='second failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ (( i=0 ))
++ (( i<10 ))
++ ausearch -k available_disk_space -ts 06:38:07 -te 06:38:07
+----
+time->Wed Dec  7 06:38:07 2022
+type=CONFIG_CHANGE msg=audit(1670413087.255:912): auid=0 ses=2 op=add_rule key="available_disk_space" list=4 res=1
+----
+time->Wed Dec  7 06:38:07 2022
+type=CONFIG_CHANGE msg=audit(1670413087.485:913): auid=0 ses=2 op=remove_rule key="available_disk_space" list=4 res=1
++ [[ 0 -ne 0 ]]
++ break
++ [[ 0 -eq 10 ]]
++ CHECK_RESULT 0 0 0 'search first'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='search first'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ (( j++ ))
++ (( j<10 ))
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ search_log available_disk_space
++ audit_key=available_disk_space
++ auditctl -w /tmp/available_disk_space -p rwxa -k available_disk_space
++ CHECK_RESULT 0 0 0 ' add rules failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=' add rules failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ date +%T
++ starttime=06:38:09
++ touch /tmp/available_disk_space
++ rm -rf /tmp/available_disk_space
+++ date +%T
++ endtime=06:38:09
++ auditctl -W /tmp/available_disk_space -p rwxa -k available_disk_space
++ CHECK_RESULT 0 0 0 'second failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='second failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ (( i=0 ))
++ (( i<10 ))
++ ausearch -k available_disk_space -ts 06:38:09 -te 06:38:09
+----
+time->Wed Dec  7 06:38:09 2022
+type=CONFIG_CHANGE msg=audit(1670413089.265:914): auid=0 ses=2 op=add_rule key="available_disk_space" list=4 res=1
+----
+time->Wed Dec  7 06:38:09 2022
+type=CONFIG_CHANGE msg=audit(1670413089.505:915): auid=0 ses=2 op=remove_rule key="available_disk_space" list=4 res=1
++ [[ 0 -ne 0 ]]
++ break
++ [[ 0 -eq 10 ]]
++ CHECK_RESULT 0 0 0 'search first'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='search first'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ (( j++ ))
++ (( j<10 ))
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ grep -iE 'Audit daemon is low on disk space for logging' /var/log/messages
+grep: /var/log/messages: No such file or directory
++ CHECK_RESULT 2 0 0 'grep logging first failed'
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log='grep logging first failed'
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n 'grep logging first failed'
++ LOG_ERROR 'grep logging first failed'
++ message='grep logging first failed'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'grep logging first failed'
+Wed Dec  7 06:38:11 2022 - ERROR - grep logging first failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_audit_available_disk_space.sh line 44'
++ message='oe_test_audit_available_disk_space.sh line 44'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_audit_available_disk_space.sh line 44'
+Wed Dec  7 06:38:12 2022 - ERROR - oe_test_audit_available_disk_space.sh line 44
++ return 0
+++ df -m /tmp/log/audit/
+++ awk NR==2
+++ awk '{print $4-49}'
++ count_size=25
++ dd if=/dev/zero of=/tmp/log/audit/audit_log bs=1M count=25
+25+0 records in
+25+0 records out
+26214400 bytes (26 MB, 25 MiB) copied, 0.366388 s, 71.5 MB/s
++ search_log available_disk_space
++ audit_key=available_disk_space
++ auditctl -w /tmp/available_disk_space -p rwxa -k available_disk_space
++ CHECK_RESULT 0 0 0 ' add rules failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=' add rules failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ date +%T
++ starttime=06:38:16
++ touch /tmp/available_disk_space
++ rm -rf /tmp/available_disk_space
+++ date +%T
++ endtime=06:38:16
++ auditctl -W /tmp/available_disk_space -p rwxa -k available_disk_space
++ CHECK_RESULT 0 0 0 'second failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='second failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ (( i=0 ))
++ (( i<10 ))
++ ausearch -k available_disk_space -ts 06:38:16 -te 06:38:16
+----
+time->Wed Dec  7 06:38:16 2022
+type=CONFIG_CHANGE msg=audit(1670413096.165:916): auid=0 ses=2 op=add_rule key="available_disk_space" list=4 res=1
+----
+time->Wed Dec  7 06:38:16 2022
+type=CONFIG_CHANGE msg=audit(1670413096.405:917): auid=0 ses=2 op=remove_rule key="available_disk_space" list=4 res=1
++ [[ 0 -ne 0 ]]
++ break
++ [[ 0 -eq 10 ]]
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ service auditd status
++ grep 'active (running)'
+Redirecting to /bin/systemctl status auditd.service
+     Active: active (running) since Wed 2022-12-07 06:36:52 EST; 1min 30s ago
++ CHECK_RESULT 0 0 0 'grep active failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='grep active failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ service auditd status
++ grep 'Audit daemon is low on disk space for logging'
+Redirecting to /bin/systemctl status auditd.service
+Dec 07 06:37:53 anolis-riscv auditd[67480]: Audit daemon is low on disk space for logging
++ CHECK_RESULT 0 0 0 'grep logging second failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='grep logging second failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed Dec  7 06:38:29 2022 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed Dec  7 06:38:30 2022 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Dec  7 06:38:30 2022 - INFO  - Start to restore the test environment.
++ sed -i 's/log_file = \/tmp\/log\/audit\/audit.log/log_file = \/var\/log\/audit\/audit.log/g' /etc/audit/auditd.conf
++ sed -i 's/max_log_file_action = KEEP_LOGS/max_log_file_action = ROTATE/g' /etc/audit/auditd.conf
++ service auditd restart
+Stopping logging: 
+Redirecting start to /bin/systemctl start auditd.service
++ rm -rf /tmp/log
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed Dec  7 06:38:35 2022 - INFO  - End to restore the test environment.

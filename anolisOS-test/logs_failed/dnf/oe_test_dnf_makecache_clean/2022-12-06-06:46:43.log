@@ -1,0 +1,263 @@
++ source common/common_dnf.sh
+++ source /root/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Dec  6 06:46:47 2022 - INFO  - Start to prepare the test environment.
++ deploy_env
++ OLD_LANG=en_US.UTF-8
++ export LANG=en_US.UTF-8
++ LANG=en_US.UTF-8
++ LOG_INFO 'Finish preparing the test environment.'
++ message='Finish preparing the test environment.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish preparing the test environment.'
+Tue Dec  6 06:46:47 2022 - INFO  - Finish preparing the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Dec  6 06:46:48 2022 - INFO  - Start to run test.
++ dnf makecache
++ grep 'Metadata cache created'
+Metadata cache created.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'OS\|everything'
++ ls /var/cache/dnf/an8dev.solv /var/cache/dnf/an8extra.solv /var/cache/dnf/an8others.solv /var/cache/dnf/an8-perl-modules.solv /var/cache/dnf/an8.solv /var/cache/dnf/an8-tmp-extra.solv /var/cache/dnf/anolisos.solv /var/cache/dnf/gcc.solv
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_makecache_clean.sh line 32'
++ message='oe_test_dnf_makecache_clean.sh line 32'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_makecache_clean.sh line 32'
+Tue Dec  6 06:47:12 2022 - ERROR - oe_test_dnf_makecache_clean.sh line 32
++ return 0
++ dnf clean dbcache
++ grep 'files removed'
+16 files removed
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ls '/var/cache/dnf/*.solv'
++ grep 'No such file or directory'
+ls: cannot access '/var/cache/dnf/*.solv': No such file or directory
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'Metadata cache created'
++ dnf makecache
+Metadata cache created.
++ dnf clean expire-cache
++ grep 'Cache was expired'
+Cache was expired
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf makecache
++ grep 'Metadata cache created'
+Metadata cache created.
++ dnf clean metadata
++ grep 'Cache was expired'
+Cache was expired
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'No such file or directory'
++ ls '/var/cache/dnf/*.solv'
+ls: cannot access '/var/cache/dnf/*.solv': No such file or directory
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf --downloadonly install -y tree
++ grep 'Downloading Packages'
+Downloading Packages:
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep tree
++ find /var/cache/dnf -name 'tree*'
+/var/cache/dnf/an8-84a648790fec8825/packages/tree-2.0.1-2.an8.riscv64.rpm
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf clean packages
++ grep 'file removed'
+1 file removed
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep tree
++ find /var/cache/dnf -name 'tree*'
++ CHECK_RESULT 1 1 0
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ dnf --downloadonly install -y tree
++ grep 'Downloading Packages'
+Downloading Packages:
++ find /var/cache/dnf -name 'tree*'
++ grep tree
+/var/cache/dnf/an8-84a648790fec8825/packages/tree-2.0.1-2.an8.riscv64.rpm
++ dnf makecache
++ grep 'Metadata cache created'
+Metadata cache created.
++ grep 'OS\|everything'
++ ls /var/cache/dnf/an8dev.solv /var/cache/dnf/an8extra.solv /var/cache/dnf/an8others.solv /var/cache/dnf/an8-perl-modules.solv /var/cache/dnf/an8.solv /var/cache/dnf/an8-tmp-extra.solv /var/cache/dnf/anolisos.solv /var/cache/dnf/gcc.solv
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_makecache_clean.sh line 57'
++ message='oe_test_dnf_makecache_clean.sh line 57'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_makecache_clean.sh line 57'
+Tue Dec  6 06:51:27 2022 - ERROR - oe_test_dnf_makecache_clean.sh line 57
++ return 0
++ dnf clean all
++ grep 'files removed'
+41 files removed
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ find /var/cache/dnf -name 'tree*'
++ grep tree
++ CHECK_RESULT 1 1 0
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ ls '/var/cache/dnf/*.solv'
++ grep 'No such file or directory'
+ls: cannot access '/var/cache/dnf/*.solv': No such file or directory
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Tue Dec  6 06:51:32 2022 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 2
++ test 2 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Tue Dec  6 06:51:33 2022 - ERROR - failed to execute the case.
++ exit 2
++ post_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Dec  6 06:51:33 2022 - INFO  - Start to prepare the test environment.
++ clear_env
++ export LANG=en_US.UTF-8
++ LANG=en_US.UTF-8
++ LOG_INFO 'Finish preparing the test environment.'
++ message='Finish preparing the test environment.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish preparing the test environment.'
+Tue Dec  6 06:51:34 2022 - INFO  - Finish preparing the test environment.

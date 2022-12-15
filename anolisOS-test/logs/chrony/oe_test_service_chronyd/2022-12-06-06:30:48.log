@@ -1,0 +1,192 @@
++ source ../common/common_lib.sh
+++ source /root/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n '' ']'
++ trap POST_TEST_DEFAULT EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n '' ']'
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Tue Dec  6 06:30:51 2022 - INFO  - Start testing...
++ test_execution chronyd.service
++ service=chronyd.service
+++ date '+%Y-%m-%d %T'
++ log_time='2022-12-06 06:30:52'
++ test_restart chronyd.service
++ service=chronyd.service
++ systemctl restart chronyd.service
++ CHECK_RESULT 0 0 0 'chronyd.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='chronyd.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status chronyd.service
++ grep 'Active: active'
+     Active: active (running) since Tue 2022-12-06 06:30:52 EST; 5s ago
++ CHECK_RESULT 0 0 0 'chronyd.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='chronyd.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop chronyd.service
++ CHECK_RESULT 0 0 0 'chronyd.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='chronyd.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status chronyd.service
++ grep 'Active: inactive'
+     Active: inactive (dead) since Tue 2022-12-06 06:30:59 EST; 5s ago
++ CHECK_RESULT 0 0 0 'chronyd.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='chronyd.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start chronyd.service
++ CHECK_RESULT 0 0 0 'chronyd.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='chronyd.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status chronyd.service
++ grep 'Active: active'
+     Active: active (running) since Tue 2022-12-06 06:31:05 EST; 5s ago
++ CHECK_RESULT 0 0 0 'chronyd.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='chronyd.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled chronyd.service
++ service=chronyd.service
+++ systemctl is-enabled chronyd.service
++ state=enabled
++ '[' enabled == enabled ']'
+++ systemctl disable chronyd.service
+++ grep Removed
+++ awk '{print $2}'
+++ awk '{print substr($0,1,length($0)-1)}'
++ symlink_file=/etc/systemd/system/multi-user.target.wants/chronyd.service
++ find /etc/systemd/system/multi-user.target.wants/chronyd.service
+find: ‘/etc/systemd/system/multi-user.target.wants/chronyd.service’: No such file or directory
++ CHECK_RESULT 1 0 1 'chronyd.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='chronyd.service disable failed'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ systemctl enable chronyd.service
+Created symlink /etc/systemd/system/multi-user.target.wants/chronyd.service → /usr/lib/systemd/system/chronyd.service.
++ find /etc/systemd/system/multi-user.target.wants/chronyd.service
+/etc/systemd/system/multi-user.target.wants/chronyd.service
++ CHECK_RESULT 0 0 0 'chronyd.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='chronyd.service enable failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ journalctl --since '2022-12-06 06:30:52' -u chronyd.service
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of chronyd.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of chronyd.service'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_reload chronyd.service
++ service=chronyd.service
++ systemctl start chronyd.service
++ systemctl reload chronyd.service
++ grep 'Job type reload is not applicable'
+Failed to reload chronyd.service: Job type reload is not applicable for unit chronyd.service.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit chronyd.service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit chronyd.service'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status chronyd.service
++ grep 'Active: active'
+     Active: active (running) since Tue 2022-12-06 06:31:05 EST; 18s ago
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Tue Dec  6 06:31:25 2022 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Dec  6 06:31:25 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ POST_TEST_DEFAULT
++ LOG_INFO 'oe_test_service_chronyd.sh post_test'
++ message='oe_test_service_chronyd.sh post_test'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'oe_test_service_chronyd.sh post_test'
+Tue Dec  6 06:31:26 2022 - INFO  - oe_test_service_chronyd.sh post_test

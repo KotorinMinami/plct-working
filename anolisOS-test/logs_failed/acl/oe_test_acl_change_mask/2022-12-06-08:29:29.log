@@ -1,0 +1,148 @@
++ source /root/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Tue Dec  6 08:29:32 2022 - INFO  - Start environmental preparation.
++ grep '^example1:' /etc/passwd
++ grep '^example2:' /etc/passwd
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Tue Dec  6 08:29:33 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Tue Dec  6 08:29:34 2022 - INFO  - Start executing testcase.
++ useradd example1
++ useradd example2
++ passwd example1
+New password: BAD PASSWORD: The password fails the dictionary check - it is based on a dictionary word
+Retype new password: Changing password for user example1.
+passwd: all authentication tokens updated successfully.
++ passwd example2
+New password: BAD PASSWORD: The password fails the dictionary check - it is based on a dictionary word
+Retype new password: Changing password for user example2.
+passwd: all authentication tokens updated successfully.
++ touch /home/test1
++ echo test
++ chown example1:example1 /home/test1
++ chmod 700 /home/test1
++ su - example1 -c 'setfacl -m u:example2:r  /home/test1'
+-bash: line 1: setfacl: command not found
++ su - example2 -c 'cat  /home/test1|grep test'
+cat: /home/test1: Permission denied
++ CHECK_RESULT 1 0 0 'Failed to switch '\''example2'\'' user to view files'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed to switch '\''example2'\'' user to view files'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed to switch '\''example2'\'' user to view files'
++ LOG_ERROR 'Failed to switch '\''example2'\'' user to view files'
++ message='Failed to switch '\''example2'\'' user to view files'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Failed to switch '\''example2'\'' user to view files'
+Tue Dec  6 08:29:39 2022 - ERROR - Failed to switch 'example2' user to view files
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_acl_change_mask.sh line 46'
++ message='oe_test_acl_change_mask.sh line 46'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_acl_change_mask.sh line 46'
+Tue Dec  6 08:29:40 2022 - ERROR - oe_test_acl_change_mask.sh line 46
++ return 0
++ setfacl -m m::--- /home/test1
+oe_test_acl_change_mask.sh: line 47: setfacl: command not found
++ CHECK_RESULT 127 0 0 'Failed to set ACL'
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log='Failed to set ACL'
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n 'Failed to set ACL'
++ LOG_ERROR 'Failed to set ACL'
++ message='Failed to set ACL'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Failed to set ACL'
+Tue Dec  6 08:29:41 2022 - ERROR - Failed to set ACL
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_acl_change_mask.sh line 48'
++ message='oe_test_acl_change_mask.sh line 48'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_acl_change_mask.sh line 48'
+Tue Dec  6 08:29:41 2022 - ERROR - oe_test_acl_change_mask.sh line 48
++ return 0
++ getfacl /home/test1
++ grep 'effective:\-\-\-'
+oe_test_acl_change_mask.sh: line 49: getfacl: command not found
++ CHECK_RESULT 1 0 0 'Failed to get ACL'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed to get ACL'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed to get ACL'
++ LOG_ERROR 'Failed to get ACL'
++ message='Failed to get ACL'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Failed to get ACL'
+Tue Dec  6 08:29:42 2022 - ERROR - Failed to get ACL
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_acl_change_mask.sh line 50'
++ message='oe_test_acl_change_mask.sh line 50'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_acl_change_mask.sh line 50'
+Tue Dec  6 08:29:43 2022 - ERROR - oe_test_acl_change_mask.sh line 50
++ return 0
++ su - example2 -c 'cat  /home/test1|grep test'
+cat: /home/test1: Permission denied
++ CHECK_RESULT 1 0 1 'Failed to switch '\''example2'\'' user to view files'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='Failed to switch '\''example2'\'' user to view files'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ LOG_INFO 'Finish testcase execution.'
++ message='Finish testcase execution.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish testcase execution.'
+Tue Dec  6 08:29:44 2022 - INFO  - Finish testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z 3
++ test 3 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Tue Dec  6 08:29:45 2022 - ERROR - failed to execute the case.
++ exit 3
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Tue Dec  6 08:29:46 2022 - INFO  - start environment cleanup.
++ rm -rf /home/test1
++ userdel -rf example1
++ userdel -rf example2
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Tue Dec  6 08:29:47 2022 - INFO  - Finish environment cleanup!

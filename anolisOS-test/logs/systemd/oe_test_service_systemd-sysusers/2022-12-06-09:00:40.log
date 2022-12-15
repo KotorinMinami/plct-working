@@ -1,0 +1,189 @@
++ source ../common/common_lib.sh
+++ source /root/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Tue Dec  6 09:00:43 2022 - INFO  - Start environmental preparation.
++ service=systemd-sysusers.service
++ test -f /etc/.updated
++ mv /etc/.updated /etc/.updated_bak
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Tue Dec  6 09:00:43 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Tue Dec  6 09:00:44 2022 - INFO  - Start testing...
++ test_execution systemd-sysusers.service
++ service=systemd-sysusers.service
+++ date '+%Y-%m-%d %T'
++ log_time='2022-12-06 09:00:44'
++ test_restart systemd-sysusers.service
++ service=systemd-sysusers.service
++ systemctl restart systemd-sysusers.service
++ CHECK_RESULT 0 0 0 'systemd-sysusers.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-sysusers.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status systemd-sysusers.service
++ grep 'Active: active'
+     Active: active (exited) since Tue 2022-12-06 09:01:29 EST; 6s ago
++ CHECK_RESULT 0 0 0 'systemd-sysusers.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-sysusers.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop systemd-sysusers.service
++ CHECK_RESULT 0 0 0 'systemd-sysusers.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-sysusers.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status systemd-sysusers.service
++ grep 'Active: inactive'
+     Active: inactive (dead) since Tue 2022-12-06 09:01:35 EST; 11s ago
++ CHECK_RESULT 0 0 0 'systemd-sysusers.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-sysusers.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start systemd-sysusers.service
++ CHECK_RESULT 0 0 0 'systemd-sysusers.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-sysusers.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status systemd-sysusers.service
++ grep 'Active: active'
+     Active: active (exited) since Tue 2022-12-06 09:01:47 EST; 5s ago
++ CHECK_RESULT 0 0 0 'systemd-sysusers.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-sysusers.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled systemd-sysusers.service
++ service=systemd-sysusers.service
+++ systemctl is-enabled systemd-sysusers.service
++ state=static
++ '[' static == enabled ']'
++ '[' static == disabled ']'
++ '[' static == masked ']'
++ '[' static == static ']'
++ LOG_INFO 'The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
++ message='The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
+Tue Dec  6 09:01:54 2022 - INFO  - The unit files have no installation config,This means they are not meant to be enabled using systemctl.
++ journalctl --since '2022-12-06 09:00:44' -u systemd-sysusers.service
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of systemd-sysusers.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of systemd-sysusers.service'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_reload systemd-sysusers.service
++ service=systemd-sysusers.service
++ systemctl start systemd-sysusers.service
++ systemctl reload systemd-sysusers.service
++ grep 'Job type reload is not applicable'
+Failed to reload systemd-sysusers.service: Job type reload is not applicable for unit systemd-sysusers.service.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit systemd-sysusers.service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit systemd-sysusers.service'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status systemd-sysusers.service
++ grep 'Active: active'
+     Active: active (exited) since Tue 2022-12-06 09:01:47 EST; 7s ago
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Tue Dec  6 09:01:55 2022 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Dec  6 09:01:56 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start environment cleanup.'
++ message='Start environment cleanup.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environment cleanup.'
+Tue Dec  6 09:01:56 2022 - INFO  - Start environment cleanup.
++ systemctl stop systemd-sysusers.service
++ test -f /etc/.updated_bak
++ mv /etc/.updated_bak /etc/.updated
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Tue Dec  6 09:02:03 2022 - INFO  - Finish environment cleanup!

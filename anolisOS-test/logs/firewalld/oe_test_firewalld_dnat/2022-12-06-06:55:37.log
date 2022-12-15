@@ -1,0 +1,547 @@
++ source /root/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Tue Dec  6 06:55:40 2022 - INFO  - Start environmental preparation.
++ DNF_INSTALL net-tools
++ pkgs=net-tools
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs net-tools --node 1 --tempfile ''
+Tue Dec  6 06:55:54 2022 - INFO  - pkgs:(net-tools) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ SSH_CMD 'sudo dnf install -y httpd net-tools
+        sudo systemctl start httpd
+        sudo systemctl stop firewalld' '' '' ''
++ cmd='sudo dnf install -y httpd net-tools
+        sudo systemctl start httpd
+        sudo systemctl stop firewalld'
++ remoteip=
++ remotepasswd=
++ remoteuser=
++ timeout=300
++ connport=22
++ bash /root/mugen-riscv/libs/locallibs/sshcmd.sh -c 'sudo dnf install -y httpd net-tools
+        sudo systemctl start httpd
+        sudo systemctl stop firewalld' -i '' -u '' -p '' -t 300 -o 22
+Usage: sshcmd.sh -c "command" -i "remote machinet ip" [-u login_user] [-p login_password] [-o port] [-t timeout]+ ret=1
++ test 1 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:1'
++ message='Failed in remote CMD operation:1'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:1'
+Tue Dec  6 06:55:56 2022 - ERROR - Failed in remote CMD operation:1
++ return 1
++ sudo systemctl start firewalld
+A dependency job for firewalld.service failed. See 'journalctl -xe' for details.
+++ TEST_NIC 1
+++ id=1
+++ python3 /root/mugen-riscv/libs/locallibs/get_test_device.py --device nic --node 1
++ net_cards=
+++ echo ''
+++ awk -F ' ' '{print $1}'
++ net_card2=
+++ TEST_NIC 2
+++ id=2
+++ python3 /root/mugen-riscv/libs/locallibs/get_test_device.py --device nic --node 2
+Traceback (most recent call last):
+  File "/root/mugen-riscv/libs/locallibs/get_test_device.py", line 125, in <module>
+    print(get_test_nic(args.node))
+  File "/root/mugen-riscv/libs/locallibs/get_test_device.py", line 41, in get_test_nic
+    exitcode, tmpfile = rpm_manage.rpm_install(pkgs="lshw", node=node)
+  File "/root/mugen-riscv/libs/locallibs/rpm_manage.py", line 66, in rpm_install
+    conn = ssh_cmd.pssh_conn(
+  File "/root/mugen-riscv/libs/locallibs/ssh_cmd.py", line 53, in pssh_conn
+    conn.connect(ip, port, user, password, timeout=timeout)
+  File "/usr/lib/python3.10/site-packages/paramiko/client.py", line 340, in connect
+    to_try = list(self._families_and_addresses(hostname, port))
+  File "/usr/lib/python3.10/site-packages/paramiko/client.py", line 203, in _families_and_addresses
+    addrinfos = socket.getaddrinfo(
+  File "/usr/lib64/python3.10/socket.py", line 955, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
++ remote_net_cards=
+++ awk -F ' ' '{print $1}'
+++ echo ''
++ remote_net_card2=
+++ sudo firewall-cmd --get-zone-of-interface=
+Error: DBUS_ERROR: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
++ zone1=
+++ sudo firewall-cmd --get-zone-of-interface=
+Error: DBUS_ERROR: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
++ zone2=
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Tue Dec  6 06:57:09 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Tue Dec  6 06:57:10 2022 - INFO  - Start executing testcase.
++ sudo ifconfig '' 192.168.100.1/24
+SIOCSIFADDR: No such device
+: ERROR while getting interface flags: No such device
+SIOCSIFNETMASK: No such device
++ sudo ifconfig '' up
+: ERROR while getting interface flags: No such device
++ SSH_CMD 'sudo ifconfig  192.168.100.2/24;sudo ifconfig  up;sudo route add -net 192.168.100.0 netmask 255.255.255.0 gw 192.168.100.1' '' '' ''
++ cmd='sudo ifconfig  192.168.100.2/24;sudo ifconfig  up;sudo route add -net 192.168.100.0 netmask 255.255.255.0 gw 192.168.100.1'
++ remoteip=
++ remotepasswd=
++ remoteuser=
++ timeout=300
++ connport=22
++ bash /root/mugen-riscv/libs/locallibs/sshcmd.sh -c 'sudo ifconfig  192.168.100.2/24;sudo ifconfig  up;sudo route add -net 192.168.100.0 netmask 255.255.255.0 gw 192.168.100.1' -i '' -u '' -p '' -t 300 -o 22
+Usage: sshcmd.sh -c "command" -i "remote machinet ip" [-u login_user] [-p login_password] [-o port] [-t timeout]+ ret=1
++ test 1 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:1'
++ message='Failed in remote CMD operation:1'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:1'
+Tue Dec  6 06:57:12 2022 - ERROR - Failed in remote CMD operation:1
++ return 1
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ SSH_CMD 'curl http://localhost' '' '' ''
++ cmd='curl http://localhost'
++ remoteip=
++ remotepasswd=
++ remoteuser=
++ timeout=300
++ connport=22
++ bash /root/mugen-riscv/libs/locallibs/sshcmd.sh -c 'curl http://localhost' -i '' -u '' -p '' -t 300 -o 22
+Usage: sshcmd.sh -c "command" -i "remote machinet ip" [-u login_user] [-p login_password] [-o port] [-t timeout]+ ret=1
++ test 1 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:1'
++ message='Failed in remote CMD operation:1'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:1'
+Tue Dec  6 06:57:15 2022 - ERROR - Failed in remote CMD operation:1
++ return 1
++ CHECK_RESULT 1 0 1
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log=
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ echo net.ipv4.ip_forward=1
++ sysctl -p
+net.ipv4.ip_forward = 1
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ sudo firewall-cmd --zone=external --change-interface=
+Error: DBUS_ERROR: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
++ CHECK_RESULT 36
++ actual_result=36
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 36 ']'
++ '[' 0 -eq 0 ']'
++ test 36x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_firewalld_dnat.sh line 49'
++ message='oe_test_firewalld_dnat.sh line 49'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_firewalld_dnat.sh line 49'
+Tue Dec  6 06:57:19 2022 - ERROR - oe_test_firewalld_dnat.sh line 49
++ return 0
++ sudo firewall-cmd --zone=internal --change-interface=
+Error: DBUS_ERROR: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
++ CHECK_RESULT 36
++ actual_result=36
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 36 ']'
++ '[' 0 -eq 0 ']'
++ test 36x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_firewalld_dnat.sh line 51'
++ message='oe_test_firewalld_dnat.sh line 51'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_firewalld_dnat.sh line 51'
+Tue Dec  6 06:57:23 2022 - ERROR - oe_test_firewalld_dnat.sh line 51
++ return 0
++ sudo firewall-cmd --zone=external --add-masquerade
+Error: DBUS_ERROR: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
++ CHECK_RESULT 36
++ actual_result=36
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 36 ']'
++ '[' 0 -eq 0 ']'
++ test 36x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_firewalld_dnat.sh line 53'
++ message='oe_test_firewalld_dnat.sh line 53'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_firewalld_dnat.sh line 53'
+Tue Dec  6 06:57:27 2022 - ERROR - oe_test_firewalld_dnat.sh line 53
++ return 0
++ grep success
++ sudo firewall-cmd --direct --passthrough ipv4 -F
+Error: DBUS_ERROR: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_firewalld_dnat.sh line 55'
++ message='oe_test_firewalld_dnat.sh line 55'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_firewalld_dnat.sh line 55'
+Tue Dec  6 06:57:32 2022 - ERROR - oe_test_firewalld_dnat.sh line 55
++ return 0
++ sudo firewall-cmd --direct --passthrough ipv4 -t nat -F
++ grep success
+Error: DBUS_ERROR: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_firewalld_dnat.sh line 57'
++ message='oe_test_firewalld_dnat.sh line 57'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_firewalld_dnat.sh line 57'
+Tue Dec  6 06:57:35 2022 - ERROR - oe_test_firewalld_dnat.sh line 57
++ return 0
++ sudo firewall-cmd --direct --passthrough ipv4 -t mangle -F
++ grep success
+Error: DBUS_ERROR: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_firewalld_dnat.sh line 59'
++ message='oe_test_firewalld_dnat.sh line 59'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_firewalld_dnat.sh line 59'
+Tue Dec  6 06:57:40 2022 - ERROR - oe_test_firewalld_dnat.sh line 59
++ return 0
++ sudo firewall-cmd --direct --passthrough ipv4 -X
++ grep success
+Error: DBUS_ERROR: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_firewalld_dnat.sh line 61'
++ message='oe_test_firewalld_dnat.sh line 61'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_firewalld_dnat.sh line 61'
+Tue Dec  6 06:57:43 2022 - ERROR - oe_test_firewalld_dnat.sh line 61
++ return 0
++ sudo firewall-cmd --direct --passthrough ipv4 -t nat -X
++ grep success
+Error: DBUS_ERROR: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_firewalld_dnat.sh line 63'
++ message='oe_test_firewalld_dnat.sh line 63'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_firewalld_dnat.sh line 63'
+Tue Dec  6 06:57:48 2022 - ERROR - oe_test_firewalld_dnat.sh line 63
++ return 0
++ sudo firewall-cmd --direct --passthrough ipv4 -t mangle -X
++ grep success
+Error: DBUS_ERROR: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_firewalld_dnat.sh line 65'
++ message='oe_test_firewalld_dnat.sh line 65'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_firewalld_dnat.sh line 65'
+Tue Dec  6 06:57:52 2022 - ERROR - oe_test_firewalld_dnat.sh line 65
++ return 0
++ sudo firewall-cmd --direct --passthrough ipv4 -A INPUT -i lo -j ACCEPT
++ grep success
+Error: DBUS_ERROR: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_firewalld_dnat.sh line 67'
++ message='oe_test_firewalld_dnat.sh line 67'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_firewalld_dnat.sh line 67'
+Tue Dec  6 06:57:56 2022 - ERROR - oe_test_firewalld_dnat.sh line 67
++ return 0
++ sudo firewall-cmd --direct --passthrough ipv4 -A OUTPUT -o lo -j ACCEPT
++ grep success
+Error: DBUS_ERROR: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_firewalld_dnat.sh line 69'
++ message='oe_test_firewalld_dnat.sh line 69'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_firewalld_dnat.sh line 69'
+Tue Dec  6 06:58:00 2022 - ERROR - oe_test_firewalld_dnat.sh line 69
++ return 0
++ sudo firewall-cmd --direct --passthrough ipv4 -P INPUT ACCEPT
++ grep success
+Error: DBUS_ERROR: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_firewalld_dnat.sh line 71'
++ message='oe_test_firewalld_dnat.sh line 71'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_firewalld_dnat.sh line 71'
+Tue Dec  6 06:58:04 2022 - ERROR - oe_test_firewalld_dnat.sh line 71
++ return 0
++ sudo firewall-cmd --direct --passthrough ipv4 -P OUTPUT ACCEPT
++ grep success
+Error: DBUS_ERROR: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_firewalld_dnat.sh line 73'
++ message='oe_test_firewalld_dnat.sh line 73'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_firewalld_dnat.sh line 73'
+Tue Dec  6 06:58:08 2022 - ERROR - oe_test_firewalld_dnat.sh line 73
++ return 0
++ grep success
++ sudo firewall-cmd --direct --passthrough ipv4 -P FORWARD ACCEPT
+Error: DBUS_ERROR: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_firewalld_dnat.sh line 75'
++ message='oe_test_firewalld_dnat.sh line 75'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_firewalld_dnat.sh line 75'
+Tue Dec  6 06:58:12 2022 - ERROR - oe_test_firewalld_dnat.sh line 75
++ return 0
++ sudo firewall-cmd --direct --passthrough ipv4 -t nat -A PREROUTING -d localhost -p tcp --dport 80 -j DNAT --to-destination 192.168.100.2:80
+Error: DBUS_ERROR: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
++ CHECK_RESULT 36
++ actual_result=36
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 36 ']'
++ '[' 0 -eq 0 ']'
++ test 36x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_firewalld_dnat.sh line 77'
++ message='oe_test_firewalld_dnat.sh line 77'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_firewalld_dnat.sh line 77'
+Tue Dec  6 06:58:17 2022 - ERROR - oe_test_firewalld_dnat.sh line 77
++ return 0
++ sudo firewall-cmd --direct --passthrough ipv4 -t nat -A POSTROUTING -d 192.168.100.2 -p tcp --dport 80 -j SNAT --to 192.168.100.1
+Error: DBUS_ERROR: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
++ CHECK_RESULT 36
++ actual_result=36
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 36 ']'
++ '[' 0 -eq 0 ']'
++ test 36x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_firewalld_dnat.sh line 80'
++ message='oe_test_firewalld_dnat.sh line 80'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_firewalld_dnat.sh line 80'
+Tue Dec  6 06:58:21 2022 - ERROR - oe_test_firewalld_dnat.sh line 80
++ return 0
++ SSH_CMD 'curl http://localhost' '' '' ''
++ cmd='curl http://localhost'
++ remoteip=
++ remotepasswd=
++ remoteuser=
++ timeout=300
++ connport=22
++ bash /root/mugen-riscv/libs/locallibs/sshcmd.sh -c 'curl http://localhost' -i '' -u '' -p '' -t 300 -o 22
+Usage: sshcmd.sh -c "command" -i "remote machinet ip" [-u login_user] [-p login_password] [-o port] [-t timeout]+ ret=1
++ test 1 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:1'
++ message='Failed in remote CMD operation:1'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:1'
+Tue Dec  6 06:58:21 2022 - ERROR - Failed in remote CMD operation:1
++ return 1
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_firewalld_dnat.sh line 82'
++ message='oe_test_firewalld_dnat.sh line 82'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_firewalld_dnat.sh line 82'
+Tue Dec  6 06:58:22 2022 - ERROR - oe_test_firewalld_dnat.sh line 82
++ return 0
++ LOG_INFO 'Finish testcase execution.'
++ message='Finish testcase execution.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish testcase execution.'
+Tue Dec  6 06:58:23 2022 - INFO  - Finish testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z 17
++ test 17 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Tue Dec  6 06:58:23 2022 - ERROR - failed to execute the case.
++ exit 17
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Tue Dec  6 06:58:24 2022 - INFO  - start environment cleanup.
++ sudo firewall-cmd --direct --passthrough ipv4 -t nat -D POSTROUTING -d 192.168.100.2 -p tcp --dport 80 -j SNAT --to 192.168.100.1
+Error: DBUS_ERROR: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
++ sudo firewall-cmd --direct --passthrough ipv4 -t nat -D PREROUTING -d localhost -p tcp --dport 80 -j DNAT --to-destination 192.168.100.2:80
+Error: DBUS_ERROR: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
++ sudo firewall-cmd --direct --passthrough ipv4 -t nat -F
+Error: DBUS_ERROR: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
++ sudo firewall-cmd --zone=external --remove-masquerade
+Error: DBUS_ERROR: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
++ '[' '!' -z '' ']'
++ '[' '!' -z '' ']'
++ sudo firewall-cmd --zone=internal --remove-interface=
+Error: DBUS_ERROR: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
++ sudo firewall-cmd --reload
+Error: DBUS_ERROR: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
++ sudo systemctl start firewalld
+A dependency job for firewalld.service failed. See 'journalctl -xe' for details.
++ sudo ip addr del 192.168.100.1 dev ''
+Warning: Executing wildcard deletion to stay compatible with old scripts.
+         Explicitly specify the prefix length (192.168.100.1/32) to avoid this warning.
+         This special behaviour is likely to disappear in further releases,
+         fix your scripts!
+Cannot find device ""
++ sudo systemctl stop httpd
+Failed to stop httpd.service: Unit httpd.service not loaded.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Tue Dec  6 06:58:45 2022 - WARN  - no thing to do.
++ return 0
++ rm -rf /tmp/ip_remote
++ SSH_CMD 'sudo systemctl stop httpd;sudo ip addr del 192.168.100.2 dev ;sudo route del -net 192.168.100.0 netmask 255.255.255.0 gw 192.168.100.1;sudo yum remove -y net-tools httpd;rm -rf /root/ip_remote' '' '' ''
++ cmd='sudo systemctl stop httpd;sudo ip addr del 192.168.100.2 dev ;sudo route del -net 192.168.100.0 netmask 255.255.255.0 gw 192.168.100.1;sudo yum remove -y net-tools httpd;rm -rf /root/ip_remote'
++ remoteip=
++ remotepasswd=
++ remoteuser=
++ timeout=300
++ connport=22
++ bash /root/mugen-riscv/libs/locallibs/sshcmd.sh -c 'sudo systemctl stop httpd;sudo ip addr del 192.168.100.2 dev ;sudo route del -net 192.168.100.0 netmask 255.255.255.0 gw 192.168.100.1;sudo yum remove -y net-tools httpd;rm -rf /root/ip_remote' -i '' -u '' -p '' -t 300 -o 22
+Usage: sshcmd.sh -c "command" -i "remote machinet ip" [-u login_user] [-p login_password] [-o port] [-t timeout]+ ret=1
++ test 1 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:1'
++ message='Failed in remote CMD operation:1'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:1'
+Tue Dec  6 06:58:46 2022 - ERROR - Failed in remote CMD operation:1
++ return 1
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Tue Dec  6 06:58:47 2022 - INFO  - Finish environment cleanup!

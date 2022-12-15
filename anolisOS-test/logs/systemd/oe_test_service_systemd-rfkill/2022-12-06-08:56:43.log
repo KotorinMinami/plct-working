@@ -1,0 +1,108 @@
++ source ../common/common_lib.sh
+++ source /root/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n '' ']'
++ trap POST_TEST_DEFAULT EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Tue Dec  6 08:56:46 2022 - INFO  - Start environmental preparation.
++ service=systemd-rfkill.service
++ systemctl start systemd-rfkill.service
+A dependency job for systemd-rfkill.service failed. See 'journalctl -xe' for details.
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Tue Dec  6 08:58:25 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Tue Dec  6 08:58:25 2022 - INFO  - Start testing...
++ test_oneshot systemd-rfkill.service 'inactive (dead)'
++ service=systemd-rfkill.service
++ status='inactive (dead)'
++ systemctl status systemd-rfkill.service
++ grep Active
++ grep -v 'inactive (dead)'
++ CHECK_RESULT 1 0 1 'There is an error for the status of systemd-rfkill.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error for the status of systemd-rfkill.service'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_enabled systemd-rfkill.service
++ service=systemd-rfkill.service
+++ systemctl is-enabled systemd-rfkill.service
++ state=static
++ '[' static == enabled ']'
++ '[' static == disabled ']'
++ '[' static == masked ']'
++ '[' static == static ']'
++ LOG_INFO 'The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
++ message='The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
+Tue Dec  6 08:58:27 2022 - INFO  - The unit files have no installation config,This means they are not meant to be enabled using systemctl.
++ journalctl -u systemd-rfkill.service
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
+Dec 06 08:58:19 anolis-riscv systemd[1]: Dependency failed for systemd-rfkill.service - Load/Save RF Kill Switch Status.
+Dec 06 08:58:19 anolis-riscv systemd[1]: systemd-rfkill.service: Job systemd-rfkill.service/start failed with result 'dependency'.
++ CHECK_RESULT 0 0 1 'There is an error message for the log of systemd-rfkill.service'
++ actual_result=0
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of systemd-rfkill.service'
++ '[' -z 0 ']'
++ '[' 1 -eq 0 ']'
++ test 0x == 0x
++ test -n 'There is an error message for the log of systemd-rfkill.service'
++ LOG_ERROR 'There is an error message for the log of systemd-rfkill.service'
++ message='There is an error message for the log of systemd-rfkill.service'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'There is an error message for the log of systemd-rfkill.service'
+Tue Dec  6 08:58:27 2022 - ERROR - There is an error message for the log of systemd-rfkill.service
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 57'
++ message='../common/common_lib.sh line 57'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 57'
+Tue Dec  6 08:58:28 2022 - ERROR - ../common/common_lib.sh line 57
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Tue Dec  6 08:58:29 2022 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Tue Dec  6 08:58:29 2022 - ERROR - failed to execute the case.
++ exit 1
++ POST_TEST_DEFAULT
++ LOG_INFO 'oe_test_service_systemd-rfkill.sh post_test'
++ message='oe_test_service_systemd-rfkill.sh post_test'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'oe_test_service_systemd-rfkill.sh post_test'
+Tue Dec  6 08:58:30 2022 - INFO  - oe_test_service_systemd-rfkill.sh post_test

@@ -1,0 +1,133 @@
++ source /root/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n function ']'
++ config_params
++ LOG_INFO 'Start to config params of the case.'
++ message='Start to config params of the case.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to config params of the case.'
+Tue Dec  6 07:39:02 2022 - INFO  - Start to config params of the case.
++ table_name=sec010
++ tcp_chain=tcp_packets_010
++ udp_chain=udp_packets_010
++ LOG_INFO 'End to config params of the case.'
++ message='End to config params of the case.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to config params of the case.'
+Tue Dec  6 07:39:03 2022 - INFO  - End to config params of the case.
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Dec  6 07:39:03 2022 - INFO  - Start to prepare the test environment.
++ nft add table inet sec010
++ nft add chain inet sec010 tcp_packets_010
++ nft add rule inet sec010 tcp_packets_010 counter
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Dec  6 07:39:04 2022 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Tue Dec  6 07:39:05 2022 - INFO  - Start executing testcase.
++ grep 'chain tcp_packets_010'
++ nft --handle list chain inet sec010 tcp_packets_010
+	chain tcp_packets_010 { # handle 1
++ CHECK_RESULT 0 0 0 'exec '\''nft add rule inet sec010 tcp_packets_010 counter'\'' failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='exec '\''nft add rule inet sec010 tcp_packets_010 counter'\'' failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ nft add chain inet sec010 udp_packets_010
++ nft add rule inet sec010 udp_packets_010 counter
++ nft --handle list chain inet sec010 udp_packets_010
++ grep 'chain udp_packets_010'
+	chain udp_packets_010 { # handle 3
++ CHECK_RESULT 0 0 0 'exec '\''nft add rule inet sec010 udp_packets_010 counter'\'' failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='exec '\''nft add rule inet sec010 udp_packets_010 counter'\'' failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ nft add chain inet sec010 incoming_traffic '{' type filter hook input priority 0 ';' '}'
++ nft --handle list chain inet sec010 incoming_traffic
++ grep 'chain incoming_traffic'
+	chain incoming_traffic { # handle 5
++ CHECK_RESULT 0 0 0 'exec '\''nft add chain inet sec010 incoming_traffic'\'' failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='exec '\''nft add chain inet sec010 incoming_traffic'\'' failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ nft add rule inet sec010 incoming_traffic ip protocol vmap '{tcp' : jump tcp_packets_010, udp : jump udp_packets_010 '}'
++ nft list table inet sec010
++ grep 'ip protocol vmap { tcp : jump tcp_packets_010, udp : jump udp_packets_010 }'
+		ip protocol vmap { tcp : jump tcp_packets_010, udp : jump udp_packets_010 }
++ CHECK_RESULT 0 0 0 'exec '\''nft add rule inet sec010 incoming_traffic ip protocol vmap {tcp : jump tcp_packets_010, udp : jump udp_packets_010 }'\'' failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='exec '\''nft add rule inet sec010 incoming_traffic ip protocol vmap {tcp : jump tcp_packets_010, udp : jump udp_packets_010 }'\'' failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ nft list table inet sec010
+++ grep 'counter packets'
+++ wc -l
++ CHECK_RESULT 2 2 0 'add tcp && udp failed'
++ actual_result=2
++ expect_result=2
++ mode=0
++ error_log='add tcp && udp failed'
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 2x
++ return 0
++ LOG_INFO 'Finish testcase execution.'
++ message='Finish testcase execution.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish testcase execution.'
+Tue Dec  6 07:39:06 2022 - INFO  - Finish testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Dec  6 07:39:07 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Tue Dec  6 07:39:08 2022 - INFO  - start environment cleanup.
++ nft delete table inet sec010
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Tue Dec  6 07:39:09 2022 - INFO  - Finish environment cleanup!

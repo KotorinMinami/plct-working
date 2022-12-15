@@ -1,0 +1,207 @@
++ source ../common/common_lib.sh
+++ source /root/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n '' ']'
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Tue Dec  6 07:41:33 2022 - INFO  - Start testing...
++ test_execution nftables.service
++ service=nftables.service
+++ date '+%Y-%m-%d %T'
++ log_time='2022-12-06 07:41:33'
++ test_restart nftables.service
++ service=nftables.service
++ systemctl restart nftables.service
++ CHECK_RESULT 0 0 0 'nftables.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nftables.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ grep 'Active: active'
++ systemctl status nftables.service
+     Active: active (exited) since Tue 2022-12-06 07:41:33 EST; 6s ago
++ CHECK_RESULT 0 0 0 'nftables.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nftables.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop nftables.service
++ CHECK_RESULT 0 0 0 'nftables.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nftables.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status nftables.service
++ grep 'Active: inactive'
+     Active: inactive (dead) since Tue 2022-12-06 07:41:40 EST; 5s ago
++ CHECK_RESULT 0 0 0 'nftables.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nftables.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start nftables.service
++ CHECK_RESULT 0 0 0 'nftables.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nftables.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status nftables.service
++ grep 'Active: active'
+     Active: active (exited) since Tue 2022-12-06 07:41:46 EST; 5s ago
++ CHECK_RESULT 0 0 0 'nftables.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nftables.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled nftables.service
++ service=nftables.service
+++ systemctl is-enabled nftables.service
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ systemctl enable nftables.service
+++ grep 'Created symlink'
+++ awk '{print $3}'
++ symlink_file=/etc/systemd/system/multi-user.target.wants/nftables.service
++ find /etc/systemd/system/multi-user.target.wants/nftables.service
+/etc/systemd/system/multi-user.target.wants/nftables.service
++ CHECK_RESULT 0 0 0 'nftables.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nftables.service enable failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable nftables.service
+Removed /etc/systemd/system/multi-user.target.wants/nftables.service.
++ find /etc/systemd/system/multi-user.target.wants/nftables.service
+find: ‘/etc/systemd/system/multi-user.target.wants/nftables.service’: No such file or directory
++ CHECK_RESULT 1 0 1 'nftables.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='nftables.service disable failed'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ journalctl --since '2022-12-06 07:41:33' -u nftables.service
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ grep -i 'fail\|error'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of nftables.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of nftables.service'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ systemctl start nftables.service
++ sed -i 's\ExecStart=/sbin/nft -f /etc/sysconfig/nftables.conf\ExecStart=/sbin/nft -c list tables\g' /usr/lib/systemd/system/nftables.service
++ systemctl daemon-reload
++ systemctl reload nftables.service
++ CHECK_RESULT 0 0 0 'nftables.service reload failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nftables.service reload failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status nftables.service
++ grep 'active (exited)'
+     Active: active (exited) since Tue 2022-12-06 07:41:46 EST; 15s ago
++ CHECK_RESULT 0 0 0 'nftables.service reload causes the service status to change'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nftables.service reload causes the service status to change'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Tue Dec  6 07:42:02 2022 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Dec  6 07:42:03 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Tue Dec  6 07:42:03 2022 - INFO  - start environment cleanup.
++ sed -i 's\ExecStart=/sbin/nft -c list tables\ExecStart=/sbin/nft -f /etc/sysconfig/nftables.conf\g' /usr/lib/systemd/system/nftables.service
++ systemctl daemon-reload
++ systemctl reload nftables.service
++ systemctl stop nftables.service
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Tue Dec  6 07:42:07 2022 - INFO  - Finish environment cleanup!

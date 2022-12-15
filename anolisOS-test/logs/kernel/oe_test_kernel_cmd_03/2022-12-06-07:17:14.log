@@ -1,0 +1,219 @@
++ source /root/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Dec  6 07:17:18 2022 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'kernel-tools perf bpftool jq'
++ pkgs='kernel-tools perf bpftool jq'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs 'kernel-tools perf bpftool jq' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpzviszjg3
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpzviszjg3
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Dec  6 07:18:10 2022 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Dec  6 07:18:10 2022 - INFO  - Start to run test.
++ perf -h
++ grep usage
+ usage: perf [--version] [--help] [OPTIONS] COMMAND [ARGS]
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ perf version
++ grep 'perf version'
+perf version 5.14.18
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ perf list
++ column
++ awk -F: '/Tracepoint event/ { lib[$1]++ } END { for (l in lib){ printf " %-16s %d\n", l, lib[l] } }'
++ sort
+   alarmtimer     4	   iocost         7	   random         12
+   avc            1	   iomap          9	   ras            4
+   block          18	   iommu          7	   raw_syscalls   2
+   bpf_test_run   1	   io_uring       14	   rcu            2
+   bpf_trace      1	   irq            5	   regmap         15
+   bridge         4	   jbd2           21	   regulator      11
+   btrfs          83	   kmem           13	   rpm            5
+   cgroup         13	   kyber          3	   rtc            12
+   clk            19	   libata         6	   sched          26
+   compaction     14	   mdio           1	   scsi           5
+   cpuhp          3	   migrate        2	   signal         2
+   dev            1	   mmap           1	   skb            3
+   devlink        6	   mmap_lock      3	   smbus          4
+   dma_fence      7	   mmc            2	   sock           4
+   drm            3	   module         5	   spi            9
+   error_report   1	   mptcp          4	   swiotlb        1
+   ext4           111	   napi           1	   syscalls       592
+   fib            1	   neigh          7	   task           2
+   fib6           1	   net            18	   tcp            8
+   filelock       12	   netlink        1	   thermal        3
+   filemap        4	   oom            8	   timer          13
+   fs_dax         14	   osnoise        5	   udp            1
+   ftrace         2	   pagemap        2	   vmscan         17
+   gpio           2	   page_pool      4	   wbt            4
+   huge_memory    4	   percpu         5	   workqueue      4
+   hwmon          3	   power          22	   writeback      34
+   i2c            4	   printk         1	   xdp            12
+   initcall       3	   pwm            2	   xhci-hcd       53
+   interconnect   2	   qdisc          5
++ printf '#include<stdio.h>
+int main()
+{
+        printf("Hello,wolrd!\\n");
+        return 0;
+}'
++ gcc hello.c
++ perf stat -e task-clock ./a.out
++ grep 'Hello,wolrd!'
+
+ Performance counter stats for './a.out':
+
+             20.55 msec task-clock                #    0.719 CPUs utilized          
+
+       0.028602669 seconds time elapsed
+
+       0.000000000 seconds user
+       0.030667000 seconds sys
+
+
+Hello,wolrd!
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ perf stat -r 5 ./a.out
+++ grep -c 'Hello,wolrd!'
+
+ Performance counter stats for './a.out' (5 runs):
+
+             18.57 msec task-clock                #    0.686 CPUs utilized            ( +-  3.77% )
+                 0      context-switches          #    0.000 /sec                   
+                 0      cpu-migrations            #    0.000 /sec                   
+                48      page-faults               #    2.339 K/sec                    ( +-  0.78% )
+        59,277,088      cycles                    #    2.889 GHz                      ( +-  3.77% )
+        59,293,792      instructions              #    0.91  insn per cycle           ( +-  3.80% )
+   <not supported>      branches                                                    
+   <not supported>      branch-misses                                               
+
+          0.027091 +- 0.000865 seconds time elapsed  ( +-  3.19% )
+
++ ret=5
++ CHECK_RESULT 5 5
++ actual_result=5
++ expect_result=5
++ mode=0
++ error_log=
++ '[' -z 5 ']'
++ '[' 0 -eq 0 ']'
++ test 5x '!=' 5x
++ return 0
++ perf stat -d ./a.out
++ grep 'Hello,wolrd!'
+
+ Performance counter stats for './a.out':
+
+             22.53 msec task-clock                #    0.754 CPUs utilized          
+                 0      context-switches          #    0.000 /sec                   
+                 0      cpu-migrations            #    0.000 /sec                   
+                48      page-faults               #    2.131 K/sec                  
+        71,923,648      cycles                    #    3.193 GHz                    
+        71,931,584      instructions              #    1.00  insn per cycle         
+   <not supported>      branches                                                    
+   <not supported>      branch-misses                                               
+   <not supported>      L1-dcache-loads                                             
+   <not supported>      L1-dcache-load-misses                                       
+   <not supported>      LLC-loads                                                   
+   <not supported>      LLC-load-misses                                             
+
+       0.029870615 seconds time elapsed
+
+       0.000000000 seconds user
+       0.031017000 seconds sys
+
+
+Hello,wolrd!
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Tue Dec  6 07:18:16 2022 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Dec  6 07:18:16 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the tet environment.'
++ message='Start to restore the tet environment.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the tet environment.'
+Tue Dec  6 07:18:17 2022 - INFO  - Start to restore the tet environment.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpzviszjg3 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpzviszjg3
++ '[' 0 -ne 0 ']'
++ rm -rf hello.c a.out
++ LOG_INFO 'Finish to restore the tet environment.'
++ message='Finish to restore the tet environment.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish to restore the tet environment.'
+Tue Dec  6 07:18:34 2022 - INFO  - Finish to restore the tet environment.

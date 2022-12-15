@@ -1,0 +1,177 @@
++ source ../common/common_lib.sh
+++ source /root/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n '' ']'
++ trap POST_TEST_DEFAULT EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Tue Dec  6 06:41:51 2022 - INFO  - Start environmental preparation.
++ service=dracut-shutdown.service
+++ date '+%Y-%m-%d %T'
++ log_time='2022-12-06 06:41:51'
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Tue Dec  6 06:41:52 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Tue Dec  6 06:41:52 2022 - INFO  - Start testing...
++ systemctl restart dracut-shutdown.service
++ CHECK_RESULT 0 0 0 'dracut-shutdown.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='dracut-shutdown.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status dracut-shutdown.service
++ grep 'Active: active'
+     Active: active (exited) since Tue 2022-12-06 06:41:53 EST; 6s ago
++ CHECK_RESULT 0 0 0 'dracut-shutdown.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='dracut-shutdown.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop dracut-shutdown.service
++ CHECK_RESULT 0 0 0 'dracut-shutdown.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='dracut-shutdown.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status dracut-shutdown.service
++ grep 'Active: inactive'
+     Active: inactive (dead) since Tue 2022-12-06 06:41:59 EST; 5s ago
++ CHECK_RESULT 0 0 0 'dracut-shutdown.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='dracut-shutdown.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf /run/initramfs/bin/sh
++ systemctl start dracut-shutdown.service
++ CHECK_RESULT 0 0 0 'dracut-shutdown.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='dracut-shutdown.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status dracut-shutdown.service
++ grep 'Active: active'
+     Active: active (exited) since Tue 2022-12-06 06:42:05 EST; 5s ago
++ CHECK_RESULT 0 0 0 'dracut-shutdown.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='dracut-shutdown.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled dracut-shutdown.service
++ service=dracut-shutdown.service
+++ systemctl is-enabled dracut-shutdown.service
++ state=static
++ '[' static == enabled ']'
++ '[' static == disabled ']'
++ '[' static == masked ']'
++ '[' static == static ']'
++ LOG_INFO 'The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
++ message='The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
+Tue Dec  6 06:42:12 2022 - INFO  - The unit files have no installation config,This means they are not meant to be enabled using systemctl.
++ grep -i 'fail\|error'
++ journalctl --since '2022-12-06 06:41:51' -u dracut-shutdown.service
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of dracut-shutdown.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of dracut-shutdown.service'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_reload dracut-shutdown.service
++ service=dracut-shutdown.service
++ systemctl start dracut-shutdown.service
++ systemctl reload dracut-shutdown.service
++ grep 'Job type reload is not applicable'
+Failed to reload dracut-shutdown.service: Job type reload is not applicable for unit dracut-shutdown.service.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit dracut-shutdown.service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit dracut-shutdown.service'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status dracut-shutdown.service
++ grep 'Active: active'
+     Active: active (exited) since Tue 2022-12-06 06:42:05 EST; 7s ago
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Tue Dec  6 06:42:14 2022 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Dec  6 06:42:14 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ POST_TEST_DEFAULT
++ LOG_INFO 'oe_test_service_dracut-shutdown.sh post_test'
++ message='oe_test_service_dracut-shutdown.sh post_test'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'oe_test_service_dracut-shutdown.sh post_test'
+Tue Dec  6 06:42:15 2022 - INFO  - oe_test_service_dracut-shutdown.sh post_test

@@ -1,0 +1,303 @@
++ source ../common/common_lib.sh
+++ source /root/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Tue Dec  6 08:39:04 2022 - INFO  - Start environmental preparation.
++ DNF_INSTALL systemd-journal-remote
++ pkgs=systemd-journal-remote
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs systemd-journal-remote --node 1 --tempfile ''
+Tue Dec  6 08:39:06 2022 - ERROR - Failed to connect the remote machine:localhost.
+Tue Dec  6 08:39:06 2022 - ERROR - [Errno None] Unable to connect to port 22 on 127.0.0.1
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
+++ getenforce
+++ grep Enforcing
++ '[' ']'
++ sed -i 's\# URL=\URL=http://localhost:19532\g' /etc/systemd/journal-upload.conf
+sed: can't read /etc/systemd/journal-upload.conf: No such file or directory
++ sed -i 's\listen-https=-3\listen-http=-3\g' /usr/lib/systemd/system/systemd-journal-remote.service
+sed: can't read /usr/lib/systemd/system/systemd-journal-remote.service: No such file or directory
++ systemctl daemon-reload
++ systemctl restart systemd-journal-remote.service
+Failed to restart systemd-journal-remote.service: Unit systemd-journal-remote.service not found.
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Tue Dec  6 08:39:52 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Tue Dec  6 08:39:53 2022 - INFO  - Start testing...
++ test_execution systemd-journal-upload.service
++ service=systemd-journal-upload.service
+++ date '+%Y-%m-%d %T'
++ log_time='2022-12-06 08:39:53'
++ test_restart systemd-journal-upload.service
++ service=systemd-journal-upload.service
++ systemctl restart systemd-journal-upload.service
+Failed to restart systemd-journal-upload.service: Unit systemd-journal-upload.service not found.
++ CHECK_RESULT 5 0 0 'systemd-journal-upload.service restart failed'
++ actual_result=5
++ expect_result=0
++ mode=0
++ error_log='systemd-journal-upload.service restart failed'
++ '[' -z 5 ']'
++ '[' 0 -eq 0 ']'
++ test 5x '!=' 0x
++ test -n 'systemd-journal-upload.service restart failed'
++ LOG_ERROR 'systemd-journal-upload.service restart failed'
++ message='systemd-journal-upload.service restart failed'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'systemd-journal-upload.service restart failed'
+Tue Dec  6 08:39:54 2022 - ERROR - systemd-journal-upload.service restart failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 34'
++ message='../common/common_lib.sh line 34'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 34'
+Tue Dec  6 08:39:54 2022 - ERROR - ../common/common_lib.sh line 34
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status systemd-journal-upload.service
++ grep 'Active: active'
+Unit systemd-journal-upload.service could not be found.
++ CHECK_RESULT 1 0 0 'systemd-journal-upload.service restart failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='systemd-journal-upload.service restart failed'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'systemd-journal-upload.service restart failed'
++ LOG_ERROR 'systemd-journal-upload.service restart failed'
++ message='systemd-journal-upload.service restart failed'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'systemd-journal-upload.service restart failed'
+Tue Dec  6 08:40:01 2022 - ERROR - systemd-journal-upload.service restart failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 37'
++ message='../common/common_lib.sh line 37'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 37'
+Tue Dec  6 08:40:01 2022 - ERROR - ../common/common_lib.sh line 37
++ return 0
++ systemctl stop systemd-journal-upload.service
+Failed to stop systemd-journal-upload.service: Unit systemd-journal-upload.service not loaded.
++ CHECK_RESULT 5 0 0 'systemd-journal-upload.service stop failed'
++ actual_result=5
++ expect_result=0
++ mode=0
++ error_log='systemd-journal-upload.service stop failed'
++ '[' -z 5 ']'
++ '[' 0 -eq 0 ']'
++ test 5x '!=' 0x
++ test -n 'systemd-journal-upload.service stop failed'
++ LOG_ERROR 'systemd-journal-upload.service stop failed'
++ message='systemd-journal-upload.service stop failed'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'systemd-journal-upload.service stop failed'
+Tue Dec  6 08:40:02 2022 - ERROR - systemd-journal-upload.service stop failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 39'
++ message='../common/common_lib.sh line 39'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 39'
+Tue Dec  6 08:40:03 2022 - ERROR - ../common/common_lib.sh line 39
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status systemd-journal-upload.service
++ grep 'Active: inactive'
+Unit systemd-journal-upload.service could not be found.
++ CHECK_RESULT 1 0 0 'systemd-journal-upload.service stop failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='systemd-journal-upload.service stop failed'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'systemd-journal-upload.service stop failed'
++ LOG_ERROR 'systemd-journal-upload.service stop failed'
++ message='systemd-journal-upload.service stop failed'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'systemd-journal-upload.service stop failed'
+Tue Dec  6 08:40:09 2022 - ERROR - systemd-journal-upload.service stop failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 42'
++ message='../common/common_lib.sh line 42'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 42'
+Tue Dec  6 08:40:10 2022 - ERROR - ../common/common_lib.sh line 42
++ return 0
++ systemctl start systemd-journal-upload.service
+Failed to start systemd-journal-upload.service: Unit systemd-journal-upload.service not found.
++ CHECK_RESULT 5 0 0 'systemd-journal-upload.service start failed'
++ actual_result=5
++ expect_result=0
++ mode=0
++ error_log='systemd-journal-upload.service start failed'
++ '[' -z 5 ']'
++ '[' 0 -eq 0 ']'
++ test 5x '!=' 0x
++ test -n 'systemd-journal-upload.service start failed'
++ LOG_ERROR 'systemd-journal-upload.service start failed'
++ message='systemd-journal-upload.service start failed'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'systemd-journal-upload.service start failed'
+Tue Dec  6 08:40:10 2022 - ERROR - systemd-journal-upload.service start failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 44'
++ message='../common/common_lib.sh line 44'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 44'
+Tue Dec  6 08:40:11 2022 - ERROR - ../common/common_lib.sh line 44
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status systemd-journal-upload.service
++ grep 'Active: active'
+Unit systemd-journal-upload.service could not be found.
++ CHECK_RESULT 1 0 0 'systemd-journal-upload.service start failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='systemd-journal-upload.service start failed'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'systemd-journal-upload.service start failed'
++ LOG_ERROR 'systemd-journal-upload.service start failed'
++ message='systemd-journal-upload.service start failed'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'systemd-journal-upload.service start failed'
+Tue Dec  6 08:40:17 2022 - ERROR - systemd-journal-upload.service start failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 47'
++ message='../common/common_lib.sh line 47'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 47'
+Tue Dec  6 08:40:18 2022 - ERROR - ../common/common_lib.sh line 47
++ return 0
++ test_enabled systemd-journal-upload.service
++ service=systemd-journal-upload.service
+++ systemctl is-enabled systemd-journal-upload.service
+Failed to get unit file state for systemd-journal-upload.service: No such file or directory
++ state=
++ '[' '' == enabled ']'
++ '[' '' == disabled ']'
++ '[' '' == masked ']'
++ '[' '' == static ']'
++ LOG_INFO 'Unit is indirect, ignoring.'
++ message='Unit is indirect, ignoring.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Unit is indirect, ignoring.'
+Tue Dec  6 08:40:19 2022 - INFO  - Unit is indirect, ignoring.
++ journalctl --since '2022-12-06 08:39:53' -u systemd-journal-upload.service
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of systemd-journal-upload.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of systemd-journal-upload.service'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_reload systemd-journal-upload.service
++ service=systemd-journal-upload.service
++ systemctl start systemd-journal-upload.service
+Failed to start systemd-journal-upload.service: Unit systemd-journal-upload.service not found.
++ systemctl reload systemd-journal-upload.service
++ grep 'Job type reload is not applicable'
++ CHECK_RESULT 1 0 0 'Job type reload is not applicable for unit systemd-journal-upload.service'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit systemd-journal-upload.service'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Job type reload is not applicable for unit systemd-journal-upload.service'
++ LOG_ERROR 'Job type reload is not applicable for unit systemd-journal-upload.service'
++ message='Job type reload is not applicable for unit systemd-journal-upload.service'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Job type reload is not applicable for unit systemd-journal-upload.service'
+Tue Dec  6 08:40:20 2022 - ERROR - Job type reload is not applicable for unit systemd-journal-upload.service
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 91'
++ message='../common/common_lib.sh line 91'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 91'
+Tue Dec  6 08:40:20 2022 - ERROR - ../common/common_lib.sh line 91
++ return 0
++ systemctl status systemd-journal-upload.service
++ grep 'Active: active'
+Unit systemd-journal-upload.service could not be found.
++ systemctl status systemd-journal-upload.service
++ grep 'inactive (dead)'
+Unit systemd-journal-upload.service could not be found.
++ return 1
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Tue Dec  6 08:40:21 2022 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z 7
++ test 7 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Tue Dec  6 08:40:22 2022 - ERROR - failed to execute the case.
++ exit 7
++ post_test
++ LOG_INFO 'Start environment cleanup.'
++ message='Start environment cleanup.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environment cleanup.'
+Tue Dec  6 08:40:22 2022 - INFO  - Start environment cleanup.
++ sed -i 's\URL=http://localhost:19532\# URL=\g' /etc/systemd/journal-upload.conf
+sed: can't read /etc/systemd/journal-upload.conf: No such file or directory
++ sed -i 's\listen-http=-3\listen-https=-3\g' /usr/lib/systemd/system/systemd-journal-remote.service
+sed: can't read /usr/lib/systemd/system/systemd-journal-remote.service: No such file or directory
++ systemctl daemon-reload
++ systemctl stop systemd-journal-remote.service
+Failed to stop systemd-journal-remote.service: Unit systemd-journal-remote.service not loaded.
++ systemctl stop systemd-journal-upload.service
+Failed to stop systemd-journal-upload.service: Unit systemd-journal-upload.service not loaded.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Tue Dec  6 08:40:41 2022 - WARN  - no thing to do.
++ return 0
++ '[' = true ']'
+oe_test_service_systemd-journal-upload.sh: line 51: [: =: unary operator expected
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Tue Dec  6 08:40:41 2022 - INFO  - Finish environment cleanup!

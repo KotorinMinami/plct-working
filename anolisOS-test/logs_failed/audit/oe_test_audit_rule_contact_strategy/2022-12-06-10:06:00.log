@@ -1,0 +1,118 @@
++ source /root/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n '' ']'
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Dec  6 10:06:10 2022 - INFO  - Start to run test.
++ service auditd restart
+Stopping logging: 
+Redirecting start to /bin/systemctl start auditd.service
++ grep running
++ service auditd status
+Redirecting to /bin/systemctl status auditd.service
+     Active: active (running) since Tue 2022-12-06 10:07:43 EST; 30s ago
++ CHECK_RESULT 0 0 0 'grep failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='grep failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ auditctl -D
+No rules
++ CHECK_RESULT 0 0 0 'delete failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='delete failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ auditctl -w /etc/passwd -p ra -k tail
++ auditctl -l
++ grep -e '-w /etc/passwd -p ra -k tail'
+-w /etc/passwd -p ra -k tail
++ auditctl -A always,exit -F path=/etc/passwd -F perm=ra -k head
++ CHECK_RESULT 0 0 0 'add rules failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='add rules failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ auditctl -l
++ grep -e '-w /etc/passwd -p ra -k head'
+-w /etc/passwd -p ra -k head
++ CHECK_RESULT 0 0 0 'grep failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='grep failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ (( i=0 ))
++ (( i<10 ))
+++ date +%T
++ starttime=10:08:32
++ cat /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+sync:x:5:0:sync:/sbin:/bin/sync
+shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+halt:x:7:0:halt:/sbin:/sbin/halt
+mail:x:8:12:mail:/var/spool/mail:/sbin/nologin
+operator:x:11:0:operator:/root:/sbin/nologin
+games:x:12:100:games:/usr/games:/sbin/nologin
+ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin
+nobody:x:65534:65534:Kernel Overflow User:/:/sbin/nologin
+dbus:x:81:81:System message bus:/:/sbin/nologin
+tss:x:59:59:Account used for TPM access:/dev/null:/sbin/nologin
+systemd-network:x:192:192:systemd Network Management:/:/usr/sbin/nologin
+systemd-oom:x:999:999:systemd Userspace OOM Killer:/:/usr/sbin/nologin
+polkitd:x:998:998:User for polkitd:/:/sbin/nologin
+unbound:x:997:996:Unbound DNS resolver:/etc/unbound:/sbin/nologin
+sssd:x:996:995:User for sssd:/:/sbin/nologin
+sshd:x:74:74:Privilege-separated SSH:/usr/share/empty.sshd:/sbin/nologin
+chrony:x:995:994::/var/lib/chrony:/sbin/nologin
+systemd-coredump:x:993:993:systemd Core Dumper:/:/usr/sbin/nologin
+systemd-timesync:x:992:992:systemd Time Synchronization:/:/usr/sbin/nologin
+anuser:x:1000:1000:Anolis OS RISCV User:/home/anuser:/bin/bash
+Jevons:x:1001:1001::/home/Jevons:/bin/bash
++ CHECK_RESULT 0 0 0 'cat failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='cat failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ date +%T
++ endtime=10:08:32
++ ausearch -k head -ts 10:08:32 -te 10:08:32 -x cat
+Tue Dec  6 10:36:08 2022 - ERROR - Timeout : Command 'bash -x oe_test_audit_rule_contact_strategy.sh' timed out after 1799.9993586 seconds

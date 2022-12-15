@@ -1,0 +1,57 @@
++ source /root/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Dec  6 08:31:37 2022 - INFO  - Start to prepare the test environment.
++ useradd Jevons
+useradd: user 'Jevons' already exists
++ passwd Jevons --stdin
++ echo HUAWEI666
+Changing password for user Jevons.
+passwd: all authentication tokens updated successfully.
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Dec  6 08:31:38 2022 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Dec  6 08:31:39 2022 - INFO  - Start to run test.
++ service auditd restart
+Stopping logging: 
+Redirecting start to /bin/systemctl start auditd.service
++ auditctl -D
+No rules
+++ date +%T
++ starttime=08:31:43
++ expect
+spawn ssh Jevons@localhost
+invalid command name "expect{"
+    while executing
+"expect{"
++ SLEEP_WAIT 10
++ wait_time=10
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 10 --cmd '' --mode 1
+++ date +%T
++ endtime=08:31:54
++ ausearch -ts 08:31:43 -te 08:31:54 -m USER_LOGIN -sv no
+Tue Dec  6 09:01:34 2022 - ERROR - Timeout : Command 'bash -x oe_test_audit_monitor_security_event.sh' timed out after 1799.9992995010007 seconds

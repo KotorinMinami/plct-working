@@ -1,0 +1,123 @@
++ source ../common/common_lib.sh
+++ source /root/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n '' ']'
++ trap POST_TEST_DEFAULT EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n '' ']'
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Tue Dec  6 07:54:53 2022 - INFO  - Start testing...
++ test_oneshot selinux-autorelabel-mark.service 'inactive (dead)'
++ service=selinux-autorelabel-mark.service
++ status='inactive (dead)'
++ grep Active
++ systemctl status selinux-autorelabel-mark.service
++ grep -v 'inactive (dead)'
++ CHECK_RESULT 1 0 1 'There is an error for the status of selinux-autorelabel-mark.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error for the status of selinux-autorelabel-mark.service'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_enabled selinux-autorelabel-mark.service
++ service=selinux-autorelabel-mark.service
+++ systemctl is-enabled selinux-autorelabel-mark.service
++ state=enabled
++ '[' enabled == enabled ']'
+++ grep Removed
+++ awk '{print $2}'
+++ systemctl disable selinux-autorelabel-mark.service
+++ awk '{print substr($0,1,length($0)-1)}'
++ symlink_file=/etc/systemd/system/sysinit.target.wants/selinux-autorelabel-mark.service
++ find /etc/systemd/system/sysinit.target.wants/selinux-autorelabel-mark.service
+find: ‘/etc/systemd/system/sysinit.target.wants/selinux-autorelabel-mark.service’: No such file or directory
++ CHECK_RESULT 1 0 1 'selinux-autorelabel-mark.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='selinux-autorelabel-mark.service disable failed'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ systemctl enable selinux-autorelabel-mark.service
+Created symlink /etc/systemd/system/sysinit.target.wants/selinux-autorelabel-mark.service → /usr/lib/systemd/system/selinux-autorelabel-mark.service.
++ find /etc/systemd/system/sysinit.target.wants/selinux-autorelabel-mark.service
+/etc/systemd/system/sysinit.target.wants/selinux-autorelabel-mark.service
++ CHECK_RESULT 0 0 0 'selinux-autorelabel-mark.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='selinux-autorelabel-mark.service enable failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep -i 'fail\|error'
++ journalctl -u selinux-autorelabel-mark.service
++ grep -v -i 'DEBUG\|INFO\|WARNING'
+Dec 05 11:19:23 anolis-riscv systemd[1]: selinux-autorelabel-mark.service - Mark the need to relabel after reboot was skipped because of a failed condition check (ConditionPathExists=!/.autorelabel).
+Dec 05 11:34:34 anolis-riscv systemd[1]: selinux-autorelabel-mark.service - Mark the need to relabel after reboot was skipped because of a failed condition check (ConditionPathExists=!/.autorelabel).
+Dec 05 21:54:18 anolis-riscv systemd[1]: selinux-autorelabel-mark.service - Mark the need to relabel after reboot was skipped because of a failed condition check (ConditionPathExists=!/.autorelabel).
+Dec 05 21:55:49 anolis-riscv systemd[1]: selinux-autorelabel-mark.service - Mark the need to relabel after reboot was skipped because of a failed condition check (ConditionPathExists=!/.autorelabel).
+Dec 05 22:33:45 anolis-riscv systemd[1]: selinux-autorelabel-mark.service - Mark the need to relabel after reboot was skipped because of a failed condition check (ConditionPathExists=!/.autorelabel).
+Dec 06 02:02:46 anolis-riscv systemd[1]: selinux-autorelabel-mark.service - Mark the need to relabel after reboot was skipped because of a failed condition check (ConditionPathExists=!/.autorelabel).
+Dec 06 02:52:53 anolis-riscv systemd[1]: selinux-autorelabel-mark.service - Mark the need to relabel after reboot was skipped because of a failed condition check (ConditionPathExists=!/.autorelabel).
+Dec 06 03:10:36 anolis-riscv systemd[1]: selinux-autorelabel-mark.service - Mark the need to relabel after reboot was skipped because of a failed condition check (ConditionPathExists=!/.autorelabel).
+Dec 06 04:31:36 anolis-riscv systemd[1]: selinux-autorelabel-mark.service - Mark the need to relabel after reboot was skipped because of a failed condition check (ConditionPathExists=!/.autorelabel).
+Dec 06 04:52:58 anolis-riscv systemd[1]: selinux-autorelabel-mark.service - Mark the need to relabel after reboot was skipped because of a failed condition check (ConditionPathExists=!/.autorelabel).
+Dec 06 05:48:49 anolis-riscv systemd[1]: selinux-autorelabel-mark.service - Mark the need to relabel after reboot was skipped because of a failed condition check (ConditionPathExists=!/.autorelabel).
+Dec 06 07:53:35 anolis-riscv systemd[1]: selinux-autorelabel-mark.service - Mark the need to relabel after reboot was skipped because of a failed condition check (ConditionPathExists=!/.autorelabel).
++ CHECK_RESULT 0 0 1 'There is an error message for the log of selinux-autorelabel-mark.service'
++ actual_result=0
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of selinux-autorelabel-mark.service'
++ '[' -z 0 ']'
++ '[' 1 -eq 0 ']'
++ test 0x == 0x
++ test -n 'There is an error message for the log of selinux-autorelabel-mark.service'
++ LOG_ERROR 'There is an error message for the log of selinux-autorelabel-mark.service'
++ message='There is an error message for the log of selinux-autorelabel-mark.service'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'There is an error message for the log of selinux-autorelabel-mark.service'
+Tue Dec  6 07:55:01 2022 - ERROR - There is an error message for the log of selinux-autorelabel-mark.service
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 57'
++ message='../common/common_lib.sh line 57'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 57'
+Tue Dec  6 07:55:02 2022 - ERROR - ../common/common_lib.sh line 57
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Tue Dec  6 07:55:02 2022 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Tue Dec  6 07:55:03 2022 - ERROR - failed to execute the case.
++ exit 1
++ POST_TEST_DEFAULT
++ LOG_INFO 'oe_test_service_selinux-autorelabel-mark.sh post_test'
++ message='oe_test_service_selinux-autorelabel-mark.sh post_test'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'oe_test_service_selinux-autorelabel-mark.sh post_test'
+Tue Dec  6 07:55:04 2022 - INFO  - oe_test_service_selinux-autorelabel-mark.sh post_test

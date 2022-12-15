@@ -1,0 +1,109 @@
++ source /root/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Tue Dec  6 07:27:32 2022 - INFO  - Start environmental preparation.
++ grep '^example:' /etc/passwd
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Tue Dec  6 07:27:33 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Tue Dec  6 07:27:34 2022 - INFO  - Start executing testcase.
++ useradd example
++ passwd example
+New password: BAD PASSWORD: The password fails the dictionary check - it is based on a dictionary word
+Retype new password: Changing password for user example.
+passwd: all authentication tokens updated successfully.
++ touch /tmp/test
++ ls -l /tmp/test
++ grep 'root root'
+-rw-r--r-- 1 root root 0 Dec  6 07:27 /tmp/test
++ CHECK_RESULT 0 0 0 'Failed to view '\''/tmp/test'\'' document and obtain '\''root root'\'' field'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to view '\''/tmp/test'\'' document and obtain '\''root root'\'' field'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - example -c 'chown example:example /tmp/test'
+chown: changing ownership of '/tmp/test': Operation not permitted
++ CHECK_RESULT 1 0 1 'Switching example user to change the file owner succeeded, but it should fail here'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='Switching example user to change the file owner succeeded, but it should fail here'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ setcap cap_chown=eip /bin/chown
++ CHECK_RESULT 0 0 0 'Failed to set cap'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to set cap'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - example -c 'chown example:example /tmp/test'
++ CHECK_RESULT 0 0 0 'Failed to switch example user to change file owner'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to switch example user to change file owner'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ls -l /tmp/test
++ grep 'example example'
+-rw-r--r-- 1 example example 0 Dec  6 07:27 /tmp/test
++ LOG_INFO 'Finish testcase execution.'
++ message='Finish testcase execution.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish testcase execution.'
+Tue Dec  6 07:27:38 2022 - INFO  - Finish testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Dec  6 07:27:39 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Tue Dec  6 07:27:39 2022 - INFO  - start environment cleanup.
++ rm -rf /tmp/test
++ setcap -r /bin/chown
++ userdel -rf example
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Tue Dec  6 07:27:41 2022 - INFO  - Finish environment cleanup!

@@ -1,0 +1,170 @@
++ source ../common/common_lib.sh
+++ source /root/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n '' ']'
++ trap POST_TEST_DEFAULT EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n '' ']'
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Tue Dec  6 09:00:00 2022 - INFO  - Start testing...
++ test_execution systemd-sysctl.service
++ service=systemd-sysctl.service
+++ date '+%Y-%m-%d %T'
++ log_time='2022-12-06 09:00:00'
++ test_restart systemd-sysctl.service
++ service=systemd-sysctl.service
++ systemctl restart systemd-sysctl.service
++ CHECK_RESULT 0 0 0 'systemd-sysctl.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-sysctl.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status systemd-sysctl.service
++ grep 'Active: active'
+     Active: active (exited) since Tue 2022-12-06 09:00:00 EST; 8s ago
++ CHECK_RESULT 0 0 0 'systemd-sysctl.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-sysctl.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop systemd-sysctl.service
++ CHECK_RESULT 0 0 0 'systemd-sysctl.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-sysctl.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status systemd-sysctl.service
++ grep 'Active: inactive'
+     Active: inactive (dead) since Tue 2022-12-06 09:00:08 EST; 5s ago
++ CHECK_RESULT 0 0 0 'systemd-sysctl.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-sysctl.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start systemd-sysctl.service
++ CHECK_RESULT 0 0 0 'systemd-sysctl.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-sysctl.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status systemd-sysctl.service
++ grep 'Active: active'
+     Active: active (exited) since Tue 2022-12-06 09:00:15 EST; 5s ago
++ CHECK_RESULT 0 0 0 'systemd-sysctl.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-sysctl.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled systemd-sysctl.service
++ service=systemd-sysctl.service
+++ systemctl is-enabled systemd-sysctl.service
++ state=static
++ '[' static == enabled ']'
++ '[' static == disabled ']'
++ '[' static == masked ']'
++ '[' static == static ']'
++ LOG_INFO 'The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
++ message='The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
+Tue Dec  6 09:00:21 2022 - INFO  - The unit files have no installation config,This means they are not meant to be enabled using systemctl.
++ journalctl --since '2022-12-06 09:00:00' -u systemd-sysctl.service
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of systemd-sysctl.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of systemd-sysctl.service'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_reload systemd-sysctl.service
++ service=systemd-sysctl.service
++ systemctl start systemd-sysctl.service
++ systemctl reload systemd-sysctl.service
++ grep 'Job type reload is not applicable'
+Failed to reload systemd-sysctl.service: Job type reload is not applicable for unit systemd-sysctl.service.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit systemd-sysctl.service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit systemd-sysctl.service'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status systemd-sysctl.service
++ grep 'Active: active'
+     Active: active (exited) since Tue 2022-12-06 09:00:15 EST; 13s ago
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Tue Dec  6 09:00:29 2022 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Dec  6 09:00:29 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ POST_TEST_DEFAULT
++ LOG_INFO 'oe_test_service_systemd-sysctl.sh post_test'
++ message='oe_test_service_systemd-sysctl.sh post_test'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'oe_test_service_systemd-sysctl.sh post_test'
+Tue Dec  6 09:00:30 2022 - INFO  - oe_test_service_systemd-sysctl.sh post_test

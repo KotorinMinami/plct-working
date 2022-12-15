@@ -1,0 +1,123 @@
++ source ../common/common_lib.sh
+++ source /root/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Tue Dec  6 09:35:03 2022 - INFO  - Start environmental preparation.
++ systemctl disable ctrl-alt-del.target
+Removed /etc/systemd/system/ctrl-alt-del.target.
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Tue Dec  6 09:35:36 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Tue Dec  6 09:35:37 2022 - INFO  - Start testing...
++ LOG_INFO 'A special service unit for shutting down the system or user service manager.'
++ message='A special service unit for shutting down the system or user service manager.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'A special service unit for shutting down the system or user service manager.'
+Tue Dec  6 09:35:37 2022 - INFO  - A special service unit for shutting down the system or user service manager.
++ test_oneshot exit.target 'inactive (dead)'
++ service=exit.target
++ status='inactive (dead)'
++ systemctl status exit.target
++ grep -v 'inactive (dead)'
++ grep Active
++ CHECK_RESULT 1 0 1 'There is an error for the status of exit.target'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error for the status of exit.target'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_enabled exit.target
++ service=exit.target
+++ systemctl is-enabled exit.target
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ systemctl enable exit.target
+++ grep 'Created symlink'
+++ awk '{print $3}'
++ symlink_file=/etc/systemd/system/ctrl-alt-del.target
++ find /etc/systemd/system/ctrl-alt-del.target
+/etc/systemd/system/ctrl-alt-del.target
++ CHECK_RESULT 0 0 0 'exit.target enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='exit.target enable failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable exit.target
+Removed /etc/systemd/system/ctrl-alt-del.target.
++ find /etc/systemd/system/ctrl-alt-del.target
+find: ‘/etc/systemd/system/ctrl-alt-del.target’: No such file or directory
++ CHECK_RESULT 1 0 1 'exit.target disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='exit.target disable failed'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ journalctl -u exit.target
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of exit.target'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of exit.target'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Tue Dec  6 09:36:03 2022 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Dec  6 09:36:04 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start environment cleanup.'
++ message='Start environment cleanup.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environment cleanup.'
+Tue Dec  6 09:36:04 2022 - INFO  - Start environment cleanup.
++ systemctl enable ctrl-alt-del.target
+Created symlink /etc/systemd/system/ctrl-alt-del.target → /usr/lib/systemd/system/reboot.target.
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Tue Dec  6 09:36:18 2022 - INFO  - Finish environment cleanup!

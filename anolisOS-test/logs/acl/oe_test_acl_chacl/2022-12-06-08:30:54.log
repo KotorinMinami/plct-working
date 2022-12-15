@@ -1,0 +1,195 @@
++ source /root/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n function ']'
++ config_params
++ myfilelist='f f-l f-R dir/subfile'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Dec  6 08:30:57 2022 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL acl
++ pkgs=acl
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs acl --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpwsfz24u6
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpwsfz24u6
++ mkdir -p dir dir-b dir-d
++ touch f f-l f-R dir/subfile
+++ whoami
++ uid=root
+++ id -gn
++ gid=root
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Dec  6 08:31:34 2022 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Dec  6 08:31:35 2022 - INFO  - Start to run test.
++ getfacl f
++ grep -q 3
++ grep -e '^user::rw-' -e '^group::r--' -e '^other::r--' -c
++ chacl u::rwx,g::r-x,o::r--,u:root:r--,g:root:r--,m::r-x f
++ getfacl f
++ grep -e '^user::rwx' -e '^group::r-x' -e '^other::r--' -e '^user:root:r--' -e '^mask::r-x' -e '^group:root:r--' -c
++ grep -q 6
++ CHECK_RESULT 0 0 0 'L58: No Options No Pass'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='L58: No Options No Pass'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ setfacl -d -m user::rwx dir-b
++ getfacl dir-b
++ grep -e '^user:root:' -e '^default:group:root:' -c
++ grep -q 0
++ chacl -b u::rwx,g::r-x,o::r--,u:root:rwx,m::rw u::rwx,g::r-x,o::rwx,g:root:r--,m::r-x dir-b
++ getfacl dir-b
++ grep -e '^user:root:' -e '^default:group:root:' -c
++ grep -q 2
++ CHECK_RESULT 0 0 0 'L65: -b No Pass'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='L65: -b No Pass'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ setfacl -d -m user::rwx dir-d
++ getfacl dir-d
++ grep -e '^default:group:root:r--' -c
++ grep -q 0
++ chacl -d u::rwx,g::r-x,o::rwx,g:root:r--,m::r-x dir-d
++ getfacl dir-d
++ grep -e '^default:group:root:r--' -c
++ grep -q 1
++ CHECK_RESULT 0 0 0 'L72: -d No Pass'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='L72: -d No Pass'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ setfacl -m user:root:rwx f-R
++ getfacl f-R
++ grep -e '^user:root:rwx' -e '^mask::rwx' -c
++ grep -q 2
++ chacl -R f-R
++ getfacl f-R
++ grep -e '^user:root:' -e '^mask:' -c
++ grep -q 0
++ CHECK_RESULT 0 0 0 'L79: -R No Pass'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='L79: -R No Pass'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ setfacl -d -m user:root:rwx dir
++ getfacl dir
++ grep -c '^default'
++ grep -q 5
++ chacl -D dir
++ getfacl dir
++ grep -c '^default'
++ grep -q 0
++ chacl -B f
++ getfacl f
++ grep -e '^user::rwx' -e '^group::r-x' -e '^other::r--' -c
++ grep -q 3
++ CHECK_RESULT 0 0 0 'L90: -B No Pass'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='L90: -B No Pass'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ chacl -l f-l
++ grep -qG -e '^f-l \[u::rw-,g::r--,o::r--\]'
++ CHECK_RESULT 0 0 0 'L94: -l No Pass'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='L94: -l No Pass'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ getfacl dir/subfile
++ grep -e '^mask:' -c
++ grep -q 0
++ chacl -r u::rwx,g::r-x,o::r--,m::rx dir
++ getfacl dir/subfile
++ grep -e '^mask::r-x$' -c
++ grep -q 1
++ CHECK_RESULT 0 0 0 'L100: -r No Pass'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='L100: -r No Pass'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Dec  6 08:31:37 2022 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Dec  6 08:31:38 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Dec  6 08:31:39 2022 - INFO  - Start to restore the test environment.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpwsfz24u6 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpwsfz24u6
++ '[' 0 -ne 0 ']'
++ rm -rf dir dir-b dir-d f f-l f-R dir/subfile
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue Dec  6 08:31:52 2022 - INFO  - End to restore the test environment.

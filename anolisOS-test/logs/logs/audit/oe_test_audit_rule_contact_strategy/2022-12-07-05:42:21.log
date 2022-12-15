@@ -1,0 +1,155 @@
++ source /root/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n '' ']'
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Dec  7 05:42:24 2022 - INFO  - Start to run test.
++ service auditd restart
+Stopping logging: 
+Redirecting start to /bin/systemctl start auditd.service
++ service auditd status
++ grep running
+Redirecting to /bin/systemctl status auditd.service
+     Active: active (running) since Wed 2022-12-07 05:42:28 EST; 486ms ago
++ CHECK_RESULT 0 0 0 'grep failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='grep failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ auditctl -D
+No rules
++ CHECK_RESULT 0 0 0 'delete failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='delete failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ auditctl -w /etc/passwd -p ra -k tail
++ auditctl -l
++ grep -e '-w /etc/passwd -p ra -k tail'
+-w /etc/passwd -p ra -k tail
++ auditctl -A always,exit -F path=/etc/passwd -F perm=ra -k head
++ CHECK_RESULT 0 0 0 'add rules failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='add rules failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ auditctl -l
++ grep -e '-w /etc/passwd -p ra -k head'
+-w /etc/passwd -p ra -k head
++ CHECK_RESULT 0 0 0 'grep failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='grep failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ (( i=0 ))
++ (( i<10 ))
+++ date +%T
++ starttime=05:42:29
++ cat /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+sync:x:5:0:sync:/sbin:/bin/sync
+shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+halt:x:7:0:halt:/sbin:/sbin/halt
+mail:x:8:12:mail:/var/spool/mail:/sbin/nologin
+operator:x:11:0:operator:/root:/sbin/nologin
+games:x:12:100:games:/usr/games:/sbin/nologin
+ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin
+nobody:x:65534:65534:Kernel Overflow User:/:/sbin/nologin
+dbus:x:81:81:System message bus:/:/sbin/nologin
+tss:x:59:59:Account used for TPM access:/dev/null:/sbin/nologin
+systemd-network:x:192:192:systemd Network Management:/:/usr/sbin/nologin
+systemd-oom:x:999:999:systemd Userspace OOM Killer:/:/usr/sbin/nologin
+polkitd:x:998:998:User for polkitd:/:/sbin/nologin
+unbound:x:997:996:Unbound DNS resolver:/etc/unbound:/sbin/nologin
+sssd:x:996:995:User for sssd:/:/sbin/nologin
+sshd:x:74:74:Privilege-separated SSH:/usr/share/empty.sshd:/sbin/nologin
+chrony:x:995:994::/var/lib/chrony:/sbin/nologin
+systemd-coredump:x:993:993:systemd Core Dumper:/:/usr/sbin/nologin
+systemd-timesync:x:992:992:systemd Time Synchronization:/:/usr/sbin/nologin
+anuser:x:1000:1000:Anolis OS RISCV User:/home/anuser:/bin/bash
++ CHECK_RESULT 0 0 0 'cat failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='cat failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ date +%T
++ endtime=05:42:29
++ ausearch -k head -ts 05:42:29 -te 05:42:29 -x cat
+----
+time->Wed Dec  7 05:42:29 2022
+type=PROCTITLE msg=audit(1670409749.195:527): proctitle=636174002F6574632F706173737764
+type=PATH msg=audit(1670409749.195:527): item=0 name="/etc/passwd" inode=28039 dev=fc:02 mode=0100644 ouid=0 ogid=0 rdev=00:00 nametype=NORMAL cap_fp=0 cap_fi=0 cap_fe=0 cap_fver=0 cap_frootid=0
+type=CWD msg=audit(1670409749.195:527): cwd="/root/mugen-riscv/testcases/cli-test/audit/oe_test_audit_rule_contact_strategy"
+type=SYSCALL msg=audit(1670409749.195:527): arch=c00000f3 syscall=56 success=yes exit=3 a0=ffffffffffffff9c a1=3fffe0967d a2=0 a3=0 items=1 ppid=1897 pid=1958 auid=0 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts0 ses=2 comm="cat" exe="/usr/bin/cat" key="head"
++ head_ret=0
++ ausearch -k tail -ts 05:42:29 -te 05:42:29 -x cat
+<no matches>
++ tail_ret=1
++ '[' 0 -eq 0 ']'
++ '[' 1 -ne 0 ']'
++ break
++ '[' 0 -eq 10 ']'
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed Dec  7 05:42:29 2022 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Dec  7 05:42:30 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Dec  7 05:42:31 2022 - INFO  - Start to restore the test environment.
++ auditctl -D
+No rules
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed Dec  7 05:42:31 2022 - INFO  - End to restore the test environment.

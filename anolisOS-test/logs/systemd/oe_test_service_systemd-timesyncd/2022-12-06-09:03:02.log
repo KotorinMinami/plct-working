@@ -1,0 +1,201 @@
++ source ../common/common_lib.sh
+++ source /root/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n '' ']'
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Tue Dec  6 09:03:11 2022 - INFO  - Start testing...
++ test_execution systemd-timesyncd.service
++ service=systemd-timesyncd.service
+++ date '+%Y-%m-%d %T'
++ log_time='2022-12-06 09:03:11'
++ test_restart systemd-timesyncd.service
++ service=systemd-timesyncd.service
++ systemctl restart systemd-timesyncd.service
++ CHECK_RESULT 0 0 0 'systemd-timesyncd.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-timesyncd.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status systemd-timesyncd.service
++ grep 'Active: active'
+     Active: active (running) since Tue 2022-12-06 09:03:36 EST; 6s ago
++ CHECK_RESULT 0 0 0 'systemd-timesyncd.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-timesyncd.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop systemd-timesyncd.service
++ CHECK_RESULT 0 0 0 'systemd-timesyncd.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-timesyncd.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status systemd-timesyncd.service
++ grep 'Active: inactive'
+     Active: inactive (dead) since Tue 2022-12-06 09:03:43 EST; 5s ago
++ CHECK_RESULT 0 0 0 'systemd-timesyncd.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-timesyncd.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start systemd-timesyncd.service
++ CHECK_RESULT 0 0 0 'systemd-timesyncd.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-timesyncd.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status systemd-timesyncd.service
++ grep 'Active: active'
+     Active: active (running) since Tue 2022-12-06 09:03:53 EST; 5s ago
++ CHECK_RESULT 0 0 0 'systemd-timesyncd.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-timesyncd.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled systemd-timesyncd.service
++ service=systemd-timesyncd.service
+++ systemctl is-enabled systemd-timesyncd.service
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ systemctl enable systemd-timesyncd.service
+++ grep 'Created symlink'
+++ awk '{print $3}'
++ symlink_file='/etc/systemd/system/dbus-org.freedesktop.timesync1.service
+/etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service'
++ find /etc/systemd/system/dbus-org.freedesktop.timesync1.service /etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service
+/etc/systemd/system/dbus-org.freedesktop.timesync1.service
+/etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service
++ CHECK_RESULT 0 0 0 'systemd-timesyncd.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-timesyncd.service enable failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable systemd-timesyncd.service
+Removed /etc/systemd/system/dbus-org.freedesktop.timesync1.service.
+Removed /etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service.
++ find /etc/systemd/system/dbus-org.freedesktop.timesync1.service /etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service
+find: ‘/etc/systemd/system/dbus-org.freedesktop.timesync1.service’: No such file or directory
+find: ‘/etc/systemd/system/sysinit.target.wants/systemd-timesyncd.service’: No such file or directory
++ CHECK_RESULT 1 0 1 'systemd-timesyncd.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='systemd-timesyncd.service disable failed'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ grep -i 'fail\|error'
++ journalctl --since '2022-12-06 09:03:11' -u systemd-timesyncd.service
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of systemd-timesyncd.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of systemd-timesyncd.service'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_reload systemd-timesyncd.service
++ service=systemd-timesyncd.service
++ systemctl start systemd-timesyncd.service
++ systemctl reload systemd-timesyncd.service
++ grep 'Job type reload is not applicable'
+Failed to reload systemd-timesyncd.service: Job type reload is not applicable for unit systemd-timesyncd.service.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit systemd-timesyncd.service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit systemd-timesyncd.service'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status systemd-timesyncd.service
++ grep 'Active: active'
+     Active: active (running) since Tue 2022-12-06 09:03:53 EST; 43s ago
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Tue Dec  6 09:04:38 2022 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Dec  6 09:04:38 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start environment cleanup.'
++ message='Start environment cleanup.'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environment cleanup.'
+Tue Dec  6 09:04:39 2022 - INFO  - Start environment cleanup.
++ systemctl stop systemd-timesyncd.service
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Tue Dec  6 09:04:52 2022 - INFO  - Finish environment cleanup!
