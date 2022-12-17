@@ -118,3 +118,24 @@ iface tap0 inet manual
 
 ## 外部链接
 网桥还可使用qemu的netdev bridge选项自动配置tap,可参见[qemu虚拟机间通信配置](https://gitee.com/phoebe-xi/oerv_work/blob/master/hpc/ubuntu+qemu+bridge.md)
+
+## 附加内容
+如果你觉得一步步顺着上面的内容设置tap过于麻烦，本人根据上面所写的流程编写了一个批量生成tap接口的脚本，放在本仓库下的[tapsetup.sh](./tapsetup.sh)，仅需
+
+安装网桥及tap管理工具
+```
+# apt install bridge-utils uml-utilities
+```
+REDHAT系或其他的linux发行版应该通用
+
+使用格式为
+```
+# bash tapsetup.sh br_ip tap_num br_name user
+```
+其中br_ip为想要给网桥配置的ip，必填，tap_num为tap接口的个数，必填，br_name为网桥的名字，默认是br0，user为tap所属的用户的名字，必填
+
+删除tap可用
+```
+# bash tapsetup.sh -d br_name
+```
+此命令可删除网桥名为br_name的网桥连接的所有tap接口，以及网桥本身
