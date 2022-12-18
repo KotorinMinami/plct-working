@@ -21,7 +21,7 @@ function create()
     for ((i = 0 ; i < $2 ; i++));
     do 
         tunctl -t "tap"$i -u $4
-        brctl addif $3 "tap2"$i
+        brctl addif $3 "tap"$i
     done
     ip link set dev $3 up
     for ((i = 0 ; i < $2 ; i++));
