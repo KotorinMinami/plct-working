@@ -1,0 +1,256 @@
++ source common/common_pcp-system-tools.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu Dec 15 23:10:58 2022 - INFO  - Start to prepare the test environment.
++ deploy_env
++ DNF_INSTALL 'pcp pcp-system-tools'
++ pkgs='pcp pcp-system-tools'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs 'pcp pcp-system-tools' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmptrx2__x4
++ '[' -z '' ']'
++ tmpfile=/tmp/tmptrx2__x4
++ systemctl enable pmcd
++ systemctl start pmcd
++ systemctl enable pmlogger
++ systemctl start pmlogger
++ SLEEP_WAIT 20
++ wait_time=20
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 20 --cmd '' --mode 1
+++ hostname
++ host_name=openEuler-riscv64
+++ rpm -qa pcp
+++ awk -F - '{print $2}'
++ pcp_version=5.3.5
+++ lsblk
+++ grep disk
+++ awk '{print $1}'
++ disk_name=vda
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu Dec 15 23:15:09 2022 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Dec 15 23:15:11 2022 - INFO  - Start to run test.
++ SLEEP_WAIT 3 'grep '\''system'\'' /tmp/dstat_noheaders' 2
++ wait_time=3
++ cmd='grep '\''system'\'' /tmp/dstat_noheaders'
++ mode=2
++ nohup dstat -tprsy --noheaders
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 3 --cmd 'grep '\''system'\'' /tmp/dstat_noheaders' --mode 2
+----system---- ---procs--- --io/total- ----swap--- ---system--
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ kill -9 64693
++ SLEEP_WAIT 3 'grep '\''procs'\'' /tmp/dstat_noupdate' 2
++ wait_time=3
++ cmd='grep '\''procs'\'' /tmp/dstat_noupdate'
++ mode=2
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 3 --cmd 'grep '\''procs'\'' /tmp/dstat_noupdate' --mode 2
++ nohup dstat -tprsy --noupdate
+----system---- ---procs--- --io/total- ----swap--- ---system--
+/root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh: line 164: 64693 Killed                  nohup dstat -tprsy --noheaders > /tmp/dstat_noheaders 2>&1
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ kill -9 64701
++ SLEEP_WAIT 3 'grep '\''async'\'' /tmp/dstat_aio' 2
++ wait_time=3
++ cmd='grep '\''async'\'' /tmp/dstat_aio'
++ mode=2
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 3 --cmd 'grep '\''async'\'' /tmp/dstat_aio' --mode 2
++ nohup dstat --aio --fs --ipc --lock --raw --socket --tcp --udp --unix --vm
+async --filesystem- --sysv-ipc- ---file-locks-- raw- --------sockets--------- ------tcp-sockets------- ---udp--- --------unix------- -----virtual-memory----
+/root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh: line 164: 64701 Killed                  nohup dstat -tprsy --noupdate > /tmp/dstat_noupdate 2>&1
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ kill -9 64722
++ SLEEP_WAIT 3 'grep '\''cpu0-usage'\'' /tmp/dstat_C' 2
++ nohup dstat -C 0,3,total
++ wait_time=3
++ cmd='grep '\''cpu0-usage'\'' /tmp/dstat_C'
++ mode=2
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 3 --cmd 'grep '\''cpu0-usage'\'' /tmp/dstat_C' --mode 2
+-----cpu0-usage---- -----cpu3-usage---- ----total-usage---- -dsk/total- -net/total- ---paging-- ---system--
+/root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh: line 164: 64722 Killed                  nohup dstat --aio --fs --ipc --lock --raw --socket --tcp --udp --unix --vm > /tmp/dstat_aio 2>&1
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ kill -9 64744
++ SLEEP_WAIT 3 'grep dsk/vda /tmp/dstat_D' 2
++ wait_time=3
++ cmd='grep dsk/vda /tmp/dstat_D'
++ mode=2
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 3 --cmd 'grep dsk/vda /tmp/dstat_D' --mode 2
++ nohup dstat -D total,vda
+----total-usage---- --dsk/vda-- -dsk/total- -net/total- ---paging-- ---system--
+/root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh: line 164: 64744 Killed                  nohup dstat -C 0,3,total > /tmp/dstat_C 2>&1
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ kill -9 64765
++ SLEEP_WAIT 3 'test -f /tmp/dstat_i' 2
++ wait_time=3
++ cmd='test -f /tmp/dstat_i'
++ mode=2
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 3 --cmd 'test -f /tmp/dstat_i' --mode 2
++ nohup dstat -i
+
+/root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh: line 164: 64765 Killed                  nohup dstat -D total,${disk_name} > /tmp/dstat_D 2>&1
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ kill -9 64785
++ SLEEP_WAIT 3 'grep '\''total-usage'\'' /tmp/dstat_I' 2
++ wait_time=3
++ cmd='grep '\''total-usage'\'' /tmp/dstat_I'
++ mode=2
++ nohup dstat -I 9,CAL
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 3 --cmd 'grep '\''total-usage'\'' /tmp/dstat_I' --mode 2
+----total-usage---- -dsk/total- -net/total- ---paging-- ---system--
+/root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh: line 164: 64785 Killed                  nohup dstat -i > /tmp/dstat_i 2>&1
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ kill -9 64790
++ SLEEP_WAIT 3 'grep net/ /tmp/dstat_N' 2
++ wait_time=3
++ cmd='grep net/ /tmp/dstat_N'
++ mode=2
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 3 --cmd 'grep net/ /tmp/dstat_N' --mode 2
++ nohup dstat -N
+/root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh: line 164: 64790 Killed                  nohup dstat -I 9,CAL > /tmp/dstat_I 2>&1
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ kill -9 64812
+oe_test_dstat_02.sh: line 61: kill: (64812) - No such process
++ SLEEP_WAIT 3 'grep '\''paging'\'' /tmp/dstat_S' 2
++ wait_time=3
++ cmd='grep '\''paging'\'' /tmp/dstat_S'
++ nohup dstat -S swap1,total
++ mode=2
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 3 --cmd 'grep '\''paging'\'' /tmp/dstat_S' --mode 2
+----total-usage---- -dsk/total- -net/total- ---paging-- ---system--
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ kill -9 64834
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu Dec 15 23:15:52 2022 - INFO  - End to run test.
+/root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh: line 19: 64834 Killed                  nohup dstat -S swap1,total > /tmp/dstat_S 2>&1
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Dec 15 23:15:54 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu Dec 15 23:15:55 2022 - INFO  - Start to restore the test environment.
++ clear_env
++ systemctl stop pmcd
++ systemctl stop pmlogger
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmptrx2__x4 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmptrx2__x4
++ '[' 0 -ne 0 ']'
++ rm -f /tmp/dstat_C /tmp/dstat_D /tmp/dstat_I /tmp/dstat_N /tmp/dstat_S /tmp/dstat_aio /tmp/dstat_i /tmp/dstat_noheaders /tmp/dstat_noupdate
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu Dec 15 23:17:36 2022 - INFO  - End to restore the test environment.

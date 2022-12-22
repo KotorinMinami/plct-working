@@ -1,0 +1,347 @@
++ source ../common/common_lib.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ grep expect
++ rpm -qa
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Fri Dec 16 00:08:39 2022 - INFO  - Start environmental preparation.
++ DNF_INSTALL multipath-tools
++ pkgs=multipath-tools
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs multipath-tools --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpy_e69bzc
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpy_e69bzc
++ service=multipathd.service
+++ date '+%Y-%m-%d %T'
++ log_time='2022-12-16 00:09:35'
+++ lsblk
+++ grep disk
+++ tr '\n' '|'
+++ sed 's@|$@@'
+++ awk '{print $1}'
++ disk_name='vda|vdb|vdc|vdd'
++ mv /etc/multipath.conf /etc/multipath.bak
+mv: cannot stat '/etc/multipath.conf': No such file or directory
++ echo 'defaults {
+	user_friendly_names yes
+	find_multipaths yes
+}
+blacklist_exceptions {
+        property (SCSI_IDENT_|ID_WWN)
+}
+blacklist {
+	devnode "^vda|vdb|vdc|vdd"
+}'
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Fri Dec 16 00:09:36 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Fri Dec 16 00:09:38 2022 - INFO  - Start testing...
++ test_restart multipathd.service
++ service=multipathd.service
++ systemctl restart multipathd.service
+Job for multipathd.service failed because the control process exited with error code.
+See "systemctl status multipathd.service" and "journalctl -xeu multipathd.service" for details.
++ CHECK_RESULT 1 0 0 'multipathd.service restart failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='multipathd.service restart failed'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'multipathd.service restart failed'
++ LOG_ERROR 'multipathd.service restart failed'
++ message='multipathd.service restart failed'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'multipathd.service restart failed'
+Fri Dec 16 00:09:40 2022 - ERROR - multipathd.service restart failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 34'
++ message='../common/common_lib.sh line 34'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 34'
+Fri Dec 16 00:09:42 2022 - ERROR - ../common/common_lib.sh line 34
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ grep 'Active: active'
++ systemctl status multipathd.service
++ CHECK_RESULT 1 0 0 'multipathd.service restart failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='multipathd.service restart failed'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'multipathd.service restart failed'
++ LOG_ERROR 'multipathd.service restart failed'
++ message='multipathd.service restart failed'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'multipathd.service restart failed'
+Fri Dec 16 00:09:50 2022 - ERROR - multipathd.service restart failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 37'
++ message='../common/common_lib.sh line 37'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 37'
+Fri Dec 16 00:09:51 2022 - ERROR - ../common/common_lib.sh line 37
++ return 0
++ systemctl stop multipathd.service
++ CHECK_RESULT 0 0 0 'multipathd.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='multipathd.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status multipathd.service
++ grep 'Active: inactive'
++ CHECK_RESULT 1 0 0 'multipathd.service stop failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='multipathd.service stop failed'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'multipathd.service stop failed'
++ LOG_ERROR 'multipathd.service stop failed'
++ message='multipathd.service stop failed'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'multipathd.service stop failed'
+Fri Dec 16 00:09:59 2022 - ERROR - multipathd.service stop failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 42'
++ message='../common/common_lib.sh line 42'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 42'
+Fri Dec 16 00:10:00 2022 - ERROR - ../common/common_lib.sh line 42
++ return 0
++ systemctl start multipathd.service
+Job for multipathd.service failed because the control process exited with error code.
+See "systemctl status multipathd.service" and "journalctl -xeu multipathd.service" for details.
++ CHECK_RESULT 1 0 0 'multipathd.service start failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='multipathd.service start failed'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'multipathd.service start failed'
++ LOG_ERROR 'multipathd.service start failed'
++ message='multipathd.service start failed'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'multipathd.service start failed'
+Fri Dec 16 00:10:03 2022 - ERROR - multipathd.service start failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 44'
++ message='../common/common_lib.sh line 44'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 44'
+Fri Dec 16 00:10:04 2022 - ERROR - ../common/common_lib.sh line 44
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status multipathd.service
++ grep 'Active: active'
++ CHECK_RESULT 1 0 0 'multipathd.service start failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='multipathd.service start failed'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'multipathd.service start failed'
++ LOG_ERROR 'multipathd.service start failed'
++ message='multipathd.service start failed'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'multipathd.service start failed'
+Fri Dec 16 00:10:12 2022 - ERROR - multipathd.service start failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 47'
++ message='../common/common_lib.sh line 47'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 47'
+Fri Dec 16 00:10:14 2022 - ERROR - ../common/common_lib.sh line 47
++ return 0
++ test_enabled multipathd.service
++ service=multipathd.service
+++ systemctl is-enabled multipathd.service
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ systemctl enable multipathd.service
+++ grep 'Created symlink'
+++ awk '{print $3}'
++ symlink_file='/etc/systemd/system/sysinit.target.wants/multipathd.service
+/etc/systemd/system/sockets.target.wants/multipathd.socket'
++ find /etc/systemd/system/sysinit.target.wants/multipathd.service /etc/systemd/system/sockets.target.wants/multipathd.socket
+/etc/systemd/system/sysinit.target.wants/multipathd.service
+/etc/systemd/system/sockets.target.wants/multipathd.socket
++ CHECK_RESULT 0 0 0 'multipathd.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='multipathd.service enable failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable multipathd.service
+Removed /etc/systemd/system/sockets.target.wants/multipathd.socket.
+Removed /etc/systemd/system/sysinit.target.wants/multipathd.service.
++ find /etc/systemd/system/sysinit.target.wants/multipathd.service /etc/systemd/system/sockets.target.wants/multipathd.socket
+find: ‘/etc/systemd/system/sysinit.target.wants/multipathd.service’: No such file or directory
+find: ‘/etc/systemd/system/sockets.target.wants/multipathd.socket’: No such file or directory
++ CHECK_RESULT 1 0 1 'multipathd.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='multipathd.service disable failed'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ grep -i 'fail\|error'
++ journalctl --since '2022-12-16 00:09:35' -u multipathd.service
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ grep -v 'failed to increase buffer size'
+Dec 16 00:09:39 openEuler-riscv64 systemd[1]: multipathd.service: Main process exited, code=exited, status=1/FAILURE
+Dec 16 00:09:39 openEuler-riscv64 systemd[1]: multipathd.service: Failed with result 'exit-code'.
+Dec 16 00:09:39 openEuler-riscv64 systemd[1]: Failed to start Device-Mapper Multipath Device Controller.
+Dec 16 00:10:01 openEuler-riscv64 systemd[1]: multipathd.service: Main process exited, code=exited, status=1/FAILURE
+Dec 16 00:10:01 openEuler-riscv64 systemd[1]: multipathd.service: Failed with result 'exit-code'.
+Dec 16 00:10:01 openEuler-riscv64 systemd[1]: Failed to start Device-Mapper Multipath Device Controller.
++ CHECK_RESULT 0 0 1 'There is an error message for the log of multipathd.service'
++ actual_result=0
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of multipathd.service'
++ '[' -z 0 ']'
++ '[' 1 -eq 0 ']'
++ test 0x == 0x
++ test -n 'There is an error message for the log of multipathd.service'
++ LOG_ERROR 'There is an error message for the log of multipathd.service'
++ message='There is an error message for the log of multipathd.service'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'There is an error message for the log of multipathd.service'
+Fri Dec 16 00:10:32 2022 - ERROR - There is an error message for the log of multipathd.service
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_service_multipathd.sh line 47'
++ message='oe_test_service_multipathd.sh line 47'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_service_multipathd.sh line 47'
+Fri Dec 16 00:10:34 2022 - ERROR - oe_test_service_multipathd.sh line 47
++ return 0
++ systemctl start multipathd.service
+Job for multipathd.service failed because the control process exited with error code.
+See "systemctl status multipathd.service" and "journalctl -xeu multipathd.service" for details.
++ sed -i 's\ExecStart=/sbin/multipathd\ExecStart=/usr/sbin/multipathd -v\g' /usr/lib/systemd/system/multipathd.service
++ systemctl daemon-reload
++ systemctl reload multipathd.service
+multipathd.service is not active, cannot reload.
++ CHECK_RESULT 1 0 0 'multipathd.service reload failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='multipathd.service reload failed'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'multipathd.service reload failed'
++ LOG_ERROR 'multipathd.service reload failed'
++ message='multipathd.service reload failed'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'multipathd.service reload failed'
+Fri Dec 16 00:10:45 2022 - ERROR - multipathd.service reload failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_service_multipathd.sh line 52'
++ message='oe_test_service_multipathd.sh line 52'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_service_multipathd.sh line 52'
+Fri Dec 16 00:10:46 2022 - ERROR - oe_test_service_multipathd.sh line 52
++ return 0
++ grep 'Active: active'
++ systemctl status multipathd.service
++ CHECK_RESULT 1 0 0 'multipathd.service reload causes the service status to change'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='multipathd.service reload causes the service status to change'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'multipathd.service reload causes the service status to change'
++ LOG_ERROR 'multipathd.service reload causes the service status to change'
++ message='multipathd.service reload causes the service status to change'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'multipathd.service reload causes the service status to change'
+Fri Dec 16 00:10:47 2022 - ERROR - multipathd.service reload causes the service status to change
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_service_multipathd.sh line 54'
++ message='oe_test_service_multipathd.sh line 54'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_service_multipathd.sh line 54'
+Fri Dec 16 00:10:49 2022 - ERROR - oe_test_service_multipathd.sh line 54
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Fri Dec 16 00:10:50 2022 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z 8
++ test 8 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri Dec 16 00:10:51 2022 - ERROR - failed to execute the case.
++ exit 8
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri Dec 16 00:10:53 2022 - INFO  - start environment cleanup.
++ sed -i 's\ExecStart=/usr/sbin/multipathd -v\ExecStart=/usr/sbin/multipathd\g' /usr/lib/systemd/system/multipathd.service
++ systemctl daemon-reload
++ systemctl reload multipathd.service
+multipathd.service is not active, cannot reload.
++ mv /etc/multipath.bak /etc/multipath.conf
+mv: cannot stat '/etc/multipath.bak': No such file or directory
++ systemctl stop multipathd.service
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpy_e69bzc ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpy_e69bzc
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Fri Dec 16 00:11:31 2022 - INFO  - Finish environment cleanup!

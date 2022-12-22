@@ -1,0 +1,545 @@
++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu Dec 15 18:43:48 2022 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL wireshark
++ pkgs=wireshark
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs wireshark --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpnspi0ugv
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpnspi0ugv
+++ rpm -qa wireshark
+++ awk -F - '{print$2}'
++ version=3.6.2
++ LOG_INFO 'Finish preparing the test environment.'
++ message='Finish preparing the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish preparing the test environment.'
+Thu Dec 15 18:46:12 2022 - INFO  - Finish preparing the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Dec 15 18:46:14 2022 - INFO  - Start to run test.
++ capinfos --help
++ grep 'Usage: capinfos \[options\] <infile>'
+Usage: capinfos [options] <infile> ...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ capinfos --version
++ grep 3.6.2
+Capinfos (Wireshark) 3.6.2 (Git commit 626020d9b3c3)
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ awk -F . '{print $2}'
+++ dumpcap -D
+++ head -1
++ netCard=' eth0'
++ SLEEP_WAIT 10 'dumpcap -i  eth0 -c 20 -w testfile1' 2
++ wait_time=10
++ cmd='dumpcap -i  eth0 -c 20 -w testfile1'
++ mode=2
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 10 --cmd 'dumpcap -i  eth0 -c 20 -w testfile1' --mode 2
+Capturing on 'eth0'
+File: testfile1
+
+Packets: 2 
+Packets: 3 
+Packets: 5 
+Packets: 7 
+Packets: 9 
+Packets: 11 
+Packets: 13 
+Packets: 14 
+Packets: 16 
+Packets: 17 
+Packets: 19 
+Packets: 20 
+Packets captured: 20
+Packets received/dropped on interface 'eth0': 20/0 (pcap:0/dumpcap:0/flushed:0/ps_ifdrop:0) (100.0%)
++ test -f testfile1
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ capinfos -t testfile1
++ grep -E 'File type|Wireshark/... - pcapng'
+File type:           Wireshark/... - pcapng
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ capinfos -E testfile1
++ grep -E 'File encapsulation|Ethernet'
+File encapsulation:  Ethernet
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ capinfos -I testfile1
++ grep 'Interface #0 info:'
+Interface #0 info:
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep -Ei 'file|Capture'
++ capinfos -F testfile1
+File name:           testfile1
+File timestamp precision:  nanoseconds (9)
+Capture oper-sys:    Linux 5.10.0-9.oe2203.riscv64
+Capture application: Dumpcap (Wireshark) 3.6.2 (Git commit 626020d9b3c3)
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 10 'dumpcap -i  eth0 --capture-comment "test dumpcap usage" -c 20 -w testfile17' 2
++ wait_time=10
++ cmd='dumpcap -i  eth0 --capture-comment "test dumpcap usage" -c 20 -w testfile17'
++ mode=2
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 10 --cmd 'dumpcap -i  eth0 --capture-comment "test dumpcap usage" -c 20 -w testfile17' --mode 2
+Thu Dec 15 19:14:06 2022 - ERROR - Timeout : Command 'bash -x oe_test_capinfos.sh' timed out after 1799.9979744 seconds
+Capturing on 'eth0'
+File: testfile17
+
+Packets: 2 
+Packets: 3 
+Packets: 5 
+Packets: 6 
+Packets: 8 
+Packets: 10 
+Packets: 12 
+Packets: 14 
+Packets: 16 
+Packets: 20 
+Packets captured: 20
+Packets received/dropped on interface 'eth0': 20/0 (pcap:0/dumpcap:0/flushed:0/ps_ifdrop:0) (100.0%)
+++ post_test
+++ LOG_INFO 'Start to restore the test environment.'
+++ message='Start to restore the test environment.'
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu Dec 15 19:14:32 2022 - INFO  - Start to restore the test environment.
++++ ls
++++ grep -v .sh
+++ rm -rf testfile1 testfile17
+++ DNF_REMOVE
+++ node=1
+++ pkg_list=
+++ mode=0
+++ [[ -z /tmp/tmpnspi0ugv ]]
+++ '[' 0 -ne 0 ']'
+++ '[' 1 == 0 ']'
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpnspi0ugv
+++ '[' 0 -ne 0 ']'
+++ LOG_INFO 'Finish restoring the test environment.'
+++ message='Finish restoring the test environment.'
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish restoring the test environment.'
+Thu Dec 15 19:15:06 2022 - INFO  - Finish restoring the test environment.
++ test -f testfile17
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_capinfos.sh line 48'
++ message='oe_test_capinfos.sh line 48'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_capinfos.sh line 48'
+Thu Dec 15 19:15:07 2022 - ERROR - oe_test_capinfos.sh line 48
++ return 0
++ capinfos -k testfile17
+oe_test_capinfos.sh: line 49: capinfos: command not found
++ grep 'Capture comment:.*test dumpcap usage'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_capinfos.sh line 50'
++ message='oe_test_capinfos.sh line 50'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_capinfos.sh line 50'
+Thu Dec 15 19:15:09 2022 - ERROR - oe_test_capinfos.sh line 50
++ return 0
++ capinfos -c testfile1
+oe_test_capinfos.sh: line 51: capinfos: command not found
++ grep -E 'Number of packets|20'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_capinfos.sh line 52'
++ message='oe_test_capinfos.sh line 52'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_capinfos.sh line 52'
+Thu Dec 15 19:15:10 2022 - ERROR - oe_test_capinfos.sh line 52
++ return 0
++ capinfos -s testfile1
+oe_test_capinfos.sh: line 53: capinfos: command not found
++ grep 'File size'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_capinfos.sh line 54'
++ message='oe_test_capinfos.sh line 54'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_capinfos.sh line 54'
+Thu Dec 15 19:15:11 2022 - ERROR - oe_test_capinfos.sh line 54
++ return 0
++ capinfos -u testfile1
++ grep 'Capture duration:'
+oe_test_capinfos.sh: line 55: capinfos: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_capinfos.sh line 56'
++ message='oe_test_capinfos.sh line 56'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_capinfos.sh line 56'
+Thu Dec 15 19:15:12 2022 - ERROR - oe_test_capinfos.sh line 56
++ return 0
++ capinfos -a testfile1
+oe_test_capinfos.sh: line 57: capinfos: command not found
++ grep 'First packet time: '
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_capinfos.sh line 58'
++ message='oe_test_capinfos.sh line 58'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_capinfos.sh line 58'
+Thu Dec 15 19:15:13 2022 - ERROR - oe_test_capinfos.sh line 58
++ return 0
++ capinfos -e testfile1
+oe_test_capinfos.sh: line 59: capinfos: command not found
++ grep 'Last packet time:'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_capinfos.sh line 60'
++ message='oe_test_capinfos.sh line 60'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_capinfos.sh line 60'
+Thu Dec 15 19:15:15 2022 - ERROR - oe_test_capinfos.sh line 60
++ return 0
++ capinfos -y testfile1
++ grep 'Data byte rate:'
+oe_test_capinfos.sh: line 61: capinfos: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_capinfos.sh line 62'
++ message='oe_test_capinfos.sh line 62'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_capinfos.sh line 62'
+Thu Dec 15 19:15:16 2022 - ERROR - oe_test_capinfos.sh line 62
++ return 0
++ capinfos -z testfile1
+oe_test_capinfos.sh: line 63: capinfos: command not found
++ grep 'Average packet size:'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_capinfos.sh line 64'
++ message='oe_test_capinfos.sh line 64'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_capinfos.sh line 64'
+Thu Dec 15 19:15:17 2022 - ERROR - oe_test_capinfos.sh line 64
++ return 0
++ grep 'Average packet rate:'
++ capinfos -x testfile1
+oe_test_capinfos.sh: line 65: capinfos: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_capinfos.sh line 66'
++ message='oe_test_capinfos.sh line 66'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_capinfos.sh line 66'
+Thu Dec 15 19:15:18 2022 - ERROR - oe_test_capinfos.sh line 66
++ return 0
++ capinfos -L testfile1
++ grep -E 'File|packet|size|Capture|time|rate|Interface'
+oe_test_capinfos.sh: line 67: capinfos: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_capinfos.sh line 68'
++ message='oe_test_capinfos.sh line 68'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_capinfos.sh line 68'
+Thu Dec 15 19:15:19 2022 - ERROR - oe_test_capinfos.sh line 68
++ return 0
++ capinfos -T testfile1
+oe_test_capinfos.sh: line 69: capinfos: command not found
++ grep '.*'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_capinfos.sh line 70'
++ message='oe_test_capinfos.sh line 70'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_capinfos.sh line 70'
+Thu Dec 15 19:15:20 2022 - ERROR - oe_test_capinfos.sh line 70
++ return 0
++ capinfos -T -R testfile1
+oe_test_capinfos.sh: line 71: capinfos: command not found
++ grep File
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_capinfos.sh line 72'
++ message='oe_test_capinfos.sh line 72'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_capinfos.sh line 72'
+Thu Dec 15 19:15:21 2022 - ERROR - oe_test_capinfos.sh line 72
++ return 0
++ capinfos -T -r testfile1
++ grep File
+oe_test_capinfos.sh: line 73: capinfos: command not found
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ grep '	'
++ capinfos -T -B testfile1
+oe_test_capinfos.sh: line 75: capinfos: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_capinfos.sh line 76'
++ message='oe_test_capinfos.sh line 76'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_capinfos.sh line 76'
+Thu Dec 15 19:15:22 2022 - ERROR - oe_test_capinfos.sh line 76
++ return 0
++ grep ,
++ capinfos -T -m testfile1
+oe_test_capinfos.sh: line 77: capinfos: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_capinfos.sh line 78'
++ message='oe_test_capinfos.sh line 78'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_capinfos.sh line 78'
+Thu Dec 15 19:15:24 2022 - ERROR - oe_test_capinfos.sh line 78
++ return 0
++ capinfos -T -b testfile1
+oe_test_capinfos.sh: line 79: capinfos: command not found
++ grep '[[:space:]]'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_capinfos.sh line 80'
++ message='oe_test_capinfos.sh line 80'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_capinfos.sh line 80'
+Thu Dec 15 19:15:25 2022 - ERROR - oe_test_capinfos.sh line 80
++ return 0
++ capinfos -A testfile1
+oe_test_capinfos.sh: line 81: capinfos: command not found
++ grep -E 'File|packet|size|Capture|time|rate|Interface'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_capinfos.sh line 82'
++ message='oe_test_capinfos.sh line 82'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_capinfos.sh line 82'
+Thu Dec 15 19:15:26 2022 - ERROR - oe_test_capinfos.sh line 82
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Thu Dec 15 19:15:27 2022 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 17
++ test 17 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Thu Dec 15 19:15:28 2022 - ERROR - failed to execute the case.
++ exit 17
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu Dec 15 19:15:29 2022 - INFO  - Start to restore the test environment.
+++ ls
+++ grep -v .sh
++ rm -rf
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpnspi0ugv ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpnspi0ugv
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish restoring the test environment.'
++ message='Finish restoring the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish restoring the test environment.'
+Thu Dec 15 19:15:41 2022 - INFO  - Finish restoring the test environment.

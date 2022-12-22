@@ -1,0 +1,221 @@
++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ grep expect
++ rpm -qa
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Fri Dec 16 01:23:46 2022 - INFO  - Start environmental preparation.
++ DNF_INSTALL rabbitmq-server
++ pkgs=rabbitmq-server
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs rabbitmq-server --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpcvlvzk0u
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpcvlvzk0u
++ which firewalld
+which: no firewalld in (/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin)
++ systemctl restart rabbitmq-server
+++ uname -i
++ platform=riscv64
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Fri Dec 16 01:27:10 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Fri Dec 16 01:27:11 2022 - INFO  - Start testing...
++ rabbitmqctl stop
++ grep 'Stopping and halting'
+Stopping and halting node rabbit@openEuler-riscv64 ...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl restart rabbitmq-server
++ grep 'Shutting down RabbitMQ node'
++ rabbitmqctl shutdown
+
+01:29:06.199 [error] Halting Erlang VM with the following applications:
+    :amqp10_common
+    :seshat
+    :observer_cli
+    :stdout_formatter
+    :gen_batch_server
+    :aten
+    :ranch
+    :inets
+    :systemd
+    :enough
+    :cuttlefish
+    :credentials_obfuscation
+    :recon
+    :jsx
+    :xmerl
+    :tools
+    :syntax_tools
+    :ssl
+    :public_key
+    :asn1
+    :crypto
+    :compiler
+    :sasl
+    :stdlib
+    :kernel
+
+Shutting down RabbitMQ node rabbit@openEuler-riscv64 running at PID 4287
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl restart rabbitmq-server
++ grep 'Stopping rabbit application '
++ rabbitmqctl stop_app
+Stopping rabbit application on node rabbit@openEuler-riscv64 ...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'Starting node'
++ rabbitmqctl start_app
+Starting node rabbit@openEuler-riscv64 ...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ find /var/lib/rabbitmq/mnesia/ -name '*.pid'
++ pid_file=/var/lib/rabbitmq/mnesia/rabbit@openEuler-riscv64.pid
++ rabbitmqctl wait /var/lib/rabbitmq/mnesia/rabbit@openEuler-riscv64.pid
++ grep 'Waiting for'
+Waiting for pid file '/var/lib/rabbitmq/mnesia/rabbit@openEuler-riscv64.pid' to appear
+Waiting for erlang distribution on node 'rabbit@openEuler-riscv64' while OS process '4919' is running
+Waiting for applications 'rabbit_and_plugins' to start on node 'rabbit@openEuler-riscv64'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rabbitmqctl stop_app
+Stopping rabbit application on node rabbit@openEuler-riscv64 ...
++ grep 'Resetting node'
++ rabbitmqctl reset
+Resetting node rabbit@openEuler-riscv64 ...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'Forcefully resetting node'
++ rabbitmqctl force_reset
+Forcefully resetting node rabbit@openEuler-riscv64 ...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rabbitmqctl start_app
+Starting node rabbit@openEuler-riscv64 ...
++ rabbitmqctl rotate_logs
++ grep 'Rotating logs'
+Error:
+This command does not rotate logs anymore [deprecated]
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_rabbitmqctl_app.sh line 53'
++ message='oe_test_rabbitmqctl_app.sh line 53'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_rabbitmqctl_app.sh line 53'
+Fri Dec 16 01:32:33 2022 - ERROR - oe_test_rabbitmqctl_app.sh line 53
++ return 0
++ '[' riscv64 = x86_64 ']'
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Fri Dec 16 01:32:34 2022 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri Dec 16 01:32:35 2022 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri Dec 16 01:32:36 2022 - INFO  - start environment cleanup.
++ systemctl stop rabbitmq-server
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpcvlvzk0u ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpcvlvzk0u
++ '[' 0 -ne 0 ']'
++ rm -rf /var/lib/rabbitmq/
++ which firewalld
+which: no firewalld in (/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin)
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Fri Dec 16 01:33:34 2022 - INFO  - Finish environment cleanup!

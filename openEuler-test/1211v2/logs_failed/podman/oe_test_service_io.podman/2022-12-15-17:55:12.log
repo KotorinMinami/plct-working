@@ -1,0 +1,148 @@
++ source ../common/common_lib.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ grep expect
++ rpm -qa
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu Dec 15 17:55:18 2022 - INFO  - Start environmental preparation.
++ DNF_INSTALL podman
++ pkgs=podman
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs podman --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp67jeh8h2
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp67jeh8h2
++ echo '[registries.search]
+registries = ['\''docker.io'\'']'
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu Dec 15 17:57:10 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Dec 15 17:57:11 2022 - INFO  - Start to run test.
++ test_oneshot io.podman.service 'inactive (dead)'
++ service=io.podman.service
++ status='inactive (dead)'
++ systemctl status io.podman.service
++ grep Active
++ grep -v 'inactive (dead)'
+Unit io.podman.service could not be found.
++ CHECK_RESULT 1 0 1 'There is an error for the status of io.podman.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error for the status of io.podman.service'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_enabled io.podman.service
++ service=io.podman.service
+++ systemctl is-enabled io.podman.service
+Failed to get unit file state for io.podman.service: No such file or directory
++ state=
++ '[' '' == enabled ']'
++ '[' '' == disabled ']'
++ '[' '' == masked ']'
++ '[' '' == static ']'
++ LOG_INFO 'Unit is indirect, ignoring.'
++ message='Unit is indirect, ignoring.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Unit is indirect, ignoring.'
+Thu Dec 15 17:57:13 2022 - INFO  - Unit is indirect, ignoring.
++ journalctl -u io.podman.service
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of io.podman.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of io.podman.service'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_reload io.podman.service
++ service=io.podman.service
++ systemctl start io.podman.service
+Failed to start io.podman.service: Unit io.podman.service not found.
++ grep 'Job type reload is not applicable'
++ systemctl reload io.podman.service
++ CHECK_RESULT 1 0 0 'Job type reload is not applicable for unit io.podman.service'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit io.podman.service'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Job type reload is not applicable for unit io.podman.service'
++ LOG_ERROR 'Job type reload is not applicable for unit io.podman.service'
++ message='Job type reload is not applicable for unit io.podman.service'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Job type reload is not applicable for unit io.podman.service'
+Thu Dec 15 17:57:14 2022 - ERROR - Job type reload is not applicable for unit io.podman.service
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 91'
++ message='../common/common_lib.sh line 91'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 91'
+Thu Dec 15 17:57:16 2022 - ERROR - ../common/common_lib.sh line 91
++ return 0
++ grep 'Active: active'
++ systemctl status io.podman.service
+Unit io.podman.service could not be found.
++ systemctl status io.podman.service
++ grep 'inactive (dead)'
+Unit io.podman.service could not be found.
++ return 1
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Thu Dec 15 17:57:17 2022 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Thu Dec 15 17:57:18 2022 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu Dec 15 17:57:19 2022 - INFO  - start environment cleanup.
++ systemctl stop io.podman.service
+Failed to stop io.podman.service: Unit io.podman.service not loaded.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp67jeh8h2 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp67jeh8h2
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Dec 15 17:57:50 2022 - INFO  - Finish environment cleanup!

@@ -1,0 +1,109 @@
++ source ../common/common_lib.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu Dec 15 21:51:45 2022 - INFO  - Start environmental preparation.
++ DNF_INSTALL lm_sensors
++ pkgs=lm_sensors
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs lm_sensors --node 1 --tempfile ''
++ tmpfile2=/tmp/tmptzcbajd1
++ '[' -z '' ']'
++ tmpfile=/tmp/tmptzcbajd1
++ expect
+spawn sensors-detect
+# sensors-detect version 3.6.0
+# DMI data unavailable, please consider installing dmidecode 2.7
+# or later for better results.
+# Kernel: 5.10.0-9.oe2203.riscv64 riscv64
+# Cannot show processor info on riscv64 architecture.
+
+This program will help you determine which kernel modules you need
+to load to use lm_sensors most effectively. It is generally safe
+and recommended to accept the default answers to all questions,
+unless you know what you're doing.
+
+Some south bridges, CPUs or memory controllers contain embedded sensors.
+Do you want to scan for them? This is totally safe. (YES/no): yes
+modprobe: FATAL: Module cpuid not found in directory /lib/modules/5.10.0-9.oe2203.riscv64
+Failed to load module cpuid.
+Silicon Integrated Systems SIS5595...                       No
+VIA VT82C686 Integrated Sensors...                          No
+VIA VT8231 Integrated Sensors...                            No
+AMD K8 thermal sensors...                                   No
+AMD Family 10h thermal sensors...                           No
+AMD Family 11h thermal sensors...                           No
+AMD Family 12h and 14h thermal sensors...                   No
+AMD Family 15h thermal sensors...                           No
+AMD Family 16h thermal sensors...                           No
+AMD Family 17h thermal sensors...                           No
+AMD Family 15h power sensors...                             No
+AMD Family 16h power sensors...                             No
+Hygon Family 18h thermal sensors...                         No
+Intel digital thermal sensor...                             No
+Intel AMB FB-DIMM thermal sensor...                         No
+Intel 5500/5520/X58 thermal sensor...                       No
+VIA C7 thermal sensor...                                    No
+VIA Nano thermal sensor...                                  No
+
+Lastly, we can probe the I2C/SMBus adapters for connected hardware
+monitoring devices. This is the most risky part, and while it works
+reasonably well on most systems, it has been reported to cause trouble
+on some systems.
+Do you want to probe the I2C/SMBus adapters now? (YES/no): yes
+Sorry, no supported PCI bus adapters found.
+modprobe: FATAL: Module i2c-dev not found in directory /lib/modules/5.10.0-9.oe2203.riscv64
+Failed to load module i2c-dev.
+
+Sorry, no sensors were detected.
+Either your system has no sensors, or they are not supported, or
+they are connected to an I2C or SMBus adapter that is not
+supported. If you find out what chips are on your board, check
+https://hwmon.wiki.kernel.org/device_support_status for driver status.
+expect: spawn id exp4 not open
+    while executing
+"expect eof"
++ grep 'no sensors were detected' /tmp/sensors_log
+Sorry, no sensors were detected.
+Sorry, no sensors were detected.
++ LOG_ERROR 'The environment does not support testing'
++ message='The environment does not support testing'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'The environment does not support testing'
+Thu Dec 15 21:52:41 2022 - ERROR - The environment does not support testing
++ exit 1
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu Dec 15 21:52:42 2022 - INFO  - start environment cleanup.
++ systemctl stop lm_sensors.service
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmptzcbajd1 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmptzcbajd1
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Dec 15 21:53:05 2022 - INFO  - Finish environment cleanup!

@@ -1,0 +1,336 @@
++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment!'
++ message='Start to prepare the test environment!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment!'
+Fri Dec 16 10:46:41 2022 - INFO  - Start to prepare the test environment!
+++ cat /etc/os-release
+++ awk -F = '{print$NF}'
+++ awk -F '"' '{print$2}'
+++ grep VERSION_ID
++ version_id=22.03
++ '[' 22.03 = 20.03 ']'
++ rm -rf /var/lib/mysql/#ib_16384_0.dblwr /var/lib/mysql/#ib_16384_1.dblwr /var/lib/mysql/#innodb_temp /var/lib/mysql/auto.cnf /var/lib/mysql/binlog.000001 /var/lib/mysql/binlog.index /var/lib/mysql/ca-key.pem /var/lib/mysql/ca.pem /var/lib/mysql/client-cert.pem /var/lib/mysql/client-key.pem /var/lib/mysql/ib_buffer_pool /var/lib/mysql/ib_logfile0 /var/lib/mysql/ib_logfile1 /var/lib/mysql/ibdata1 /var/lib/mysql/mysql /var/lib/mysql/mysql.ibd /var/lib/mysql/mysql_upgrade_info /var/lib/mysql/performance_schema /var/lib/mysql/private_key.pem /var/lib/mysql/public_key.pem /var/lib/mysql/server-cert.pem /var/lib/mysql/server-key.pem /var/lib/mysql/sys /var/lib/mysql/undo_001 /var/lib/mysql/undo_002
++ DNF_INSTALL mysql-server
++ pkgs=mysql-server
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs mysql-server --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp6_d3wjzf
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp6_d3wjzf
++ systemctl start mysqld
++ LOG_INFO 'End to prepare the test environment!'
++ message='End to prepare the test environment!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment!'
+Fri Dec 16 10:49:06 2022 - INFO  - End to prepare the test environment!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase!'
++ message='Start executing testcase!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase!'
+Fri Dec 16 10:49:07 2022 - INFO  - Start executing testcase!
++ systemctl status mysqld
++ grep running
+     Active: active (running) since Fri 2022-12-16 10:49:05 CST; 1s ago
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mysql -e 'DROP DATABASE test45'
+ERROR 1008 (HY000) at line 1: Can't drop database 'test45'; database doesn't exist
++ mysql -e 'CREATE DATABASE test45;use test45;CREATE TABLE mytable (id INT)'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mysql -e 'use test45;INSERT INTO mytable VALUES(1)'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mysqldump test45 mytable
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test -f query.sql
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mysqldump --add-drop-table test45
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test -f create.sql
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mysqlslap --concurrency=5 --iterations=5 --query=query.sql --create=create.sql '--delimiter=;'
++ grep running
+mysqlslap: Cannot run query CREATE TABLE `mytable` (
+  `id` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ERROR : Table 'mytable' already exists
+mysqlslap: Cannot run query CREATE TABLE `mytable` (
+  `id` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ERROR : Table 'mytable' already exists
+mysqlslap: Cannot run query CREATE TABLE `mytable` (
+  `id` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ERROR : Table 'mytable' already exists
+mysqlslap: Cannot run query CREATE TABLE `mytable` (
+  `id` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ERROR : Table 'mytable' already exists
+mysqlslap: Cannot run query CREATE TABLE `mytable` (
+  `id` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ERROR : Table 'mytable' already exists
+mysqlslap: Cannot run query CREATE TABLE `mytable` (
+  `id` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ERROR : Table 'mytable' already exists
+mysqlslap: Cannot run query CREATE TABLE `mytable` (
+  `id` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ERROR : Table 'mytable' already exists
+mysqlslap: Cannot run query CREATE TABLE `mytable` (
+  `id` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ERROR : Table 'mytable' already exists
+mysqlslap: Cannot run query CREATE TABLE `mytable` (
+  `id` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ERROR : Table 'mytable' already exists
+mysqlslap: Cannot run query CREATE TABLE `mytable` (
+  `id` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ERROR : Table 'mytable' already exists
+mysqlslap: Cannot run query CREATE TABLE `mytable` (
+  `id` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ERROR : Table 'mytable' already exists
+mysqlslap: Cannot run query CREATE TABLE `mytable` (
+  `id` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ERROR : Table 'mytable' already exists
+mysqlslap: Cannot run query CREATE TABLE `mytable` (
+  `id` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ERROR : Table 'mytable' already exists
+mysqlslap: Cannot run query CREATE TABLE `mytable` (
+  `id` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ERROR : Table 'mytable' already exists
+mysqlslap: Cannot run query CREATE TABLE `mytable` (
+  `id` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ERROR : Table 'mytable' already exists
+mysqlslap: Cannot run query CREATE TABLE `mytable` (
+  `id` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ERROR : Table 'mytable' already exists
+mysqlslap: Cannot run query CREATE TABLE `mytable` (
+  `id` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ERROR : Table 'mytable' already exists
+mysqlslap: Cannot run query CREATE TABLE `mytable` (
+  `id` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ERROR : Table 'mytable' already exists
+mysqlslap: Cannot run query CREATE TABLE `mytable` (
+  `id` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ERROR : Table 'mytable' already exists
+mysqlslap: Cannot run query CREATE TABLE `mytable` (
+  `id` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ERROR : Table 'mytable' already exists
+	Number of clients running queries: 5
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mysql -e 'CREATE DATABASE mysqlslap'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep Benchmark
++ mysqlslap '--delimiter=;' '--create=CREATE TABLE mytable1 (b int);INSERT INTO mytable1 VALUES (23)' '--query=SELECT * FROM mytable1' --concurrency=50 --iterations=200
+Benchmark
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mysqlslap --concurrency=5 --iterations=20 --number-int-cols=2 --number-char-cols=3 --auto-generate-sql
+Benchmark
+	Average number of seconds to run all queries: 0.246 seconds
+	Minimum number of seconds to run all queries: 0.218 seconds
+	Maximum number of seconds to run all queries: 0.312 seconds
+	Number of clients running queries: 5
+	Average number of queries per client: 0
+
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mysqlslap -a -c 100
++ grep 'Number of clients running queries: 100'
+	Number of clients running queries: 100
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mysqlslap -a --auto-generate-sql-secondary-indexes=5
++ grep 'Number of clients running queries: 1'
+	Number of clients running queries: 1
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mysqlslap --auto-generate-sql-write-number=100
++ grep Benchmark
+mysqlslap: Error when connecting to server: 1049 Unknown database 'mysqlslap'
+Benchmark
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mysqlslap --auto-generate-sql-write-number=100 --only-print
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mysqlslap --create-schema=mysql --csv=use
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep mixed use
+,mixed,0.008,0.008,0.008,1,0
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End of testcase execution!'
++ message='End of testcase execution!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution!'
+Fri Dec 16 10:51:11 2022 - INFO  - End of testcase execution!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri Dec 16 10:51:11 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start environment cleanup.'
++ message='Start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environment cleanup.'
+Fri Dec 16 10:51:12 2022 - INFO  - Start environment cleanup.
++ rm -rf use create.sql query.sql test.txt
++ mysql -e 'DROP database mysqlslap;use test45;DROP TABLE mytexttable;DROP DATABASE test45'
+ERROR 1008 (HY000) at line 1: Can't drop database 'mysqlslap'; database doesn't exist
++ systemctl stop mysqld
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp6_d3wjzf ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp6_d3wjzf
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Fri Dec 16 10:51:36 2022 - INFO  - Finish environment cleanup.

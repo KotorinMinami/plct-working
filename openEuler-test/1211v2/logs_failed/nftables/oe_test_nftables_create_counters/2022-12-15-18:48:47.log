@@ -1,0 +1,139 @@
++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n function ']'
++ config_params
++ LOG_INFO 'Start to config params of the case.'
++ message='Start to config params of the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to config params of the case.'
+Thu Dec 15 18:48:52 2022 - INFO  - Start to config params of the case.
++ table_name=sec012
++ chain_name=sec012_chain
++ LOG_INFO 'End to config params of the case.'
++ message='End to config params of the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to config params of the case.'
+Thu Dec 15 18:48:53 2022 - INFO  - End to config params of the case.
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu Dec 15 18:48:54 2022 - INFO  - Start environmental preparation.
++ DNF_INSTALL httpd
++ pkgs=httpd
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs httpd --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpe4oiya16
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpe4oiya16
++ echo hello
++ chmod 777 /var/www/html/hello.html
++ sudo systemctl start httpd
++ nft add table inet sec012
+oe_test_nftables_create_counters.sh: line 36: nft: command not found
++ nft add chain inet sec012 sec012_chain '{' type filter hook input priority 0 ';' policy accept ';' '}'
+oe_test_nftables_create_counters.sh: line 37: nft: command not found
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu Dec 15 18:49:59 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Thu Dec 15 18:50:01 2022 - INFO  - Start executing testcase.
++ nft add rule inet sec012 sec012_chain tcp dport 80 counter accept
+oe_test_nftables_create_counters.sh: line 43: nft: command not found
+++ grep 'tcp dport 80 counter packets'
+++ awk '{print $6}'
+++ nft list ruleset
+oe_test_nftables_create_counters.sh: line 44: nft: command not found
++ counter_num=
++ CHECK_RESULT 0 0 'byte is not 0'
++ actual_result=0
++ expect_result=0
++ mode='byte is not 0'
++ error_log=
++ '[' -z 0 ']'
++ '[' byte is not 0 -eq 0 ']'
+/root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh: line 37: [: too many arguments
++ test 0x == 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nftables_create_counters.sh line 45'
++ message='oe_test_nftables_create_counters.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_nftables_create_counters.sh line 45'
+Thu Dec 15 18:50:02 2022 - ERROR - oe_test_nftables_create_counters.sh line 45
++ return 0
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ curl 127.0.0.1/hello.html
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100     6  100     6    0     0     45      0 --:--:-- --:--:-- --:--:--    55
+hello
+++ nft list ruleset
+++ grep 'tcp dport 80 counter packets'
+oe_test_nftables_create_counters.sh: line 48: nft: command not found
+++ awk '{print $6}'
++ counter_num=
++ CHECK_RESULT 0 1 'byte is 0'
++ actual_result=0
++ expect_result=1
++ mode='byte is 0'
++ error_log=
++ '[' -z 0 ']'
++ '[' byte is 0 -eq 0 ']'
+/root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh: line 37: [: too many arguments
++ test 0x == 1x
++ return 0
++ LOG_INFO 'Finish testcase execution.'
++ message='Finish testcase execution.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish testcase execution.'
+Thu Dec 15 18:50:05 2022 - INFO  - Finish testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Thu Dec 15 18:50:06 2022 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu Dec 15 18:50:07 2022 - INFO  - start environment cleanup.
++ nft delete table inet sec012
+oe_test_nftables_create_counters.sh: line 55: nft: command not found
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpe4oiya16 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpe4oiya16
++ '[' 0 -ne 0 ']'
++ rm -rf /var/www/html/hello.html
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Dec 15 18:50:37 2022 - INFO  - Finish environment cleanup!

@@ -1,0 +1,120 @@
++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu Dec 15 22:12:54 2022 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL wireshark
++ pkgs=wireshark
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs wireshark --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp549szb1o
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp549szb1o
+++ rpm -qa wireshark
+++ awk -F - '{print$2}'
++ version=3.6.2
++ LOG_INFO 'Finish preparing the test environment.'
++ message='Finish preparing the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish preparing the test environment.'
+Thu Dec 15 22:15:05 2022 - INFO  - Finish preparing the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Dec 15 22:15:07 2022 - INFO  - Start to run test.
++ tshark --help
++ grep 'Usage: tshark \[options\]'
+Running as user "root" and group "root". This could be dangerous.
+Usage: tshark [options] ...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 3.6.2
++ tshark --version
+Running as user "root" and group "root". This could be dangerous.
+TShark (Wireshark) 3.6.2 (Git commit 626020d9b3c3)
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ tshark -D
+++ awk -F . '{print $2}'
+++ head -1
+Running as user "root" and group "root". This could be dangerous.
++ netCard=' eth0'
++ SLEEP_WAIT 5 'tshark -i  eth0 -c 10 -w tsfile1' 2
++ wait_time=5
++ cmd='tshark -i  eth0 -c 10 -w tsfile1'
++ mode=2
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd 'tshark -i  eth0 -c 10 -w tsfile1' --mode 2
+Running as user "root" and group "root". This could be dangerous.
+Capturing on 'eth0'
+ ** (tshark:41503) 22:15:30.154651 [Main MESSAGE] -- Capture started.
+ ** (tshark:41503) 22:15:30.161161 [Main MESSAGE] -- File: "tsfile1"
+10 packets captured
++ grep -E 'eth0|Number of packets:.*10|File name:.*tsfile1'
++ capinfos tsfile1
+File name:           tsfile1
+Number of packets:   10
+                     Name = eth0
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect
+spawn tshark -i eth0 -f tcp dst port 22 -c 15 -w tsfile2
+Running as user "root" and group "root". This could be dangerous.
+Capturing on 'eth0'
+ ** (tshark:44830) 22:42:48.305290 [Main [36mMESSAGE[0m] -- Capture started.
+ ** (tshark:44830) 22:42:48.316591 [Main [36mMESSAGE[0m] -- File: "tsfile2"
+Thu Dec 15 22:42:50 2022 - ERROR - Timeout : Command 'bash -x oe_test_tshark_01.sh' timed out after 1799.9982103099992 seconds
+++ post_test
+++ LOG_INFO 'Start to restore the test environment.'
+++ message='Start to restore the test environment.'
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu Dec 15 22:42:53 2022 - INFO  - Start to restore the test environment.
++++ ls
++++ grep -v .sh
+++ rm -rf tsfile1 tsfile2
+++ DNF_REMOVE
+++ node=1
+++ pkg_list=
+++ mode=0
+++ [[ -z /tmp/tmp549szb1o ]]
+++ '[' 0 -ne 0 ']'
+++ '[' 1 == 0 ']'
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp549szb1o

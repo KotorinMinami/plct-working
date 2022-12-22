@@ -1,0 +1,221 @@
++ source common/common_pcp.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu Dec 15 23:52:08 2022 - INFO  - Start to prepare the test environment.
++ deploy_env
++ DNF_INSTALL pcp
++ pkgs=pcp
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs pcp --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpfmmz01em
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpfmmz01em
++ systemctl enable pmcd
+Created symlink /etc/systemd/system/multi-user.target.wants/pmcd.service → /usr/lib/systemd/system/pmcd.service.
++ systemctl start pmcd
++ systemctl enable pmlogger
+Created symlink /etc/systemd/system/multi-user.target.wants/pmlogger.service → /usr/lib/systemd/system/pmlogger.service.
++ systemctl start pmlogger
++ SLEEP_WAIT 10
++ wait_time=10
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 10 --cmd '' --mode 1
+++ hostname
++ host_name=openEuler-riscv64
+++ rpm -qa pcp
+++ awk -F - '{print $2}'
++ pcp_version=5.3.5
+++ pcp -h openEuler-riscv64
+++ grep 'primary logger:'
+++ awk -F: '{print $NF}'
++ archive_data=' /var/log/pcp/pmlogger/openEuler-riscv64/20221215.23.54'
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu Dec 15 23:54:55 2022 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Dec 15 23:54:56 2022 - INFO  - Start to run test.
++ grep metrics
++ pmdumplog -n /var/lib/pcp/pmns/root /var/log/pcp/pmlogger/openEuler-riscv64/20221215.23.54
+23:54:32.862458 5 metrics
+23:54:33.041986 172 metrics
+23:54:37.025687 758 metrics
+23:54:48.703297 3 metrics
+23:54:48.895749 80 metrics
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pmdumplog -r /var/log/pcp/pmlogger/openEuler-riscv64/20221215.23.54
++ grep metrics
+23:54:48.895749 80 metrics
+23:54:48.703297 3 metrics
+23:54:37.025687 758 metrics
+23:54:33.041986 172 metrics
+23:54:32.862458 5 metrics
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep metrics
++ pmdumplog -S @00 -T @23 /var/log/pcp/pmlogger/openEuler-riscv64/20221215.23.54
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pmdumplog_02.sh line 35'
++ message='oe_test_pmdumplog_02.sh line 35'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_pmdumplog_02.sh line 35'
+Thu Dec 15 23:54:58 2022 - ERROR - oe_test_pmdumplog_02.sh line 35
++ return 0
++ pmdumplog -s /var/log/pcp/pmlogger/openEuler-riscv64/20221215.23.54
++ grep metrics
+23:54:32.862458 5 metrics
+23:54:33.041986 172 metrics
+23:54:37.025687 758 metrics
+23:54:48.703297 3 metrics
+23:54:48.895749 80 metrics
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pmdumplog -t /var/log/pcp/pmlogger/openEuler-riscv64/20221215.23.54
++ grep 'Log Vol'
+			Log Vol    end(meta)     end(log)
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pmdumplog -v /var/log/pcp/pmlogger/openEuler-riscv64/20221215.23.54.index
++ grep index
+Raw dump of physical archive file "/var/log/pcp/pmlogger/openEuler-riscv64/20221215.23.54.index" ...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pmdumplog -x /var/log/pcp/pmlogger/openEuler-riscv64/20221215.23.54
++ grep metrics
+Thu Dec 15 23:54:32.862458 2022 5 metrics
+Thu Dec 15 23:54:33.041986 2022 172 metrics
+Thu Dec 15 23:54:37.025687 2022 758 metrics
+Thu Dec 15 23:54:48.703297 2022 3 metrics
+Thu Dec 15 23:54:48.895749 2022 80 metrics
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pmdumplog -Z Asia/Shanghai /var/log/pcp/pmlogger/openEuler-riscv64/20221215.23.54
++ grep 'timezone set'
+Note: timezone set to "TZ=Asia/Shanghai"
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pmdumplog -z /var/log/pcp/pmlogger/openEuler-riscv64/20221215.23.54
++ grep 'local timezone'
+Note: timezone set to local timezone of host "openEuler-riscv64" from archive
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu Dec 15 23:55:01 2022 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Thu Dec 15 23:55:03 2022 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu Dec 15 23:55:04 2022 - INFO  - Start to restore the test environment.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpfmmz01em ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpfmmz01em
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu Dec 15 23:56:09 2022 - INFO  - End to restore the test environment.

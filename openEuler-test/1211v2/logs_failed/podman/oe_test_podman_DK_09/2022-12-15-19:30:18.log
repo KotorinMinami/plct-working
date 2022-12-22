@@ -1,0 +1,94 @@
++ source ../common/common_podman.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu Dec 15 19:30:23 2022 - INFO  - Start to prepare the test environment.
++ deploy_env
++ DNF_INSTALL 'podman podman-docker'
++ pkgs='podman podman-docker'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs 'podman podman-docker' --node 1 --tempfile ''
+Thu Dec 15 19:30:35 2022 - INFO  - pkgs:(podman podman-docker) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ echo -e '[registries.search]
+registries = ['\''docker.io'\'']
+
+[registries.insecure]
+registries = []
+
+[registries.block]
+registries = []
+'
++ podman pull postgres:alpine
+time="2022-12-15T19:30:36+08:00" level=warning msg="Conmon at /usr/bin/conmon invalid: outdated conmon version"
+time="2022-12-15T19:30:36+08:00" level=warning msg="Conmon at /usr/bin/conmon is invalid: outdated conmon version"
+Error: please update to v2.0.24 or later: outdated conmon version
++ podman run --name postgres -e POSTGRES_PASSWORD=secret -d postgres:alpine
+time="2022-12-15T19:30:38+08:00" level=warning msg="Conmon at /usr/bin/conmon invalid: outdated conmon version"
+time="2022-12-15T19:30:38+08:00" level=warning msg="Conmon at /usr/bin/conmon is invalid: outdated conmon version"
+Error: please update to v2.0.24 or later: outdated conmon version
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu Dec 15 19:30:39 2022 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Dec 15 19:30:40 2022 - INFO  - Start to run test.
+++ docker create --cgroup-parent machine.slice alpine ls
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+time="2022-12-15T19:30:41+08:00" level=warning msg="Conmon at /usr/bin/conmon invalid: outdated conmon version"
+time="2022-12-15T19:30:41+08:00" level=warning msg="Conmon at /usr/bin/conmon is invalid: outdated conmon version"
+Error: please update to v2.0.24 or later: outdated conmon version
++ ID=
++ docker inspect
++ grep '"CgroupParent": "machine.slice"'
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+time="2022-12-15T19:30:42+08:00" level=warning msg="Conmon at /usr/bin/conmon invalid: outdated conmon version"
+time="2022-12-15T19:30:42+08:00" level=warning msg="Conmon at /usr/bin/conmon is invalid: outdated conmon version"
+Error: please update to v2.0.24 or later: outdated conmon version
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_DK_09.sh line 33'
++ message='oe_test_podman_DK_09.sh line 33'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_DK_09.sh line 33'
+Thu Dec 15 19:30:43 2022 - ERROR - oe_test_podman_DK_09.sh line 33
++ return 0
+++ docker create --cidfile cidfile alpine ls
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+time="2022-12-15T19:30:45+08:00" level=warning msg="Conmon at /usr/bin/conmon invalid: outdated conmon version"
+time="2022-12-15T19:30:45+08:00" level=warning msg="Conmon at /usr/bin/conmon is invalid: outdated conmon version"
+Error: please update to v2.0.24 or later: outdated conmon version
++ ID=
++ grep cidfile
+Thu Dec 15 20:00:19 2022 - ERROR - Timeout : Command 'bash -x oe_test_podman_DK_09.sh' timed out after 1799.9961454919994 seconds
