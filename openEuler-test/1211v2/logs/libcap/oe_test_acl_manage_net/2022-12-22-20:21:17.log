@@ -1,0 +1,121 @@
++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ grep expect
++ rpm -qa
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu Dec 22 20:21:23 2022 - INFO  - Start environmental preparation.
++ grep '^example:' /etc/passwd
++ DNF_INSTALL net-tools
++ pkgs=net-tools
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs net-tools --node 1 --tempfile ''
+Thu Dec 22 20:21:36 2022 - INFO  - pkgs:(net-tools) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
+++ grep 127.0.0.1
+++ ip a
+++ awk -F ' ' '{printf $NF}'
++ net_card=lo
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu Dec 22 20:21:38 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Thu Dec 22 20:21:39 2022 - INFO  - Start executing testcase.
++ useradd example
++ passwd example
+New password: Retype new password: Changing password for user example.
+passwd: all authentication tokens updated successfully.
++ su - example -c '/sbin/ifconfig lo:1 192.168.1.1 netmask 255.255.255.0'
+SIOCSIFADDR: Operation not permitted
+SIOCSIFFLAGS: Operation not permitted
+SIOCSIFNETMASK: Operation not permitted
++ CHECK_RESULT 255 0 1 'Switching example users to view network devices succeeded, but it should fail here'
++ actual_result=255
++ expect_result=0
++ mode=1
++ error_log='Switching example users to view network devices succeeded, but it should fail here'
++ '[' -z 255 ']'
++ '[' 1 -eq 0 ']'
++ test 255x == 0x
++ return 0
++ setcap cap_net_admin=eip /sbin/ifconfig
++ CHECK_RESULT 0 0 0 'Failed to set cap'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to set cap'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - example -c '/sbin/ifconfig lo:1 192.168.1.1 netmask 255.255.255.0'
++ CHECK_RESULT 0 0 0 'Failed to switch example users to view network devices'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to switch example users to view network devices'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ip a show lo
++ grep lo:1
++ grep 192.168.1.1
+    inet 192.168.1.1/24 scope global lo:1
++ CHECK_RESULT 0 0 0 'Failed to display protocol address'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to display protocol address'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish testcase execution.'
++ message='Finish testcase execution.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish testcase execution.'
+Thu Dec 22 20:21:48 2022 - INFO  - Finish testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Dec 22 20:21:50 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu Dec 22 20:21:51 2022 - INFO  - start environment cleanup.
++ ifconfig lo:1 down
++ setcap -r /sbin/ifconfig
++ userdel -rf example
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Dec 22 20:21:53 2022 - INFO  - Finish environment cleanup!

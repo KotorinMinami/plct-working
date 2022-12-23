@@ -1,0 +1,379 @@
++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ grep expect
++ rpm -qa
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Fri Dec 23 00:12:57 2022 - INFO  - Start environmental preparation.
++ DNF_INSTALL 'cobbler httpd'
++ pkgs='cobbler httpd'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs 'cobbler httpd' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp6b0f58yr
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp6b0f58yr
++ mount /dev/cdrom /mnt
+mount: /mnt: special device /dev/cdrom does not exist.
++ systemctl start httpd
++ systemctl start cobblerd
++ cobbler distro add --name=OpenEuler --owners=root --boot-loader=grub --initrd=/mnt/images/pxeboot/initrd.img --kernel=/mnt/isolinux/vmlinuz
+cobblerd does not appear to be running/accessible: ConnectionRefusedError(111, 'Connection refused')
+Traceback (most recent call last):
+  File "/usr/bin/cobbler", line 35, in <module>
+    sys.exit(app.main())
+  File "/usr/lib/python3.9/site-packages/cobbler/cli.py", line 852, in main
+    rc = cli.run(sys.argv)
+  File "/usr/lib/python3.9/site-packages/cobbler/cli.py", line 418, in run
+    self.token = self.remote.login("", self.shared_secret)
+  File "/usr/lib64/python3.9/xmlrpc/client.py", line 1122, in __call__
+    return self.__send(self.__name, args)
+  File "/usr/lib64/python3.9/xmlrpc/client.py", line 1464, in __request
+    response = self.__transport.request(
+  File "/usr/lib64/python3.9/xmlrpc/client.py", line 1166, in request
+    return self.single_request(host, handler, request_body, verbose)
+  File "/usr/lib64/python3.9/xmlrpc/client.py", line 1196, in single_request
+    raise ProtocolError(
+xmlrpc.client.ProtocolError: <ProtocolError for 127.0.0.1:80/cobbler_api: 503 Service Unavailable>
++ cobbler profile add --name=OpenEuler --distro=OpenEuler
+exception on server: 'distribution not found'
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Fri Dec 23 00:16:23 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run testcase.'
++ message='Start to run testcase.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run testcase.'
+Fri Dec 23 00:16:24 2022 - INFO  - Start to run testcase.
++ cobbler system add --name=OpenEuler1 --profile=OpenEuler
+exception on server: 'invalid profile name: OpenEuler'
++ CHECK_RESULT 0 0 0 'Failed option: system add'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: system add'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cobbler system copy --name=OpenEuler1 --newname=OpenEuler2
+exception on server: 'internal error, unknown system name OpenEuler1'
++ CHECK_RESULT 0 0 0 'Failed option: system copy'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: system copy'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep OpenEuler2
++ cobbler system list
++ CHECK_RESULT 1 0 0 'Failed option: sysetm copy'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: sysetm copy'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: sysetm copy'
++ LOG_ERROR 'Failed option: sysetm copy'
++ message='Failed option: sysetm copy'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Failed option: sysetm copy'
+Fri Dec 23 00:16:51 2022 - ERROR - Failed option: sysetm copy
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_cobbler_system.sh line 40'
++ message='oe_test_cobbler_system.sh line 40'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_cobbler_system.sh line 40'
+Fri Dec 23 00:16:53 2022 - ERROR - oe_test_cobbler_system.sh line 40
++ return 0
++ cobbler system dumpvars --name=OpenEuler1
++ grep allow_duplicate_hostnames
++ CHECK_RESULT 1 0 0 'Failed option: system dumpvars'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: system dumpvars'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: system dumpvars'
++ LOG_ERROR 'Failed option: system dumpvars'
++ message='Failed option: system dumpvars'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Failed option: system dumpvars'
+Fri Dec 23 00:17:02 2022 - ERROR - Failed option: system dumpvars
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_cobbler_system.sh line 42'
++ message='oe_test_cobbler_system.sh line 42'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_cobbler_system.sh line 42'
+Fri Dec 23 00:17:04 2022 - ERROR - oe_test_cobbler_system.sh line 42
++ return 0
++ cobbler system edit --name=openEuler1 --owners=tom
+exception on server: 'internal error, unknown system name openEuler1'
++ CHECK_RESULT 0 0 0 'Failed option: system edit'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: system edit'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cobbler system report --name=openEuler1
++ grep tom
++ CHECK_RESULT 1 0 0 'Failed option: system edit'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: system edit'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: system edit'
++ LOG_ERROR 'Failed option: system edit'
++ message='Failed option: system edit'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Failed option: system edit'
+Fri Dec 23 00:17:22 2022 - ERROR - Failed option: system edit
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_cobbler_system.sh line 46'
++ message='oe_test_cobbler_system.sh line 46'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_cobbler_system.sh line 46'
+Fri Dec 23 00:17:23 2022 - ERROR - oe_test_cobbler_system.sh line 46
++ return 0
++ cobbler system list
++ grep OpenEuler
++ CHECK_RESULT 1 0 0 'Failed option: system list'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: system list'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: system list'
++ LOG_ERROR 'Failed option: system list'
++ message='Failed option: system list'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Failed option: system list'
+Fri Dec 23 00:17:33 2022 - ERROR - Failed option: system list
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_cobbler_system.sh line 48'
++ message='oe_test_cobbler_system.sh line 48'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_cobbler_system.sh line 48'
+Fri Dec 23 00:17:34 2022 - ERROR - oe_test_cobbler_system.sh line 48
++ return 0
++ cobbler system find
++ grep OpenEuler
++ CHECK_RESULT 1 0 0 'Failed option: system find'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: system find'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: system find'
++ LOG_ERROR 'Failed option: system find'
++ message='Failed option: system find'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Failed option: system find'
+Fri Dec 23 00:17:44 2022 - ERROR - Failed option: system find
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_cobbler_system.sh line 50'
++ message='oe_test_cobbler_system.sh line 50'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_cobbler_system.sh line 50'
+Fri Dec 23 00:17:46 2022 - ERROR - oe_test_cobbler_system.sh line 50
++ return 0
++ cobbler system remove --name=OpenEuler1
+exception on server: 'internal error, unknown system name OpenEuler1'
++ CHECK_RESULT 0 0 0 'Failed option: system remove'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: system remove'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cobbler system list
++ grep OpenEuler1
++ CHECK_RESULT 1 0 1 'Failed option: system remove'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='Failed option: system remove'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ cobbler system rename --name=OpenEuler2 --newname=OpenEuler3
+exception on server: 'internal error, unknown system name OpenEuler2'
++ CHECK_RESULT 0 0 0 'Failed option: system rename'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: system rename'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cobbler system list
++ grep OpenEuler3
++ CHECK_RESULT 1 0 0 'Failed option: system rename'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: system rename'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: system rename'
++ LOG_ERROR 'Failed option: system rename'
++ message='Failed option: system rename'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Failed option: system rename'
+Fri Dec 23 00:18:21 2022 - ERROR - Failed option: system rename
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_cobbler_system.sh line 58'
++ message='oe_test_cobbler_system.sh line 58'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_cobbler_system.sh line 58'
+Fri Dec 23 00:18:23 2022 - ERROR - oe_test_cobbler_system.sh line 58
++ return 0
++ grep Name
++ cobbler system report --name=OpenEuler3
++ CHECK_RESULT 1 0 0 'Failed option: system report'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: system report'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: system report'
++ LOG_ERROR 'Failed option: system report'
++ message='Failed option: system report'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Failed option: system report'
+Fri Dec 23 00:18:33 2022 - ERROR - Failed option: system report
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_cobbler_system.sh line 60'
++ message='oe_test_cobbler_system.sh line 60'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_cobbler_system.sh line 60'
+Fri Dec 23 00:18:34 2022 - ERROR - oe_test_cobbler_system.sh line 60
++ return 0
++ cobbler system get-autoinstall --name=OpenEuler3
+# system not found
++ CHECK_RESULT 0 0 0 'Failed option: system get-autoinstall'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: system get-autoinstall'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cobbler system poweroff --name=OpenEuler3
++ grep power
+task started: 2022-12-23_001851_power
+running python triggers from /var/lib/cobbler/triggers/task/power/pre/*
+running shell triggers from /var/lib/cobbler/triggers/task/power/pre/*
+failed to execute power task on OpenEuler3, exception: 'internal error, unknown system name OpenEuler3'
++ CHECK_RESULT 0 0 0 'Failed option: system poweroff'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: system poweroff'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cobbler system poweron --name=OpenEuler3
++ grep power
+task started: 2022-12-23_001901_power
+running python triggers from /var/lib/cobbler/triggers/task/power/pre/*
+running shell triggers from /var/lib/cobbler/triggers/task/power/pre/*
+failed to execute power task on OpenEuler3, exception: 'internal error, unknown system name OpenEuler3'
++ CHECK_RESULT 0 0 0 'Failed option: system poweron'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: system poweron'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cobbler system powerstatus --name=OpenEuler3
++ grep power
+task started: 2022-12-23_001912_power
+running python triggers from /var/lib/cobbler/triggers/task/power/pre/*
+running shell triggers from /var/lib/cobbler/triggers/task/power/pre/*
+failed to execute power task on OpenEuler3, exception: 'internal error, unknown system name OpenEuler3'
++ CHECK_RESULT 0 0 0 'Failed option: system powerstatus'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: system powerstatus'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cobbler system reboot --name=OpenEuler3
++ grep reboot
+task started (id=Power management (reboot), time=Fri Dec 23 00:19:21 2022)
++ CHECK_RESULT 0 0 0 'Failed option: system reboot'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: system reboot'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run testcase.'
++ message='End to run testcase.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to run testcase.'
+Fri Dec 23 00:19:24 2022 - INFO  - End to run testcase.
++ CASE_RESULT 0
++ case_re=0
++ test -z 7
++ test 7 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri Dec 23 00:19:25 2022 - ERROR - failed to execute the case.
++ exit 7
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri Dec 23 00:19:26 2022 - INFO  - Start to restore the test environment.
++ umount /dev/cdrom
+umount: /dev/cdrom: no mount point specified.
++ systemctl stop httpd
++ systemctl stop cobblerd
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp6b0f58yr ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp6b0f58yr
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Fri Dec 23 00:20:51 2022 - INFO  - End to restore the test environment.

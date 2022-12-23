@@ -1,0 +1,217 @@
++ source ../common/common_lib.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu Dec 22 22:10:39 2022 - INFO  - Start environmental preparation.
++ DNF_INSTALL anaconda-core
++ pkgs=anaconda-core
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs anaconda-core --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp_h_2gedc
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp_h_2gedc
++ sed -i s/MAX_RAM_ON=2097152/MAX_RAM_ON=4097152/g /usr/libexec/anaconda/zramswapon
++ systemctl start zram.service
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu Dec 22 22:13:10 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Thu Dec 22 22:13:12 2022 - INFO  - Start testing...
++ test_execution zram.service
++ service=zram.service
+++ date '+%Y-%m-%d %T'
++ log_time='2022-12-22 22:13:12'
++ test_restart zram.service
++ service=zram.service
++ systemctl restart zram.service
++ CHECK_RESULT 0 0 0 'zram.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='zram.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ grep 'Active: active'
++ systemctl status zram.service
+     Active: active (exited) since Thu 2022-12-22 22:13:13 CST; 6s ago
++ CHECK_RESULT 0 0 0 'zram.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='zram.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop zram.service
++ CHECK_RESULT 0 0 0 'zram.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='zram.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ grep 'Active: inactive'
++ systemctl status zram.service
+     Active: inactive (dead)
++ CHECK_RESULT 0 0 0 'zram.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='zram.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start zram.service
++ CHECK_RESULT 0 0 0 'zram.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='zram.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ grep 'Active: active'
++ systemctl status zram.service
+     Active: active (exited) since Thu 2022-12-22 22:13:28 CST; 7s ago
++ CHECK_RESULT 0 0 0 'zram.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='zram.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled zram.service
++ service=zram.service
+++ systemctl is-enabled zram.service
++ state=static
++ '[' static == enabled ']'
++ '[' static == disabled ']'
++ '[' static == masked ']'
++ '[' static == static ']'
++ LOG_INFO 'The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
++ message='The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
+Thu Dec 22 22:13:37 2022 - INFO  - The unit files have no installation config,This means they are not meant to be enabled using systemctl.
++ journalctl --since '2022-12-22 22:13:12' -u zram.service
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
+Dec 22 22:13:12 openEuler-riscv64 zramswapoff[10611]: swapoff: /dev/zram0: swapoff failed: No such file or directory
+Dec 22 22:13:12 openEuler-riscv64 zramswapoff[10612]: rmmod: ERROR: Module zram is not currently loaded
+Dec 22 22:13:20 openEuler-riscv64 zramswapoff[10655]: swapoff: /dev/zram0: swapoff failed: No such file or directory
+Dec 22 22:13:20 openEuler-riscv64 zramswapoff[10656]: rmmod: ERROR: Module zram is not currently loaded
++ CHECK_RESULT 0 0 1 'There is an error message for the log of zram.service'
++ actual_result=0
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of zram.service'
++ '[' -z 0 ']'
++ '[' 1 -eq 0 ']'
++ test 0x == 0x
++ test -n 'There is an error message for the log of zram.service'
++ LOG_ERROR 'There is an error message for the log of zram.service'
++ message='There is an error message for the log of zram.service'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'There is an error message for the log of zram.service'
+Thu Dec 22 22:13:39 2022 - ERROR - There is an error message for the log of zram.service
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 28'
++ message='../common/common_lib.sh line 28'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 28'
+Thu Dec 22 22:13:41 2022 - ERROR - ../common/common_lib.sh line 28
++ return 0
++ test_reload zram.service
++ service=zram.service
++ systemctl start zram.service
++ grep 'Job type reload is not applicable'
++ systemctl reload zram.service
+Failed to reload zram.service: Job type reload is not applicable for unit zram.service.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit zram.service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit zram.service'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status zram.service
++ grep 'Active: active'
+     Active: active (exited) since Thu 2022-12-22 22:13:28 CST; 13s ago
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Thu Dec 22 22:13:43 2022 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Thu Dec 22 22:13:45 2022 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu Dec 22 22:13:46 2022 - INFO  - start environment cleanup.
++ sed -i s/MAX_RAM_ON=4097152/MAX_RAM_ON=2097152/g /usr/libexec/anaconda/zramswapon
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp_h_2gedc ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp_h_2gedc
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Dec 22 22:15:02 2022 - INFO  - Finish environment cleanup!

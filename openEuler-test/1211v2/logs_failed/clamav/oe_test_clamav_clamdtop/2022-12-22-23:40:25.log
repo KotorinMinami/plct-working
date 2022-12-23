@@ -1,0 +1,198 @@
++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the database config.'
++ message='Start to prepare the database config.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the database config.'
+Thu Dec 22 23:40:32 2022 - INFO  - Start to prepare the database config.
++ DNF_INSTALL 'clamav clamav-server'
++ pkgs='clamav clamav-server'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs 'clamav clamav-server' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpmdvghkyp
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpmdvghkyp
++ mv /etc/clamd.d/scan.conf /etc/clamd.d/scan.conf.bak
++ echo 'LogFile /var/log/clamd.scan
+        LogFileMaxSize 2M
+        LogTime yes
+        PidFile /run/clamd.scan/clamd.pid
+        DatabaseDirectory /var/lib/clamav
+        TCPAddr 0.0.0.0
+        TCPSocket 3310
+        LocalSocket /run/clamd.scan/clamd.sock
+'
++ systemctl restart clamd@scan.service
++ LOG_INFO 'End to prepare the database config.'
++ message='End to prepare the database config.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to prepare the database config.'
+Thu Dec 22 23:47:53 2022 - INFO  - End to prepare the database config.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Dec 22 23:47:55 2022 - INFO  - Start to run test.
++ echo q
++ clamdtop localhost
++ grep 'Connecting to: localhost'
+connect: Connection refused
+Failed to initialize curses
+Abnormal program termination
+Connecting to: localhost
+Connecting to: localhost
++ CHECK_RESULT 0 0 0 'Connecting to localhost failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Connecting to localhost failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ echo q
++ clamdtop /run/clamd.scan/clamd.sock
++ grep 'Connecting to: /run/clamd.scan/clamd.sock'
+Failed to initialize curses
+Abnormal program termination
+Connecting to: /run/clamd.scan/clamd.sock
++ CHECK_RESULT 0 0 0 'Connecting /run/clamd.scan/clamd.sock failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Connecting /run/clamd.scan/clamd.sock failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clamdtop --version
+Clam AntiVirus Monitoring Tool 0.103.6
++ CHECK_RESULT 0 0 0 'Check clamdtop version failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check clamdtop version failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clamdtop --help
+
+                       Clam AntiVirus: Monitoring Tool 0.103.6
+           By The ClamAV Team: https://www.clamav.net/about.html#credits
+           (C) 2022 Cisco Systems, Inc.
+
+    clamdtop [-hVc] [host[:port] /path/to/clamd.socket ...]
+
+    --help                 -h         Show this help
+    --version              -V         Show version
+    --config-file=FILE     -c FILE    Read clamd's configuration files from FILE
+    --defaultcolors        -d         Use default terminal colors
+    host[:port]                       Connect to clamd on host at port (default 3310)
+    /path/to/clamd.socket             Connect to clamd over a local socket
+
++ CHECK_RESULT 0 0 0 'Check clamdtop help message failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check clamdtop help message failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ echo q
++ clamdtop -c /etc/clamd.d/scan.conf
++ grep Connecting
+Failed to initialize curses
+Abnormal program termination
+Connecting to: /run/clamd.scan/clamd.sock
++ CHECK_RESULT 0 0 0 'Check clamdtop -c message failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check clamdtop -c message failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ echo q
++ clamdtop -d
+Failed to initialize curses
+Abnormal program termination
+        __                    ____
+  _____/ /___ _____ ___  ____/ / /_____  ____
+ / ___/ / __ `/ __ `__ \/ __  / __/ __ \/ __ \
+/ /__/ / /_/ / / / / / / /_/ / /_/ /_/ / /_/ /
+\___/_/\__,_/_/ /_/ /_/\__,_/\__/\____/ .___/
+                                     /_/
+Connecting to: /run/clamd.scan/clamd.sock
++ CHECK_RESULT 1 0 0 'Execute clamdtop -d failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Execute clamdtop -d failed.'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Execute clamdtop -d failed.'
++ LOG_ERROR 'Execute clamdtop -d failed.'
++ message='Execute clamdtop -d failed.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Execute clamdtop -d failed.'
+Thu Dec 22 23:47:57 2022 - ERROR - Execute clamdtop -d failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_clamav_clamdtop.sh line 54'
++ message='oe_test_clamav_clamdtop.sh line 54'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_clamav_clamdtop.sh line 54'
+Thu Dec 22 23:47:58 2022 - ERROR - oe_test_clamav_clamdtop.sh line 54
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu Dec 22 23:48:00 2022 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Thu Dec 22 23:48:02 2022 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu Dec 22 23:48:03 2022 - INFO  - Start to restore the test environment.
++ rm -f /etc/clamd.d/scan.conf
++ mv /etc/clamd.d/scan.conf.bak /etc/clamd.d/scan.conf
++ systemctl restart clamd@scan.service
+Job for clamd@scan.service failed because the control process exited with error code.
+See "systemctl status clamd@scan.service" and "journalctl -xeu clamd@scan.service" for details.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpmdvghkyp ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpmdvghkyp
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu Dec 22 23:48:56 2022 - INFO  - End to restore the test environment.
