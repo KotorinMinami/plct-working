@@ -1,0 +1,146 @@
++ source ../common/common_lib.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n '' ']'
++ trap POST_TEST_DEFAULT EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Fri Dec 30 12:11:29 2022 - INFO  - Start environmental preparation.
++ service=system-update-cleanup.service
+++ date '+%Y-%m-%d %T'
++ log_time='2022-12-30 12:11:29'
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Fri Dec 30 12:11:29 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Fri Dec 30 12:11:30 2022 - INFO  - Start testing...
++ P_SSH_CMD --node 2 --cmd 'touch /system-update;systemctl restart system-update-cleanup.service'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --node 2 --cmd 'touch /system-update;systemctl restart system-update-cleanup.service'
+
++ REMOTE_REBOOT_WAIT 2 60
++ node=2
++ waittime=60
++ '[' 60x '!=' x ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/remote_reboot.py wait --node 2 --waittime 60
++ P_SSH_CMD --node 2 --cmd 'test ! -f /system-update'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --node 2 --cmd 'test ! -f /system-update'
+
++ CHECK_RESULT 0 0 0 'system-update-cleanup.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='system-update-cleanup.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ P_SSH_CMD --node 2 --cmd 'systemctl stop system-update-cleanup.service'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --node 2 --cmd 'systemctl stop system-update-cleanup.service'
+
++ CHECK_RESULT 0 0 0 'system-update-cleanup.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='system-update-cleanup.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ P_SSH_CMD --node 2 --cmd 'systemctl status system-update-cleanup.service | grep '\''Active: inactive'\'''
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --node 2 --cmd 'systemctl status system-update-cleanup.service | grep '\''Active: inactive'\'''
+     Active: inactive (dead)
++ CHECK_RESULT 0 0 0 'system-update-cleanup.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='system-update-cleanup.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ P_SSH_CMD --node 2 --cmd 'systemctl is-enabled system-update-cleanup.service | grep '\''static'\'''
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --node 2 --cmd 'systemctl is-enabled system-update-cleanup.service | grep '\''static'\'''
+static
++ CHECK_RESULT 0 0 0 'The unit files is not static'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='The unit files is not static'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ P_SSH_CMD --node 2 --cmd 'touch /system-update;systemctl start system-update-cleanup.service'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --node 2 --cmd 'touch /system-update;systemctl start system-update-cleanup.service'
+
++ REMOTE_REBOOT_WAIT 2 60
++ node=2
++ waittime=60
++ '[' 60x '!=' x ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/remote_reboot.py wait --node 2 --waittime 60
++ P_SSH_CMD --node 2 --cmd 'test ! -f /system-update'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --node 2 --cmd 'test ! -f /system-update'
+
++ CHECK_RESULT 0 0 0 'system-update-cleanup.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='system-update-cleanup.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ P_SSH_CMD --node 2 --cmd 'test 0 -eq $(journalctl --since '\''2022-12-30 12:11:29'\'' -u system-update-cleanup.service | grep -i -c '\''fail\|error'\'')'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --node 2 --cmd 'test 0 -eq $(journalctl --since '\''2022-12-30 12:11:29'\'' -u system-update-cleanup.service | grep -i -c '\''fail\|error'\'')'
+
++ CHECK_RESULT 0 0 0 'There is an error message for the log of system-update-cleanup.service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='There is an error message for the log of system-update-cleanup.service'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Fri Dec 30 12:13:33 2022 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri Dec 30 12:13:33 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ POST_TEST_DEFAULT
++ LOG_INFO 'oe_test_service_system-update-cleanup.sh post_test'
++ message='oe_test_service_system-update-cleanup.sh post_test'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'oe_test_service_system-update-cleanup.sh post_test'
+Fri Dec 30 12:13:34 2022 - INFO  - oe_test_service_system-update-cleanup.sh post_test

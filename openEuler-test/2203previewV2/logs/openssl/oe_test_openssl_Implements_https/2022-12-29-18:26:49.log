@@ -1,0 +1,341 @@
++ source common/common_openssl.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n function ']'
++ config_params
++ LOG_INFO 'Start to config params of the case.'
++ message='Start to config params of the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to config params of the case.'
+Thu Dec 29 18:26:53 2022 - INFO  - Start to config params of the case.
++ deploy_env
++ CA_Path=/etc/pki/CA
++ '[' '!' -d /etc/pki/CA ']'
++ cp /etc/pki/tls/openssl.cnf /etc/pki/tls/openssl.cnf.bak
++ sed -i '0,/^dir/s/\.\/demoCA/\/etc\/pki\/CA/' /etc/pki/tls/openssl.cnf
++ LOG_INFO 'End to config params of the case.'
++ message='End to config params of the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to config params of the case.'
+Thu Dec 29 18:26:54 2022 - INFO  - End to config params of the case.
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu Dec 29 18:26:54 2022 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'httpd mod_ssl'
++ pkgs='httpd mod_ssl'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs 'httpd mod_ssl' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp11az9tt7
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp11az9tt7
++ createCA_and_Self_signed_certificate
++ touch /etc/pki/CA/index.txt
++ echo 01
++ openssl genrsa -out /etc/pki/CA/private/cakey.pem 2048
+Generating RSA private key, 2048 bit long modulus (2 primes)
+...........+++++
+......................................+++++
+e is 65537 (0x010001)
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'BEGIN RSA PRIVATE KEY' /etc/pki/CA/private/cakey.pem
+-----BEGIN RSA PRIVATE KEY-----
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect
+spawn openssl req -x509 -key /etc/pki/CA/private/cakey.pem -days 365 -out /etc/pki/CA/cacert.pem -new
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:CN
+State or Province Name (full name) [Some-State]:shanxi
+Locality Name (eg, city) []:xian
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:openEuler
+Organizational Unit Name (eg, section) []:develop
+Common Name (e.g. server FQDN or YOUR name) []:www.openeuler.org
+Email Address []:public@openeuler.io
++ grep 'certificate request' /etc/pki/CA/testlog1
+into your certificate request.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'BEGIN CERTIFICATE' /etc/pki/CA/cacert.pem
+-----BEGIN CERTIFICATE-----
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ generate_PrivateKey_and_Certificate_Signing_Request
++ applying=httpd
++ build_path=/etc/httpd/ssl
++ mkdir /etc/httpd/ssl
++ openssl genrsa -out /etc/httpd/ssl/httpd.key 2048
+Generating RSA private key, 2048 bit long modulus (2 primes)
+...+++++
+.......................................................+++++
+e is 65537 (0x010001)
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'BEGIN RSA PRIVATE KEY' /etc/httpd/ssl/httpd.key
+-----BEGIN RSA PRIVATE KEY-----
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect
+spawn openssl req -key /etc/httpd/ssl/httpd.key -out /etc/httpd/ssl/httpd.csr -new
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:CN
+State or Province Name (full name) [Some-State]:shanxi
+Locality Name (eg, city) []:xian
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:openEuler
+Organizational Unit Name (eg, section) []:develop
+Common Name (e.g. server FQDN or YOUR name) []:www.openeuler.org
+Email Address []:public@openeuler.io
+
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []:openeuler12#$
+An optional company name []:jiangfengjituan
++ grep 'certificate request' /etc/httpd/ssl/testlog2
+into your certificate request.
+to be sent with your certificate request
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'BEGIN CERTIFICATE REQUEST' /etc/httpd/ssl/httpd.csr
+-----BEGIN CERTIFICATE REQUEST-----
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ CA_Signature_Authentication
++ applying=httpd
++ build_path=/etc/httpd/ssl
++ expect
+spawn openssl ca -in /etc/httpd/ssl/httpd.csr -out /etc/httpd/ssl/httpd.crt -days 365
+Using configuration from /etc/pki/tls/openssl.cnf
+Check that the request matches the signature
+Signature ok
+Certificate Details:
+        Serial Number: 1 (0x1)
+        Validity
+            Not Before: Dec 29 10:27:44 2022 GMT
+            Not After : Dec 29 10:27:44 2023 GMT
+        Subject:
+            countryName               = CN
+            stateOrProvinceName       = shanxi
+            organizationName          = openEuler
+            organizationalUnitName    = develop
+            commonName                = www.openeuler.org
+            emailAddress              = public@openeuler.io
+        X509v3 extensions:
+            X509v3 Basic Constraints: 
+                CA:FALSE
+            Netscape Comment: 
+                OpenSSL Generated Certificate
+            X509v3 Subject Key Identifier: 
+                DC:74:B6:52:64:77:FA:85:FA:D3:70:D3:94:5B:CE:B7:21:32:06:BA
+            X509v3 Authority Key Identifier: 
+                keyid:70:7B:6A:AD:22:FB:98:79:3D:AF:70:5A:76:F4:8E:68:70:B5:D9:69
+
+Certificate is to be certified until Dec 29 10:27:44 2023 GMT (365 days)
+Sign the certificate? [y/n]:y
+
+
+1 out of 1 certificate requests certified, commit? [y/n]y
+Write out database with 1 new entries
+Data Base Updated
++ grep 'Certificate Details' /etc/httpd/ssl/testlog3
+Certificate Details:
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'BEGIN CERTIFICATE' /etc/httpd/ssl/httpd.crt
+-----BEGIN CERTIFICATE-----
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ Modify_application_configuration
++ file=/etc/httpd/conf.d/ssl.conf
++ sed -i '/DocumentRoot/s/^#//' /etc/httpd/conf.d/ssl.conf
++ sed -i 's/\#ServerName www.example.com:443/ServerName www.linuxpanda.com:443/' /etc/httpd/conf.d/ssl.conf
++ sed -i 's#SSLCertificateFile /etc/pki/tls/certs/localhost.crt#SSLCertificateFile /etc/httpd/ssl/httpd.crt#' /etc/httpd/conf.d/ssl.conf
++ sed -i 's#SSLCertificateKeyFile /etc/pki/tls/private/localhost.key#SSLCertificateKeyFile /etc/httpd/ssl/httpd.key#' /etc/httpd/conf.d/ssl.conf
++ file2=/etc/httpd/conf/httpd.conf
++ sed -i 's/\#ServerName www.example.com:80/ServerName www.openeuler.org:80/' /etc/httpd/conf/httpd.conf
++ sed -i 's/Require all denied/Require all granted/' /etc/httpd/conf/httpd.conf
++ cp /etc/hosts /etc/hosts.bak
++ echo '127.0.0.1   www.openeuler.org'
++ cp /usr/share/httpd/noindex/index.html /var/www/html/
++ chmod 755 /var/www/html/index.html
++ setenforce 0
+setenforce: SELinux is disabled
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu Dec 29 18:27:45 2022 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Dec 29 18:27:46 2022 - INFO  - Start to run test.
++ systemctl restart httpd
++ CHECK_RESULT 0 0 0 'error:OPENSSL and HTTPD configuration failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='error:OPENSSL and HTTPD configuration failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status httpd
++ grep 'active (running)'
+     Active: active (running) since Thu 2022-12-29 18:27:47 CST; 261ms ago
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ curl --cacert /etc/pki/CA/cacert.pem https://www.openeuler.org/index.html -I
++ grep 200
+HTTP/1.1 200 OK
++ CHECK_RESULT 0 0 0 'The HTTPS access on openEuler failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='The HTTPS access on openEuler failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu Dec 29 18:27:48 2022 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Dec 29 18:27:49 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu Dec 29 18:27:50 2022 - INFO  - Start to restore the test environment.
++ mv -f /etc/pki/tls/openssl.cnf.bak /etc/pki/tls/openssl.cnf
++ clean_httpd_openssl
++ rm -f /etc/pki/CA/index.txt /etc/pki/CA/index.txt.attr /etc/pki/CA/index.txt.old /etc/pki/CA/serial /etc/pki/CA/serial.old /etc/pki/CA/private/cakey.pem /etc/pki/CA/cacert.pem /etc/pki/CA/testlog1
++ rm -rf /etc/httpd/ssl
++ mv -f /etc/pki/tls/openssl.cnf.bak /etc/pki/tls/openssl.cnf
+mv: cannot stat '/etc/pki/tls/openssl.cnf.bak': No such file or directory
++ mv -f /etc/hosts.bak /etc/hosts
++ systemctl stop httpd
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp11az9tt7 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp11az9tt7
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu Dec 29 18:28:13 2022 - INFO  - End to restore the test environment.

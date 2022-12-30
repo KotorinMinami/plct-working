@@ -1,0 +1,170 @@
++ source ../common/common_lib.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n '' ']'
++ trap POST_TEST_DEFAULT EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n '' ']'
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Fri Dec 30 12:14:36 2022 - INFO  - Start testing...
++ test_execution systemd-coredump.socket
++ service=systemd-coredump.socket
+++ date '+%Y-%m-%d %T'
++ log_time='2022-12-30 12:14:36'
++ test_restart systemd-coredump.socket
++ service=systemd-coredump.socket
++ systemctl restart systemd-coredump.socket
++ CHECK_RESULT 0 0 0 'systemd-coredump.socket restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-coredump.socket restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status systemd-coredump.socket
++ grep 'Active: active'
+     Active: active (listening) since Fri 2022-12-30 12:14:36 CST; 6s ago
++ CHECK_RESULT 0 0 0 'systemd-coredump.socket restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-coredump.socket restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop systemd-coredump.socket
++ CHECK_RESULT 0 0 0 'systemd-coredump.socket stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-coredump.socket stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status systemd-coredump.socket
++ grep 'Active: inactive'
+     Active: inactive (dead) since Fri 2022-12-30 12:14:42 CST; 5s ago
++ CHECK_RESULT 0 0 0 'systemd-coredump.socket stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-coredump.socket stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start systemd-coredump.socket
++ CHECK_RESULT 0 0 0 'systemd-coredump.socket start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-coredump.socket start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status systemd-coredump.socket
++ grep 'Active: active'
+     Active: active (listening) since Fri 2022-12-30 12:14:48 CST; 5s ago
++ CHECK_RESULT 0 0 0 'systemd-coredump.socket start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-coredump.socket start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled systemd-coredump.socket
++ service=systemd-coredump.socket
+++ systemctl is-enabled systemd-coredump.socket
++ state=static
++ '[' static == enabled ']'
++ '[' static == disabled ']'
++ '[' static == masked ']'
++ '[' static == static ']'
++ LOG_INFO 'The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
++ message='The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
+Fri Dec 30 12:14:55 2022 - INFO  - The unit files have no installation config,This means they are not meant to be enabled using systemctl.
++ grep -i 'fail\|error'
++ journalctl --since '2022-12-30 12:14:36' -u systemd-coredump.socket
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of systemd-coredump.socket'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of systemd-coredump.socket'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_reload systemd-coredump.socket
++ service=systemd-coredump.socket
++ systemctl start systemd-coredump.socket
++ systemctl reload systemd-coredump.socket
++ grep 'Job type reload is not applicable'
+Failed to reload systemd-coredump.socket: Job type reload is not applicable for unit systemd-coredump.socket.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit systemd-coredump.socket'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit systemd-coredump.socket'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status systemd-coredump.socket
++ grep 'Active: active'
+     Active: active (listening) since Fri 2022-12-30 12:14:48 CST; 7s ago
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Fri Dec 30 12:14:56 2022 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri Dec 30 12:14:56 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ POST_TEST_DEFAULT
++ LOG_INFO 'oe_test_socket_systemd-coredump.sh post_test'
++ message='oe_test_socket_systemd-coredump.sh post_test'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'oe_test_socket_systemd-coredump.sh post_test'
+Fri Dec 30 12:14:57 2022 - INFO  - oe_test_socket_systemd-coredump.sh post_test

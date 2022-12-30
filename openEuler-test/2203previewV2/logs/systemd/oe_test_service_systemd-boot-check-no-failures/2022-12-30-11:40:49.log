@@ -1,0 +1,195 @@
++ source ../common/common_lib.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ grep expect
++ rpm -qa
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Fri Dec 30 11:40:54 2022 - INFO  - Start environmental preparation.
++ REMOTE_REBOOT 2 60
++ node=2
++ waittime=60
++ '[' 60x '!=' x ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/remote_reboot.py reboot --node 2 --waittime 60
+Fri Dec 30 11:41:09 2022 - WARN  - Failed to connect the remote machine:10.198.114.4.
+Fri Dec 30 11:41:09 2022 - WARN  - [Errno None] Unable to connect to port 22 on 10.198.114.4
+++ date '+%Y-%m-%d %T'
++ log_time='2022-12-30 11:41:38'
++ service=systemd-boot-check-no-failures.service
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Fri Dec 30 11:41:39 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Fri Dec 30 11:41:40 2022 - INFO  - Start testing...
++ P_SSH_CMD --node 2 --cmd 'systemctl restart systemd-boot-check-no-failures.service'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --node 2 --cmd 'systemctl restart systemd-boot-check-no-failures.service'
+
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ P_SSH_CMD --node 2 --cmd 'systemctl status systemd-boot-check-no-failures.service | grep '\''Active: active'\'''
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --node 2 --cmd 'systemctl status systemd-boot-check-no-failures.service | grep '\''Active: active'\'''
+     Active: active (exited) since Fri 2022-12-30 11:40:55 CST; 18s ago
++ CHECK_RESULT 0 0 0 'systemd-boot-check-no-failures.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-boot-check-no-failures.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ P_SSH_CMD --node 2 --cmd 'systemctl stop systemd-boot-check-no-failures.service'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --node 2 --cmd 'systemctl stop systemd-boot-check-no-failures.service'
+
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ P_SSH_CMD --node 2 --cmd 'systemctl status systemd-boot-check-no-failures.service | grep '\''Active: inactive'\'''
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --node 2 --cmd 'systemctl status systemd-boot-check-no-failures.service | grep '\''Active: inactive'\'''
+     Active: inactive (dead)
++ CHECK_RESULT 0 0 0 'systemd-boot-check-no-failures.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-boot-check-no-failures.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ P_SSH_CMD --node 2 --cmd 'systemctl start systemd-boot-check-no-failures.service'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --node 2 --cmd 'systemctl start systemd-boot-check-no-failures.service'
+
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ P_SSH_CMD --node 2 --cmd 'systemctl status systemd-boot-check-no-failures.service | grep '\''Active: active'\'''
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --node 2 --cmd 'systemctl status systemd-boot-check-no-failures.service | grep '\''Active: active'\'''
+     Active: active (exited) since Fri 2022-12-30 11:41:40 CST; 13s ago
++ CHECK_RESULT 0 0 0 'systemd-boot-check-no-failures.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-boot-check-no-failures.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ P_SSH_CMD --node 2 --cmd 'systemctl enable systemd-boot-check-no-failures.service'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --node 2 --cmd 'systemctl enable systemd-boot-check-no-failures.service'
+
++ P_SSH_CMD --node 2 --cmd 'find /etc/systemd/system/boot-complete.target.requires/systemd-boot-check-no-failures.service'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --node 2 --cmd 'find /etc/systemd/system/boot-complete.target.requires/systemd-boot-check-no-failures.service'
+/etc/systemd/system/boot-complete.target.requires/systemd-boot-check-no-failures.service
++ CHECK_RESULT 0 0 0 'systemd-boot-check-no-failures.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-boot-check-no-failures.service enable failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ P_SSH_CMD --node 2 --cmd 'systemctl disable systemd-boot-check-no-failures.service'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --node 2 --cmd 'systemctl disable systemd-boot-check-no-failures.service'
+
++ P_SSH_CMD --node 2 --cmd 'test ! -f /etc/systemd/system/boot-complete.target.requires/systemd-boot-check-no-failures.service'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --node 2 --cmd 'test ! -f /etc/systemd/system/boot-complete.target.requires/systemd-boot-check-no-failures.service'
+
++ CHECK_RESULT 0 0 0 'systemd-boot-check-no-failures.service disable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-boot-check-no-failures.service disable failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ P_SSH_CMD --node 2 --cmd 'systemctl reload systemd-boot-check-no-failures.service 2>&1 | grep '\''Job type reload is not applicable'\'''
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --node 2 --cmd 'systemctl reload systemd-boot-check-no-failures.service 2>&1 | grep '\''Job type reload is not applicable'\'''
+Failed to reload systemd-boot-check-no-failures.service: Job type reload is not applicable for unit systemd-boot-check-no-failures.service.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit systemd-boot-check-no-failures.service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit systemd-boot-check-no-failures.service'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ P_SSH_CMD --node 2 --cmd 'systemctl status systemd-boot-check-no-failures.service | grep '\''Active: active'\'''
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --node 2 --cmd 'systemctl status systemd-boot-check-no-failures.service | grep '\''Active: active'\'''
+     Active: active (exited) since Fri 2022-12-30 11:41:40 CST; 1min 3s ago
++ CHECK_RESULT 0 0 0 'Check systemd-boot-check-no-failures.service status failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check systemd-boot-check-no-failures.service status failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ P_SSH_CMD --node 2 --cmd 'test 0 -eq $(journalctl --since '\''2022-12-30 11:41:38'\'' -u systemd-boot-check-no-failures.service | grep -v '\''Health check: no failed units'\'' |
+        grep -v '\''systemd-boot-check-no-failures.service: Succeeded'\'' | grep -v '\''Check if Any System Units Failed'\'' | grep -i -c '\''fail\|error'\'')'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --node 2 --cmd 'test 0 -eq $(journalctl --since '\''2022-12-30 11:41:38'\'' -u systemd-boot-check-no-failures.service | grep -v '\''Health check: no failed units'\'' |
+        grep -v '\''systemd-boot-check-no-failures.service: Succeeded'\'' | grep -v '\''Check if Any System Units Failed'\'' | grep -i -c '\''fail\|error'\'')'
+
++ CHECK_RESULT 0 0 0 'There is an error message for the log of systemd-boot-check-no-failures.service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='There is an error message for the log of systemd-boot-check-no-failures.service'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Fri Dec 30 11:43:43 2022 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri Dec 30 11:43:43 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start environment cleanup.'
++ message='Start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environment cleanup.'
+Fri Dec 30 11:43:44 2022 - INFO  - Start environment cleanup.
++ P_SSH_CMD --node 2 --cmd 'systemctl stop systemd-boot-check-no-failures.service'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --node 2 --cmd 'systemctl stop systemd-boot-check-no-failures.service'
+
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Fri Dec 30 11:43:52 2022 - INFO  - Finish environment cleanup!

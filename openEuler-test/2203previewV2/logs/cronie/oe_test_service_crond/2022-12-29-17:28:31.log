@@ -1,0 +1,210 @@
++ source ../common/common_lib.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n '' ']'
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Thu Dec 29 17:28:36 2022 - INFO  - Start testing...
++ test_execution crond.service
++ service=crond.service
+++ date '+%Y-%m-%d %T'
++ log_time='2022-12-29 17:28:36'
++ test_restart crond.service
++ service=crond.service
++ systemctl restart crond.service
++ CHECK_RESULT 0 0 0 'crond.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='crond.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status crond.service
++ grep 'Active: active'
+     Active: active (running) since Thu 2022-12-29 17:28:36 CST; 56s ago
++ CHECK_RESULT 0 0 0 'crond.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='crond.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop crond.service
++ CHECK_RESULT 0 0 0 'crond.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='crond.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status crond.service
++ grep 'Active: inactive'
+     Active: inactive (dead) since Thu 2022-12-29 17:29:33 CST; 6s ago
++ CHECK_RESULT 0 0 0 'crond.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='crond.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start crond.service
++ CHECK_RESULT 0 0 0 'crond.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='crond.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status crond.service
++ grep 'Active: active'
+     Active: active (running) since Thu 2022-12-29 17:29:39 CST; 6s ago
++ CHECK_RESULT 0 0 0 'crond.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='crond.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled crond.service
++ service=crond.service
+++ systemctl is-enabled crond.service
++ state=enabled
++ '[' enabled == enabled ']'
+++ systemctl disable crond.service
+++ awk '{print $2}'
+++ awk '{print substr($0,1,length($0)-1)}'
+++ grep Removed
++ symlink_file='/etc/systemd/system/cron.service
+/etc/systemd/system/multi-user.target.wants/crond.service'
++ find /etc/systemd/system/cron.service /etc/systemd/system/multi-user.target.wants/crond.service
+find: ‘/etc/systemd/system/cron.service’: No such file or directory
+find: ‘/etc/systemd/system/multi-user.target.wants/crond.service’: No such file or directory
++ CHECK_RESULT 1 0 1 'crond.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='crond.service disable failed'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ systemctl enable crond.service
+Created symlink /etc/systemd/system/cron.service → /usr/lib/systemd/system/crond.service.
+Created symlink /etc/systemd/system/multi-user.target.wants/crond.service → /usr/lib/systemd/system/crond.service.
++ find /etc/systemd/system/cron.service /etc/systemd/system/multi-user.target.wants/crond.service
+/etc/systemd/system/cron.service
+/etc/systemd/system/multi-user.target.wants/crond.service
++ CHECK_RESULT 0 0 0 'crond.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='crond.service enable failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ journalctl --since '2022-12-29 17:28:36' -u crond.service
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of crond.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of crond.service'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ systemctl start crond.service
++ sed -i 's\ExecStart=/usr/sbin/crond -n\ExecStart=/usr/sbin/crond -n -c\g' /usr/lib/systemd/system/crond.service
++ systemctl daemon-reload
++ systemctl reload crond.service
++ CHECK_RESULT 0 0 0 'crond.service reload failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='crond.service reload failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'Active: active'
++ systemctl status crond.service
+     Active: active (running) since Thu 2022-12-29 17:29:39 CST; 22s ago
++ CHECK_RESULT 0 0 0 'crond.service reload causes the service status to change'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='crond.service reload causes the service status to change'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Thu Dec 29 17:30:02 2022 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Dec 29 17:30:03 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu Dec 29 17:30:04 2022 - INFO  - start environment cleanup.
++ sed -i 's\ExecStart=/usr/sbin/crond -n -c\ExecStart=/usr/sbin/crond -n\g' /usr/lib/systemd/system/crond.service
++ systemctl daemon-reload
++ systemctl reload crond.service
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Dec 29 17:30:10 2022 - INFO  - Finish environment cleanup!

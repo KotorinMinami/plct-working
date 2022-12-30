@@ -1,0 +1,175 @@
++ source ../common/common_lib.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n '' ']'
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri Dec 30 12:39:15 2022 - INFO  - Start to run test.
++ test_execution runlevel1.target
++ service=runlevel1.target
+++ date '+%Y-%m-%d %T'
++ log_time='2022-12-30 12:39:15'
++ test_restart runlevel1.target
++ service=runlevel1.target
++ systemctl restart runlevel1.target
++ CHECK_RESULT 0 0 0 'runlevel1.target restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='runlevel1.target restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status runlevel1.target
++ grep 'Active: active'
+     Active: active since Fri 2022-12-30 12:39:15 CST; 6s ago
++ CHECK_RESULT 0 0 0 'runlevel1.target restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='runlevel1.target restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop runlevel1.target
++ CHECK_RESULT 0 0 0 'runlevel1.target stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='runlevel1.target stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status runlevel1.target
++ grep 'Active: inactive'
+     Active: inactive (dead) since Fri 2022-12-30 12:39:21 CST; 5s ago
++ CHECK_RESULT 0 0 0 'runlevel1.target stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='runlevel1.target stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start runlevel1.target
++ CHECK_RESULT 0 0 0 'runlevel1.target start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='runlevel1.target start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status runlevel1.target
++ grep 'Active: active'
+     Active: active since Fri 2022-12-30 12:39:27 CST; 5s ago
++ CHECK_RESULT 0 0 0 'runlevel1.target start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='runlevel1.target start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled runlevel1.target
++ service=runlevel1.target
+++ systemctl is-enabled runlevel1.target
++ state=alias
++ '[' alias == enabled ']'
++ '[' alias == disabled ']'
++ '[' alias == masked ']'
++ '[' alias == static ']'
++ LOG_INFO 'Unit is indirect, ignoring.'
++ message='Unit is indirect, ignoring.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Unit is indirect, ignoring.'
+Fri Dec 30 12:39:34 2022 - INFO  - Unit is indirect, ignoring.
++ journalctl --since '2022-12-30 12:39:15' -u runlevel1.target
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ grep -i 'fail\|error'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of runlevel1.target'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of runlevel1.target'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_reload runlevel1.target
++ service=runlevel1.target
++ systemctl start runlevel1.target
++ grep 'Job type reload is not applicable'
++ systemctl reload runlevel1.target
+Failed to reload runlevel1.target: Job type reload is not applicable for unit rescue.target.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit runlevel1.target'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit runlevel1.target'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status runlevel1.target
++ grep 'Active: active'
+     Active: active since Fri 2022-12-30 12:39:27 CST; 7s ago
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Fri Dec 30 12:39:35 2022 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri Dec 30 12:39:36 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Fri Dec 30 12:39:37 2022 - INFO  - Start environmental preparation.
++ systemctl stop runlevel1.target
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Fri Dec 30 12:39:38 2022 - INFO  - End of environmental preparation!

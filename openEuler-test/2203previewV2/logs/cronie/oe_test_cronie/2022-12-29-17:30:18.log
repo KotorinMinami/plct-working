@@ -1,0 +1,313 @@
++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu Dec 29 17:30:22 2022 - INFO  - Start to prepare the test environment.
++ USER_NAME=test_user
++ useradd test_user
++ DNF_INSTALL cronie
++ pkgs=cronie
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs cronie --node 1 --tempfile ''
+Thu Dec 29 17:30:35 2022 - INFO  - pkgs:(cronie) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
+++ pwd
++ echo 'echo "Hello World: $(date)" >> /root/GitRepo/mugen-riscv/testcases/cli-test/cronie/rst.txt'
++ chmod 777 ./test.sh
++ echo 'echo "$(whoami): $(date)" >> ~/rst.txt'
++ chmod 777 /home/test_user/test.sh
++ crontab -l
+no crontab for root
++ crontab -u test_user -l
+no crontab for test_user
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu Dec 29 17:30:36 2022 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Dec 29 17:30:37 2022 - INFO  - Start to run test.
++ crontab -V
+cronie 1.5.7
++ CHECK_RESULT 0 0 0 'log message: Failed to run command: crontab -V'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='log message: Failed to run command: crontab -V'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cp ./cron.bak ./cron.test
+++ pwd
++ echo '* * * * * /root/GitRepo/mugen-riscv/testcases/cli-test/cronie/test.sh'
++ crontab ./cron.test
++ CHECK_RESULT 0 0 0 'log message: Failed to run command: echo "* * * * * $(pwd)/test.sh" >>./cron.test && crontab ./cron.test'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='log message: Failed to run command: echo "* * * * * $(pwd)/test.sh" >>./cron.test && crontab ./cron.test'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ crontab -l
+++ pwd
++ grep '* * * * * /root/GitRepo/mugen-riscv/testcases/cli-test/cronie/test.sh'
+* * * * * /root/GitRepo/mugen-riscv/testcases/cli-test/cronie/test.sh
++ CHECK_RESULT 0 0 0 'log message: Failed to run command: crontab -l'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='log message: Failed to run command: crontab -l'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 150
++ wait_time=150
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 150 --cmd '' --mode 1
++ grep -c 'Hello World'
++ grep '[2-9]'
+++ pwd
++ cat /root/GitRepo/mugen-riscv/testcases/cli-test/cronie/rst.txt
+3
++ CHECK_RESULT 0 0 0 'log message: The service may not be running properly'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='log message: The service may not be running properly'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ crontab -r
++ CHECK_RESULT 0 0 0 'log message: Failed to run command: crontab -r'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='log message: Failed to run command: crontab -r'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ crontab -l
+no crontab for root
++ CHECK_RESULT 1 1 0 'log message: Failed to remove the current crontab'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='log message: Failed to remove the current crontab'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ cp /home/test_user/cron.bak /home/test_user/cron.test
++ echo '* * * * * /home/test_user/test.sh'
++ crontab -u test_user /home/test_user/cron.test
++ CHECK_RESULT 0 0 0 'log message: Failed to run command: echo "* * * * * /home/""$USER_NAME""/test.sh" >> /home/"$USER_NAME"/cron.test && crontab /home/"$USER_NAME"/cron.test'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='log message: Failed to run command: echo "* * * * * /home/""$USER_NAME""/test.sh" >> /home/"$USER_NAME"/cron.test && crontab /home/"$USER_NAME"/cron.test'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ crontab -u test_user -l
++ grep '* * * * * /home/test_user/test.sh'
+* * * * * /home/test_user/test.sh
++ CHECK_RESULT 0 0 0 'log message: Failed to run command: crontab -u "$USER_NAME" -l'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='log message: Failed to run command: crontab -u "$USER_NAME" -l'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 150
++ wait_time=150
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 150 --cmd '' --mode 1
++ grep '[2-9]'
++ cat /home/test_user/rst.txt
++ grep -c test_user
+2
++ CHECK_RESULT 0 0 0 'log message: The service may not be running properly'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='log message: The service may not be running properly'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ crontab -u test_user -ri
++ echo -ne Y
+crontab: really delete test_user's crontab? + CHECK_RESULT 0 0 0 'log message: Failed to run command: echo -ne '\''Y'\'' | crontab -u "$USER_NAME" -ri'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='log message: Failed to run command: echo -ne '\''Y'\'' | crontab -u "$USER_NAME" -ri'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ crond -V
+cronie 1.5.7
++ CHECK_RESULT 0 0 0 'log message: Failed to run command: crond -V'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='log message: Failed to run command: crond -V'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cronnext -h
+Find the time of the next scheduled cron job.
+Usage:
+ cronnext [options] [file ...]
+
+Options:
+ -i users  include only the crontab of these users
+ -e users  exclude the crontab of these users
+ -s        do not include the system crontab
+ -a        examine installed crontabs even if files are given
+ -t time   start from this time (seconds since epoch)
+ -q time   end check at this time (seconds since epoch)
+ -j cmd    only check jobs that contain cmd as a substring
+ -l        print next jobs to be executed
+ -c        print next execution of each job
+ -f        print all jobs executed in the given interval
+ -h        this help
+ -V        print version and exit
++ CHECK_RESULT 0 0 0 'log message: Failed to run command: cronnext -h'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='log message: Failed to run command: cronnext -h'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cronnext -V
+cronie 1.5.7
++ CHECK_RESULT 0 0 0 'log message: Failed to run command: cronnext -V'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='log message: Failed to run command: cronnext -V'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ anacron -h
+Usage:
+ anacron [options] [job] ...
+ anacron -T [-t anacrontab-file]
+
+Options:
+ -s         Serialize execution of jobs
+ -f         Force execution of jobs, even before their time
+ -n         Run jobs with no delay, implies -s
+ -d         Don't fork to the background
+ -q         Suppress stderr messages, only applicable with -d
+ -u         Update the timestamps without actually running anything
+ -V         Print version information
+ -h         Print this message
+ -t <file>  Use alternative anacrontab
+ -T         Test an anacrontab
+ -S <dir>   Select a different spool directory
+
+See the anacron(8) manpage for more details.
++ CHECK_RESULT 0 0 0 'log message: Failed to run command: anacron -h'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='log message: Failed to run command: anacron -h'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ anacron -V
+Anacron from project cronie 1.5.7
+Copyright (C) 1998  Itai Tzur <itzur@actcom.co.il>
+Copyright (C) 1999  Sean 'Shaleh' Perry <shaleh@debian.org>
+Copyright (C) 2004  Pascal Hakim <pasc@redellipse.net>
+
+Mail comments, suggestions and bug reports to <pasc@redellipse.net>.
+
++ CHECK_RESULT 0 0 0 'log message: Failed to run command: anacron -V'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='log message: Failed to run command: anacron -V'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu Dec 29 17:35:41 2022 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Dec 29 17:35:42 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu Dec 29 17:35:42 2022 - INFO  - Start to restore the test environment.
++ crontab ./cron.bak
++ crontab -u test_user /home/test_user/cron.bak
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Thu Dec 29 17:35:43 2022 - WARN  - no thing to do.
++ return 0
++ rm -rf test.sh rst.txt cron.bak cron.test
++ userdel -r test_user
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu Dec 29 17:35:44 2022 - INFO  - End to restore the test environment.
