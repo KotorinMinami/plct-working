@@ -1,0 +1,181 @@
++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the database config.'
++ message='Start to prepare the database config.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the database config.'
+Mon Jan  2 22:42:29 2023 - INFO  - Start to prepare the database config.
++ DNF_INSTALL 'clamav clamav-server'
++ pkgs='clamav clamav-server'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs 'clamav clamav-server' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp3_ppvoht
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp3_ppvoht
++ mv /etc/clamd.d/scan.conf /etc/clamd.d/scan.conf.bak
++ echo 'LogFile /var/log/clamd.scan
+        LogFileMaxSize 2M
+        LogTime yes
+        PidFile /run/clamd.scan/clamd.pid
+        DatabaseDirectory /var/lib/clamav
+        TCPAddr 0.0.0.0
+        TCPSocket 3310
+        LocalSocket /run/clamd.scan/clamd.sock
+'
++ systemctl restart clamd@scan.service
++ LOG_INFO 'End to prepare the database config.'
++ message='End to prepare the database config.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to prepare the database config.'
+Mon Jan  2 22:46:13 2023 - INFO  - End to prepare the database config.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Mon Jan  2 22:46:14 2023 - INFO  - Start to run test.
++ echo q
++ clamdtop localhost
++ grep 'Connecting to: localhost'
+connect: Connection refused
+Connecting to: localhost
+Connecting to: localhost
++ CHECK_RESULT 0 0 0 'Connecting to localhost failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Connecting to localhost failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ echo q
++ clamdtop /run/clamd.scan/clamd.sock
++ grep 'Connecting to: /run/clamd.scan/clamd.sock'
+Connecting to: /run/clamd.scan/clamd.sock
++ CHECK_RESULT 0 0 0 'Connecting /run/clamd.scan/clamd.sock failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Connecting /run/clamd.scan/clamd.sock failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clamdtop --version
+Clam AntiVirus Monitoring Tool 0.103.6
++ CHECK_RESULT 0 0 0 'Check clamdtop version failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check clamdtop version failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clamdtop --help
+
+                       Clam AntiVirus: Monitoring Tool 0.103.6
+           By The ClamAV Team: https://www.clamav.net/about.html#credits
+           (C) 2022 Cisco Systems, Inc.
+
+    clamdtop [-hVc] [host[:port] /path/to/clamd.socket ...]
+
+    --help                 -h         Show this help
+    --version              -V         Show version
+    --config-file=FILE     -c FILE    Read clamd's configuration files from FILE
+    --defaultcolors        -d         Use default terminal colors
+    host[:port]                       Connect to clamd on host at port (default 3310)
+    /path/to/clamd.socket             Connect to clamd over a local socket
+
++ CHECK_RESULT 0 0 0 'Check clamdtop help message failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check clamdtop help message failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ echo q
++ clamdtop -c /etc/clamd.d/scan.conf
++ grep Connecting
+Connecting to: /run/clamd.scan/clamd.sock
++ CHECK_RESULT 0 0 0 'Check clamdtop -c message failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check clamdtop -c message failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ echo q
++ clamdtop -d
+        __                    ____
+  _____/ /___ _____ ___  ____/ / /_____  ____
+ / ___/ / __ `/ __ `__ \/ __  / __/ __ \/ __ \
+/ /__/ / /_/ / / / / / / /_/ / /_/ /_/ / /_/ /
+\___/_/\__,_/_/ /_/ /_/\__,_/\__/\____/ .___/
+                                     /_/
+Connecting to: /run/clamd.scan/clamd.sock
+[?1049h[22;0;0t[1;24r(B[m[4l[?7h[39;49m[?1h=[?25l[39;49m(B[m[H[2J[30m[47m  ClamdTOP version 0.103.6   Mon Jan  2 22:46:14 2023[K[39;49m(B[m[24d(B[0;7mH - help(B[m (B[0;7mQ - quit(B[m (B[0;7mR - reset maximums(B[m[5;40H(0[0mlq[38bk(B[6;40H(0[0mx(BMem:  [36mheap    (B[0;1m[32m6(B[0m[36mM mmap    (B[0;1m[32m0(B[0m[36mM unused   (B[0;1m[32m0(B[0m[36mM[39m(0[0mx(B[7;40H(0[0mx(BLibc: [36mused    (B[0;1m[32m3(B[0m[36mM free    (B[0;1m[32m3(B[0m[36mM total    (B[0;1m[32m6(B[0m[36mM[39m(0[0mx(B[8;40H(0[0mx(BPool: [36mcount    (B[0;1m[32m1(B[0m[36m used  (B[0;1m[32m749(B[0m[36mM total  (B[0;1m[32m749(B[0m[36mM[39m(0[0mx(B[9;40H(0[0mx(B[0;1m[[35m|[34b(B[0;5m[31m>[39m(B[0;1m](B[m (0[0mx(B[10;40H(0[0mmq[38bj(B[9;78H(0[0m(B[2d[30m[42mNO CONNTIME LIV IDL QUEUE  MAXQ   MEM ENGINE  DBVER DBTIME [7bHOST[K[3d[30m[46m 1 00:00:00   1   0     0     0  755M 0.103.6 25550 2019-08-23T16 local[K[80G[39;49m(B[m[4d[30m[42mDetails for Clamd version:  ClamAV 0.103.6/25550/Fri Aug 23 16:25:33 2019[K[5d[39;49m(B[mPrimary threads: [36mlive  (B[0;1m[32m1(B[0m[36m idle  (B[0;1m[32m0(B[0m[36m max (B[0;1m[32m10[6;2H[39m[[35m||||[6;39H[39m][7d(B[mQueue:[36m     (B[0;1m[32m0(B[0m[36m items      (B[0;1m[32m0(B[0m[36m max[8;2H[39m(B[0;1m[[8;39H][11d(B[0m[30m[42m COMMAND [6bQUEUEDSINCE    FILE[K[12d[39;49m(B[0;1m STATS[12;21H(B[m0.000s    [5;38H[24d[J[24;1H[?12l[?25h[?1049l[23;0;0t[?1l>+ CHECK_RESULT 0 0 0 'Execute clamdtop -d failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Execute clamdtop -d failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Mon Jan  2 22:46:15 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Mon Jan  2 22:46:16 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Mon Jan  2 22:46:16 2023 - INFO  - Start to restore the test environment.
++ rm -f /etc/clamd.d/scan.conf
++ mv /etc/clamd.d/scan.conf.bak /etc/clamd.d/scan.conf
++ systemctl restart clamd@scan.service
+Job for clamd@scan.service failed because the control process exited with error code.
+See "systemctl status clamd@scan.service" and "journalctl -xeu clamd@scan.service" for details.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp3_ppvoht ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp3_ppvoht
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Mon Jan  2 22:46:45 2023 - INFO  - End to restore the test environment.

@@ -1,0 +1,122 @@
++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Fri Dec 16 09:52:40 2022 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL firewalld
++ pkgs=firewalld
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs firewalld --node 1 --tempfile ''
+Fri Dec 16 09:52:49 2022 - INFO  - pkgs:(firewalld) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ systemctl start firewalld
++ systemctl status firewalld
++ grep running
+     Active: active (running) since Fri 2022-12-16 09:05:24 CST; 47min ago
++ flag_http=0
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Fri Dec 16 09:52:50 2022 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri Dec 16 09:52:51 2022 - INFO  - Start to run test.
++ firewall-cmd --query-service http
++ grep yes
++ grep success
++ firewall-cmd --add-service http
+Error: COMMAND_FAILED: 'python-nftables' failed: 
+JSON blob:
+{"nftables": [{"metainfo": {"json_schema_version": 1}}, {"add": {"rule": {"family": "inet", "table": "firewalld", "chain": "filter_IN_public_allow", "expr": [{"match": {"left": {"payload": {"protocol": "tcp", "field": "dport"}}, "op": "==", "right": 80}}, {"match": {"left": {"ct": {"key": "state"}}, "op": "in", "right": {"set": ["new", "untracked"]}}}, {"accept": null}]}}}]}
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_server_httpd_checkfirewall.sh line 34'
++ message='oe_test_server_httpd_checkfirewall.sh line 34'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_server_httpd_checkfirewall.sh line 34'
+Fri Dec 16 09:53:01 2022 - ERROR - oe_test_server_httpd_checkfirewall.sh line 34
++ return 0
++ firewall-cmd --list-all
++ grep http
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_server_httpd_checkfirewall.sh line 36'
++ message='oe_test_server_httpd_checkfirewall.sh line 36'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_server_httpd_checkfirewall.sh line 36'
+Fri Dec 16 09:53:07 2022 - ERROR - oe_test_server_httpd_checkfirewall.sh line 36
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Fri Dec 16 09:53:07 2022 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 2
++ test 2 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri Dec 16 09:53:08 2022 - ERROR - failed to execute the case.
++ exit 2
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri Dec 16 09:53:09 2022 - INFO  - Start to restore the test environment.
++ '[' 0 -ne 1 ']'
++ firewall-cmd --remove-service=http
+Warning: NOT_ENABLED: 'http' not in 'public'
+success
++ systemctl stop firewalld
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Fri Dec 16 09:53:16 2022 - WARN  - no thing to do.
++ return 0
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Fri Dec 16 09:53:17 2022 - INFO  - End to restore the test environment.

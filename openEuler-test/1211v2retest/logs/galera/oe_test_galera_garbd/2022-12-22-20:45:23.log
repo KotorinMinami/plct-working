@@ -1,0 +1,333 @@
++ source ./common/common_galera.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment!'
++ message='Start to prepare the test environment!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment!'
+Thu Dec 22 20:45:26 2022 - INFO  - Start to prepare the test environment!
++ galera_pre
++ systemctl stop firewalld
+Failed to stop firewalld.service: Unit firewalld.service not loaded.
++ systemctl disable firewalld
+Failed to disable unit: Unit file firewalld.service does not exist.
++ setenforce 0
+setenforce: SELinux is disabled
++ DNF_INSTALL 'galera openssl'
++ pkgs='galera openssl'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs 'galera openssl' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpjwkamhk_
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpjwkamhk_
++ mkdir galera_zl
++ touch galera_zl/log1 galera_zl/log2 galera_zl/log3
++ openssl genrsa 2048
+Generating RSA private key, 2048 bit long modulus (2 primes)
+................+++++
+..........................................................+++++
+e is 65537 (0x010001)
++ /usr/bin/expect
+spawn openssl req -new -x509 -nodes -days 3600 -key galera_zl/ca-key.pem -out galera_zl/ca.pem
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:
+State or Province Name (full name) [Some-State]:
+Locality Name (eg, city) []:
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:
+Organizational Unit Name (eg, section) []:
+Common Name (e.g. server FQDN or YOUR name) []:
+Email Address []:
+spawn openssl req -newkey rsa:2048 -days 3600 -nodes -keyout galera_zl/server-key.pem -out galera_zl/server-req.pem
+Ignoring -days; not generating a certificate
+Generating a RSA private key
+........................................+++++
+.....................................................+++++
+writing new private key to 'galera_zl/server-key.pem'
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:
+State or Province Name (full name) [Some-State]:
+Locality Name (eg, city) []:
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:
+Organizational Unit Name (eg, section) []:
+Common Name (e.g. server FQDN or YOUR name) []:
+Email Address []:
+
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []:
+An optional company name []:
+expect: spawn id exp6 not open
+    while executing
+"expect eof"
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ openssl rsa -in galera_zl/server-key.pem -out galera_zl/server-key.pem
+writing RSA key
++ openssl x509 -req -in galera_zl/server-req.pem -days 3600 -CA galera_zl/ca.pem -CAkey galera_zl/ca-key.pem -set_serial 01 -out galera_zl/server-cert.pem
+Signature ok
+subject=C = AU, ST = Some-State, O = Internet Widgits Pty Ltd
+Getting CA Private Key
++ /usr/bin/expect
+spawn openssl req -newkey rsa:2048 -days 3600 -nodes -keyout galera_zl/client-key.pem -out galera_zl/client-req.pem
+Ignoring -days; not generating a certificate
+Generating a RSA private key
+......................+++++
+.............................+++++
+writing new private key to 'galera_zl/client-key.pem'
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:
+State or Province Name (full name) [Some-State]:
+Locality Name (eg, city) []:
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:
+Organizational Unit Name (eg, section) []:
+Common Name (e.g. server FQDN or YOUR name) []:
+Email Address []:
+
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []:
+An optional company name []:
+expect: spawn id exp3 not open
+    while executing
+"expect eof"
++ openssl rsa -in galera_zl/client-key.pem -out galera_zl/client-key.pem
+writing RSA key
++ openssl x509 -req -in galera_zl/client-req.pem -days 3600 -CA galera_zl/ca.pem -CAkey galera_zl/ca-key.pem -set_serial 01 -out galera_zl/client-cert.pem
+Signature ok
+subject=C = AU, ST = Some-State, O = Internet Widgits Pty Ltd
+Getting CA Private Key
++ echo 'name = node_name
+    address = gcomm://0.0.0.0
+    group = grabd_name'
++ LOG_INFO 'End to prepare the test environment!'
++ message='End to prepare the test environment!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment!'
+Thu Dec 22 20:46:59 2022 - INFO  - End to prepare the test environment!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase!'
++ message='Start executing testcase!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase!'
+Thu Dec 22 20:47:00 2022 - INFO  - Start executing testcase!
+++ pgrep -f 'garbd -d'
++ cmd=
++ garbd -d --group grabd_name -a gcomm://0.0.0.0
++ test -n
++ CHECK_RESULT 0 0 0 'The '\''garbd -d --group grabd_name'\'' process doesn'\''t exist'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='The '\''garbd -d --group grabd_name'\'' process doesn'\''t exist'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ pgrep -f 'garbd -d --group grabd_name'
++ kill -9 607
++ garbd -h
++ grep 'Usage: garbd'
+Usage: garbd [options] [group address]
++ CHECK_RESULT 0 0 0 'The help message is printed incorrectly'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='The help message is printed incorrectly'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ garbd -d -g garbd_name -a gcomm://0.0.0.0
++ test -n
++ CHECK_RESULT 0 0 0 'The '\''garbd -d -g garbd_name'\'' process does not exist'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='The '\''garbd -d -g garbd_name'\'' process does not exist'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ pgrep -f 'garbd -d -g garbd_name'
++ kill -9 614
++ SLEEP_WAIT 3
++ wait_time=3
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 3 --cmd '' --mode 1
++ garbd -d -n node_name -g grabd_name --address gcomm://0.0.0.0
++ test -n
++ CHECK_RESULT 0 0 0 'The '\''garbd -d -n node_name -g grabd_name --address'\'' process does not exist'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='The '\''garbd -d -n node_name -g grabd_name --address'\'' process does not exist'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ pgrep -f 'garbd -d -n node_name -g grabd_name --address'
++ kill -9 620
++ garbd -d --name node_name --group grabd_name -a gcomm://0.0.0.0
++ test -n
++ CHECK_RESULT 0 0 0 'The '\''garbd -d --name node_name --group grabd_name'\'' process does not exist'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='The '\''garbd -d --name node_name --group grabd_name'\'' process does not exist'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ pgrep -f 'garbd -d --name node_name --group grabd_name'
++ kill -9 625
++ SLEEP_WAIT 3
++ wait_time=3
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 3 --cmd '' --mode 1
++ garbd -d -n node_name -g grabd_ggg --sst trivial --donor sst_name -a gcomm://0.0.0.0
++ test -n
++ CHECK_RESULT 0 0 0 'The SST process does not exist'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='The SST process does not exist'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ pgrep -f 'garbd -d -n node_name -g grabd_ggg'
++ kill -9 631
++ SLEEP_WAIT 3
++ wait_time=3
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 3 --cmd '' --mode 1
++ garbd -d -n node_name -g grabd_name -l galera_zl/log1 -a gcomm://0.0.0.0
++ test -n
+++ pgrep -f 'garbd -d -n node_name -g grabd_name'
++ kill -9 637
++ grep node_name galera_zl/log1
+	name:    node_name
++ CHECK_RESULT 0 0 0 'The node_name does not exist'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='The node_name does not exist'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ garbd -d -o 'socket.ssl_key=galera_zl/server-key.pem;socket.ssl_cert=galera_zl/server-cert.pem;socket.ssl_ca=galera_zl/ca.pem;socket.ssl_cipher=AES128-SHA' -n garbd_node -g grabd_name -a gcomm://0.0.0.0 -l galera_zl/log2
++ test -n
+++ pgrep -f 'garbd -d -o'
++ kill -9 643
++ grep 'options: socket.ssl_key' galera_zl/log2
+	options: socket.ssl_key=galera_zl/server-key.pem;socket.ssl_cert=galera_zl/server-cert.pem;socket.ssl_ca=galera_zl/ca.pem;socket.ssl_cipher=AES128-SHA; gcs.fc_limit=9999999; gcs.fc_factor=1.0; gcs.fc_master_slave=yes
++ CHECK_RESULT 0 0 0 'The options was not found'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='The options was not found'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ garbd -d -c galera_zl/galera_cfg -l galera_zl/log3
++ test -n
++ grep node_name galera_zl/log3
+	name:    node_name
++ CHECK_RESULT 0 0 0 'The node_name was not found'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='The node_name was not found'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ pgrep -f 'garbd -d -c'
++ kill -9 649
++ garbd -v
++ grep INFO
+ INFO: 4.8.rd54ebf8
++ CHECK_RESULT 0 0 0 'The version number is printed incorrectly'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='The version number is printed incorrectly'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End of testcase execution!'
++ message='End of testcase execution!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution!'
+Thu Dec 22 20:47:14 2022 - INFO  - End of testcase execution!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Dec 22 20:47:15 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start environment cleanup.'
++ message='Start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environment cleanup.'
+Thu Dec 22 20:47:16 2022 - INFO  - Start environment cleanup.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpjwkamhk_ ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpjwkamhk_
++ '[' 0 -ne 0 ']'
++ rm -rf galera_zl
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Thu Dec 22 20:47:34 2022 - INFO  - Finish environment cleanup.

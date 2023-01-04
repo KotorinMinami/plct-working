@@ -1,0 +1,233 @@
++ source ../common/common_lib.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu Dec 22 21:40:53 2022 - INFO  - Start environmental preparation.
++ DNF_INSTALL gpm
++ pkgs=gpm
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs gpm --node 1 --tempfile ''
++ tmpfile2=/tmp/tmphvxrhb2k
++ '[' -z '' ']'
++ tmpfile=/tmp/tmphvxrhb2k
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu Dec 22 21:41:51 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Thu Dec 22 21:41:52 2022 - INFO  - Start testing...
++ test_execution gpm.service
++ service=gpm.service
+++ date '+%Y-%m-%d %T'
++ log_time='2022-12-22 21:41:52'
++ test_restart gpm.service
++ service=gpm.service
++ systemctl restart gpm.service
++ CHECK_RESULT 0 0 0 'gpm.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='gpm.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status gpm.service
++ grep 'Active: active'
+     Active: active (running) since Thu 2022-12-22 21:41:52 CST; 5s ago
++ CHECK_RESULT 0 0 0 'gpm.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='gpm.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop gpm.service
++ CHECK_RESULT 0 0 0 'gpm.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='gpm.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status gpm.service
++ grep 'Active: inactive'
+     Active: inactive (dead)
++ CHECK_RESULT 0 0 0 'gpm.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='gpm.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start gpm.service
++ CHECK_RESULT 0 0 0 'gpm.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='gpm.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status gpm.service
++ grep 'Active: active'
+     Active: active (running) since Thu 2022-12-22 21:42:04 CST; 6s ago
++ CHECK_RESULT 0 0 0 'gpm.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='gpm.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled gpm.service
++ service=gpm.service
+++ systemctl is-enabled gpm.service
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ systemctl enable gpm.service
+++ grep 'Created symlink'
+++ awk '{print $3}'
++ symlink_file=/etc/systemd/system/multi-user.target.wants/gpm.service
++ find /etc/systemd/system/multi-user.target.wants/gpm.service
+/etc/systemd/system/multi-user.target.wants/gpm.service
++ CHECK_RESULT 0 0 0 'gpm.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='gpm.service enable failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable gpm.service
+Removed /etc/systemd/system/multi-user.target.wants/gpm.service.
++ find /etc/systemd/system/multi-user.target.wants/gpm.service
+find: ‘/etc/systemd/system/multi-user.target.wants/gpm.service’: No such file or directory
++ CHECK_RESULT 1 0 1 'gpm.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='gpm.service disable failed'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ journalctl --since '2022-12-22 21:41:52' -u gpm.service
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
+Dec 22 21:41:52 openEuler-riscv64 systemd[1]: gpm.service: Failed to parse PID from file /run/gpm.pid: Invalid argument
++ CHECK_RESULT 0 0 1 'There is an error message for the log of gpm.service'
++ actual_result=0
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of gpm.service'
++ '[' -z 0 ']'
++ '[' 1 -eq 0 ']'
++ test 0x == 0x
++ test -n 'There is an error message for the log of gpm.service'
++ LOG_ERROR 'There is an error message for the log of gpm.service'
++ message='There is an error message for the log of gpm.service'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'There is an error message for the log of gpm.service'
+Thu Dec 22 21:42:19 2022 - ERROR - There is an error message for the log of gpm.service
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 28'
++ message='../common/common_lib.sh line 28'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 28'
+Thu Dec 22 21:42:20 2022 - ERROR - ../common/common_lib.sh line 28
++ return 0
++ test_reload gpm.service
++ service=gpm.service
++ systemctl start gpm.service
++ systemctl reload gpm.service
++ grep 'Job type reload is not applicable'
+Failed to reload gpm.service: Job type reload is not applicable for unit gpm.service.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit gpm.service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit gpm.service'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status gpm.service
++ grep 'Active: active'
+     Active: active (running) since Thu 2022-12-22 21:42:04 CST; 16s ago
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Thu Dec 22 21:42:21 2022 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Thu Dec 22 21:42:22 2022 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu Dec 22 21:42:22 2022 - INFO  - start environment cleanup.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmphvxrhb2k ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmphvxrhb2k
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Dec 22 21:42:38 2022 - INFO  - Finish environment cleanup!

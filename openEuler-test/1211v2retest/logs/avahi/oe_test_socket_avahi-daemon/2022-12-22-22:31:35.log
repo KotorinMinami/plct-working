@@ -1,0 +1,233 @@
++ source ../common/common_lib.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu Dec 22 22:31:40 2022 - INFO  - Start environmental preparation.
++ DNF_INSTALL avahi
++ pkgs=avahi
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs avahi --node 1 --tempfile ''
+Thu Dec 22 22:31:50 2022 - INFO  - pkgs:(avahi) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu Dec 22 22:31:52 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Dec 22 22:31:52 2022 - INFO  - Start to run test.
++ test_execution avahi-daemon.socket
++ service=avahi-daemon.socket
+++ date '+%Y-%m-%d %T'
++ log_time='2022-12-22 22:31:53'
++ test_restart avahi-daemon.socket
++ service=avahi-daemon.socket
++ systemctl restart avahi-daemon.socket
++ CHECK_RESULT 0 0 0 'avahi-daemon.socket restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='avahi-daemon.socket restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status avahi-daemon.socket
++ grep 'Active: active'
+     Active: active (running) since Thu 2022-12-22 22:31:53 CST; 6s ago
++ CHECK_RESULT 0 0 0 'avahi-daemon.socket restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='avahi-daemon.socket restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop avahi-daemon.socket
++ CHECK_RESULT 0 0 0 'avahi-daemon.socket stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='avahi-daemon.socket stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ grep 'Active: inactive'
++ systemctl status avahi-daemon.socket
+     Active: inactive (dead) since Thu 2022-12-22 22:31:59 CST; 6s ago
++ CHECK_RESULT 0 0 0 'avahi-daemon.socket stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='avahi-daemon.socket stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start avahi-daemon.socket
++ CHECK_RESULT 0 0 0 'avahi-daemon.socket start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='avahi-daemon.socket start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status avahi-daemon.socket
++ grep 'Active: active'
+     Active: active (listening) since Thu 2022-12-22 22:32:06 CST; 6s ago
++ CHECK_RESULT 0 0 0 'avahi-daemon.socket start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='avahi-daemon.socket start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled avahi-daemon.socket
++ service=avahi-daemon.socket
+++ systemctl is-enabled avahi-daemon.socket
++ state=enabled
++ '[' enabled == enabled ']'
+++ systemctl disable avahi-daemon.socket
+++ grep Removed
+++ awk '{print substr($0,1,length($0)-1)}'
+++ awk '{print $2}'
++ symlink_file=/etc/systemd/system/sockets.target.wants/avahi-daemon.socket
++ find /etc/systemd/system/sockets.target.wants/avahi-daemon.socket
+find: ‘/etc/systemd/system/sockets.target.wants/avahi-daemon.socket’: No such file or directory
++ CHECK_RESULT 1 0 1 'avahi-daemon.socket disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='avahi-daemon.socket disable failed'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ systemctl enable avahi-daemon.socket
+Created symlink /etc/systemd/system/sockets.target.wants/avahi-daemon.socket → /usr/lib/systemd/system/avahi-daemon.socket.
++ find /etc/systemd/system/sockets.target.wants/avahi-daemon.socket
+/etc/systemd/system/sockets.target.wants/avahi-daemon.socket
++ CHECK_RESULT 0 0 0 'avahi-daemon.socket enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='avahi-daemon.socket enable failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ grep -i 'fail\|error'
++ journalctl --since '2022-12-22 22:31:53' -u avahi-daemon.socket
++ CHECK_RESULT 1 0 1 'There is an error message for the log of avahi-daemon.socket'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of avahi-daemon.socket'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ systemctl start avahi-daemon.socket
++ grep 'Job type reload is not applicable for unit avahi-daemon.socket'
++ systemctl reload avahi-daemon.socket
+Failed to reload avahi-daemon.socket: Job type reload is not applicable for unit avahi-daemon.socket.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status avahi-daemon.socket
++ grep 'Active: active'
+     Active: active (listening) since Thu 2022-12-22 22:32:06 CST; 20s ago
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Thu Dec 22 22:32:27 2022 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Dec 22 22:32:28 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu Dec 22 22:32:29 2022 - INFO  - start environment cleanup.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Thu Dec 22 22:32:30 2022 - WARN  - no thing to do.
++ return 0
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Dec 22 22:32:31 2022 - INFO  - Finish environment cleanup!

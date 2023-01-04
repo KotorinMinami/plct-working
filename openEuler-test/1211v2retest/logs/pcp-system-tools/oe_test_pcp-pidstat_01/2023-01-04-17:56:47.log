@@ -1,0 +1,217 @@
++ source common/common_pcp-system-tools.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Jan  4 17:56:50 2023 - INFO  - Start to prepare the test environment.
++ deploy_env
++ DNF_INSTALL 'pcp pcp-system-tools'
++ pkgs='pcp pcp-system-tools'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs 'pcp pcp-system-tools' --node 1 --tempfile ''
+Wed Jan  4 17:57:01 2023 - INFO  - pkgs:(pcp pcp-system-tools) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ systemctl enable pmcd
++ systemctl start pmcd
++ systemctl enable pmlogger
++ systemctl start pmlogger
++ SLEEP_WAIT 20
++ wait_time=20
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 20 --cmd '' --mode 1
+++ hostname
++ host_name=openEuler-riscv64
+++ rpm -qa pcp
+++ awk -F - '{print $2}'
++ pcp_version=5.3.5
+++ pcp -h openEuler-riscv64
+++ grep 'primary logger:'
+++ awk -F: '{print $NF}'
++ archive_data=' /var/log/pcp/pmlogger/openEuler-riscv64/20230104.17.48'
++ OLD_PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin
++ export PATH=/usr/libexec/pcp/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin
++ PATH=/usr/libexec/pcp/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Wed Jan  4 17:57:37 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Jan  4 17:57:37 2023 - INFO  - Start to run test.
++ SLEEP_WAIT 60
++ wait_time=60
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 60 --cmd '' --mode 1
++ pcp-pidstat --version
++ grep 5.3.5
+pcp-pidstat version 5.3.5
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pcp-pidstat -a /var/log/pcp/pmlogger/openEuler-riscv64/20230104.17.48 -s 10
++ grep UID
+Timestamp        UID	PID	usr	system	guest	%CPU	CPU	Command
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep pmcd
++ pcp-pidstat -t 2 -s 3 -I -U pcp -G pmcd
+17:58:44         pcp	3908	0.0	0.48	0.0	0.12	0	pmcd
+17:58:47         pcp	3908	0.43	0.43	0.0	0.21	2	pmcd
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ pcp-pidstat -s 2 -U pcp -G pmcd
+++ grep pmcd
+++ awk '{print $3}'
++ pid=3908
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pcp-pidstat -t 2 -s 3 -I -U pcp -p 3908
++ grep UName
+Timestamp        UName	PID	usr	system	guest	%CPU	CPU	Command
+Timestamp        UName	PID	usr	system	guest	%CPU	CPU	Command
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pcp-pidstat -s 2 -p 3908 -f %s
++ grep PID
+Timestamp   UID	PID	usr	system	guest	%CPU	CPU	Command
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pcp-pidstat -s 2 -p 3908 -B all
++ grep State
+Timestamp	PID	State	Utime	Stime	Total Time	Function			Command
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep R
++ pcp-pidstat -s 2 -p 3908 -B detail
+Timestamp	PID		R		S		Z		T		D		Command
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pcp-pidstat -s 2 -p 3908 -l
++ grep guest
+Timestamp        UID	PID	usr	system	guest	%CPU	CPU	Command
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed Jan  4 17:59:17 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Jan  4 17:59:18 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Jan  4 17:59:18 2023 - INFO  - Start to restore the test environment.
++ clear_env
++ systemctl stop pmcd
++ systemctl stop pmlogger
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Wed Jan  4 17:59:33 2023 - WARN  - no thing to do.
++ return 0
++ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed Jan  4 17:59:33 2023 - INFO  - End to restore the test environment.

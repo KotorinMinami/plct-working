@@ -1,0 +1,230 @@
++ source ../common/common_lib.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu Dec 22 18:35:42 2022 - INFO  - Start environmental preparation.
++ DNF_INSTALL cups
++ pkgs=cups
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs cups --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp4vhy2884
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp4vhy2884
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu Dec 22 18:37:43 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Dec 22 18:37:44 2022 - INFO  - Start to run test.
++ test_execution cups.socket
++ service=cups.socket
+++ date '+%Y-%m-%d %T'
++ log_time='2022-12-22 18:37:44'
++ test_restart cups.socket
++ service=cups.socket
++ systemctl restart cups.socket
++ CHECK_RESULT 0 0 0 'cups.socket restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='cups.socket restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status cups.socket
++ grep 'Active: active'
+     Active: active (listening) since Thu 2022-12-22 18:37:44 CST; 5s ago
++ CHECK_RESULT 0 0 0 'cups.socket restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='cups.socket restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop cups.socket
++ CHECK_RESULT 0 0 0 'cups.socket stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='cups.socket stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status cups.socket
++ grep 'Active: inactive'
+     Active: inactive (dead) since Thu 2022-12-22 18:37:50 CST; 5s ago
++ CHECK_RESULT 0 0 0 'cups.socket stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='cups.socket stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start cups.socket
++ CHECK_RESULT 0 0 0 'cups.socket start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='cups.socket start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status cups.socket
++ grep 'Active: active'
+     Active: active (listening) since Thu 2022-12-22 18:37:56 CST; 5s ago
++ CHECK_RESULT 0 0 0 'cups.socket start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='cups.socket start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled cups.socket
++ service=cups.socket
+++ systemctl is-enabled cups.socket
++ state=enabled
++ '[' enabled == enabled ']'
+++ systemctl disable cups.socket
+++ awk '{print substr($0,1,length($0)-1)}'
+++ grep Removed
+++ awk '{print $2}'
++ symlink_file=/etc/systemd/system/sockets.target.wants/cups.socket
++ find /etc/systemd/system/sockets.target.wants/cups.socket
+find: ‘/etc/systemd/system/sockets.target.wants/cups.socket’: No such file or directory
++ CHECK_RESULT 1 0 1 'cups.socket disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='cups.socket disable failed'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ systemctl enable cups.socket
+Created symlink /etc/systemd/system/sockets.target.wants/cups.socket → /usr/lib/systemd/system/cups.socket.
++ find /etc/systemd/system/sockets.target.wants/cups.socket
+/etc/systemd/system/sockets.target.wants/cups.socket
++ CHECK_RESULT 0 0 0 'cups.socket enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='cups.socket enable failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ journalctl --since '2022-12-22 18:37:44' -u cups.socket
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of cups.socket'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of cups.socket'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ systemctl start cups.socket
++ systemctl reload cups.socket
++ grep 'Job type reload is not applicable for unit cups.socket'
+Failed to reload cups.socket: Job type reload is not applicable for unit cups.socket.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status cups.socket
++ grep 'Active: active'
+     Active: active (listening) since Thu 2022-12-22 18:37:56 CST; 14s ago
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Thu Dec 22 18:38:11 2022 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Dec 22 18:38:12 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu Dec 22 18:38:13 2022 - INFO  - start environment cleanup.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp4vhy2884 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp4vhy2884
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Dec 22 18:39:01 2022 - INFO  - Finish environment cleanup!

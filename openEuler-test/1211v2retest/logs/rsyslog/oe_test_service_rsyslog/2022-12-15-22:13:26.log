@@ -1,0 +1,211 @@
++ source ../common/common_lib.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n '' ']'
++ trap POST_TEST_DEFAULT EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu Dec 15 22:13:35 2022 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL rsyslog
++ pkgs=rsyslog
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs rsyslog --node 1 --tempfile ''
+Thu Dec 15 22:13:53 2022 - INFO  - pkgs:(rsyslog) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu Dec 15 22:13:54 2022 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Thu Dec 15 22:13:55 2022 - INFO  - Start testing...
++ test_execution rsyslog.service
++ service=rsyslog.service
+++ date '+%Y-%m-%d %T'
++ log_time='2022-12-15 22:13:56'
++ test_restart rsyslog.service
++ service=rsyslog.service
++ systemctl restart rsyslog.service
++ CHECK_RESULT 0 0 0 'rsyslog.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rsyslog.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status rsyslog.service
++ grep 'Active: active'
+     Active: active (running) since Thu 2022-12-15 22:13:57 CST; 6s ago
++ CHECK_RESULT 0 0 0 'rsyslog.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rsyslog.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop rsyslog.service
++ CHECK_RESULT 0 0 0 'rsyslog.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rsyslog.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status rsyslog.service
++ grep 'Active: inactive'
+     Active: inactive (dead) since Thu 2022-12-15 22:14:04 CST; 6s ago
++ CHECK_RESULT 0 0 0 'rsyslog.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rsyslog.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start rsyslog.service
++ CHECK_RESULT 0 0 0 'rsyslog.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rsyslog.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ grep 'Active: active'
++ systemctl status rsyslog.service
+     Active: active (running) since Thu 2022-12-15 22:14:12 CST; 6s ago
++ CHECK_RESULT 0 0 0 'rsyslog.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rsyslog.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled rsyslog.service
++ service=rsyslog.service
+++ systemctl is-enabled rsyslog.service
++ state=enabled
++ '[' enabled == enabled ']'
+++ systemctl disable rsyslog.service
+++ grep Removed
+++ awk '{print $2}'
+++ awk '{print substr($0,1,length($0)-1)}'
++ symlink_file=/etc/systemd/system/multi-user.target.wants/rsyslog.service
++ find /etc/systemd/system/multi-user.target.wants/rsyslog.service
+find: ‘/etc/systemd/system/multi-user.target.wants/rsyslog.service’: No such file or directory
++ CHECK_RESULT 1 0 1 'rsyslog.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='rsyslog.service disable failed'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ systemctl enable rsyslog.service
+Created symlink /etc/systemd/system/multi-user.target.wants/rsyslog.service → /usr/lib/systemd/system/rsyslog.service.
++ find /etc/systemd/system/multi-user.target.wants/rsyslog.service
+/etc/systemd/system/multi-user.target.wants/rsyslog.service
++ CHECK_RESULT 0 0 0 'rsyslog.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rsyslog.service enable failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep -i 'fail\|error'
++ journalctl --since '2022-12-15 22:13:56' -u rsyslog.service
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of rsyslog.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of rsyslog.service'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_reload rsyslog.service
++ service=rsyslog.service
++ systemctl start rsyslog.service
++ systemctl reload rsyslog.service
++ grep 'Job type reload is not applicable'
+Failed to reload rsyslog.service: Job type reload is not applicable for unit rsyslog.service.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit rsyslog.service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit rsyslog.service'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status rsyslog.service
++ grep 'Active: active'
+     Active: active (running) since Thu 2022-12-15 22:14:12 CST; 22s ago
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Thu Dec 15 22:14:35 2022 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Dec 15 22:14:36 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ POST_TEST_DEFAULT
++ LOG_INFO 'oe_test_service_rsyslog.sh post_test'
++ message='oe_test_service_rsyslog.sh post_test'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'oe_test_service_rsyslog.sh post_test'
+Thu Dec 15 22:14:38 2022 - INFO  - oe_test_service_rsyslog.sh post_test

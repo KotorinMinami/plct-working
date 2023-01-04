@@ -1,0 +1,152 @@
++ source ../common/common_lib.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Fri Dec 23 00:49:43 2022 - INFO  - Start environmental preparation.
++ DNF_INSTALL libcanberra
++ pkgs=libcanberra
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs libcanberra --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp0ki9aath
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp0ki9aath
++ file_isExist=0
++ test -f /usr/share/sounds/freedesktop/stereo/system-shutdown.oga
++ test 0 -eq 0
++ cp -raf /usr/share/sounds/freedesktop/stereo/bell.oga /usr/share/sounds/freedesktop/stereo/system-shutdown.oga
++ systemctl start canberra-system-shutdown-reboot.service
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Fri Dec 23 00:50:41 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Fri Dec 23 00:50:42 2022 - INFO  - Start testing...
++ test_oneshot canberra-system-shutdown-reboot.service 'inactive (dead)'
++ service=canberra-system-shutdown-reboot.service
++ status='inactive (dead)'
++ systemctl status canberra-system-shutdown-reboot.service
++ grep -v 'inactive (dead)'
++ grep Active
++ CHECK_RESULT 1 0 1 'There is an error for the status of canberra-system-shutdown-reboot.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error for the status of canberra-system-shutdown-reboot.service'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_enabled canberra-system-shutdown-reboot.service
++ service=canberra-system-shutdown-reboot.service
+++ systemctl is-enabled canberra-system-shutdown-reboot.service
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ systemctl enable canberra-system-shutdown-reboot.service
+++ grep 'Created symlink'
+++ awk '{print $3}'
++ symlink_file='/etc/systemd/system/reboot.target.wants/canberra-system-shutdown-reboot.service
+/etc/systemd/system/kexec.target.wants/canberra-system-shutdown-reboot.service
+/etc/systemd/system/halt.target.wants/canberra-system-shutdown.service
+/etc/systemd/system/poweroff.target.wants/canberra-system-shutdown.service'
++ find /etc/systemd/system/reboot.target.wants/canberra-system-shutdown-reboot.service /etc/systemd/system/kexec.target.wants/canberra-system-shutdown-reboot.service /etc/systemd/system/halt.target.wants/canberra-system-shutdown.service /etc/systemd/system/poweroff.target.wants/canberra-system-shutdown.service
+/etc/systemd/system/reboot.target.wants/canberra-system-shutdown-reboot.service
+/etc/systemd/system/kexec.target.wants/canberra-system-shutdown-reboot.service
+/etc/systemd/system/halt.target.wants/canberra-system-shutdown.service
+/etc/systemd/system/poweroff.target.wants/canberra-system-shutdown.service
++ CHECK_RESULT 0 0 0 'canberra-system-shutdown-reboot.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='canberra-system-shutdown-reboot.service enable failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable canberra-system-shutdown-reboot.service
+Removed /etc/systemd/system/halt.target.wants/canberra-system-shutdown.service.
+Removed /etc/systemd/system/reboot.target.wants/canberra-system-shutdown-reboot.service.
+Removed /etc/systemd/system/kexec.target.wants/canberra-system-shutdown-reboot.service.
+Removed /etc/systemd/system/poweroff.target.wants/canberra-system-shutdown.service.
++ find /etc/systemd/system/reboot.target.wants/canberra-system-shutdown-reboot.service /etc/systemd/system/kexec.target.wants/canberra-system-shutdown-reboot.service /etc/systemd/system/halt.target.wants/canberra-system-shutdown.service /etc/systemd/system/poweroff.target.wants/canberra-system-shutdown.service
+find: ‘/etc/systemd/system/reboot.target.wants/canberra-system-shutdown-reboot.service’: No such file or directory
+find: ‘/etc/systemd/system/kexec.target.wants/canberra-system-shutdown-reboot.service’: No such file or directory
+find: ‘/etc/systemd/system/halt.target.wants/canberra-system-shutdown.service’: No such file or directory
+find: ‘/etc/systemd/system/poweroff.target.wants/canberra-system-shutdown.service’: No such file or directory
++ CHECK_RESULT 1 0 1 'canberra-system-shutdown-reboot.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='canberra-system-shutdown-reboot.service disable failed'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ journalctl -u canberra-system-shutdown-reboot.service
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of canberra-system-shutdown-reboot.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of canberra-system-shutdown-reboot.service'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Fri Dec 23 00:50:51 2022 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri Dec 23 00:50:52 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri Dec 23 00:50:53 2022 - INFO  - start environment cleanup.
++ test 0 -eq 0
++ rm -rf /usr/share/sounds/freedesktop/stereo/system-shutdown.oga
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp0ki9aath ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp0ki9aath
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Fri Dec 23 00:51:23 2022 - INFO  - Finish environment cleanup!

@@ -1,0 +1,342 @@
++ source ./common/disk_lib.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment!'
++ message='Start to prepare the test environment!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment!'
+Wed Jan  4 01:52:23 2023 - INFO  - Start to prepare the test environment!
++ DNF_INSTALL lvm2
++ pkgs=lvm2
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs lvm2 --node 1 --tempfile ''
+Wed Jan  4 01:52:31 2023 - INFO  - pkgs:(lvm2) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ check_free_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='vdb vdc vdd vde'
++ disk_list=($disks)
++ local_disk=vdb
++ local_disk1=vdc
++ local_disk2=vdd
++ local_disk3=vde
++ LOG_INFO 'End to prepare the test environment!'
++ message='End to prepare the test environment!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment!'
+Wed Jan  4 01:52:38 2023 - INFO  - End to prepare the test environment!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase!'
++ message='Start executing testcase!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase!'
+Wed Jan  4 01:52:39 2023 - INFO  - Start executing testcase!
++ pvcreate -y /dev/vdb /dev/vdc
+  Physical volume "/dev/vdb" successfully created.
+  Physical volume "/dev/vdc" successfully created.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pvs
++ grep /dev/vdb
+  /dev/vdb      lvm2 ---  500.00m 500.00m
++ pvs
++ grep /dev/vdc
+  /dev/vdc      lvm2 ---  500.00m 500.00m
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgcreate test /dev/vdb /dev/vdc
+  Volume group "test" successfully created
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ lvcreate -L 50MB -n lv1 test
++ grep 'Logical volume "lv1" created'
+  Logical volume "lv1" created.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pvmove /dev/vdb /dev/vdc
++ grep 'Moved: 100.00%'
+modprobe: FATAL: Module dm-mirror not found in directory /lib/modules/5.10.0-9.oe2203.riscv64
+  /usr/sbin/modprobe failed: 1
+  Required device-mapper target(s) not detected in your kernel.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_lvm2_pvmove_002.sh line 38'
++ message='oe_test_lvm2_pvmove_002.sh line 38'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_lvm2_pvmove_002.sh line 38'
+Wed Jan  4 01:52:42 2023 - ERROR - oe_test_lvm2_pvmove_002.sh line 38
++ return 0
++ grep 'Moved: 100.00%'
++ pvmove -A y /dev/vdc /dev/vdb
+modprobe: FATAL: Module dm-mirror not found in directory /lib/modules/5.10.0-9.oe2203.riscv64
+  /usr/sbin/modprobe failed: 1
+  Required device-mapper target(s) not detected in your kernel.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_lvm2_pvmove_002.sh line 40'
++ message='oe_test_lvm2_pvmove_002.sh line 40'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_lvm2_pvmove_002.sh line 40'
+Wed Jan  4 01:52:43 2023 - ERROR - oe_test_lvm2_pvmove_002.sh line 40
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ grep 'Moved: 100.00%'
++ pvmove -n lv1 /dev/vdb /dev/vdc
+modprobe: FATAL: Module dm-mirror not found in directory /lib/modules/5.10.0-9.oe2203.riscv64
+  /usr/sbin/modprobe failed: 1
+  Required device-mapper target(s) not detected in your kernel.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_lvm2_pvmove_002.sh line 43'
++ message='oe_test_lvm2_pvmove_002.sh line 43'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_lvm2_pvmove_002.sh line 43'
+Wed Jan  4 01:52:50 2023 - ERROR - oe_test_lvm2_pvmove_002.sh line 43
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ pvmove --alloc contiguous /dev/vdc /dev/vdb
++ grep 'Moved: 100.00%'
+modprobe: FATAL: Module dm-mirror not found in directory /lib/modules/5.10.0-9.oe2203.riscv64
+  /usr/sbin/modprobe failed: 1
+  Required device-mapper target(s) not detected in your kernel.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_lvm2_pvmove_002.sh line 46'
++ message='oe_test_lvm2_pvmove_002.sh line 46'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_lvm2_pvmove_002.sh line 46'
+Wed Jan  4 01:52:56 2023 - ERROR - oe_test_lvm2_pvmove_002.sh line 46
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ pvmove --atomic /dev/vdb /dev/vdc
++ grep 'Moved: 100.00%'
+modprobe: FATAL: Module dm-mirror not found in directory /lib/modules/5.10.0-9.oe2203.riscv64
+  /usr/sbin/modprobe failed: 1
+  Required device-mapper target(s) not detected in your kernel.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_lvm2_pvmove_002.sh line 49'
++ message='oe_test_lvm2_pvmove_002.sh line 49'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_lvm2_pvmove_002.sh line 49'
+Wed Jan  4 01:53:03 2023 - ERROR - oe_test_lvm2_pvmove_002.sh line 49
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ pvmove --noudevsync /dev/vdc /dev/vdb
++ grep 'Moved: 100.00%'
+modprobe: FATAL: Module dm-mirror not found in directory /lib/modules/5.10.0-9.oe2203.riscv64
+  /usr/sbin/modprobe failed: 1
+  Required device-mapper target(s) not detected in your kernel.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_lvm2_pvmove_002.sh line 52'
++ message='oe_test_lvm2_pvmove_002.sh line 52'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_lvm2_pvmove_002.sh line 52'
+Wed Jan  4 01:53:10 2023 - ERROR - oe_test_lvm2_pvmove_002.sh line 52
++ return 0
++ pvmove --noudevsync --reportformat json /dev/vdb /dev/vdc
++ grep 'Moved: 100.00%'
+modprobe: FATAL: Module dm-mirror not found in directory /lib/modules/5.10.0-9.oe2203.riscv64
+  /usr/sbin/modprobe failed: 1
+  Required device-mapper target(s) not detected in your kernel.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_lvm2_pvmove_002.sh line 54'
++ message='oe_test_lvm2_pvmove_002.sh line 54'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_lvm2_pvmove_002.sh line 54'
+Wed Jan  4 01:53:11 2023 - ERROR - oe_test_lvm2_pvmove_002.sh line 54
++ return 0
++ pvmove --version
++ grep 'LVM version'
+  LVM version:     2.03.14(2) (2021-10-20)
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pvmove -h
++ grep 'pvmove PV'
+  pvmove PV
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pvmove -v
++ grep 'Checking progress before waiting every 15 seconds'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_lvm2_pvmove_002.sh line 60'
++ message='oe_test_lvm2_pvmove_002.sh line 60'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_lvm2_pvmove_002.sh line 60'
+Wed Jan  4 01:53:12 2023 - ERROR - oe_test_lvm2_pvmove_002.sh line 60
++ return 0
++ LOG_INFO 'End executing testcase!'
++ message='End executing testcase!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End executing testcase!'
+Wed Jan  4 01:53:13 2023 - INFO  - End executing testcase!
++ CASE_RESULT 0
++ case_re=0
++ test -z 8
++ test 8 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed Jan  4 01:53:14 2023 - ERROR - failed to execute the case.
++ exit 8
++ post_test
++ LOG_INFO 'Start environment cleanup.'
++ message='Start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environment cleanup.'
+Wed Jan  4 01:53:14 2023 - INFO  - Start environment cleanup.
++ vgremove -f test
+  Logical volume "lv1" successfully removed.
+  Volume group "test" successfully removed
++ pvremove -f /dev/vdb
+  Labels on physical volume "/dev/vdb" successfully wiped.
++ pvremove -f /dev/vdc
+  Labels on physical volume "/dev/vdc" successfully wiped.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Wed Jan  4 01:53:16 2023 - WARN  - no thing to do.
++ return 0
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Wed Jan  4 01:53:17 2023 - INFO  - Finish environment cleanup.

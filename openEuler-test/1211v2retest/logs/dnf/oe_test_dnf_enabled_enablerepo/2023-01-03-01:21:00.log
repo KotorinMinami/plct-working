@@ -1,0 +1,156 @@
++ source common/common_dnf.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Jan  3 01:21:04 2023 - INFO  - Start to prepare the test environment.
++ deploy_env
++ OLD_LANG=C.UTF-8
++ export LANG=en_US.UTF-8
++ LANG=en_US.UTF-8
+++ grep enabled=
+++ awk -F - '{print $1}'
+++ grep -nA4 name=mainline /etc/yum.repos.d/openEuler.repo
++ line1=5
+++ grep -nA4 name=extra /etc/yum.repos.d/openEuler.repo
+++ grep enabled=
+++ awk -F - '{print $1}'
++ line2=16
++ LOG_INFO 'Finish preparing the test environment.'
++ message='Finish preparing the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish preparing the test environment.'
+Tue Jan  3 01:21:04 2023 - INFO  - Finish preparing the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Jan  3 01:21:05 2023 - INFO  - Start to run test.
++ grep name=mainline
++ grep -B3 enabled=1 /etc/yum.repos.d/openEuler.repo
+name=mainline
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf repolist
++ grep mainline
+mainline                                mainline
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep -B3 enabled=1 /etc/yum.repos.d/openEuler.repo
++ grep name=extra
+name=extra
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf repolist
++ grep extra
+extra                                   extra
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ sed -i '5c enabled=0' /etc/yum.repos.d/openEuler.repo
++ sed -i '16c enabled=0' /etc/yum.repos.d/openEuler.repo
++ grep 'mainline\|extra'
++ dnf repolist
++ CHECK_RESULT 1 1 0
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ dnf install -y sysstat
++ grep 'No match for argument: sysstat'
+No match for argument: sysstat
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf --enablerepo=epol repolist
++ grep epol
+epol                                      epol
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Tue Jan  3 01:21:23 2023 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Jan  3 01:21:23 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Jan  3 01:21:24 2023 - INFO  - Start to restore the test environment.
++ clear_env
++ export LANG=C.UTF-8
++ LANG=C.UTF-8
++ sed -i '5c enabled=1' /etc/yum.repos.d/openEuler.repo
++ sed -i '16c enabled=1' /etc/yum.repos.d/openEuler.repo
++ LOG_INFO 'End of restore the test environment.'
++ message='End of restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of restore the test environment.'
+Tue Jan  3 01:21:25 2023 - INFO  - End of restore the test environment.

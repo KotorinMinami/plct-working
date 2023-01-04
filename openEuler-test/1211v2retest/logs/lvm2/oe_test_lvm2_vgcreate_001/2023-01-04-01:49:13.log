@@ -1,0 +1,464 @@
++ source ./common/disk_lib.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment!'
++ message='Start to prepare the test environment!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment!'
+Wed Jan  4 01:49:17 2023 - INFO  - Start to prepare the test environment!
++ DNF_INSTALL lvm2
++ pkgs=lvm2
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs lvm2 --node 1 --tempfile ''
+Wed Jan  4 01:49:25 2023 - INFO  - pkgs:(lvm2) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ check_free_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='vdb vdc vdd vde'
++ disk_list=($disks)
++ local_disk=vdb
++ local_disk1=vdc
++ local_disk2=vdd
++ local_disk3=vde
+++ cat /etc/os-release
+++ grep VERSION_ID
+++ awk -F = '{print$NF}'
+++ awk -F '"' '{print$2}'
++ version_id=22.03
++ LOG_INFO 'End to prepare the test environment!'
++ message='End to prepare the test environment!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment!'
+Wed Jan  4 01:49:32 2023 - INFO  - End to prepare the test environment!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase!'
++ message='Start executing testcase!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase!'
+Wed Jan  4 01:49:32 2023 - INFO  - Start executing testcase!
++ pvcreate -y /dev/vdb /dev/vdc /dev/vdd
+  Physical volume "/dev/vdb" successfully created.
+  Physical volume "/dev/vdc" successfully created.
+  Physical volume "/dev/vdd" successfully created.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pvck -v /dev/vdb
++ grep 'Found label on /dev/vdb'
+  Found label on /dev/vdb, sector 1, type=LVM2 001
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgcreate test /dev/vdb --autobackup y
++ grep 'successfully created'
+  Volume group "test" successfully created
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgremove test -f
+  Volume group "test" successfully removed
++ grep 'successfully created'
++ vgcreate test /dev/vdb --maxlogicalvolumes 3
+  Volume group "test" successfully created
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep created
++ lvcreate -L 0.1MB -n lv test
+  Logical volume "lv" created.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep created
++ lvcreate -L 0.1MB -n lv1 test
+  Logical volume "lv1" created.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep created
++ lvcreate -L 0.1MB -n lv2 test
+  Logical volume "lv2" created.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'Maximum number of logical volumes (3) reached in volume group test'
++ lvcreate -L 0.1MB -n lv3 test
+  Maximum number of logical volumes (3) reached in volume group test
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgremove test -f
+  Logical volume "lv" successfully removed.
+  Logical volume "lv1" successfully removed.
+  Logical volume "lv2" successfully removed.
+  Volume group "test" successfully removed
++ vgcreate --maxphysicalvolumes 2 test /dev/vdb
++ grep 'successfully created'
+  Volume group "test" successfully created
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgextend test /dev/vdc
++ grep 'successfully extended'
+  Volume group "test" successfully extended
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgextend test /dev/vdd
++ grep 'max 2 physical volume'
+  No space for '/dev/vdd' - volume group 'test' holds max 2 physical volume(s).
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgremove test -f
+  Volume group "test" successfully removed
++ vgcreate test /dev/vdb --metadatatype lvm2
++ grep 'successfully created'
+  Volume group "test" successfully created
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgremove test -f
+  Volume group "test" successfully removed
++ vgcreate test /dev/vdb --physicalextentsize 2
++ grep 'successfully created'
+  Volume group "test" successfully created
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgremove test -f
+  Volume group "test" successfully removed
++ grep 'successfully created'
++ vgcreate -f test /dev/vdb
+  Volume group "test" successfully created
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgremove test -f
+  Volume group "test" successfully removed
++ vgcreate --zero y test /dev/vdb
++ grep 'successfully created'
+  Volume group "test" successfully created
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgremove test -f
+  Volume group "test" successfully removed
++ grep 'successfully created'
++ vgcreate --addtag lh test /dev/vdb
+  Volume group "test" successfully created
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgremove test -f
+  Volume group "test" successfully removed
++ grep 'successfully created'
++ vgcreate --alloc contiguous test /dev/vdb
+  Volume group "test" successfully created
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgremove test -f
+  Volume group "test" successfully removed
++ touch /etc/lvm/profile/lh.profile
++ vgcreate --metadataprofile lh test /dev/vdb
++ grep 'successfully created'
+  Volume group "test" successfully created
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgremove test -f
+  Volume group "test" successfully removed
++ grep 'successfully created'
++ vgcreate --labelsector 1 test /dev/vdb
+  Volume group "test" successfully created
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgremove test -f
+  Volume group "test" successfully removed
++ vgcreate --metadatasize 1 test /dev/vdb
++ grep 'successfully created'
+  Volume group "test" successfully created
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgremove test -f
+  Volume group "test" successfully removed
++ vgcreate --pvmetadatacopies 0 test /dev/vdb
++ grep 'successfully created'
+  Volume group "test" successfully created
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgremove test -f
+  Volume group "test" successfully removed
++ vgcreate --vgmetadatacopies all test /dev/vdb
++ grep 'successfully created'
+  Volume group "test" successfully created
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgremove test -f
+  Volume group "test" successfully removed
++ grep 'successfully created'
++ vgcreate --reportformat basic test /dev/vdb
+  Volume group "test" successfully created
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgremove test -f
+  Volume group "test" successfully removed
++ vgcreate --dataalignment 2 test /dev/vdb
++ grep 'successfully created'
+  Volume group "test" successfully created
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgremove test -f
+  Volume group "test" successfully removed
++ vgcreate --dataalignmentoffset 2 test /dev/vdb
++ grep 'successfully created'
+  Volume group "test" successfully created
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgremove test -f
+  Volume group "test" successfully removed
+++ cat /etc/os-release
+++ grep VERSION_ID
+++ awk -F = '{print$NF}'
++ version_id='"22.03"'
++ '["22.03"' = '22.03]'
+oe_test_lvm2_vgcreate_001.sh: line 100: ["22.03": command not found
++ vgcreate --help
++ grep 'Create a volume group'
+  vgcreate - Create a volume group
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End executing testcase!'
++ message='End executing testcase!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End executing testcase!'
+Wed Jan  4 01:49:52 2023 - INFO  - End executing testcase!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Jan  4 01:49:53 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start environment cleanup.'
++ message='Start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environment cleanup.'
+Wed Jan  4 01:49:54 2023 - INFO  - Start environment cleanup.
++ vgremove test -f
+  Volume group "test" not found
+  Cannot process volume group test
++ pvremove -f /dev/vdb /dev/vdc /dev/vdd
+  Labels on physical volume "/dev/vdb" successfully wiped.
+  Labels on physical volume "/dev/vdc" successfully wiped.
+  Labels on physical volume "/dev/vdd" successfully wiped.
++ rm -rf /etc/lvm/profile/lh.profile
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Wed Jan  4 01:49:55 2023 - WARN  - no thing to do.
++ return 0
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Wed Jan  4 01:49:56 2023 - INFO  - Finish environment cleanup.

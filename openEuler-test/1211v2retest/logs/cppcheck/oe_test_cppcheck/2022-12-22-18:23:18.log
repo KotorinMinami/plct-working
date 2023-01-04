@@ -1,0 +1,534 @@
++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu Dec 22 18:23:21 2022 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL cppcheck
++ pkgs=cppcheck
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs cppcheck --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp_rxu0s4y
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp_rxu0s4y
++ mkdir cppcheck1 cppcheck2 result
++ cp test.cpp cppcheck1/test1.cpp
++ cp file.c cppcheck1/file1.c
++ cp main.c cppcheck1/main1.c
++ cp test.cpp cppcheck2/test2.cpp
++ cp main.c cppcheck2/main2.c
+++ grep VERSION_ID /etc/os-release
+++ awk -F '\"' '{print$2}'
++ VERSION_ID=22.03
++ LOG_INFO 'Finish preparing the test environment.'
++ message='Finish preparing the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish preparing the test environment.'
+Thu Dec 22 18:24:37 2022 - INFO  - Finish preparing the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Dec 22 18:24:37 2022 - INFO  - Start to run test.
++ cppcheck --help
++ grep -E 'Syntax|cppcheck \[OPTIONS\] \[files or paths\]'
+Syntax:
+    cppcheck [OPTIONS] [files or paths]
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cppcheck --version
++ grep -i Cppcheck
+Cppcheck 2.6.3
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cppcheck cppcheck1
++ grep -E 'file1.c|main1.c|test1.cpp'
+cppcheck1/file1.c:5:6: error: Array 'a[10]' accessed at index 10, which is out of bounds. [arrayIndexOutOfBounds]
+    a[10] = 0;
+     ^
+Checking cppcheck1/file1.c ...
+Checking cppcheck1/main1.c ...
+Checking cppcheck1/test1.cpp ...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cppcheck cppcheck1/file1.c cppcheck1/main1.c
++ grep -E 'file1.c|main1.c'
+cppcheck1/file1.c:5:6: error: Array 'a[10]' accessed at index 10, which is out of bounds. [arrayIndexOutOfBounds]
+    a[10] = 0;
+     ^
+Checking cppcheck1/file1.c ...
+Checking cppcheck1/main1.c ...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cppcheck -i cppcheck2/test2.cpp cppcheck2
++ grep test2.cpp
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ cppcheck file.c
++ grep 'Checking file.c ...'
+Checking file.c ...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep error error1
+file.c:5:6: error: Array 'a[10]' accessed at index 10, which is out of bounds. [arrayIndexOutOfBounds]
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cppcheck --enable=all file.c
++ grep 'Checking file.c ...'
+Checking file.c ...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep -E 'error|style|information' error2
+file.c:5:6: error: Array 'a[10]' accessed at index 10, which is out of bounds. [arrayIndexOutOfBounds]
+file.c:5:11: style: Variable 'a[10]' is assigned a value that is never used. [unreadVariable]
+nofile:0:0: information: Cppcheck cannot find all the include files (use --check-config for details) [missingIncludeSystem]
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cppcheck --enable=warning,performance cppcheck1/test1.cpp
++ grep 'Checking cppcheck1/test1.cpp ...'
+Checking cppcheck1/test1.cpp ...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cppcheck --quiet cppcheck2/
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cppcheck cppcheck2 --cppcheck-build-dir=result
+Checking cppcheck2/main2.c ...
+1/2 files checked 28% done
+Checking cppcheck2/test2.cpp ...
+2/2 files checked 100% done
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test -f result/files.txt -a -f result/main2.a1 -a -f result/test2.a1
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cppcheck --inconclusive cppcheck1
+Checking cppcheck1/file1.c ...
+cppcheck1/file1.c:5:6: error: Array 'a[10]' accessed at index 10, which is out of bounds. [arrayIndexOutOfBounds]
+    a[10] = 0;
+     ^
+1/3 files checked 21% done
+Checking cppcheck1/main1.c ...
+2/3 files checked 43% done
+Checking cppcheck1/test1.cpp ...
+3/3 files checked 100% done
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cppcheck -j 4 cppcheck1
++ grep -E 'Checking|checked'
+cppcheck1/file1.c:5:6: error: Array 'a[10]' accessed at index 10, which is out of bounds. [arrayIndexOutOfBounds]
+    a[10] = 0;
+     ^
+Checking cppcheck1/file1.c ...
+Checking cppcheck1/main1.c ...
+Checking cppcheck1/test1.cpp ...
+1/3 files checked 21% done
+2/3 files checked 43% done
+3/3 files checked 100% done
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cppcheck -I cppcheck2 cppcheck2/test2.cpp
++ grep 'Checking cppcheck2/test2.cpp ...'
+Checking cppcheck2/test2.cpp ...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cppcheck --std=c99 --std=posix test.cpp
+cppcheck: Option --std=posix is deprecated and will be removed in 2.05.
+Checking test.cpp ...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cppcheck --xml-version=2 file.c
+<?xml version="1.0" encoding="UTF-8"?>
+<results version="2">
+    <cppcheck version="2.6.3"/>
+    <errors>
+Checking file.c ...
+        <error id="arrayIndexOutOfBounds" severity="error" msg="Array &apos;a[10]&apos; accessed at index 10, which is out of bounds." verbose="Array &apos;a[10]&apos; accessed at index 10, which is out of bounds." cwe="788" file0="file.c">
+            <location file="file.c" line="5" column="6" info="Array index out of bounds"/>
+        </error>
+    </errors>
+</results>
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cppcheck --xml file.c
+Checking file.c ...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep -E '<?xml|<|>|arrayIndexOutOfBounds' err1.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<results version="2">
+    <cppcheck version="2.6.3"/>
+    <errors>
+        <error id="arrayIndexOutOfBounds" severity="error" msg="Array &apos;a[10]&apos; accessed at index 10, which is out of bounds." verbose="Array &apos;a[10]&apos; accessed at index 10, which is out of bounds." cwe="788" file0="file.c">
+            <location file="file.c" line="5" column="6" info="Array index out of bounds"/>
+        </error>
+    </errors>
+</results>
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cppcheck --enable=all --xml-version=2 file.c
+Checking file.c ...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep -E '<?xml|<|>|arrayIndexOutOfBounds|unreadVariable|missingIncludeSystem' err2.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<results version="2">
+    <cppcheck version="2.6.3"/>
+    <errors>
+        <error id="arrayIndexOutOfBounds" severity="error" msg="Array &apos;a[10]&apos; accessed at index 10, which is out of bounds." verbose="Array &apos;a[10]&apos; accessed at index 10, which is out of bounds." cwe="788" file0="file.c">
+            <location file="file.c" line="5" column="6" info="Array index out of bounds"/>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;a[10]&apos; is assigned a value that is never used." verbose="Variable &apos;a[10]&apos; is assigned a value that is never used." cwe="563" file0="file.c">
+            <location file="file.c" line="5" column="11"/>
+            <symbol>a[10]</symbol>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Cppcheck cannot find all the include files (use --check-config for details)" verbose="Cppcheck cannot find all the include files. Cppcheck can check the code without the include files found. But the results will probably be more accurate if all the include files are found. Please check your project&apos;s include directories and add all of them as include directories for Cppcheck. To see what files Cppcheck cannot find use --check-config."/>
+    </errors>
+</results>
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cppcheck --verbose main.c
++ grep -E 'main.c|Defines|Includes|Platform'
+Checking main.c ...
+Defines:
+Includes:
+Platform:Native
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cppcheck '--template={file}:{line},{severity},{id},{message}' file.c
++ grep 'Checking file.c ...'
+Checking file.c ...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep error,arrayIndexOutOfBounds error3
+file.c:5,error,arrayIndexOutOfBounds,Array 'a[10]' accessed at index 10, which is out of bounds.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cppcheck --enable=all '--template={file}:{line},{severity},{id},{message}' file.c
++ grep 'Checking file.c ...'
+Checking file.c ...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep -E 'error,arrayIndexOutOfBounds|style,unreadVariable|information,missingIncludeSystem' error4
+file.c:5,error,arrayIndexOutOfBounds,Array 'a[10]' accessed at index 10, which is out of bounds.
+file.c:5,style,unreadVariable,Variable 'a[10]' is assigned a value that is never used.
+nofile:0,information,missingIncludeSystem,Cppcheck cannot find all the include files (use --check-config for details)
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cppcheck -DA file.c
++ grep A=1
+file.c:5:6: error: Array 'a[10]' accessed at index 10, which is out of bounds. [arrayIndexOutOfBounds]
+    a[10] = 0;
+     ^
+Checking file.c: A=1...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ '[' 22.03 '!=' 22.03 ']'
++ cppcheck -DA --force file.c
++ grep A=1
+file.c:5:6: error: Array 'a[10]' accessed at index 10, which is out of bounds. [arrayIndexOutOfBounds]
+    a[10] = 0;
+     ^
+Checking file.c: A=1...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep DEBUG=1-D_ucplusplus
++ cppcheck -DDEBUG=1-D_ucplusplus test.cpp
+Checking test.cpp: DEBUG=1-D_ucplusplus...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cppcheck -UX file.c
+Checking file.c ...
+file.c:5:6: error: Array 'a[10]' accessed at index 10, which is out of bounds. [arrayIndexOutOfBounds]
+    a[10] = 0;
+     ^
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cppcheck -UDEBUG test.cpp
+Checking test.cpp ...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Thu Dec 22 18:24:45 2022 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Dec 22 18:24:46 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu Dec 22 18:24:46 2022 - INFO  - Start to restore the test environment.
+++ ls
+++ grep -vE '\.sh|\.c|\.cpp'
++ roc='cppcheck1
+cppcheck2
+err1.xml
+err2.xml
+error1
+error2
+error3
+error4
+result'
++ rm -rf cppcheck1 cppcheck2 err1.xml err2.xml error1 error2 error3 error4 result
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp_rxu0s4y ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp_rxu0s4y
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish restoring the test environment.'
++ message='Finish restoring the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish restoring the test environment.'
+Thu Dec 22 18:25:00 2022 - INFO  - Finish restoring the test environment.

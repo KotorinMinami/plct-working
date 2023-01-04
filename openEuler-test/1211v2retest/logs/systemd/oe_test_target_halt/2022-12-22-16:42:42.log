@@ -1,0 +1,123 @@
++ source ../common/common_lib.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu Dec 22 16:42:45 2022 - INFO  - Start environmental preparation.
++ systemctl disable ctrl-alt-del.target
+Removed /etc/systemd/system/ctrl-alt-del.target.
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu Dec 22 16:42:50 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Thu Dec 22 16:42:51 2022 - INFO  - Start testing...
++ LOG_INFO 'A special target unit for shutting down and halting the system.'
++ message='A special target unit for shutting down and halting the system.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'A special target unit for shutting down and halting the system.'
+Thu Dec 22 16:42:51 2022 - INFO  - A special target unit for shutting down and halting the system.
++ test_oneshot halt.target 'inactive (dead)'
++ service=halt.target
++ status='inactive (dead)'
++ systemctl status halt.target
++ grep Active
++ grep -v 'inactive (dead)'
++ CHECK_RESULT 1 0 1 'There is an error for the status of halt.target'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error for the status of halt.target'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_enabled halt.target
++ service=halt.target
+++ systemctl is-enabled halt.target
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ awk '{print $3}'
+++ systemctl enable halt.target
+++ grep 'Created symlink'
++ symlink_file=/etc/systemd/system/ctrl-alt-del.target
++ find /etc/systemd/system/ctrl-alt-del.target
+/etc/systemd/system/ctrl-alt-del.target
++ CHECK_RESULT 0 0 0 'halt.target enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='halt.target enable failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable halt.target
+Removed /etc/systemd/system/ctrl-alt-del.target.
++ find /etc/systemd/system/ctrl-alt-del.target
+find: ‘/etc/systemd/system/ctrl-alt-del.target’: No such file or directory
++ CHECK_RESULT 1 0 1 'halt.target disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='halt.target disable failed'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ journalctl -u halt.target
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of halt.target'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of halt.target'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Thu Dec 22 16:43:01 2022 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Dec 22 16:43:02 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start environment cleanup.'
++ message='Start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environment cleanup.'
+Thu Dec 22 16:43:02 2022 - INFO  - Start environment cleanup.
++ systemctl enable ctrl-alt-del.target
+Created symlink /etc/systemd/system/ctrl-alt-del.target → /usr/lib/systemd/system/reboot.target.
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Dec 22 16:43:07 2022 - INFO  - Finish environment cleanup!

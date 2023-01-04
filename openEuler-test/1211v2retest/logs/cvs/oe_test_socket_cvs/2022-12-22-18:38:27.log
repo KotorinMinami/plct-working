@@ -1,0 +1,230 @@
++ source ../common/common_lib.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu Dec 22 18:38:30 2022 - INFO  - Start environmental preparation.
++ DNF_INSTALL cvs
++ pkgs=cvs
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs cvs --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpt0q8euhp
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpt0q8euhp
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu Dec 22 18:39:58 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Dec 22 18:39:58 2022 - INFO  - Start to run test.
++ test_execution cvs.socket
++ service=cvs.socket
+++ date '+%Y-%m-%d %T'
++ log_time='2022-12-22 18:39:58'
++ test_restart cvs.socket
++ service=cvs.socket
++ systemctl restart cvs.socket
++ CHECK_RESULT 0 0 0 'cvs.socket restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='cvs.socket restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ grep 'Active: active'
++ systemctl status cvs.socket
+     Active: active (listening) since Thu 2022-12-22 18:39:59 CST; 5s ago
++ CHECK_RESULT 0 0 0 'cvs.socket restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='cvs.socket restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop cvs.socket
++ CHECK_RESULT 0 0 0 'cvs.socket stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='cvs.socket stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status cvs.socket
++ grep 'Active: inactive'
+     Active: inactive (dead)
++ CHECK_RESULT 0 0 0 'cvs.socket stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='cvs.socket stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start cvs.socket
++ CHECK_RESULT 0 0 0 'cvs.socket start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='cvs.socket start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status cvs.socket
++ grep 'Active: active'
+     Active: active (listening) since Thu 2022-12-22 18:40:11 CST; 5s ago
++ CHECK_RESULT 0 0 0 'cvs.socket start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='cvs.socket start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled cvs.socket
++ service=cvs.socket
+++ systemctl is-enabled cvs.socket
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ systemctl enable cvs.socket
+++ grep 'Created symlink'
+++ awk '{print $3}'
++ symlink_file=/etc/systemd/system/sockets.target.wants/cvs.socket
++ find /etc/systemd/system/sockets.target.wants/cvs.socket
+/etc/systemd/system/sockets.target.wants/cvs.socket
++ CHECK_RESULT 0 0 0 'cvs.socket enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='cvs.socket enable failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable cvs.socket
+Removed /etc/systemd/system/sockets.target.wants/cvs.socket.
++ find /etc/systemd/system/sockets.target.wants/cvs.socket
+find: ‘/etc/systemd/system/sockets.target.wants/cvs.socket’: No such file or directory
++ CHECK_RESULT 1 0 1 'cvs.socket disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='cvs.socket disable failed'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ journalctl --since '2022-12-22 18:39:58' -u cvs.socket
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of cvs.socket'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of cvs.socket'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ systemctl start cvs.socket
++ systemctl reload cvs.socket
++ grep 'Job type reload is not applicable for unit cvs.socket'
+Failed to reload cvs.socket: Job type reload is not applicable for unit cvs.socket.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status cvs.socket
++ grep 'Active: active'
+     Active: active (listening) since Thu 2022-12-22 18:40:11 CST; 14s ago
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Thu Dec 22 18:40:26 2022 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Dec 22 18:40:27 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu Dec 22 18:40:27 2022 - INFO  - start environment cleanup.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpt0q8euhp ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpt0q8euhp
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Dec 22 18:40:44 2022 - INFO  - Finish environment cleanup!

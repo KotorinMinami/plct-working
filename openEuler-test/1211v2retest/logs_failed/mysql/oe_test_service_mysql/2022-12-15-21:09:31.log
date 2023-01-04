@@ -1,0 +1,391 @@
++ source common/common.sh
+++ source ../common/common_lib.sh
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++++ python3 --version
+++++ '[' 0 -eq 0 ']'
+++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu Dec 15 21:09:36 2022 - INFO  - Start environmental preparation.
++ service=mysql.service
+++ date '+%Y-%m-%d %T'
++ log_time='2022-12-15 21:09:36'
++ mysql_pre
++ systemctl stop firewalld
+Failed to stop firewalld.service: Unit firewalld.service not loaded.
++ systemctl disable firewalld
+Failed to disable unit: Unit file firewalld.service does not exist.
++ flag=false
+++ getenforce
+++ grep Enforcing
++ '[' ']'
++ groupadd mysql
++ useradd -g mysql mysql
++ passwd --stdin mysql
++ echo 'openEuler12#$'
+Changing password for user mysql.
+passwd: all authentication tokens updated successfully.
++ mkdir -p /data/mysql
++ cd /data/mysql
++ mkdir data tmp run log
++ touch /data/mysql/log/mysql.log /data/mysql/run/mysqld.pid
++ chown -R mysql:mysql /data
++ cd -
+/root/GitRepo/mugen-riscv/testcases/cli-test/mysql
++ DNF_INSTALL mysql
++ pkgs=mysql
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs mysql --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp6r0h9jll
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp6r0h9jll
++ grep mysql
++ rpm -qa
+mysql-common-8.0.28-2.oe2203.riscv64
+mysql-8.0.28-2.oe2203.riscv64
++ touch /etc/my.cnf
++ echo '[mysqld_safe]
+log-error=/data/mysql/log/mysql.log
+pid-file=/data/mysql/run/mysqld.pid
+[mysqldump]
+quick
+[mysql]
+no-auto-rehash
+[client]
+default-character-set=utf8
+[mysqld]
+basedir=/usr/local/mysql
+socket=/data/mysql/run/mysql.sock
+tmpdir=/data/mysql/tmp
+datadir=/data/mysql/data
+default_authentication_plugin=mysql_native_password
+port=3306
+user=mysql'
++ chown mysql:mysql /etc/my.cnf
++ echo export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/mysql/bin
++ source /etc/profile
++ rm -rf /data/mysql/data
++ mysqld --initialize --basedir=/usr/local/mysql/ --datadir=/data/mysql/data --user=mysql
+common/common.sh: line 63: mysqld: command not found
++ chkconfig mysql on
+error reading information on service mysql: No such file or directory
++ systemctl daemon-reload
++ systemctl start mysql
+Failed to start mysql.service: Unit mysql.service not found.
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu Dec 15 21:11:03 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Thu Dec 15 21:11:05 2022 - INFO  - Start testing...
++ test_restart mysql.service
++ service=mysql.service
++ systemctl restart mysql.service
+Failed to restart mysql.service: Unit mysql.service not found.
++ CHECK_RESULT 5 0 0 'mysql.service restart failed'
++ actual_result=5
++ expect_result=0
++ mode=0
++ error_log='mysql.service restart failed'
++ '[' -z 5 ']'
++ '[' 0 -eq 0 ']'
++ test 5x '!=' 0x
++ test -n 'mysql.service restart failed'
++ LOG_ERROR 'mysql.service restart failed'
++ message='mysql.service restart failed'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'mysql.service restart failed'
+Thu Dec 15 21:11:06 2022 - ERROR - mysql.service restart failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 34'
++ message='../common/common_lib.sh line 34'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 34'
+Thu Dec 15 21:11:07 2022 - ERROR - ../common/common_lib.sh line 34
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status mysql.service
++ grep 'Active: active'
+Unit mysql.service could not be found.
++ CHECK_RESULT 1 0 0 'mysql.service restart failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='mysql.service restart failed'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'mysql.service restart failed'
++ LOG_ERROR 'mysql.service restart failed'
++ message='mysql.service restart failed'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'mysql.service restart failed'
+Thu Dec 15 21:11:15 2022 - ERROR - mysql.service restart failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 37'
++ message='../common/common_lib.sh line 37'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 37'
+Thu Dec 15 21:11:16 2022 - ERROR - ../common/common_lib.sh line 37
++ return 0
++ systemctl stop mysql.service
+Failed to stop mysql.service: Unit mysql.service not loaded.
++ CHECK_RESULT 5 0 0 'mysql.service stop failed'
++ actual_result=5
++ expect_result=0
++ mode=0
++ error_log='mysql.service stop failed'
++ '[' -z 5 ']'
++ '[' 0 -eq 0 ']'
++ test 5x '!=' 0x
++ test -n 'mysql.service stop failed'
++ LOG_ERROR 'mysql.service stop failed'
++ message='mysql.service stop failed'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'mysql.service stop failed'
+Thu Dec 15 21:11:18 2022 - ERROR - mysql.service stop failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 39'
++ message='../common/common_lib.sh line 39'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 39'
+Thu Dec 15 21:11:19 2022 - ERROR - ../common/common_lib.sh line 39
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status mysql.service
++ grep 'Active: inactive'
+Unit mysql.service could not be found.
++ CHECK_RESULT 1 0 0 'mysql.service stop failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='mysql.service stop failed'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'mysql.service stop failed'
++ LOG_ERROR 'mysql.service stop failed'
++ message='mysql.service stop failed'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'mysql.service stop failed'
+Thu Dec 15 21:11:27 2022 - ERROR - mysql.service stop failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 42'
++ message='../common/common_lib.sh line 42'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 42'
+Thu Dec 15 21:11:28 2022 - ERROR - ../common/common_lib.sh line 42
++ return 0
++ systemctl start mysql.service
+Failed to start mysql.service: Unit mysql.service not found.
++ CHECK_RESULT 5 0 0 'mysql.service start failed'
++ actual_result=5
++ expect_result=0
++ mode=0
++ error_log='mysql.service start failed'
++ '[' -z 5 ']'
++ '[' 0 -eq 0 ']'
++ test 5x '!=' 0x
++ test -n 'mysql.service start failed'
++ LOG_ERROR 'mysql.service start failed'
++ message='mysql.service start failed'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'mysql.service start failed'
+Thu Dec 15 21:11:29 2022 - ERROR - mysql.service start failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 44'
++ message='../common/common_lib.sh line 44'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 44'
+Thu Dec 15 21:11:30 2022 - ERROR - ../common/common_lib.sh line 44
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status mysql.service
++ grep 'Active: active'
+Unit mysql.service could not be found.
++ CHECK_RESULT 1 0 0 'mysql.service start failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='mysql.service start failed'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'mysql.service start failed'
++ LOG_ERROR 'mysql.service start failed'
++ message='mysql.service start failed'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'mysql.service start failed'
+Thu Dec 15 21:11:38 2022 - ERROR - mysql.service start failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 47'
++ message='../common/common_lib.sh line 47'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 47'
+Thu Dec 15 21:11:39 2022 - ERROR - ../common/common_lib.sh line 47
++ return 0
++ grep 'Executing: .*disable mysql'
++ systemctl disable mysql
++ CHECK_RESULT 1 0 0 'mysql.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='mysql.service disable failed'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'mysql.service disable failed'
++ LOG_ERROR 'mysql.service disable failed'
++ message='mysql.service disable failed'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'mysql.service disable failed'
+Thu Dec 15 21:11:40 2022 - ERROR - mysql.service disable failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_service_mysql.sh line 34'
++ message='oe_test_service_mysql.sh line 34'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_service_mysql.sh line 34'
+Thu Dec 15 21:11:41 2022 - ERROR - oe_test_service_mysql.sh line 34
++ return 0
++ systemctl enable mysql
++ grep 'Executing: .*enable mysql'
++ CHECK_RESULT 1 0 0 'mysql.service enable failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='mysql.service enable failed'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'mysql.service enable failed'
++ LOG_ERROR 'mysql.service enable failed'
++ message='mysql.service enable failed'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'mysql.service enable failed'
+Thu Dec 15 21:11:42 2022 - ERROR - mysql.service enable failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_service_mysql.sh line 36'
++ message='oe_test_service_mysql.sh line 36'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_service_mysql.sh line 36'
+Thu Dec 15 21:11:43 2022 - ERROR - oe_test_service_mysql.sh line 36
++ return 0
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ journalctl --since '2022-12-15 21:09:36' -u mysql.service
++ grep -i 'fail\|error'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of mysql.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of mysql.service'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ systemctl start mysql.service
+Failed to start mysql.service: Unit mysql.service not found.
++ sed -i s/port=3306/port=3316/ /etc/my.cnf
++ systemctl daemon-reload
++ systemctl reload mysql.service
+Failed to reload mysql.service: Unit mysql.service not found.
++ CHECK_RESULT 5 0 0 'mysql.service reload failed'
++ actual_result=5
++ expect_result=0
++ mode=0
++ error_log='mysql.service reload failed'
++ '[' -z 5 ']'
++ '[' 0 -eq 0 ']'
++ test 5x '!=' 0x
++ test -n 'mysql.service reload failed'
++ LOG_ERROR 'mysql.service reload failed'
++ message='mysql.service reload failed'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'mysql.service reload failed'
+Thu Dec 15 21:11:49 2022 - ERROR - mysql.service reload failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_service_mysql.sh line 43'
++ message='oe_test_service_mysql.sh line 43'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_service_mysql.sh line 43'
+Thu Dec 15 21:11:50 2022 - ERROR - oe_test_service_mysql.sh line 43
++ return 0
++ systemctl status mysql.service
++ grep 'Active: active'
+Unit mysql.service could not be found.
++ CHECK_RESULT 1 0 0 'mysql.service reload causes the service status to change'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='mysql.service reload causes the service status to change'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'mysql.service reload causes the service status to change'
++ LOG_ERROR 'mysql.service reload causes the service status to change'
++ message='mysql.service reload causes the service status to change'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'mysql.service reload causes the service status to change'
+Thu Dec 15 21:11:51 2022 - ERROR - mysql.service reload causes the service status to change
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_service_mysql.sh line 45'
++ message='oe_test_service_mysql.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_service_mysql.sh line 45'
+Thu Dec 15 21:11:51 2022 - ERROR - oe_test_service_mysql.sh line 45
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Thu Dec 15 21:11:52 2022 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z 10
++ test 10 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Thu Dec 15 21:11:53 2022 - ERROR - failed to execute the case.
++ exit 10
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu Dec 15 21:11:54 2022 - INFO  - start environment cleanup.
++ sed -i s/port=3316/port=3306/ /etc/my.cnf
++ systemctl daemon-reload
++ systemctl reload mysql.service
+Failed to reload mysql.service: Unit mysql.service not found.
++ systemctl stop mysql.service
+Failed to stop mysql.service: Unit mysql.service not loaded.
++ mysql_post
++ userdel -r mysql
++ rm -rf /data /etc/my.cnf
++ '[' false = true ']'
++ systemctl start firewalld
+Failed to start firewalld.service: Unit firewalld.service not found.
++ systemctl enable firewalld
+Failed to enable unit: Unit file firewalld.service does not exist.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp6r0h9jll ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp6r0h9jll
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Dec 15 21:12:14 2022 - INFO  - Finish environment cleanup!

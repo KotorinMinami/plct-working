@@ -1,0 +1,267 @@
++ source ../common/common_lib.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu Dec 22 20:47:43 2022 - INFO  - Start environmental preparation.
++ DNF_INSTALL 'galera mariadb-server-galera mariadb'
++ pkgs='galera mariadb-server-galera mariadb'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs 'galera mariadb-server-galera mariadb' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpzhuuijdj
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpzhuuijdj
++ systemctl start mariadb
++ mysqladmin -u root password 123456
++ sed -i 's/#wsrep_cluster_address="dummy:\/\/"/wsrep_cluster_address="gcomm:\/\/"/g' /etc/my.cnf.d/galera.cnf
++ sed -i s/#wsrep_node_name=/wsrep_node_name=localhost.localdomain/g /etc/my.cnf.d/galera.cnf
++ sed -i s/#wsrep_node_address=/wsrep_node_address=127.0.0.1/g /etc/my.cnf.d/galera.cnf
++ sed -i s/wsrep_sst_auth=root:/wsrep_sst_auth=root:123456/g /etc/my.cnf.d/galera.cnf
++ sed -i s/wsrep_on=0/wsrep_on=1/g /etc/my.cnf.d/galera.cnf
++ expect
+spawn mysql -u root -p123456
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+grant all privileges on *.* to 'root'@'localhost' identified by '123456';
+Your MariaDB connection id is 4
+Server version: 10.5.15-MariaDB MariaDB Server
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+grant all privileges on *.* to 'root'@'%' identified by '123456';
+No entry for terminal type "unknown";
+using dumb terminal settings.
+No entry for terminal type "unknown";
+using dumb terminal settings.
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> grant all privileges on *.* to 'root'@'localhost' identified b
+y '123456';
+Query OK, 0 rows affected (0.040 sec)
+
+MariaDB [(none)]> grant all privileges on *.* to 'root'@'%' identified by '12345
+6';
+Query OK, 0 rows affected (0.018 sec)
+
+MariaDB [(none)]> flush privileges;
+Query OK, 0 rows affected (0.014 sec)
+
+MariaDB [(none)]> exit
+Bye
++ echo -e 'GALERA_NODES="127.0.0.1:4567"
+GALERA_GROUP="my_wsrep_cluster"
+GALERA_OPTIONS="gmcast.listen_addr=tcp://0.0.0.0:4569"
+'
++ systemctl restart mariadb
++ service=garbd.service
+++ date '+%Y-%m-%d %T'
++ log_time='2022-12-22 20:50:54'
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu Dec 22 20:50:54 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Thu Dec 22 20:50:55 2022 - INFO  - Start testing...
++ test_restart garbd.service
++ service=garbd.service
++ systemctl restart garbd.service
++ CHECK_RESULT 0 0 0 'garbd.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='garbd.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status garbd.service
++ grep 'Active: active'
+     Active: active (running) since Thu 2022-12-22 20:50:55 CST; 6s ago
++ CHECK_RESULT 0 0 0 'garbd.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='garbd.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop garbd.service
++ CHECK_RESULT 0 0 0 'garbd.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='garbd.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status garbd.service
++ grep 'Active: inactive'
+     Active: inactive (dead)
++ CHECK_RESULT 0 0 0 'garbd.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='garbd.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start garbd.service
++ CHECK_RESULT 0 0 0 'garbd.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='garbd.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status garbd.service
++ grep 'Active: active'
+     Active: active (running) since Thu 2022-12-22 20:51:09 CST; 6s ago
++ CHECK_RESULT 0 0 0 'garbd.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='garbd.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled garbd.service
++ service=garbd.service
+++ systemctl is-enabled garbd.service
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ grep 'Created symlink'
+++ systemctl enable garbd.service
+++ awk '{print $3}'
++ symlink_file=/etc/systemd/system/multi-user.target.wants/garbd.service
++ find /etc/systemd/system/multi-user.target.wants/garbd.service
+/etc/systemd/system/multi-user.target.wants/garbd.service
++ CHECK_RESULT 0 0 0 'garbd.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='garbd.service enable failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable garbd.service
+Removed /etc/systemd/system/multi-user.target.wants/garbd.service.
++ find /etc/systemd/system/multi-user.target.wants/garbd.service
+find: ‘/etc/systemd/system/multi-user.target.wants/garbd.service’: No such file or directory
++ CHECK_RESULT 1 0 1 'garbd.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='garbd.service disable failed'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ journalctl --since '2022-12-22 20:50:54' -u garbd.service
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ grep -i 'fail\|error'
++ grep -v 'access file(./gvwstate.dat) failed(No such file or directory)'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of garbd.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of garbd.service'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_reload garbd.service
++ service=garbd.service
++ systemctl start garbd.service
++ systemctl reload garbd.service
++ grep 'Job type reload is not applicable'
+Failed to reload garbd.service: Job type reload is not applicable for unit garbd.service.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit garbd.service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit garbd.service'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status garbd.service
++ grep 'Active: active'
+     Active: active (running) since Thu 2022-12-22 20:51:09 CST; 15s ago
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Thu Dec 22 20:51:25 2022 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Dec 22 20:51:25 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu Dec 22 20:51:26 2022 - INFO  - start environment cleanup.
++ systemctl stop garbd.service
++ systemctl stop mariadb.service
++ rm -rf /var/lib/mysql/aria_log.00000001 /var/lib/mysql/aria_log_control /var/lib/mysql/galera.cache /var/lib/mysql/grastate.dat /var/lib/mysql/ib_buffer_pool /var/lib/mysql/ib_logfile0 /var/lib/mysql/ibdata1 /var/lib/mysql/multi-master.info /var/lib/mysql/mysql /var/lib/mysql/mysql_upgrade_info /var/lib/mysql/performance_schema
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpzhuuijdj ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpzhuuijdj
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Dec 22 20:51:57 2022 - INFO  - Finish environment cleanup!

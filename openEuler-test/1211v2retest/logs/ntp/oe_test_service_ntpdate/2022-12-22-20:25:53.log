@@ -1,0 +1,245 @@
++ source ../common/common_lib.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu Dec 22 20:25:58 2022 - INFO  - Start environmental preparation.
++ DNF_INSTALL ntp
++ pkgs=ntp
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs ntp --node 1 --tempfile ''
+Thu Dec 22 20:26:46 2022 - INFO  - pkgs:(ntp) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ echo 'server 127.127.1.0 iburst prefer maxpoll 4 minpoll 4'
++ sed -i 's/restrict default nomodify notrap nopeer noepeer noquery/#restrict default nomodify notrap nopeer noepeer noquery/' /etc/ntp.conf
++ sed -i s/0.openEuler.pool.ntp.org/localhost/ /etc/ntp/step-tickers
++ sed -i 's\/usr/sbin/ntpdate -s -b\/usr/sbin/ntpdate -s -b -d\' /usr/libexec/ntpdate-wrapper
++ systemctl start ntpd.service
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu Dec 22 20:26:54 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Thu Dec 22 20:26:55 2022 - INFO  - Start testing...
++ test_execution ntpdate.service
++ service=ntpdate.service
+++ date '+%Y-%m-%d %T'
++ log_time='2022-12-22 20:26:55'
++ test_restart ntpdate.service
++ service=ntpdate.service
++ systemctl restart ntpdate.service
++ CHECK_RESULT 0 0 0 'ntpdate.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='ntpdate.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status ntpdate.service
++ grep 'Active: active'
+     Active: active (exited) since Thu 2022-12-22 20:26:58 CST; 6s ago
++ CHECK_RESULT 0 0 0 'ntpdate.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='ntpdate.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop ntpdate.service
++ CHECK_RESULT 0 0 0 'ntpdate.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='ntpdate.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status ntpdate.service
++ grep 'Active: inactive'
+     Active: inactive (dead) since Thu 2022-12-22 20:27:05 CST; 6s ago
++ CHECK_RESULT 0 0 0 'ntpdate.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='ntpdate.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start ntpdate.service
++ CHECK_RESULT 0 0 0 'ntpdate.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='ntpdate.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ grep 'Active: active'
++ systemctl status ntpdate.service
+     Active: active (exited) since Thu 2022-12-22 20:27:15 CST; 6s ago
++ CHECK_RESULT 0 0 0 'ntpdate.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='ntpdate.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled ntpdate.service
++ service=ntpdate.service
+++ systemctl is-enabled ntpdate.service
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ systemctl enable ntpdate.service
+++ grep 'Created symlink'
+++ awk '{print $3}'
++ symlink_file=/etc/systemd/system/multi-user.target.wants/ntpdate.service
++ find /etc/systemd/system/multi-user.target.wants/ntpdate.service
+/etc/systemd/system/multi-user.target.wants/ntpdate.service
++ CHECK_RESULT 0 0 0 'ntpdate.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='ntpdate.service enable failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable ntpdate.service
+Removed /etc/systemd/system/multi-user.target.wants/ntpdate.service.
++ find /etc/systemd/system/multi-user.target.wants/ntpdate.service
+find: ‘/etc/systemd/system/multi-user.target.wants/ntpdate.service’: No such file or directory
++ CHECK_RESULT 1 0 1 'ntpdate.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='ntpdate.service disable failed'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ journalctl --since '2022-12-22 20:26:55' -u ntpdate.service
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ grep -i 'fail\|error'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of ntpdate.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of ntpdate.service'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_reload ntpdate.service
++ service=ntpdate.service
++ systemctl start ntpdate.service
++ systemctl reload ntpdate.service
++ grep 'Job type reload is not applicable'
+Failed to reload ntpdate.service: Job type reload is not applicable for unit ntpdate.service.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit ntpdate.service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit ntpdate.service'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status ntpdate.service
++ grep 'Active: active'
+     Active: active (exited) since Thu 2022-12-22 20:27:15 CST; 21s ago
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Thu Dec 22 20:27:37 2022 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Dec 22 20:27:38 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu Dec 22 20:27:39 2022 - INFO  - start environment cleanup.
++ systemctl stop ntpdate.service
++ systemctl stop ntpd.service
++ sed -i '/server 127.127.1.0 iburst prefer maxpoll 4 minpoll 4/d' /etc/ntp.conf
++ sed -i 's/#restrict default nomodify notrap nopeer noepeer noquery/restrict default nomodify notrap nopeer noepeer noquery/' sed -i s/localhost/0.openEuler.pool.ntp.org/ /etc/ntp/step-tickers
+sed: can't read sed: No such file or directory
+sed: can't read s/localhost/0.openEuler.pool.ntp.org/: No such file or directory
++ /etc/ntp.conf
+oe_test_service_ntpdate.sh: line 49: /etc/ntp.conf: Permission denied
++ sed -i 's\/usr/sbin/ntpdate -s -b -d\/usr/sbin/ntpdate -s -b\' /usr/libexec/ntpdate-wrapper
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Thu Dec 22 20:27:41 2022 - WARN  - no thing to do.
++ return 0
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Dec 22 20:27:42 2022 - INFO  - Finish environment cleanup!

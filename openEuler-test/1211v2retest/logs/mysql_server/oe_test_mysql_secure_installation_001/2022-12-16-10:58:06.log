@@ -1,0 +1,841 @@
++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment!'
++ message='Start to prepare the test environment!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment!'
+Fri Dec 16 10:58:10 2022 - INFO  - Start to prepare the test environment!
+++ cat /etc/os-release
+++ grep VERSION_ID
+++ awk -F '"' '{print$2}'
+++ awk -F = '{print$NF}'
++ version_id=22.03
++ '[' 22.03 = 20.03 ']'
++ rm -rf /var/lib/mysql/#ib_16384_0.dblwr /var/lib/mysql/#ib_16384_1.dblwr /var/lib/mysql/#innodb_temp /var/lib/mysql/auto.cnf /var/lib/mysql/binlog.000001 /var/lib/mysql/binlog.index /var/lib/mysql/ca-key.pem /var/lib/mysql/ca.pem /var/lib/mysql/client-cert.pem /var/lib/mysql/client-key.pem /var/lib/mysql/ib_buffer_pool /var/lib/mysql/ib_logfile0 /var/lib/mysql/ib_logfile1 /var/lib/mysql/ibdata1 /var/lib/mysql/mysql /var/lib/mysql/mysql.ibd /var/lib/mysql/mysql_upgrade_info /var/lib/mysql/performance_schema /var/lib/mysql/private_key.pem /var/lib/mysql/public_key.pem /var/lib/mysql/server-cert.pem /var/lib/mysql/server-key.pem /var/lib/mysql/sys /var/lib/mysql/undo_001 /var/lib/mysql/undo_002
++ DNF_INSTALL mysql-server
++ pkgs=mysql-server
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs mysql-server --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp8tv3r7qz
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp8tv3r7qz
++ systemctl start mysqld
++ LOG_INFO 'End to prepare the test environment!'
++ message='End to prepare the test environment!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment!'
+Fri Dec 16 11:00:40 2022 - INFO  - End to prepare the test environment!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase!'
++ message='Start executing testcase!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase!'
+Fri Dec 16 11:00:41 2022 - INFO  - Start executing testcase!
++ systemctl status mysqld
++ grep running
+     Active: active (running) since Fri 2022-12-16 11:00:39 CST; 1s ago
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mysqladmin -u root password 'openEuler12#$'
+mysqladmin: [Warning] Using a password on the command line interface can be insecure.
+Warning: Since password will be sent to server in plain text, use ssl connection to ensure password safety.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect -c '
+    set timeout 60
+    log_file testlog
+    spawn mysql_secure_installation --host=localhost --port=3307
+    expect {
+        "Enter password for user root*" { send "openEuler12#$\n"; 
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\n"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\n"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\n"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\n"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\n"}
+	expect "*Press y|Y for Yes, any other key for No*" { send "No\n"}
+}
+}
+expect eof
+'
+spawn mysql_secure_installation --host=localhost --port=3307
+
+Securing the MySQL server deployment.
+
+Enter password for user root: 
+
+VALIDATE PASSWORD COMPONENT can be used to test passwords
+and improve security. It checks the strength of password
+and allows the users to set only those passwords which are
+secure enough. Would you like to setup VALIDATE PASSWORD component?
+
+Press y|Y for Yes, any other key for No: No
+Using existing password for root.
+Change the password for root ? ((Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+By default, a MySQL installation has an anonymous user,
+allowing anyone to log into MySQL without having to have
+a user account created for them. This is intended only for
+testing, and to make the installation go a bit smoother.
+You should remove them before moving into a production
+environment.
+
+Remove anonymous users? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+
+
+Normally, root should only be allowed to connect from
+'localhost'. This ensures that someone cannot guess at
+the root password from the network.
+
+Disallow root login remotely? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+By default, MySQL comes with a database named 'test' that
+anyone can access. This is also intended only for testing,
+and should be removed before moving into a production
+environment.
+
+
+Remove test database and access to it? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+Reloading the privilege tables will ensure that all changes
+made so far will take effect immediately.
+
+Reload privilege tables now? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+All done! 
++ grep -i 'all done' testlog
+All done! 
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf testlog
++ expect -c '
+    set timeout 60
+    log_file testlog
+    spawn mysql_secure_installation
+    expect {
+        "Enter password for user root*" { send "openEuler12#$\n";
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\n"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\n"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\n"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\n"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\n"}
+	expect "*Press y|Y for Yes, any other key for No*" { send "No\n"}
+}
+}
+expect eof
+'
+spawn mysql_secure_installation
+
+Securing the MySQL server deployment.
+
+Enter password for user root: 
+
+VALIDATE PASSWORD COMPONENT can be used to test passwords
+and improve security. It checks the strength of password
+and allows the users to set only those passwords which are
+secure enough. Would you like to setup VALIDATE PASSWORD component?
+
+Press y|Y for Yes, any other key for No: No
+Using existing password for root.
+Change the password for root ? ((Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+By default, a MySQL installation has an anonymous user,
+allowing anyone to log into MySQL without having to have
+a user account created for them. This is intended only for
+testing, and to make the installation go a bit smoother.
+You should remove them before moving into a production
+environment.
+
+Remove anonymous users? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+
+
+Normally, root should only be allowed to connect from
+'localhost'. This ensures that someone cannot guess at
+the root password from the network.
+
+Disallow root login remotely? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+By default, MySQL comes with a database named 'test' that
+anyone can access. This is also intended only for testing,
+and should be removed before moving into a production
+environment.
+
+
+Remove test database and access to it? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+Reloading the privilege tables will ensure that all changes
+made so far will take effect immediately.
+
+Reload privilege tables now? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+All done! 
++ grep -i 'all done' testlog
+All done! 
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf testlog
++ expect -c '
+    set timeout 30
+    log_file testlog
+    spawn mysql_secure_installation --no-defaults
+    expect {
+        "Enter password for user root*" { send "openEuler12#$\r";
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\r"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\r"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\r"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\r"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\r"}
+	expect "*Press y|Y for Yes, any other key for No*" { send "No\n"}
+}
+}
+expect eof
+'
+spawn mysql_secure_installation --no-defaults
+
+Securing the MySQL server deployment.
+
+Enter password for user root: 
+
+VALIDATE PASSWORD COMPONENT can be used to test passwords
+and improve security. It checks the strength of password
+and allows the users to set only those passwords which are
+secure enough. Would you like to setup VALIDATE PASSWORD component?
+
+Press y|Y for Yes, any other key for No: No
+Using existing password for root.
+Change the password for root ? ((Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+By default, a MySQL installation has an anonymous user,
+allowing anyone to log into MySQL without having to have
+a user account created for them. This is intended only for
+testing, and to make the installation go a bit smoother.
+You should remove them before moving into a production
+environment.
+
+Remove anonymous users? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+
+
+Normally, root should only be allowed to connect from
+'localhost'. This ensures that someone cannot guess at
+the root password from the network.
+
+Disallow root login remotely? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+By default, MySQL comes with a database named 'test' that
+anyone can access. This is also intended only for testing,
+and should be removed before moving into a production
+environment.
+
+
+Remove test database and access to it? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+Reloading the privilege tables will ensure that all changes
+made so far will take effect immediately.
+
+Reload privilege tables now? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+All done! 
++ grep -i 'all done' testlog
+All done! 
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf testlog
++ expect -c '
+    set timeout 30
+    log_file testlog
+    spawn mysql_secure_installation mysql_secure_installation --defaults-file=/etc/my.cnf
+    expect {
+        "Enter password for user root*" { send "openEuler12#$\r";
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\r"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\r"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\r"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\r"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\r"}
+	expect "*Press y|Y for Yes, any other key for No*" { send "No\n"}
+}
+}
+expect eof
+'
+spawn mysql_secure_installation mysql_secure_installation --defaults-file=/etc/my.cnf
+mysql_secure_installation: [ERROR] unknown variable 'defaults-file=/etc/my.cnf'.
+
+Securing the MySQL server deployment.
+
+Enter password for user root: 
+
+VALIDATE PASSWORD COMPONENT can be used to test passwords
+and improve security. It checks the strength of password
+and allows the users to set only those passwords which are
+secure enough. Would you like to setup VALIDATE PASSWORD component?
+
+Press y|Y for Yes, any other key for No: No
+Using existing password for root.
+Change the password for root ? ((Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+By default, a MySQL installation has an anonymous user,
+allowing anyone to log into MySQL without having to have
+a user account created for them. This is intended only for
+testing, and to make the installation go a bit smoother.
+You should remove them before moving into a production
+environment.
+
+Remove anonymous users? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+
+
+Normally, root should only be allowed to connect from
+'localhost'. This ensures that someone cannot guess at
+the root password from the network.
+
+Disallow root login remotely? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+By default, MySQL comes with a database named 'test' that
+anyone can access. This is also intended only for testing,
+and should be removed before moving into a production
+environment.
+
+
+Remove test database and access to it? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+Reloading the privilege tables will ensure that all changes
+made so far will take effect immediately.
+
+Reload privilege tables now? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+All done! 
++ grep -i 'all done' testlog
+All done! 
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf testlog
++ expect -c '
+    set timeout 30
+    log_file testlog
+    spawn mysql_secure_installation --defaults-extra-file=/etc/my.cnf
+    expect {
+        "Enter password for user root*" { send "openEuler12#$\r";
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\r"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\r"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\r"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\r"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\r"}
+	expect "*Press y|Y for Yes, any other key for No*" { send "No\n"}
+}
+}
+expect eof
+'
+spawn mysql_secure_installation --defaults-extra-file=/etc/my.cnf
+
+Securing the MySQL server deployment.
+
+Enter password for user root: 
+
+VALIDATE PASSWORD COMPONENT can be used to test passwords
+and improve security. It checks the strength of password
+and allows the users to set only those passwords which are
+secure enough. Would you like to setup VALIDATE PASSWORD component?
+
+Press y|Y for Yes, any other key for No: No
+Using existing password for root.
+Change the password for root ? ((Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+By default, a MySQL installation has an anonymous user,
+allowing anyone to log into MySQL without having to have
+a user account created for them. This is intended only for
+testing, and to make the installation go a bit smoother.
+You should remove them before moving into a production
+environment.
+
+Remove anonymous users? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+
+
+Normally, root should only be allowed to connect from
+'localhost'. This ensures that someone cannot guess at
+the root password from the network.
+
+Disallow root login remotely? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+By default, MySQL comes with a database named 'test' that
+anyone can access. This is also intended only for testing,
+and should be removed before moving into a production
+environment.
+
+
+Remove test database and access to it? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+Reloading the privilege tables will ensure that all changes
+made so far will take effect immediately.
+
+Reload privilege tables now? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+All done! 
++ grep -i 'all done' testlog
+All done! 
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf testlog
++ expect -c '
+    set timeout 30
+    log_file testlog
+    spawn mysql_secure_installation --defaults-group-suffix=group
+    expect {
+        "Enter password for user root*" { send "openEuler12#$\r";
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\r"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\r"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\r"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\r"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\r"}
+	expect "*Press y|Y for Yes, any other key for No*" { send "No\n"}
+}
+}
+expect eof
+'
+spawn mysql_secure_installation --defaults-group-suffix=group
+
+Securing the MySQL server deployment.
+
+Enter password for user root: 
+
+VALIDATE PASSWORD COMPONENT can be used to test passwords
+and improve security. It checks the strength of password
+and allows the users to set only those passwords which are
+secure enough. Would you like to setup VALIDATE PASSWORD component?
+
+Press y|Y for Yes, any other key for No: No
+Using existing password for root.
+Change the password for root ? ((Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+By default, a MySQL installation has an anonymous user,
+allowing anyone to log into MySQL without having to have
+a user account created for them. This is intended only for
+testing, and to make the installation go a bit smoother.
+You should remove them before moving into a production
+environment.
+
+Remove anonymous users? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+
+
+Normally, root should only be allowed to connect from
+'localhost'. This ensures that someone cannot guess at
+the root password from the network.
+
+Disallow root login remotely? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+By default, MySQL comes with a database named 'test' that
+anyone can access. This is also intended only for testing,
+and should be removed before moving into a production
+environment.
+
+
+Remove test database and access to it? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+Reloading the privilege tables will ensure that all changes
+made so far will take effect immediately.
+
+Reload privilege tables now? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+All done! 
++ grep -i 'all done' testlog
+All done! 
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf testlog
++ expect -c '
+    set timeout 30
+    log_file testlog
+    spawn mysql_secure_installation --ssl-ca=/var/lib/mysql/ca.pem
+    expect {
+        "Enter password for user root*" { send "openEuler12#$\r";
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\r"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\r"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\r"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\r"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\r"}
+	expect "*Press y|Y for Yes, any other key for No*" { send "No\n"}
+}
+}
+expect eof
+'
+spawn mysql_secure_installation --ssl-ca=/var/lib/mysql/ca.pem
+
+Securing the MySQL server deployment.
+
+Enter password for user root: 
+
+VALIDATE PASSWORD COMPONENT can be used to test passwords
+and improve security. It checks the strength of password
+and allows the users to set only those passwords which are
+secure enough. Would you like to setup VALIDATE PASSWORD component?
+
+Press y|Y for Yes, any other key for No: No
+Using existing password for root.
+Change the password for root ? ((Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+By default, a MySQL installation has an anonymous user,
+allowing anyone to log into MySQL without having to have
+a user account created for them. This is intended only for
+testing, and to make the installation go a bit smoother.
+You should remove them before moving into a production
+environment.
+
+Remove anonymous users? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+
+
+Normally, root should only be allowed to connect from
+'localhost'. This ensures that someone cannot guess at
+the root password from the network.
+
+Disallow root login remotely? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+By default, MySQL comes with a database named 'test' that
+anyone can access. This is also intended only for testing,
+and should be removed before moving into a production
+environment.
+
+
+Remove test database and access to it? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+Reloading the privilege tables will ensure that all changes
+made so far will take effect immediately.
+
+Reload privilege tables now? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+All done! 
++ grep -i 'all done' testlog
+All done! 
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf testlog
++ expect -c '
+    set timeout 30
+    log_file testlog
+    spawn mysql_secure_installation --ssl-key=/var/lib/mysql/ca-key.pem
+    expect {
+        "Enter password for user root*" { send "openEuler12#$\r";
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\r"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\r"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\r"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\r"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\r"}
+	expect "*Press y|Y for Yes, any other key for No*" { send "No\n"}
+}
+}
+expect eof
+'
+spawn mysql_secure_installation --ssl-key=/var/lib/mysql/ca-key.pem
+
+Securing the MySQL server deployment.
+
+Enter password for user root: 
+
+VALIDATE PASSWORD COMPONENT can be used to test passwords
+and improve security. It checks the strength of password
+and allows the users to set only those passwords which are
+secure enough. Would you like to setup VALIDATE PASSWORD component?
+
+Press y|Y for Yes, any other key for No: No
+Using existing password for root.
+Change the password for root ? ((Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+By default, a MySQL installation has an anonymous user,
+allowing anyone to log into MySQL without having to have
+a user account created for them. This is intended only for
+testing, and to make the installation go a bit smoother.
+You should remove them before moving into a production
+environment.
+
+Remove anonymous users? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+
+
+Normally, root should only be allowed to connect from
+'localhost'. This ensures that someone cannot guess at
+the root password from the network.
+
+Disallow root login remotely? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+By default, MySQL comes with a database named 'test' that
+anyone can access. This is also intended only for testing,
+and should be removed before moving into a production
+environment.
+
+
+Remove test database and access to it? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+Reloading the privilege tables will ensure that all changes
+made so far will take effect immediately.
+
+Reload privilege tables now? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+All done! 
++ grep -i 'all done' testlog
+All done! 
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf testlog
++ expect -c '
+    set timeout 30
+    log_file testlog
+    spawn mysql_secure_installation ----ssl-cert=server-cert.pem
+    expect {
+        "Enter password for user root*" { send "openEuler12#$\n";
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\n"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\n"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\n"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\n"}
+        expect "*Press y|Y for Yes, any other key for No*" { send "No\n"}
+	expect "*Press y|Y for Yes, any other key for No*" { send "No\n"}
+}
+}
+expect eof
+'
+spawn mysql_secure_installation ----ssl-cert=server-cert.pem
+mysql_secure_installation: [ERROR] unknown variable '--ssl-cert=server-cert.pem'.
+
+Securing the MySQL server deployment.
+
+Enter password for user root: 
+
+VALIDATE PASSWORD COMPONENT can be used to test passwords
+and improve security. It checks the strength of password
+and allows the users to set only those passwords which are
+secure enough. Would you like to setup VALIDATE PASSWORD component?
+
+Press y|Y for Yes, any other key for No: No
+Using existing password for root.
+Change the password for root ? ((Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+By default, a MySQL installation has an anonymous user,
+allowing anyone to log into MySQL without having to have
+a user account created for them. This is intended only for
+testing, and to make the installation go a bit smoother.
+You should remove them before moving into a production
+environment.
+
+Remove anonymous users? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+
+
+Normally, root should only be allowed to connect from
+'localhost'. This ensures that someone cannot guess at
+the root password from the network.
+
+Disallow root login remotely? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+By default, MySQL comes with a database named 'test' that
+anyone can access. This is also intended only for testing,
+and should be removed before moving into a production
+environment.
+
+
+Remove test database and access to it? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+Reloading the privilege tables will ensure that all changes
+made so far will take effect immediately.
+
+Reload privilege tables now? (Press y|Y for Yes, any other key for No) : No
+
+ ... skipping.
+All done! 
++ grep -i 'all done' testlog
+All done! 
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf testlog
++ mysql_secure_installation --print-defaults
++ grep started
+mysql_secure_installation would have been started with the following arguments:
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mysql_secure_installation --help
++ grep 'Display this help and exit'
+  -?, --help          Display this help and exit.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End of testcase execution!'
++ message='End of testcase execution!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution!'
+Fri Dec 16 11:00:48 2022 - INFO  - End of testcase execution!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri Dec 16 11:00:48 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start environment cleanup.'
++ message='Start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environment cleanup.'
+Fri Dec 16 11:00:49 2022 - INFO  - Start environment cleanup.
++ systemctl stop mysqld
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp8tv3r7qz ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp8tv3r7qz
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Fri Dec 16 11:01:13 2022 - INFO  - Finish environment cleanup.

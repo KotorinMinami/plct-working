@@ -1,0 +1,246 @@
++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu Dec 22 18:25:09 2022 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL cppcheck
++ pkgs=cppcheck
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs cppcheck --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp6t9fao1v
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp6t9fao1v
++ LOG_INFO 'Finish preparing the test environment.'
++ message='Finish preparing the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish preparing the test environment.'
+Thu Dec 22 18:26:22 2022 - INFO  - Finish preparing the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Dec 22 18:26:23 2022 - INFO  - Start to run test.
++ cppcheck --xml file.c
+Checking file.c ...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep -E '<?xml|<|>|arrayIndexOutOfBounds' err1.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<results version="2">
+    <cppcheck version="2.6.3"/>
+    <errors>
+        <error id="arrayIndexOutOfBounds" severity="error" msg="Array &apos;a[10]&apos; accessed at index 10, which is out of bounds." verbose="Array &apos;a[10]&apos; accessed at index 10, which is out of bounds." cwe="788" file0="file.c">
+            <location file="file.c" line="5" column="6" info="Array index out of bounds"/>
+        </error>
+    </errors>
+</results>
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cppcheck --enable=all --xml-version=2 file.c
+Checking file.c ...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep -E '<?xml|<|>|arrayIndexOutOfBounds|unreadVariable|missingIncludeSystem' err2.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<results version="2">
+    <cppcheck version="2.6.3"/>
+    <errors>
+        <error id="arrayIndexOutOfBounds" severity="error" msg="Array &apos;a[10]&apos; accessed at index 10, which is out of bounds." verbose="Array &apos;a[10]&apos; accessed at index 10, which is out of bounds." cwe="788" file0="file.c">
+            <location file="file.c" line="5" column="6" info="Array index out of bounds"/>
+        </error>
+        <error id="unreadVariable" severity="style" msg="Variable &apos;a[10]&apos; is assigned a value that is never used." verbose="Variable &apos;a[10]&apos; is assigned a value that is never used." cwe="563" file0="file.c">
+            <location file="file.c" line="5" column="11"/>
+            <symbol>a[10]</symbol>
+        </error>
+        <error id="missingIncludeSystem" severity="information" msg="Cppcheck cannot find all the include files (use --check-config for details)" verbose="Cppcheck cannot find all the include files. Cppcheck can check the code without the include files found. But the results will probably be more accurate if all the include files are found. Please check your project&apos;s include directories and add all of them as include directories for Cppcheck. To see what files Cppcheck cannot find use --check-config."/>
+    </errors>
+</results>
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cppcheck-htmlreport --help
++ grep 'Usage: cppcheck-htmlreport \[options\]'
+Usage: cppcheck-htmlreport [options]
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cppcheck-htmlreport --title=fileReport --file=err1.xml --report-dir=testErr1
++ grep -E 'Parsing|Creating|Processing|file.c'
+Parsing xml report.
+Creating testErr1 directory
+Processing errors
+  file.c
+Creating index.html
+Creating style.css file
+Creating stats.html (statistics)
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep fileReport testErr1/index.html
+    <title>Cppcheck - HTML report - fileReport</title>
+      <h1>Cppcheck report - fileReport: </h1>
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cppcheck-htmlreport --title=fileReport2 --file=err2.xml --report-dir=testErr2 --source-dir=.
++ grep -E 'Parsing|Creating|Processing|file.c'
+Parsing xml report.
+Creating testErr2 directory
+Processing errors
+  file.c
+Creating index.html
+Creating style.css file
+Creating stats.html (statistics)
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep fileReport2 testErr2/index.html
+    <title>Cppcheck - HTML report - fileReport2</title>
+      <h1>Cppcheck report - fileReport2: </h1>
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cppcheck-htmlreport --title=fileReport3 --file=err2.xml --report-dir=testErr3 --source-encoding=UTF-8
++ grep -E 'Parsing|Creating|Processing|file.c'
+Parsing xml report.
+Creating testErr3 directory
+Processing errors
+  file.c
+Creating index.html
+Creating style.css file
+Creating stats.html (statistics)
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep fileReport3 testErr3/index.html
+    <title>Cppcheck - HTML report - fileReport3</title>
+      <h1>Cppcheck report - fileReport3: </h1>
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Thu Dec 22 18:26:45 2022 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Dec 22 18:26:46 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu Dec 22 18:26:47 2022 - INFO  - Start to restore the test environment.
+++ ls
+++ grep -vE '\.sh|\.c'
++ roc='err1.xml
+err2.xml
+testErr1
+testErr2
+testErr3'
++ rm -rf err1.xml err2.xml testErr1 testErr2 testErr3
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp6t9fao1v ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp6t9fao1v
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish restoring the test environment.'
++ message='Finish restoring the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish restoring the test environment.'
+Thu Dec 22 18:27:01 2022 - INFO  - Finish restoring the test environment.

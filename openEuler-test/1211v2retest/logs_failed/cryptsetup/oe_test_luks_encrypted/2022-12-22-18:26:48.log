@@ -1,0 +1,438 @@
++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n function ']'
++ config_params
++ LOG_INFO 'Start loading data!'
++ message='Start loading data!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start loading data!'
+Thu Dec 22 18:26:51 2022 - INFO  - Start loading data!
+++ TEST_DISK 1
+++ id=1
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/get_test_device.py --device disk --node 1
++ TEST_DISK='/dev/vdb vdc vdd vde vdf vdg vdh vdi vdj'
+++ uuidgen
++ UUID=24dcbbb0-0f2b-4863-b528-035b3ea878a7
++ LOG_INFO 'Loading data is complete!'
++ message='Loading data is complete!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Loading data is complete!'
+Thu Dec 22 18:26:58 2022 - INFO  - Loading data is complete!
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu Dec 22 18:26:58 2022 - INFO  - Start environmental preparation.
++ DNF_INSTALL 'tang clevis clevis-dracut cryptsetup-reencrypt clevis-udisks2'
++ pkgs='tang clevis clevis-dracut cryptsetup-reencrypt clevis-udisks2'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs 'tang clevis clevis-dracut cryptsetup-reencrypt clevis-udisks2' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpx26cvori
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpx26cvori
++ echo -e 'n\n\np\n\n\n+100M\nw'
++ fdisk '/dev/vdb vdc vdd vde vdf vdg vdh vdi vdj'
+fdisk: cannot open /dev/vdb vdc vdd vde vdf vdg vdh vdi vdj: No such file or directory
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
++ test -d /mnt/test_encrypted
++ mkdir /mnt/test_encrypted
++ test -d /etc/systemd/system/tangd.socket.d
++ SOCKET_CONTENT='[Socket]\nListenStream=\nListenStream=8009'
++ mkdir /etc/systemd/system/tangd.socket.d
++ echo -e '[Socket]\nListenStream=\nListenStream=8009'
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu Dec 22 18:28:29 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Thu Dec 22 18:28:29 2022 - INFO  - Start executing testcase.
++ echo -e '\n\n'
++ cryptsetup-reencrypt --type luks1 --new --reduce-device-size 8M '/dev/vdb vdc vdd vde vdf vdg vdh vdi vdj1'
+Cannot open device /dev/vdb vdc vdd vde vdf vdg vdh vdi vdj1.
++ CHECK_RESULT 1 0 0 'Disk encryption failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Disk encryption failed'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Disk encryption failed'
++ LOG_ERROR 'Disk encryption failed'
++ message='Disk encryption failed'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Disk encryption failed'
+Thu Dec 22 18:28:30 2022 - ERROR - Disk encryption failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_luks_encrypted.sh line 44'
++ message='oe_test_luks_encrypted.sh line 44'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_luks_encrypted.sh line 44'
+Thu Dec 22 18:28:31 2022 - ERROR - oe_test_luks_encrypted.sh line 44
++ return 0
++ echo -e '\n'
++ cryptsetup open '/dev/vdb vdc vdd vde vdf vdg vdh vdi vdj1' test_encrypted
+Device /dev/vdb vdc vdd vde vdf vdg vdh vdi vdj1 does not exist or access denied.
++ CHECK_RESULT 4 0 0 'Disk mapping failed'
++ actual_result=4
++ expect_result=0
++ mode=0
++ error_log='Disk mapping failed'
++ '[' -z 4 ']'
++ '[' 0 -eq 0 ']'
++ test 4x '!=' 0x
++ test -n 'Disk mapping failed'
++ LOG_ERROR 'Disk mapping failed'
++ message='Disk mapping failed'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Disk mapping failed'
+Thu Dec 22 18:28:32 2022 - ERROR - Disk mapping failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_luks_encrypted.sh line 46'
++ message='oe_test_luks_encrypted.sh line 46'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_luks_encrypted.sh line 46'
+Thu Dec 22 18:28:33 2022 - ERROR - oe_test_luks_encrypted.sh line 46
++ return 0
++ mkfs.ext4 /dev/mapper/test_encrypted -F
+mke2fs 1.46.4 (18-Aug-2021)
+The file /dev/mapper/test_encrypted does not exist and no size was specified.
++ CHECK_RESULT 1 0 0 'Failed to format partition'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed to format partition'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed to format partition'
++ LOG_ERROR 'Failed to format partition'
++ message='Failed to format partition'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Failed to format partition'
+Thu Dec 22 18:28:33 2022 - ERROR - Failed to format partition
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_luks_encrypted.sh line 48'
++ message='oe_test_luks_encrypted.sh line 48'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_luks_encrypted.sh line 48'
+Thu Dec 22 18:28:34 2022 - ERROR - oe_test_luks_encrypted.sh line 48
++ return 0
++ mount /dev/mapper/test_encrypted /mnt/test_encrypted
+mount: /mnt/test_encrypted: special device /dev/mapper/test_encrypted does not exist.
++ CHECK_RESULT 32 0 0 'Disk mount failed'
++ actual_result=32
++ expect_result=0
++ mode=0
++ error_log='Disk mount failed'
++ '[' -z 32 ']'
++ '[' 0 -eq 0 ']'
++ test 32x '!=' 0x
++ test -n 'Disk mount failed'
++ LOG_ERROR 'Disk mount failed'
++ message='Disk mount failed'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Disk mount failed'
+Thu Dec 22 18:28:35 2022 - ERROR - Disk mount failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_luks_encrypted.sh line 50'
++ message='oe_test_luks_encrypted.sh line 50'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_luks_encrypted.sh line 50'
+Thu Dec 22 18:28:36 2022 - ERROR - oe_test_luks_encrypted.sh line 50
++ return 0
++ cryptsetup luksHeaderBackup /dev/vdb vdc vdd vde vdf vdg vdh vdi vdj1 --header-backup-file /tmp/header.bin
++ CHECK_RESULT 1 0 0 'Backup luksHeader information failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Backup luksHeader information failed'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Backup luksHeader information failed'
++ LOG_ERROR 'Backup luksHeader information failed'
++ message='Backup luksHeader information failed'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Backup luksHeader information failed'
+Thu Dec 22 18:28:36 2022 - ERROR - Backup luksHeader information failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_luks_encrypted.sh line 52'
++ message='oe_test_luks_encrypted.sh line 52'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_luks_encrypted.sh line 52'
+Thu Dec 22 18:28:37 2022 - ERROR - oe_test_luks_encrypted.sh line 52
++ return 0
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ systemctl enable tangd.socket
+Created symlink /etc/systemd/system/multi-user.target.wants/tangd.socket → /usr/lib/systemd/system/tangd.socket.
++ CHECK_RESULT 0 0 0 'Failed to enable tangd.socket service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to enable tangd.socket service'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl daemon-reload
++ systemctl show tangd.socket -p Listen
++ grep 8009
+Listen=[::]:8009 (Stream)
++ CHECK_RESULT 0 0 0 'Failed to display the '\''Listen'\'' property of tangd.socket'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to display the '\''Listen'\'' property of tangd.socket'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start tangd.socket
++ CHECK_RESULT 0 0 0 'Failed to start tangd.socket service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to start tangd.socket service'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ curl http://127.0.0.1:8009/adv -o adv.jws
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   618  100   618    0     0   4863      0 --:--:-- --:--:-- --:--:--  5618
++ CHECK_RESULT 0 0 0 'Failed to transfer data to adv.jws file'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to transfer data to adv.jws file'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ echo hello
++ clevis encrypt tang '{"url":"http://127.0.0.1:8009","adv":"adv.jws"}'
+Key derivation key not available!
++ CHECK_RESULT 1 0 0 'Failed to encrypt data'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed to encrypt data'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed to encrypt data'
++ LOG_ERROR 'Failed to encrypt data'
++ message='Failed to encrypt data'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Failed to encrypt data'
+Thu Dec 22 18:28:55 2022 - ERROR - Failed to encrypt data
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_luks_encrypted.sh line 64'
++ message='oe_test_luks_encrypted.sh line 64'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_luks_encrypted.sh line 64'
+Thu Dec 22 18:28:56 2022 - ERROR - oe_test_luks_encrypted.sh line 64
++ return 0
+++ cat secert.jwe
++ luks_num=
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ expect '-c
+        set timeout 120
+        spawn luksmeta init -n -d /dev/vdb vdc vdd vde vdf vdg vdh vdi vdj1
+	    expect {
+		    "yn" {
+			    send "y\r"
+			    exp_continue
+		    }    
+		    timeout
+            eof
+	    }
+        expect eof{
+            catch wait result
+            exit [lindex $result 3] 
+        }
+    '
+spawn luksmeta init -n -d /dev/vdb vdc vdd vde vdf vdg vdh vdi vdj1
+Usage: luksmeta test -d DEVICE
+   or: luksmeta nuke -d DEVICE [-f]
+   or: luksmeta init -d DEVICE [-f] [-n]
+   or: luksmeta show -d DEVICE [-s SLOT]
+   or: luksmeta save -d DEVICE [-s SLOT]  -u UUID  < DATA
+   or: luksmeta load -d DEVICE  -s SLOT  [-u UUID] > DATA
+   or: luksmeta wipe -d DEVICE  -s SLOT  [-u UUID] [-f]
+expect: spawn id exp3 not open
+    while executing
+"expect eof{"
++ CHECK_RESULT 0 0 0 'Luksmeta init failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Luksmeta init failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ echo
++ luksmeta save -d /dev/vdb vdc vdd vde vdf vdg vdh vdi vdj1 -s 0 -u 24dcbbb0-0f2b-4863-b528-035b3ea878a7
+Usage: luksmeta test -d DEVICE
+   or: luksmeta nuke -d DEVICE [-f]
+   or: luksmeta init -d DEVICE [-f] [-n]
+   or: luksmeta show -d DEVICE [-s SLOT]
+   or: luksmeta save -d DEVICE [-s SLOT]  -u UUID  < DATA
+   or: luksmeta load -d DEVICE  -s SLOT  [-u UUID] > DATA
+   or: luksmeta wipe -d DEVICE  -s SLOT  [-u UUID] [-f]
++ CHECK_RESULT 64 0 0 'Failed to write data'
++ actual_result=64
++ expect_result=0
++ mode=0
++ error_log='Failed to write data'
++ '[' -z 64 ']'
++ '[' 0 -eq 0 ']'
++ test 64x '!=' 0x
++ test -n 'Failed to write data'
++ LOG_ERROR 'Failed to write data'
++ message='Failed to write data'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Failed to write data'
+Thu Dec 22 18:29:01 2022 - ERROR - Failed to write data
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_luks_encrypted.sh line 86'
++ message='oe_test_luks_encrypted.sh line 86'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_luks_encrypted.sh line 86'
+Thu Dec 22 18:29:02 2022 - ERROR - oe_test_luks_encrypted.sh line 86
++ return 0
++ expect '-c
+	set timeout 120
+        spawn clevis luks bind -d /dev/vdb vdc vdd vde vdf vdg vdh vdi vdj1 tang '\''{"url":"http://127.0.0.1:8009"}'\''
+	    expect {
+            "ynYN" {
+                send "y\r"
+                exp_continue
+            }
+            "yn" {
+                send "y\r"
+                exp_continue
+            }
+		    "assword" {
+                send "\r"
+                exp_continue
+            }
+		    timeout
+            eof
+	}
+        expect eof{
+        catch wait result
+        exit [lindex $result 3] 
+    }
+    '
+spawn clevis luks bind -d /dev/vdb vdc vdd vde vdf vdg vdh vdi vdj1 tang '{"url":"http://127.0.0.1:8009"}'
+/dev/vdb is not a supported LUKS device
+expect: spawn id exp3 not open
+    while executing
+"expect eof{"
++ CHECK_RESULT 0 0 0 'Disk binding failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Disk binding failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish testcase execution.'
++ message='Finish testcase execution.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish testcase execution.'
+Thu Dec 22 18:29:03 2022 - INFO  - Finish testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z 7
++ test 7 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Thu Dec 22 18:29:04 2022 - ERROR - failed to execute the case.
++ exit 7
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu Dec 22 18:29:05 2022 - INFO  - start environment cleanup.
++ expect '-c
+        set timeout 120
+        spawn clevis luks unbind -d /dev/vdb vdc vdd vde vdf vdg vdh vdi vdj1 -s 1
+	    expect {
+            "yn" {
+                send "y\r"
+                exp_continue
+		    }
+		timeout
+	    }
+    '
+spawn clevis luks unbind -d /dev/vdb vdc vdd vde vdf vdg vdh vdi vdj1 -s 1
+Did not specify a slot!
+
+Usage: clevis luks unbind -d DEV -s SLT
+
+Unbinds a pin bound to a LUKS volume:
+
+  -d DEV  The bound LUKS device
+
+  -s SLOT The LUKS slot number for the pin unbind
+
+  -f      Do not ask for confirmation and wipe slot in batch-mode
+
++ umount /mnt/test_encrypted
+umount: /mnt/test_encrypted: not mounted.
++ cryptsetup close test_encrypted
+Device test_encrypted is not active.
++ rm -rf /mnt/test_encrypted
++ mkfs.ext4 /dev/vdb vdc vdd vde vdf vdg vdh vdi vdj1 -F
+mke2fs 1.46.4 (18-Aug-2021)
+mkfs.ext4: invalid blocks 'vdc' on device '/dev/vdb'
++ echo -e 'd\n\nw'
++ fdisk '/dev/vdb vdc vdd vde vdf vdg vdh vdi vdj'
+fdisk: cannot open /dev/vdb vdc vdd vde vdf vdg vdh vdi vdj: No such file or directory
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpx26cvori ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpx26cvori
++ '[' 0 -ne 0 ']'
++ rm -rf secert.jwe adv.jws sec.jwe input-plain.txt /etc/systemd/system/tangd.socket.d /mnt/test_encrypted /tmp/header.bin
++ mkfs.ext4 /dev/vdb vdc vdd vde vdf vdg vdh vdi vdj -F
+mke2fs 1.46.4 (18-Aug-2021)
+mkfs.ext4: invalid blocks 'vdc' on device '/dev/vdb'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Dec 22 18:29:44 2022 - INFO  - Finish environment cleanup!

@@ -1,0 +1,179 @@
++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the database config.'
++ message='Start to prepare the database config.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the database config.'
+Thu Dec 22 23:33:05 2022 - INFO  - Start to prepare the database config.
++ DNF_INSTALL 'clamav clamav-server'
++ pkgs='clamav clamav-server'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs 'clamav clamav-server' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp6jelkon_
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp6jelkon_
++ mv /etc/clamd.d/scan.conf /etc/clamd.d/scan.conf.bak
++ echo 'LogFile /var/log/clamd.scan
+        LogFileMaxSize 2M
+        LogTime yes
+        PidFile /run/clamd.scan/clamd.pid
+        DatabaseDirectory /var/lib/clamav
+        TCPAddr 0.0.0.0
+        TCPSocket 3310'
++ LOG_INFO 'End to prepare the database config.'
++ message='End to prepare the database config.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to prepare the database config.'
+Thu Dec 22 23:36:21 2022 - INFO  - End to prepare the database config.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Dec 22 23:36:22 2022 - INFO  - Start to run test.
++ systemctl start clamd@scan.service
++ CHECK_RESULT 0 0 0 'Start clamd@scan.service failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Start clamd@scan.service failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep active
++ systemctl status clamd@scan.service
+     Active: active (running) since Thu 2022-12-22 23:39:24 CST; 402ms ago
++ CHECK_RESULT 0 0 0 'Check clamd@scan.service status failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check clamd@scan.service status failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop clamd@scan.service
++ CHECK_RESULT 0 0 0 'Stop clamd@scan.service failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Stop clamd@scan.service failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status clamd@scan.service
++ grep inactive
+     Active: inactive (dead) since Thu 2022-12-22 23:39:29 CST; 229ms ago
++ CHECK_RESULT 0 0 0 'Check clamd@scan.service status failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check clamd@scan.service status failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clamdscan --version
+ERROR: Could not connect to clamd on 0.0.0.0: Connection refused
+ClamAV 0.103.6
++ CHECK_RESULT 0 0 0 'Check clamdscan version failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check clamdscan version failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clamdscan --help
+
+                      Clam AntiVirus: Daemon Client 0.103.6
+           By The ClamAV Team: https://www.clamav.net/about.html#credits
+           (C) 2022 Cisco Systems, Inc.
+
+    clamdscan [options] [file/directory/-]
+
+    --help              -h             Show this help
+    --version           -V             Print version number and exit
+    --verbose           -v             Be verbose
+    --quiet                            Be quiet, only output error messages
+    --stdout                           Write to stdout instead of stderr. Does not affect 'debug' messages.
+                                       (this help is always written to stdout)
+    --log=FILE          -l FILE        Save scan report in FILE
+    --file-list=FILE    -f FILE        Scan files from FILE
+    --ping              -p A[:I]       Ping clamd up to [A] times at optional interval [I] until it responds.
+    --wait              -w             Wait up to 30 seconds for clamd to start. Optionally use alongside --ping to set attempts [A] and interval [I] to check clamd.
+    --remove                           Remove infected files. Be careful!
+    --move=DIRECTORY                   Move infected files into DIRECTORY
+    --copy=DIRECTORY                   Copy infected files into DIRECTORY
+    --config-file=FILE                 Read configuration from FILE.
+    --allmatch            -z           Continue scanning within file after finding a match.
+    --multiscan           -m           Force MULTISCAN mode
+    --infected            -i           Only print infected files
+    --no-summary                       Disable summary at end of scanning
+    --reload                           Request clamd to reload virus database
+    --fdpass                           Pass filedescriptor to clamd (useful if clamd is running as a different user)
+    --stream                           Force streaming files to clamd (for debugging and unit testing)
+
++ CHECK_RESULT 0 0 0 'Check clamdscan help message failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check clamdscan help message failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu Dec 22 23:39:30 2022 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Dec 22 23:39:31 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu Dec 22 23:39:33 2022 - INFO  - Start to restore the test environment.
++ rm -f /etc/clamd.d/scan.conf
++ mv /etc/clamd.d/scan.conf.bak /etc/clamd.d/scan.conf
++ systemctl restart clamd@scan.service
+Job for clamd@scan.service failed because the control process exited with error code.
+See "systemctl status clamd@scan.service" and "journalctl -xeu clamd@scan.service" for details.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp6jelkon_ ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp6jelkon_
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu Dec 22 23:40:15 2022 - INFO  - End to restore the test environment.

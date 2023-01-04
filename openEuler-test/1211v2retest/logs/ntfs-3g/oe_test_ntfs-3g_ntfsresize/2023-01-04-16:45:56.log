@@ -1,0 +1,288 @@
++ source common/common_lib.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Jan  4 16:45:59 2023 - INFO  - Start to prepare the test environment.
++ get_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/get_test_device.py --device disk --node 1
++ disks=vdb
++ disk_list=($disks)
++ disk1=vdb
++ disk2=
++ DNF_INSTALL ntfs-3g
++ pkgs=ntfs-3g
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs ntfs-3g --node 1 --tempfile ''
++ tmpfile2=/tmp/tmphk8zap_w
++ '[' -z '' ']'
++ tmpfile=/tmp/tmphk8zap_w
++ mkntfs --fast /dev/vdb
+Cluster size has been automatically set to 4096 bytes.
+Creating NTFS volume structures.
+mkntfs completed successfully. Have a nice day.
++ mkntfs --fast /dev/
+Could not open /dev/: Is a directory
++ LOG_INFO 'Finish preparing the test environment.'
++ message='Finish preparing the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish preparing the test environment.'
+Wed Jan  4 16:46:42 2023 - INFO  - Finish preparing the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Jan  4 16:46:43 2023 - INFO  - Start to run test.
++ grep 'Usage: ntfsresize \[OPTIONS\]'
++ ntfsresize --help
+Usage: ntfsresize [OPTIONS] DEVICE
++ CHECK_RESULT 0 0 0 'Check ntfsresize --help failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfsresize --help failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ntfsresize --version
++ grep 'ntfsresize v'
+ntfsresize v2021.8.22 (libntfs-3g)
++ CHECK_RESULT 0 0 0 'Check ntfsresize --version failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfsresize --version failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ntfsresize --check /dev/vdb
++ grep ntfsresize
+ntfsresize v2021.8.22 (libntfs-3g)
++ CHECK_RESULT 0 0 0 'Check ntfsresize --check failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfsresize --check failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ntfsresize --info /dev/vdb
++ grep 'Device name'
+Device name        : /dev/vdb
++ CHECK_RESULT 0 0 0 'Check ntfsresize --info failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfsresize --info failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ntfsresize --info-mb-only /dev/vdb
++ grep Minsize
+Minsize (in MB): 44
++ CHECK_RESULT 0 0 0 'Check ntfsresize --info-mb-only failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfsresize --info-mb-only failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect
+spawn ntfsresize --size 5G /dev/vdb
+ntfsresize v2021.8.22 (libntfs-3g)
+Device name        : /dev/vdb
+NTFS volume version: 3.1
+Cluster size       : 4096 bytes
+Current volume size: 8589931008 bytes (8590 MB)
+Current device size: 8589934592 bytes (8590 MB)
+New volume size    : 5000000000 bytes (5000 MB)
+Checking filesystem consistency ...
+  0.00 percent completed100.00 percent completed
+Accounting clusters ...
+Space in use       : 44 MB (0.5%)
+Collecting resizing constraints ...
+Needed relocations : 0 (0 MB)
+WARNING: Every sanity check passed and only the dangerous operations left.
+Make sure that important data has been backed up! Power outage or computer
+crash may result major data loss!
+Are you sure you want to proceed (y/[n])? y
+Schedule chkdsk for NTFS consistency check at Windows boot time ...
+Resetting $LogFile ... (this might take a while)
+Updating $BadClust file ...
+Updating $Bitmap file ...
+Updating Boot record ...
+Syncing device ...
+Successfully resized NTFS on device '/dev/vdb'.
+You can go on to shrink the device for example with Linux fdisk.
+IMPORTANT: When recreating the partition, make sure that you
+  1)  create it at the same disk sector (use sector as the unit!)
+  2)  create it with the same partition type (usually 7, HPFS/NTFS)
+  3)  do not make it smaller than the new NTFS filesystem size
+  4)  set the bootable flag for the partition if it existed before
+Otherwise you won't be able to access NTFS or can't boot from the disk!
+If you make a mistake and don't have a partition table backup then you
+can recover the partition table by TestDisk or Parted's rescue mode.
++ CHECK_RESULT 0 0 0 'Check ntfsresize --size failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfsresize --size failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ntfsresize --expand /dev/vdb
++ grep ntfsresize
+ntfsresize v2021.8.22 (libntfs-3g)
++ CHECK_RESULT 0 0 0 'Check ntfsresize --expand failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfsresize --expand failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'Device name'
++ ntfsresize --no-action /dev/vdb --force
+Device name        : /dev/vdb
++ CHECK_RESULT 0 0 0 'Check ntfsresize --no-action failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfsresize --no-action failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect
+spawn ntfsresize --bad-sectors /dev/vdb --force
+ntfsresize v2021.8.22 (libntfs-3g)
+Device name        : /dev/vdb
+NTFS volume version: 3.1
+Cluster size       : 4096 bytes
+Current volume size: 5000000000 bytes (5000 MB)
+Current device size: 8589934592 bytes (8590 MB)
+New volume size    : 8589931008 bytes (8590 MB)
+Checking filesystem consistency ...
+  0.00 percent completed100.00 percent completed
+Accounting clusters ...
+Space in use       : 44 MB (0.9%)
+Collecting resizing constraints ...
+WARNING: Every sanity check passed and only the dangerous operations left.
+Make sure that important data has been backed up! Power outage or computer
+crash may result major data loss!
+Are you sure you want to proceed (y/[n])? y
+Schedule chkdsk for NTFS consistency check at Windows boot time ...
+Resetting $LogFile ... (this might take a while)
+Updating $BadClust file ...
+Updating $Bitmap file ...
+Updating Boot record ...
+Syncing device ...
+Successfully resized NTFS on device '/dev/vdb'.
++ CHECK_RESULT 0 0 0 'Check ntfsresize --bad-sectors failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfsresize --bad-sectors failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ntfsresize --no-progress-bar /dev/vdb --force
++ grep 'Device name'
+Device name        : /dev/vdb
++ CHECK_RESULT 0 0 0 'Check ntfsresize --no-progress-bar failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfsresize --no-progress-bar failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ntfsresize --verbose /dev/vdb --force
++ grep 'Device name'
+Device name        : /dev/vdb
++ CHECK_RESULT 0 0 0 'Check ntfsresize --verbose failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfsresize --verbose failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Wed Jan  4 16:46:47 2023 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Jan  4 16:46:48 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Jan  4 16:46:49 2023 - INFO  - Start to restore the test environment.
++ expect
+spawn mkfs.ext4 /dev/vdb
+y
+mke2fs 1.46.4 (18-Aug-2021)
+/dev/vdb contains a ntfs file system
+Proceed anyway? (y,N) Discarding device blocks:       0/2097152               done                            
+Creating filesystem with 2097152 4k blocks and 524288 inodes
+Filesystem UUID: 20a0ae3a-5280-4784-8741-df22fca004bc
+Superblock backups stored on blocks: 
+	32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632
+
+Allocating group tables:  0/64     done                            
+Writing inode tables:  0/64     done                            
+Creating journal (16384 blocks): done
+Writing superblocks and filesystem accounting information:  0/64     done
+
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmphk8zap_w ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmphk8zap_w
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish restoring the test environment.'
++ message='Finish restoring the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish restoring the test environment.'
+Wed Jan  4 16:47:03 2023 - INFO  - Finish restoring the test environment.

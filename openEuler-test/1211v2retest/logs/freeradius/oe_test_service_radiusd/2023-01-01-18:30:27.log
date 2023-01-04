@@ -1,0 +1,224 @@
++ source ../common/common_lib.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n '' ']'
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Sun Jan  1 18:30:30 2023 - INFO  - Start testing...
++ DNF_INSTALL freeradius
++ pkgs=freeradius
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs freeradius --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpr_k6q2tk
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpr_k6q2tk
++ test_execution radiusd.service
++ service=radiusd.service
+++ date '+%Y-%m-%d %T'
++ log_time='2023-01-01 18:31:34'
++ test_restart radiusd.service
++ service=radiusd.service
++ systemctl restart radiusd.service
++ CHECK_RESULT 0 0 0 'radiusd.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radiusd.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status radiusd.service
++ grep 'Active: active'
+     Active: active (running) since Sun 2023-01-01 18:31:36 CST; 6s ago
++ CHECK_RESULT 0 0 0 'radiusd.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radiusd.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop radiusd.service
++ CHECK_RESULT 0 0 0 'radiusd.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radiusd.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status radiusd.service
++ grep 'Active: inactive'
+     Active: inactive (dead)
++ CHECK_RESULT 0 0 0 'radiusd.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radiusd.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start radiusd.service
++ CHECK_RESULT 0 0 0 'radiusd.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radiusd.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status radiusd.service
++ grep 'Active: active'
+     Active: active (running) since Sun 2023-01-01 18:31:50 CST; 5s ago
++ CHECK_RESULT 0 0 0 'radiusd.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radiusd.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled radiusd.service
++ service=radiusd.service
+++ systemctl is-enabled radiusd.service
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ systemctl enable radiusd.service
+++ grep 'Created symlink'
+++ awk '{print $3}'
++ symlink_file=/etc/systemd/system/multi-user.target.wants/radiusd.service
++ find /etc/systemd/system/multi-user.target.wants/radiusd.service
+/etc/systemd/system/multi-user.target.wants/radiusd.service
++ CHECK_RESULT 0 0 0 'radiusd.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radiusd.service enable failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable radiusd.service
+Removed /etc/systemd/system/multi-user.target.wants/radiusd.service.
++ find /etc/systemd/system/multi-user.target.wants/radiusd.service
+find: ‘/etc/systemd/system/multi-user.target.wants/radiusd.service’: No such file or directory
++ CHECK_RESULT 1 0 1 'radiusd.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='radiusd.service disable failed'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ journalctl --since '2023-01-01 18:31:34' -u radiusd.service
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of radiusd.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of radiusd.service'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ systemctl start radiusd.service
++ sed -i 's\ExecStart=/usr/sbin/radiusd\ExecStart=/usr/sbin/radiusd -P\g' /usr/lib/systemd/system/radiusd.service
++ systemctl daemon-reload
++ systemctl reload radiusd.service
++ CHECK_RESULT 0 0 0 'radiusd.service reload failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radiusd.service reload failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status radiusd.service
++ grep 'Active: active'
+     Active: active (running) since Sun 2023-01-01 18:31:50 CST; 20s ago
++ CHECK_RESULT 0 0 0 'radiusd.service reload causes the service status to change'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radiusd.service reload causes the service status to change'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Sun Jan  1 18:32:11 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Sun Jan  1 18:32:12 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Sun Jan  1 18:32:13 2023 - INFO  - start environment cleanup.
++ sed -i 's\ExecStart=/usr/sbin/radiusd -P\ExecStart=/usr/sbin/radiusd\g' /usr/lib/systemd/system/radiusd.service
++ systemctl daemon-reload
++ systemctl reload radiusd.service
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpr_k6q2tk ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpr_k6q2tk
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Sun Jan  1 18:32:36 2023 - INFO  - Finish environment cleanup!

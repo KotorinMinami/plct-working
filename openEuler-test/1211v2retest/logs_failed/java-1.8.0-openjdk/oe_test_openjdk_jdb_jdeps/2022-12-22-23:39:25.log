@@ -1,0 +1,338 @@
++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu Dec 22 23:39:28 2022 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'java-1.8.0-openjdk*'
++ pkgs='java-1.8.0-openjdk*'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs 'java-1.8.0-openjdk*' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp5pvfzk5g
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp5pvfzk5g
++ cp ../common/Hello.java .
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu Dec 22 23:47:07 2022 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Dec 22 23:47:08 2022 - INFO  - Start to run test.
++ jdb -help
++ grep Usage
+Usage: jdb <options> <class> <arguments>
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ javac Hello.java
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect -c '
+    log_file testlog
+    spawn jdb
+    expect ">"
+    send "help\r"
+    expect ">"
+    send "run Hello\r"
+    expect eof
+'
+spawn jdb
+Initializing jdb ...
+> help
+** command list **
+connectors                -- list available connectors and transports in this VM
+
+run [class [args]]        -- start execution of application's main class
+
+threads [threadgroup]     -- list threads
+thread <thread id>        -- set default thread
+suspend [thread id(s)]    -- suspend threads (default: all)
+resume [thread id(s)]     -- resume threads (default: all)
+where [<thread id> | all] -- dump a thread's stack
+wherei [<thread id> | all]-- dump a thread's stack, with pc info
+up [n frames]             -- move up a thread's stack
+down [n frames]           -- move down a thread's stack
+kill <thread id> <expr>   -- kill a thread with the given exception object
+interrupt <thread id>     -- interrupt a thread
+
+print <expr>              -- print value of expression
+dump <expr>               -- print all object information
+eval <expr>               -- evaluate expression (same as print)
+set <lvalue> = <expr>     -- assign new value to field/variable/array element
+locals                    -- print all local variables in current stack frame
+
+classes                   -- list currently known classes
+class <class id>          -- show details of named class
+methods <class id>        -- list a class's methods
+fields <class id>         -- list a class's fields
+
+threadgroups              -- list threadgroups
+threadgroup <name>        -- set current threadgroup
+
+stop in <class id>.<method>[(argument_type,...)]
+                          -- set a breakpoint in a method
+stop at <class id>:<line> -- set a breakpoint at a line
+clear <class id>.<method>[(argument_type,...)]
+                          -- clear a breakpoint in a method
+clear <class id>:<line>   -- clear a breakpoint at a line
+clear                     -- list breakpoints
+catch [uncaught|caught|all] <class id>|<class pattern>
+                          -- break when specified exception occurs
+ignore [uncaught|caught|all] <class id>|<class pattern>
+                          -- cancel 'catch' for the specified exception
+watch [access|all] <class id>.<field name>
+                          -- watch access/modifications to a field
+unwatch [access|all] <class id>.<field name>
+                          -- discontinue watching access/modifications to a field
+trace [go] methods [thread]
+                          -- trace method entries and exits.
+                          -- All threads are suspended unless 'go' is specified
+trace [go] method exit | exits [thread]
+                          -- trace the current method's exit, or all methods' exits
+                          -- All threads are suspended unless 'go' is specified
+untrace [methods]         -- stop tracing method entrys and/or exits
+step                      -- execute current line
+step up                   -- execute until the current method returns to its caller
+stepi                     -- execute current instruction
+next                      -- step one line (step OVER calls)
+cont                      -- continue execution from breakpoint
+
+list [line number|method] -- print source code
+use (or sourcepath) [source file path]
+                          -- display or change the source path
+exclude [<class pattern>, ... | "none"]
+                          -- do not report step or method events for specified classes
+classpath                 -- print classpath info from target VM
+
+monitor <command>         -- execute command each time the program stops
+monitor                   -- list monitors
+unmonitor <monitor#>      -- delete a monitor
+read <filename>           -- read and execute a command file
+
+lock <expr>               -- print lock info for an object
+threadlocks [thread id]   -- print lock info for a thread
+
+pop                       -- pop the stack through and including the current frame
+reenter                   -- same as pop, but current frame is reentered
+redefine <class id> <class file name>
+                          -- redefine the code for a class
+
+disablegc <expr>          -- prevent garbage collection of an object
+enablegc <expr>           -- permit garbage collection of an object
+
+!!                        -- repeat last command
+<n> <command>             -- repeat command n times
+# <command>               -- discard (no-op)
+help (or ?)               -- list commands
+version                   -- print version information
+exit (or quit)            -- exit debugger
+
+<class id>: a full class name with package qualifiers
+<class pattern>: a class name with a leading or trailing wildcard ('*')
+<thread id>: thread number as reported in the 'threads' command
+<expr>: a Java(TM) Programming Language expression.
+Most common syntax is supported.
+
+Startup commands can be placed in either "jdb.ini" or ".jdbrc"
+in user.home or user.dir
+> run Hello
+run  Hello
++ grep 'while executing' testlog
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ grep 'command list' testlog
+** command list **
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'VM Started' testlog
++ grep 'Hello,world!'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_openjdk_jdb_jdeps.sh line 48'
++ message='oe_test_openjdk_jdb_jdeps.sh line 48'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_openjdk_jdb_jdeps.sh line 48'
+Thu Dec 22 23:47:35 2022 - ERROR - oe_test_openjdk_jdb_jdeps.sh line 48
++ return 0
++ jdeps -help
++ grep Usage
+Usage: jdeps <options> <classes...>
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ jdeps -version
++ grep '[0-9]'
+1.8.0_332
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ jfr help
++ grep 'jfr print'
+oe_test_openjdk_jdb_jdeps.sh: line 55: jfr: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_openjdk_jdb_jdeps.sh line 56'
++ message='oe_test_openjdk_jdb_jdeps.sh line 56'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_openjdk_jdb_jdeps.sh line 56'
+Thu Dec 22 23:47:38 2022 - ERROR - oe_test_openjdk_jdb_jdeps.sh line 56
++ return 0
++ jfr version
+oe_test_openjdk_jdb_jdeps.sh: line 57: jfr: command not found
++ grep '[0-9]'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_openjdk_jdb_jdeps.sh line 58'
++ message='oe_test_openjdk_jdb_jdeps.sh line 58'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_openjdk_jdb_jdeps.sh line 58'
+Thu Dec 22 23:47:39 2022 - ERROR - oe_test_openjdk_jdb_jdeps.sh line 58
++ return 0
++ jhat -h
++ grep Usage
+Usage:  jhat [-stack <bool>] [-refs <bool>] [-port <port>] [-baseline <file>] [-debug <int>] [-version] [-h|-help] <file>
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ jhat -version
++ grep 'jhat version'
+jhat version 2.0 (java version 1.8.0_332)
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ jinfo -h
++ grep Usage
+Usage:
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu Dec 22 23:47:42 2022 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 3
++ test 3 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Thu Dec 22 23:47:43 2022 - ERROR - failed to execute the case.
++ exit 3
++ post_test
++ LOG_INFO 'Need'\''t to restore the tet environment.'
++ message='Need'\''t to restore the tet environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Need'\''t to restore the tet environment.'
+Thu Dec 22 23:47:44 2022 - INFO  - Need't to restore the tet environment.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp5pvfzk5g ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp5pvfzk5g
++ '[' 0 -ne 0 ']'
++ rm -rf Hello.class Hello.java testlog
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu Dec 22 23:48:46 2022 - INFO  - End to restore the test environment.

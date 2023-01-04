@@ -1,0 +1,527 @@
++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu Dec 15 20:41:01 2022 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL wireshark
++ pkgs=wireshark
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs wireshark --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp2xz565rc
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp2xz565rc
+++ awk -F - '{print$2}'
+++ rpm -qa wireshark
++ version=3.6.2
++ LOG_INFO 'Finish preparing the test environment.'
++ message='Finish preparing the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish preparing the test environment.'
+Thu Dec 15 20:42:58 2022 - INFO  - Finish preparing the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Dec 15 20:42:59 2022 - INFO  - Start to run test.
++ editcap --help
++ grep 'Usage: editcap \[options\]'
+Usage: editcap [options] ... <infile> <outfile> [ <packet#>[-<packet#>] ... ]
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ editcap --version
++ grep 3.6.2
+Editcap (Wireshark) 3.6.2 (Git commit 626020d9b3c3)
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ awk -F . '{print $2}'
+++ dumpcap -D
+++ head -1
++ netCard=' eth0'
++ SLEEP_WAIT 10 'dumpcap -i  eth0 -c 20 -w testfile1' 2
++ wait_time=10
++ cmd='dumpcap -i  eth0 -c 20 -w testfile1'
++ mode=2
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 10 --cmd 'dumpcap -i  eth0 -c 20 -w testfile1' --mode 2
+Capturing on 'eth0'
+File: testfile1
+
+Packets: 3 
+Packets: 4 
+Packets: 6 
+Packets: 7 
+Packets: 10 
+Packets: 12 
+Packets: 13 
+Packets: 15 
+Packets: 17 
+Packets: 19 
+Packets: 20 
+Packets captured: 20
+Packets received/dropped on interface 'eth0': 20/0 (pcap:0/dumpcap:0/flushed:0/ps_ifdrop:0) (100.0%)
++ grep 'Number of packets:.*20'
++ capinfos testfile1
+Number of packets:   20
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ editcap -r testfile1 testfile1_A 2-5
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ capinfos testfile1_A
++ grep 'Number of packets:.*4'
+Number of packets:   4
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5 'dumpcap -i  eth0 -f "tcp port 22" -c 20 -w testfile2' 2
++ wait_time=5
++ cmd='dumpcap -i  eth0 -f "tcp port 22" -c 20 -w testfile2'
++ mode=2
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd 'dumpcap -i  eth0 -f "tcp port 22" -c 20 -w testfile2' --mode 2
+Thu Dec 15 21:10:56 2022 - ERROR - Timeout : Command 'bash -x oe_test_editcap_01.sh' timed out after 1799.9961082950003 seconds
+Capturing on 'eth0'
+File: testfile2
+
+Packets: 2 
+Packets: 4 
+Packets: 6 
+Packets: 8 
+Packets: 10 
+Packets: 12 
+Packets: 14 
+Packets: 16 
+Packets: 18 
+Packets: 20 
+Packets captured: 20
+Packets received/dropped on interface 'eth0': 20/0 (pcap:0/dumpcap:0/flushed:0/ps_ifdrop:0) (100.0%)
+++ post_test
+++ LOG_INFO 'Start to restore the test environment.'
+++ message='Start to restore the test environment.'
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu Dec 15 21:41:20 2022 - INFO  - Start to restore the test environment.
++++ grep -v .sh
++++ ls
+++ rm -rf testfile1 testfile1_A testfile2
+++ DNF_REMOVE
+++ node=1
+++ pkg_list=
+++ mode=0
+++ [[ -z /tmp/tmp2xz565rc ]]
+++ '[' 0 -ne 0 ']'
+++ '[' 1 == 0 ']'
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp2xz565rc
+++ '[' 0 -ne 0 ']'
+++ LOG_INFO 'Finish restoring the test environment.'
+++ message='Finish restoring the test environment.'
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish restoring the test environment.'
+Thu Dec 15 21:41:53 2022 - INFO  - Finish restoring the test environment.
++ grep -a 'tcp port 22' testfile2
+grep: testfile2: No such file or directory
++ CHECK_RESULT 2
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_editcap_01.sh line 44'
++ message='oe_test_editcap_01.sh line 44'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_editcap_01.sh line 44'
+Thu Dec 15 21:41:54 2022 - ERROR - oe_test_editcap_01.sh line 44
++ return 0
++ capinfos testfile2
++ grep -E 'Number of packets:.*20|Filter string = tcp port 22'
+oe_test_editcap_01.sh: line 45: capinfos: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_editcap_01.sh line 46'
++ message='oe_test_editcap_01.sh line 46'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_editcap_01.sh line 46'
+Thu Dec 15 21:41:55 2022 - ERROR - oe_test_editcap_01.sh line 46
++ return 0
++ SLEEP_WAIT 3
++ wait_time=3
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 3 --cmd '' --mode 1
+++ date '+%Y-%m-%d %T'
++ editcap -A '2022-12-15 21:41:59' testfile2 testfile2_A
+oe_test_editcap_01.sh: line 48: /usr/bin/editcap: No such file or directory
++ CHECK_RESULT 127
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_editcap_01.sh line 49'
++ message='oe_test_editcap_01.sh line 49'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_editcap_01.sh line 49'
+Thu Dec 15 21:42:00 2022 - ERROR - oe_test_editcap_01.sh line 49
++ return 0
++ capinfos testfile2_A
+oe_test_editcap_01.sh: line 50: capinfos: command not found
++ grep 'Number of packets:.*0'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_editcap_01.sh line 51'
++ message='oe_test_editcap_01.sh line 51'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_editcap_01.sh line 51'
+Thu Dec 15 21:42:01 2022 - ERROR - oe_test_editcap_01.sh line 51
++ return 0
+++ date '+%Y-%m-%d %T'
++ editcap -B '2022-12-15 21:42:02' testfile2 testfile2_B
+oe_test_editcap_01.sh: line 52: /usr/bin/editcap: No such file or directory
++ CHECK_RESULT 127
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_editcap_01.sh line 53'
++ message='oe_test_editcap_01.sh line 53'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_editcap_01.sh line 53'
+Thu Dec 15 21:42:03 2022 - ERROR - oe_test_editcap_01.sh line 53
++ return 0
++ capinfos testfile2_B
+oe_test_editcap_01.sh: line 54: capinfos: command not found
++ grep 'Number of packets:.*20'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_editcap_01.sh line 55'
++ message='oe_test_editcap_01.sh line 55'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_editcap_01.sh line 55'
+Thu Dec 15 21:42:04 2022 - ERROR - oe_test_editcap_01.sh line 55
++ return 0
++ editcap -d testfile2 testfile2_C
+oe_test_editcap_01.sh: line 56: /usr/bin/editcap: No such file or directory
++ CHECK_RESULT 127
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_editcap_01.sh line 57'
++ message='oe_test_editcap_01.sh line 57'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_editcap_01.sh line 57'
+Thu Dec 15 21:42:05 2022 - ERROR - oe_test_editcap_01.sh line 57
++ return 0
++ capinfos testfile2_C
+oe_test_editcap_01.sh: line 58: capinfos: command not found
++ grep 'File size:.*bytes'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_editcap_01.sh line 59'
++ message='oe_test_editcap_01.sh line 59'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_editcap_01.sh line 59'
+Thu Dec 15 21:42:06 2022 - ERROR - oe_test_editcap_01.sh line 59
++ return 0
++ SLEEP_WAIT 5 'dumpcap -i  eth0 -c 20 -w testfile3' 2
++ wait_time=5
++ cmd='dumpcap -i  eth0 -c 20 -w testfile3'
++ mode=2
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd 'dumpcap -i  eth0 -c 20 -w testfile3' --mode 2
++ capinfos testfile3
+oe_test_editcap_01.sh: line 61: capinfos: command not found
++ grep 'Number of packets:.*20'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_editcap_01.sh line 62'
++ message='oe_test_editcap_01.sh line 62'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_editcap_01.sh line 62'
+Thu Dec 15 21:42:14 2022 - ERROR - oe_test_editcap_01.sh line 62
++ return 0
++ editcap -D 10 testfile3 testfile3_A
+oe_test_editcap_01.sh: line 63: /usr/bin/editcap: No such file or directory
++ CHECK_RESULT 127
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_editcap_01.sh line 64'
++ message='oe_test_editcap_01.sh line 64'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_editcap_01.sh line 64'
+Thu Dec 15 21:42:15 2022 - ERROR - oe_test_editcap_01.sh line 64
++ return 0
++ capinfos testfile3_A
+oe_test_editcap_01.sh: line 65: capinfos: command not found
++ grep -E 'File size:.*bytes|Number of stat entries = 0'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_editcap_01.sh line 66'
++ message='oe_test_editcap_01.sh line 66'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_editcap_01.sh line 66'
+Thu Dec 15 21:42:16 2022 - ERROR - oe_test_editcap_01.sh line 66
++ return 0
++ SLEEP_WAIT 5 'dumpcap -i  eth0 -p -c 20 -w testfile4' 2
++ wait_time=5
++ cmd='dumpcap -i  eth0 -p -c 20 -w testfile4'
++ mode=2
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd 'dumpcap -i  eth0 -p -c 20 -w testfile4' --mode 2
++ capinfos testfile4
++ grep 'Number of packets:.*20'
+oe_test_editcap_01.sh: line 68: capinfos: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_editcap_01.sh line 69'
++ message='oe_test_editcap_01.sh line 69'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_editcap_01.sh line 69'
+Thu Dec 15 21:42:25 2022 - ERROR - oe_test_editcap_01.sh line 69
++ return 0
++ editcap -w 0.01 testfile4 testfile4_A
+oe_test_editcap_01.sh: line 70: /usr/bin/editcap: No such file or directory
++ CHECK_RESULT 127
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_editcap_01.sh line 71'
++ message='oe_test_editcap_01.sh line 71'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_editcap_01.sh line 71'
+Thu Dec 15 21:42:26 2022 - ERROR - oe_test_editcap_01.sh line 71
++ return 0
++ capinfos testfile4_A
++ grep 'File size:.*bytes'
+oe_test_editcap_01.sh: line 72: capinfos: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_editcap_01.sh line 73'
++ message='oe_test_editcap_01.sh line 73'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_editcap_01.sh line 73'
+Thu Dec 15 21:42:27 2022 - ERROR - oe_test_editcap_01.sh line 73
++ return 0
+++ dumpcap -i eth0 -L
+oe_test_editcap_01.sh: line 74: dumpcap: command not found
+++ awk '{print $1}'
+++ sed -n 2p
++ linkType=
++ SLEEP_WAIT 5 'dumpcap -i  eth0 -y  -c 20 -w testfile5' 2
++ wait_time=5
++ cmd='dumpcap -i  eth0 -y  -c 20 -w testfile5'
++ mode=2
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd 'dumpcap -i  eth0 -y  -c 20 -w testfile5' --mode 2
++ capinfos testfile5
+oe_test_editcap_01.sh: line 76: capinfos: command not found
++ grep -E ' eth0|Ethernet'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_editcap_01.sh line 77'
++ message='oe_test_editcap_01.sh line 77'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_editcap_01.sh line 77'
+Thu Dec 15 21:42:35 2022 - ERROR - oe_test_editcap_01.sh line 77
++ return 0
++ editcap -s 10 testfile5 testfile5_A
+oe_test_editcap_01.sh: line 78: /usr/bin/editcap: No such file or directory
++ CHECK_RESULT 127
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_editcap_01.sh line 79'
++ message='oe_test_editcap_01.sh line 79'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_editcap_01.sh line 79'
+Thu Dec 15 21:42:36 2022 - ERROR - oe_test_editcap_01.sh line 79
++ return 0
++ capinfos testfile5_A
++ grep 'Packet size limit:.*inferred:.*10.*bytes'
+oe_test_editcap_01.sh: line 80: capinfos: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_editcap_01.sh line 81'
++ message='oe_test_editcap_01.sh line 81'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_editcap_01.sh line 81'
+Thu Dec 15 21:42:38 2022 - ERROR - oe_test_editcap_01.sh line 81
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Thu Dec 15 21:42:39 2022 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 17
++ test 17 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Thu Dec 15 21:42:40 2022 - ERROR - failed to execute the case.
++ exit 17
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu Dec 15 21:42:41 2022 - INFO  - Start to restore the test environment.
+++ ls
+++ grep -v .sh
++ rm -rf
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp2xz565rc ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp2xz565rc
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish restoring the test environment.'
++ message='Finish restoring the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish restoring the test environment.'
+Thu Dec 15 21:43:14 2022 - INFO  - Finish restoring the test environment.

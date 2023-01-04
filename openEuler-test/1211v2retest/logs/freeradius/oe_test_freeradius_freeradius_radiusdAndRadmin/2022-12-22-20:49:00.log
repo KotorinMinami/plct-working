@@ -1,0 +1,228 @@
++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu Dec 22 20:49:02 2022 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL freeradius
++ pkgs=freeradius
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs freeradius --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpu_eds_d0
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpu_eds_d0
++ echo -e 'show version\nquit'
+++ rpm -q freeradius
+++ awk -F - '{print $2}'
++ radiusd_version=3.0.25
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu Dec 22 20:50:36 2022 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Dec 22 20:50:37 2022 - INFO  - Start to run test.
++ radiusd -v
++ grep 3.0.25
+radiusd: FreeRADIUS Version 3.0.25, for host riscv64-openEuler-linux-gnu, built on Dec  1 2022 at 19:56:29
+FreeRADIUS Version 3.0.25
++ CHECK_RESULT 0 0 0 'radiusd -v execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radiusd -v execution failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ CHECK_RESULT 0 0 0 'radiusd -X execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radiusd -X execution failed.'
++ '[' -z 0 ']'
++ radiusd -X
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep Loading
+++ pgrep -f 'radiusd -X'
++ kill -9 1560
++ ln -s /etc/raddb/sites-available/control-socket /etc/raddb/sites-enabled/control-socket
++ systemctl start radiusd
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ radmin -d /etc/raddb
++ grep 3.0.25
+radmin version 3.0.25, built on Dec  1 2022 at 19:57:08 - FreeRADIUS Server administration tool.
+FreeRADIUS Version 3.0.25, for host riscv64-openEuler-linux-gnu, built on Dec  1 2022 at 19:56:29
++ CHECK_RESULT 0 0 0 'radmin -d execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radmin -d execution failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ radmin -D /usr/share/freeradius
++ grep 3.0.25
+radmin version 3.0.25, built on Dec  1 2022 at 19:57:08 - FreeRADIUS Server administration tool.
+FreeRADIUS Version 3.0.25, for host riscv64-openEuler-linux-gnu, built on Dec  1 2022 at 19:56:29
++ CHECK_RESULT 0 0 0 'radmin -D execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radmin -D execution failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ radmin -e 'show version'
++ grep 3.0.25
+FreeRADIUS Version 3.0.25, for host riscv64-openEuler-linux-gnu, built on Dec  1 2022 at 19:56:29
++ CHECK_RESULT 0 0 0 'radmin -e execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radmin -e execution failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ radmin -E
+++ grep -c 'show version'
++ '[' 2 -eq 2 ']'
++ CHECK_RESULT 0 0 0 'radmin -E execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radmin -E execution failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ radmin -f /var/run/radiusd/radiusd.sock
++ grep 3.0.25
+radmin version 3.0.25, built on Dec  1 2022 at 19:57:08 - FreeRADIUS Server administration tool.
+FreeRADIUS Version 3.0.25, for host riscv64-openEuler-linux-gnu, built on Dec  1 2022 at 19:56:29
++ CHECK_RESULT 0 0 0 'radmin -f execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radmin -f execution failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ radmin -h
++ grep Usage
+Usage: radmin [ args ]
++ CHECK_RESULT 0 0 0 'radmin -h execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radmin -h execution failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ radmin -i /tmp/radminfile
++ grep 3.0.25
+FreeRADIUS Version 3.0.25, for host riscv64-openEuler-linux-gnu, built on Dec  1 2022 at 19:56:29
++ CHECK_RESULT 0 0 0 'radmin -i execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radmin -i execution failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cp /etc/raddb/radiusd.conf /etc/raddb/test.conf
++ radmin -n test
++ grep 3.0.25
+radmin version 3.0.25, built on Dec  1 2022 at 19:57:08 - FreeRADIUS Server administration tool.
+FreeRADIUS Version 3.0.25, for host riscv64-openEuler-linux-gnu, built on Dec  1 2022 at 19:56:29
++ CHECK_RESULT 0 0 0 'radmin -n execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radmin -n execution failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ '[' '!' -s /tmp/test ']'
++ CHECK_RESULT 0 0 0 'radmin -q execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radmin -q execution failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ radmin -q
++ return 0
+++ pgrep -f 'radmin -q'
++ kill -9 1598
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu Dec 22 20:50:45 2022 - INFO  - End to run test.
+/root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh: line 19:  1598 Killed                  radmin -q > /tmp/test
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Dec 22 20:50:46 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu Dec 22 20:50:47 2022 - INFO  - Start to restore the test environment.
++ systemctl stop radiusd
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpu_eds_d0 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpu_eds_d0
++ '[' 0 -ne 0 ']'
++ rm -rf /etc/raddb
++ rm -rf /var/log/radius
++ rm -rf /tmp/radminfile
++ rm -rf /tmp/test
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu Dec 22 20:51:17 2022 - INFO  - End to restore the test environment.

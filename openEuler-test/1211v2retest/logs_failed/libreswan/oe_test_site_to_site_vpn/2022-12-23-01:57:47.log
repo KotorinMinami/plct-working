@@ -1,0 +1,464 @@
++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Fri Dec 23 01:57:50 2022 - INFO  - Start environmental preparation.
++ DNF_INSTALL 'libreswan net-tools'
++ pkgs='libreswan net-tools'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs 'libreswan net-tools' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpkw37qnp7
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpkw37qnp7
++ DNF_INSTALL 'libreswan net-tools' 2
++ pkgs='libreswan net-tools'
++ node=2
++ '[' -z /tmp/tmpkw37qnp7 ']'
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs 'libreswan net-tools' --node 2 --tempfile /tmp/tmpkw37qnp7
+Traceback (most recent call last):
+  File "/root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py", line 176, in <module>
+    exitcode, output = rpm_install(args.pkgs, args.node, args.tempfile)
+  File "/root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py", line 66, in rpm_install
+    conn = ssh_cmd.pssh_conn(
+  File "/root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py", line 53, in pssh_conn
+    conn.connect(ip, port, user, password, timeout=timeout)
+  File "/usr/lib/python3.9/site-packages/paramiko/client.py", line 340, in connect
+    to_try = list(self._families_and_addresses(hostname, port))
+  File "/usr/lib/python3.9/site-packages/paramiko/client.py", line 203, in _families_and_addresses
+    addrinfos = socket.getaddrinfo(
+  File "/usr/lib64/python3.9/socket.py", line 954, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
++ tmpfile2=
++ '[' -z /tmp/tmpkw37qnp7 ']'
++ systemctl start firewalld
+Failed to start firewalld.service: Unit firewalld.service not found.
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Fri Dec 23 01:58:40 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Fri Dec 23 01:58:41 2022 - INFO  - Start executing testcase.
++ systemctl enable ipsec --now
+Created symlink /etc/systemd/system/multi-user.target.wants/ipsec.service → /usr/lib/systemd/system/ipsec.service.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep success
++ firewall-cmd --add-service=ipsec
+oe_test_site_to_site_vpn.sh: line 34: firewall-cmd: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_site_to_site_vpn.sh line 35'
++ message='oe_test_site_to_site_vpn.sh line 35'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_site_to_site_vpn.sh line 35'
+Fri Dec 23 01:58:51 2022 - ERROR - oe_test_site_to_site_vpn.sh line 35
++ return 0
++ firewall-cmd --runtime-to-permanent
++ grep success
+oe_test_site_to_site_vpn.sh: line 36: firewall-cmd: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_site_to_site_vpn.sh line 37'
++ message='oe_test_site_to_site_vpn.sh line 37'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_site_to_site_vpn.sh line 37'
+Fri Dec 23 01:58:52 2022 - ERROR - oe_test_site_to_site_vpn.sh line 37
++ return 0
+++ ipsec newhostkey --nssdir /etc/ipsec.d/
+++ awk '/Generated/{print $7}'
++ left_ckaid=30ef58c40aef36adfdced2b241ed06ae49c86a92
+++ grep netmask
+++ ifconfig
+++ tr -s ' '
+++ awk '{print $4}'
++ left_mask='255.255.255.0
+255.0.0.0'
+++ ip -6 route show dev
+++ head -n 1
+++ awk '{print $1}'
+Command line is not complete. Try option "help"
++ left6_mask=
+++ ipsec showhostkey --left --ckaid 30ef58c40aef36adfdced2b241ed06ae49c86a92 --nssdir /etc/ipsec.d/
+++ grep leftrsasigkey
+++ awk -F leftrsasigkey= '{print $2}'
+++ sed 's/^[ \t]*//g'
++ left_rsa=0sAwEAAb0+ORIIpZUO5AH/++ownDxSltkj2zQpYgmXXxqDKOmXuN2Bvb2LVp8KkRKgEP2i6rEvVuBIqaGsE5SClvoW72LSJRviBdW2FM5728/HipDZjjXSl4KwBb3qe+J3Cw87/yHGnx7rziqPEqpCGD2TgpztF8aaMhoGTr9EqMnmlo/tdKvusLxHZe1b2518wsJK601FsgnaW+vCErkda8Yhjxf8LhTNsJzDV413koHm/FH1ymlwHSc/RjWEz4KUbdTAs59Vu9tIxYa1TRezuV48219Zk/4+IjJHWcltwuK7Ir6t+c1g7ChHH6/uVPoVQPyjXfJ7C6QJkgr0fveICL/ufqomG4TD+ToeY4HotsH5WcLMrlQa7eRof2L3Dw4mk4dMDuG4QykbL0Fym4ctrc1oTeQ/QyA15OkcVxCchIIurncqrzxQgxBPqdBBe07DwFz3B/lAn9X2sdBLBFIOuqI+OfeGsdNkcA806Sq1KYW0uzuBYV881IWoPUIzYpVRPRsbgE304944Cjk1ZrXAvtiR1nj2Ss7/6XnbDp+1po3w1//MStE=
++ P_SSH_CMD --cmd 'systemctl start firewalld;systemctl enable ipsec --now' --node 2
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --cmd 'systemctl start firewalld;systemctl enable ipsec --now' --node 2
+Fri Dec 23 01:59:00 2022 - ERROR - You need to check the environment configuration file to see if this node information exists.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_site_to_site_vpn.sh line 44'
++ message='oe_test_site_to_site_vpn.sh line 44'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_site_to_site_vpn.sh line 44'
+Fri Dec 23 01:59:00 2022 - ERROR - oe_test_site_to_site_vpn.sh line 44
++ return 0
++ P_SSH_CMD --cmd 'firewall-cmd --add-service=\"ipsec\";firewall-cmd --runtime-to-permanent' --node 2
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --cmd 'firewall-cmd --add-service=\"ipsec\";firewall-cmd --runtime-to-permanent' --node 2
+Fri Dec 23 01:59:02 2022 - ERROR - You need to check the environment configuration file to see if this node information exists.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_site_to_site_vpn.sh line 46'
++ message='oe_test_site_to_site_vpn.sh line 46'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_site_to_site_vpn.sh line 46'
+Fri Dec 23 01:59:03 2022 - ERROR - oe_test_site_to_site_vpn.sh line 46
++ return 0
++ P_SSH_CMD --cmd 'ipsec newhostkey --nssdir /etc/ipsec.d/ 2>&1 | grep Generated | cut -d '\'' '\'' -f 7 >/tmp/key.txt' --node 2
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --cmd 'ipsec newhostkey --nssdir /etc/ipsec.d/ 2>&1 | grep Generated | cut -d '\'' '\'' -f 7 >/tmp/key.txt' --node 2
+Fri Dec 23 01:59:05 2022 - ERROR - You need to check the environment configuration file to see if this node information exists.
++ SSH_SCP @:/tmp/key.txt /tmp
++ src=@:/tmp/key.txt
++ dest=/tmp
++ remotepasswd='openEuler12#$'
++ connport=22
++ bash /root/GitRepo/mugen-riscv/libs/locallibs/sshscp.sh -p 'openEuler12#$' -o 22 -s @:/tmp/key.txt -d /tmp
+Fri Dec 23 01:59:06 2022 - WARN  - the remote password uses the default configuration.
+Fri Dec 23 01:59:07 2022 - WARN  - the connect port using the default configuration
+spawn scp -P 22 -r @:/tmp/key.txt /tmp
+ssh: Could not resolve hostname : Name or service not known
++ ret=1
++ test 1 -ne 0
++ LOG_ERROR 'Failed in remote SCP operation: 1'
++ message='Failed in remote SCP operation: 1'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Failed in remote SCP operation: 1'
+Fri Dec 23 01:59:08 2022 - ERROR - Failed in remote SCP operation: 1
++ return 1
+++ cat /tmp/key.txt
+cat: /tmp/key.txt: No such file or directory
++ right_ckaid=
++ P_SSH_CMD --cmd 'ipsec showhostkey --right --ckaid  --nssdir /etc/ipsec.d/  | grep rightrsasigkey > /tmp/rsa.txt' --node 2
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --cmd 'ipsec showhostkey --right --ckaid  --nssdir /etc/ipsec.d/  | grep rightrsasigkey > /tmp/rsa.txt' --node 2
+Fri Dec 23 01:59:10 2022 - ERROR - You need to check the environment configuration file to see if this node information exists.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_site_to_site_vpn.sh line 52'
++ message='oe_test_site_to_site_vpn.sh line 52'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_site_to_site_vpn.sh line 52'
+Fri Dec 23 01:59:11 2022 - ERROR - oe_test_site_to_site_vpn.sh line 52
++ return 0
++ SSH_SCP @:/tmp/rsa.txt /tmp
++ src=@:/tmp/rsa.txt
++ dest=/tmp
++ remotepasswd='openEuler12#$'
++ connport=22
++ bash /root/GitRepo/mugen-riscv/libs/locallibs/sshscp.sh -p 'openEuler12#$' -o 22 -s @:/tmp/rsa.txt -d /tmp
+Fri Dec 23 01:59:12 2022 - WARN  - the remote password uses the default configuration.
+Fri Dec 23 01:59:12 2022 - WARN  - the connect port using the default configuration
+spawn scp -P 22 -r @:/tmp/rsa.txt /tmp
+ssh: Could not resolve hostname : Name or service not known
++ ret=1
++ test 1 -ne 0
++ LOG_ERROR 'Failed in remote SCP operation: 1'
++ message='Failed in remote SCP operation: 1'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Failed in remote SCP operation: 1'
+Fri Dec 23 01:59:13 2022 - ERROR - Failed in remote SCP operation: 1
++ return 1
+++ cat /tmp/rsa.txt
+++ awk -F rightrsasigkey= '{print $2}'
+++ sed 's/^[ \t]*//g'
+cat: /tmp/rsa.txt: No such file or directory
++ right_rsa=
++ P_SSH_CMD --cmd 'ifconfig  | grep netmask >/tmp/right_mask.txt' --node 2
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --cmd 'ifconfig  | grep netmask >/tmp/right_mask.txt' --node 2
+Fri Dec 23 01:59:15 2022 - ERROR - You need to check the environment configuration file to see if this node information exists.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_site_to_site_vpn.sh line 57'
++ message='oe_test_site_to_site_vpn.sh line 57'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_site_to_site_vpn.sh line 57'
+Fri Dec 23 01:59:16 2022 - ERROR - oe_test_site_to_site_vpn.sh line 57
++ return 0
++ SSH_SCP @:/tmp/right_mask.txt /tmp
++ src=@:/tmp/right_mask.txt
++ dest=/tmp
++ remotepasswd='openEuler12#$'
++ connport=22
++ bash /root/GitRepo/mugen-riscv/libs/locallibs/sshscp.sh -p 'openEuler12#$' -o 22 -s @:/tmp/right_mask.txt -d /tmp
+Fri Dec 23 01:59:17 2022 - WARN  - the remote password uses the default configuration.
+Fri Dec 23 01:59:18 2022 - WARN  - the connect port using the default configuration
+spawn scp -P 22 -r @:/tmp/right_mask.txt /tmp
+ssh: Could not resolve hostname : Name or service not known
++ ret=1
++ test 1 -ne 0
++ LOG_ERROR 'Failed in remote SCP operation: 1'
++ message='Failed in remote SCP operation: 1'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Failed in remote SCP operation: 1'
+Fri Dec 23 01:59:19 2022 - ERROR - Failed in remote SCP operation: 1
++ return 1
++ P_SSH_CMD --cmd 'ip -6 route show dev >/tmp/right6_mask.txt' --node 2
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --cmd 'ip -6 route show dev >/tmp/right6_mask.txt' --node 2
+Fri Dec 23 01:59:21 2022 - ERROR - You need to check the environment configuration file to see if this node information exists.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_site_to_site_vpn.sh line 60'
++ message='oe_test_site_to_site_vpn.sh line 60'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_site_to_site_vpn.sh line 60'
+Fri Dec 23 01:59:22 2022 - ERROR - oe_test_site_to_site_vpn.sh line 60
++ return 0
++ SSH_SCP @:/tmp/right6_mask.txt /tmp
++ src=@:/tmp/right6_mask.txt
++ dest=/tmp
++ remotepasswd='openEuler12#$'
++ connport=22
++ bash /root/GitRepo/mugen-riscv/libs/locallibs/sshscp.sh -p 'openEuler12#$' -o 22 -s @:/tmp/right6_mask.txt -d /tmp
+Fri Dec 23 01:59:22 2022 - WARN  - the remote password uses the default configuration.
+Fri Dec 23 01:59:23 2022 - WARN  - the connect port using the default configuration
+spawn scp -P 22 -r @:/tmp/right6_mask.txt /tmp
+ssh: Could not resolve hostname : Name or service not known
++ ret=1
++ test 1 -ne 0
++ LOG_ERROR 'Failed in remote SCP operation: 1'
++ message='Failed in remote SCP operation: 1'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Failed in remote SCP operation: 1'
+Fri Dec 23 01:59:24 2022 - ERROR - Failed in remote SCP operation: 1
++ return 1
+++ cat /tmp/right_mask.txt
+++ awk '{print $4}'
+cat: /tmp/right_mask.txt: No such file or directory
++ right_mask=
+++ cat /tmp/right6_mask.txt
+++ awk '{print $1}'
+cat: /tmp/right6_mask.txt: No such file or directory
++ right6_mask=
++ echo -e 'conn mysubnet\n     also=mytunnel\n     leftsubnet=255.255.255.0
+255.0.0.0/24\n     rightsubnet=/24\n     
+    auto=start\n\nconn mysubnet6\n     also=mytunnel\n     leftsubnet=\n     rightsubnet=\n     
+    auto=start\n\n\nconn mytunnel\n    leftid=@west\n    left=127.0.0.1\n    leftrsasigkey=0sAwEAAb0+ORIIpZUO5AH/++ownDxSltkj2zQpYgmXXxqDKOmXuN2Bvb2LVp8KkRKgEP2i6rEvVuBIqaGsE5SClvoW72LSJRviBdW2FM5728/HipDZjjXSl4KwBb3qe+J3Cw87/yHGnx7rziqPEqpCGD2TgpztF8aaMhoGTr9EqMnmlo/tdKvusLxHZe1b2518wsJK601FsgnaW+vCErkda8Yhjxf8LhTNsJzDV413koHm/FH1ymlwHSc/RjWEz4KUbdTAs59Vu9tIxYa1TRezuV48219Zk/4+IjJHWcltwuK7Ir6t+c1g7ChHH6/uVPoVQPyjXfJ7C6QJkgr0fveICL/ufqomG4TD+ToeY4HotsH5WcLMrlQa7eRof2L3Dw4mk4dMDuG4QykbL0Fym4ctrc1oTeQ/QyA15OkcVxCchIIurncqrzxQgxBPqdBBe07DwFz3B/lAn9X2sdBLBFIOuqI+OfeGsdNkcA806Sq1KYW0uzuBYV881IWoPUIzYpVRPRsbgE304944Cjk1ZrXAvtiR1nj2Ss7/6XnbDp+1po3w1//MStE=\n    
+    rightid=@east\n    right=\n    rightrsasigkey=\n    authby=rsasig'
++ SSH_SCP /etc/ipsec.d/my_site-to-site.conf @:/etc/ipsec.d/
++ src=/etc/ipsec.d/my_site-to-site.conf
++ dest=@:/etc/ipsec.d/
++ remotepasswd='openEuler12#$'
++ connport=22
++ bash /root/GitRepo/mugen-riscv/libs/locallibs/sshscp.sh -p 'openEuler12#$' -o 22 -s /etc/ipsec.d/my_site-to-site.conf -d @:/etc/ipsec.d/
+Fri Dec 23 01:59:25 2022 - WARN  - the remote password uses the default configuration.
+Fri Dec 23 01:59:26 2022 - WARN  - the connect port using the default configuration
+spawn scp -P 22 -r /etc/ipsec.d/my_site-to-site.conf @:/etc/ipsec.d/
+ssh: Could not resolve hostname : Name or service not known
+lost connection
++ ret=1
++ test 1 -ne 0
++ LOG_ERROR 'Failed in remote SCP operation: 1'
++ message='Failed in remote SCP operation: 1'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Failed in remote SCP operation: 1'
+Fri Dec 23 01:59:27 2022 - ERROR - Failed in remote SCP operation: 1
++ return 1
++ ipsec auto --add mysubnet
+cannot load config '/etc/ipsec.conf': /etc/ipsec.d/my_site-to-site.conf:4: syntax error [255.0.0.0/24]
++ CHECK_RESULT 3 0 0 'add mysubnet failed'
++ actual_result=3
++ expect_result=0
++ mode=0
++ error_log='add mysubnet failed'
++ '[' -z 3 ']'
++ '[' 0 -eq 0 ']'
++ test 3x '!=' 0x
++ test -n 'add mysubnet failed'
++ LOG_ERROR 'add mysubnet failed'
++ message='add mysubnet failed'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'add mysubnet failed'
+Fri Dec 23 01:59:28 2022 - ERROR - add mysubnet failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_site_to_site_vpn.sh line 71'
++ message='oe_test_site_to_site_vpn.sh line 71'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_site_to_site_vpn.sh line 71'
+Fri Dec 23 01:59:28 2022 - ERROR - oe_test_site_to_site_vpn.sh line 71
++ return 0
++ systemctl restart ipsec
+Job for ipsec.service failed because the control process exited with error code.
+See "systemctl status ipsec.service" and "journalctl -xeu ipsec.service" for details.
++ ipsec setup start
+Redirecting to: systemctl start ipsec.service
+Job for ipsec.service failed because the control process exited with error code.
+See "systemctl status ipsec.service" and "journalctl -xeu ipsec.service" for details.
++ P_SSH_CMD --cmd 'ipsec auto --add mysubnet;systemctl restart ipsec;ipsec setup start' --node 2
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --cmd 'ipsec auto --add mysubnet;systemctl restart ipsec;ipsec setup start' --node 2
+Fri Dec 23 01:59:33 2022 - ERROR - You need to check the environment configuration file to see if this node information exists.
++ ipsec auto --up mysubnet
+whack: Pluto is not running (no "/run/pluto/pluto.ctl")
++ CHECK_RESULT 33 0 0 'up mysubnet failed'
++ actual_result=33
++ expect_result=0
++ mode=0
++ error_log='up mysubnet failed'
++ '[' -z 33 ']'
++ '[' 0 -eq 0 ']'
++ test 33x '!=' 0x
++ test -n 'up mysubnet failed'
++ LOG_ERROR 'up mysubnet failed'
++ message='up mysubnet failed'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'up mysubnet failed'
+Fri Dec 23 01:59:34 2022 - ERROR - up mysubnet failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_site_to_site_vpn.sh line 77'
++ message='oe_test_site_to_site_vpn.sh line 77'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_site_to_site_vpn.sh line 77'
+Fri Dec 23 01:59:34 2022 - ERROR - oe_test_site_to_site_vpn.sh line 77
++ return 0
++ P_SSH_CMD --cmd 'ipsec auto --up mysubnet' --node 2
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --cmd 'ipsec auto --up mysubnet' --node 2
+Fri Dec 23 01:59:37 2022 - ERROR - You need to check the environment configuration file to see if this node information exists.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_site_to_site_vpn.sh line 79'
++ message='oe_test_site_to_site_vpn.sh line 79'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_site_to_site_vpn.sh line 79'
+Fri Dec 23 01:59:37 2022 - ERROR - oe_test_site_to_site_vpn.sh line 79
++ return 0
++ LOG_INFO 'Finish testcase execution.'
++ message='Finish testcase execution.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish testcase execution.'
+Fri Dec 23 01:59:38 2022 - INFO  - Finish testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z 10
++ test 10 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri Dec 23 01:59:38 2022 - ERROR - failed to execute the case.
++ exit 10
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri Dec 23 01:59:39 2022 - INFO  - start environment cleanup.
++ systemctl stop ipsec
++ firewall-cmd --remove-service=ipsec
+oe_test_site_to_site_vpn.sh: line 86: firewall-cmd: command not found
++ firewall-cmd --runtime-to-permanent
+oe_test_site_to_site_vpn.sh: line 87: firewall-cmd: command not found
++ P_SSH_CMD --cmd 'systemctl stop ipsec;firewall-cmd --remove-service=ipsec;firewall-cmd --runtime-to-permanent' --node 2
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --cmd 'systemctl stop ipsec;firewall-cmd --remove-service=ipsec;firewall-cmd --runtime-to-permanent' --node 2
+Fri Dec 23 01:59:41 2022 - ERROR - You need to check the environment configuration file to see if this node information exists.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpkw37qnp7 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpkw37qnp7
++ '[' 0 -ne 0 ']'
++ DNF_REMOVE 2 'net-tools libreswan'
++ node=2
++ pkg_list='net-tools libreswan'
++ mode=0
++ [[ -z /tmp/tmpkw37qnp7 ]]
++ '[' 0 -ne 0 ']'
++ '[' 2 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 2 --pkgs 'net-tools libreswan' --tempfile /tmp/tmpkw37qnp7
+Traceback (most recent call last):
+  File "/root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py", line 181, in <module>
+    exitcode = rpm_remove(args.node, args.pkgs, args.tempfile)
+  File "/root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py", line 142, in rpm_remove
+    conn = ssh_cmd.pssh_conn(
+  File "/root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py", line 53, in pssh_conn
+    conn.connect(ip, port, user, password, timeout=timeout)
+  File "/usr/lib/python3.9/site-packages/paramiko/client.py", line 340, in connect
+    to_try = list(self._families_and_addresses(hostname, port))
+  File "/usr/lib/python3.9/site-packages/paramiko/client.py", line 203, in _families_and_addresses
+    addrinfos = socket.getaddrinfo(
+  File "/usr/lib64/python3.9/socket.py", line 954, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
++ '[' 0 -ne 0 ']'
++ rm -rf '/tmp/*.txt' /etc/ipsec.d/cert9.db /etc/ipsec.d/key4.db /etc/ipsec.d/my_site-to-site.conf /etc/ipsec.d/pkcs11.txt '/var/lib/ipsec/nss/*.db'
++ P_SSH_CMD --cmd 'rm -rf /tmp/*.txt /etc/ipsec.d/* /var/lib/ipsec/nss/*.db' --node 2
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/ssh_cmd.py --cmd 'rm -rf /tmp/*.txt /etc/ipsec.d/* /var/lib/ipsec/nss/*.db' --node 2
+Fri Dec 23 02:00:05 2022 - ERROR - You need to check the environment configuration file to see if this node information exists.
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Fri Dec 23 02:00:05 2022 - INFO  - Finish environment cleanup!

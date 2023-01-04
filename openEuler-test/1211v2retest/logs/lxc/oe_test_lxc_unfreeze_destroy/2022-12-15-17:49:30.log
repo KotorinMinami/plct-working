@@ -1,0 +1,293 @@
++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu Dec 15 17:49:36 2022 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'lxc lxc-devel lxc-libs lxcfs lxcfs-tools tar busybox'
++ pkgs='lxc lxc-devel lxc-libs lxcfs lxcfs-tools tar busybox'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs 'lxc lxc-devel lxc-libs lxcfs lxcfs-tools tar busybox' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpaut3vpup
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpaut3vpup
+++ rpm -qa lxc
+++ awk -F - '{print $2}'
++ version=4.0.3
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu Dec 15 17:51:18 2022 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Dec 15 17:51:19 2022 - INFO  - Start to run test.
++ lxc-create -t /usr/share/lxc/templates/lxc-busybox -n myEuler1
+chmod: cannot access '/var/lib/lxc/myEuler1/rootfs/bin/passwd': No such file or directory
++ CHECK_RESULT 0 0 0 'Failed to set up container.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to set up container.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ lxc-start myEuler1
+lxc-start: myEuler1: lxccontainer.c: wait_on_daemonized_start: 961 Received container state "ABORTING" instead of "RUNNING"
+myEuler1:tools/lxc_start.c:main:410 starting container process caused "Failed to setup lxc, please check the config file."lxc-start: myEuler1: tools/lxc_start.c: main: 412 The container failed to start
+lxc-start: myEuler1: tools/lxc_start.c: main: 415 To get more details, run the container in foreground mode
+lxc-start: myEuler1: tools/lxc_start.c: main: 417 Additional information can be obtained by setting the --logfile and --logpriority options
++ grep -i Usage
++ lxc-unfreeze --help
+Usage: lxc-unfreeze --name=NAME
+      --usage                      Give a short usage message
++ CHECK_RESULT 0 0 0 'Check lxc-unfreeze --help failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check lxc-unfreeze --help failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep -i 'Usage: lxc-unfreeze'
++ lxc-unfreeze --usage
+Usage: lxc-unfreeze [-n|--name=NAME] [-h|--help] [--usage] [--version] 
++ CHECK_RESULT 0 0 0 'Check lxc-unfreeze --usage failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check lxc-unfreeze --usage failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ lxc-unfreeze --version
++ grep 4.0.3
+4.0.3
++ CHECK_RESULT 0 0 0 'Check lxc-unfreeze --version failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check lxc-unfreeze --version failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ lxc-freeze myEuler1
+lxc-freeze: myEuler1: freezer.c: do_freeze_thaw: 53 Failed to freeze myEuler1
+lxc-freeze: myEuler1: tools/lxc_freeze.c: main: 89 Failed to freeze /var/lib/lxc:myEuler1
++ CHECK_RESULT 1 0 0 'Check lxc-freeze failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check lxc-freeze failed.'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check lxc-freeze failed.'
++ LOG_ERROR 'Check lxc-freeze failed.'
++ message='Check lxc-freeze failed.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Check lxc-freeze failed.'
+Thu Dec 15 17:51:45 2022 - ERROR - Check lxc-freeze failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_lxc_unfreeze_destroy.sh line 40'
++ message='oe_test_lxc_unfreeze_destroy.sh line 40'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_lxc_unfreeze_destroy.sh line 40'
+Thu Dec 15 17:51:46 2022 - ERROR - oe_test_lxc_unfreeze_destroy.sh line 40
++ return 0
++ lxc-info myEuler1
++ grep State
++ grep FROZEN
++ CHECK_RESULT 1 0 0 'Check lxc-info failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check lxc-info failed.'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check lxc-info failed.'
++ LOG_ERROR 'Check lxc-info failed.'
++ message='Check lxc-info failed.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Check lxc-info failed.'
+Thu Dec 15 17:51:47 2022 - ERROR - Check lxc-info failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_lxc_unfreeze_destroy.sh line 42'
++ message='oe_test_lxc_unfreeze_destroy.sh line 42'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_lxc_unfreeze_destroy.sh line 42'
+Thu Dec 15 17:51:48 2022 - ERROR - oe_test_lxc_unfreeze_destroy.sh line 42
++ return 0
++ lxc-unfreeze -n myEuler1
+lxc-unfreeze: myEuler1: freezer.c: do_freeze_thaw: 53 Failed to unfreeze myEuler1
+lxc-unfreeze: myEuler1: tools/lxc_unfreeze.c: main: 89 Failed to unfreeze /var/lib/lxc:myEuler1
++ CHECK_RESULT 1 0 0 'Check lxc-unfreeze failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check lxc-unfreeze failed.'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check lxc-unfreeze failed.'
++ LOG_ERROR 'Check lxc-unfreeze failed.'
++ message='Check lxc-unfreeze failed.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Check lxc-unfreeze failed.'
+Thu Dec 15 17:51:49 2022 - ERROR - Check lxc-unfreeze failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_lxc_unfreeze_destroy.sh line 44'
++ message='oe_test_lxc_unfreeze_destroy.sh line 44'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_lxc_unfreeze_destroy.sh line 44'
+Thu Dec 15 17:51:50 2022 - ERROR - oe_test_lxc_unfreeze_destroy.sh line 44
++ return 0
++ grep State
++ lxc-info myEuler1
++ grep RUNNING
++ CHECK_RESULT 1 0 0 'Check lxc-info failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check lxc-info failed.'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check lxc-info failed.'
++ LOG_ERROR 'Check lxc-info failed.'
++ message='Check lxc-info failed.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Check lxc-info failed.'
+Thu Dec 15 17:51:51 2022 - ERROR - Check lxc-info failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_lxc_unfreeze_destroy.sh line 46'
++ message='oe_test_lxc_unfreeze_destroy.sh line 46'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_lxc_unfreeze_destroy.sh line 46'
+Thu Dec 15 17:51:52 2022 - ERROR - oe_test_lxc_unfreeze_destroy.sh line 46
++ return 0
++ lxc-destroy --help
++ grep -i Usage
+Usage: lxc-destroy --name=NAME [-f] [-P lxcpath]
+      --usage                      Give a short usage message
++ CHECK_RESULT 0 0 0 'Check lxc-destroy --help failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check lxc-destroy --help failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ lxc-destroy --usage
++ grep -i 'Usage: lxc-destroy'
+Usage: lxc-destroy [-f|--force] [-s|--snapshots] [-n|--name=NAME] [-h|--help] 
++ CHECK_RESULT 0 0 0 'Check lxc-destroy --usage failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check lxc-destroy --usage failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ lxc-destroy --version
++ grep 4.0.3
+4.0.3
++ CHECK_RESULT 0 0 0 'Check lxc-destroy --version failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check lxc-destroy --version failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ lxc-stop myEuler1
+lxc-stop: myEuler1: tools/lxc_stop.c: main: 170 myEuler1 is not running
++ CHECK_RESULT 2 0 0 'Check lxc-stop failed.'
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log='Check lxc-stop failed.'
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n 'Check lxc-stop failed.'
++ LOG_ERROR 'Check lxc-stop failed.'
++ message='Check lxc-stop failed.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Check lxc-stop failed.'
+Thu Dec 15 17:51:54 2022 - ERROR - Check lxc-stop failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_lxc_unfreeze_destroy.sh line 55'
++ message='oe_test_lxc_unfreeze_destroy.sh line 55'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_lxc_unfreeze_destroy.sh line 55'
+Thu Dec 15 17:51:55 2022 - ERROR - oe_test_lxc_unfreeze_destroy.sh line 55
++ return 0
++ lxc-destroy -n myEuler1
++ CHECK_RESULT 0 0 0 'Check lxc-destroy -n failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check lxc-destroy -n failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep myEuler1
++ lxc-ls
++ CHECK_RESULT 1 1 0 'Check lxc-ls failed.'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='Check lxc-ls failed.'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu Dec 15 17:51:57 2022 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 5
++ test 5 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Thu Dec 15 17:51:57 2022 - ERROR - failed to execute the case.
++ exit 5
++ post_test
++ LOG_INFO 'Start to restore the tet environment.'
++ message='Start to restore the tet environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the tet environment.'
+Thu Dec 15 17:51:58 2022 - INFO  - Start to restore the tet environment.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpaut3vpup ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpaut3vpup
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the tet environment.'
++ message='End to restore the tet environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to restore the tet environment.'
+Thu Dec 15 17:52:35 2022 - INFO  - End to restore the tet environment.

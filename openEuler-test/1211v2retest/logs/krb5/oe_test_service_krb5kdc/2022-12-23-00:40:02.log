@@ -1,0 +1,259 @@
++ source ../common/common_lib.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Fri Dec 23 00:40:05 2022 - INFO  - Start environmental preparation.
++ DNF_INSTALL krb5-server
++ pkgs=krb5-server
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs krb5-server --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp84m2zt3c
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp84m2zt3c
+++ hostname
++ host_name=openEuler-riscv64
++ sed -i 's\kdc = nfs-server.example.com\kdc = nfs.server.com\g' /etc/krb5.conf
++ sed -i 's\admin_server = nfs-server.example.com\admin_server = nfs.server.com\g' /etc/krb5.conf
++ hostname nfs.server.com
++ expect
+spawn kdb5_util create -s
+Loading random data
+Initializing database '/var/kerberos/krb5kdc/principal' for realm 'EXAMPLE.COM',
+master key name 'K/M@EXAMPLE.COM'
+You will be prompted for the database Master Password.
+It is important that you NOT FORGET this password.
+Enter KDC database master key: 
+Re-enter KDC database master key to verify: 
++ echo -e 'root\nroot'
++ kadmin.local -q 'addprinc root\admin'
+No policy specified for rootadmin@EXAMPLE.COM; defaulting to no policy
+Authenticating as principal root/admin@EXAMPLE.COM with password.
+Enter password for principal "rootadmin@EXAMPLE.COM": 
+Re-enter password for principal "rootadmin@EXAMPLE.COM": 
+Principal "rootadmin@EXAMPLE.COM" created.
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Fri Dec 23 00:40:57 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Fri Dec 23 00:40:58 2022 - INFO  - Start testing...
++ test_execution krb5kdc.service
++ service=krb5kdc.service
+++ date '+%Y-%m-%d %T'
++ log_time='2022-12-23 00:40:58'
++ test_restart krb5kdc.service
++ service=krb5kdc.service
++ systemctl restart krb5kdc.service
++ CHECK_RESULT 0 0 0 'krb5kdc.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='krb5kdc.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status krb5kdc.service
++ grep 'Active: active'
+     Active: active (running) since Fri 2022-12-23 00:40:58 CST; 5s ago
++ CHECK_RESULT 0 0 0 'krb5kdc.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='krb5kdc.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop krb5kdc.service
++ CHECK_RESULT 0 0 0 'krb5kdc.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='krb5kdc.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status krb5kdc.service
++ grep 'Active: inactive'
+     Active: inactive (dead)
++ CHECK_RESULT 0 0 0 'krb5kdc.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='krb5kdc.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start krb5kdc.service
++ CHECK_RESULT 0 0 0 'krb5kdc.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='krb5kdc.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ grep 'Active: active'
++ systemctl status krb5kdc.service
+     Active: active (running) since Fri 2022-12-23 00:41:11 CST; 6s ago
++ CHECK_RESULT 0 0 0 'krb5kdc.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='krb5kdc.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled krb5kdc.service
++ service=krb5kdc.service
+++ systemctl is-enabled krb5kdc.service
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ systemctl enable krb5kdc.service
+++ awk '{print $3}'
+++ grep 'Created symlink'
++ symlink_file=/etc/systemd/system/multi-user.target.wants/krb5kdc.service
++ find /etc/systemd/system/multi-user.target.wants/krb5kdc.service
+/etc/systemd/system/multi-user.target.wants/krb5kdc.service
++ CHECK_RESULT 0 0 0 'krb5kdc.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='krb5kdc.service enable failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable krb5kdc.service
+Removed /etc/systemd/system/multi-user.target.wants/krb5kdc.service.
++ find /etc/systemd/system/multi-user.target.wants/krb5kdc.service
+find: ‘/etc/systemd/system/multi-user.target.wants/krb5kdc.service’: No such file or directory
++ CHECK_RESULT 1 0 1 'krb5kdc.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='krb5kdc.service disable failed'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ journalctl --since '2022-12-23 00:40:58' -u krb5kdc.service
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of krb5kdc.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of krb5kdc.service'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ systemctl start krb5kdc.service
++ sed -i 's\ExecStart=/usr/sbin/krb5kdc\ExecStart=/usr/sbin/krb5kdc -m\g' /usr/lib/systemd/system/krb5kdc.service
++ systemctl daemon-reload
++ systemctl reload krb5kdc.service
++ CHECK_RESULT 0 0 0 'krb5kdc.service reload failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='krb5kdc.service reload failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status krb5kdc.service
++ grep 'Active: active'
+     Active: active (running) since Fri 2022-12-23 00:41:11 CST; 18s ago
++ CHECK_RESULT 0 0 0 'krb5kdc.service reload causes the service status to change'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='krb5kdc.service reload causes the service status to change'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Fri Dec 23 00:41:31 2022 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri Dec 23 00:41:31 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri Dec 23 00:41:32 2022 - INFO  - start environment cleanup.
++ sed -i 's\ExecStart=/usr/sbin/krb5kdc -m\ExecStart=/usr/sbin/krb5kdc\g' /usr/lib/systemd/system/krb5kdc.service
++ systemctl daemon-reload
++ systemctl reload krb5kdc.service
++ systemctl stop krb5kdc.service
++ rm -rf /var/kerberos/krb5kdc/principal /var/kerberos/krb5kdc/principal.kadm5 /var/kerberos/krb5kdc/principal.kadm5.lock /var/kerberos/krb5kdc/principal.ok
++ sed -i 's\kdc = nfs.server.com\kdc = nfs-server.example.com\g' /etc/krb5.conf
++ sed -i 's\admin_server = nfs.server.com\admin_server = nfs-server.example.com\g' /etc/krb5.conf
++ hostname openEuler-riscv64
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp84m2zt3c ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp84m2zt3c
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Fri Dec 23 00:41:51 2022 - INFO  - Finish environment cleanup!

@@ -1,0 +1,200 @@
++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Sun Jan  1 19:02:59 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'freeradius freeradius-utils'
++ pkgs='freeradius freeradius-utils'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs 'freeradius freeradius-utils' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmptequ2aog
++ '[' -z '' ']'
++ tmpfile=/tmp/tmptequ2aog
++ echo 'steve  Cleartext-Password := "testing"
+       Service-Type = Framed-User,
+       Framed-Protocol = PPP,
+       Framed-IP-Address = 172.16.3.33,
+       Framed-IP-Netmask = 255.255.255.0,
+       Framed-Routing = Broadcast-Listen,
+       Framed-Filter-Id = "std.ppp",
+       Framed-MTU = 1500,
+       Framed-Compression = Van-Jacobsen-TCP-IP
+    '
++ systemctl start radiusd
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Sun Jan  1 19:04:28 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Sun Jan  1 19:04:28 2023 - INFO  - Start to run test.
++ radtest -d /etc/raddb/ steve testing localhost 0 testing123
++ grep Access-Accept
+Received Access-Accept Id 105 from 127.0.0.1:1812 to 127.0.0.1:53585 length 71
++ CHECK_RESULT 0 0 0 'radtest -d execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radtest -d execution failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ radtest -t pap steve testing localhost 0 testing123
++ grep Access-Accept
+Received Access-Accept Id 246 from 127.0.0.1:1812 to 127.0.0.1:54063 length 71
++ CHECK_RESULT 0 0 0 'radtest -t execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radtest -t execution failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ radtest -P udp steve testing localhost 0 testing123
++ grep Access-Accept
+Received Access-Accept Id 26 from 127.0.0.1:1812 to 127.0.0.1:49420 length 71
++ CHECK_RESULT 0 0 0 'radtest -P execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radtest -P execution failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ radtest -x steve testing localhost 0 testing123
++ grep Access-Accept
+Received Access-Accept Id 226 from 127.0.0.1:1812 to 127.0.0.1:55773 length 71
++ CHECK_RESULT 0 0 0 'radtest -x execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radtest -x execution failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ radtest -4 steve testing localhost 0 testing123
++ grep Access-Accept
+Received Access-Accept Id 86 from 127.0.0.1:1812 to 127.0.0.1:44651 length 71
++ CHECK_RESULT 0 0 0 'radtest -4 execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radtest -4 execution failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ radtest -6 steve testing localhost 0 testing123
++ grep '\['
+Sent Access-Request Id 72 from [::]:41768 to [::1]:1812 length 87
+Received Access-Accept Id 72 from [::1]:1812 to [::1]:41768 length 71
++ CHECK_RESULT 0 0 0 'radtest -6 execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radtest -6 execution failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop radiusd
++ touch /var/log/radius/radutmp
++ radwho -c
++ grep Name
+Login      Name	      What  TTY  When      From	    Location
++ CHECK_RESULT 0 0 0 'radwho -c execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radwho -c execution failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ radwho -d /etc/raddb/
++ grep Name
+Login      Name	      What  TTY  When      From	    Location
++ CHECK_RESULT 0 0 0 'radwho -d execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radwho -d execution failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ radwho -F /var/log/radius/radutmp
++ grep Name
+Login      Name	      What  TTY  When      From	    Location
++ CHECK_RESULT 0 0 0 'radwho -F execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radwho -F execution failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Sun Jan  1 19:04:34 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Sun Jan  1 19:04:34 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Sun Jan  1 19:04:35 2023 - INFO  - Start to restore the test environment.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmptequ2aog ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmptequ2aog
++ '[' 0 -ne 0 ']'
++ rm -rf /etc/raddb
++ rm -rf /var/log/radius
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Sun Jan  1 19:04:54 2023 - INFO  - End to restore the test environment.

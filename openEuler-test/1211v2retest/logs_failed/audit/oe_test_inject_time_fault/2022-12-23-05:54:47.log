@@ -1,0 +1,72 @@
++ source ../common/comlib.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++++ find /etc -name auditd.conf
+++ AUDIT_PATH=/etc/audit/auditd.conf
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Fri Dec 23 05:54:51 2022 - INFO  - Start to prepare the test environment.
++ sed -i 's/max_log_file = 8/max_log_file = 1/g' /etc/audit/auditd.conf
++ service auditd restart
+oe_test_inject_time_fault.sh: line 25: service: command not found
+++ date -d '+1 year' '+%m/%d/%Y %H:%M:%S'
++ date_add='12/23/2023 05:54:51'
++ clock --set '--date=12/23/2023 05:54:51'
++ clock --hctosys
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Fri Dec 23 05:54:54 2022 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri Dec 23 05:54:55 2022 - INFO  - Start to run test.
++ search_log test
++ audit_key=test
++ auditctl -w /tmp/test -p rwxa -k test
++ CHECK_RESULT 0 0 0 ' add rules failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=' add rules failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ date +%T
++ starttime=05:54:55
++ touch /tmp/test
++ rm -rf /tmp/test
+++ date +%T
++ endtime=05:54:55
++ auditctl -W /tmp/test -p rwxa -k test
++ CHECK_RESULT 0 0 0 'second failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='second failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ (( i=0 ))
++ (( i<10 ))
++ ausearch -k test -ts 05:54:55 -te 05:54:55
+Fri Dec 23 06:24:48 2022 - ERROR - Timeout : Command 'bash -x oe_test_inject_time_fault.sh' timed out after 1799.998188706999 seconds

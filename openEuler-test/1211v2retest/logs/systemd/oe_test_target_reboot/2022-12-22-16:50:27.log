@@ -1,0 +1,106 @@
++ source ../common/common_lib.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n '' ']'
++ trap POST_TEST_DEFAULT EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n '' ']'
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Dec 22 16:50:30 2022 - INFO  - Start to run test.
++ LOG_INFO 'A special target unit for shutting down and rebooting the system.'
++ message='A special target unit for shutting down and rebooting the system.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'A special target unit for shutting down and rebooting the system.'
+Thu Dec 22 16:50:30 2022 - INFO  - A special target unit for shutting down and rebooting the system.
++ test_oneshot reboot.target 'inactive (dead)'
++ service=reboot.target
++ status='inactive (dead)'
++ systemctl status reboot.target
++ grep Active
++ grep -v 'inactive (dead)'
++ CHECK_RESULT 1 0 1 'There is an error for the status of reboot.target'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error for the status of reboot.target'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_enabled reboot.target
++ service=reboot.target
+++ systemctl is-enabled reboot.target
++ state=enabled
++ '[' enabled == enabled ']'
+++ systemctl disable reboot.target
+++ grep Removed
+++ awk '{print substr($0,1,length($0)-1)}'
+++ awk '{print $2}'
++ symlink_file=/etc/systemd/system/ctrl-alt-del.target
++ find /etc/systemd/system/ctrl-alt-del.target
+find: ‘/etc/systemd/system/ctrl-alt-del.target’: No such file or directory
++ CHECK_RESULT 1 0 1 'reboot.target disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='reboot.target disable failed'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ systemctl enable reboot.target
+Created symlink /etc/systemd/system/ctrl-alt-del.target → /usr/lib/systemd/system/reboot.target.
++ find /etc/systemd/system/ctrl-alt-del.target
+/etc/systemd/system/ctrl-alt-del.target
++ CHECK_RESULT 0 0 0 'reboot.target enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='reboot.target enable failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ journalctl -u reboot.target
++ CHECK_RESULT 1 0 1 'There is an error message for the log of reboot.target'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of reboot.target'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Thu Dec 22 16:50:39 2022 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Dec 22 16:50:40 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ POST_TEST_DEFAULT
++ LOG_INFO 'oe_test_target_reboot.sh post_test'
++ message='oe_test_target_reboot.sh post_test'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'oe_test_target_reboot.sh post_test'
+Thu Dec 22 16:50:41 2022 - INFO  - oe_test_target_reboot.sh post_test

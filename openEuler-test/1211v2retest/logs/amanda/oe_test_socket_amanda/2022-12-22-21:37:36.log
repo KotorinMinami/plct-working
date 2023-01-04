@@ -1,0 +1,230 @@
++ source ../common/common_lib.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu Dec 22 21:37:44 2022 - INFO  - Start environmental preparation.
++ DNF_INSTALL amanda
++ pkgs=amanda
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs amanda --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp8iznty5r
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp8iznty5r
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu Dec 22 21:39:18 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Dec 22 21:39:19 2022 - INFO  - Start to run test.
++ test_execution amanda.socket
++ service=amanda.socket
+++ date '+%Y-%m-%d %T'
++ log_time='2022-12-22 21:39:20'
++ test_restart amanda.socket
++ service=amanda.socket
++ systemctl restart amanda.socket
++ CHECK_RESULT 0 0 0 'amanda.socket restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='amanda.socket restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ grep 'Active: active'
++ systemctl status amanda.socket
+     Active: active (listening) since Thu 2022-12-22 21:39:20 CST; 7s ago
++ CHECK_RESULT 0 0 0 'amanda.socket restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='amanda.socket restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop amanda.socket
++ CHECK_RESULT 0 0 0 'amanda.socket stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='amanda.socket stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ grep 'Active: inactive'
++ systemctl status amanda.socket
+     Active: inactive (dead)
++ CHECK_RESULT 0 0 0 'amanda.socket stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='amanda.socket stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start amanda.socket
++ CHECK_RESULT 0 0 0 'amanda.socket start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='amanda.socket start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status amanda.socket
++ grep 'Active: active'
+     Active: active (listening) since Thu 2022-12-22 21:39:36 CST; 7s ago
++ CHECK_RESULT 0 0 0 'amanda.socket start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='amanda.socket start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled amanda.socket
++ service=amanda.socket
+++ systemctl is-enabled amanda.socket
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ systemctl enable amanda.socket
+++ awk '{print $3}'
+++ grep 'Created symlink'
++ symlink_file=/etc/systemd/system/sockets.target.wants/amanda.socket
++ find /etc/systemd/system/sockets.target.wants/amanda.socket
+/etc/systemd/system/sockets.target.wants/amanda.socket
++ CHECK_RESULT 0 0 0 'amanda.socket enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='amanda.socket enable failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable amanda.socket
+Removed /etc/systemd/system/sockets.target.wants/amanda.socket.
++ find /etc/systemd/system/sockets.target.wants/amanda.socket
+find: ‘/etc/systemd/system/sockets.target.wants/amanda.socket’: No such file or directory
++ CHECK_RESULT 1 0 1 'amanda.socket disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='amanda.socket disable failed'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ journalctl --since '2022-12-22 21:39:20' -u amanda.socket
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of amanda.socket'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of amanda.socket'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ systemctl start amanda.socket
++ systemctl reload amanda.socket
++ grep 'Job type reload is not applicable for unit amanda.socket'
+Failed to reload amanda.socket: Job type reload is not applicable for unit amanda.socket.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status amanda.socket
++ grep 'Active: active'
+     Active: active (listening) since Thu 2022-12-22 21:39:36 CST; 23s ago
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Thu Dec 22 21:40:01 2022 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Dec 22 21:40:02 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu Dec 22 21:40:03 2022 - INFO  - start environment cleanup.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp8iznty5r ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp8iznty5r
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Dec 22 21:40:37 2022 - INFO  - Finish environment cleanup!

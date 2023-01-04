@@ -1,0 +1,226 @@
++ source ../common/common_lib.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu Dec 22 20:27:57 2022 - INFO  - Start environmental preparation.
++ DNF_INSTALL ntp
++ pkgs=ntp
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs ntp --node 1 --tempfile ''
+Thu Dec 22 20:28:10 2022 - INFO  - pkgs:(ntp) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ service=ntpd.service
+++ date '+%Y-%m-%d %T'
++ log_time='2022-12-22 20:28:10'
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu Dec 22 20:28:11 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Thu Dec 22 20:28:12 2022 - INFO  - Start testing...
++ test_restart ntpd.service
++ service=ntpd.service
++ systemctl restart ntpd.service
++ CHECK_RESULT 0 0 0 'ntpd.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='ntpd.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status ntpd.service
++ grep 'Active: active'
+     Active: active (running) since Thu 2022-12-22 20:28:13 CST; 6s ago
++ CHECK_RESULT 0 0 0 'ntpd.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='ntpd.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop ntpd.service
++ CHECK_RESULT 0 0 0 'ntpd.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='ntpd.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status ntpd.service
++ grep 'Active: inactive'
+     Active: inactive (dead)
++ CHECK_RESULT 0 0 0 'ntpd.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='ntpd.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start ntpd.service
++ CHECK_RESULT 0 0 0 'ntpd.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='ntpd.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status ntpd.service
++ grep 'Active: active'
+     Active: active (running) since Thu 2022-12-22 20:28:28 CST; 6s ago
++ CHECK_RESULT 0 0 0 'ntpd.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='ntpd.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled ntpd.service
++ service=ntpd.service
+++ systemctl is-enabled ntpd.service
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ systemctl enable ntpd.service
+++ awk '{print $3}'
+++ grep 'Created symlink'
++ symlink_file=/etc/systemd/system/multi-user.target.wants/ntpd.service
++ find /etc/systemd/system/multi-user.target.wants/ntpd.service
+/etc/systemd/system/multi-user.target.wants/ntpd.service
++ CHECK_RESULT 0 0 0 'ntpd.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='ntpd.service enable failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable ntpd.service
+Removed /etc/systemd/system/multi-user.target.wants/ntpd.service.
++ find /etc/systemd/system/multi-user.target.wants/ntpd.service
+find: ‘/etc/systemd/system/multi-user.target.wants/ntpd.service’: No such file or directory
++ CHECK_RESULT 1 0 1 'ntpd.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='ntpd.service disable failed'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ journalctl --since '2022-12-22 20:28:10' -u ntpd.service
++ grep -i 'fail\|error'
++ grep -v 'kernel reports TIME_ERROR'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of ntpd.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of ntpd.service'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_reload ntpd.service
++ service=ntpd.service
++ systemctl start ntpd.service
++ systemctl reload ntpd.service
++ grep 'Job type reload is not applicable'
+Failed to reload ntpd.service: Job type reload is not applicable for unit ntpd.service.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit ntpd.service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit ntpd.service'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'Active: active'
++ systemctl status ntpd.service
+     Active: active (running) since Thu 2022-12-22 20:28:28 CST; 19s ago
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Thu Dec 22 20:28:49 2022 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Dec 22 20:28:50 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu Dec 22 20:28:50 2022 - INFO  - start environment cleanup.
++ systemctl stop ntpd.service
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Thu Dec 22 20:28:52 2022 - WARN  - no thing to do.
++ return 0
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Dec 22 20:28:53 2022 - INFO  - Finish environment cleanup!

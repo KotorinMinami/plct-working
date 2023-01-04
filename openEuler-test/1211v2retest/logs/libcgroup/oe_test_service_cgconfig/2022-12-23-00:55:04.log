@@ -1,0 +1,223 @@
++ source ../common/common_lib.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Fri Dec 23 00:55:09 2022 - INFO  - Start environmental preparation.
++ DNF_INSTALL libcgroup
++ pkgs=libcgroup
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs libcgroup --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp45bidkrk
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp45bidkrk
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Fri Dec 23 00:56:52 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Fri Dec 23 00:56:53 2022 - INFO  - Start testing...
++ test_execution cgconfig.service
++ service=cgconfig.service
+++ date '+%Y-%m-%d %T'
++ log_time='2022-12-23 00:56:53'
++ test_restart cgconfig.service
++ service=cgconfig.service
++ systemctl restart cgconfig.service
++ CHECK_RESULT 0 0 0 'cgconfig.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='cgconfig.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status cgconfig.service
++ grep 'Active: active'
+     Active: active (exited) since Fri 2022-12-23 00:56:53 CST; 6s ago
++ CHECK_RESULT 0 0 0 'cgconfig.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='cgconfig.service restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop cgconfig.service
++ CHECK_RESULT 0 0 0 'cgconfig.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='cgconfig.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status cgconfig.service
++ grep 'Active: inactive'
+     Active: inactive (dead)
++ CHECK_RESULT 0 0 0 'cgconfig.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='cgconfig.service stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start cgconfig.service
++ CHECK_RESULT 0 0 0 'cgconfig.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='cgconfig.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ grep 'Active: active'
++ systemctl status cgconfig.service
+     Active: active (exited) since Fri 2022-12-23 00:57:07 CST; 6s ago
++ CHECK_RESULT 0 0 0 'cgconfig.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='cgconfig.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled cgconfig.service
++ service=cgconfig.service
+++ systemctl is-enabled cgconfig.service
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ systemctl enable cgconfig.service
+++ awk '{print $3}'
+++ grep 'Created symlink'
++ symlink_file=/etc/systemd/system/sysinit.target.wants/cgconfig.service
++ find /etc/systemd/system/sysinit.target.wants/cgconfig.service
+/etc/systemd/system/sysinit.target.wants/cgconfig.service
++ CHECK_RESULT 0 0 0 'cgconfig.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='cgconfig.service enable failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable cgconfig.service
+Removed /etc/systemd/system/sysinit.target.wants/cgconfig.service.
++ find /etc/systemd/system/sysinit.target.wants/cgconfig.service
+find: ‘/etc/systemd/system/sysinit.target.wants/cgconfig.service’: No such file or directory
++ CHECK_RESULT 1 0 1 'cgconfig.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='cgconfig.service disable failed'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ journalctl --since '2022-12-23 00:56:53' -u cgconfig.service
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of cgconfig.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of cgconfig.service'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_reload cgconfig.service
++ service=cgconfig.service
++ systemctl start cgconfig.service
++ systemctl reload cgconfig.service
++ grep 'Job type reload is not applicable'
+Failed to reload cgconfig.service: Job type reload is not applicable for unit cgconfig.service.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit cgconfig.service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit cgconfig.service'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'Active: active'
++ systemctl status cgconfig.service
+     Active: active (exited) since Fri 2022-12-23 00:57:07 CST; 16s ago
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Fri Dec 23 00:57:24 2022 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri Dec 23 00:57:25 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri Dec 23 00:57:25 2022 - INFO  - start environment cleanup.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp45bidkrk ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp45bidkrk
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Fri Dec 23 00:57:50 2022 - INFO  - Finish environment cleanup!

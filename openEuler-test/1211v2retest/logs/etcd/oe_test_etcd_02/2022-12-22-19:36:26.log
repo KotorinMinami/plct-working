@@ -1,0 +1,210 @@
++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ grep expect
++ rpm -qa
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu Dec 22 19:36:29 2022 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL etcd
++ pkgs=etcd
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs etcd --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpyqz4sud6
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpyqz4sud6
++ systemctl start etcd
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu Dec 22 19:37:58 2022 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Dec 22 19:37:59 2022 - INFO  - Start to run test.
++ systemctl status etcd
++ grep 'active (running)'
+     Active: active (running) since Thu 2022-12-22 19:37:57 CST; 1s ago
++ CHECK_RESULT 0 0 0 'Check etcd.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check etcd.service start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ etcdctl --endpoints=http://127.0.0.1:2379 member list
++ grep started
+8e9e05c52164694d, started, default, http://localhost:2380, http://localhost:2379, false
++ CHECK_RESULT 0 0 0 'Check etcdctl --endpoints member command failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check etcdctl --endpoints member command failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ etcdctl --write-out=table --endpoints=127.0.0.1:2379 endpoint status
++ grep -i ENDPOINT
+|    ENDPOINT    |        ID        | VERSION | DB SIZE | IS LEADER | IS LEARNER | RAFT TERM | RAFT INDEX | RAFT APPLIED INDEX | ERRORS |
++ CHECK_RESULT 0 0 0 'Check etcdctl --endpoints --write-out=table failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check etcdctl --endpoints --write-out=table failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ etcdctl --write-out=table --endpoints=127.0.0.1:2379 endpoint health
++ grep HEALTH
+|    ENDPOINT    | HEALTH |    TOOK     | ERROR |
++ CHECK_RESULT 0 0 0 'Check etcdctl --endpoints --write-out=table health failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check etcdctl --endpoints --write-out=table health failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ etcdctl --endpoints=127.0.0.1:2379 endpoint health
+127.0.0.1:2379 is healthy: successfully committed proposal: took = 47.995345ms
++ CHECK_RESULT 0 0 0 'Check etcdctl --endpoints health failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check etcdctl --endpoints health failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ etcdctl --endpoints=127.0.0.1:2379 endpoint status
++ grep true
+127.0.0.1:2379, 8e9e05c52164694d, 3.4.14, 20 kB, true, false, 5, 13, 13, 
++ CHECK_RESULT 0 0 0 'Check etcdctl --endpoints status failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check etcdctl --endpoints status failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ etcdctl snapshot save snapshot.db
++ grep 'Snapshot saved at snapshot.db'
+{"level":"info","ts":1671709082.559838,"caller":"snapshot/v3_snapshot.go:119","msg":"created temporary db file","path":"snapshot.db.part"}
+{"level":"info","ts":"2022-12-22T19:38:02.578+0800","caller":"clientv3/maintenance.go:200","msg":"opened snapshot stream; downloading"}
+{"level":"info","ts":1671709082.5824668,"caller":"snapshot/v3_snapshot.go:127","msg":"fetching snapshot","endpoint":"127.0.0.1:2379"}
+{"level":"info","ts":"2022-12-22T19:38:02.621+0800","caller":"clientv3/maintenance.go:208","msg":"completed snapshot read; closing"}
+{"level":"info","ts":1671709082.7272048,"caller":"snapshot/v3_snapshot.go:142","msg":"fetched snapshot","endpoint":"127.0.0.1:2379","size":"20 kB","took":0.162739245}
+{"level":"info","ts":1671709082.7303398,"caller":"snapshot/v3_snapshot.go:152","msg":"saved","path":"snapshot.db"}
+Snapshot saved at snapshot.db
++ CHECK_RESULT 0 0 0 'Check etcdctl snapshot save command failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check etcdctl snapshot save command failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ etcdctl snapshot status snapshot.db
+ea330b40, 3, 6, 20 kB
++ CHECK_RESULT 0 0 0 'Check etcdctl snapshot status command failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check etcdctl snapshot status command failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep HASH
++ etcdctl snapshot status snapshot.db -w table
+|   HASH   | REVISION | TOTAL KEYS | TOTAL SIZE |
++ CHECK_RESULT 0 0 0 'Check etcdctl snapshot status -w table command failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check etcdctl snapshot status -w table command failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ etcdctl endpoint --cluster=true status -w table
++ grep ENDPOINT
+|       ENDPOINT        |        ID        | VERSION | DB SIZE | IS LEADER | IS LEARNER | RAFT TERM | RAFT INDEX | RAFT APPLIED INDEX | ERRORS |
++ CHECK_RESULT 0 0 0 'Check etcdctl endpoint --cluster=true status command failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check etcdctl endpoint --cluster=true status command failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ etcdctl --endpoints 127.0.0.1:2379 move-leader 8e9e05c52164694d
++ grep 'Leadership transferred'
+Leadership transferred from 8e9e05c52164694d to 8e9e05c52164694d
++ CHECK_RESULT 0 0 0 'Check etcdctl --endpoints endpoint move-leader command failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check etcdctl --endpoints endpoint move-leader command failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu Dec 22 19:38:05 2022 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Dec 22 19:38:05 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu Dec 22 19:38:06 2022 - INFO  - Start to restore the test environment.
++ systemctl stop etcd
++ rm -rf snapshot.db
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpyqz4sud6 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpyqz4sud6
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu Dec 22 19:38:32 2022 - INFO  - End to restore the test environment.

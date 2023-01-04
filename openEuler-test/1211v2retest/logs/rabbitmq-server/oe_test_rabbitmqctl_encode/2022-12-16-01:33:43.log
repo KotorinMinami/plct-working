@@ -1,0 +1,200 @@
++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ grep expect
++ rpm -qa
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Fri Dec 16 01:33:48 2022 - INFO  - Start environmental preparation.
++ DNF_INSTALL rabbitmq-server
++ pkgs=rabbitmq-server
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs rabbitmq-server --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp7c815xov
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp7c815xov
++ which firewalld
+which: no firewalld in (/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin)
++ systemctl restart rabbitmq-server
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Fri Dec 16 01:37:08 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Fri Dec 16 01:37:09 2022 - INFO  - Start testing...
+++ free -g
+++ grep Mem
+++ awk '{print $2}'
++ mem_size=3
++ '[' 3 -gt 1 ']'
++ grep '1G bytes'
++ rabbitmqctl set_vm_memory_high_watermark absolute 1G
+Setting memory threshold on rabbit@openEuler-riscv64 to 1G bytes ...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rabbitmqctl set_disk_free_limit 1G
++ grep '1G bytes'
+Setting disk free limit on rabbit@openEuler-riscv64 to 1G bytes ...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rabbitmqctl set_disk_free_limit mem_relative 2.0
++ grep '2.0 times'
+Setting disk free limit on rabbit@openEuler-riscv64 to 2.0 times the total RAM ...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rabbitmqctl encode '<<"guest">>' mypassphrase
++ grep encrypted
+{encrypted,<<"r8G/N3f2ncpM0nGgq6fcfrWVAnS1FgfB17Io2yVJQDzxTsDRTJGT69IdBP/a4LWP">>}
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ grep encrypted
+++ awk -F '"' '{print $2}'
+++ rabbitmqctl encode '<<"guest">>' mypassphrase
++ encode=0J1HFdPDbOkqkH5W6/Ur+JnSRur+CIdYfx7GJO1IZwRG+ACv7XgjNRVjA6pYSnjd
+++ rabbitmqctl encode --cipher blowfish_cfb64 --hash sha256 --iterations 10000 '<<"guest">>' mypassphrase
+++ grep encrypted
+++ awk -F '"' '{print $2}'
++ encode_hash=x42zMTc4WqG/6tvcHT/C459oenTvxdTTlJWBALnmjqEHL/6g
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep guest
++ rabbitmqctl decode '{encrypted, <<"0J1HFdPDbOkqkH5W6/Ur+JnSRur+CIdYfx7GJO1IZwRG+ACv7XgjNRVjA6pYSnjd">>}' mypassphrase
+<<"guest">>
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep guest
++ rabbitmqctl decode --cipher blowfish_cfb64 --hash sha256 --iterations 10000 '{encrypted,<<"x42zMTc4WqG/6tvcHT/C459oenTvxdTTlJWBALnmjqEHL/6g">>}' mypassphrase
+<<"guest">>
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rabbitmqctl list_hashes
++ grep sha
+[sha,sha224,sha256,sha384,sha512,sha3_224,sha3_256,sha3_384,sha3_512,blake2b,
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rabbitmqctl list_ciphers
++ grep des
+ aes_128_cfb128,aes_128_cfb8,des_cfb,des_cbc,rc4,aes_ige256,aes_256_ctr,
+ aes_192_ctr,aes_128_ctr,des_ede3_cfb,des_ede3_cbc,aes_128_cbc]
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Fri Dec 16 01:38:21 2022 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri Dec 16 01:38:22 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri Dec 16 01:38:23 2022 - INFO  - start environment cleanup.
++ systemctl stop rabbitmq-server
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp7c815xov ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp7c815xov
++ '[' 0 -ne 0 ']'
++ rm -rf /var/lib/rabbitmq/
+++ pgrep -u rabbitmq
++ kill -9
+kill: usage: kill [-s sigspec | -n signum | -sigspec] pid | jobspec ... or kill -l [sigspec]
++ which firewalld
+which: no firewalld in (/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin)
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Fri Dec 16 01:39:28 2022 - INFO  - Finish environment cleanup!

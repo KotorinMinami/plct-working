@@ -1,0 +1,140 @@
++ source ../common/lib.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Thu Dec 22 23:46:16 2022 - INFO  - Start environment preparation.
++ pre_junit5
++ DNF_INSTALL junit5
++ pkgs=junit5
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs junit5 --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpfdy0umtf
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpfdy0umtf
+++ rpm -qa 'java*'
+++ grep 'java-.*-openjdk'
+++ head -1
+++ awk -F - '{print $2}'
++ java_version=1.8.0
++ DNF_INSTALL java-1.8.0-devel
++ pkgs=java-1.8.0-devel
++ node=1
++ '[' -z /tmp/tmpfdy0umtf ']'
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs java-1.8.0-devel --node 1 --tempfile /tmp/tmpfdy0umtf
++ tmpfile2=/tmp/tmpfdy0umtf
++ '[' -z /tmp/tmpfdy0umtf ']'
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu Dec 22 23:49:06 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Thu Dec 22 23:49:07 2022 - INFO  - Start testing...
++ javac -cp ../common/junit-platform-console-standalone-1.6.2.jar -d . TestJunit5.java
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ java -jar ../common/junit-platform-console-standalone-1.6.2.jar -cp ./ --class-path . --scan-class-path
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ diff java_return /tmp/java_result
++ grep '<'
++ CHECK_RESULT 1 0 1
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log=
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ grep 'TestC() is @Disabled' /tmp/java_result
+[36m│     ├─[0m [35mTestC()[0m [35m↷[0m [35mvoid com.exmaple.junit5.TestJunit5.TestC() is @Disabled[0m
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'TestD() timed out after 1 second' /tmp/java_result
+[36m│     └─[0m [31mTestD()[0m [31m✘[0m [31mTestD() timed out after 1 second[0m
+    => java.util.concurrent.TimeoutException: TestD() timed out after 1 second
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Thu Dec 22 23:49:38 2022 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Dec 22 23:49:39 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu Dec 22 23:49:39 2022 - INFO  - start environment cleanup.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpfdy0umtf ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpfdy0umtf
++ '[' 0 -ne 0 ']'
++ rm -rf com /tmp/java_result
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Dec 22 23:50:07 2022 - INFO  - Finish environment cleanup!

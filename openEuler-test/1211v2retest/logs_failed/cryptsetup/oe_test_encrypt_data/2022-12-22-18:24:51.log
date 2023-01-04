@@ -1,0 +1,199 @@
++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n function ']'
++ config_params
++ LOG_INFO 'Start loading data!'
++ message='Start loading data!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start loading data!'
+Thu Dec 22 18:24:54 2022 - INFO  - Start loading data!
+++ TEST_DISK 1
+++ id=1
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/get_test_device.py --device disk --node 1
++ TEST_DISK='/dev/vdb vdc vdd vde vdf vdg vdh vdi vdj'
++ LOG_INFO 'Loading data is complete!'
++ message='Loading data is complete!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Loading data is complete!'
+Thu Dec 22 18:25:00 2022 - INFO  - Loading data is complete!
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu Dec 22 18:25:01 2022 - INFO  - Start environmental preparation.
++ DNF_INSTALL cryptsetup-reencrypt
++ pkgs=cryptsetup-reencrypt
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs cryptsetup-reencrypt --node 1 --tempfile ''
++ tmpfile2=/tmp/tmprudgg85b
++ '[' -z '' ']'
++ tmpfile=/tmp/tmprudgg85b
++ echo -e 'n\n\np\n\n\n+100M\nw'
++ fdisk '/dev/vdb vdc vdd vde vdf vdg vdh vdi vdj'
+fdisk: cannot open /dev/vdb vdc vdd vde vdf vdg vdh vdi vdj: No such file or directory
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
++ test -d /mnt/test_encrypted
++ mkdir /mnt/test_encrypted
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu Dec 22 18:26:09 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Thu Dec 22 18:26:09 2022 - INFO  - Start executing testcase.
++ echo -e '\n\n'
++ cryptsetup-reencrypt --new --reduce-device-size 8M '/dev/vdb vdc vdd vde vdf vdg vdh vdi vdj1'
+Cannot open device /dev/vdb vdc vdd vde vdf vdg vdh vdi vdj1.
++ CHECK_RESULT 1 0 0 'Disk encryption failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Disk encryption failed'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Disk encryption failed'
++ LOG_ERROR 'Disk encryption failed'
++ message='Disk encryption failed'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Disk encryption failed'
+Thu Dec 22 18:26:10 2022 - ERROR - Disk encryption failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_encrypt_data.sh line 39'
++ message='oe_test_encrypt_data.sh line 39'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_encrypt_data.sh line 39'
+Thu Dec 22 18:26:11 2022 - ERROR - oe_test_encrypt_data.sh line 39
++ return 0
++ echo -e '\n'
++ cryptsetup open '/dev/vdb vdc vdd vde vdf vdg vdh vdi vdj1' test_encrypted
+Device /dev/vdb vdc vdd vde vdf vdg vdh vdi vdj1 does not exist or access denied.
++ CHECK_RESULT 4 0 0 'Disk mapping failed'
++ actual_result=4
++ expect_result=0
++ mode=0
++ error_log='Disk mapping failed'
++ '[' -z 4 ']'
++ '[' 0 -eq 0 ']'
++ test 4x '!=' 0x
++ test -n 'Disk mapping failed'
++ LOG_ERROR 'Disk mapping failed'
++ message='Disk mapping failed'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Disk mapping failed'
+Thu Dec 22 18:26:12 2022 - ERROR - Disk mapping failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_encrypt_data.sh line 41'
++ message='oe_test_encrypt_data.sh line 41'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_encrypt_data.sh line 41'
+Thu Dec 22 18:26:12 2022 - ERROR - oe_test_encrypt_data.sh line 41
++ return 0
++ mkfs.ext4 /dev/mapper/test_encrypted -F
+mke2fs 1.46.4 (18-Aug-2021)
+The file /dev/mapper/test_encrypted does not exist and no size was specified.
++ CHECK_RESULT 1 0 0 'Failed to format partition'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed to format partition'
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed to format partition'
++ LOG_ERROR 'Failed to format partition'
++ message='Failed to format partition'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Failed to format partition'
+Thu Dec 22 18:26:13 2022 - ERROR - Failed to format partition
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_encrypt_data.sh line 43'
++ message='oe_test_encrypt_data.sh line 43'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_encrypt_data.sh line 43'
+Thu Dec 22 18:26:14 2022 - ERROR - oe_test_encrypt_data.sh line 43
++ return 0
++ mount /dev/mapper/test_encrypted /mnt/test_encrypted
+mount: /mnt/test_encrypted: special device /dev/mapper/test_encrypted does not exist.
++ CHECK_RESULT 32 0 0 'Disk mount failed'
++ actual_result=32
++ expect_result=0
++ mode=0
++ error_log='Disk mount failed'
++ '[' -z 32 ']'
++ '[' 0 -eq 0 ']'
++ test 32x '!=' 0x
++ test -n 'Disk mount failed'
++ LOG_ERROR 'Disk mount failed'
++ message='Disk mount failed'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'Disk mount failed'
+Thu Dec 22 18:26:15 2022 - ERROR - Disk mount failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_encrypt_data.sh line 45'
++ message='oe_test_encrypt_data.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_encrypt_data.sh line 45'
+Thu Dec 22 18:26:15 2022 - ERROR - oe_test_encrypt_data.sh line 45
++ return 0
++ LOG_INFO 'Finish testcase execution.'
++ message='Finish testcase execution.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish testcase execution.'
+Thu Dec 22 18:26:16 2022 - INFO  - Finish testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z 4
++ test 4 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Thu Dec 22 18:26:17 2022 - ERROR - failed to execute the case.
++ exit 4
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu Dec 22 18:26:17 2022 - INFO  - start environment cleanup.
++ umount /mnt/test_encrypted
+umount: /mnt/test_encrypted: not mounted.
++ cryptsetup close test_encrypted
+Device test_encrypted is not active.
++ rm -rf /mnt/test_encrypted
++ mkfs.ext4 /dev/vdb vdc vdd vde vdf vdg vdh vdi vdj1 -F
+mke2fs 1.46.4 (18-Aug-2021)
+mkfs.ext4: invalid blocks 'vdc' on device '/dev/vdb'
++ echo -e 'd\n\nw'
++ fdisk '/dev/vdb vdc vdd vde vdf vdg vdh vdi vdj'
+fdisk: cannot open /dev/vdb vdc vdd vde vdf vdg vdh vdi vdj: No such file or directory
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmprudgg85b ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmprudgg85b
++ '[' 0 -ne 0 ']'
++ mkfs.ext4 /dev/vdb vdc vdd vde vdf vdg vdh vdi vdj -F
+mke2fs 1.46.4 (18-Aug-2021)
+mkfs.ext4: invalid blocks 'vdc' on device '/dev/vdb'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Dec 22 18:26:41 2022 - INFO  - Finish environment cleanup!

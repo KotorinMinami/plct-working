@@ -1,0 +1,132 @@
++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ grep expect
++ rpm -qa
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu Dec 22 19:58:38 2022 - INFO  - Start environmental preparation.
++ grep '^example:' /etc/passwd
+++ umask
++ local_umask=0022
++ umask
++ grep 0022
+0022
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu Dec 22 19:58:39 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Thu Dec 22 19:58:40 2022 - INFO  - Start executing testcase.
++ useradd example
++ passwd example
+New password: Retype new password: Changing password for user example.
+passwd: all authentication tokens updated successfully.
++ touch /tmp/my_pwd
++ ls -l /tmp/my_pwd
++ grep '\-rw\-r\-\-r\-\-.'
+-rw-r--r-- 1 root root 0 Dec 22 19:58 /tmp/my_pwd
++ CHECK_RESULT 0 0 0 'Check file default umask failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check file default umask failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ setfacl -m u:example:w /tmp/my_pwd
++ CHECK_RESULT 0 0 0 'Failed to add a user permission for '\''example'\'''
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to add a user permission for '\''example'\'''
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ getfacl /tmp/my_pwd
+getfacl: Removing leading '/' from absolute path names
++ echo '# file: tmp/my_pwd
+# owner: root
+# group: root
+user::rw-
+user:example:-w-
+group::r--
+mask::rw-
+other::r--
+'
++ diff tmp_log diff_file
++ CHECK_RESULT 0 0 0 'Comparison between tmp_log and diff_file failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Comparison between tmp_log and diff_file failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ls -l /tmp/my_pwd
++ grep '\-rw\-rw\-r\-\-+'
+-rw-rw-r--+ 1 root root 0 Dec 22 19:58 /tmp/my_pwd
++ CHECK_RESULT 0 0 0 'Check file umask failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check file umask failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - example -c 'echo test>/tmp/my_pwd'
++ CHECK_RESULT 0 0 0 'Switching to '\''example'\'' failed to execute echo command'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Switching to '\''example'\'' failed to execute echo command'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish testcase execution.'
++ message='Finish testcase execution.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish testcase execution.'
+Thu Dec 22 19:58:46 2022 - INFO  - Finish testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Dec 22 19:58:47 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu Dec 22 19:58:48 2022 - INFO  - start environment cleanup.
++ rm -rf tmp_log diff_file /tmp/my_pwd
++ userdel -rf example
++ umask 0022
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Dec 22 19:58:49 2022 - INFO  - Finish environment cleanup!

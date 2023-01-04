@@ -1,0 +1,201 @@
++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu Dec 22 18:55:38 2022 - INFO  - Start environmental preparation.
++ DNF_INSTALL dhcp
++ pkgs=dhcp
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs dhcp --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpxo5qtjh_
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpxo5qtjh_
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu Dec 22 18:56:51 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Thu Dec 22 18:56:51 2022 - INFO  - Start testing...
++ cat
++ ip netns add netns0
++ CHECK_RESULT 0 0 0 'add netns0 fail'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='add netns0 fail'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ip netns add netns1
++ CHECK_RESULT 0 0 0 'add netns1 fail'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='add netns1 fail'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ip netns list
++ grep -w netns0
+netns0
++ CHECK_RESULT 0 0 0 'netns0 is not exist'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netns0 is not exist'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ip netns list
++ grep -w netns1
+netns1
++ CHECK_RESULT 0 0 0 'netns1 is not exist'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netns1 is not exist'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ip link add name vnet0 type veth peer name vnet1
++ ip link set vnet0 netns netns0
++ ip link set vnet1 netns netns1
++ ip netns exec netns0 ip link set vnet0 up
++ ip netns exec netns1 ip link set vnet1 up
++ ip netns exec netns0 ip a add 99.99.10.100/16 dev vnet0
++ CHECK_RESULT 0 0 0 'vnet0 add ip fail'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='vnet0 add ip fail'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ sleep 2
++ ip netns exec netns0 ip a
++ grep 99.99.10.100
+    inet 99.99.10.100/16 scope global vnet0
++ CHECK_RESULT 0 0 0 'vnet0 add ip fail'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='vnet0 add ip fail'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ip netns exec netns0 dhcpd -4 -cf dhcpd.conf -pf /var/run/dhcpd.pid
+Internet Systems Consortium DHCP Server 4.4.2
+Copyright 2004-2020 Internet Systems Consortium.
+All rights reserved.
+For info, please visit https://www.isc.org/software/dhcp/
+ldap_gssapi_principal is not set,GSSAPI Authentication for LDAP will not be used
+Not searching LDAP since ldap-server, ldap-port and ldap-base-dn were not specified in the config file
+Config file: dhcpd.conf
+Database file: /var/lib/dhcpd/dhcpd.leases
+PID file: /var/run/dhcpd.pid
+Source compiled to use binary-leases
+Wrote 0 leases to leases file.
+Listening on LPF/vnet0/52:4e:07:43:50:00/99.99.0.0/16
+Sending on   LPF/vnet0/52:4e:07:43:50:00/99.99.0.0/16
+Sending on   Socket/fallback/fallback-net
++ CHECK_RESULT 0 0 0 'start dhcpd fail'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='start dhcpd fail'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ip netns exec netns1 dhclient
+grep: /etc/sysconfig/network-scripts/ifcfg-*: No such file or directory
+grep: /etc/sysconfig/network-scripts/ifcfg-*: No such file or directory
+grep: /etc/sysconfig/network-scripts/ifcfg-*: No such file or directory
+grep: /etc/sysconfig/network-scripts/ifcfg-*: No such file or directory
+grep: /etc/sysconfig/network-scripts/ifcfg-*: No such file or directory
+grep: /etc/sysconfig/network-scripts/ifcfg-*: No such file or directory
++ sleep 2
++ ip netns exec netns1 ip a
++ grep -w '99.99.10.[0-9]'
+    inet 99.99.10.1/16 brd 99.99.10.255 scope global dynamic vnet1
++ CHECK_RESULT 0 0 0 'allocate ipv4 addr fail'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='allocate ipv4 addr fail'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish testing!'
++ message='Finish testing!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish testing!'
+Thu Dec 22 18:57:02 2022 - INFO  - Finish testing!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Dec 22 18:57:02 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu Dec 22 18:57:03 2022 - INFO  - start environment cleanup.
++ ip netns exec netns0 ip link del vnet0
++ ip netns exec netns1 ip link del vnet1
+Cannot find device "vnet1"
++ ip netns del netns0
++ ip netns del netns1
++ ip netns list
++ pkill dhcpd
++ ps -aux
++ grep dhclient
++ awk '{print $2}'
++ grep -v grep
++ xargs kill -9
++ rm -fr dhcpd.conf
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpxo5qtjh_ ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpxo5qtjh_
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Dec 22 18:57:27 2022 - INFO  - Finish environment cleanup!

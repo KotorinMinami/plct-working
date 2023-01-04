@@ -1,0 +1,179 @@
++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n function ']'
++ config_params
++ PATH_TANG=/var/db/tang
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu Dec 22 23:23:06 2022 - INFO  - Start environmental preparation.
++ DNF_INSTALL 'clevis tang'
++ pkgs='clevis tang'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs 'clevis tang' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp9h4m8j8_
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp9h4m8j8_
++ ls /etc/systemd/system/tangd.socket.d
+ls: cannot access '/etc/systemd/system/tangd.socket.d': No such file or directory
++ SOCKET_CONTENT='[Socket]\nListenStream=\nListenStream=8009'
++ mkdir /etc/systemd/system/tangd.socket.d
++ echo -e '[Socket]\nListenStream=\nListenStream=8009'
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu Dec 22 23:24:12 2022 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Thu Dec 22 23:24:13 2022 - INFO  - Start executing testcase.
++ systemctl enable tangd.socket
+Created symlink /etc/systemd/system/multi-user.target.wants/tangd.socket → /usr/lib/systemd/system/tangd.socket.
++ CHECK_RESULT 0 0 0 'Failed to enable tangd.socket service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to enable tangd.socket service'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl show tangd.socket -p Listen
+Listen=[::]:8009 (Stream)
++ systemctl daemon-reload
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ systemctl start tangd.socket
++ CHECK_RESULT 0 0 0 'Failed to start tangd.socket service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to start tangd.socket service'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ cd /var/db/tang
+++ ls /var/db/tang
++ for element in $(ls $PATH_TANG)
++ mv /var/db/tang/ZUxVoMTv7QXoFkhjsXOO3mKx45d4fXuaqb6p73saXPs.jwk /var/db/tang/.ZUxVoMTv7QXoFkhjsXOO3mKx45d4fXuaqb6p73saXPs.jwk
++ for element in $(ls $PATH_TANG)
++ mv /var/db/tang/dsL0w4BSf1yLuzFzfYWtGQ1dH8IJSisFow4xnEKqtL0.jwk /var/db/tang/.dsL0w4BSf1yLuzFzfYWtGQ1dH8IJSisFow4xnEKqtL0.jwk
++ /usr/libexec/tangd-keygen /var/db/tang
++ CHECK_RESULT 0 0 0 'Failed to generate a new key using the /var/db/Tang d-keygen command on the Tang server'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to generate a new key using the /var/db/Tang d-keygen command on the Tang server'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ systemctl restart tangd.socket
++ CHECK_RESULT 0 0 0 'Failed to restart tangd.socket service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to restart tangd.socket service'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ echo hello
++ expect
+spawn bash -c clevis encrypt tang '{"url":"http://127.0.0.1:8009"}' < input.txt > secert.jwe
+The advertisement contains the following signing keys:
+
+XJj2LUhAa9VsYrv1i6ifaS31f12uMiJuZdTmaoEl34M
+
+Do you wish to trust these keys? [ynYN] y
++ CHECK_RESULT 0 0 0 'Failed to encrypt data'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to encrypt data'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clevis decrypt
++ grep hello
+hello
++ CHECK_RESULT 0 0 0 'Failed to decrypt data'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to decrypt data'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish testcase execution.'
++ message='Finish testcase execution.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish testcase execution.'
+Thu Dec 22 23:25:05 2022 - INFO  - Finish testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Dec 22 23:25:07 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu Dec 22 23:25:08 2022 - INFO  - start environment cleanup.
++ systemctl stop tangd.socket
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp9h4m8j8_ ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp9h4m8j8_
++ '[' 0 -ne 0 ']'
++ rm -rf secert.jwe adv.jws sec.jwe input-plain.txt /etc/systemd/system/tangd.socket.d input.txt /var/db/tang
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Dec 22 23:25:41 2022 - INFO  - Finish environment cleanup!

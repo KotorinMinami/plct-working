@@ -1,0 +1,285 @@
++ source ../common/common_podman.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu Dec 15 19:30:23 2022 - INFO  - Start to prepare the test environment.
++ deploy_env
++ DNF_INSTALL 'podman podman-docker'
++ pkgs='podman podman-docker'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs 'podman podman-docker' --node 1 --tempfile ''
+Thu Dec 15 19:30:35 2022 - INFO  - pkgs:(podman podman-docker) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ echo -e '[registries.search]
+registries = ['\''docker.io'\'']
+
+[registries.insecure]
+registries = []
+
+[registries.block]
+registries = []
+'
++ podman pull postgres:alpine
+time="2022-12-15T19:30:36+08:00" level=warning msg="Conmon at /usr/bin/conmon invalid: outdated conmon version"
+time="2022-12-15T19:30:36+08:00" level=warning msg="Conmon at /usr/bin/conmon is invalid: outdated conmon version"
+Error: please update to v2.0.24 or later: outdated conmon version
++ podman run --name postgres -e POSTGRES_PASSWORD=secret -d postgres:alpine
+time="2022-12-15T19:30:38+08:00" level=warning msg="Conmon at /usr/bin/conmon invalid: outdated conmon version"
+time="2022-12-15T19:30:38+08:00" level=warning msg="Conmon at /usr/bin/conmon is invalid: outdated conmon version"
+Error: please update to v2.0.24 or later: outdated conmon version
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu Dec 15 19:30:39 2022 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Dec 15 19:30:40 2022 - INFO  - Start to run test.
+++ docker create --cgroup-parent machine.slice alpine ls
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+time="2022-12-15T19:30:41+08:00" level=warning msg="Conmon at /usr/bin/conmon invalid: outdated conmon version"
+time="2022-12-15T19:30:41+08:00" level=warning msg="Conmon at /usr/bin/conmon is invalid: outdated conmon version"
+Error: please update to v2.0.24 or later: outdated conmon version
++ ID=
++ docker inspect
++ grep '"CgroupParent": "machine.slice"'
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+time="2022-12-15T19:30:42+08:00" level=warning msg="Conmon at /usr/bin/conmon invalid: outdated conmon version"
+time="2022-12-15T19:30:42+08:00" level=warning msg="Conmon at /usr/bin/conmon is invalid: outdated conmon version"
+Error: please update to v2.0.24 or later: outdated conmon version
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_DK_09.sh line 33'
++ message='oe_test_podman_DK_09.sh line 33'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_DK_09.sh line 33'
+Thu Dec 15 19:30:43 2022 - ERROR - oe_test_podman_DK_09.sh line 33
++ return 0
+++ docker create --cidfile cidfile alpine ls
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+time="2022-12-15T19:30:45+08:00" level=warning msg="Conmon at /usr/bin/conmon invalid: outdated conmon version"
+time="2022-12-15T19:30:45+08:00" level=warning msg="Conmon at /usr/bin/conmon is invalid: outdated conmon version"
+Error: please update to v2.0.24 or later: outdated conmon version
++ ID=
++ grep cidfile
+Thu Dec 15 20:00:19 2022 - ERROR - Timeout : Command 'bash -x oe_test_podman_DK_09.sh' timed out after 1799.9961454919994 seconds
+++ post_test
+++ LOG_INFO 'Start to restore the test environment.'
+++ message='Start to restore the test environment.'
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu Dec 15 20:21:32 2022 - INFO  - Start to restore the test environment.
+++ clear_env
+++ podman stop postgres
+time="2022-12-15T20:21:33+08:00" level=warning msg="Conmon at /usr/bin/conmon invalid: outdated conmon version"
+time="2022-12-15T20:21:33+08:00" level=warning msg="Conmon at /usr/bin/conmon is invalid: outdated conmon version"
+Error: please update to v2.0.24 or later: outdated conmon version
+++ podman rm -all
+Error: --all and --latest cannot be used together
+++ podman rmi -f -all
+Error: unknown shorthand flag: 'l' in -ll
+++ DNF_REMOVE
+++ node=1
+++ pkg_list=
+++ mode=0
+++ [[ -z '' ]]
+++ [[ -z '' ]]
+++ LOG_WARN 'no thing to do.'
+++ message='no thing to do.'
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Thu Dec 15 20:21:37 2022 - WARN  - no thing to do.
+++ return 0
++++ ls
++++ grep -vE .sh
+++ rm -rf
+++ LOG_INFO 'End to restore the test environment.'
+++ message='End to restore the test environment.'
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu Dec 15 20:21:38 2022 - INFO  - End to restore the test environment.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_DK_09.sh line 36'
++ message='oe_test_podman_DK_09.sh line 36'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_DK_09.sh line 36'
+Thu Dec 15 20:21:40 2022 - ERROR - oe_test_podman_DK_09.sh line 36
++ return 0
+++ docker create --conmon-pidfile ./ alpine ls
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+time="2022-12-15T20:21:41+08:00" level=warning msg="Conmon at /usr/bin/conmon invalid: outdated conmon version"
+time="2022-12-15T20:21:41+08:00" level=warning msg="Conmon at /usr/bin/conmon is invalid: outdated conmon version"
+Error: please update to v2.0.24 or later: outdated conmon version
++ ID=
++ docker inspect
++ grep
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+Usage: grep [OPTION]... PATTERNS [FILE]...
+Try 'grep --help' for more information.
+time="2022-12-15T20:21:43+08:00" level=warning msg="Conmon at /usr/bin/conmon invalid: outdated conmon version"
+time="2022-12-15T20:21:43+08:00" level=warning msg="Conmon at /usr/bin/conmon is invalid: outdated conmon version"
+Error: please update to v2.0.24 or later: outdated conmon version
++ CHECK_RESULT 2
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_DK_09.sh line 39'
++ message='oe_test_podman_DK_09.sh line 39'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_DK_09.sh line 39'
+Thu Dec 15 20:21:44 2022 - ERROR - oe_test_podman_DK_09.sh line 39
++ return 0
+++ docker create --cpu-period 10000 alpine ls
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+time="2022-12-15T20:21:46+08:00" level=warning msg="Conmon at /usr/bin/conmon invalid: outdated conmon version"
+time="2022-12-15T20:21:46+08:00" level=warning msg="Conmon at /usr/bin/conmon is invalid: outdated conmon version"
+Error: please update to v2.0.24 or later: outdated conmon version
++ ID=
++ grep '"CpuPeriod": 10000'
++ docker inspect
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+time="2022-12-15T20:21:47+08:00" level=warning msg="Conmon at /usr/bin/conmon invalid: outdated conmon version"
+time="2022-12-15T20:21:47+08:00" level=warning msg="Conmon at /usr/bin/conmon is invalid: outdated conmon version"
+Error: please update to v2.0.24 or later: outdated conmon version
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_DK_09.sh line 42'
++ message='oe_test_podman_DK_09.sh line 42'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_DK_09.sh line 42'
+Thu Dec 15 20:21:49 2022 - ERROR - oe_test_podman_DK_09.sh line 42
++ return 0
+++ docker create --cpu-quota 1001 alpine ls
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+time="2022-12-15T20:21:50+08:00" level=warning msg="Conmon at /usr/bin/conmon invalid: outdated conmon version"
+time="2022-12-15T20:21:50+08:00" level=warning msg="Conmon at /usr/bin/conmon is invalid: outdated conmon version"
+Error: please update to v2.0.24 or later: outdated conmon version
++ ID=
++ docker inspect
++ grep '"CpuQuota": 1001'
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+time="2022-12-15T20:21:52+08:00" level=warning msg="Conmon at /usr/bin/conmon invalid: outdated conmon version"
+time="2022-12-15T20:21:52+08:00" level=warning msg="Conmon at /usr/bin/conmon is invalid: outdated conmon version"
+Error: please update to v2.0.24 or later: outdated conmon version
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_DK_09.sh line 45'
++ message='oe_test_podman_DK_09.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_DK_09.sh line 45'
+Thu Dec 15 20:21:53 2022 - ERROR - oe_test_podman_DK_09.sh line 45
++ return 0
+++ docker create --cpu-rt-period 1 alpine ls
+oe_test_podman_DK_09.sh: line 46: docker: command not found
++ ID=
++ docker inspect
+oe_test_podman_DK_09.sh: line 47: docker: command not found
++ grep '"CpuRealtimePeriod": 1'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_DK_09.sh line 48'
++ message='oe_test_podman_DK_09.sh line 48'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_DK_09.sh line 48'
+Thu Dec 15 20:21:55 2022 - ERROR - oe_test_podman_DK_09.sh line 48
++ return 0
+++ docker create --cpu-rt-runtime 2 alpine ls
+oe_test_podman_DK_09.sh: line 49: docker: command not found
++ ID=
++ docker inspect
+oe_test_podman_DK_09.sh: line 50: docker: command not found
++ grep '"CpuRealtimeRuntime": 2'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_DK_09.sh line 51'
++ message='oe_test_podman_DK_09.sh line 51'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_DK_09.sh line 51'
+Thu Dec 15 20:21:56 2022 - ERROR - oe_test_podman_DK_09.sh line 51
++ return 0
+++ docker create --cpu-shares 3 alpine ls
+oe_test_podman_DK_09.sh: line 52: docker: command not found
++ ID=
++ grep '"CpuShares": 3'
++ docker inspect
+oe_test_podman_DK_09.sh: line 53: docker: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_DK_09.sh line 54'
++ message='oe_test_podman_DK_09.sh line 54'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_DK_09.sh line 54'

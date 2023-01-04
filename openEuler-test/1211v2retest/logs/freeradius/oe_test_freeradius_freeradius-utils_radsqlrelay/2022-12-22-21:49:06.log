@@ -1,0 +1,201 @@
++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu Dec 22 21:49:09 2022 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'freeradius freeradius-utils perl-DBD-MySQL mysql5 mysql5-server freeradius-mysql'
++ pkgs='freeradius freeradius-utils perl-DBD-MySQL mysql5 mysql5-server freeradius-mysql'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py install --pkgs 'freeradius freeradius-utils perl-DBD-MySQL mysql5 mysql5-server freeradius-mysql' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpm2rsjy8r
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpm2rsjy8r
++ systemctl start mysqld
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ mysqladmin -uroot password Test123
+mysqladmin: [Warning] Using a password on the command line interface can be insecure.
+Warning: Since password will be sent to server in plain text, use ssl connection to ensure password safety.
++ mysql -uroot -pTest123 -e 'create database radius;
+                               use radius;
+                               source /etc/raddb/mods-config/sql/main/mysql/schema.sql;                       
+    '
+mysql: [Warning] Using a password on the command line interface can be insecure.
++ sed -i 's/driver = "rlm_sql_null"/driver = "rlm_sql_mysql"/g' /etc/raddb/mods-available/sql
+sed: can't read /etc/raddb/mods-available/sql: No such file or directory
++ sed -i 's/dialect = "sqlite"/dialect = "mysql"/g' /etc/raddb/mods-available/sql
+sed: can't read /etc/raddb/mods-available/sql: No such file or directory
++ sed -i '/server = "localhost"/a server = "localhost"' /etc/raddb/mods-available/sql
+sed: can't read /etc/raddb/mods-available/sql: No such file or directory
++ sed -i '/port = 3306/a port = 3306' /etc/raddb/mods-available/sql
+sed: can't read /etc/raddb/mods-available/sql: No such file or directory
++ sed -i '/login = "radius"/a login = "root"' /etc/raddb/mods-available/sql
+sed: can't read /etc/raddb/mods-available/sql: No such file or directory
++ sed -i '/password = "radpass"/a password = "Test123"' /etc/raddb/mods-available/sql
+sed: can't read /etc/raddb/mods-available/sql: No such file or directory
++ ln -s /etc/raddb/mods-available/sql /etc/raddb/mods-enabled/
+ln: failed to create symbolic link '/etc/raddb/mods-enabled/': No such file or directory
++ echo 'insert into radcheck (username,attribute,op,value) values ('\''wjf'\'','\''Cleartext-Password'\'','\'':='\'','\''wjf123'\'');'
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu Dec 22 21:53:26 2022 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Dec 22 21:53:26 2022 - INFO  - Start to run test.
++ grep usage
++ radsqlrelay '-?'
+usage: radsqlrelay [options] file_path
++ CHECK_RESULT 0 0 0 'radsqlrelay -? execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radsqlrelay -? execution failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ radsqlrelay -1 -d mysql -b radius -h localhost -p Test123 -u root /tmp/radius.sql
++ mysql -uroot -pTest123 -e 'use radius;
+                               select * from radcheck where username='\''wjf'\'';
++ grep wjf
+    '
+mysql: [Warning] Using a password on the command line interface can be insecure.
+1	wjf	Cleartext-Password	:=	wjf123
++ '[' '!' -e /tmp/radius.sql ']'
++ CHECK_RESULT 0 0 0 'radsqlrelay -1 -d -b -h -p -u execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radsqlrelay -1 -d -b -h -p -u execution failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ echo Test123
++ mysql -uroot -pTest123 -e 'use radius;
+                               delete from radcheck where username='\''wjf'\'';
+    '
+mysql: [Warning] Using a password on the command line interface can be insecure.
++ echo 'insert into radcheck (username,attribute,op,value) values ('\''wjf'\'','\''Cleartext-Password'\'','\'':='\'','\''wjf123'\'');'
++ radsqlrelay -1 -d mysql -b radius -h localhost -f /tmp/passwdfile.txt -u root /tmp/radius.sql
++ mysql -uroot -pTest123 -e 'use radius;
+                               select * from radcheck where username='\''wjf'\'';
+    '
++ grep wjf
+mysql: [Warning] Using a password on the command line interface can be insecure.
+2	wjf	Cleartext-Password	:=	wjf123
++ '[' '!' -e /tmp/radius.sql ']'
++ CHECK_RESULT 0 0 0 'radsqlrelay -f execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radsqlrelay -f execution failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mysql -uroot -pTest123 -e 'use radius;
+                               delete from radcheck where username='\''wjf'\'';
+    '
+mysql: [Warning] Using a password on the command line interface can be insecure.
++ echo 'insert into radcheck (username,attribute,op,value) values ('\''wjf'\'','\''Cleartext-Password'\'','\'':='\'','\''wjf123'\'');'
++ radsqlrelay -1 -d mysql -b radius -h 127.0.0.1 -p Test123 -u root -P 3306 /tmp/radius.sql
++ mysql -uroot -pTest123 -e 'use radius;
+                               select * from radcheck where username='\''wjf'\'';
++ grep wjf
+    '
+mysql: [Warning] Using a password on the command line interface can be insecure.
+3	wjf	Cleartext-Password	:=	wjf123
++ '[' '!' -e /tmp/radius.sql ']'
++ CHECK_RESULT 0 0 0 'radsqlrelay -P execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radsqlrelay -P execution failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mysql -uroot -pTest123 -e 'use radius;
+                               delete from radcheck where username='\''wjf'\'';
+    '
+mysql: [Warning] Using a password on the command line interface can be insecure.
++ echo 'insert into radcheck (username,attribute,op,value) values ('\''wjf'\'','\''Cleartext-Password'\'','\'':='\'','\''wjf123'\'');'
++ radsqlrelay -1 -d mysql -b radius -h localhost -p Test123 -u root -x /tmp/radius.sql
++ grep 'Connecting to DBI'
+Connecting to DBI:mysql:database=radius;host=localhost.
++ CHECK_RESULT 0 0 0 'radsqlrelay -x execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radsqlrelay -x execution failed.'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu Dec 22 21:53:34 2022 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Dec 22 21:53:35 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu Dec 22 21:53:35 2022 - INFO  - Start to restore the test environment.
++ systemctl stop mysqld
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpm2rsjy8r ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpm2rsjy8r
++ '[' 0 -ne 0 ']'
++ rm -rf /var/lib/mysql
++ rm -rf /etc/raddb
++ rm -rf /var/log/radius
++ rm -rf /tmp/passwdfile.txt
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu Dec 22 21:54:12 2022 - INFO  - End to restore the test environment.

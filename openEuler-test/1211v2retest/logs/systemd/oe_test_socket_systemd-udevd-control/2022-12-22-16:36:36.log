@@ -1,0 +1,188 @@
++ source ../common/common_lib.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Thu Dec 22 16:36:38 2022 - INFO  - Start environment preparation.
++ systemctl stop systemd-udevd.service
+Warning: Stopping systemd-udevd.service, but it can still be activated by:
+  systemd-udevd-control.socket
+  systemd-udevd-kernel.socket
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Dec 22 16:36:39 2022 - INFO  - Finish environment cleanup!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Thu Dec 22 16:36:40 2022 - INFO  - Start testing...
++ test_execution systemd-udevd-control.socket
++ service=systemd-udevd-control.socket
+++ date '+%Y-%m-%d %T'
++ log_time='2022-12-22 16:36:40'
++ test_restart systemd-udevd-control.socket
++ service=systemd-udevd-control.socket
++ systemctl restart systemd-udevd-control.socket
++ CHECK_RESULT 0 0 0 'systemd-udevd-control.socket restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-udevd-control.socket restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status systemd-udevd-control.socket
++ grep 'Active: active'
+     Active: active (listening) since Thu 2022-12-22 16:36:40 CST; 5s ago
++ CHECK_RESULT 0 0 0 'systemd-udevd-control.socket restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-udevd-control.socket restart failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop systemd-udevd-control.socket
++ CHECK_RESULT 0 0 0 'systemd-udevd-control.socket stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-udevd-control.socket stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status systemd-udevd-control.socket
++ grep 'Active: inactive'
+     Active: inactive (dead) since Thu 2022-12-22 16:36:46 CST; 5s ago
++ CHECK_RESULT 0 0 0 'systemd-udevd-control.socket stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-udevd-control.socket stop failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start systemd-udevd-control.socket
++ CHECK_RESULT 0 0 0 'systemd-udevd-control.socket start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-udevd-control.socket start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ grep 'Active: active'
++ systemctl status systemd-udevd-control.socket
+     Active: active (listening) since Thu 2022-12-22 16:36:53 CST; 6s ago
++ CHECK_RESULT 0 0 0 'systemd-udevd-control.socket start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-udevd-control.socket start failed'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled systemd-udevd-control.socket
++ service=systemd-udevd-control.socket
+++ systemctl is-enabled systemd-udevd-control.socket
++ state=static
++ '[' static == enabled ']'
++ '[' static == disabled ']'
++ '[' static == masked ']'
++ '[' static == static ']'
++ LOG_INFO 'The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
++ message='The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
+Thu Dec 22 16:37:00 2022 - INFO  - The unit files have no installation config,This means they are not meant to be enabled using systemctl.
++ journalctl --since '2022-12-22 16:36:40' -u systemd-udevd-control.socket
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of systemd-udevd-control.socket'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of systemd-udevd-control.socket'
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_reload systemd-udevd-control.socket
++ service=systemd-udevd-control.socket
++ systemctl start systemd-udevd-control.socket
++ grep 'Job type reload is not applicable'
++ systemctl reload systemd-udevd-control.socket
+Failed to reload systemd-udevd-control.socket: Job type reload is not applicable for unit systemd-udevd-control.socket.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit systemd-udevd-control.socket'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit systemd-udevd-control.socket'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status systemd-udevd-control.socket
++ grep 'Active: active'
+     Active: active (listening) since Thu 2022-12-22 16:36:53 CST; 7s ago
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Thu Dec 22 16:37:01 2022 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Dec 22 16:37:01 2022 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start environment cleanup.'
++ message='Start environment cleanup.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start environment cleanup.'
+Thu Dec 22 16:37:02 2022 - INFO  - Start environment cleanup.
++ systemctl start systemd-udevd.service
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Dec 22 16:37:03 2022 - INFO  - Finish environment cleanup!
