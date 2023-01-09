@@ -12,6 +12,10 @@
 - oe_test_pmlogconf_pmlogsize
 - oe_test_pmpython_mkaf_pcp-python
 - oe_test_pmval_01
+### djvulibre
+- oe_test_djvulibre_01
+### rabbitmq-server
+- oe_test_rabbitmq-server
 
 ## 已修复
 
