@@ -83,6 +83,7 @@ Fri Jan  6 13:24:27 2023 - ERROR - oe_test_openjdk_jdb_jdeps.sh line 58
 ```
 ### easymock
 - oe_test_easymock_spring
+
 failed_log
 ```
 + javac -classpath '/usr/share/java/*:/usr/share/java/hamcrest/*:/usr/share/java/springframework/*:/usr/share/java/cglib/*:/usr/share/java/objenesis/*:' -d . OtherClass.java OurClass.java OurClassTest.java
