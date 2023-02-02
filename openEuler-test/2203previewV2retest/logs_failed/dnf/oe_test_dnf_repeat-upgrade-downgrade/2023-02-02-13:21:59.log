@@ -1,0 +1,1728 @@
++ source common/common_dnf.sh
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu Feb  2 13:22:02 2023 - INFO  - Start to prepare the test environment.
++ deploy_env
++ OLD_LANG=
++ export LANG=en_US.UTF-8
++ LANG=en_US.UTF-8
++ dnf list --installed
++ grep 'arch\|'
++ grep @mainline
++ awk -F. 'OFS="."{$NF="";print}'
++ awk '{print substr($0, 1, length($0)-1)}'
++ grep -E 'x86_64|riscv'
++ dnf repolist
++ grep mainline
+mainline                                mainline
++ grep 'arch\|'
++ dnf list --available --repo=mainline
++ grep -E 'x86_64|riscv'
++ awk '{print substr($0, 1, length($0)-1)}'
++ awk -F . 'OFS="."{$NF="";print}'
++ awk '{print $1}'
+++ shuf -n1 update_pkg_list
++ update_pkg_name=perl-Digest-SHA1-debuginfo
++ grep perl-Digest-SHA1-debuginfo
++ dnf list installed
++ dnf install -y perl-Digest-SHA1-debuginfo
++ tee install_log
+Last metadata expiration check: 0:12:14 ago on Thu 02 Feb 2023 01:10:25 PM CST.
+Dependencies resolved.
+================================================================================
+ Package                         Arch       Version           Repository   Size
+================================================================================
+Installing:
+ perl-Digest-SHA1-debuginfo      riscv64    2.13-27.oe2203    mainline     39 k
+Installing weak dependencies:
+ perl-Digest-SHA1-debugsource    riscv64    2.13-27.oe2203    mainline     15 k
+
+Transaction Summary
+================================================================================
+Install  2 Packages
+
+Total download size: 54 k
+Installed size: 139 k
+Downloading Packages:
+(1/2): perl-Digest-SHA1-debugsource-2.13-27.oe2  30 kB/s |  15 kB     00:00    
+(2/2): perl-Digest-SHA1-debuginfo-2.13-27.oe220  76 kB/s |  39 kB     00:00    
+--------------------------------------------------------------------------------
+Total                                            96 kB/s |  54 kB     00:00     
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Preparing        :                                                        1/1 
+  Installing       : perl-Digest-SHA1-debugsource-2.13-27.oe2203.riscv64    1/2 
+  Installing       : perl-Digest-SHA1-debuginfo-2.13-27.oe2203.riscv64      2/2 
+  Running scriptlet: perl-Digest-SHA1-debuginfo-2.13-27.oe2203.riscv64      2/2 
+  Verifying        : perl-Digest-SHA1-debuginfo-2.13-27.oe2203.riscv64      1/2 
+  Verifying        : perl-Digest-SHA1-debugsource-2.13-27.oe2203.riscv64    2/2 
+
+Installed:
+  perl-Digest-SHA1-debuginfo-2.13-27.oe2203.riscv64                             
+  perl-Digest-SHA1-debugsource-2.13-27.oe2203.riscv64                           
+
+Complete!
+++ grep update install_log
+++ awk '{print $1}'
++ update_pkg_name=
++ dnf -y downgrade
+Last metadata expiration check: 0:12:23 ago on Thu 02 Feb 2023 01:10:25 PM CST.
+Error: No packages marked for downgrade.
++ LOG_INFO 'Finish preparing the test environment.'
++ message='Finish preparing the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Finish preparing the test environment.'
+Thu Feb  2 13:22:49 2023 - INFO  - Finish preparing the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Feb  2 13:22:49 2023 - INFO  - Start to run test.
++ dnf repolist
++ grep mainline
+mainline                                mainline
++ (( i = 0 ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep Downgraded
++ dnf -y downgrade
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:23:02 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:23:12 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:23:22 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:23:31 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ grep 'Upgraded\|Nothing to do'
++ dnf -y upgrade
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:23:41 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:23:51 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:24:01 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:24:11 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:24:21 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:24:31 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:24:40 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:24:50 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:25:00 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:25:10 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:25:20 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep Downgraded
++ dnf -y downgrade
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:25:30 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:25:40 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:25:50 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:25:59 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:26:09 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:26:20 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:26:30 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:26:40 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:26:49 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:26:59 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:27:09 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:27:19 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep Downgraded
++ dnf -y downgrade
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:27:29 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep Downgraded
++ dnf -y downgrade
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:27:39 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:27:49 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:27:59 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:28:08 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:28:18 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:28:28 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep Downgraded
++ dnf -y downgrade
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:28:38 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:28:48 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:28:58 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:29:08 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep Downgraded
++ dnf -y downgrade
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:29:18 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep Downgraded
++ dnf -y downgrade
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:29:28 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:29:38 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:29:47 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep Downgraded
++ dnf -y downgrade
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:29:57 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:30:07 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:30:17 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:30:27 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:30:37 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:30:47 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ dnf -y upgrade
++ grep 'Upgraded\|Nothing to do'
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dnf -y downgrade
++ grep Downgraded
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:30:57 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ grep 'Upgraded\|Nothing to do'
++ dnf -y upgrade
+Nothing to do.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep Downgraded
++ dnf -y downgrade
+Error: No packages marked for downgrade.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ message='oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'oe_test_dnf_repeat-upgrade-downgrade.sh line 45'
+Thu Feb  2 13:31:06 2023 - ERROR - oe_test_dnf_repeat-upgrade-downgrade.sh line 45
++ return 0
++ (( i++ ))
++ (( i < 50 ))
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Thu Feb  2 13:31:07 2023 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 50
++ test 50 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Thu Feb  2 13:31:07 2023 - ERROR - failed to execute the case.
++ exit 50
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu Feb  2 13:31:08 2023 - INFO  - Start to restore the test environment.
++ clear_env
++ export LANG=
++ LANG=
++ grep anaconda_list
+Thu Feb  2 13:52:00 2023 - ERROR - Timeout : Command 'bash -x oe_test_dnf_repeat-upgrade-downgrade.sh' timed out after 1799.9985016000005 seconds

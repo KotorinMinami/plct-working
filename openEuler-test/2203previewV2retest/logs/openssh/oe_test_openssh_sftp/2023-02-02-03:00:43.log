@@ -1,0 +1,198 @@
++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen-riscv/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu Feb  2 03:00:46 2023 - INFO  - Start to prepare the test environment.
++ echo localhost
++ SSH_CMD '
+    echo '\''localhost'\'' >/tmp/hostname
+    useradd sftpuser -d /home/sftpuser -p openEuler12#$
+    chown -R root /home/sftpuser/
+    systemctl restart sshd
+    ' 10.198.114.6 'openEuler12#$' root
++ cmd='
+    echo '\''localhost'\'' >/tmp/hostname
+    useradd sftpuser -d /home/sftpuser -p openEuler12#$
+    chown -R root /home/sftpuser/
+    systemctl restart sshd
+    '
++ remoteip=10.198.114.6
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/GitRepo/mugen-riscv/libs/locallibs/sshcmd.sh -c '
+    echo '\''localhost'\'' >/tmp/hostname
+    useradd sftpuser -d /home/sftpuser -p openEuler12#$
+    chown -R root /home/sftpuser/
+    systemctl restart sshd
+    ' -i 10.198.114.6 -u root -p 'openEuler12#$' -t 300 -o 22
+Thu Feb  2 03:00:47 2023 - WARN  - the remote user uses the default configuration.
+Thu Feb  2 03:00:47 2023 - WARN  - the remote password uses the default configuration.
+Thu Feb  2 03:00:48 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@10.198.114.6 
+    echo 'localhost' >/tmp/hostname
+    useradd sftpuser -d /home/sftpuser -p openEuler12#$
+    chown -R root /home/sftpuser/
+    systemctl restart sshd
+    
+root@10.198.114.6's password: 
++ ret=0
++ test 0 -ne 0
++ return 0
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu Feb  2 03:00:55 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Feb  2 03:00:56 2023 - INFO  - Start to run test.
++ expect
+spawn sftp root@10.198.114.6
+root@10.198.114.6's password: 
+Connected to 10.198.114.6.
+No entry for terminal type "unknown";
+using dumb terminal settings.
+No entry for terminal type "unknown";
+using dumb terminal settings.
+sftp> ls
+GitRepo
+sftp> get /tmp/hostname /home/
+Fetching /tmp/hostname to /home/hostname
+hostname                                        0%    0     0.0KB/s   --:-- ETAhostname                                      100%   10     1.0KB/s   00:00    
+sftp> put /tmp/hostname /home/sftpuser/
+Uploading /tmp/hostname to /home/sftpuser/hostname
+hostname                                        0%    0     0.0KB/s   --:-- ETAhostname                                      100%   10     2.5KB/s   00:00    
+sftp> exit
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SSH_CMD '
+    grep localhost /home/sftpuser/hostname
+    ' 10.198.114.6 'openEuler12#$' root
++ cmd='
+    grep localhost /home/sftpuser/hostname
+    '
++ remoteip=10.198.114.6
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/GitRepo/mugen-riscv/libs/locallibs/sshcmd.sh -c '
+    grep localhost /home/sftpuser/hostname
+    ' -i 10.198.114.6 -u root -p 'openEuler12#$' -t 300 -o 22
+Thu Feb  2 03:01:12 2023 - WARN  - the remote user uses the default configuration.
+Thu Feb  2 03:01:12 2023 - WARN  - the remote password uses the default configuration.
+Thu Feb  2 03:01:13 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@10.198.114.6 
+    grep localhost /home/sftpuser/hostname
+    
+root@10.198.114.6's password: 
+localhost
++ ret=0
++ test 0 -ne 0
++ return 0
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep localhost /home/hostname
+localhost
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu Feb  2 03:01:16 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Feb  2 03:01:17 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu Feb  2 03:01:18 2023 - INFO  - Start to restore the test environment.
++ SSH_CMD '
+    chown -R sftpuser /home/sftpuser/
+    userdel -r sftpuser
+    rm -rf /home/sftpuser/hostname /tmp/hostname
+    systemctl restart sshd
+    ' 10.198.114.6 'openEuler12#$' root
++ cmd='
+    chown -R sftpuser /home/sftpuser/
+    userdel -r sftpuser
+    rm -rf /home/sftpuser/hostname /tmp/hostname
+    systemctl restart sshd
+    '
++ remoteip=10.198.114.6
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/GitRepo/mugen-riscv/libs/locallibs/sshcmd.sh -c '
+    chown -R sftpuser /home/sftpuser/
+    userdel -r sftpuser
+    rm -rf /home/sftpuser/hostname /tmp/hostname
+    systemctl restart sshd
+    ' -i 10.198.114.6 -u root -p 'openEuler12#$' -t 300 -o 22
+Thu Feb  2 03:01:18 2023 - WARN  - the remote user uses the default configuration.
+Thu Feb  2 03:01:19 2023 - WARN  - the remote password uses the default configuration.
+Thu Feb  2 03:01:20 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@10.198.114.6 
+    chown -R sftpuser /home/sftpuser/
+    userdel -r sftpuser
+    rm -rf /home/sftpuser/hostname /tmp/hostname
+    systemctl restart sshd
+    
+root@10.198.114.6's password: 
++ ret=0
++ test 0 -ne 0
++ return 0
++ rm -rf /home/hostname /tmp/hostname
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/GitRepo/mugen-riscv/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu Feb  2 03:01:23 2023 - INFO  - End to restore the test environment.
