@@ -35,6 +35,8 @@ sudo mount /dev/mapper/loop4p4 /mnt  #kpartx后的结果在会存在/dev/mapper�
 sudo mount /dev/mapper/loop4p3 /mnt/boot
 sudo chroot /mnt
 ```
+如遇`chroot failed to run command /bin/bash: no such file or directory`问题，可以尝试`cp /usr/bin/qemu-riscv64-static /mnt/usr/bin `解决
+
 更改extlinux.conf和u-boot参数
 ```
 vi /boot/extlinux/extlinux.conf
