@@ -1,0 +1,65 @@
+From: Ubuntu Core Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Date: Sat, 14 May 2022 02:49:46 +0800
+Subject: hurd_kfreebsd_thread_native_id
+
+---
+ Include/pythread.h      |  2 +-
+ Python/thread_pthread.h | 12 ++++++++++++
+ 2 files changed, 13 insertions(+), 1 deletion(-)
+
+diff --git a/Include/pythread.h b/Include/pythread.h
+index f22e8c4..6a4135b 100644
+--- a/Include/pythread.h
++++ b/Include/pythread.h
+@@ -26,7 +26,7 @@ PyAPI_FUNC(unsigned long) PyThread_start_new_thread(void (*)(void *), void *);
+ PyAPI_FUNC(void) _Py_NO_RETURN PyThread_exit_thread(void);
+ PyAPI_FUNC(unsigned long) PyThread_get_thread_ident(void);
+ 
+-#if defined(__APPLE__) || defined(__linux__) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__NetBSD__) || defined(_WIN32) || defined(_AIX)
++#if defined(__APPLE__) || defined(__linux__) || defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || defined(__OpenBSD__) || defined(__NetBSD__) || defined(_WIN32) || defined(_AIX) || defined(__GNU__)
+ #define PY_HAVE_THREAD_NATIVE_ID
+ PyAPI_FUNC(unsigned long) PyThread_get_thread_native_id(void);
+ #endif
+diff --git a/Python/thread_pthread.h b/Python/thread_pthread.h
+index 5678b05..c6b6b6f 100644
+--- a/Python/thread_pthread.h
++++ b/Python/thread_pthread.h
+@@ -16,12 +16,17 @@
+ #   include <sys/syscall.h>     /* syscall(SYS_gettid) */
+ #elif defined(__FreeBSD__)
+ #   include <pthread_np.h>      /* pthread_getthreadid_np() */
++#elif defined(__FreeBSD_kernel__)
++#   include <sys/syscall.h>     /* syscall(SYS_thr_self) */
+ #elif defined(__OpenBSD__)
+ #   include <unistd.h>          /* getthrid() */
+ #elif defined(_AIX)
+ #   include <sys/thread.h>      /* thread_self() */
+ #elif defined(__NetBSD__)
+ #   include <lwp.h>             /* _lwp_self() */
++#elif defined(__GNU__)
++#   include <mach.h>            /* mach_thread_self(), mach_task_self(),
++                                   mach_port_deallocate() */
+ #endif
+ 
+ /* The POSIX spec requires that use of pthread_attr_setstacksize
+@@ -334,6 +339,9 @@ PyThread_get_thread_native_id(void)
+ #elif defined(__FreeBSD__)
+     int native_id;
+     native_id = pthread_getthreadid_np();
++#elif defined(__FreeBSD_kernel__)
++    long native_id;
++    syscall(SYS_thr_self, &native_id);
+ #elif defined(__OpenBSD__)
+     pid_t native_id;
+     native_id = getthrid();
+@@ -343,6 +351,10 @@ PyThread_get_thread_native_id(void)
+ #elif defined(__NetBSD__)
+     lwpid_t native_id;
+     native_id = _lwp_self();
++#elif defined(__GNU__)
++    mach_port_t native_id;
++    native_id = mach_thread_self();
++    mach_port_deallocate(mach_task_self(), mach_thread_self());
+ #endif
+     return (unsigned long) native_id;
+ }

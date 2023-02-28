@@ -1,0 +1,20 @@
++ runc --version
+++ mktemp -d
++ tempDir=/tmp/tmp.e7R5Tu0knv
++ trap 'rm -rf "$tempDir"' EXIT
+++ which busybox
++ busybox=/usr/bin/busybox
++ mkdir /tmp/tmp.e7R5Tu0knv/rootfs
++ cp -a /usr/bin/busybox /tmp/tmp.e7R5Tu0knv/rootfs/
++ chroot /tmp/tmp.e7R5Tu0knv/rootfs /busybox true
++ runc spec --bundle /tmp/tmp.e7R5Tu0knv
++ grep '"sh"' /tmp/tmp.e7R5Tu0knv/config.json
++ sed -i 's@"sh"@"/busybox","echo","success"@g' /tmp/tmp.e7R5Tu0knv/config.json
++ grep '"/busybox","echo","success"' /tmp/tmp.e7R5Tu0knv/config.json
++ grep '"terminal": true,' /tmp/tmp.e7R5Tu0knv/config.json
++ sed -i 's/"terminal": true,/"terminal": false,/g' /tmp/tmp.e7R5Tu0knv/config.json
++ grep '"terminal": false,' /tmp/tmp.e7R5Tu0knv/config.json
+++ runc run --bundle /tmp/tmp.e7R5Tu0knv test-1877-22195
++ output=success
++ '[' success = success ']'
++ rm -rf /tmp/tmp.e7R5Tu0knv

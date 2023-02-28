@@ -1,0 +1,172 @@
+t/00_load.t ........................ 
+1..2
+ok 1 - C3 in core
+ok 2 - Not using XS
+# Fast C3 provided by this perl version 5.030000 in core
+ok
+t/01_MRO.t ......................... 
+1..10
+ok 1 - ... got the right MRO for Diamond_D
+ok 2 - ... method resolved itself as expected
+ok 3 - ... can(method) resolved itself as expected
+ok 4 - ... can(method) resolved itself as expected
+ok 5 - ... old method resolution has been restored
+ok 6 - ... can(method) resolution has been restored
+ok 7 - ... can(method) resolution has been restored
+ok 8 - ... C3 method restored itself as expected
+ok 9 - ... C3 can(method) restored itself as expected
+ok 10 - ... C3 can(method) restored itself as expected
+ok
+t/02_MRO.t ......................... 
+1..14
+ok 1 - ... got the right MRO for Test::F
+ok 2 - ... got the right MRO for Test::E
+ok 3 - ... got the right MRO for Test::D
+ok 4 - ... got the right MRO for Test::C
+ok 5 - ... got the right MRO for Test::B
+ok 6 - ... got the right MRO for Test::A
+ok 7 - ... got the expected method output
+ok 8 - ... can got the expected method output
+ok 9 - ... got the expected method output
+ok 10 - ... can got the expected method output
+ok 11 - ...  old method resolution has been restored
+ok 12 - ...  old can(method) resolution has been restored
+ok 13 - ...  old method resolution has been restored
+ok 14 - ...  old can(method) resolution has been restored
+ok
+t/03_MRO.t ......................... 
+1..7
+ok 1 - ... got the right MRO for Test::A
+ok 2 - ... got the right method dispatch
+ok 3 - ... got the right method dispatch
+ok 4 - ... got the right method dispatch
+ok 5 - ... old dispatch order is restored
+ok 6 - ... old dispatch order is restored
+ok 7 - ... old dispatch order is restored
+ok
+t/04_MRO.t ......................... 
+1..1
+ok 1 - ... got the right MRO for the Vulcan Dylan Example
+ok
+t/05_MRO.t ......................... 
+1..1
+ok 1 - ... got the right MRO for ClassF
+ok
+t/06_MRO.t ......................... 
+1..2
+ok 1 - ... got the right MRO for Diamond_D
+ok 2 - ... got the right next::method dispatch path
+ok
+t/10_Inconsistent_hierarchy.t ...... 
+1..1
+ok 1 - ... got the right error with an inconsistent hierarchy
+ok
+t/20_reinitialize.t ................ 
+1..4
+ok 1 - ... got the right MRO for Diamond_D
+ok 2 - ... got the new MRO for Diamond_D
+ok 3 # skip This test does not work with a c3-patched perl interpreter
+ok 4 - ... method resolves with reinitialized MRO
+ok
+t/21_C3_with_overload.t ............ 
+1..8
+ok 1 - An object of class 'InheritingFromOverloadedTest' isa 'InheritingFromOverloadedTest'
+ok 2 - An object of class 'OverloadingTest' isa 'OverloadingTest'
+ok 3 - ... got the right value when stringifing
+ok 4 - ... got the right value when stringifing
+ok 5 - ... eq was handled correctly
+ok 6 - ... this should not throw an exception
+ok 7 - ... and we should get the true value
+ok 8 - Overloading to method name string
+ok
+t/22_uninitialize.t ................ 
+1..11
+ok 1 - ... method resolves with the correct MRO
+ok 2 - ... method resolves with the correct MRO
+ok 3 - ... method overwritten
+ok 4 - ... our SCALAR package vars are here
+ok 5 - ... our ARRAY package vars are here
+ok 6 - ... our HASH package vars are here
+ok 7 - ... method resolves with reinitialized MRO
+ok 8 - ... uninitialize does not mess with the manually changed method
+ok 9 - ... our SCALAR package vars are still here
+ok 10 - ... our ARRAY package vars are still here
+ok 11 - ... our HASH package vars are still here
+ok
+t/23_multi_init.t .................. 
+1..1
+ok 1 - double-initialize works ok
+ok
+t/24_more_overload.t ............... 
+1..3
+ok 1
+ok 2
+ok 3
+ok
+t/30_next_method.t ................. 
+1..5
+ok 1 - ... got the right MRO for Diamond_D
+ok 2 - ... method resolved itself as expected
+ok 3 - ... can(method) resolved itself as expected
+ok 4 - ... can(method) resolved itself as expected
+ok 5 - ... method foo resolved itself as expected
+ok
+t/31_next_method_skip.t ............ 
+1..10
+ok 1 - ... got the right MRO for Diamond_D
+ok 2 - ... skipped B and went to C correctly
+ok 3 - ... skipped B & C and went to A correctly
+ok 4 - ... called B method, skipped C and went to A correctly
+ok 5 - ... called D method dispatched to , different method correctly
+ok 6 - ... cannot re-dispatch to a method which is not there
+ok 7 - ... can re-dispatch figured out correctly
+ok 8 - ... cannot re-dispatch figured out correctly
+ok 9 - ... redispatched D to C when it exists
+ok 10 - ... quietly failed redispatch from D
+ok
+t/32_next_method_edge_cases.t ...... 
+1..11
+ok 1 - An object of class 'Foo' isa 'Foo'
+ok 2 - Foo->can('bar')
+ok 3 - ... got the right return value
+ok 4 - An object of class 'Bar' isa 'Bar'
+ok 5 - An object of class 'Bar' isa 'Foo'
+ok 6 - Bar->can('bar')
+ok 7 - ... calling bar() succedded
+ok 8 - ... got the right return value too
+ok 9 - An object of class 'Baz' isa 'Baz'
+ok 10 - An object of class 'Baz' isa 'Foo'
+ok 11 - ... calling bar() with next::method failed
+ok
+t/33_next_method_used_with_NEXT.t .. 
+1..4
+ok 1 - ... got the right value from Foo->foo
+ok 2 - ... got the right value from Fuz->foo
+ok 3 - ... got the right value from Bar->foo
+ok 4 - ... got the right value using NEXT in a subclass of a C3 class
+ok
+t/34_next_method_in_eval.t ......... 
+1..1
+ok 1 - method resolved inside eval{}
+ok
+t/35_next_method_in_anon.t ......... 
+1..2
+ok 1 - method resolved inside anonymous sub
+ok 2 - method resolved inside nested anonymous subs
+ok
+t/36_next_goto.t ................... 
+1..4
+ok 1 - proxy next::method via goto
+ok 2 - proxy maybe::next::method via goto
+ok 3 - proxy maybe::next::method via goto with no method
+ok 4 - proxy next::can via goto
+ok
+t/37_mro_warn.t .................... 
+1..2
+ok 1 - Class::C3 loaded ok
+ok 2 - loading Class::C3 did not generate warnings
+ok
+t/40_no_xs.t ....................... skipped: PP tests not applicable for this perl 5.030000
+All tests successful.
+Files=22, Tests=104, 23 wallclock secs ( 0.77 usr  0.45 sys + 16.84 cusr  5.51 csys = 23.57 CPU)
+Result: PASS

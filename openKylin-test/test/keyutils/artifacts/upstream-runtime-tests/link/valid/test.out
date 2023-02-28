@@ -1,0 +1,65 @@
+++++ BEGINNING TEST
++++ ADD KEYRING
+keyctl newring wibble @s
+45636221
++++ VALIDATE KEYRING
+keyctl rdescribe 45636221 @
+keyring@1000@1000@3f010000@wibble
++++ LIST KEYRING
+keyctl rlist 45636221
+
++++ ADD KEY
+keyctl add user lizard gizzard 45636221
+886551410
++++ LIST KEYRING WITH ONE
+keyctl rlist 45636221
+886551410
++++ LINK KEY 1
+keyctl link 886551410 @s
++++ CHECK KEY LINKAGE
+keyctl rlist @s
+45636221 886551410
++++ LINK KEY 2
+keyctl link 886551410 @s
++++ LINK KEY 3
+keyctl link 886551410 @s
++++ COUNT LINKS
+keyctl rlist @s
+45636221 886551410
++++ UNLINK KEY FROM SESSION
+keyctl unlink 886551410 @s
+keyctl unlink 886551410 @s
+keyctl_unlink: No such file or directory
++++ UNLINK KEY FROM KEYRING
+keyctl unlink 886551410 45636221
++++ WAITING FOR KEY TO BE UNLINKED
+keyctl unlink 886551410 45636221
+keyctl_unlink: Required key not available
+keyctl unlink 886551410 45636221
+keyctl_unlink: Required key not available
+keyctl newring zebra 45636221
+725363366
++++ LINK 2ND KEYRING TO SESSION
+keyctl link 725363366 @s
+keyctl link 725363366 @s
+keyctl link 725363366 @s
++++ COUNT KEYRING LINKS
+keyctl rlist @s
+45636221 725363366
++++ UNLINK 2ND KEYRING FROM SESSION
+keyctl unlink 725363366 @s
+keyctl unlink 725363366 @s
+keyctl_unlink: No such file or directory
++++ LINK 2ND KEYRING TO SESSION
+keyctl link 725363366 @s
++++ UNLINK KEYRING
+keyctl unlink 45636221 @s
++++ WAITING FOR KEY TO BE UNLINKED
+keyctl unlink 45636221 @s
+keyctl_unlink: Required key not available
++++ UNLINK 2ND KEYRING
+keyctl unlink 725363366 @s
++++ WAITING FOR KEY TO BE UNLINKED
+keyctl unlink 725363366 @s
+keyctl_unlink: Required key not available
+++++ FINISHED TEST: PASS

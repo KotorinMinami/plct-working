@@ -1,0 +1,54 @@
+++++ BEGINNING TEST
++++ CREATE KEYRINGS
+keyctl newring sandbox @s
+370540147
++++ CHECK REQUEST FAILS
+keyctl request user lizard 370540147
+request_key: Required key not available
++++ ADD USER KEY
+keyctl add user lizard gizzard 370540147
+975826530
++++ REQUEST KEY
+keyctl request user lizard
+975826530
++++ DETACH KEY FROM KEYRING
+keyctl unlink 975826530 370540147
++++ CALL OUT REQUEST KEY TO SESSION
+keyctl request2 user debug:lizard gizzard
+106986214
++++ CHECK ATTACHMENT TO SESSION KEYRING
+keyctl rlist @s
+370540147 106986214
++++ REDO CALL OUT REQUEST KEY TO SESSION
+keyctl request2 user debug:lizard gizzard
+106986214
++++ DETACH KEY FROM SESSION
+keyctl unlink 106986214 @s
++++ WAITING FOR KEY TO BE UNLINKED
+keyctl unlink 106986214 @s
+keyctl_unlink: Required key not available
+keyctl unlink 106986214 @s
+keyctl_unlink: Required key not available
++++ CALL OUT REQUEST KEY TO KEYRING
+keyctl request2 user debug:lizard gizzard 370540147
+354061376
++++ CHECK ATTACHMENT TO KEYRING
+keyctl rlist 370540147
+354061376
++++ CHECK ATTACHMENT TO SESSION
+keyctl rlist @s
+370540147 354061376
++++ REDO CALL OUT REQUEST KEY TO KEYRING
+keyctl request2 user debug:lizard gizzard 370540147
+354061376
++++ DETACH KEY
+keyctl unlink 354061376 370540147
+keyctl unlink 354061376 @s
++++ WAITING FOR KEY TO BE UNLINKED
+keyctl unlink 354061376 @s
+keyctl_unlink: Required key not available
+keyctl unlink 354061376 @s
+keyctl_unlink: Required key not available
++++ UNLINK KEYRINGS
+keyctl unlink 370540147 @s
+++++ FINISHED TEST: PASS

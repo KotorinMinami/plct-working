@@ -1,0 +1,1015 @@
+t/00-report-prereqs.t ....... 
+1..1
+# 
+# Versions for all modules listed in static metadata (including optional ones):
+# 
+# === Configure Requires ===
+# 
+#     Module              Want Have
+#     ------------------- ---- ----
+#     ExtUtils::MakeMaker  any 7.34
+# 
+# === Configure Suggests ===
+# 
+#     Module      Want Have
+#     -------- ------- ----
+#     JSON::PP 2.27300 4.02
+# 
+# === Test Requires ===
+# 
+#     Module              Want     Have
+#     ------------------- ---- --------
+#     ExtUtils::MakeMaker  any     7.34
+#     File::Spec           any     3.78
+#     File::Temp           any   0.2309
+#     PerlIO::encoding     any     0.27
+#     Test::More          0.88 1.302162
+#     Time::Local          any     1.28
+#     Try::Tiny            any     0.31
+#     URI::URL             any     5.04
+#     lib                  any     0.65
+#     overload             any     1.30
+# 
+# === Test Recommends ===
+# 
+#     Module         Want     Have
+#     ---------- -------- --------
+#     CPAN::Meta 2.120900 2.150010
+# 
+# === Runtime Requires ===
+# 
+#     Module                      Want  Have
+#     -------------------------- ----- -----
+#     Carp                         any  1.50
+#     Compress::Raw::Zlib          any 2.084
+#     Encode                      3.01  3.01
+#     Encode::Locale                 1  1.05
+#     Exporter                    5.57  5.73
+#     File::Spec                   any  3.78
+#     HTTP::Date                     6  6.05
+#     IO::Compress::Bzip2        2.021 2.084
+#     IO::Compress::Deflate        any 2.084
+#     IO::Compress::Gzip           any 2.084
+#     IO::HTML                     any 1.004
+#     IO::Uncompress::Bunzip2    2.021 2.084
+#     IO::Uncompress::Gunzip       any 2.084
+#     IO::Uncompress::Inflate      any 2.084
+#     IO::Uncompress::RawInflate   any 2.084
+#     LWP::MediaTypes                6  6.04
+#     MIME::Base64                 2.1  3.15
+#     MIME::QuotedPrint            any  3.13
+#     URI                         1.10  1.76
+#     base                         any  2.27
+#     strict                       any  1.11
+#     warnings                     any  1.44
+# 
+# === Runtime Suggests ===
+# 
+#     Module Want Have
+#     ------ ---- ----
+#     Clone   any 0.45
+# 
+ok 1 - Reported prereqs
+ok
+t/common-req.t .............. 
+1..71
+# GET http://www.sn.no/
+# 
+ok 1
+ok 2
+# HEAD http://www.sn.no/
+# From: aas@sn.no
+# If-Match: abc
+# 
+ok 3
+ok 4
+ok 5
+ok 6
+ok 7
+ok 8
+ok 9
+# PUT http://www.sn.no
+# Content-Length: 3
+# Content-Type: application/x-www-form-urlencoded
+# 
+# foo
+# 
+ok 10
+ok 11
+ok 12
+ok 13
+ok 14
+ok 15
+ok 16
+# OPTIONS http://www.sn.no
+# Content-Length: 3
+# Content-Type: application/x-www-form-urlencoded
+# 
+# foo
+# 
+ok 17
+ok 18
+ok 19
+ok 20
+ok 21
+ok 22
+ok 23
+ok 24
+# POST http://www.sn.no
+# Content-Length: 83
+# Content-Type: application/x-www-form-urlencoded
+# Bar: foo
+# 
+# foo=bar%3Bbaz&baz=a&baz=b&baz=c&foo=zoo%3D%26&space+=+%2B+&nl=a%0D%0Ab%0D%0Ac%0D%0A
+# 
+ok 25
+ok 26
+ok 27
+ok 28
+ok 29
+ok 30
+ok 31
+ok 32
+ok 33
+ok 34
+ok 35
+ok 36
+ok 37
+ok 38 - empty POST
+ok 39
+ok 40
+ok 41
+ok 42
+# 
+# Content-Disposition: form-data; name="file"; filename="RjN3UqNzCH"
+# Content-Type: text/plain
+# 
+# foo
+# bar
+# baz
+# 
+# 
+ok 43
+ok 44
+ok 45
+ok 46
+ok 47
+ok 48
+ok 49
+ok 50
+ok 51
+ok 52
+ok 53
+ok 54
+ok 55
+ok 56
+ok 57
+ok 58
+ok 59
+ok 60
+ok 61
+ok 62
+ok 63
+ok 64
+ok 65
+ok 66
+ok 67
+ok 68
+ok 69
+ok 70
+ok 71
+ok
+t/headers-auth.t ............ 
+1..9
+# 401 Unauthorized
+# WWW-Authenticate: Foo realm="WallyWorld", foo=bar, Bar realm="WallyWorld2"
+# WWW-Authenticate: Basic Realm="WallyWorld", foo=bar, bar=baz
+# 
+ok 1
+ok 2
+ok 3
+ok 4
+# 401 Unauthorized
+# WWW-Authenticate: Basic realm=foo1
+# 
+401 Unauthorized
+WWW-Authenticate: Basic realm="foo2"
+
+# 401 Unauthorized
+# WWW-Authenticate: Basic realm="foo3", foo=33
+# WWW-Authenticate: Digest foo=foo, nonce=bar
+# 
+ok 5
+ok 6
+ok 7
+ok 8
+ok 9
+ok
+t/headers-etag.t ............ 
+1..11
+ok 1
+ok 2
+ok 3
+ok 4
+ok 5
+ok 6
+ok 7
+ok 8
+# If-Match: W/"foo", "bar", "baz", "bar"
+# If-None-Match: "333"
+# If-Range: Mon, 20 Feb 2023 05:43:41 GMT
+# ETag: 
+ok 9
+ok 10
+ok 11
+ok
+t/headers-util.t ............ 
+1..17
+ok 1
+ok 2
+ok 3
+ok 4
+ok 5
+ok 6
+ok 7
+ok 8
+ok 9
+ok 10
+ok 11
+ok 12
+ok 13
+# # Extra tests
+ok 14
+ok 15
+ok 16
+ok 17
+ok
+t/headers.t ................. 
+1..189
+ok 1
+ok 2
+ok 3
+ok 4
+ok 5
+ok 6
+ok 7
+ok 8
+ok 9
+ok 10
+ok 11
+ok 12
+ok 13
+ok 14
+ok 15
+ok 16
+ok 17
+ok 18
+ok 19
+ok 20
+ok 21
+ok 22
+ok 23
+ok 24
+ok 25
+ok 26
+ok 27
+ok 28
+ok 29
+ok 30
+ok 31
+ok 32
+ok 33
+ok 34
+ok 35
+ok 36
+ok 37
+ok 38
+ok 39
+ok 40
+ok 41
+ok 42
+ok 43
+ok 44
+ok 45
+ok 46
+ok 47
+ok 48
+ok 49
+ok 50
+ok 51
+ok 52
+ok 53
+ok 54
+ok 55
+ok 56
+ok 57
+ok 58
+ok 59
+ok 60
+ok 61
+ok 62
+ok 63
+ok 64
+ok 65
+ok 66
+ok 67
+ok 68
+ok 69
+ok 70
+ok 71
+ok 72
+ok 73
+ok 74
+ok 75
+ok 76
+ok 77
+ok 78
+ok 79
+ok 80
+ok 81
+ok 82
+ok 83
+ok 84
+ok 85
+ok 86
+ok 87
+ok 88
+ok 89
+ok 90
+ok 91
+ok 92
+ok 93
+ok 94
+ok 95
+ok 96
+ok 97
+ok 98
+ok 99
+ok 100
+ok 101
+ok 102
+ok 103
+ok 104
+ok 105
+ok 106
+ok 107
+ok 108
+ok 109
+ok 110
+ok 111
+ok 112
+ok 113
+ok 114
+ok 115
+ok 116
+ok 117
+ok 118
+ok 119
+ok 120
+ok 121
+ok 122
+ok 123
+ok 124
+ok 125
+ok 126
+ok 127
+ok 128
+ok 129
+ok 130
+ok 131
+ok 132
+ok 133
+ok 134
+ok 135
+ok 136
+ok 137
+ok 138
+ok 139
+ok 140
+ok 141
+ok 142
+ok 143
+ok 144
+ok 145
+ok 146
+ok 147
+ok 148
+ok 149
+ok 150
+ok 151
+ok 152
+ok 153
+ok 154
+ok 155
+ok 156
+ok 157 - embedded CRLF are stripped out
+ok 158
+ok 159
+ok 160
+ok 161
+ok 162
+ok 163
+ok 164
+ok 165
+ok 166
+ok 167
+ok 168
+ok 169
+ok 170
+ok 171
+ok 172
+ok 173
+ok 174
+ok 175
+ok 176
+ok 177
+ok 178
+ok 179
+ok 180
+ok 181
+ok 182
+ok 183
+ok 184
+ok 185
+ok 186
+ok 187
+ok 188
+# Subtest: object that stringifies is a valid value
+    ok 1 - correct headers
+    1..1
+ok 189 - object that stringifies is a valid value
+ok
+t/http-config.t ............. 
+1..30
+ok 1
+ok 2
+ok 3
+ok 4
+ok 5
+ok 6
+ok 7
+ok 8
+ok 9
+ok 10
+ok 11
+ok 12
+ok 13
+ok 14
+ok 15
+ok 16
+ok 17
+ok 18
+ok 19
+ok 20
+ok 21
+ok 22
+ok 23
+ok 24
+ok 25
+ok 26
+ok 27 - found and removed the config entry
+ok 28 - no warnings
+ok 29
+ok 30 - no warnings
+ok
+t/message-charset.t ......... 
+1..43
+ok 1
+ok 2
+ok 3
+ok 4
+ok 5
+ok 6
+ok 7
+ok 8
+ok 9
+ok 10
+ok 11
+ok 12
+ok 13
+ok 14
+ok 15
+ok 16
+ok 17
+ok 18
+ok 19
+ok 20
+ok 21
+ok 22
+ok 23
+ok 24
+ok 25
+ok 26
+ok 27 - content_charset leaves $_ alone
+ok 28
+ok 29
+ok 30
+ok 31
+ok 32
+ok 33
+ok 34
+ok 35
+ok 36
+ok 37
+ok 38
+ok 39
+ok 40
+ok 41
+ok 42
+ok 43
+ok
+t/message-decode-xml.t ...... 
+1..2
+ok 1 - UTF-8
+ok 2 - UTF-16le
+ok
+t/message-old.t ............. 
+1..20
+ok 1
+ok 2
+ok 3
+ok 4
+ok 5
+ok 6
+ok 7
+ok 8
+ok 9
+ok 10
+ok 11
+ok 12
+ok 13
+ok 14
+ok 15
+ok 16
+ok 17
+ok 18
+ok 19
+ok 20
+ok
+t/message-parts.t ........... 
+1..47
+ok 1
+ok 2
+ok 3
+ok 4
+ok 5
+ok 6
+ok 7
+ok 8
+ok 9
+ok 10
+ok 11
+ok 12
+ok 13
+ok 14
+ok 15
+ok 16
+ok 17
+ok 18
+ok 19
+ok 20
+ok 21
+ok 22
+ok 23
+ok 24
+ok 25
+ok 26
+ok 27
+ok 28
+ok 29
+ok 30
+ok 31
+ok 32
+ok 33
+ok 34
+ok 35
+ok 36
+ok 37
+ok 38
+ok 39
+ok 40
+ok 41
+ok 42
+ok 43
+ok 44
+ok 45
+ok 46
+ok 47
+ok
+t/message.t ................. 
+1..208
+ok 1
+ok 2
+ok 3
+ok 4
+ok 5
+ok 6
+ok 7
+ok 8
+ok 9
+ok 10
+ok 11
+ok 12
+ok 13
+ok 14
+ok 15
+ok 16
+ok 17
+ok 18
+ok 19
+ok 20
+ok 21
+ok 22
+ok 23
+ok 24
+ok 25
+ok 26
+ok 27
+ok 28
+ok 29
+ok 30
+ok 31
+ok 32
+ok 33
+ok 34
+ok 35
+ok 36
+ok 37
+ok 38
+ok 39
+ok 40
+ok 41
+ok 42
+ok 43
+ok 44
+ok 45
+ok 46
+ok 47
+ok 48
+ok 49
+ok 50
+ok 51
+ok 52
+ok 53
+ok 54
+ok 55
+ok 56
+ok 57
+ok 58
+ok 59
+ok 60
+ok 61
+ok 62
+ok 63
+ok 64
+ok 65
+ok 66
+ok 67
+ok 68
+ok 69
+ok 70
+ok 71
+ok 72
+ok 73
+ok 74
+ok 75
+ok 76
+ok 77
+ok 78
+ok 79
+ok 80
+ok 81
+ok 82
+ok 83
+ok 84
+ok 85
+ok 86
+ok 87
+ok 88
+ok 89
+ok 90
+ok 91
+ok 92
+ok 93
+ok 94
+ok 95
+ok 96
+ok 97
+ok 98
+ok 99
+ok 100
+ok 101
+ok 102
+ok 103
+ok 104
+ok 105
+ok 106
+ok 107
+ok 108
+ok 109
+ok 110
+ok 111
+ok 112
+ok 113
+ok 114
+ok 115
+ok 116
+ok 117
+ok 118
+ok 119
+ok 120
+ok 121
+ok 122
+ok 123
+ok 124
+ok 125
+ok 126
+ok 127
+ok 128
+ok 129
+ok 130
+ok 131
+ok 132
+ok 133
+ok 134
+ok 135
+ok 136
+ok 137
+ok 138
+ok 139
+ok 140
+ok 141
+ok 142
+ok 143
+ok 144
+# Content-Encoding: deflate
+# Content-Type: text/plain
+# 
+# x\x9C\xF3H\xCD\xC9\xC9W(\xCF/\xCAIQ\4\0\35\t\4^
+ok 145
+ok 146
+ok 147
+ok 148
+ok 149
+ok 150
+ok 151
+ok 152
+ok 153
+ok 154
+ok 155
+ok 156
+ok 157
+ok 158
+ok 159
+ok 160
+ok 161
+ok 162
+ok 163
+ok 164
+ok 165
+ok 166
+ok 167
+ok 168
+ok 169
+ok 170
+ok 171
+ok 172
+ok 173
+ok 174
+ok 175
+ok 176
+ok 177
+ok 178
+ok 179
+ok 180
+ok 181
+ok 182
+ok 183
+ok 184
+ok 185
+ok 186
+ok 187
+ok 188
+ok 189
+ok 190
+ok 191
+ok 192
+ok 193
+ok 194
+ok 195 - decodable() does not overwrite $@
+ok 196
+ok 197
+ok 198
+ok 199
+ok 200
+ok 201
+ok 202
+ok 203
+ok 204
+ok 205
+ok 206
+ok 207
+ok 208
+ok
+t/request.t ................. 
+1..39
+ok 1
+ok 2
+ok 3
+# GET http://www.example.com
+# Accept-Encoding: gzip, x-gzip, deflate, x-bzip2, bzip2
+# 
+# (no content)
+ok 4
+ok 5
+ok 6
+ok 7
+ok 8
+ok 9
+ok 10
+ok 11
+ok 12 - Object can scheme()
+ok 13 - Object without canonical method triggers an exception
+ok 14 - Object can canonical()
+ok 15 - Object with canonical method does not trigger an exception
+ok 16 - Object cannot scheme()
+ok 17 - Object without scheme method triggers an exception
+ok 18 - Works when canonical uri not yet cached
+ok 19 - Works when canonical uri has been cached
+ok 20 - Works when canonical uri not yet cached with URI::URL
+ok 21 - Works when canonical uri has been cached with URI::URL
+ok 22
+ok 23
+ok 24
+ok 25
+ok 26
+ok 27
+ok 28
+ok 29
+ok 30
+ok 31
+ok 32
+ok 33
+ok 34
+ok 35
+ok 36
+ok 37
+ok 38
+ok 39
+ok
+t/request_type_with_data.t .. 
+ok 1 - An object of class 'HTTP::Request' isa 'HTTP::Request'
+ok 2 - no warnings
+1..2
+ok
+t/response.t ................ 
+1..68
+ok 1 - Empty res: is_success
+ok 2 - Empty res: is_info
+ok 3 - Empty res: is_redirect
+ok 4 - Empty res: is_error
+ok 5 - Empty res: is_client_error
+ok 6 - Empty res: is_server_error
+ok 7 - Empty res: filename
+ok 8
+ok 9
+ok 10
+ok 11
+ok 12
+# current_age        = 35
+# freshness_lifetime = 86400
+# response is fresh
+# it will be fresh for 86365 more seconds
+
+# 200 OK
+# Date: Mon, 20 Feb 2023 05:43:38 GMT
+# Expires: Mon, 20 Feb 2023 05:44:03 GMT
+# Last-Modified: Sat, 24 Dec 2022 08:50:43 GMT
+# Client-Date: Mon, 20 Feb 2023 05:43:43 GMT
+# 
+# (no content)
+ok 13
+# current_age        = 330
+# freshness_lifetime = 10
+ok 14
+ok 15
+ok 16
+ok 17
+ok 18 - message() returns as expected
+ok 19
+ok 20
+ok 21
+ok 22
+ok 23
+ok 24
+ok 25
+ok 26
+ok 27
+ok 28
+ok 29
+ok 30
+ok 31
+ok 32
+ok 33
+ok 34
+ok 35
+ok 36
+ok 37
+ok 38
+ok 39
+ok 40
+ok 41
+ok 42
+ok 43
+ok 44
+ok 45
+ok 46
+ok 47
+ok 48
+ok 49
+ok 50
+ok 51
+ok 52
+ok 53
+ok 54
+ok 55
+ok 56
+ok 57
+ok 58
+ok 59
+ok 60
+ok 61
+ok 62
+ok 63
+ok 64
+ok 65
+ok 66
+ok 67
+ok 68
+ok
+t/status-old.t .............. 
+1..8
+ok 1
+ok 2
+ok 3
+ok 4
+ok 5
+ok 6
+ok 7
+ok 8
+ok
+t/status.t .................. 
+1..49
+ok 1
+ok 2
+ok 3
+ok 4
+ok 5
+ok 6
+ok 7
+ok 8
+ok 9
+ok 10
+ok 11
+ok 12
+ok 13
+ok 14
+ok 15
+ok 16
+ok 17
+ok 18
+ok 19
+ok 20
+ok 21
+ok 22
+ok 23
+ok 24
+ok 25
+ok 26
+ok 27
+ok 28
+ok 29
+ok 30
+ok 31
+ok 32 - Cacheable by default [200] OK
+ok 33 - Cacheable by default [203] Non-Authoritative Information
+ok 34 - Cacheable by default [204] No Content
+ok 35 - Cacheable by default [206] Partial Content
+ok 36 - Cacheable by default [300] Multiple Choices
+ok 37 - Cacheable by default [301] Moved Permanently
+ok 38 - Cacheable by default [308] Permanent Redirect
+ok 39 - Cacheable by default [404] Not Found
+ok 40 - Cacheable by default [405] Method Not Allowed
+ok 41 - Cacheable by default [410] Gone
+ok 42 - Cacheable by default [414] URI Too Long
+ok 43 - Cacheable by default [451] Unavailable For Legal Reasons
+ok 44 - Cacheable by default [501] Not Implemented
+ok 45 - ... is not cacheable [100] Continue
+ok 46 - ... is not cacheable [201] Created
+ok 47 - ... is not cacheable [302] Found
+ok 48 - ... is not cacheable [400] Bad Request
+ok 49 - ... is not cacheable [500] Internal Server Error
+ok
+All tests successful.
+Files=17, Tests=814, 34 wallclock secs ( 1.43 usr  0.52 sys + 26.14 cusr  6.95 csys = 35.04 CPU)
+Result: PASS

@@ -1,0 +1,64 @@
+t/pty_get_winsize.t .. 
+1..1
+not ok 1 - get_winsize() doesn’t warn
+
+#   Failed test 'get_winsize() doesn’t warn'
+#   at t/pty_get_winsize.t line 28.
+#     Structures begin differing at:
+#          $got->[0] = 'Use of uninitialized value $winsize in ioctl at /usr/lib/riscv64-linux-gnu/perl5/5.30/IO/Tty.pm line 71.
+#     '
+#     $expected->[0] = Does not exist
+# Looks like you failed 1 test of 1.
+Dubious, test returned 1 (wstat 256, 0x100)
+Failed 1/1 subtests 
+t/test.t ............. 
+1..5
+# Configuration: -DHAVE_DEV_PTMX -DHAVE_GETPT -DHAVE_GRANTPT -DHAVE_POSIX_OPENPT -DHAVE_PTSNAME -DHAVE_PTSNAME_R -DHAVE_PTY_H -DHAVE_SIGACTION -DHAVE_TERMIOS_H -DHAVE_TERMIO_H -DHAVE_TTYNAME -DHAVE_UNLOCKPT
+# Checking for appropriate ioctls:
+# TIOCNOTTY
+# TIOCSCTTY
+trying posix_openpt()...
+trying grantpt()...
+trying unlockpt()...
+trying ptsname_r()...
+trying to open /dev/pts/0...
+ok 1 - fork exits with 0 exit code
+ok 2 - 0 exit code from forked child - Checking that returned fd's don't clash with stdin/out/err
+#  === Checking if child gets pty as controlling terminal
+trying posix_openpt()...
+trying grantpt()...
+trying unlockpt()...
+trying ptsname_r()...
+trying to open /dev/pts/0...
+ok 3 - master object outputs: 'gimme on /dev/tty: '
+ok 4 - STDOUT looks right
+
+WARNING: when the client closes the slave pty, the master gets an error
+(undef return value and $! eq "Input/output error")
+instead of EOF (0 return value).  Please be sure to handle this 
+in your application (Expect already does).
+
+# Checking basic functionality and how your ptys handle large strings...
+#   This test may hang on certain systems, even though it is protected
+#   by alarm().  If the counter stops, try Ctrl-C, the test should continue.
+trying posix_openpt()...
+trying grantpt()...
+trying unlockpt()...
+trying ptsname_r()...
+trying to open /dev/pts/0...
+# isatty($master): YES
+# isatty($slave): YES
+# Child PID = 3902
+# Good, your raw ptys can handle at least 530 bytes at once.
+ok 5 - $maxlen >= 200 (530)
+sysread(): Input/output error at t/test.t line 154.
+Slave got EOF at line 530, byte 0.
+ok
+
+Test Summary Report
+-------------------
+t/pty_get_winsize.t (Wstat: 256 Tests: 1 Failed: 1)
+  Failed test:  1
+  Non-zero exit status: 1
+Files=2, Tests=6, 28 wallclock secs ( 0.34 usr  0.14 sys +  7.17 cusr 11.11 csys = 18.76 CPU)
+Result: FAIL

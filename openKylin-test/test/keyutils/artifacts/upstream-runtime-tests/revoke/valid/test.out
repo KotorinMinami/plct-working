@@ -1,0 +1,37 @@
+++++ BEGINNING TEST
++++ ADD KEYRING
+keyctl newring wibble @s
+147626081
++++ ADD KEY
+keyctl add user lizard gizzard 147626081
+756600400
++++ LIST KEYRING
+keyctl rlist 147626081
+756600400
++++ CHECK VALIDATE KEY
+keyctl rdescribe 756600400 @
+user@1000@1000@3f010000@lizard
++++ CHECK READ PAYLOAD
+keyctl print 756600400
+gizzard
++++ REVOKE KEY
+keyctl revoke 756600400
++++ CHECK NO VALIDATE KEY
+keyctl rdescribe 756600400 @
+keyctl_describe: Key has been revoked
++++ CHECK NO READ PAYLOAD
+keyctl print 756600400
+keyctl_read_alloc: Key has been revoked
++++ UNLINK KEY
+keyctl unlink 756600400 147626081
++++ REVOKE KEYRING
+keyctl revoke 147626081
++++ CHECK NO LIST SESSION KEYRING
+keyctl rlist 147626081
+keyctl_read_alloc: Key has been revoked
++++ CHECK NO VALIDATE KEYRING
+keyctl rdescribe 147626081 @
+keyctl_describe: Key has been revoked
++++ UNLINK KEYRING
+keyctl unlink 147626081 @s
+++++ FINISHED TEST: PASS

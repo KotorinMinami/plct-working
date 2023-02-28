@@ -1,0 +1,92 @@
+t/negotiate.t .. 
+1..5
+# Running under perl version 5.030000 for linux
+# Current time local: Mon Feb 20 05:50:43 2023
+# Current time GMT:   Mon Feb 20 05:50:43 2023
+# Using Test.pm version 1.31
+-------------
+Redundant argument in printf at t/negotiate.t line 109.
+var2   1.000
+Redundant argument in printf at t/negotiate.t line 109.
+var1   0.950
+Redundant argument in printf at t/negotiate.t line 109.
+var3   0.333
+-------------
+ok 1
+The chosen one is 'var2'
+ok 2
+-------------
+Redundant argument in printf at t/negotiate.t line 109.
+var2   0.250
+Redundant argument in printf at t/negotiate.t line 109.
+var1   0.000
+Redundant argument in printf at t/negotiate.t line 109.
+var3   0.000
+-------------
+ok 3
+Negotiation parameters in the request
+ language:
+    de
+      q = 1
+    en
+      q = 0.9999
+    es
+      q = 0.1
+    fr
+      q = 0.5
+
+Evaluating var-en (ct='text/html')
+  qs   = 1.000
+  lang = en
+ -- Exact language match at q=0.9999
+Q=0.9999  (q=1, mbx=undef, qe=1, qc=1, ql=0.9999, qs=1)
+
+Evaluating var-de (ct='text/html')
+  qs   = 1.000
+  lang = de
+ -- Exact language match at q=1
+Q=1.0000  (q=1, mbx=undef, qe=1, qc=1, ql=1, qs=1)
+
+Evaluating var-ES (ct='text/html')
+  qs   = 1.000
+  lang = es
+ -- Exact language match at q=0.1
+Q=0.1000  (q=1, mbx=undef, qe=1, qc=1, ql=0.1, qs=1)
+
+Evaluating provoke-warning (ct='')
+  qs   = 1.000
+  lang = x-no-content-type
+ -- No exact language match
+ -- x-no-content-type  isn't a de
+ -- x-no-content-type  isn't a en
+ -- x-no-content-type  isn't a es
+ -- x-no-content-type  isn't a fr
+Q=0.0010  (q=1, mbx=undef, qe=1, qc=1, ql=0.001, qs=1)
+ok 4
+Negotiation parameters in the request
+ language:
+    en-us
+      q = 1
+
+Evaluating Canadian English (ct='text/html')
+  qs   = 1.000
+  lang = en-ca
+ -- No exact language match
+ -- en-ca  isn't a en-us
+Q=0.0010  (q=1, mbx=undef, qe=1, qc=1, ql=0.001, qs=1)
+
+Evaluating Generic English (ct='text/html')
+  qs   = 1.000
+  lang = en
+ -- No exact language match
+ -- en-us ISA en
+Q=1.0000  (q=1, mbx=undef, qe=1, qc=1, ql=1, qs=1)
+
+Evaluating Non-Specific (ct='text/html')
+  qs   = 1.000
+Q=0.5000  (q=1, mbx=undef, qe=1, qc=1, ql=0.5, qs=1)
+ok 5
+ok
+All tests successful.
+Files=1, Tests=5,  1 wallclock secs ( 0.35 usr  0.12 sys +  0.56 cusr  0.12 csys =  1.15 CPU)
+Result: PASS

@@ -1,0 +1,33 @@
++ + greptestparm -s -qE
+ ^\[homes\]
++ echo Adding [homes] share
++ cat
++ systemctl reload smbd.service
++ username=smbtest1690
++ password=1690
++ echo Creating a local test user called smbtest1690
++ useradd -m smbtest1690
++ echo Setting samba password for the smbtest1690 user
++ echo 1690\n1690
++ smbpasswd -s -a smbtest1690
++ eval echo ~smbtest1690
++ echo /home/smbtest1690
++ userhome=/home/smbtest1690
++ echo Creating file with random data and computing its md5
++ dd if=/dev/urandom bs=1 count=128+ 
+base64
++ chown smbtest1690:smbtest1690 /home/smbtest1690/data
++ cd /home/smbtest1690
++ md5sum data
++ echo Mounting //localhost/smbtest1690 via CIFS
++ mktemp -d
++ temp_mount=/tmp/tmp.Aj5X5yoKWm
++ mount -t cifs //localhost/smbtest1690 /tmp/tmp.Aj5X5yoKWm -o user=smbtest1690,username=smbtest1690,password=1690
++ echo Verifying MD5 via cifs
++ cd /tmp/tmp.Aj5X5yoKWm
++ md5sum -c data.md5
++ result=0
++ cd -
++ umount /tmp/tmp.Aj5X5yoKWm
++ rmdir /tmp/tmp.Aj5X5yoKWm
++ exit 0

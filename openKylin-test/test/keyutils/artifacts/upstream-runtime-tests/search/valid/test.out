@@ -1,0 +1,95 @@
+++++ BEGINNING TEST
++++ ADD KEYRING
+keyctl newring wibble @s
+549772649
+keyctl newring wibble2 @s
+41803666
++++ ADD KEY
+keyctl add user lizard gizzard 549772649
+1030691482
++++ LIST KEYRING WITH ONE
+keyctl rlist 549772649
+1030691482
++++ SEARCH SESSION FOR NON-EXISTENT KEY
+keyctl search @s user snake
+keyctl_search: Required key not available
++++ SEARCH SESSION
+keyctl search @s user lizard
+1030691482
++++ SEARCH SESSION AND ATTACH
+keyctl search @s user lizard 41803666
+1030691482
++++ CHECK ATTACHED
+keyctl rlist 41803666
+1030691482
++++ CHECK PAYLOAD
+keyctl print 1030691482
+gizzard
++++ DETACH KEY
+keyctl unlink 1030691482 41803666
+keyctl add user lizard skin 41803666
+539266827
++++ CHECK PAYLOADS
+keyctl print 1030691482
+gizzard
+keyctl print 539266827
+skin
++++ SEARCH SESSION AGAIN
+keyctl search @s user lizard
+1030691482
++++ SEARCH FIRST KEYRING
+keyctl search 549772649 user lizard
+1030691482
++++ SEARCH SECOND KEYRING
+keyctl search 41803666 user lizard
+539266827
++++ LINK FIRST KEYRING TO SECOND
+keyctl link 41803666 549772649
++++ SEARCH FIRST KEYRING AGAIN
+keyctl search 549772649 user lizard
+1030691482
+keyctl revoke 1030691482
+keyctl search 549772649 user lizard
+539266827
++++ UNLINK FIRST KEY
+keyctl unlink 1030691482 549772649
++++ SEARCH FIRST KEYRING AGAIN 2
+keyctl search 549772649 user lizard
+539266827
++++ SEARCH SESSION KEYRING AGAIN 2
+keyctl search @s user lizard
+539266827
++++ UNLINK SECOND KEYRING FROM FIRST
+keyctl unlink 41803666 549772649
++++ SEARCH FIRST KEYRING FOR FAIL
+keyctl search 549772649 user lizard
+keyctl_search: Required key not available
++++ SEARCH SESSION KEYRING AGAIN 3
+keyctl search @s user lizard
+539266827
++++ MOVE SECOND KEYRING INTO FIRST
+keyctl link 41803666 549772649
+keyctl unlink 41803666 @s
++++ SEARCH FIRST KEYRING AGAIN 4
+keyctl search 549772649 user lizard
+539266827
++++ SEARCH WITH NO-SEARCH KEYRING
+keyctl setperm 41803666 0x370000
+keyctl search 549772649 user lizard
+keyctl_search: Required key not available
+keyctl setperm 41803666 0x3f0000
+keyctl search 549772649 user lizard
+539266827
++++ SEARCH WITH NO-SEARCH KEYRING2
+keyctl setperm 41803666 0x370000
+keyctl search 549772649 user lizard
+keyctl_search: Required key not available
+keyctl setperm 41803666 0x3f0000
+keyctl search 549772649 user lizard
+539266827
+keyctl revoke 539266827
+keyctl search 549772649 user lizard
+keyctl_search: Key has been revoked
++++ UNLINK KEYRING
+keyctl unlink 549772649 @s
+++++ FINISHED TEST: PASS

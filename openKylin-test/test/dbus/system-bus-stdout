@@ -1,0 +1,380 @@
++ failed=
++ user=openkylin
++ test -S /var/run/dbus/system_bus_socket
++ test /run/dbus/system_bus_socket -ef /var/run/dbus/system_bus_socket
++ getent passwd messagebus
+messagebus:x:104:105::/nonexistent:/usr/sbin/nologin
++ getent group messagebus
+messagebus:x:105:
++ [ -d /run/systemd ]
++ journalctl_pid=1984
++ as_normal_user dbus-send --system --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus+  org.freedesktop.DBus.Introspectable.Introspect
+journalctl -f
++ runuser -u openkylin -- dbus-send --system --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.Introspectable.Introspect
+-- Logs begin at Tue 2023-01-17 17:50:42 UTC. --
+Feb 14 05:00:43 openkylin systemd[1959]: Reached target Basic System.
+Feb 14 05:00:43 openkylin systemd[1959]: Condition check resulted in PipeWire Multimedia Service being skipped.
+Feb 14 05:00:43 openkylin systemd[1959]: pipewire-media-session.service: Bound to unit pipewire.service, but unit isn't active.
+Feb 14 05:00:43 openkylin systemd[1959]: Dependency failed for PipeWire Media Session Manager.
+Feb 14 05:00:43 openkylin systemd[1959]: pipewire-media-session.service: Job pipewire-media-session.service/start failed with result 'dependency'.
+Feb 14 05:00:43 openkylin systemd[1]: Started User Manager for UID 0.
+Feb 14 05:00:43 openkylin systemd[1959]: Condition check resulted in PipeWire PulseAudio being skipped.
+Feb 14 05:00:43 openkylin systemd[1959]: Reached target Main User Target.
+Feb 14 05:00:43 openkylin systemd[1959]: Startup finished in 1.079s.
+Feb 14 05:00:43 openkylin systemd[1]: Started Session c2 of user root.
+method return time=1676350844.620888 sender=org.freedesktop.DBus -> destination=:1.43 serial=3 reply_serial=2
+   string "<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+"http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="org.freedesktop.DBus">
+    <method name="Hello">
+      <arg direction="out" type="s"/>
+    </method>
+    <method name="RequestName">
+      <arg direction="in" type="s"/>
+      <arg direction="in" type="u"/>
+      <arg direction="out" type="u"/>
+    </method>
+    <method name="ReleaseName">
+      <arg direction="in" type="s"/>
+      <arg direction="out" type="u"/>
+    </method>
+    <method name="StartServiceByName">
+      <arg direction="in" type="s"/>
+      <arg direction="in" type="u"/>
+      <arg direction="out" type="u"/>
+    </method>
+    <method name="UpdateActivationEnvironment">
+      <arg direction="in" type="a{ss}"/>
+    </method>
+    <method name="NameHasOwner">
+      <arg direction="in" type="s"/>
+      <arg direction="out" type="b"/>
+    </method>
+    <method name="ListNames">
+      <arg direction="out" type="as"/>
+    </method>
+    <method name="ListActivatableNames">
+      <arg direction="out" type="as"/>
+    </method>
+    <method name="AddMatch">
+      <arg direction="in" type="s"/>
+    </method>
+    <method name="RemoveMatch">
+      <arg direction="in" type="s"/>
+    </method>
+    <method name="GetNameOwner">
+      <arg direction="in" type="s"/>
+      <arg direction="out" type="s"/>
+    </method>
+    <method name="ListQueuedOwners">
+      <arg direction="in" type="s"/>
+      <arg direction="out" type="as"/>
+    </method>
+    <method name="GetConnectionUnixUser">
+      <arg direction="in" type="s"/>
+      <arg direction="out" type="u"/>
+    </method>
+    <method name="GetConnectionUnixProcessID">
+      <arg direction="in" type="s"/>
+      <arg direction="out" type="u"/>
+    </method>
+    <method name="GetAdtAuditSessionData">
+      <arg direction="in" type="s"/>
+      <arg direction="out" type="ay"/>
+    </method>
+    <method name="GetConnectionSELinuxSecurityContext">
+      <arg direction="in" type="s"/>
+      <arg direction="out" type="ay"/>
+    </method>
+    <method name="GetConnectionAppArmorSecurityContext">
+      <arg direction="in" type="s"/>
+      <arg direction="out" type="s"/>
+    </method>
+    <method name="ReloadConfig">
+    </method>
+    <method name="GetId">
+      <arg direction="out" type="s"/>
+    </method>
+    <method name="GetConnectionCredentials">
+      <arg direction="in" type="s"/>
+      <arg direction="out" type="a{sv}"/>
+    </method>
+    <property name="Features" type="as" access="read">
+      <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="const"/>
+    </property>
+    <property name="Interfaces" type="as" access="read">
+      <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="const"/>
+    </property>
+    <signal name="NameOwnerChanged">
+      <arg type="s"/>
+      <arg type="s"/>
+      <arg type="s"/>
+    </signal>
+    <signal name="NameLost">
+      <arg type="s"/>
+    </signal>
+    <signal name="NameAcquired">
+      <arg type="s"/>
+    </signal>
+  </interface>
+  <interface name="org.freedesktop.DBus.Properties">
+    <method name="Get">
+      <arg direction="in" type="s"/>
+      <arg direction="in" type="s"/>
+      <arg direction="out" type="v"/>
+    </method>
+    <method name="GetAll">
+      <arg direction="in" type="s"/>
+      <arg direction="out" type="a{sv}"/>
+    </method>
+    <method name="Set">
+      <arg direction="in" type="s"/>
+      <arg direction="in" type="s"/>
+      <arg direction="in" type="v"/>
+    </method>
+    <signal name="PropertiesChanged">
+      <arg type="s" name="interface_name"/>
+      <arg type="a{sv}" name="changed_properties"/>
+      <arg type="as" name="invalidated_properties"/>
+    </signal>
+  </interface>
+  <interface name="org.freedesktop.DBus.Introspectable">
+    <method name="Introspect">
+      <arg direction="out" type="s"/>
+    </method>
+  </interface>
+  <interface name="org.freedesktop.DBus.Monitoring">
+    <method name="BecomeMonitor">
+      <arg direction="in" type="as"/>
+      <arg direction="in" type="u"/>
+    </method>
+  </interface>
+  <interface name="org.freedesktop.DBus.Debug.Stats">
+    <method name="GetStats">
+      <arg direction="out" type="a{sv}"/>
+    </method>
+    <method name="GetConnectionStats">
+      <arg direction="in" type="s"/>
+      <arg direction="out" type="a{sv}"/>
+    </method>
+    <method name="GetAllMatchRules">
+      <arg direction="out" type="a{sas}"/>
+    </method>
+  </interface>
+  <interface name="org.freedesktop.DBus.Peer">
+    <method name="GetMachineId">
+      <arg direction="out" type="s"/>
+    </method>
+    <method name="Ping">
+    </method>
+  </interface>
+</node>
+"
++ as_normal_user dbus-send --system --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.ListNames
++ runuser -u openkylin -- dbus-send --system --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.ListNames
+method return time=1676350844.796095 sender=org.freedesktop.DBus -> destination=:1.44 serial=3 reply_serial=2
+   array [
+      string "org.freedesktop.DBus"
+      string "org.freedesktop.login1"
+      string ":1.7"
+      string "org.freedesktop.timesync1"
+      string ":1.8"
+      string ":1.9"
+      string "com.kysdk.location"
+      string "org.freedesktop.systemd1"
+      string ":1.42"
+      string "com.kylin.systemupgrade"
+      string ":1.20"
+      string "org.freedesktop.PolicyKit1"
+      string ":1.32"
+      string "com.kylin.ProcessManager"
+      string ":1.10"
+      string ":1.44"
+      string ":1.22"
+      string ":1.11"
+      string "org.freedesktop.NetworkManager"
+      string ":1.12"
+      string "org.freedesktop.UDisks2"
+      string ":1.0"
+      string ":1.25"
+      string ":1.1"
+      string "com.kylin.kysdk.TimeServer"
+      string ":1.2"
+      string ":1.3"
+      string ":1.17"
+      string "org.freedesktop.resolve1"
+      string ":1.4"
+      string ":1.18"
+      string "org.ukui.Biometric"
+      string "org.freedesktop.Accounts"
+      string "fi.w1.wpa_supplicant1"
+      string ":1.5"
+      string "org.ukui.libinput.proxy"
+      string ":1.6"
+   ]
+Feb 14 05:00:44 openkylin runuser[1985]: pam_unix(runuser:session): session opened for user openkylin by (uid=0)
+Feb 14 05:00:44 openkylin runuser[1985]: pam_unix(runuser:session): session closed for user openkylin
+Feb 14 05:00:44 openkylin runuser[1987]: pam_unix(runuser:session): session opened for user openkylin by (uid=0)
+Feb 14 05:00:44 openkylin runuser[1987]: pam_unix(runuser:session): session closed for user openkylin
++ as_normal_user dbus-send --system --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.ListActivatableNames
++ runuser -u openkylin -- dbus-send --system --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.ListActivatableNames
+method return time=1676350844.965874 sender=org.freedesktop.DBus -> destination=:1.45 serial=3 reply_serial=2
+   array [
+      string "org.freedesktop.DBus"
+      string "org.freedesktop.GeoClue2"
+      string "org.freedesktop.login1"
+      string "com.ubuntu.LanguageSelector"
+      string "org.freedesktop.timesync1"
+      string "org.freedesktop.ColorManager"
+      string "org.freedesktop.systemd1"
+      string "com.kylin.UpgradeStrategies"
+      string "org.freedesktop.PolicyKit1"
+      string "org.bluez"
+      string "org.ukui.UniauthBackend"
+      string "com.kylin.ProcessManager"
+      string "org.freedesktop.hostname1"
+      string "org.freedesktop.nm_priv_helper"
+      string "org.debian.apt"
+      string "com.ukui.search.qt.systemdbus"
+      string "com.kylin.os.manager.daemon"
+      string "com.bluetooth.systemdbus"
+      string "org.ukui.groupmanager"
+      string "org.freedesktop.UPower"
+      string "org.freedesktop.UDisks2"
+      string "com.settings.daemon.qt.systemdbus"
+      string "com.kylinusbcreator.systemdbus"
+      string "com.control.center.qt.systemdbus"
+      string "org.freedesktop.network1"
+      string "org.ukui.samba.share.config"
+      string "com.kylin.assistant.systemdaemon"
+      string "org.freedesktop.resolve1"
+      string "org.freedesktop.Accounts"
+      string "org.freedesktop.timedate1"
+      string "fi.w1.wpa_supplicant1"
+      string "com.kylin.os.manager.systembus"
+      string "org.freedesktop.nm_dispatcher"
+      string "org.ukui.libinput.proxy"
+      string "org.freedesktop.locale1"
+   ]
++ as_normal_user dbus-send --system --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.RequestName string:com.example.Nope uint32:0
++ runuser -u openkylin -- dbus-send --system --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.RequestName string:com.example.Nope uint32:0
+Feb 14 05:00:44 openkylin runuser[1989]: pam_unix(runuser:session): session opened for user openkylin by (uid=0)
+Feb 14 05:00:44 openkylin runuser[1989]: pam_unix(runuser:session): session closed for user openkylin
+Error org.freedesktop.DBus.Error.AccessDenied: Connection ":1.46" is not allowed to own the service "com.example.Nope" due to security policies in the configuration file
++ dbus-send --system --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.RequestName string:com.example.Nope uint32:0
+Error org.freedesktop.DBus.Error.AccessDenied: Connection ":1.47" is not allowed to own the service "com.example.Nope" due to security policies in the configuration file
++ dbus-send --system --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.Debug.Stats.GetStats
+Feb 14 05:00:45 openkylin runuser[1991]: pam_unix(runuser:session): session opened for user openkylin by (uid=0)
+Feb 14 05:00:45 openkylin runuser[1991]: pam_unix(runuser:session): session closed for user openkylin
+method return time=1676350845.476630 sender=org.freedesktop.DBus -> destination=:1.48 serial=3 reply_serial=2
+   array [
+      dict entry(
+         string "Serial"
+         variant             uint32 0
+      )
+      dict entry(
+         string "ListMemPoolUsedBytes"
+         variant             uint32 254616
+      )
+      dict entry(
+         string "ListMemPoolCachedBytes"
+         variant             uint32 24048
+      )
+      dict entry(
+         string "ListMemPoolAllocatedBytes"
+         variant             uint32 392832
+      )
+      dict entry(
+         string "ActiveConnections"
+         variant             uint32 21
+      )
+      dict entry(
+         string "IncompleteConnections"
+         variant             uint32 0
+      )
+      dict entry(
+         string "MatchRules"
+         variant             uint32 53
+      )
+      dict entry(
+         string "PeakMatchRules"
+         variant             uint32 62
+      )
+      dict entry(
+         string "PeakMatchRulesPerConnection"
+         variant             uint32 16
+      )
+      dict entry(
+         string "BusNames"
+         variant             uint32 36
+      )
+      dict entry(
+         string "PeakBusNames"
+         variant             uint32 40
+      )
+      dict entry(
+         string "PeakBusNamesPerConnection"
+         variant             uint32 2
+      )
+   ]
++ as_normal_user dbus-send --system --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.Debug.Stats.GetStats
++ runuser -u openkylin -- dbus-send --system --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.Debug.Stats.GetStats
+Error org.freedesktop.DBus.Error.AccessDenied: Rejected send message, 2 matched rules; type="method_call", sender=":1.49" (uid=1000 pid=1996 comm="dbus-send --system --dest=org.freedesktop.DBus --t" label="unconfined") interface="org.freedesktop.DBus.Debug.Stats" member="GetStats" error name="(unset)" requested_reply="0" destination="org.freedesktop.DBus" (bus)
++ install -d /usr/local/share/dbus-1/system-services
++ cat
++ cat
++ install -d /etc/systemd/system
++ cat
++ install -d /etc/dbus-1/system.d
++ cat
++ dbus-send --system --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.ReloadConfig
+Feb 14 05:00:45 openkylin runuser[1995]: pam_unix(runuser:session): session opened for user openkylin by (uid=0)
+Feb 14 05:00:45 openkylin dbus-daemon[425]: [system] Rejected send message, 2 matched rules; type="method_call", sender=":1.49" (uid=1000 pid=1996 comm="dbus-send --system --dest=org.freedesktop.DBus --t" label="unconfined") interface="org.freedesktop.DBus.Debug.Stats" member="GetStats" error name="(unset)" requested_reply="0" destination="org.freedesktop.DBus" (bus)
+Feb 14 05:00:45 openkylin runuser[1995]: pam_unix(runuser:session): session closed for user openkylin
+method return time=1676350846.150331 sender=org.freedesktop.DBus -> destination=:1.50 serial=3 reply_serial=2
++ dbus-send --system --dest=org.debian.packages.dbus.TradActivation --type=method_call --print-reply / org.freedesktop.DBus.Peer.Ping
+Feb 14 05:00:45 openkylin dbus-daemon[425]: Unknown username "whoopsie" in message bus configuration file
+Feb 14 05:00:46 openkylin dbus-daemon[425]: [system] Reloaded configuration
+Feb 14 05:00:46 openkylin dbus-daemon[425]: Unknown username "whoopsie" in message bus configuration file
+Feb 14 05:00:46 openkylin dbus-daemon[425]: [system] Reloaded configuration
+Feb 14 05:00:46 openkylin dbus-daemon[425]: [system] Activating service name='org.debian.packages.dbus.TradActivation' requested by ':1.51' (uid=0 pid=2005 comm="dbus-send --system --dest=org.debian.packages.dbus" label="unconfined") (using servicehelper)
+Error org.freedesktop.DBus.Error.Spawn.ExecFailed: Failed to execute program org.debian.packages.dbus.TradActivation: Permission denied
++ failed=1
++ [ -d /run/systemd ]
++ systemctl daemon-reload
+Feb 14 05:00:46 openkylin dbus-daemon[425]: [system] Activated service 'org.debian.packages.dbus.TradActivation' failed: Failed to execute program org.debian.packages.dbus.TradActivation: Permission denied
+Feb 14 05:00:46 openkylin systemd[1]: Reloading.
+Feb 14 05:00:47 openkylin systemd[1]: /lib/systemd/system/dbus.socket:5: ListenStream= references a path below legacy directory /var/run/, updating /var/run/dbus/system_bus_socket → /run/dbus/system_bus_socket; please update the unit file accordingly.
+Feb 14 05:00:47 openkylin systemd[1]: /lib/systemd/system/docker.socket:5: ListenStream= references a path below legacy directory /var/run/, updating /var/run/docker.sock → /run/docker.sock; please update the unit file accordingly.
++ dbus-send --system --dest=org.debian.packages.dbus.SystemdActivation --type=method_call --print-reply / org.freedesktop.DBus.Peer.Ping
+method return time=1676350850.046298 sender=:1.53 -> destination=:1.52 serial=3 reply_serial=2
++ dbus-send --system --dest=org.freedesktop.hostname1 --type=method_call --print-reply / org.freedesktop.DBus.Peer.Ping
+Feb 14 05:00:49 openkylin dbus-daemon[425]: [system] Activating via systemd: service name='org.debian.packages.dbus.SystemdActivation' unit='dbus-org.debian.packages.dbus.SystemdActivation.service' requested by ':1.52' (uid=0 pid=2024 comm="dbus-send --system --dest=org.debian.packages.dbus" label="unconfined")
+Feb 14 05:00:49 openkylin systemd[1]: Starting systemd-activatable D-Bus service...
+Feb 14 05:00:50 openkylin dbus-daemon[425]: [system] Successfully activated service 'org.debian.packages.dbus.SystemdActivation'
+Feb 14 05:00:50 openkylin systemd[1]: Started systemd-activatable D-Bus service.
+Feb 14 05:00:50 openkylin dbus-daemon[425]: [system] Activating via systemd: service name='org.freedesktop.hostname1' unit='dbus-org.freedesktop.hostname1.service' requested by ':1.54' (uid=0 pid=2026 comm="dbus-send --system --dest=org.freedesktop.hostname" label="unconfined")
+Feb 14 05:00:50 openkylin systemd[1]: Starting Hostname Service...
+method return time=1676350850.672797 sender=:1.55 -> destination=:1.54 serial=3 reply_serial=2
++ dbus-send --system --dest=org.freedesktop.locale1 --type=method_call --print-reply / org.freedesktop.DBus.Peer.Ping
+Feb 14 05:00:50 openkylin dbus-daemon[425]: [system] Successfully activated service 'org.freedesktop.hostname1'
+Feb 14 05:00:50 openkylin systemd[1]: Started Hostname Service.
+Feb 14 05:00:50 openkylin dbus-daemon[425]: [system] Activating via systemd: service name='org.freedesktop.locale1' unit='dbus-org.freedesktop.locale1.service' requested by ':1.56' (uid=0 pid=2028 comm="dbus-send --system --dest=org.freedesktop.locale1 " label="unconfined")
+Feb 14 05:00:50 openkylin systemd[1]: Starting Locale Service...
+method return time=1676350851.251790 sender=:1.57 -> destination=:1.56 serial=3 reply_serial=2
++ dbus-send --system --dest=org.freedesktop.login1 --type=method_call --print-reply / org.freedesktop.DBus.Peer.Ping
+method return time=1676350851.317654 sender=:1.10 -> destination=:1.58 serial=107 reply_serial=2
++ dbus-send --system --dest=org.freedesktop.systemd1 --type=method_call --print-reply / org.freedesktop.DBus.Peer.Ping
+method return time=1676350851.384246 sender=:1.9 -> destination=:1.59 serial=1769 reply_serial=2
++ dbus-send --system --dest=org.freedesktop.timedate1 --type=method_call --print-reply / org.freedesktop.DBus.Peer.Ping
+Feb 14 05:00:51 openkylin dbus-daemon[425]: [system] Successfully activated service 'org.freedesktop.locale1'
+Feb 14 05:00:51 openkylin systemd[1]: Started Locale Service.
+Feb 14 05:00:51 openkylin dbus-daemon[425]: [system] Activating via systemd: service name='org.freedesktop.timedate1' unit='dbus-org.freedesktop.timedate1.service' requested by ':1.60' (uid=0 pid=2032 comm="dbus-send --system --dest=org.freedesktop.timedate" label="unconfined")
+Feb 14 05:00:51 openkylin systemd[1]: Starting Time & Date Service...
+method return time=1676350851.943550 sender=:1.61 -> destination=:1.60 serial=3 reply_serial=2
++ kill -INT 1984
++ [ -n 1 ]
++ exit 1
+Feb 14 05:00:51 openkylin dbus-daemon[425]: [system] Successfully activated service 'org.freedesktop.timedate1'
+Feb 14 05:00:51 openkylin systemd[1]: Started Time & Date Service.

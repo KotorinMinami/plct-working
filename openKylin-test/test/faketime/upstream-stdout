@@ -1,0 +1,273 @@
+gcc -c -std=gnu99 -Wall -DFAKE_STAT -Werror -Wextra  timetest.c
+gcc -o timetest timetest.o -lrt -lpthread
+./testframe.sh functests
+# Begin Test Suites in functests
+
+# Begin functests/test_exclude_mono.sh
+# PLATFORM=linuxlike
+out=103.574146703 When not faking monotonic time, timestamps should be different ref=104.852286871 - ok
+# functests/test_exclude_mono.sh summary: 1 succeeded, 0 failed
+# End functests/test_exclude_mono.sh - OK
+
+# Begin functests/test_null.sh
+out=0 () ref=1676366069 - ok
+# functests/test_null.sh summary: 1 succeeded, 0 failed
+# End functests/test_null.sh - OK
+
+# Begin functests/test_true.sh
+# functests/test_true.sh summary: 1 succeeded, 0 failed
+# End functests/test_true.sh - OK
+
+# Begin functests/test_walkone.sh
+# PLATFORM=linuxlike
+out=1 (secs since Epoch) - ok
+out=2 (secs since Epoch) - ok
+out=4 (secs since Epoch) - ok
+out=8 (secs since Epoch) - ok
+out=16 (secs since Epoch) - ok
+out=32 (secs since Epoch) - ok
+out=64 (secs since Epoch) - ok
+out=128 (secs since Epoch) - ok
+out=256 (secs since Epoch) - ok
+out=512 (secs since Epoch) - ok
+out=1024 (secs since Epoch) - ok
+out=2048 (secs since Epoch) - ok
+out=4096 (secs since Epoch) - ok
+out=8192 (secs since Epoch) - ok
+out=16384 (secs since Epoch) - ok
+out=32768 (secs since Epoch) - ok
+out=65536 (secs since Epoch) - ok
+out=131072 (secs since Epoch) - ok
+out=262144 (secs since Epoch) - ok
+out=524288 (secs since Epoch) - ok
+out=1048576 (secs since Epoch) - ok
+out=2097152 (secs since Epoch) - ok
+out=4194304 (secs since Epoch) - ok
+out=8388608 (secs since Epoch) - ok
+out=16777216 (secs since Epoch) - ok
+out=33554432 (secs since Epoch) - ok
+out=67108864 (secs since Epoch) - ok
+out=134217728 (secs since Epoch) - ok
+out=268435456 (secs since Epoch) - ok
+out=536870912 (secs since Epoch) - ok
+out=1073741824 (secs since Epoch) - ok
+# functests/test_walkone.sh summary: 31 succeeded, 0 failed
+# End functests/test_walkone.sh - OK
+
+# Test Suites summary: 4 succeeded, 0 failed
+# End Test Suites - OK
+
+Running the test program with no faked time specified
+$ LD_PRELOAD=/usr/lib/riscv64-linux-gnu/faketime/libfaketime.so.1 ./timetest
+pthread_cond_timedwait: CLOCK_REALTIME test
+(Intentionally sleeping 1 second...)
+pthread_cond_timedwait: CLOCK_MONOTONIC test
+(Intentionally sleeping 1 second...)
+(If this test hangs for more than a few seconds, please report
+ your glibc version and system details as FORCE_MONOTONIC_FIX
+ issue at https://github.com/wolfcw/libfaketime)
+Blocking signal 10
+time()         : Current date and time: Tue Feb 14 09:14:34 2023
+time(NULL)     : Seconds since Epoch  : 1676366074
+ftime()        : Current date and time: Tue Feb 14 09:14:34 2023
+(Intentionally sleeping 2 seconds...)
+gettimeofday() : Current date and time: Tue Feb 14 09:14:36 2023
+Caught signal 10
+clock_gettime(): Current date and time: Tue Feb 14 09:14:36 2023
+stat(): mod. time of file './timetest': Tue Feb 14 09:14:26 2023
+
+=============================================================================
+
+Running the test program with absolute date 2003-01-01 10:00:05 specified
+$ LD_PRELOAD=/usr/lib/riscv64-linux-gnu/faketime/libfaketime.so.1 FAKETIME="2003-01-01 10:00:05" ./timetest
+pthread_cond_timedwait: CLOCK_REALTIME test
+(Intentionally sleeping 1 second...)
+pthread_cond_timedwait: CLOCK_MONOTONIC test
+(Intentionally sleeping 1 second...)
+(If this test hangs for more than a few seconds, please report
+ your glibc version and system details as FORCE_MONOTONIC_FIX
+ issue at https://github.com/wolfcw/libfaketime)
+Blocking signal 10
+time()         : Current date and time: Wed Jan  1 10:00:05 2003
+time(NULL)     : Seconds since Epoch  : 1041415205
+ftime()        : Current date and time: Wed Jan  1 10:00:05 2003
+(Intentionally sleeping 2 seconds...)
+gettimeofday() : Current date and time: Wed Jan  1 10:00:05 2003
+Caught signal 10
+Caught signal 10
+clock_gettime(): Current date and time: Wed Jan  1 10:00:05 2003
+stat(): mod. time of file './timetest': Wed Jan  1 10:00:05 2003
+
+=============================================================================
+
+Running the test program with START date @2005-03-29 14:14:14 specified
+$ LD_PRELOAD=/usr/lib/riscv64-linux-gnu/faketime/libfaketime.so.1 FAKETIME="@2005-03-29 14:14:14" ./timetest
+pthread_cond_timedwait: CLOCK_REALTIME test
+(Intentionally sleeping 1 second...)
+pthread_cond_timedwait: CLOCK_MONOTONIC test
+(Intentionally sleeping 1 second...)
+(If this test hangs for more than a few seconds, please report
+ your glibc version and system details as FORCE_MONOTONIC_FIX
+ issue at https://github.com/wolfcw/libfaketime)
+Blocking signal 10
+time()         : Current date and time: Tue Mar 29 14:14:16 2005
+time(NULL)     : Seconds since Epoch  : 1112105656
+ftime()        : Current date and time: Tue Mar 29 14:14:16 2005
+(Intentionally sleeping 2 seconds...)
+gettimeofday() : Current date and time: Tue Mar 29 14:14:18 2005
+Caught signal 10
+Caught signal 10
+clock_gettime(): Current date and time: Tue Mar 29 14:14:18 2005
+stat(): mod. time of file './timetest': Tue Mar 29 14:13:59 2005
+
+=============================================================================
+
+Running the test program with 10 days negative offset specified
+LD_PRELOAD=/usr/lib/riscv64-linux-gnu/faketime/libfaketime.so.1 FAKETIME="-10d" ./timetest
+pthread_cond_timedwait: CLOCK_REALTIME test
+(Intentionally sleeping 1 second...)
+pthread_cond_timedwait: CLOCK_MONOTONIC test
+(Intentionally sleeping 1 second...)
+(If this test hangs for more than a few seconds, please report
+ your glibc version and system details as FORCE_MONOTONIC_FIX
+ issue at https://github.com/wolfcw/libfaketime)
+Blocking signal 10
+time()         : Current date and time: Sat Feb  4 09:14:46 2023
+time(NULL)     : Seconds since Epoch  : 1675502086
+ftime()        : Current date and time: Sat Feb  4 09:14:46 2023
+(Intentionally sleeping 2 seconds...)
+gettimeofday() : Current date and time: Sat Feb  4 09:14:48 2023
+Caught signal 10
+Caught signal 10
+clock_gettime(): Current date and time: Sat Feb  4 09:14:48 2023
+stat(): mod. time of file './timetest': Sat Feb  4 09:14:26 2023
+
+=============================================================================
+
+Running the test program with 10 days negative offset specified, and FAKE_STAT disabled
+$ LD_PRELOAD=/usr/lib/riscv64-linux-gnu/faketime/libfaketime.so.1 FAKETIME="-10d" NO_FAKE_STAT=1 ./timetest
+pthread_cond_timedwait: CLOCK_REALTIME test
+(Intentionally sleeping 1 second...)
+pthread_cond_timedwait: CLOCK_MONOTONIC test
+(Intentionally sleeping 1 second...)
+(If this test hangs for more than a few seconds, please report
+ your glibc version and system details as FORCE_MONOTONIC_FIX
+ issue at https://github.com/wolfcw/libfaketime)
+Blocking signal 10
+time()         : Current date and time: Sat Feb  4 09:14:50 2023
+time(NULL)     : Seconds since Epoch  : 1675502090
+ftime()        : Current date and time: Sat Feb  4 09:14:50 2023
+(Intentionally sleeping 2 seconds...)
+gettimeofday() : Current date and time: Sat Feb  4 09:14:52 2023
+Caught signal 10
+Caught signal 10
+clock_gettime(): Current date and time: Sat Feb  4 09:14:52 2023
+stat(): mod. time of file './timetest': Tue Feb 14 09:14:26 2023
+
+=============================================================================
+
+Running the test program with 10 days positive offset specified, and speed-up factor
+$ LD_PRELOAD=/usr/lib/riscv64-linux-gnu/faketime/libfaketime.so.1 FAKETIME="+10d x1" ./timetest
+pthread_cond_timedwait: CLOCK_REALTIME test
+(Intentionally sleeping 1 second...)
+pthread_cond_timedwait: CLOCK_MONOTONIC test
+(Intentionally sleeping 1 second...)
+(If this test hangs for more than a few seconds, please report
+ your glibc version and system details as FORCE_MONOTONIC_FIX
+ issue at https://github.com/wolfcw/libfaketime)
+Blocking signal 10
+time()         : Current date and time: Fri Feb 24 09:14:54 2023
+time(NULL)     : Seconds since Epoch  : 1677230094
+ftime()        : Current date and time: Fri Feb 24 09:14:54 2023
+(Intentionally sleeping 2 seconds...)
+gettimeofday() : Current date and time: Fri Feb 24 09:14:56 2023
+Caught signal 10
+clock_gettime(): Current date and time: Fri Feb 24 09:14:56 2023
+stat(): mod. time of file './timetest': Tue Feb 14 09:14:26 2023
+
+=============================================================================
+
+Running the 'date' command with 15 days negative offset specified
+$ LD_PRELOAD=/usr/lib/riscv64-linux-gnu/faketime/libfaketime.so.1 FAKETIME="-15d" date
+Mon Jan 30 09:14:56 UTC 2023
+
+=============================================================================
+Testing finished.
+gcc -std=gnu99 -Wall -DFAKE_STAT -Werror -Wextra   -lrt -lpthread  repeat_random.c   -o repeat_random
+./randomtest.sh
+getrandom interception test successful.
+sed s/SNIPPET_NAME/time/g < _libtest.c | gcc -shared -o libtime.so -fpic -std=gnu99 -Wall -DFAKE_STAT -Werror -Wextra  -x c -
+sed s/SNIPPET_NAME/time/g < _use_lib_test.c | gcc -L. -o use_lib_time -std=gnu99 -Wall -DFAKE_STAT -Werror -Wextra  -x c - -ltime
+./test_constructors.sh time
+Testing library init for time (no LD_PRELOAD)
+[libtime] time() yielded 1676366099
+  called time_as_needed() 
+[use_lib_time] time() yielded 1676366099
+Testing library init for time (LD_PRELOAD)
+[libtime] time() yielded 1676366099
+  called time_as_needed() 
+[use_lib_time] time() yielded 1676366099
+sed s/SNIPPET_NAME/clock_gettime/g < _libtest.c | gcc -shared -o libclock_gettime.so -fpic -std=gnu99 -Wall -DFAKE_STAT -Werror -Wextra  -x c -
+sed s/SNIPPET_NAME/clock_gettime/g < _use_lib_test.c | gcc -L. -o use_lib_clock_gettime -std=gnu99 -Wall -DFAKE_STAT -Werror -Wextra  -x c - -lclock_gettime
+./test_constructors.sh clock_gettime
+Testing library init for clock_gettime (no LD_PRELOAD)
+[libclock_gettime] clock_gettime(CLOCK_REALTIME[0], &ts) -> {1676366101, 520879298}
+  called clock_gettime_as_needed() 
+[use_lib_clock_gettime] clock_gettime(CLOCK_REALTIME[0], &ts) -> {1676366101, 523531130}
+Testing library init for clock_gettime (LD_PRELOAD)
+[libclock_gettime] clock_gettime(CLOCK_REALTIME[0], &ts) -> {1676366101, 565897843}
+  called clock_gettime_as_needed() 
+[use_lib_clock_gettime] clock_gettime(CLOCK_REALTIME[0], &ts) -> {1676366101, 568509775}
+sed s/SNIPPET_NAME/getentropy/g < _libtest.c | gcc -shared -o libgetentropy.so -fpic -std=gnu99 -Wall -DFAKE_STAT -Werror -Wextra  -x c -
+sed s/SNIPPET_NAME/getentropy/g < _use_lib_test.c | gcc -L. -o use_lib_getentropy -std=gnu99 -Wall -DFAKE_STAT -Werror -Wextra  -x c - -lgetentropy
+./test_constructors.sh getentropy
+Testing library init for getentropy (no LD_PRELOAD)
+[libgetentropy] getentropy() yielded 0xe9d0bd51
+  called getentropy_as_needed() 
+[use_lib_getentropy] getentropy() yielded 0xa51a090b
+Testing library init for getentropy (LD_PRELOAD)
+[libgetentropy] getentropy() yielded 0xfaa3cc68
+  called getentropy_as_needed() 
+[use_lib_getentropy] getentropy() yielded 0x34a6aff6
+sed s/SNIPPET_NAME/getrandom/g < _libtest.c | gcc -shared -o libgetrandom.so -fpic -std=gnu99 -Wall -DFAKE_STAT -Werror -Wextra  -x c -
+sed s/SNIPPET_NAME/getrandom/g < _use_lib_test.c | gcc -L. -o use_lib_getrandom -std=gnu99 -Wall -DFAKE_STAT -Werror -Wextra  -x c - -lgetrandom
+./test_constructors.sh getrandom
+Testing library init for getrandom (no LD_PRELOAD)
+[libgetrandom] getrandom() yielded 0xaa63b423
+  called getrandom_as_needed() 
+[use_lib_getrandom] getrandom() yielded 0x3df9fe92
+Testing library init for getrandom (LD_PRELOAD)
+[libgetrandom] getrandom() yielded 0x7c6ecfcd
+  called getrandom_as_needed() 
+[use_lib_getrandom] getrandom() yielded 0x89a6aeb0
+sed s/SNIPPET_NAME/getpid/g < _libtest.c | gcc -shared -o libgetpid.so -fpic -std=gnu99 -Wall -DFAKE_STAT -Werror -Wextra  -x c -
+sed s/SNIPPET_NAME/getpid/g < _use_lib_test.c | gcc -L. -o use_lib_getpid -std=gnu99 -Wall -DFAKE_STAT -Werror -Wextra  -x c - -lgetpid
+./test_constructors.sh getpid
+Testing library init for getpid (no LD_PRELOAD)
+[libgetpid] getpid() yielded 1967
+  called getpid_as_needed() 
+[use_lib_getpid] getpid() yielded 1967
+Testing library init for getpid (LD_PRELOAD)
+[libgetpid] getpid() yielded 1968
+  called getpid_as_needed() 
+[use_lib_getpid] getpid() yielded 1968
+sed s/SNIPPET_NAME/clock_gettime_heap/g < _libtest.c | gcc -shared -o libclock_gettime_heap.so -fpic -std=gnu99 -Wall -DFAKE_STAT -Werror -Wextra  -x c -
+sed s/SNIPPET_NAME/clock_gettime_heap/g < _use_lib_test.c | gcc -L. -o use_lib_clock_gettime_heap -std=gnu99 -Wall -DFAKE_STAT -Werror -Wextra  -x c - -lclock_gettime_heap
+./test_constructors.sh clock_gettime_heap
+Testing library init for clock_gettime_heap (no LD_PRELOAD)
+[libclock_gettime_heap] clock_gettime_heap(CLOCK_REALTIME[0], ts) -> {1676366108, 594946849}
+  called clock_gettime_heap_as_needed() 
+[use_lib_clock_gettime_heap] clock_gettime_heap(CLOCK_REALTIME[0], ts) -> {1676366108, 596998065}
+Testing library init for clock_gettime_heap (LD_PRELOAD)
+[libclock_gettime_heap] clock_gettime_heap(CLOCK_REALTIME[0], ts) -> {1676366108, 632130635}
+  called clock_gettime_heap_as_needed() 
+[use_lib_clock_gettime_heap] clock_gettime_heap(CLOCK_REALTIME[0], ts) -> {1676366108, 634828256}
+sed s/SNIPPET_NAME/getentropy/g < _run_test.c | gcc -o run_getentropy -std=gnu99 -Wall -DFAKE_STAT -Werror -Wextra  -x c - 
+sed s/SNIPPET_NAME/getrandom/g < _run_test.c | gcc -o run_getrandom -std=gnu99 -Wall -DFAKE_STAT -Werror -Wextra  -x c - 
+sed s/SNIPPET_NAME/getpid/g < _run_test.c | gcc -o run_getpid -std=gnu99 -Wall -DFAKE_STAT -Werror -Wextra  -x c - 
+sed s/SNIPPET_NAME/clock_gettime_heap/g < _run_test.c | gcc -o run_clock_gettime_heap -std=gnu99 -Wall -DFAKE_STAT -Werror -Wextra  -x c - 
+sed s/SNIPPET_NAME/time/g < _run_test.c | gcc -o run_time -std=gnu99 -Wall -DFAKE_STAT -Werror -Wextra  -x c - 
+sed s/SNIPPET_NAME/clock_gettime/g < _run_test.c | gcc -o run_clock_gettime -std=gnu99 -Wall -DFAKE_STAT -Werror -Wextra  -x c - 
+./test_variable_data.sh getentropy getrandom getpid clock_gettime_heap time clock_gettime
+Sleeping 2 seconds...done
+rm use_lib_getrandom libgetrandom.so libclock_gettime.so use_lib_getpid use_lib_clock_gettime use_lib_getentropy libgetpid.so libclock_gettime_heap.so libtime.so use_lib_clock_gettime_heap libgetentropy.so use_lib_time

@@ -1,0 +1,102 @@
+t/001use.t .............. 
+1..1
+ok 1 - use Devel::Hide;
+# Testing Devel::Hide 0.0015, Perl 5.030000, /usr/bin/perl
+ok
+t/002basic.t ............ 
+1..14
+ok 1 - got expected warning: Devel::Hide hides Q.pm, R.pm
+# 
+ok 2 - nothing moaned about loading P
+ok 3 - P is loaded
+ok 4 - correctly moaned about loading Q
+ok 5 - correctly didn't load Q
+ok 6 - correctly moaned about loading R
+ok 7 - correctly didn't load R
+ok 8 - nothing moaned about loading P again
+ok 9 - P is loaded
+ok 10 - correctly moaned about loading Q again
+ok 11 - correctly didn't load Q
+ok 12 - correctly moaned about loading R again
+ok 13 - correctly didn't load R
+ok 14 - got all expected warnings
+ok
+t/003user.t ............. 
+1..5
+ok 1 - use lib;
+ok 2 - use Devel::Hide;
+ok 3 - P was loaded (as it should)
+ok 4 - Q not found (as it should)
+ok 5 - R not found (as it should)
+ok
+t/004env.t .............. 
+1..5
+ok 1 - use lib;
+ok 2 - use Devel::Hide;
+ok 3 - P was loaded (as it should)
+ok 4 - Q not found (as it should)
+ok 5 - R not found (as it should)
+ok
+t/005lib.t .............. 
+1..4
+ok 1 - use lib;
+ok 2 - use Devel::Hide;
+ok 3 - use lib;
+ok 4 - P was loaded (as it should)
+ok
+t/006before.t ........... 
+1..7
+ok 1 - use P;
+ok 2 - got expected warning: Devel::Hide: Too late to hide P.pm
+# 
+ok 3 - got expected warning: Devel::Hide hides Q.pm
+# 
+ok 4 - use Devel::Hide;
+ok 5 - P was loaded (as it should)
+ok 6 - Q was not loaded
+ok 7 - got all expected warnings
+ok
+t/050child-processes.t .. 
+1..5
+ok 1 - PERL5OPT is added to, not overwritten: -Mlib=t -MDevel::Hide=-quiet,Q.pm,R
+ok 2 - nothing moaned about loading P
+ok 3 - correctly moaned about loading Q
+ok 4 - correctly moaned about loading R
+ok 5 - suppressed warnings
+ok
+t/lexically.t ........... 
+1..9
+ok 1 - got expected warning: Devel::Hide hides R.pm
+# 
+ok 2 - got expected warning: Devel::Hide hides Q.pm
+# 
+# R hidden globally, and noisily
+ok 3 - correctly moaned about hiding R (globally)
+# Q hidden lexically, quietly
+ok 4 - correctly moaned about loading Q
+ok 5 - still can't load R which is globally hidden
+# Q hidden in a different scope, noisily
+ok 6 - correctly moaned about loading Q
+# Now we're outside that lexical scope
+ok 7 - nothing moaned about loading Q
+ok 8 - still can't load R
+ok 9 - got all expected warnings
+ok
+t/quiet.t ............... 
+1..2
+ok 1 - correctly moaned about loading Q
+ok 2 - suppressed warnings
+ok
+t/too-late-quiet.t ...... 
+1..6
+ok 1 - use P;
+ok 2 - got expected warning: Devel::Hide: Too late to hide P.pm
+# 
+ok 3 - use Devel::Hide;
+ok 4 - P was loaded (as it should)
+ok 5 - Q was not loaded
+ok 6 - got all expected warnings
+ok
+All tests successful.
+Files=10, Tests=58, 11 wallclock secs ( 0.51 usr  0.23 sys +  7.23 cusr  2.54 csys = 10.51 CPU)
+Result: PASS

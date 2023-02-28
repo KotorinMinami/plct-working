@@ -1,0 +1,25 @@
+From: Dave Jones <dave.jones@canonical.com>
+Date: Sat, 14 May 2022 02:49:46 +0800
+Subject: Use aligned access for _sha3 module on ARM.
+
+---
+ Modules/_sha3/sha3module.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/Modules/_sha3/sha3module.c b/Modules/_sha3/sha3module.c
+index c1fb618..63e0516 100644
+--- a/Modules/_sha3/sha3module.c
++++ b/Modules/_sha3/sha3module.c
+@@ -64,6 +64,12 @@
+ #define PLATFORM_BYTE_ORDER IS_BIG_ENDIAN
+ #endif
+ 
++/* Bus error on 32-bit ARM due to un-aligned memory accesses; 64-bit ARM
++ * doesn't complain but un-aligned memory accesses are sub-optimal */
++#if defined(__arm__) || defined(__aarch64__)
++#define NO_MISALIGNED_ACCESSES 1
++#endif
++
+ /* mangle names */
+ #define KeccakF1600_FastLoop_Absorb _PySHA3_KeccakF1600_FastLoop_Absorb
+ #define Keccak_HashFinal _PySHA3_Keccak_HashFinal

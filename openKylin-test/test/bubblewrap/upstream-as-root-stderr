@@ -1,0 +1,478 @@
++ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/sbin:/sbin
++++ dirname tests/test-run.sh
+++ cd tests
+++ pwd
++ srcd=/tmp/autopkgtest.Y4O5ut/build.AXY/src/tests
++ . /tmp/autopkgtest.Y4O5ut/build.AXY/src/tests/libtest-core.sh
+++ locale -a
+++ grep C.UTF-8
+++ export LC_ALL=C
+++ LC_ALL=C
+++ export G_DEBUG=fatal-warnings
+++ G_DEBUG=fatal-warnings
+++ basename tests/test-run.sh
++ bn=test-run.sh
+++ mktemp -d /var/tmp/tap-test.XXXXXX
++ tempdir=/var/tmp/tap-test.viS03L
++ touch /var/tmp/tap-test.viS03L/.testtmp
++ trap cleanup EXIT
++ cd /var/tmp/tap-test.viS03L
++ : bwrap
+++ type -p bwrap
++ test -u /usr/bin/bwrap
++ FUSE_DIR=
+++ cat /proc/self/mounts
+++ grep ' fuse[. ]'
+++ awk '{print $2}'
++++ id -u
+++ grep user_id=0
+++ id -u
++ test 0 = 0
++ is_uidzero=true
++ UNREADABLE=/root/.bashrc
++ true
++ UNREADABLE=
++ '[' /lib -ef /usr/lib ']'
++ BWRAP_RO_HOST_ARGS='--ro-bind /usr /usr
+              --ro-bind /etc /etc
+              --dir /var/tmp
+              --symlink usr/lib /lib
+              --symlink usr/lib64 /lib64
+              --symlink usr/bin /bin
+              --symlink usr/sbin /sbin
+              --proc /proc
+              --dev /dev'
++ RUN='bwrap --bind / / --tmpfs /tmp'
++ bwrap --bind / / --tmpfs /tmp true
++ echo 1..49
++ bwrap --help
++ assert_file_has_content help.txt 'usage: bwrap'
++ fpath=help.txt
++ shift
++ for re in "$@"
++ grep -q -e 'usage: bwrap' help.txt
++ echo 'ok - Help works'
++ for ALT in "" "--unshare-user-try" "--unshare-pid" "--unshare-user-try --unshare-pid"
++ '[' x '!=' x ']'
++ echo 'ok # SKIP no FUSE support'
++ bwrap --bind / / --tmpfs /tmp --proc /proc true
++ echo 'ok - can mount /proc with '
++ bwrap --bind / / --tmpfs /tmp --unshare-net --proc /proc --dev /dev true
++ echo 'ok - can unshare network, create new /dev with '
++ echo -n 'expect EPERM: '
+expect EPERM: + test -n ''
++ CAP=
++ true
++ echo 'ok - cannot read /etc/shadow with '
++ '[' x '!=' x ']'
++ echo 'ok # SKIP not sure what unreadable file to use'
++ bwrap --bind / / --tmpfs /tmp --dir /tmp/dir --symlink dir /tmp/link --bind /etc /tmp/link true
++ echo 'ok - can bind a destination over a symlink'
++ for ALT in "" "--unshare-user-try" "--unshare-pid" "--unshare-user-try --unshare-pid"
++ '[' x '!=' x ']'
++ echo 'ok # SKIP no FUSE support'
++ bwrap --bind / / --tmpfs /tmp --unshare-user-try --proc /proc true
++ echo 'ok - can mount /proc with --unshare-user-try'
++ bwrap --bind / / --tmpfs /tmp --unshare-user-try --unshare-net --proc /proc --dev /dev true
++ echo 'ok - can unshare network, create new /dev with --unshare-user-try'
++ echo -n 'expect EPERM: '
+expect EPERM: + test -n ''
++ CAP=
++ true
++ echo 'ok - cannot read /etc/shadow with --unshare-user-try'
++ '[' x '!=' x ']'
++ echo 'ok # SKIP not sure what unreadable file to use'
++ bwrap --bind / / --tmpfs /tmp --unshare-user-try --dir /tmp/dir --symlink dir /tmp/link --bind /etc /tmp/link true
++ echo 'ok - can bind a destination over a symlink'
++ for ALT in "" "--unshare-user-try" "--unshare-pid" "--unshare-user-try --unshare-pid"
++ '[' x '!=' x ']'
++ echo 'ok # SKIP no FUSE support'
++ bwrap --bind / / --tmpfs /tmp --unshare-pid --proc /proc true
++ echo 'ok - can mount /proc with --unshare-pid'
++ bwrap --bind / / --tmpfs /tmp --unshare-pid --unshare-net --proc /proc --dev /dev true
++ echo 'ok - can unshare network, create new /dev with --unshare-pid'
++ echo -n 'expect EPERM: '
+expect EPERM: + test -n ''
++ CAP=
++ true
++ echo 'ok - cannot read /etc/shadow with --unshare-pid'
++ '[' x '!=' x ']'
++ echo 'ok # SKIP not sure what unreadable file to use'
++ bwrap --bind / / --tmpfs /tmp --unshare-pid --dir /tmp/dir --symlink dir /tmp/link --bind /etc /tmp/link true
++ echo 'ok - can bind a destination over a symlink'
++ for ALT in "" "--unshare-user-try" "--unshare-pid" "--unshare-user-try --unshare-pid"
++ '[' x '!=' x ']'
++ echo 'ok # SKIP no FUSE support'
++ bwrap --bind / / --tmpfs /tmp --unshare-user-try --unshare-pid --proc /proc true
++ echo 'ok - can mount /proc with --unshare-user-try --unshare-pid'
++ bwrap --bind / / --tmpfs /tmp --unshare-user-try --unshare-pid --unshare-net --proc /proc --dev /dev true
++ echo 'ok - can unshare network, create new /dev with --unshare-user-try --unshare-pid'
++ echo -n 'expect EPERM: '
+expect EPERM: + test -n ''
++ CAP=
++ true
++ echo 'ok - cannot read /etc/shadow with --unshare-user-try --unshare-pid'
++ '[' x '!=' x ']'
++ echo 'ok # SKIP not sure what unreadable file to use'
++ bwrap --bind / / --tmpfs /tmp --unshare-user-try --unshare-pid --dir /tmp/dir --symlink dir /tmp/link --bind /etc /tmp/link true
++ echo 'ok - can bind a destination over a symlink'
++ bwrap --bind / / --tmpfs /tmp --unshare-pid --dev /dev ls -al /dev/stdin /dev/stdout /dev/stderr /dev/null /dev/random /dev/urandom /dev/fd /dev/core
++ echo 'ok - all expected devices were created'
++ bwrap --bind / / --tmpfs /tmp --unshare-pid --as-pid-1 --bind / / bash -c 'echo $$'
++ assert_file_has_content as_pid_1.txt 1
++ fpath=as_pid_1.txt
++ shift
++ for re in "$@"
++ grep -q -e 1 as_pid_1.txt
++ echo 'ok - can run as pid 1'
++ bwrap --bind / / --tmpfs /tmp --unshare-all --info-fd 42 --json-status-fd 43 -- bash -c 'exit 42'
++ assert_file_has_content info.json '"child-pid": [0-9]'
++ fpath=info.json
++ shift
++ for re in "$@"
++ grep -q -e '"child-pid": [0-9]' info.json
++ assert_file_has_content json-status.json '"child-pid": [0-9]'
++ fpath=json-status.json
++ shift
++ for re in "$@"
++ grep -q -e '"child-pid": [0-9]' json-status.json
++ assert_file_has_content_literal json-status.json '"exit-code": 42'
++ grep -q -F -e '"exit-code": 42' json-status.json
++ echo 'ok info and json-status fd'
+++ bwrap --bind / / --tmpfs /tmp --proc /proc --unshare-all --info-fd 42 --json-status-fd 43 -- bash -c 'stat -L --format "%n %i" /proc/self/ns/*'
++ DATA='/proc/self/ns/cgroup 4026532142
+/proc/self/ns/ipc 4026532080
+/proc/self/ns/mnt 4026532078
+/proc/self/ns/net 4026532144
+/proc/self/ns/pid 4026532081
+/proc/self/ns/pid_for_children 4026532081
+/proc/self/ns/user 4026532077
+/proc/self/ns/uts 4026532079'
++ for NS in "ipc" "mnt" "net" "pid" "uts"
+++ echo '/proc/self/ns/cgroup 4026532142
+/proc/self/ns/ipc 4026532080
+/proc/self/ns/mnt 4026532078
+/proc/self/ns/net 4026532144
+/proc/self/ns/pid 4026532081
+/proc/self/ns/pid_for_children 4026532081
+/proc/self/ns/user 4026532077
+/proc/self/ns/uts 4026532079'
+++ grep /proc/self/ns/ipc
+++ awk '{print $2}'
++ want=4026532080
++ assert_file_has_content info.json 4026532080
++ fpath=info.json
++ shift
++ for re in "$@"
++ grep -q -e 4026532080 info.json
++ assert_file_has_content json-status.json 4026532080
++ fpath=json-status.json
++ shift
++ for re in "$@"
++ grep -q -e 4026532080 json-status.json
++ for NS in "ipc" "mnt" "net" "pid" "uts"
+++ echo '/proc/self/ns/cgroup 4026532142
+/proc/self/ns/ipc 4026532080
+/proc/self/ns/mnt 4026532078
+/proc/self/ns/net 4026532144
+/proc/self/ns/pid 4026532081
+/proc/self/ns/pid_for_children 4026532081
+/proc/self/ns/user 4026532077
+/proc/self/ns/uts 4026532079'
+++ grep /proc/self/ns/mnt
+++ awk '{print $2}'
++ want=4026532078
++ assert_file_has_content info.json 4026532078
++ fpath=info.json
++ shift
++ for re in "$@"
++ grep -q -e 4026532078 info.json
++ assert_file_has_content json-status.json 4026532078
++ fpath=json-status.json
++ shift
++ for re in "$@"
++ grep -q -e 4026532078 json-status.json
++ for NS in "ipc" "mnt" "net" "pid" "uts"
+++ echo '/proc/self/ns/cgroup 4026532142
+/proc/self/ns/ipc 4026532080
+/proc/self/ns/mnt 4026532078
+/proc/self/ns/net 4026532144
+/proc/self/ns/pid 4026532081
+/proc/self/ns/pid_for_children 4026532081
+/proc/self/ns/user 4026532077
+/proc/self/ns/uts 4026532079'
+++ grep /proc/self/ns/net
+++ awk '{print $2}'
++ want=4026532144
++ assert_file_has_content info.json 4026532144
++ fpath=info.json
++ shift
++ for re in "$@"
++ grep -q -e 4026532144 info.json
++ assert_file_has_content json-status.json 4026532144
++ fpath=json-status.json
++ shift
++ for re in "$@"
++ grep -q -e 4026532144 json-status.json
++ for NS in "ipc" "mnt" "net" "pid" "uts"
+++ grep /proc/self/ns/pid
+++ echo '/proc/self/ns/cgroup 4026532142
+/proc/self/ns/ipc 4026532080
+/proc/self/ns/mnt 4026532078
+/proc/self/ns/net 4026532144
+/proc/self/ns/pid 4026532081
+/proc/self/ns/pid_for_children 4026532081
+/proc/self/ns/user 4026532077
+/proc/self/ns/uts 4026532079'
+++ awk '{print $2}'
++ want='4026532081
+4026532081'
++ assert_file_has_content info.json '4026532081
+4026532081'
++ fpath=info.json
++ shift
++ for re in "$@"
++ grep -q -e '4026532081
+4026532081' info.json
++ assert_file_has_content json-status.json '4026532081
+4026532081'
++ fpath=json-status.json
++ shift
++ for re in "$@"
++ grep -q -e '4026532081
+4026532081' json-status.json
++ for NS in "ipc" "mnt" "net" "pid" "uts"
+++ echo '/proc/self/ns/cgroup 4026532142
+/proc/self/ns/ipc 4026532080
+/proc/self/ns/mnt 4026532078
+/proc/self/ns/net 4026532144
+/proc/self/ns/pid 4026532081
+/proc/self/ns/pid_for_children 4026532081
+/proc/self/ns/user 4026532077
+/proc/self/ns/uts 4026532079'
+++ awk '{print $2}'
+++ grep /proc/self/ns/uts
++ want=4026532079
++ assert_file_has_content info.json 4026532079
++ fpath=info.json
++ shift
++ for re in "$@"
++ grep -q -e 4026532079 info.json
++ assert_file_has_content json-status.json 4026532079
++ fpath=json-status.json
++ shift
++ for re in "$@"
++ grep -q -e 4026532079 json-status.json
++ echo 'ok namespace id info in info and json-status fd'
++ which strace
++ echo 'ok - # SKIP no strace fault injection'
++ notanexecutable=/
++ bwrap --bind / / --tmpfs /tmp --json-status-fd 42 /
+bwrap: execvp /: Permission denied
++ true
++ assert_not_file_has_content json-status.json '"exit-code": [0-9]'
++ fpath=json-status.json
++ shift
++ for re in "$@"
++ grep -q -e '"exit-code": [0-9]' json-status.json
++ echo 'ok exec failure doesn'\''t include exit-code in json-status'
++ test -n ''
++ BWRAP_RECURSE='bwrap --unshare-all --uid 0 --gid 0 --cap-add ALL --bind / / --bind /proc /proc'
++ bwrap --unshare-all --uid 0 --gid 0 --cap-add ALL --bind / / --bind /proc /proc -- bwrap --unshare-all --bind / / --bind /proc /proc echo hello
++ assert_file_has_content recursive_proc.txt hello
++ fpath=recursive_proc.txt
++ shift
++ for re in "$@"
++ grep -q -e hello recursive_proc.txt
++ echo 'ok - can mount /proc recursively'
++ bwrap --unshare-all --uid 0 --gid 0 --cap-add ALL --bind / / --bind /proc /proc -- bwrap --unshare-all --ro-bind /usr /usr --ro-bind /etc /etc --dir /var/tmp --symlink usr/lib /lib --symlink usr/lib64 /lib64 --symlink usr/bin /bin --symlink usr/sbin /sbin --proc /proc --dev /dev findmnt
++ assert_file_has_content recursive-newroot.txt /usr
++ fpath=recursive-newroot.txt
++ shift
++ for re in "$@"
++ grep -q -e /usr recursive-newroot.txt
++ echo 'ok - can pivot to new rootfs recursively'
++ bwrap --bind / / --tmpfs /tmp --unshare-pid --bind /source-enoent /dest true
++ assert_file_has_content err.txt '^bwrap: Can'\''t find source path.*source-enoent'
++ fpath=err.txt
++ shift
++ for re in "$@"
++ grep -q -e '^bwrap: Can'\''t find source path.*source-enoent' err.txt
++ echo 'ok error prefxing'
++ true
++ capsh --print
++ for OPT in "" "--as-pid-1"
++ bwrap --bind / / --tmpfs /tmp --unshare-pid capsh --print
++ diff -u caps.orig caps.test
++ for OPT in "" "--as-pid-1"
++ bwrap --bind / / --tmpfs /tmp --as-pid-1 --unshare-pid capsh --print
++ diff -u caps.orig caps.test
++ bwrap --bind / / --tmpfs /tmp --as-pid-1 --cap-drop ALL --unshare-pid capsh --print
++ assert_file_has_content caps.test 'Current: =$'
++ fpath=caps.test
++ shift
++ for re in "$@"
++ grep -q -e 'Current: =$' caps.test
++ bwrap --bind / / --tmpfs /tmp --as-pid-1 --cap-drop CAP_KILL --cap-drop CAP_FOWNER --unshare-pid capsh --print
++ grep 'Current: =.*+eip$' caps.test
++ assert_file_has_content caps.test '^Current: =eip.*cap_kill.*-eip$'
++ fpath=caps.test
++ shift
++ for re in "$@"
++ grep -q -e '^Current: =eip.*cap_kill.*-eip$' caps.test
++ assert_file_has_content caps.test '^Current: =eip.*cap_fowner.*-eip$'
++ fpath=caps.test
++ shift
++ for re in "$@"
++ grep -q -e '^Current: =eip.*cap_fowner.*-eip$' caps.test
++ assert_not_file_has_content caps.test '^Current: =.*cap_net_bind_service.*-eip$'
++ fpath=caps.test
++ shift
++ for re in "$@"
++ grep -q -e '^Current: =.*cap_net_bind_service.*-eip$' caps.test
++ echo 'ok - we have the expected caps as uid 0'
++ cat
++ chmod a+x lockf-n.py
++ touch lock
++ for die_with_parent_argv in "--die-with-parent" "--die-with-parent --unshare-pid"
++ childshellpid=1630
+++ seq 10
+++ pwd
++ /bin/bash -c 'while true; do bwrap --bind / / --tmpfs /tmp --die-with-parent --lock-file /var/tmp/tap-test.viS03L/lock sleep 1h; done'
++ for x in $(seq 10)
++ ./lockf-n.py ./lock nowait
++ break
++ ./lockf-n.py ./lock nowait
++ kill -9 1630
++ ./lockf-n.py ./lock wait
+tests/test-run.sh: line 254:  1630 Killed                  /bin/bash -c "while true; do $RUN ${die_with_parent_argv} --lock-file $(pwd)/lock sleep 1h; done"
++ echo 'ok die with parent --die-with-parent'
++ for die_with_parent_argv in "--die-with-parent" "--die-with-parent --unshare-pid"
++ childshellpid=1643
+++ seq 10
+++ pwd
++ /bin/bash -c 'while true; do bwrap --bind / / --tmpfs /tmp --die-with-parent --unshare-pid --lock-file /var/tmp/tap-test.viS03L/lock sleep 1h; done'
++ for x in $(seq 10)
++ ./lockf-n.py ./lock nowait
++ break
++ ./lockf-n.py ./lock nowait
++ kill -9 1643
++ ./lockf-n.py ./lock wait
+tests/test-run.sh: line 254:  1643 Killed                  /bin/bash -c "while true; do $RUN ${die_with_parent_argv} --lock-file $(pwd)/lock sleep 1h; done"
++ echo 'ok die with parent --die-with-parent --unshare-pid'
++ printf '%s--dir\0/tmp/hello/world\0' ''
++ bwrap --bind / / --tmpfs /tmp --args 3 test -d /tmp/hello/world
++ echo 'ok - we can parse arguments from a fd'
++ mkdir bin
++ echo '#!/bin/sh'
++ echo 'echo hello'
++ chmod +x bin/--inadvisable-executable-name--
++ PATH=/tmp/autopkgtest.Y4O5ut/build.AXY/src/tests:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/sbin:/sbin
++ bwrap --bind / / --tmpfs /tmp -- sh -c 'echo hello'
++ assert_file_has_content stdout hello
++ fpath=stdout
++ shift
++ for re in "$@"
++ grep -q -e hello stdout
++ echo 'ok - we can run with --'
+++ pwd
++ PATH=/var/tmp/tap-test.viS03L/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/sbin:/sbin
++ bwrap --bind / / --tmpfs /tmp -- --inadvisable-executable-name--
++ assert_file_has_content stdout hello
++ fpath=stdout
++ shift
++ for re in "$@"
++ grep -q -e hello stdout
++ echo 'ok - we can run an inadvisable executable name with --'
++ bwrap --bind / / --tmpfs /tmp -- --dev-bind /dev /dev sh -c 'echo should not have run'
+bwrap: execvp --dev-bind: No such file or directory
++ echo 'ok - options like --dev-bind are defanged by --'
++ command -v mktemp
+++ mktemp /tmp/bwrap-test-XXXXXXXX
++ tempfile=/tmp/bwrap-test-H6n0wEaD
++ echo hello
++ bwrap --bind / / cat /tmp/bwrap-test-H6n0wEaD
++ assert_file_has_content stdout hello
++ fpath=stdout
++ shift
++ for re in "$@"
++ grep -q -e hello stdout
++ echo 'ok - bind-mount of / exposes real /tmp'
++ bwrap --bind / / --bind /tmp /tmp cat /tmp/bwrap-test-H6n0wEaD
++ assert_file_has_content stdout hello
++ fpath=stdout
++ shift
++ for re in "$@"
++ grep -q -e hello stdout
++ echo 'ok - bind-mount of /tmp exposes real /tmp'
++ '[' -d /mnt ']'
++ bwrap --bind / / --bind /tmp /mnt cat /mnt/bwrap-test-H6n0wEaD
++ assert_file_has_content stdout hello
++ fpath=stdout
++ shift
++ for re in "$@"
++ grep -q -e hello stdout
++ echo 'ok - bind-mount of /tmp onto /mnt exposes real /tmp'
++ bwrap --bind / / --tmpfs /tmp test -d /tmp/oldroot
++ bwrap --bind / / --tmpfs /tmp test -d /tmp/newroot
++ echo hello
+++ pwd
++ bwrap --bind / / --bind /var/tmp/tap-test.viS03L /tmp cat /tmp/input.1470
++ assert_file_has_content stdout hello
++ fpath=stdout
++ shift
++ for re in "$@"
++ grep -q -e hello stdout
+++ pwd
++ bwrap --bind / / --bind /var/tmp/tap-test.viS03L /tmp test -d /tmp/oldroot
+++ pwd
++ bwrap --bind / / --bind /var/tmp/tap-test.viS03L /tmp test -d /tmp/newroot
++ echo 'ok - we can mount another directory onto /tmp'
++ echo hello
+++ pwd
++ bwrap --bind / / --tmpfs /tmp --bind /var/tmp/tap-test.viS03L /tmp/here cat /tmp/here/input.1470
++ assert_file_has_content stdout hello
++ fpath=stdout
++ shift
++ for re in "$@"
++ grep -q -e hello stdout
+++ pwd
++ bwrap --bind / / --tmpfs /tmp --bind /var/tmp/tap-test.viS03L /tmp/here test -d /tmp/oldroot
+++ pwd
++ bwrap --bind / / --tmpfs /tmp --bind /var/tmp/tap-test.viS03L /tmp/here test -d /tmp/newroot
++ echo 'ok - we can mount another directory inside /tmp'
++ test -n ''
++ mkfifo donepipe
++ test -f sandbox-userns
++ sleep 1
++ bwrap --bind / / --tmpfs /tmp --info-fd 42 --unshare-user sh -c 'readlink /proc/self/ns/user > sandbox-userns; cat < donepipe'
++ test -f sandbox-userns
+++ extract_child_pid info.json
+++ grep child-pid info.json
+++ sed 's/^.*: \([0-9]*\).*/\1/'
++ SANDBOX1PID=1716
++ bwrap --bind / / --tmpfs /tmp --userns 11 readlink /proc/self/ns/user
++ echo foo
++ assert_files_equal sandbox-userns sandbox2-userns
++ cmp sandbox-userns sandbox2-userns
++ rm donepipe info.json sandbox-userns
++ echo 'ok - Test --userns'
++ mkfifo donepipe
++ test -f sandbox-pidns
++ sleep 1
++ bwrap --bind / / --tmpfs /tmp --info-fd 42 --unshare-user --unshare-pid sh -c 'readlink /proc/self/ns/pid > sandbox-pidns; cat < donepipe'
++ test -f sandbox-pidns
+++ extract_child_pid info.json
+++ grep child-pid info.json
+++ sed 's/^.*: \([0-9]*\).*/\1/'
++ SANDBOX1PID=1735
++ bwrap --bind / / --tmpfs /tmp --userns 11 --pidns 12 readlink /proc/self/ns/pid
++ echo foo
++ assert_files_equal sandbox-pidns sandbox2-pidns
++ cmp sandbox-pidns sandbox2-pidns
++ rm donepipe info.json sandbox-pidns
++ echo 'ok - Test --pidns'
++ echo 'ok - End of test'
++ cleanup
++ test -n ''
++ test -f /var/tmp/tap-test.viS03L/.test

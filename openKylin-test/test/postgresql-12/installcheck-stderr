@@ -1,0 +1,12 @@
++ dpkg-parsechangelog -SSource
++ SOURCE=postgresql-12
++ MAJOR=12
++ cd src/test/regress
++ make -f ../../../debian/tests/Makefile.regress PG_CONFIG=/usr/lib/postgresql/12/bin/pg_config with_llvm=no
++ sed -i -e s:@libdir@/regress:/tmp/autopkgtest.fcjCYY/build.1Sq/src/src/test/regress/regress: input/constraints.source input/copy.source input/create_function_1.source input/create_function_2.source input/largeobject.source input/misc.source input/tablespace.source output/constraints.source output/copy.source output/create_function_1.source output/create_function_2.source output/largeobject.source output/largeobject_1.source output/misc.source output/tablespace.source
++ rm -rf testtablespace results regression.*
++ mkdir testtablespace results
++ id -u
++ [ 1000 = 0 ]
++ pg_virtualenv -v 12 /usr/lib/postgresql/12/lib/pgxs/src/test/regress/pg_regress --schedule=parallel_schedule
+NOTICE:  database "regression" does not exist, skipping

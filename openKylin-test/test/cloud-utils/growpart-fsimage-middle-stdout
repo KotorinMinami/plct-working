@@ -1,0 +1,164 @@
+====== Testing with resizer=sfdisk =====
+==== before ====
+label: gpt
+label-id: 67CCB7DB-DEE7-4A7F-8F67-4DAC2B2F09A9
+device: disk-sfdisk.img
+unit: sectors
+first-lba: 34
+last-lba: 4194270
+
+disk-sfdisk.img1 : start=        2048, size=      204800, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4, uuid=5ADB0402-936C-4AF3-8E56-74C161BCF925, name="misc fs"
+disk-sfdisk.img2 : start=      206848, size=      524288, type=0657FD6D-A4AB-43C4-84E5-0933C84B4F4F, uuid=72174002-4428-427C-9DED-92479F1CDB4A, name="my swap"
+disk-sfdisk.img3 : start=      731136, size=      819200, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4, uuid=EE4FB792-DA02-4E1E-90DA-961D3A603225, name="root filesystem"
+disk-sfdisk.img4 : start=          34, size=        2014, type=21686148-6449-6E6F-744E-656564454649, uuid=AC2AF951-6AD2-4B14-818F-BF457A4386AD, name="BIOS boot partition"
+disk-sfdisk.img5 : start=     4061184, size=      133087, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4, uuid=FC3742E9-53E2-410C-8036-8B64DD9F2ED6, name="config drive"
+==== after ====
+label: gpt
+label-id: 67CCB7DB-DEE7-4A7F-8F67-4DAC2B2F09A9
+device: disk-sfdisk.img
+unit: sectors
+first-lba: 34
+last-lba: 4194270
+
+disk-sfdisk.img1 : start=        2048, size=      204800, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4, uuid=5ADB0402-936C-4AF3-8E56-74C161BCF925, name="misc fs"
+disk-sfdisk.img2 : start=      206848, size=      524288, type=0657FD6D-A4AB-43C4-84E5-0933C84B4F4F, uuid=72174002-4428-427C-9DED-92479F1CDB4A, name="my swap"
+disk-sfdisk.img3 : start=      731136, size=     3330048, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4, uuid=EE4FB792-DA02-4E1E-90DA-961D3A603225, name="root filesystem"
+disk-sfdisk.img4 : start=          34, size=        2014, type=21686148-6449-6E6F-744E-656564454649, uuid=AC2AF951-6AD2-4B14-818F-BF457A4386AD, name="BIOS boot partition"
+disk-sfdisk.img5 : start=     4061184, size=      133087, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4, uuid=FC3742E9-53E2-410C-8036-8B64DD9F2ED6, name="config drive"
+
+==== after sgdisk ===
+Disk disk-sfdisk.img: 4194304 sectors, 2.0 GiB
+Sector size (logical): 512 bytes
+Disk identifier (GUID): 67CCB7DB-DEE7-4A7F-8F67-4DAC2B2F09A9
+Partition table holds up to 128 entries
+Main partition table begins at sector 2 and ends at sector 33
+First usable sector is 34, last usable sector is 4194270
+Partitions will be aligned on 2-sector boundaries
+Total free space is 0 sectors (0 bytes)
+
+Number  Start (sector)    End (sector)  Size       Code  Name
+   1            2048          206847   100.0 MiB   8300  misc fs
+   2          206848          731135   256.0 MiB   8200  my swap
+   3          731136         4061183   1.6 GiB     8300  root filesystem
+   4              34            2047   1007.0 KiB  EF02  BIOS boot partition
+   5         4061184         4194270   65.0 MiB    8300  config drive
+==== growpart-stderr ===
+update-partition set to true
+resizing 3 on /tmp/test-growpart-fsimage-middle.hsnLIc/disk-sfdisk.img using resize_sfdisk_gpt
+running[sfd_list][erronly] sfdisk --list --unit=S /tmp/test-growpart-fsimage-middle.hsnLIc/disk-sfdisk.img
+4194304 sectors of 512. total size=2147483648 bytes
+running[sfd_dump][erronly] sfdisk --unit=S --dump /tmp/test-growpart-fsimage-middle.hsnLIc/disk-sfdisk.img
+## sfdisk --unit=S --dump /tmp/test-growpart-fsimage-middle.hsnLIc/disk-sfdisk.img
+label: gpt
+label-id: 67CCB7DB-DEE7-4A7F-8F67-4DAC2B2F09A9
+device: /tmp/test-growpart-fsimage-middle.hsnLIc/disk-sfdisk.img
+unit: sectors
+first-lba: 34
+last-lba: 4194270
+
+/tmp/test-growpart-fsimage-middle.hsnLIc/disk-sfdisk.img1 : start=        2048, size=      204800, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4, uuid=5ADB0402-936C-4AF3-8E56-74C161BCF925, name="misc fs"
+/tmp/test-growpart-fsimage-middle.hsnLIc/disk-sfdisk.img2 : start=      206848, size=      524288, type=0657FD6D-A4AB-43C4-84E5-0933C84B4F4F, uuid=72174002-4428-427C-9DED-92479F1CDB4A, name="my swap"
+/tmp/test-growpart-fsimage-middle.hsnLIc/disk-sfdisk.img3 : start=      731136, size=      819200, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4, uuid=EE4FB792-DA02-4E1E-90DA-961D3A603225, name="root filesystem"
+/tmp/test-growpart-fsimage-middle.hsnLIc/disk-sfdisk.img4 : start=          34, size=        2014, type=21686148-6449-6E6F-744E-656564454649, uuid=AC2AF951-6AD2-4B14-818F-BF457A4386AD, name="BIOS boot partition"
+/tmp/test-growpart-fsimage-middle.hsnLIc/disk-sfdisk.img5 : start=     4061184, size=      133087, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4, uuid=FC3742E9-53E2-410C-8036-8B64DD9F2ED6, name="config drive"
+max_end=4061184 tot=4194304 pt_end=1550336 pt_start=731136 pt_size=819200
+resize of /tmp/test-growpart-fsimage-middle.hsnLIc/disk-sfdisk.img returned 0.
+running[pt_update][] pt_update /tmp/test-growpart-fsimage-middle.hsnLIc/disk-sfdisk.img 3
+==== growpart-stdout ====
+CHANGED: partition=3 start=731136 old: size=819200 end=1550336 new: size=3330048 end=4061184
+====== Testing with resizer=sgdisk =====
+==== before ====
+label: gpt
+label-id: 67CCB7DB-DEE7-4A7F-8F67-4DAC2B2F09A9
+device: disk-sgdisk.img
+unit: sectors
+first-lba: 34
+last-lba: 4194270
+
+disk-sgdisk.img1 : start=        2048, size=      204800, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4, uuid=5ADB0402-936C-4AF3-8E56-74C161BCF925, name="misc fs"
+disk-sgdisk.img2 : start=      206848, size=      524288, type=0657FD6D-A4AB-43C4-84E5-0933C84B4F4F, uuid=72174002-4428-427C-9DED-92479F1CDB4A, name="my swap"
+disk-sgdisk.img3 : start=      731136, size=      819200, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4, uuid=EE4FB792-DA02-4E1E-90DA-961D3A603225, name="root filesystem"
+disk-sgdisk.img4 : start=          34, size=        2014, type=21686148-6449-6E6F-744E-656564454649, uuid=AC2AF951-6AD2-4B14-818F-BF457A4386AD, name="BIOS boot partition"
+disk-sgdisk.img5 : start=     4061184, size=      133087, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4, uuid=FC3742E9-53E2-410C-8036-8B64DD9F2ED6, name="config drive"
+==== after ====
+label: gpt
+label-id: 67CCB7DB-DEE7-4A7F-8F67-4DAC2B2F09A9
+device: disk-sgdisk.img
+unit: sectors
+first-lba: 34
+last-lba: 4194270
+
+disk-sgdisk.img1 : start=        2048, size=      204800, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4, uuid=5ADB0402-936C-4AF3-8E56-74C161BCF925, name="misc fs"
+disk-sgdisk.img2 : start=      206848, size=      524288, type=0657FD6D-A4AB-43C4-84E5-0933C84B4F4F, uuid=72174002-4428-427C-9DED-92479F1CDB4A, name="my swap"
+disk-sgdisk.img3 : start=      731136, size=     3330048, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4, uuid=EE4FB792-DA02-4E1E-90DA-961D3A603225, name="root filesystem"
+disk-sgdisk.img4 : start=          34, size=        2014, type=21686148-6449-6E6F-744E-656564454649, uuid=AC2AF951-6AD2-4B14-818F-BF457A4386AD, name="BIOS boot partition"
+disk-sgdisk.img5 : start=     4061184, size=      133087, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4, uuid=FC3742E9-53E2-410C-8036-8B64DD9F2ED6, name="config drive"
+
+==== after sgdisk ===
+Disk disk-sgdisk.img: 4194304 sectors, 2.0 GiB
+Sector size (logical): 512 bytes
+Disk identifier (GUID): 67CCB7DB-DEE7-4A7F-8F67-4DAC2B2F09A9
+Partition table holds up to 128 entries
+Main partition table begins at sector 2 and ends at sector 33
+First usable sector is 34, last usable sector is 4194270
+Partitions will be aligned on 2-sector boundaries
+Total free space is 0 sectors (0 bytes)
+
+Number  Start (sector)    End (sector)  Size       Code  Name
+   1            2048          206847   100.0 MiB   8300  misc fs
+   2          206848          731135   256.0 MiB   8200  my swap
+   3          731136         4061183   1.6 GiB     8300  root filesystem
+   4              34            2047   1007.0 KiB  EF02  BIOS boot partition
+   5         4061184         4194270   65.0 MiB    8300  config drive
+==== growpart-stderr ===
+update-partition set to true
+resizing 3 on /tmp/test-growpart-fsimage-middle.hsnLIc/disk-sgdisk.img using resize_sgdisk_gpt
+running[sgd_info][erronly] sgdisk --info=3 --print /tmp/test-growpart-fsimage-middle.hsnLIc/disk-sgdisk.img
+WARN: did not find sector size, assuming 512
+disk=/tmp/test-growpart-fsimage-middle.hsnLIc/disk-sgdisk.img partition=3: original sgdisk info:
+Partition GUID code: 0FC63DAF-8483-4772-8E79-3D69D8477DE4 (Linux filesystem)
+Partition unique GUID: EE4FB792-DA02-4E1E-90DA-961D3A603225
+First sector: 731136 (at 357.0 MiB)
+Last sector: 1550335 (at 757.0 MiB)
+Partition size: 819200 sectors (400.0 MiB)
+Attribute flags: 0000000000000000
+Partition name: 'root filesystem'
+Disk /tmp/test-growpart-fsimage-middle.hsnLIc/disk-sgdisk.img: 4194304 sectors, 2.0 GiB
+Sector size (logical): 512 bytes
+Disk identifier (GUID): 67CCB7DB-DEE7-4A7F-8F67-4DAC2B2F09A9
+Partition table holds up to 128 entries
+Main partition table begins at sector 2 and ends at sector 33
+First usable sector is 34, last usable sector is 4194270
+Partitions will be aligned on 2-sector boundaries
+Total free space is 2510848 sectors (1.2 GiB)
+
+Number  Start (sector)    End (sector)  Size       Code  Name
+   1            2048          206847   100.0 MiB   8300  misc fs
+   2          206848          731135   256.0 MiB   8200  my swap
+   3          731136         1550335   400.0 MiB   8300  root filesystem
+   4              34            2047   1007.0 KiB  EF02  BIOS boot partition
+   5         4061184         4194270   65.0 MiB    8300  config drive
+running[sgd_pretend][erronly] sgdisk --pretend --move-second-header --print /tmp/test-growpart-fsimage-middle.hsnLIc/disk-sgdisk.img
+disk=/tmp/test-growpart-fsimage-middle.hsnLIc/disk-sgdisk.img partition=3: pretend sgdisk info
+Disk /tmp/test-growpart-fsimage-middle.hsnLIc/disk-sgdisk.img: 4194304 sectors, 2.0 GiB
+Sector size (logical): 512 bytes
+Disk identifier (GUID): 67CCB7DB-DEE7-4A7F-8F67-4DAC2B2F09A9
+Partition table holds up to 128 entries
+Main partition table begins at sector 2 and ends at sector 33
+First usable sector is 34, last usable sector is 4194270
+Partitions will be aligned on 2-sector boundaries
+Total free space is 2510848 sectors (1.2 GiB)
+
+Number  Start (sector)    End (sector)  Size       Code  Name
+   1            2048          206847   100.0 MiB   8300  misc fs
+   2          206848          731135   256.0 MiB   8200  my swap
+   3          731136         1550335   400.0 MiB   8300  root filesystem
+   4              34            2047   1007.0 KiB  EF02  BIOS boot partition
+   5         4061184         4194270   65.0 MiB    8300  config drive
+disk=/tmp/test-growpart-fsimage-middle.hsnLIc/disk-sgdisk.img partition=3: pt_start=731136 pt_end=1550336 pt_size=819200 pt_max=4061184 last=4194270
+disk=/tmp/test-growpart-fsimage-middle.hsnLIc/disk-sgdisk.img partition=3: code=0FC63DAF-8483-4772-8E79-3D69D8477DE4 guid=EE4FB792-DA02-4E1E-90DA-961D3A603225 name='root filesystem'
+running[sgd_backup][] sgdisk --backup=/tmp/growpart.VesB1d/pt.backup /tmp/test-growpart-fsimage-middle.hsnLIc/disk-sgdisk.img
+running[sgdisk_mod][] sgdisk --move-second-header --delete=3 --new=3:731136:4061183 --typecode=3:0FC63DAF-8483-4772-8E79-3D69D8477DE4 --partition-guid=3:EE4FB792-DA02-4E1E-90DA-961D3A603225 '--change-name=3:root filesystem' /tmp/test-growpart-fsimage-middle.hsnLIc/disk-sgdisk.img
+running[pt_update][] pt_update /tmp/test-growpart-fsimage-middle.hsnLIc/disk-sgdisk.img 3
+==== growpart-stdout ====
+CHANGED: partition=3 start=731136 old: size=819200 end=1550336 new: size=3330048 end=4061184

@@ -1,0 +1,27 @@
++ + greptestparm -s -qE
+ ^\[homes\]
++ echo Adding [homes] share
++ cat
++ systemctl reload smbd.service
++ username=smbtest2264
++ password=2264
++ echo Creating a local test user called smbtest2264
++ useradd -m smbtest2264
++ echo Setting samba password for the smbtest2264 user
++ + echo 2264\n2264
+smbpasswd -s -a smbtest2264
++ eval echo ~smbtest2264
++ echo /home/smbtest2264
++ userhome=/home/smbtest2264
++ echo Creating file with random data and computing its md5
++ dd if=/dev/urandom bs=1 count=128
++ base64
++ chown smbtest2264:smbtest2264 /home/smbtest2264/data
++ cd /home/smbtest2264
++ md5sum data
++ rm -f downloaded-data
++ echo Downloading file and comparing its md5
++ smbclient //localhost/smbtest2264 -U smbtest2264%2264 -c get data downloaded-data
+getting file \data of size 175 as downloaded-data (2.7 KiloBytes/sec) (average 2.7 KiloBytes/sec)
++ mv -f downloaded-data data
++ md5sum -c data.md5

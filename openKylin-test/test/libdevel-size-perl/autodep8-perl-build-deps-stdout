@@ -1,0 +1,308 @@
+t/basic.t ....... 
+1..30
+ok 1 - Devel::Size->can(...)
+ok 2 - VERSION MATCHES
+ok 3 - size() of strings
+ok 4 - total_size() of strings
+ok 5 - size() of array refs
+ok 6 - size() of array refs
+ok 7 -  ."" makes string longer
+ok 8 - the tracking hash is working
+ok 9 - circular references
+ok 10 - total_size( sub{ my $t=0 } ) > 0
+ok 11 - total_size(\&total_size) > 0
+ok 12 - total_size for a constant includes the constant
+ok 13 - Any intial reference is dereferenced and discarded
+ok 14 - PL_sv_undef is interpeter wide, so not counted as part of the structure's size
+ok 15 - PL_sv_no is interpeter wide, so not counted as part of the structure's size
+ok 16 - PL_sv_yes is interpeter wide, so not counted as part of the structure's size
+ok 17 - Size before is sane
+ok 18 - Size doesn't change because OOK is used
+ok 19 - but string is shorter
+ok 20 - Size of one entry is sane
+ok 21 - Two take more space than one
+ok 22 - Linear size increase for three
+ok 23 - Size of one entry is sane
+ok 24 - Two take more space than one
+ok 25 - Linear size increase for three
+ok 26 - The "shared" part of shared hash keys is spotted
+ok 27 - Hash size is sane
+ok 28 - Stash size is larger than hash size plus length of the name
+ok 29 - Hash size is sane
+ok 30 - Creating iteration state allocates storage
+ok
+t/code.t ........ 
+1..20
+ok 1 - CV generated at runtime has a size
+ok 2 - CV stubbed at compiletime is the same size
+ok 3 - prototype has a length
+ok 4 - prototypes add to the size
+ok 5 - sub bodies add to the size
+ok 6 - anonymous subroutines have a size
+ok 7 - prototype has a length
+ok 8 - prototypes add to the size
+ok 9 - aelemfast for a lexical is handled correctly
+ok 10 - aelemfast for a package variable is larger
+ok 11 - OPc_PVOP can be measured
+ok 12 - the only size difference is the label length
+ok 13 - Recursion increases the PADLIST
+ok 14 - CvOUTSIDE is now NULL on cloned closures, unless they have eval
+ok 15 - &two_lex is bigger than an empty sub
+ok 16 - &two_lex is bigger than an empty sub by less than 2048 bytes
+ok 17 - &ode is bigger than a sub with two lexicals by least 384 bytes
+ok 18 - &ode is bigger than a sub with two lexicals by less than 768 bytes
+ok 19 - utf8 dest with non-utf8 args
+ok 20 - pad constant makes this at least 1K
+ok
+t/globs.t ....... 
+1..44
+ok 1 - Array has a positive size
+ok 2 - GVs have a positive size
+ok 3 - agregate size is overhead plus GV
+ok 4 - agregate size for 2 GVs is larger
+ok 5 - agregate size for 2 GVs is not larger than overhead plus 2 GVs
+ok 6 - linear growth for 1, 2 and 3 GVs - 43 bytes are shared
+ok 7 - Aliased typeglobs are smaller
+ok 8 - 3 aliased typeglobs are smaller, shared GP size is 80
+ok 9 - GV copies point back to the real GV
+ok 10 - Created a reference for SCALAR
+ok 11 - For SCALAR, new item has a size
+ok 12 - Under ithreads, the optree doesn't directly close onto a GV, so CVs won't change size
+ok 13 - IO total_size grew by expected amount for SCALAR
+ok 14 - GV size grew by expected amount for SCALAR
+ok 15 - GV total_size grew by expected amount for SCALAR
+ok 16 - No reference for ARRAY
+ok 17 - Created a reference for ARRAY
+ok 18 - For ARRAY, new item has a size
+ok 19 - Under ithreads, the optree doesn't directly close onto a GV, so CVs won't change size
+ok 20 - IO total_size grew by expected amount for ARRAY
+ok 21 - GV size grew by expected amount for ARRAY
+ok 22 - GV total_size grew by expected amount for ARRAY
+ok 23 - No reference for HASH
+ok 24 - Created a reference for HASH
+ok 25 - For HASH, new item has a size
+ok 26 - Under ithreads, the optree doesn't directly close onto a GV, so CVs won't change size
+ok 27 - IO total_size grew by expected amount for HASH
+ok 28 - GV size grew by expected amount for HASH
+ok 29 - GV total_size grew by expected amount for HASH
+ok 30 - No reference for FORMAT
+ok 31 - Created a reference for FORMAT
+ok 32 - For FORMAT, new item has a size
+ok 33 - Under ithreads, the optree doesn't directly close onto a GV, so CVs won't change size
+ok 34 - IO grew for FORMAT
+ok 35 - GV size grew for FORMAT
+ok 36 - GV total size grew for FORMAT
+ok 37 - No reference for CODE
+ok 38 - Created a reference for CODE
+ok 39 - For CODE, new item has a size
+ok 40 - Under ithreads, the optree doesn't directly close onto a GV, so CVs won't change size
+ok 41 - IO grew for CODE
+ok 42 - GV size grew for CODE
+ok 43 - GV total size grew for CODE
+ok 44 - No warnings emitted
+ok
+t/magic.t ....... 
+1..18
+ok 1 - It had better match
+ok 2 - Our string has a non-zero length
+ok 3 - size increases due to magic
+ok 4 - Our string has a non-zero length
+ok 5 - size increases due to magic (and the compiled state)
+ok 6 - Still larger than initial size
+ok 7 - size decreases due to unmagic
+ok 8 - Our string has a non-zero length
+ok 9 - size increases due to magic
+ok 10 - No value yet
+ok 11 - the magic object is counted
+ok 12 - v-string is \0
+ok 13 - total_size follows MG_PTR
+ok 14 - Our string has a non-zero length
+ok 15 - length is sane
+ok 16 - UTF-8 caching fired and counted
+ok 17 - b is where we expect it
+ok 18 - UTF-8 caching length table now present
+ok
+t/pvbm.t ........ 
+1..2
+ok 1 - PVBMs don't cause SEGVs
+ok 2 - PVBMs use 256 bytes for a lookup table # TODO Under ithreads, pad constants are no longer PVBMs
+ok
+t/recurse.t ..... 
+1..84
+ok 1 - 4 pointers are dividable by 4
+ok 2 - 4 pointers are not zero
+ok 3 - assert hash and hash key size
+ok 4 - element < hash with one element
+ok 5 - PVNV + [] > [] alone
+ok 6 - [] vs. []
+ok 7 - properly recurses into PVNV
+ok 8 - properly recurses into PVNV
+ok 9 - hash element vs. array
+ok 10 - [0..size] vs PVNV
+ok 11 - [0..size] vs. PVNV
+# full_hash = 395
+# hash_size = 179
+# array size: 184
+# element size: 216
+# ref_size = 24
+# pvnv_size: 56
+ok 12 - properly recurses into PVNV
+# full_hash = 459
+# hash_size = 179
+# array size: 248
+# element size: 280
+# ref_size = 24
+# pvnv_size: 56
+ok 13 - properly recurses into PVNV
+ok 14 - computed right size if full array
+# full_hash = 435
+# hash_size = 179
+# array size: 224
+# element size: 256
+# ref_size = 24
+# pvnv_size: 56
+ok 15 - properly handles undef/non-undef inside arrays
+ok 16 - element < hash with one element
+ok 17 - PVNV + [] > [] alone
+ok 18 - [] vs. []
+ok 19 - properly recurses into PVNV
+ok 20 - properly recurses into PVNV
+ok 21 - hash element vs. array
+ok 22 - [0..size] vs PVNV
+ok 23 - [0..size] vs. PVNV
+# full_hash = 427
+# hash_size = 179
+# array size: 216
+# element size: 248
+# ref_size = 24
+# pvnv_size: 56
+ok 24 - properly recurses into PVNV
+# full_hash = 491
+# hash_size = 179
+# array size: 280
+# element size: 312
+# ref_size = 24
+# pvnv_size: 56
+ok 25 - properly recurses into PVNV
+ok 26 - computed right size if full array
+# full_hash = 467
+# hash_size = 179
+# array size: 256
+# element size: 288
+# ref_size = 24
+# pvnv_size: 56
+ok 27 - properly handles undef/non-undef inside arrays
+ok 28 - element < hash with one element
+ok 29 - PVNV + [] > [] alone
+ok 30 - [] vs. []
+ok 31 - properly recurses into PVNV
+ok 32 - properly recurses into PVNV
+ok 33 - hash element vs. array
+ok 34 - [0..size] vs PVNV
+ok 35 - [0..size] vs. PVNV
+# full_hash = 555
+# hash_size = 179
+# array size: 344
+# element size: 376
+# ref_size = 24
+# pvnv_size: 56
+ok 36 - properly recurses into PVNV
+# full_hash = 619
+# hash_size = 179
+# array size: 408
+# element size: 440
+# ref_size = 24
+# pvnv_size: 56
+ok 37 - properly recurses into PVNV
+ok 38 - computed right size if full array
+# full_hash = 595
+# hash_size = 179
+# array size: 384
+# element size: 416
+# ref_size = 24
+# pvnv_size: 56
+ok 39 - properly handles undef/non-undef inside arrays
+ok 40 - element < hash with one element
+ok 41 - PVNV + [] > [] alone
+ok 42 - [] vs. []
+ok 43 - properly recurses into PVNV
+ok 44 - properly recurses into PVNV
+ok 45 - hash element vs. array
+ok 46 - [0..size] vs PVNV
+ok 47 - [0..size] vs. PVNV
+# full_hash = 3531
+# hash_size = 179
+# array size: 3320
+# element size: 3352
+# ref_size = 24
+# pvnv_size: 56
+ok 48 - properly recurses into PVNV
+# full_hash = 3595
+# hash_size = 179
+# array size: 3384
+# element size: 3416
+# ref_size = 24
+# pvnv_size: 56
+ok 49 - properly recurses into PVNV
+ok 50 - computed right size if full array
+# full_hash = 3571
+# hash_size = 179
+# array size: 3360
+# element size: 3392
+# ref_size = 24
+# pvnv_size: 56
+ok 51 - properly handles undef/non-undef inside arrays
+ok 52 - non-zero size for NULL
+ok 53 - non-zero size for IV
+ok 54 - non-zero size for array with 1 element
+ok 55 - gaps in arrays don't allocate scalars
+ok 56 - two arrays compare the same (same element count)
+ok 57 - two arrays compare the same (element 2)
+ok 58 - two arrays compare the same (element 1)
+ok 59 - two arrays compare the same (element 0)
+ok 60 - assigning undef to a gap in an array allocates a scalar
+ok 61 - two arrays compare the same (same element count)
+ok 62 - two arrays compare the same (element 2)
+ok 63 - two arrays compare the same (element 1)
+ok 64 - two arrays compare the same (element 0)
+ok 65 - Type RV containing a reference, size() does not recurse to the referent
+ok 66 - Type RV, total_size() recurses to the referent
+ok 67 - Type PVNV containing a reference, size() does not recurse to the referent
+ok 68 - Type PVNV, total_size() recurses to the referent
+ok 69 - Type PVMG containing a reference, size() does not recurse to the referent
+ok 70 - Type PVMG, total_size() recurses to the referent
+ok 71 - Type PVIV containing a reference, size() does not recurse to the referent
+ok 72 - Type PVIV, total_size() recurses to the referent
+ok 73 - Type PV containing a reference, size() does not recurse to the referent
+ok 74 - Type PV, total_size() recurses to the referent
+ok 75 - Type NV containing a reference, size() does not recurse to the referent
+ok 76 - Type NV, total_size() recurses to the referent
+ok 77 - Type NULL containing a reference, size() does not recurse to the referent
+ok 78 - Type NULL, total_size() recurses to the referent
+ok 79 - Type IV containing a reference, size() does not recurse to the referent
+ok 80 - Type IV, total_size() recurses to the referent
+ok 81 - subroutine is at least 2.5K
+ok 82 - subroutine is no more than 50K
+ok 83 - Test::More's symbol table is at least 100K
+ok 84
+Devel::Size: Calculated sizes for compiled regexes are incompatible, and probably always will be
+Devel::Size: Calculated sizes for compiled regexes are incompatible, and probably always will be
+Devel::Size: Calculated sizes for compiled regexes are incompatible, and probably always will be
+ok
+t/signatures.t .. 
+ok 1 - basic signature
+ok 2 - signature with default
+ok 3 - more signature
+ok 4 - more slurpy
+ok 5 - No warnings emitted
+1..5
+ok
+t/warnings.t .... skipped: no Test::PerlRun found
+All tests successful.
+
+Test Summary Report
+-------------------
+t/pvbm.t      (Wstat: 0 Tests: 2 Failed: 0)
+  TODO passed:   2
+Files=8, Tests=203,  9 wallclock secs ( 0.55 usr  0.25 sys +  6.18 cusr  2.04 csys =  9.02 CPU)
+Result: PASS

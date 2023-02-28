@@ -1,0 +1,38 @@
++ . debian/tests/util
++ set -ex
++ TEST_REALM=EXAMPLE.INTERNAL
++ MYHOSTNAME=krb5-dep8.internal
++ adjust_hostname krb5-dep8.internal
++ local myhostname=krb5-dep8.internal
++ echo krb5-dep8.internal
++ hostname krb5-dep8.internal
++ grep -qE krb5-dep8.internal /etc/hosts
++ create_realm EXAMPLE.INTERNAL krb5-dep8.internal
++ local realm_name=EXAMPLE.INTERNAL
++ local kerberos_server=krb5-dep8.internal
++ rm -rf /var/lib/krb5kdc/principal /var/lib/krb5kdc/principal.kadm5 /var/lib/krb5kdc/principal.kadm5.lock /var/lib/krb5kdc/principal.ok
++ rm -rf /etc/krb5kdc/kadm5.acl /etc/krb5kdc/kdc.conf /etc/krb5kdc/stash
++ rm -f /etc/krb5.keytab
++ cat
++ cat
++ echo # */admin *
++ kdb5_util create -s -P secretpassword
++ systemctl restart krb5-kdc.service krb5-admin-server.service
++ systemctl restart slapd.service
++ principal=testuser3758
++ kadmin.local -q addprinc -pw secret testuser3758
+WARNING: no policy specified for testuser3758@EXAMPLE.INTERNAL; defaulting to no policy
++ kadmin.local -q addprinc -randkey ldap/krb5-dep8.internal
+WARNING: no policy specified for ldap/krb5-dep8.internal@EXAMPLE.INTERNAL; defaulting to no policy
++ kadmin.local -q ktadd -k /etc/krb5.keytab ldap/krb5-dep8.internal
++ chown root:openldap /etc/krb5.keytab
++ chmod 0640 /etc/krb5.keytab
++ cat
++ echo secret
++ kinit testuser3758
++ klist
++ grep krbtgt/EXAMPLE.INTERNAL@EXAMPLE.INTERNAL
++ + ldapwhoami -Y GSSAPI -Q
+grep -E ^dn:uid=testuser3758,cn=gssapi,cn=auth
+ldap_sasl_interactive_bind: Other (e.g., implementation specific) error (80)
+	additional info: SASL(-1): generic failure: GSSAPI Error: Unspecified GSS failure.  Minor code may provide more information (Cannot create replay cache file /var/tmp/ldap_115: Permission denied)

@@ -1,0 +1,24 @@
++ cd /etc/ssl/private
++ [ -f ssl-cert-snakeoil.key.nopassphrase ]
++ mv ssl-cert-snakeoil.key ssl-cert-snakeoil.key.nopassphrase
++ openssl rsa -des3 -in ssl-cert-snakeoil.key.nopassphrase -out ssl-cert-snakeoil.key -passout pass:test
+writing RSA key
++ a2enmod ssl
++ a2ensite default-ssl
++ + expect
+password_responder
++ [ ! -e /run/systemd/ask-password/sck.* ]
++ sleep 1
++ [ ! -e /run/systemd/ask-password/sck.* ]
++ sleep 1
++ [ ! -e /run/systemd/ask-password/sck.6c793e3233dabbeb ]
++ echo ssl-passphrase test password responder: found prompt, sending password
++ echo test
++ /lib/systemd/systemd-reply-password 1 /run/systemd/ask-password/sck.6c793e3233dabbeb
++ echo Hello, world!
++ curl -k https://localhost/hello.txt
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    14  100    14    0     0     47      0 --:--:-- --:--:-- --:--:--    47
++ result=Hello, world!
++ [ Hello, world! != Hello, world! ]

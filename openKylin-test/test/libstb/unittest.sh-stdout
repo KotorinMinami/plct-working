@@ -1,0 +1,54 @@
+cp stb.h stb.c
+cc -fPIC -DSTB_DEFINE -DSTB_IMPLEMENTATION -c stb.c
+cp stb_c_lexer.h stb_c_lexer.c
+cc -fPIC -DSTB_DEFINE -DSTB_C_LEXER_IMPLEMENTATION -c stb_c_lexer.c
+cp stb_divide.h stb_divide.c
+cc -fPIC -DSTB_DEFINE -DSTB_DIVIDE_IMPLEMENTATION -c stb_divide.c
+cp stb_ds.h stb_ds.c
+cc -fPIC -DSTB_DEFINE -DSTB_DS_IMPLEMENTATION -c stb_ds.c
+cp stb_dxt.h stb_dxt.c
+cc -fPIC -DSTB_DEFINE -DSTB_DXT_IMPLEMENTATION -c stb_dxt.c
+cp stb_herringbone_wang_tile.h stb_herringbone_wang_tile.c
+cc -fPIC -DSTB_DEFINE -DSTB_HERRINGBONE_WANG_TILE_IMPLEMENTATION -c stb_herringbone_wang_tile.c
+cp stb_image.h stb_image.c
+cc -fPIC -DSTB_DEFINE -DSTB_IMAGE_IMPLEMENTATION -c stb_image.c
+cp stb_image_resize.h stb_image_resize.c
+cc -fPIC -DSTB_DEFINE -DSTB_IMAGE_RESIZE_IMPLEMENTATION -c stb_image_resize.c
+cp stb_image_write.h stb_image_write.c
+cc -fPIC -DSTB_DEFINE -DSTB_IMAGE_WRITE_IMPLEMENTATION -c stb_image_write.c
+cp stb_include.h stb_include.c
+cc -fPIC -DSTB_DEFINE -DSTB_INCLUDE_IMPLEMENTATION -c stb_include.c
+cp stb_leakcheck.h stb_leakcheck.c
+cc -fPIC -DSTB_DEFINE -DSTB_LEAKCHECK_IMPLEMENTATION -c stb_leakcheck.c
+cp stb_perlin.h stb_perlin.c
+cc -fPIC -DSTB_DEFINE -DSTB_PERLIN_IMPLEMENTATION -c stb_perlin.c
+cp stb_rect_pack.h stb_rect_pack.c
+cc -fPIC -DSTB_DEFINE -DSTB_RECT_PACK_IMPLEMENTATION -c stb_rect_pack.c
+cp stb_sprintf.h stb_sprintf.c
+cc -fPIC -DSTB_DEFINE -DSTB_SPRINTF_IMPLEMENTATION -c stb_sprintf.c
+cp stb_truetype.h stb_truetype.c
+cc -fPIC -DSTB_DEFINE -DSTB_TRUETYPE_IMPLEMENTATION -c stb_truetype.c
+cc -fPIC -DSTB_DEFINE -DSTB_VORBIS_IMPLEMENTATION -c stb_vorbis.c
+cp stretchy_buffer.h stretchy_buffer.c
+cc -fPIC -DSTB_DEFINE -DSTRETCHY_BUFFER_IMPLEMENTATION -c stretchy_buffer.c
+ar rcs libstb.a stb.o stb_c_lexer.o stb_divide.o stb_ds.o stb_dxt.o stb_herringbone_wang_tile.o stb_image.o stb_image_resize.o stb_image_write.o stb_include.o stb_leakcheck.o stb_perlin.o stb_rect_pack.o stb_sprintf.o stb_truetype.o stb_vorbis.o stretchy_buffer.o
+cc -shared -Wl,-soname,libstb.so.0  -o libstb.so stb.o stb_c_lexer.o stb_divide.o stb_ds.o stb_dxt.o stb_herringbone_wang_tile.o stb_image.o stb_image_resize.o stb_image_write.o stb_include.o stb_leakcheck.o stb_perlin.o stb_rect_pack.o stb_sprintf.o stb_truetype.o stb_vorbis.o stretchy_buffer.o -lm
+rm stb_rect_pack.c stb_truetype.c stb_dxt.c stretchy_buffer.c stb_c_lexer.c stb_image_write.c stb_include.c stb_divide.c stb_perlin.c stb.c stb_image.c stb_image_resize.c stb_herringbone_wang_tile.c stb_leakcheck.c stb_sprintf.c stb_ds.c
+make: Entering directory '/tmp/autopkgtest.O3JbT5/build.ZlH/src/tests'
+mkdir -p output
+cp ../stb_divide.h ../stb_divide.c
+cc -I.. -DSTB_DIVIDE_IMPLEMENTATION -DSTB_DIVIDE_TEST -o test_stb_divide.o -c ../stb_divide.c
+cc -lm  test_stb_divide.o   -o test_stb_divide
+./test_stb_divide
+cp ../stb_c_lexer.h ../stb_c_lexer.c
+cc -I.. -DSTB_C_LEXER_IMPLEMENTATION -DSTB_C_LEXER_SELF_TEST -o test_stb_c_lexer.o -c ../stb_c_lexer.c
+cc -lm  test_stb_c_lexer.o   -o test_stb_c_lexer
+cd ..; ./tests/test_stb_c_lexer > /dev/null
+cc -I.. -DPNGSUITE_PRIMARY -o image_test.o -c image_test.c
+cc -I..   -c -o image_write_test.o image_write_test.c
+ln -s ../libstb.so libstb.so.0
+cc -o image_test image_test.o image_write_test.o libstb.so.0 -lm
+LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH ./image_test
+.............................................................................Tested 77 files.
+g++ -I.. -o /dev/null -c test_cpp_compilation.cpp
+make: Leaving directory '/tmp/autopkgtest.O3JbT5/build.ZlH/src/tests'
