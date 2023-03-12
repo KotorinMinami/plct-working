@@ -1,0 +1,64 @@
+# 本周工作计划
+## 针对上周排查的部分缺失的测试，编写对应的mugen测试例
+包括：
+- shutdown (multi mechine)
+- ntpdate cn.pool.ntp.org
+- find and ls
+    - find . -type f -perm 644
+    - ls -l
+- sed
+- updatedb
+- tee
+- dircolors -p
+- declare
+- enable
+- set
+- unset
+- alias
+- finger
+- chfn
+- logname
+- last
+- lastb
+- nice
+- renice
+- tload
+- w
+- ar
+- chgrp
+- ln (硬链接)
+- file check link
+- cksum
+- colrm
+- comm
+- cat
+- csplit
+- ed
+- fold
+- nl
+- grep -l
+- look
+- expr
+- uniq
+- dir -l
+- du
+- ls -ltr
+- dnf (being compared)
+- lvm (being compared)
+- sfdisk
+- fsck
+- badblocks
+- gcc -v
+- clang
+- glibc
+- libstdc++
+- libffi
+- libnet
+- libevent
+- libcurl
+- freetype
+- zlib
+- openssl
+- nss
+- pango
+- cairo
