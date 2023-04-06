@@ -1,0 +1,256 @@
++ source /root/GitRepo/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Apr  5 14:23:08 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'freeradius freeradius-utils perl-DBD-MySQL mysql5 mysql5-server freeradius-mysql'
++ pkgs='freeradius freeradius-utils perl-DBD-MySQL mysql5 mysql5-server freeradius-mysql'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen/libs/locallibs/rpm_manage.py install --pkgs 'freeradius freeradius-utils perl-DBD-MySQL mysql5 mysql5-server freeradius-mysql' --node 1 --tempfile ''
+Wed Apr  5 14:23:18 2023 - ERROR - pkgs:(mysql5 mysql5-server) not found
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ systemctl start mysqld
+Failed to start mysqld.service: Unit mysqld.service not found.
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ mysqladmin -uroot password Test123
+oe_test_freeradius_freeradius-utils_radsqlrelay.sh: line 27: mysqladmin: command not found
++ mysql -uroot -pTest123 -e 'create database radius;
+                               use radius;
+                               source /etc/raddb/mods-config/sql/main/mysql/schema.sql;                       
+    '
+oe_test_freeradius_freeradius-utils_radsqlrelay.sh: line 28: mysql: command not found
++ sed -i 's/driver = "rlm_sql_null"/driver = "rlm_sql_mysql"/g' /etc/raddb/mods-available/sql
+sed: can't read /etc/raddb/mods-available/sql: No such file or directory
++ sed -i 's/dialect = "sqlite"/dialect = "mysql"/g' /etc/raddb/mods-available/sql
+sed: can't read /etc/raddb/mods-available/sql: No such file or directory
++ sed -i '/server = "localhost"/a server = "localhost"' /etc/raddb/mods-available/sql
+sed: can't read /etc/raddb/mods-available/sql: No such file or directory
++ sed -i '/port = 3306/a port = 3306' /etc/raddb/mods-available/sql
+sed: can't read /etc/raddb/mods-available/sql: No such file or directory
++ sed -i '/login = "radius"/a login = "root"' /etc/raddb/mods-available/sql
+sed: can't read /etc/raddb/mods-available/sql: No such file or directory
++ sed -i '/password = "radpass"/a password = "Test123"' /etc/raddb/mods-available/sql
+sed: can't read /etc/raddb/mods-available/sql: No such file or directory
++ ln -s /etc/raddb/mods-available/sql /etc/raddb/mods-enabled/
+ln: failed to create symbolic link '/etc/raddb/mods-enabled/': No such file or directory
++ echo 'insert into radcheck (username,attribute,op,value) values ('\''wjf'\'','\''Cleartext-Password'\'','\'':='\'','\''wjf123'\'');'
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Wed Apr  5 14:23:22 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Apr  5 14:23:23 2023 - INFO  - Start to run test.
++ grep usage
++ radsqlrelay '-?'
+usage: radsqlrelay [options] file_path
++ CHECK_RESULT 0 0 0 'radsqlrelay -? execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radsqlrelay -? execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ radsqlrelay -1 -d mysql -b radius -h localhost -p Test123 -u root /tmp/radius.sql
+install_driver(mysql) failed: Can't locate DBD/mysql.pm in @INC (you may need to install the DBD::mysql module) (@INC contains: /usr/local/lib64/perl5 /usr/local/share/perl5 /usr/lib64/perl5/vendor_perl /usr/share/perl5/vendor_perl /usr/lib64/perl5 /usr/share/perl5) at (eval 8) line 3.
+Perhaps the DBD::mysql perl module hasn't been fully installed,
+or perhaps the capitalisation of 'mysql' isn't right.
+Available drivers: DBM, ExampleP, File, Gofer, Mem, Sponge.
+ at /usr/bin/radsqlrelay line 149.
++ mysql -uroot -pTest123 -e 'use radius;
+                               select * from radcheck where username='\''wjf'\'';
+    '
+oe_test_freeradius_freeradius-utils_radsqlrelay.sh: line 50: mysql: command not found
++ grep wjf
++ CHECK_RESULT 1 0 0 'radsqlrelay -1 -d -b -h -p -u execution failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='radsqlrelay -1 -d -b -h -p -u execution failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'radsqlrelay -1 -d -b -h -p -u execution failed.'
++ LOG_ERROR 'radsqlrelay -1 -d -b -h -p -u execution failed.'
++ message='radsqlrelay -1 -d -b -h -p -u execution failed.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'radsqlrelay -1 -d -b -h -p -u execution failed.'
+Wed Apr  5 14:23:26 2023 - ERROR - radsqlrelay -1 -d -b -h -p -u execution failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_freeradius_freeradius-utils_radsqlrelay.sh line 53'
++ message='oe_test_freeradius_freeradius-utils_radsqlrelay.sh line 53'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_freeradius_freeradius-utils_radsqlrelay.sh line 53'
+Wed Apr  5 14:23:26 2023 - ERROR - oe_test_freeradius_freeradius-utils_radsqlrelay.sh line 53
++ '[' 0 -eq 1 ']'
++ return 0
++ echo Test123
++ mysql -uroot -pTest123 -e 'use radius;
+                               delete from radcheck where username='\''wjf'\'';
+    '
+oe_test_freeradius_freeradius-utils_radsqlrelay.sh: line 55: mysql: command not found
++ echo 'insert into radcheck (username,attribute,op,value) values ('\''wjf'\'','\''Cleartext-Password'\'','\'':='\'','\''wjf123'\'');'
++ radsqlrelay -1 -d mysql -b radius -h localhost -f /tmp/passwdfile.txt -u root /tmp/radius.sql
+install_driver(mysql) failed: Can't locate DBD/mysql.pm in @INC (you may need to install the DBD::mysql module) (@INC contains: /usr/local/lib64/perl5 /usr/local/share/perl5 /usr/lib64/perl5/vendor_perl /usr/share/perl5/vendor_perl /usr/lib64/perl5 /usr/share/perl5) at (eval 8) line 3.
+Perhaps the DBD::mysql perl module hasn't been fully installed,
+or perhaps the capitalisation of 'mysql' isn't right.
+Available drivers: DBM, ExampleP, File, Gofer, Mem, Sponge.
+ at /usr/bin/radsqlrelay line 149.
++ mysql -uroot -pTest123 -e 'use radius;
+                               select * from radcheck where username='\''wjf'\'';
+    '
+oe_test_freeradius_freeradius-utils_radsqlrelay.sh: line 60: mysql: command not found
++ grep wjf
++ CHECK_RESULT 1 0 0 'radsqlrelay -f execution failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='radsqlrelay -f execution failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'radsqlrelay -f execution failed.'
++ LOG_ERROR 'radsqlrelay -f execution failed.'
++ message='radsqlrelay -f execution failed.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'radsqlrelay -f execution failed.'
+Wed Apr  5 14:23:28 2023 - ERROR - radsqlrelay -f execution failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_freeradius_freeradius-utils_radsqlrelay.sh line 63'
++ message='oe_test_freeradius_freeradius-utils_radsqlrelay.sh line 63'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_freeradius_freeradius-utils_radsqlrelay.sh line 63'
+Wed Apr  5 14:23:29 2023 - ERROR - oe_test_freeradius_freeradius-utils_radsqlrelay.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mysql -uroot -pTest123 -e 'use radius;
+                               delete from radcheck where username='\''wjf'\'';
+    '
+oe_test_freeradius_freeradius-utils_radsqlrelay.sh: line 64: mysql: command not found
++ echo 'insert into radcheck (username,attribute,op,value) values ('\''wjf'\'','\''Cleartext-Password'\'','\'':='\'','\''wjf123'\'');'
++ radsqlrelay -1 -d mysql -b radius -h 127.0.0.1 -p Test123 -u root -P 3306 /tmp/radius.sql
+install_driver(mysql) failed: Can't locate DBD/mysql.pm in @INC (you may need to install the DBD::mysql module) (@INC contains: /usr/local/lib64/perl5 /usr/local/share/perl5 /usr/lib64/perl5/vendor_perl /usr/share/perl5/vendor_perl /usr/lib64/perl5 /usr/share/perl5) at (eval 8) line 3.
+Perhaps the DBD::mysql perl module hasn't been fully installed,
+or perhaps the capitalisation of 'mysql' isn't right.
+Available drivers: DBM, ExampleP, File, Gofer, Mem, Sponge.
+ at /usr/bin/radsqlrelay line 149.
++ mysql -uroot -pTest123 -e 'use radius;
+                               select * from radcheck where username='\''wjf'\'';
+    '
++ grep wjf
+oe_test_freeradius_freeradius-utils_radsqlrelay.sh: line 69: mysql: command not found
++ CHECK_RESULT 1 0 0 'radsqlrelay -P execution failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='radsqlrelay -P execution failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'radsqlrelay -P execution failed.'
++ LOG_ERROR 'radsqlrelay -P execution failed.'
++ message='radsqlrelay -P execution failed.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'radsqlrelay -P execution failed.'
+Wed Apr  5 14:23:30 2023 - ERROR - radsqlrelay -P execution failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_freeradius_freeradius-utils_radsqlrelay.sh line 72'
++ message='oe_test_freeradius_freeradius-utils_radsqlrelay.sh line 72'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_freeradius_freeradius-utils_radsqlrelay.sh line 72'
+Wed Apr  5 14:23:31 2023 - ERROR - oe_test_freeradius_freeradius-utils_radsqlrelay.sh line 72
++ '[' 0 -eq 1 ']'
++ return 0
++ mysql -uroot -pTest123 -e 'use radius;
+                               delete from radcheck where username='\''wjf'\'';
+    '
+oe_test_freeradius_freeradius-utils_radsqlrelay.sh: line 73: mysql: command not found
++ echo 'insert into radcheck (username,attribute,op,value) values ('\''wjf'\'','\''Cleartext-Password'\'','\'':='\'','\''wjf123'\'');'
++ radsqlrelay -1 -d mysql -b radius -h localhost -p Test123 -u root -x /tmp/radius.sql
++ grep 'Connecting to DBI'
+install_driver(mysql) failed: Can't locate DBD/mysql.pm in @INC (you may need to install the DBD::mysql module) (@INC contains: /usr/local/lib64/perl5 /usr/local/share/perl5 /usr/lib64/perl5/vendor_perl /usr/share/perl5/vendor_perl /usr/lib64/perl5 /usr/share/perl5) at (eval 8) line 3.
+Perhaps the DBD::mysql perl module hasn't been fully installed,
+or perhaps the capitalisation of 'mysql' isn't right.
+Available drivers: DBM, ExampleP, File, Gofer, Mem, Sponge.
+ at /usr/bin/radsqlrelay line 149.
+Connecting to DBI:mysql:database=radius;host=localhost.
++ CHECK_RESULT 0 0 0 'radsqlrelay -x execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radsqlrelay -x execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed Apr  5 14:23:33 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 3
++ test 3 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed Apr  5 14:23:33 2023 - ERROR - failed to execute the case.
++ exit 3
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Apr  5 14:23:34 2023 - INFO  - Start to restore the test environment.
++ systemctl stop mysqld
+Failed to stop mysqld.service: Unit mysqld.service not loaded.
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Wed Apr  5 14:23:38 2023 - WARN  - no thing to do.
++ return 0
++ rm -rf /var/lib/mysql
++ rm -rf /etc/raddb
++ rm -rf /var/log/radius
++ rm -rf /tmp/passwdfile.txt
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed Apr  5 14:23:39 2023 - INFO  - End to restore the test environment.

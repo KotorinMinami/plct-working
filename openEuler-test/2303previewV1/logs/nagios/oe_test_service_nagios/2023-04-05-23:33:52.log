@@ -1,0 +1,246 @@
++ source ../common/common_lib.sh
+++ source /root/GitRepo/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed Apr  5 23:34:08 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL 'nagios nagios-plugins-ping'
++ pkgs='nagios nagios-plugins-ping'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen/libs/locallibs/rpm_manage.py install --pkgs 'nagios nagios-plugins-ping' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmppd4dh4xi
++ '[' -z '' ']'
++ tmpfile=/tmp/tmppd4dh4xi
++ sed -i 's\cfg_dir=/etc/nagios/conf.d\#cfg_dir=/etc/nagios/conf.d\g' /etc/nagios/nagios.cfg
++ service=nagios.service
+++ date '+%Y-%m-%d %T'
++ log_time='2023-04-05 23:35:22'
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Wed Apr  5 23:35:23 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Wed Apr  5 23:35:24 2023 - INFO  - Start testing...
++ test_restart nagios.service
++ service=nagios.service
++ systemctl restart nagios.service
++ CHECK_RESULT 0 0 0 'nagios.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nagios.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status nagios.service
++ grep 'Active: active'
+     Active: active (running) since Wed 2023-04-05 23:35:24 CST; 6s ago
++ CHECK_RESULT 0 0 0 'nagios.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nagios.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop nagios.service
++ CHECK_RESULT 0 0 0 'nagios.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nagios.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status nagios.service
++ grep 'Active: inactive'
+     Active: inactive (dead)
++ CHECK_RESULT 0 0 0 'nagios.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nagios.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start nagios.service
++ CHECK_RESULT 0 0 0 'nagios.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nagios.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status nagios.service
++ grep 'Active: active'
+     Active: active (running) since Wed 2023-04-05 23:35:39 CST; 7s ago
++ CHECK_RESULT 0 0 0 'nagios.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nagios.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled nagios.service
++ service=nagios.service
+++ systemctl is-enabled nagios.service
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ systemctl enable nagios.service
+++ grep 'Created symlink'
+++ awk '{print $3}'
++ symlink_file=/etc/systemd/system/multi-user.target.wants/nagios.service
++ find /etc/systemd/system/multi-user.target.wants/nagios.service
+/etc/systemd/system/multi-user.target.wants/nagios.service
++ CHECK_RESULT 0 0 0 'nagios.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nagios.service enable failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable nagios.service
+Removed /etc/systemd/system/multi-user.target.wants/nagios.service.
++ find /etc/systemd/system/multi-user.target.wants/nagios.service
+find: ‘/etc/systemd/system/multi-user.target.wants/nagios.service’: No such file or directory
++ CHECK_RESULT 1 0 1 'nagios.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='nagios.service disable failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ journalctl --since '2023-04-05 23:35:22' -u nagios.service
++ grep -v 'Total Errors:   0'
++ grep -i 'fail\|error'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of nagios.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of nagios.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ systemctl start nagios.service
++ sed -i 's\ExecStartPre=/usr/sbin/nagios\ExecStartPre=/usr/sbin/nagios -s\g' /usr/lib/systemd/system/nagios.service
++ systemctl daemon-reload
++ systemctl reload nagios.service
++ CHECK_RESULT 0 0 0 'nagios.service reload failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nagios.service reload failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status nagios.service
++ grep 'Active: active'
+     Active: active (running) since Wed 2023-04-05 23:35:39 CST; 25s ago
++ CHECK_RESULT 0 0 0 'nagios.service reload causes the service status to change'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nagios.service reload causes the service status to change'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Wed Apr  5 23:36:06 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Apr  5 23:36:07 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Wed Apr  5 23:36:08 2023 - INFO  - start environment cleanup.
++ sed -i 's\ExecStartPre=/usr/sbin/nagios -s\ExecStartPre=/usr/sbin/nagios\g' /usr/lib/systemd/system/nagios.service
++ systemctl daemon-reload
++ systemctl reload nagios.service
++ systemctl stop nagios.service
++ sed -i 's\#cfg_dir=/etc/nagios/conf.d\cfg_dir=/etc/nagios/conf.d\g' /etc/nagios/nagios.cfg
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmppd4dh4xi ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmppd4dh4xi
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Wed Apr  5 23:36:47 2023 - INFO  - Finish environment cleanup!

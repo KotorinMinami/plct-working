@@ -1,0 +1,245 @@
++ source ../common/common_lib.sh
+++ source /root/GitRepo/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed Apr  5 05:20:46 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL ceph-mon
++ pkgs=ceph-mon
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen/libs/locallibs/rpm_manage.py install --pkgs ceph-mon --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp37stl2xs
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp37stl2xs
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Wed Apr  5 05:23:44 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Apr  5 05:23:45 2023 - INFO  - Start to run test.
++ test_execution ceph-mon.target
++ service=ceph-mon.target
+++ date '+%Y-%m-%d %T'
++ log_time='2023-04-05 05:23:45'
++ test_restart ceph-mon.target
++ service=ceph-mon.target
++ systemctl restart ceph-mon.target
++ CHECK_RESULT 0 0 0 'ceph-mon.target restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='ceph-mon.target restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status ceph-mon.target
++ grep 'Active: active'
+     Active: active since Wed 2023-04-05 05:23:45 CST; 6s ago
++ CHECK_RESULT 0 0 0 'ceph-mon.target restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='ceph-mon.target restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop ceph-mon.target
++ CHECK_RESULT 0 0 0 'ceph-mon.target stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='ceph-mon.target stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status ceph-mon.target
++ grep 'Active: inactive'
+     Active: inactive (dead) since Wed 2023-04-05 05:23:52 CST; 6s ago
++ CHECK_RESULT 0 0 0 'ceph-mon.target stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='ceph-mon.target stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start ceph-mon.target
++ CHECK_RESULT 0 0 0 'ceph-mon.target start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='ceph-mon.target start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status ceph-mon.target
++ grep 'Active: active'
+     Active: active since Wed 2023-04-05 05:23:58 CST; 6s ago
++ CHECK_RESULT 0 0 0 'ceph-mon.target start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='ceph-mon.target start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled ceph-mon.target
++ service=ceph-mon.target
+++ systemctl is-enabled ceph-mon.target
++ state=enabled
++ '[' enabled == enabled ']'
+++ grep Removed
+++ systemctl disable ceph-mon.target
+++ awk '{print substr($0,1,length($0)-1)}'
+++ awk '{print $2}'
++ symlink_file='/etc/systemd/system/multi-user.target.wants/ceph-mon.target
+/etc/systemd/system/ceph.target.wants/ceph-mon.target'
++ find /etc/systemd/system/multi-user.target.wants/ceph-mon.target /etc/systemd/system/ceph.target.wants/ceph-mon.target
+find: ‘/etc/systemd/system/multi-user.target.wants/ceph-mon.target’: No such file or directory
+find: ‘/etc/systemd/system/ceph.target.wants/ceph-mon.target’: No such file or directory
++ CHECK_RESULT 1 0 1 'ceph-mon.target disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='ceph-mon.target disable failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ systemctl enable ceph-mon.target
+Created symlink /etc/systemd/system/multi-user.target.wants/ceph-mon.target → /usr/lib/systemd/system/ceph-mon.target.
+Created symlink /etc/systemd/system/ceph.target.wants/ceph-mon.target → /usr/lib/systemd/system/ceph-mon.target.
++ find /etc/systemd/system/multi-user.target.wants/ceph-mon.target /etc/systemd/system/ceph.target.wants/ceph-mon.target
+/etc/systemd/system/multi-user.target.wants/ceph-mon.target
+/etc/systemd/system/ceph.target.wants/ceph-mon.target
++ CHECK_RESULT 0 0 0 'ceph-mon.target enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='ceph-mon.target enable failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ journalctl --since '2023-04-05 05:23:45' -u ceph-mon.target
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of ceph-mon.target'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of ceph-mon.target'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ systemctl start ceph-mon.target
++ systemctl reload ceph-mon.target
++ grep 'Job type reload is not applicable for unit ceph-mon.target'
+Failed to reload ceph-mon.target: Job type reload is not applicable for unit ceph-mon.target.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'Active: active'
++ systemctl status ceph-mon.target
+     Active: active since Wed 2023-04-05 05:23:58 CST; 16s ago
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Wed Apr  5 05:24:15 2023 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Apr  5 05:24:16 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Wed Apr  5 05:24:17 2023 - INFO  - start environment cleanup.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp37stl2xs ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp37stl2xs
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Wed Apr  5 05:25:38 2023 - INFO  - Finish environment cleanup!

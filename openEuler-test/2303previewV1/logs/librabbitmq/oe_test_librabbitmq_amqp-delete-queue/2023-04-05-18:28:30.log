@@ -1,0 +1,191 @@
++ source /root/GitRepo/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Apr  5 18:28:34 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'librabbitmq rabbitmq-server'
++ pkgs='librabbitmq rabbitmq-server'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen/libs/locallibs/rpm_manage.py install --pkgs 'librabbitmq rabbitmq-server' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpcro4x3ao
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpcro4x3ao
++ openssl genrsa -out privkey.pem 2048
++ openssl rsa -pubout -in privkey.pem -out pubkey.pem
+writing RSA key
++ openssl rsa -pubout -in privkey.pem -out cert.pem
+writing RSA key
++ SLEEP_WAIT 30
++ nohup systemctl start rabbitmq-server
++ wait_time=30
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen/libs/locallibs/sleep_wait.py --time 30 --cmd '' --mode 1
++ rabbitmq-plugins enable rabbitmq_management
+Enabling plugins on node rabbit@openeuler-riscv64:
+rabbitmq_management
+The following plugins have been configured:
+  rabbitmq_management
+  rabbitmq_management_agent
+  rabbitmq_web_dispatch
+Applying plugin configuration to rabbit@openeuler-riscv64...
+The following plugins have been enabled:
+  rabbitmq_management
+  rabbitmq_management_agent
+  rabbitmq_web_dispatch
+
+started 3 plugins.
++ rabbitmqctl add_user admin admin
+Adding user "admin" ...
+Done. Don't forget to grant the user permissions to some virtual hosts! See 'rabbitmqctl help set_permissions' to learn more.
++ rabbitmqctl set_user_tags admin administrator
+Setting tags for user "admin" to [administrator] ...
++ rabbitmqctl set_permissions -p / admin '.*' '.*' '.*'
+Setting permissions for user "admin" in vhost "/" ...
++ rabbitmqctl change_password admin admin
+Changing password for user "admin" ...
++ amqp-declare-queue -q test_queue -d -s 127.0.0.1 --port=5672 --vhost=/ --username=admin --password=admin --heartbeat=1
+test_queue
++ amqp-publish -r test_queue -b test_body1 -C String -t OK -p -E utf-8 -H key:value -s 127.0.0.1 --port=5672 --vhost=/ --username=admin --password=admin --heartbeat=1
++ amqp-declare-queue -u amqp://127.0.0.1:5672 -q test_queue1 -d --heartbeat=1 --ssl --cacert=cacert.pem --key=privkey.pem --cert=cert.pem
+test_queue1
++ amqp-publish -r test_queue1 -b test_body1 -C String -t OK -p -E utf-8 -H key:value -u amqp://127.0.0.1:5672 --ssl --cacert=cacert.pem --key=privkey.pem --cert=cert.pem
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Wed Apr  5 18:31:46 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Apr  5 18:31:47 2023 - INFO  - Start to run test.
++ amqp-delete-queue --if-unused -q test_queue -s 127.0.0.1 --port=5672 --vhost=/ --username=admin --password=admin --heartbeat=1
++ grep '[[:digit:]]'
+1
++ CHECK_RESULT 0 0 0 'Check amqp-delete-queue -s -q --port --vhost --username --password failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check amqp-delete-queue -s -q --port --vhost --username --password failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep '[[:digit:]]'
++ amqp-delete-queue -u -e -q test_queue1 -u amqp://127.0.0.1:5672 --ssl --cacert=cacert.pem --key=privkey.pem --cert=cert.pem
+1
++ CHECK_RESULT 0 0 0 'Check amqp-delete-queue -u -e -q -u --ssl --cacert --key --cert failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check amqp-delete-queue -u -e -q -u --ssl --cacert --key --cert failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'Usage: amqp-delete-queue \[OPTIONS\]'
++ amqp-delete-queue --help
+Usage: amqp-delete-queue [OPTIONS]...
++ CHECK_RESULT 0 0 0 'Check amqp-delete-queue --help  failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check amqp-delete-queue --help  failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'Usage: amqp-delete-queue \[OPTIONS\]'
++ amqp-delete-queue '-?'
+Usage: amqp-delete-queue [OPTIONS]...
++ CHECK_RESULT 0 0 0 'Check amqp-delete-queue -? failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check amqp-delete-queue -? failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'Usage: amqp-delete-queue \[-?\]'
++ amqp-delete-queue --usage
+Usage: amqp-delete-queue [-?] [-u|--url=amqp://...] [-s|--server=hostname]
++ CHECK_RESULT 0 0 0 'Check amqp-delete-queue --usage failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check amqp-delete-queue --usage failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed Apr  5 18:31:49 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Apr  5 18:31:49 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Apr  5 18:31:50 2023 - INFO  - Start to restore the test environment.
++ rabbitmqctl delete_user admin
+Deleting user "admin" ...
++ rabbitmq-plugins disable rabbitmq_management
+Disabling plugins on node rabbit@openeuler-riscv64:
+rabbitmq_management
+All plugins have been disabled.
+Applying plugin configuration to rabbit@openeuler-riscv64...
+The following plugins have been disabled:
+  rabbitmq_management_agent
+  rabbitmq_web_dispatch
+  rabbitmq_management
+
+stopped 3 plugins.
++ rm -rf privkey.pem pubkey.pem cert.pem 'rabbitmqadmin*'
++ systemctl stop rabbitmq-server
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpcro4x3ao ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpcro4x3ao
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed Apr  5 18:33:31 2023 - INFO  - End to restore the test environment.

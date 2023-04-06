@@ -1,0 +1,377 @@
++ source ../common/common_lib.sh
+++ source /root/GitRepo/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen/libs/locallibs/common_lib_python.sh
+++ main
++++ type -t post_test
+++ '[' -n '' ']'
+++ trap POST_TEST_DEFAULT EXIT INT HUP TERM
+++ rpm -qa
+++ grep expect
++++ type -t config_params
+++ '[' -n '' ']'
++++ type -t pre_test
+++ '[' -n '' ']'
++++ type -t run_test
+++ '[' -n '' ']'
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Apr  5 11:11:19 2023 - INFO  - Start to prepare the test environment.
++ Pre_Test
++ DNF_INSTALL 'fastdfs* libfdfsclient net-tools'
++ pkgs='fastdfs* libfdfsclient net-tools'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen/libs/locallibs/rpm_manage.py install --pkgs 'fastdfs* libfdfsclient net-tools' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp45xm25u7
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp45xm25u7
++ cp /etc/fdfs/client.conf.sample ./client.conf
+cp: cannot stat '/etc/fdfs/client.conf.sample': No such file or directory
++ cp /etc/fdfs/storage.conf.sample ./storage.conf
+cp: cannot stat '/etc/fdfs/storage.conf.sample': No such file or directory
++ cp /etc/fdfs/tracker.conf.sample ./tracker.conf
+cp: cannot stat '/etc/fdfs/tracker.conf.sample': No such file or directory
++ mkdir -p /tmp/guochenyang/1 /tmp/guochenyang/2 /tmp/guochenyang/3
++ sed -i '/base_path/s/\/home\/yuqing\/fastdfs/\/tmp\/guochenyang\/1/g' ./client.conf
+sed: can't read ./client.conf: No such file or directory
++ sed -i '/tracker_server =/d' ./client.conf
+sed: can't read ./client.conf: No such file or directory
++ sed -i '21atracker_server =127.0.0.1' ./client.conf
+sed: can't read ./client.conf: No such file or directory
++ sed -i '/base_path/s/\/home\/yuqing\/fastdfs/\/tmp\/guochenyang\/2/g' ./tracker.conf
+sed: can't read ./tracker.conf: No such file or directory
++ sed -i /thread_stack_size/s/256KB/1024KB/g ./tracker.conf
+sed: can't read ./tracker.conf: No such file or directory
++ sed -i '/base_path/s/\/home\/yuqing\/fastdfs/\/tmp\/guochenyang\/3/g' ./storage.conf
+sed: can't read ./storage.conf: No such file or directory
++ sed -i '/store_path0/s/\/home\/yuqing\/fastdfs/\/tmp\/guochenyang\/3/g' ./storage.conf
+sed: can't read ./storage.conf: No such file or directory
++ sed -i '/tracker_server =/d' ./storage.conf
+sed: can't read ./storage.conf: No such file or directory
++ sed -i '144atracker_server =127.0.0.1' ./storage.conf
+sed: can't read ./storage.conf: No such file or directory
++ echo hello
++ echo world
++ storage_path=/root/GitRepo/mugen/testcases/cli-test/fastdfs/oe_test_fastdfs_01
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Wed Apr  5 11:12:25 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Apr  5 11:12:26 2023 - INFO  - Start to run test.
++ fdfs_trackerd ./tracker.conf start
+[2023-04-05 11:12:26] ERROR - file: shared_func.c, line: 1301, file /root/GitRepo/mugen/testcases/cli-test/fastdfs/oe_test_fastdfs_01/./tracker.conf not exist
+[2023-04-05 11:12:26] ERROR - file: process_ctrl.c, line: 291, load conf file "./tracker.conf" fail, ret code: 2
+[2023-04-05 11:12:26] ERROR - file: shared_func.c, line: 1301, file /root/GitRepo/mugen/testcases/cli-test/fastdfs/oe_test_fastdfs_01/./tracker.conf not exist
+[2023-04-05 11:12:26] ERROR - file: tracker_func.c, line: 155, load conf file "./tracker.conf" fail, ret code: 2
+[2023-04-05 11:12:26] CRIT - exit abnormally!
+
++ CHECK_RESULT 2 0 0 'Check fdfs_trackerd start failed.'
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log='Check fdfs_trackerd start failed.'
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n 'Check fdfs_trackerd start failed.'
++ LOG_ERROR 'Check fdfs_trackerd start failed.'
++ message='Check fdfs_trackerd start failed.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'Check fdfs_trackerd start failed.'
+Wed Apr  5 11:12:27 2023 - ERROR - Check fdfs_trackerd start failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_fastdfs_01.sh line 29'
++ message='oe_test_fastdfs_01.sh line 29'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_fastdfs_01.sh line 29'
+Wed Apr  5 11:12:27 2023 - ERROR - oe_test_fastdfs_01.sh line 29
++ '[' 0 -eq 1 ']'
++ return 0
++ netstat -unltp
++ grep fdfs_trackerd
++ CHECK_RESULT 1 0 0 'Check fdfs_trackerd start error failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check fdfs_trackerd start error failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check fdfs_trackerd start error failed.'
++ LOG_ERROR 'Check fdfs_trackerd start error failed.'
++ message='Check fdfs_trackerd start error failed.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'Check fdfs_trackerd start error failed.'
+Wed Apr  5 11:12:28 2023 - ERROR - Check fdfs_trackerd start error failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_fastdfs_01.sh line 31'
++ message='oe_test_fastdfs_01.sh line 31'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_fastdfs_01.sh line 31'
+Wed Apr  5 11:12:29 2023 - ERROR - oe_test_fastdfs_01.sh line 31
++ '[' 0 -eq 1 ']'
++ return 0
++ fdfs_storaged /root/GitRepo/mugen/testcases/cli-test/fastdfs/oe_test_fastdfs_01/storage.conf start
+[2023-04-05 11:12:29] ERROR - file: shared_func.c, line: 1301, file /root/GitRepo/mugen/testcases/cli-test/fastdfs/oe_test_fastdfs_01/storage.conf not exist
+[2023-04-05 11:12:29] ERROR - file: process_ctrl.c, line: 291, load conf file "/root/GitRepo/mugen/testcases/cli-test/fastdfs/oe_test_fastdfs_01/storage.conf" fail, ret code: 2
++ CHECK_RESULT 0 0 0 'Check fdfs_storaged start failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check fdfs_storaged start failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
+[2023-04-05 11:12:29] ERROR - file: shared_func.c, line: 1301, file /root/GitRepo/mugen/testcases/cli-test/fastdfs/oe_test_fastdfs_01/storage.conf not exist
+[2023-04-05 11:12:29] ERROR - file: storage_func.c, line: 1425, load conf file "/root/GitRepo/mugen/testcases/cli-test/fastdfs/oe_test_fastdfs_01/storage.conf" fail, ret code: 2
+[2023-04-05 11:12:29] CRIT - exit abnormally!
+
++ netstat -unltp
++ grep storaged
++ CHECK_RESULT 1 0 0 'Check fdfs_storaged start error failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check fdfs_storaged start error failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check fdfs_storaged start error failed.'
++ LOG_ERROR 'Check fdfs_storaged start error failed.'
++ message='Check fdfs_storaged start error failed.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'Check fdfs_storaged start error failed.'
+Wed Apr  5 11:12:36 2023 - ERROR - Check fdfs_storaged start error failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_fastdfs_01.sh line 36'
++ message='oe_test_fastdfs_01.sh line 36'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_fastdfs_01.sh line 36'
+Wed Apr  5 11:12:36 2023 - ERROR - oe_test_fastdfs_01.sh line 36
++ '[' 0 -eq 1 ']'
++ return 0
++ fdfs_append_file --help
++ grep Usage: ./usage.txt
+Usage: fdfs_append_file <config_file> <appender_file_id> <local_filename>
++ CHECK_RESULT 0 0 0 'Check fdfs_append_file --help failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check fdfs_append_file --help failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ fdfs_upload_appender client.conf test1.txt
+[2023-04-05 11:12:37] ERROR - file: shared_func.c, line: 1301, file /root/GitRepo/mugen/testcases/cli-test/fastdfs/oe_test_fastdfs_01/client.conf not exist
+[2023-04-05 11:12:37] ERROR - file: ../client/client_func.c, line: 429, load conf file "client.conf" fail, ret code: 2
++ appender_file=
++ fdfs_append_file client.conf test2.txt
+Usage: fdfs_append_file <config_file> <appender_file_id> <local_filename>
++ CHECK_RESULT 1 0 0 'Check fdfs_append_file failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check fdfs_append_file failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check fdfs_append_file failed.'
++ LOG_ERROR 'Check fdfs_append_file failed.'
++ message='Check fdfs_append_file failed.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'Check fdfs_append_file failed.'
+Wed Apr  5 11:12:38 2023 - ERROR - Check fdfs_append_file failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_fastdfs_01.sh line 42'
++ message='oe_test_fastdfs_01.sh line 42'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_fastdfs_01.sh line 42'
+Wed Apr  5 11:12:38 2023 - ERROR - oe_test_fastdfs_01.sh line 42
++ '[' 0 -eq 1 ']'
++ return 0
++ fdfs_appender_test --help
++ grep Usage: ./usage1.txt
+Usage: fdfs_appender_test <config_file> <local_filename> [FILE | BUFF | CALLBACK]
++ CHECK_RESULT 0 0 0 'Check fdfs_appender_test --help failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check fdfs_appender_test --help failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ fdfs_appender_test client.conf test1.txt
++ grep successfully
+[2023-04-05 11:12:39] ERROR - file: shared_func.c, line: 1301, file /root/GitRepo/mugen/testcases/cli-test/fastdfs/oe_test_fastdfs_01/client.conf not exist
+[2023-04-05 11:12:39] ERROR - file: ../client/client_func.c, line: 429, load conf file "client.conf" fail, ret code: 2
++ CHECK_RESULT 1 0 0 'Check fdfs_appender_test client.conf failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check fdfs_appender_test client.conf failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check fdfs_appender_test client.conf failed.'
++ LOG_ERROR 'Check fdfs_appender_test client.conf failed.'
++ message='Check fdfs_appender_test client.conf failed.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'Check fdfs_appender_test client.conf failed.'
+Wed Apr  5 11:12:39 2023 - ERROR - Check fdfs_appender_test client.conf failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_fastdfs_01.sh line 47'
++ message='oe_test_fastdfs_01.sh line 47'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_fastdfs_01.sh line 47'
+Wed Apr  5 11:12:40 2023 - ERROR - oe_test_fastdfs_01.sh line 47
++ '[' 0 -eq 1 ']'
++ return 0
++ fdfs_appender_test1 --help
++ grep Usage: ./usage2.txt
+Usage: fdfs_appender_test1 <config_file> <local_filename> [FILE | BUFF | CALLBACK]
++ CHECK_RESULT 0 0 0 'Check fdfs_appender_test1 --help failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check fdfs_appender_test1 --help failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ fdfs_appender_test1 client.conf test1.txt
++ grep successfully
+[2023-04-05 11:12:40] ERROR - file: shared_func.c, line: 1301, file /root/GitRepo/mugen/testcases/cli-test/fastdfs/oe_test_fastdfs_01/client.conf not exist
+[2023-04-05 11:12:40] ERROR - file: ../client/client_func.c, line: 429, load conf file "client.conf" fail, ret code: 2
++ CHECK_RESULT 1 0 0 'Check fdfs_appender_test1 client.conf failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check fdfs_appender_test1 client.conf failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check fdfs_appender_test1 client.conf failed.'
++ LOG_ERROR 'Check fdfs_appender_test1 client.conf failed.'
++ message='Check fdfs_appender_test1 client.conf failed.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'Check fdfs_appender_test1 client.conf failed.'
+Wed Apr  5 11:12:41 2023 - ERROR - Check fdfs_appender_test1 client.conf failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_fastdfs_01.sh line 52'
++ message='oe_test_fastdfs_01.sh line 52'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_fastdfs_01.sh line 52'
+Wed Apr  5 11:12:42 2023 - ERROR - oe_test_fastdfs_01.sh line 52
++ '[' 0 -eq 1 ']'
++ return 0
++ fdfs_trackerd ./tracker.conf stop
+[2023-04-05 11:12:42] ERROR - file: shared_func.c, line: 1301, file /root/GitRepo/mugen/testcases/cli-test/fastdfs/oe_test_fastdfs_01/./tracker.conf not exist
+[2023-04-05 11:12:42] ERROR - file: process_ctrl.c, line: 291, load conf file "./tracker.conf" fail, ret code: 2
+pid file: /tmp/data/fdfs_trackerd.pid not exist!
++ CHECK_RESULT 2 0 0 'Check fdfs_trackerd stop failed.'
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log='Check fdfs_trackerd stop failed.'
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n 'Check fdfs_trackerd stop failed.'
++ LOG_ERROR 'Check fdfs_trackerd stop failed.'
++ message='Check fdfs_trackerd stop failed.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'Check fdfs_trackerd stop failed.'
+Wed Apr  5 11:12:42 2023 - ERROR - Check fdfs_trackerd stop failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_fastdfs_01.sh line 54'
++ message='oe_test_fastdfs_01.sh line 54'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_fastdfs_01.sh line 54'
+Wed Apr  5 11:12:43 2023 - ERROR - oe_test_fastdfs_01.sh line 54
++ '[' 0 -eq 1 ']'
++ return 0
++ fdfs_storaged /root/GitRepo/mugen/testcases/cli-test/fastdfs/oe_test_fastdfs_01/storage.conf stop
+[2023-04-05 11:12:43] ERROR - file: shared_func.c, line: 1301, file /root/GitRepo/mugen/testcases/cli-test/fastdfs/oe_test_fastdfs_01/storage.conf not exist
+[2023-04-05 11:12:43] ERROR - file: process_ctrl.c, line: 291, load conf file "/root/GitRepo/mugen/testcases/cli-test/fastdfs/oe_test_fastdfs_01/storage.conf" fail, ret code: 2
+pid file: /tmp/data/fdfs_storaged.pid not exist!
++ CHECK_RESULT 2 0 0 'Check fdfs_storaged stop failed.'
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log='Check fdfs_storaged stop failed.'
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n 'Check fdfs_storaged stop failed.'
++ LOG_ERROR 'Check fdfs_storaged stop failed.'
++ message='Check fdfs_storaged stop failed.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'Check fdfs_storaged stop failed.'
+Wed Apr  5 11:12:44 2023 - ERROR - Check fdfs_storaged stop failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_fastdfs_01.sh line 56'
++ message='oe_test_fastdfs_01.sh line 56'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_fastdfs_01.sh line 56'
+Wed Apr  5 11:12:45 2023 - ERROR - oe_test_fastdfs_01.sh line 56
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed Apr  5 11:12:45 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 8
++ test 8 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed Apr  5 11:12:46 2023 - ERROR - failed to execute the case.
++ exit 8
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Apr  5 11:12:47 2023 - INFO  - Start to restore the test environment.
++ rm -rf test1.txt test2.txt usage1.txt usage2.txt usage.txt
++ Post_Test
++ rm -rf ./client.conf ./storage.conf ./tracker.conf /tmp/guochenyang
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp45xm25u7 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp45xm25u7
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed Apr  5 11:13:09 2023 - INFO  - End to restore the test environment.

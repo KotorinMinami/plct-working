@@ -1,0 +1,200 @@
++ source /root/GitRepo/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Apr  5 20:47:19 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'ltrace gcc'
++ pkgs='ltrace gcc'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen/libs/locallibs/rpm_manage.py install --pkgs 'ltrace gcc' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpyibtvabl
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpyibtvabl
++ gcc ./common/tstlib.c -shared -fPIC -o libtst.so
++ gcc -o tst ./common/tst.c -L. -Wl,-rpath=. -ltst
++ useradd example
++ passwd example
+New password: BAD PASSWORD: The password is shorter than 8 characters
+Retype new password: Changing password for user example.
+passwd: all authentication tokens updated successfully.
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Wed Apr  5 20:48:04 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing.'
++ message='Start testing.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing.'
+Wed Apr  5 20:48:05 2023 - INFO  - Start testing.
++ PID=2052
++ bash sleep 1
++ ltrace -f -p 2052
++ grep pid
+/usr/bin/sleep: /usr/bin/sleep: cannot execute binary file
+Cannot attach to pid 2052: No such process
++ CHECK_RESULT 0 0 0 'Failed to run command: ltrace -p'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to run command: ltrace -p'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ltrace -u example -S ls
++ grep -m 1 SYS
+brk@SYS(nil)                                     = 0xaaaaaad2aca000
++ CHECK_RESULT 0 0 0 'Failed to run command: ltrace -u'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to run command: ltrace -u'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ltrace -b bash sleep 1
++ grep -m 1 SIGCHLD
+sigaction(SIGCHLD, { nil, <>, 0x1, 0xaaaaaae2a31880 }, { nil, <>, 0x40, 0x13 }) = 0
++ CHECK_RESULT 0 0 0 'Failed to run command: ltrace -b'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to run command: ltrace -b'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ltrace --no-signals bash sleep 1
++ grep -m 1 SIGCHLD
+sigaction(SIGCHLD, { nil, <>, 0x1, 0xaaaaaae7734880 }, { nil, <>, 0x40, 0x13 }) = 0
++ CHECK_RESULT 0 0 0 'Failed to run command: ltrace --no-signals'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to run command: ltrace --no-signals'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ltrace -Sn 5 bash ls
++ grep -m 1 sysinfo
+          sysinfo@SYS(nil <unfinished ...>
++ CHECK_RESULT 0 0 0 'Failed to run command: ltrace -n'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to run command: ltrace -n'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ltrace -S --indent=5 bash ls
++ grep -m 1 sysinfo
+          sysinfo@SYS(nil <unfinished ...>
++ CHECK_RESULT 0 0 0 'Failed to run command: ltrace --indent'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to run command: ltrace --indent'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ltrace -F ./common/ltrace.conf ./tst
++ grep -m 1 'func_f_lib()'
+func_f_lib()                                     = <void>
++ CHECK_RESULT 0 0 0 'Failed to run command: ltrace -F'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to run command: ltrace -F'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ltrace --config=./common/ltrace.conf ./tst
++ grep -m 1 'func_f_lib()'
+func_f_lib()                                     = <void>
++ CHECK_RESULT 0 0 0 'Failed to run command: ltrace --config'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to run command: ltrace --config'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ltrace -x 'func*' -L ./tst
++ grep 'func_f_lib resumed'
+<... func_f_lib resumed> )                       = 1
++ CHECK_RESULT 0 0 0 'Failed to run command: ltrace -L'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to run command: ltrace -L'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed Apr  5 20:48:12 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Apr  5 20:48:13 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Apr  5 20:48:14 2023 - INFO  - Start to restore the test environment.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpyibtvabl ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpyibtvabl
++ '[' 0 -ne 0 ']'
++ userdel -rf example
++ rm -rf tst libtst.so
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed Apr  5 20:48:31 2023 - INFO  - End to restore the test environment.

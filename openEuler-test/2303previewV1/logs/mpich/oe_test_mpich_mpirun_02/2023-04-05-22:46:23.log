@@ -1,0 +1,180 @@
++ source /root/GitRepo/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Apr  5 22:46:27 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL mpich
++ pkgs=mpich
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen/libs/locallibs/rpm_manage.py install --pkgs mpich --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpjxspz_2_
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpjxspz_2_
++ chmod +777 common/ex
++ export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib64/mpich/bin
++ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib64/mpich/bin
++ LOG_INFO 'END to prepare the test environment.'
++ message='END to prepare the test environment.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'END to prepare the test environment.'
+Wed Apr  5 22:47:08 2023 - INFO  - END to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Apr  5 22:47:09 2023 - INFO  - Start to run test.
++ mpirun -genv -genvlist -envnone -info -print-all-exitcodes -iface -ppn -profile -prepend-rank -prepend-pattern -order-nodes common/ex
++ grep 'Process Manager'
+    Process Manager:                         pmi
++ CHECK_RESULT 0 0 0 'Check mpirun -order-nodes failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check mpirun -order-nodes failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mpirun -genv -genvlist -envnone -info -membind -map-by -bind-to -topolib -rmk -disable-x -print-all-exitcodes -localhost -usize common/ex
++ grep Launchers
+    Launchers available:                     ssh rsh fork slurm ll lsf sge manual persist
++ CHECK_RESULT 0 0 0 'Check mpirun -membind -map-by -bind-to -topolib -rmk -disable-x -usize failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check mpirun -membind -map-by -bind-to -topolib -rmk -disable-x -usize failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mpirun -genv -genvlist -envnone -info -ckpointlib -demux -ckpoint-nu -ckpoint-prefix -ckpoint-interval -ckpointlib -print-all-exitcodes -usize common/ex
++ grep Resource
+    Resource management kernels available:   user slurm ll lsf sge pbs cobalt
++ CHECK_RESULT 0 0 0 'Check mpirun -ckpointlib -demux -ckpoint-nu -ckpoint-prefix -ckpoint-interval -ckpointlib failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check mpirun -ckpointlib -demux -ckpoint-nu -ckpoint-prefix -ckpoint-interval -ckpointlib failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mpirun -genv -genvlist -envnone -info -launcher common/ex
++ grep 'Demux engines available'
+    Demux engines available:                 poll select
++ CHECK_RESULT 0 0 0 'Check mpirun -launcher failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check mpirun -launcher failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mpirun --help
++ grep 'Usage: ./mpiexec'
+Usage: ./mpiexec [global opts] [local opts for exec1] [exec1] [exec1 args] : [local opts for exec2] [exec2] [exec2 args] : ...
++ CHECK_RESULT 0 0 0 'Check mpirun --help failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check mpirun --help failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ parkill -debug program
++ grep 'linux style ps'
+linux style ps
++ CHECK_RESULT 0 0 0 'Check parkill -debug program failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check parkill -debug program failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ parkill -verbose program
++ grep 'F S USER'
+F S USER         PID    PPID  C PRI  NI P    SZ WCHAN  STIME TTY          TIME CMD
+0 S root        2761    2421 20  80   0 *  5403 pipe_r 22:47 ?        00:00:00 grep F S USER
++ CHECK_RESULT 0 0 0 'Check parkill -verbose program failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check parkill -verbose program failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ parkill -user=root -verbose program
++ grep 'F S USER'
+F S USER         PID    PPID  C PRI  NI P    SZ WCHAN  STIME TTY          TIME CMD
+0 S root        2765    2421 17  80   0 *  5403 pipe_r 22:47 ?        00:00:00 grep F S USER
++ CHECK_RESULT 0 0 0 'Check parkill -user=root -verbose program failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check parkill -user=root -verbose program failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed Apr  5 22:47:11 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Apr  5 22:47:12 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Apr  5 22:47:13 2023 - INFO  - Start to restore the test environment.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpjxspz_2_ ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpjxspz_2_
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed Apr  5 22:47:27 2023 - INFO  - End to restore the test environment.

@@ -1,0 +1,514 @@
++ source ./common/disk_lib.sh
+++ source /root/GitRepo/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment!'
++ message='Start to prepare the test environment!'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment!'
+Wed Apr  5 01:19:12 2023 - INFO  - Start to prepare the test environment!
++ DNF_INSTALL lvm2
++ pkgs=lvm2
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen/libs/locallibs/rpm_manage.py install --pkgs lvm2 --node 1 --tempfile ''
+Wed Apr  5 01:19:25 2023 - INFO  - pkgs:(lvm2) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ check_free_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/GitRepo/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='vdb vdc vdd vde'
++ disk_list=($disks)
++ local_disk=vdb
++ local_disk1=vdc
++ local_disk2=vdd
++ local_disk3=vde
++ LOG_INFO 'End to prepare the test environment!'
++ message='End to prepare the test environment!'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment!'
+Wed Apr  5 01:19:39 2023 - INFO  - End to prepare the test environment!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase!'
++ message='Start executing testcase!'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase!'
+Wed Apr  5 01:19:40 2023 - INFO  - Start executing testcase!
++ pvcreate -y /dev/vdb /dev/vdc
+  Physical volume "/dev/vdb" successfully created.
+  Physical volume "/dev/vdc" successfully created.
++ CHECK_RESULT 0 0 0 'failed to create PV'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='failed to create PV'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep /dev/vdb
++ pvs
+  /dev/vdb      lvm2 ---  500.00m 500.00m
++ pvs
++ grep /dev/vdc
+  /dev/vdc      lvm2 ---  500.00m 500.00m
++ CHECK_RESULT 0 0 0 'failed to create PV'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='failed to create PV'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgcreate test /dev/vdb
+  Volume group "test" successfully created
++ CHECK_RESULT 0 0 0 'failed to create VG'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='failed to create VG'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'VG Name'
++ vgdisplay
++ grep test
+  VG Name               test
++ CHECK_RESULT 0 0 0 'failed to create VG'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='failed to create VG'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgextend test /dev/vdc
++ grep 'successfully extended'
+  Volume group "test" successfully extended
++ CHECK_RESULT 0 0 0 'failed to extend VG test'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='failed to extend VG test'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pvs
++ grep /dev/vdc
++ grep test
+  /dev/vdc   test lvm2 a--  496.00m 496.00m
++ CHECK_RESULT 0 0 0 'failed to create PV'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='failed to create PV'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgreduce test /dev/vdc
++ grep Removed
+  Removed "/dev/vdc" from volume group "test"
++ CHECK_RESULT 0 0 0 'failed to reduce VG'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='failed to reduce VG'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgremove -f test
+  Volume group "test" successfully removed
++ vgcreate test /dev/vdb
++ grep 'successfully created'
+  Volume group "test" successfully created
++ CHECK_RESULT 0 0 0 'failed to create VG'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='failed to create VG'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgextend test /dev/vdc
++ grep 'successfully extended'
+  Volume group "test" successfully extended
++ CHECK_RESULT 0 0 0 'failed to extend VG'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='failed to extend VG'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep Removed
++ vgreduce test /dev/vdc -d
+  Removed "/dev/vdc" from volume group "test"
++ CHECK_RESULT 0 0 0 'failed to reduce VG -d'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='failed to reduce VG -d'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgremove -f test
+  Volume group "test" successfully removed
++ vgcreate test /dev/vdb
++ grep 'successfully created'
+  Volume group "test" successfully created
++ CHECK_RESULT 0 0 0 'failed to create VG'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='failed to create VG'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgextend test /dev/vdc
++ grep 'successfully extended'
+  Volume group "test" successfully extended
++ CHECK_RESULT 0 0 0 'failed to extend VG'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='failed to extend VG'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgreduce test /dev/vdc --autobackup y
++ grep Removed
+  Removed "/dev/vdc" from volume group "test"
++ CHECK_RESULT 0 0 0 'failed to reduce VG --autobackup'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='failed to reduce VG --autobackup'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgremove -f test
+  Volume group "test" successfully removed
++ grep 'successfully created'
++ vgcreate test /dev/vdb
+  Volume group "test" successfully created
++ CHECK_RESULT 0 0 0 'failed to create VG'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='failed to create VG'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgextend test /dev/vdc
++ grep 'successfully extended'
+  Volume group "test" successfully extended
++ CHECK_RESULT 0 0 0 'failed to extend VG'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='failed to extend VG'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep Removed
++ vgreduce test /dev/vdc -f
+  Removed "/dev/vdc" from volume group "test"
++ CHECK_RESULT 0 0 0 'failed to reduce VG -f'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='failed to reduce VG -f'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgremove -f test
+  Volume group "test" successfully removed
++ vgcreate test /dev/vdb
++ grep 'successfully created'
+  Volume group "test" successfully created
++ CHECK_RESULT 0 0 0 'failed to create VG'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='failed to create VG'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgextend test /dev/vdc
++ grep 'successfully extended'
+  Volume group "test" successfully extended
++ CHECK_RESULT 0 0 0 'failed to extend VG --metadatatype'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='failed to extend VG --metadatatype'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgreduce test /dev/vdc --reportformat json
++ grep '{'
+  {
++ CHECK_RESULT 0 0 0 'failed to reduce VG --reportformat'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='failed to reduce VG --reportformat'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgremove -f test
+  Volume group "test" successfully removed
++ grep 'successfully created'
++ vgcreate test /dev/vdb
+  Volume group "test" successfully created
++ CHECK_RESULT 0 0 0 'failed to create VG'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='failed to create VG'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgextend test /dev/vdc
++ grep 'successfully extended'
+  Volume group "test" successfully extended
++ CHECK_RESULT 0 0 0 'failed to extend VG'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='failed to extend VG'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgreduce test /dev/vdc -q
++ grep Removed
+  Removed "/dev/vdc" from volume group "test"
++ CHECK_RESULT 0 0 0 'failed to reduce VG -q'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='failed to reduce VG -q'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgremove -f test
+  Volume group "test" successfully removed
++ grep 'successfully created'
++ vgcreate test /dev/vdb
+  Volume group "test" successfully created
++ CHECK_RESULT 0 0 0 'failed to create VG'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='failed to create VG'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgextend test /dev/vdc
++ grep 'successfully extended'
+  Volume group "test" successfully extended
++ CHECK_RESULT 0 0 0 'failed to extend VG'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='failed to extend VG'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgreduce test /dev/vdc -t
++ grep TEST
+  TEST MODE: Metadata will NOT be updated and volumes will not be (de)activated.
++ CHECK_RESULT 1 0 0 'failed to reduce VG -t'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='failed to reduce VG -t'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'failed to reduce VG -t'
++ LOG_ERROR 'failed to reduce VG -t'
++ message='failed to reduce VG -t'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to reduce VG -t'
+Wed Apr  5 01:20:02 2023 - ERROR - failed to reduce VG -t
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_lvm2_vgreduce_001.sh line 77'
++ message='oe_test_lvm2_vgreduce_001.sh line 77'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_lvm2_vgreduce_001.sh line 77'
+Wed Apr  5 01:20:03 2023 - ERROR - oe_test_lvm2_vgreduce_001.sh line 77
++ '[' 0 -eq 1 ']'
++ return 0
++ vgremove -f test
+  Volume group "test" successfully removed
++ grep 'successfully created'
++ vgcreate test /dev/vdb
+  Volume group "test" successfully created
++ CHECK_RESULT 0 0 0 'failed to create VG'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='failed to create VG'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgextend test /dev/vdc
++ grep 'successfully extended'
+  Volume group "test" successfully extended
++ CHECK_RESULT 0 0 0 'failed to extend VG'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='failed to extend VG'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep Removed
++ vgreduce test /dev/vdc -v
+  Removing "/dev/vdc" from volume group "test"
+  Archiving volume group "test" metadata (seqno 2).
+  Creating volume group backup "/etc/lvm/backup/test" (seqno 3).
+  Removed "/dev/vdc" from volume group "test"
++ CHECK_RESULT 0 0 0 'failed to reduce VG -v'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='failed to reduce VG -v'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgreduce --help
++ grep vgreduce
+  vgreduce - Remove physical volume(s) from a volume group
+  vgreduce VG PV ...
+  vgreduce -a|--all VG
+  vgreduce --removemissing VG
++ CHECK_RESULT 0 0 0 'check vgreduce --help failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='check vgreduce --help failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep variables
++ vgreduce --longhelp
+  Common variables for lvm:
++ CHECK_RESULT 0 0 0 'check vgreduce --longhelp failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='check vgreduce --longhelp failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End executing testcase!'
++ message='End executing testcase!'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End executing testcase!'
+Wed Apr  5 01:20:08 2023 - INFO  - End executing testcase!
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed Apr  5 01:20:09 2023 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'Start environment cleanup.'
++ message='Start environment cleanup.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment cleanup.'
+Wed Apr  5 01:20:10 2023 - INFO  - Start environment cleanup.
++ vgremove -f test
+  Volume group "test" successfully removed
++ pvremove -f /dev/vdb /dev/vdc
+  Labels on physical volume "/dev/vdb" successfully wiped.
+  Labels on physical volume "/dev/vdc" successfully wiped.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Wed Apr  5 01:20:12 2023 - WARN  - no thing to do.
++ return 0
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Wed Apr  5 01:20:13 2023 - INFO  - Finish environment cleanup.

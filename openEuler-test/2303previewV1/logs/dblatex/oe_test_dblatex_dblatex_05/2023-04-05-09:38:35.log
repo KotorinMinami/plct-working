@@ -1,0 +1,419 @@
++ source common/common.sh
+++ source /root/GitRepo/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n function ']'
++ config_params
++ LOG_INFO 'Start to config params of the case.'
++ message='Start to config params of the case.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to config params of the case.'
+Wed Apr  5 09:38:39 2023 - INFO  - Start to config params of the case.
++ common_config_params
++ TMP_DIR=./tmp
++ TMP_PATH_O1=/O1
++ TMP_PATH_O2=/O2
+++ mktemp -d -t dblatex.XXXXXXXXXXXX
++ TMP_PATH=/tmp/dblatex.veCHNllWaDfb
++ LOG_INFO 'End to config params of the case.'
++ message='End to config params of the case.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End to config params of the case.'
+Wed Apr  5 09:38:40 2023 - INFO  - End to config params of the case.
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Apr  5 09:38:40 2023 - INFO  - Start to prepare the test environment.
++ common_pre
++ DNF_INSTALL 'dblatex opensp dejavu-fonts'
++ pkgs='dblatex opensp dejavu-fonts'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen/libs/locallibs/rpm_manage.py install --pkgs 'dblatex opensp dejavu-fonts' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpjm_gw6x6
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpjm_gw6x6
++ mkdir -p ./tmp /O1 /O2
++ ln -s /usr/bin/python3 /usr/bin/python
+ln: failed to create symbolic link '/usr/bin/python': File exists
+++ rpm -ql dblatex
+++ grep bibtex.py
++ sed -i 's#string.join(self.bib_path +#":".join(self.bib_path +#g' /usr/lib/python3.10/site-packages/dbtexmf/dblatex/grubber/bibtex.py
+++ rpm -ql dblatex
+++ grep bibtex.py
++ sed -i 's#\[os.getenv("BIBINPUTS", "")\], ":")#\[os.getenv("BIBINPUTS", "")\])#g' /usr/lib/python3.10/site-packages/dbtexmf/dblatex/grubber/bibtex.py
+++ rpm -ql dblatex
+++ grep bibtex.py
++ sed -i 's#string.join(self.bst_path +#":".join(self.bst_path +#g' /usr/lib/python3.10/site-packages/dbtexmf/dblatex/grubber/bibtex.py
+++ rpm -ql dblatex
+++ grep bibtex.py
++ sed -i 's#\[os.getenv("BSTINPUTS", "")\], ":")#\[os.getenv("BSTINPUTS", "")\])#g' /usr/lib/python3.10/site-packages/dbtexmf/dblatex/grubber/bibtex.py
+++ rpm -ql dblatex
+++ grep bibtex.py
++ sed -i 's#list.sort()#sorted(list)#g' /usr/lib/python3.10/site-packages/dbtexmf/dblatex/grubber/bibtex.py
+++ rpm -ql texlive-base
+++ grep texmf-dist/web2c
++ sed -i 's#openout_any = p#openout_any = a#g' /usr/share/texlive/texmf-dist/web2c/texmf.cnf
+++ grep bibtex.py
+++ rpm -ql dblatex
++ sed -i '271s#self.doc.must_compile = 1#self.doc.must_compile = 0#g' /usr/lib/python3.10/site-packages/dbtexmf/dblatex/grubber/bibtex.py
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Wed Apr  5 09:56:52 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Apr  5 09:56:52 2023 - INFO  - Start to run test.
++ dblatex -r plugin:common/test-1/test common/test-1/test.xml
++ grep Plugin
+Plugin called on 'test.tex' file
++ CHECK_RESULT 0 0 0 'option: -r error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: -r error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dblatex --texpost=plugin:common/test-1/test common/test-1/test.xml
++ grep Plugin
+Plugin called on 'test.tex' file
++ CHECK_RESULT 0 0 0 'option: --texpost error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --texpost error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dblatex -o ./tmp/test1.pdf -s common/test-1/test.sty common/test-1/test.xml
++ grep 'successfully built'
+'test1.pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: -s error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: -s error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dblatex -o ./tmp/test2.pdf --texstyle=common/test-1/test.sty common/test-1/test.xml
++ grep 'successfully built'
+'test2.pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: --texstyle error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --texstyle error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ for format in "tex" "dvi" "ps" "pdf"
++ dblatex -o ./tmp/test3.pdf -t tex common/test-1/test.xml
++ grep successfully
+'test3.pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: -t tex error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: -t tex error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep successfully
++ dblatex -o ./tmp/test4.pdf --type=tex common/test-1/test.xml
+'test4.pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: --type=tex error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --type=tex error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ '[' tex '!=' tex ']'
++ for format in "tex" "dvi" "ps" "pdf"
++ dblatex -o ./tmp/test3.pdf -t dvi common/test-1/test.xml
++ grep successfully
+'test3.pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: -t dvi error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: -t dvi error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dblatex -o ./tmp/test4.pdf --type=dvi common/test-1/test.xml
++ grep successfully
+'test4.pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: --type=dvi error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --type=dvi error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ '[' dvi '!=' tex ']'
++ dblatex -o ./tmp/test5.pdf --dvi common/test-1/test.xml
++ grep successfully
+'test5.pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: --dvi error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --dvi error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ for format in "tex" "dvi" "ps" "pdf"
++ dblatex -o ./tmp/test3.pdf -t ps common/test-1/test.xml
++ grep successfully
+'test3.pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: -t ps error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: -t ps error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dblatex -o ./tmp/test4.pdf --type=ps common/test-1/test.xml
++ grep successfully
+'test4.pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: --type=ps error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --type=ps error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ '[' ps '!=' tex ']'
++ dblatex -o ./tmp/test5.pdf --ps common/test-1/test.xml
++ grep successfully
+'test5.pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: --ps error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --ps error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ for format in "tex" "dvi" "ps" "pdf"
++ dblatex -o ./tmp/test3.pdf -t pdf common/test-1/test.xml
++ grep successfully
+'test3.pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: -t pdf error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: -t pdf error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dblatex -o ./tmp/test4.pdf --type=pdf common/test-1/test.xml
++ grep successfully
+'test4.pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: --type=pdf error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --type=pdf error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ '[' pdf '!=' tex ']'
++ dblatex -o ./tmp/test5.pdf --pdf common/test-1/test.xml
++ grep successfully
+'test5.pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: --pdf error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --pdf error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ for style in "db2latex" "native" "simple"
++ dblatex -o ./tmp/test6.pdf -T db2latex common/test-1/test.xml
++ grep 'successfully built'
+'test6.pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: -T db2latex error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: -T db2latex error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dblatex -o ./tmp/test7.pdf --style=db2latex common/test-1/test.xml
++ grep 'successfully built'
+'test7.pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: --style=db2latex error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --style=db2latex error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ for style in "db2latex" "native" "simple"
++ dblatex -o ./tmp/test6.pdf -T native common/test-1/test.xml
++ grep 'successfully built'
+'test6.pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: -T native error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: -T native error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dblatex -o ./tmp/test7.pdf --style=native common/test-1/test.xml
++ grep 'successfully built'
+'test7.pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: --style=native error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --style=native error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ for style in "db2latex" "native" "simple"
++ dblatex -o ./tmp/test6.pdf -T simple common/test-1/test.xml
++ grep 'successfully built'
+'test6.pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: -T simple error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: -T simple error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'successfully built'
++ dblatex -o ./tmp/test7.pdf --style=simple common/test-1/test.xml
+'test7.pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: --style=simple error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --style=simple error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed Apr  5 10:05:01 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Apr  5 10:05:02 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Apr  5 10:05:03 2023 - INFO  - Start to restore the test environment.
++ common_post
+++ rpm -ql dblatex
+++ grep bibtex.py
++ sed -i 's#":".join(self.bib_path +#string.join(self.bib_path +#g' /usr/lib/python3.10/site-packages/dbtexmf/dblatex/grubber/bibtex.py
+++ rpm -ql dblatex
+++ grep bibtex.py
++ sed -i 's#\[os.getenv("BIBINPUTS", "")\])#\[os.getenv("BIBINPUTS", "")\], ":")#g' /usr/lib/python3.10/site-packages/dbtexmf/dblatex/grubber/bibtex.py
+++ rpm -ql dblatex
+++ grep bibtex.py
++ sed -i 's#":".join(self.bst_path +#string.join(self.bst_path +#g' /usr/lib/python3.10/site-packages/dbtexmf/dblatex/grubber/bibtex.py
+++ rpm -ql dblatex
+++ grep bibtex.py
++ sed -i 's#\[os.getenv("BSTINPUTS", "")\])#\[os.getenv("BSTINPUTS", "")\], ":")#g' /usr/lib/python3.10/site-packages/dbtexmf/dblatex/grubber/bibtex.py
+++ rpm -ql dblatex
+++ grep bibtex.py
++ sed -i 's#sorted(list)#list.sort()#g' /usr/lib/python3.10/site-packages/dbtexmf/dblatex/grubber/bibtex.py
+++ grep texmf-dist/web2c
+++ rpm -ql texlive-base
++ sed -i 's#openout_any = a#openout_any = p#g' /usr/share/texlive/texmf-dist/web2c/texmf.cnf
+++ rpm -ql dblatex
+++ grep bibtex.py
++ sed -i '271s#self.doc.must_compile = 0#self.doc.must_compile = 1#g' /usr/lib/python3.10/site-packages/dbtexmf/dblatex/grubber/bibtex.py
++ rm -rf ./tmp /O1 /O2
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpjm_gw6x6 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpjm_gw6x6
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed Apr  5 10:06:47 2023 - INFO  - End to restore the test environment.

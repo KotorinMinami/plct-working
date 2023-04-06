@@ -1,0 +1,263 @@
++ source /root/GitRepo/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n function ']'
++ config_params
++ PATH_TANG=/var/db/tang
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed Apr  5 05:58:41 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL 'clevis tang firewalld'
++ pkgs='clevis tang firewalld'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen/libs/locallibs/rpm_manage.py install --pkgs 'clevis tang firewalld' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpvtn6sgg6
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpvtn6sgg6
++ systemctl start firewalld
++ ls /etc/systemd/system/tangd.socket.d
+ls: cannot access '/etc/systemd/system/tangd.socket.d': No such file or directory
++ firewall-cmd --add-port=8009/tcp
+success
++ firewall-cmd --runtime-to-permanent
+success
++ SOCKET_CONTENT='[Socket]\nListenStream=\nListenStream=8009'
++ mkdir /etc/systemd/system/tangd.socket.d
++ echo -e '[Socket]\nListenStream=\nListenStream=8009'
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Wed Apr  5 05:59:54 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Wed Apr  5 05:59:55 2023 - INFO  - Start executing testcase.
++ systemctl enable tangd.socket
+Created symlink /etc/systemd/system/multi-user.target.wants/tangd.socket → /usr/lib/systemd/system/tangd.socket.
++ CHECK_RESULT 0 0 0 'Failed to systemctl enable tangd.socket'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to systemctl enable tangd.socket'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl daemon-reload
++ systemctl show tangd.socket -p Listen
++ grep 8009
+Listen=[::]:8009 (Stream)
++ CHECK_RESULT 0 0 0 'Failed to display the '\''Listen'\'' property of tangd.socket'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to display the '\''Listen'\'' property of tangd.socket'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ systemctl start tangd.socket
++ CHECK_RESULT 0 0 0 'Failed to start tangd.socket service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to start tangd.socket service'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cd /var/db/tang
+++ ls /var/db/tang
++ for element in $(ls $PATH_TANG)
++ mv /var/db/tang/jY3Yeqt8c4B_djZN3yqACdCBu8mQKtu_IH78JHF12gA.jwk /var/db/tang/.jY3Yeqt8c4B_djZN3yqACdCBu8mQKtu_IH78JHF12gA.jwk
++ for element in $(ls $PATH_TANG)
++ mv /var/db/tang/mJuJYno4YEvKDGx49omF6JrwEqVZbjLV1DT5zFQdxP8.jwk /var/db/tang/.mJuJYno4YEvKDGx49omF6JrwEqVZbjLV1DT5zFQdxP8.jwk
++ /usr/libexec/tangd-keygen /var/db/tang
++ CHECK_RESULT 0 0 0 'Failed to generate a new key using the /var/db/Tang d-keygen command on the Tang server'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to generate a new key using the /var/db/Tang d-keygen command on the Tang server'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cd /root/GitRepo/mugen
++ tang-show-keys 8009
+curl: (22) The requested URL returned error: 404
++ CHECK_RESULT 22 0 0 'Failed to check whether the Tang server advertises the signature key from the new key pair'
++ actual_result=22
++ expect_result=0
++ mode=0
++ error_log='Failed to check whether the Tang server advertises the signature key from the new key pair'
++ exit_mode=0
++ '[' -z 22 ']'
++ '[' 0 -eq 0 ']'
++ test 22x '!=' 0x
++ test -n 'Failed to check whether the Tang server advertises the signature key from the new key pair'
++ LOG_ERROR 'Failed to check whether the Tang server advertises the signature key from the new key pair'
++ message='Failed to check whether the Tang server advertises the signature key from the new key pair'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed to check whether the Tang server advertises the signature key from the new key pair'
+Wed Apr  5 06:00:11 2023 - ERROR - Failed to check whether the Tang server advertises the signature key from the new key pair
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_install_clevis.sh line 58'
++ message='oe_test_install_clevis.sh line 58'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_install_clevis.sh line 58'
+Wed Apr  5 06:00:12 2023 - ERROR - oe_test_install_clevis.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ systemctl restart tangd.socket
++ CHECK_RESULT 0 0 0 'Failed to restart tangd.socket service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to restart tangd.socket service'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ curl http://127.0.0.1:8009/adv -o adv.jws
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
++ CHECK_RESULT 0 0 0 'Failed to transfer data to adv.jws file'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to transfer data to adv.jws file'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ echo hello
++ clevis encrypt tang '{"url":"http://127.0.0.1:8009","adv":"adv.jws"}'
+Advertisement file '' is malformed!
++ CHECK_RESULT 1 0 0 'Failed to encrypt file'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed to encrypt file'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed to encrypt file'
++ LOG_ERROR 'Failed to encrypt file'
++ message='Failed to encrypt file'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed to encrypt file'
+Wed Apr  5 06:00:20 2023 - ERROR - Failed to encrypt file
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_install_clevis.sh line 67'
++ message='oe_test_install_clevis.sh line 67'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_install_clevis.sh line 67'
+Wed Apr  5 06:00:21 2023 - ERROR - oe_test_install_clevis.sh line 67
++ '[' 0 -eq 1 ']'
++ return 0
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ clevis decrypt
++ grep hello
++ CHECK_RESULT 1 0 0 'Failed to decrypt file'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed to decrypt file'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed to decrypt file'
++ LOG_ERROR 'Failed to decrypt file'
++ message='Failed to decrypt file'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed to decrypt file'
+Wed Apr  5 06:00:24 2023 - ERROR - Failed to decrypt file
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_install_clevis.sh line 70'
++ message='oe_test_install_clevis.sh line 70'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_install_clevis.sh line 70'
+Wed Apr  5 06:00:25 2023 - ERROR - oe_test_install_clevis.sh line 70
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'Finish testcase execution.'
++ message='Finish testcase execution.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish testcase execution.'
+Wed Apr  5 06:00:25 2023 - INFO  - Finish testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z 3
++ test 3 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed Apr  5 06:00:26 2023 - ERROR - failed to execute the case.
++ exit 3
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Wed Apr  5 06:00:27 2023 - INFO  - start environment cleanup.
++ systemctl stop tangd.socket
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpvtn6sgg6 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpvtn6sgg6
++ '[' 0 -ne 0 ']'
++ rm -rf secert.jwe adv.jws /etc/systemd/system/tangd.socket.d /var/db/tang
++ firewall-cmd --remove-port=8009/tcp
+oe_test_install_clevis.sh: line 79: /usr/bin/firewall-cmd: No such file or directory
++ firewall-cmd --runtime-to-permanent
+oe_test_install_clevis.sh: line 80: /usr/bin/firewall-cmd: No such file or directory
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Wed Apr  5 06:00:55 2023 - INFO  - Finish environment cleanup!

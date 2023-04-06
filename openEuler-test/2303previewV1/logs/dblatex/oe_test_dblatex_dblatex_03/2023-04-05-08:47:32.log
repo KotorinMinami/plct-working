@@ -1,0 +1,320 @@
++ source common/common.sh
+++ source /root/GitRepo/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n function ']'
++ config_params
++ LOG_INFO 'Start to config params of the case.'
++ message='Start to config params of the case.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to config params of the case.'
+Wed Apr  5 08:47:36 2023 - INFO  - Start to config params of the case.
++ common_config_params
++ TMP_DIR=./tmp
++ TMP_PATH_O1=/O1
++ TMP_PATH_O2=/O2
+++ mktemp -d -t dblatex.XXXXXXXXXXXX
++ TMP_PATH=/tmp/dblatex.A7NnxmoohKTy
++ LOG_INFO 'End to config params of the case.'
++ message='End to config params of the case.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End to config params of the case.'
+Wed Apr  5 08:47:37 2023 - INFO  - End to config params of the case.
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Apr  5 08:47:37 2023 - INFO  - Start to prepare the test environment.
++ common_pre
++ DNF_INSTALL 'dblatex opensp dejavu-fonts'
++ pkgs='dblatex opensp dejavu-fonts'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen/libs/locallibs/rpm_manage.py install --pkgs 'dblatex opensp dejavu-fonts' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpm8rawghv
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpm8rawghv
++ mkdir -p ./tmp /O1 /O2
++ ln -s /usr/bin/python3 /usr/bin/python
+ln: failed to create symbolic link '/usr/bin/python': File exists
+++ rpm -ql dblatex
+++ grep bibtex.py
++ sed -i 's#string.join(self.bib_path +#":".join(self.bib_path +#g' /usr/lib/python3.10/site-packages/dbtexmf/dblatex/grubber/bibtex.py
+++ rpm -ql dblatex
+++ grep bibtex.py
++ sed -i 's#\[os.getenv("BIBINPUTS", "")\], ":")#\[os.getenv("BIBINPUTS", "")\])#g' /usr/lib/python3.10/site-packages/dbtexmf/dblatex/grubber/bibtex.py
+++ rpm -ql dblatex
+++ grep bibtex.py
++ sed -i 's#string.join(self.bst_path +#":".join(self.bst_path +#g' /usr/lib/python3.10/site-packages/dbtexmf/dblatex/grubber/bibtex.py
+++ grep bibtex.py
+++ rpm -ql dblatex
++ sed -i 's#\[os.getenv("BSTINPUTS", "")\], ":")#\[os.getenv("BSTINPUTS", "")\])#g' /usr/lib/python3.10/site-packages/dbtexmf/dblatex/grubber/bibtex.py
+++ rpm -ql dblatex
+++ grep bibtex.py
++ sed -i 's#list.sort()#sorted(list)#g' /usr/lib/python3.10/site-packages/dbtexmf/dblatex/grubber/bibtex.py
+++ rpm -ql texlive-base
+++ grep texmf-dist/web2c
++ sed -i 's#openout_any = p#openout_any = a#g' /usr/share/texlive/texmf-dist/web2c/texmf.cnf
+++ rpm -ql dblatex
+++ grep bibtex.py
++ sed -i '271s#self.doc.must_compile = 1#self.doc.must_compile = 0#g' /usr/lib/python3.10/site-packages/dbtexmf/dblatex/grubber/bibtex.py
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Wed Apr  5 09:05:46 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Apr  5 09:05:46 2023 - INFO  - Start to run test.
++ for fit_format in "eps" "fig" "pdf"
++ dblatex -o ./tmp/test1.pdf -f eps common/test-1/test.xml
++ grep 'successfully built'
+'test1.pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: -f eps error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: -f eps error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dblatex -o ./tmp/test2.pdf--fig-format=eps common/test-1/test.xml
++ grep 'successfully built'
+'test2.pdf--fig-format=eps' successfully built
++ CHECK_RESULT 0 0 0 'option: --fig-format=eps error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --fig-format=eps error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ for fit_format in "eps" "fig" "pdf"
++ dblatex -o ./tmp/test1.pdf -f fig common/test-1/test.xml
++ grep 'successfully built'
+'test1.pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: -f fig error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: -f fig error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dblatex -o ./tmp/test2.pdf--fig-format=fig common/test-1/test.xml
++ grep 'successfully built'
+'test2.pdf--fig-format=fig' successfully built
++ CHECK_RESULT 0 0 0 'option: --fig-format=fig error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --fig-format=fig error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ for fit_format in "eps" "fig" "pdf"
++ grep 'successfully built'
++ dblatex -o ./tmp/test1.pdf -f pdf common/test-1/test.xml
+'test1.pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: -f pdf error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: -f pdf error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dblatex -o ./tmp/test2.pdf--fig-format=pdf common/test-1/test.xml
++ grep 'successfully built'
+'test2.pdf--fig-format=pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: --fig-format=pdf error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --fig-format=pdf error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'successfully built'
++ dblatex -o ./tmp/test3.pdf -F xml common/test-1/test.xml
+'test3.pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: -F xml error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: -F xml error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'successfully built'
++ dblatex -o ./tmp/test4.pdf --input-format=xml common/test-1/test.xml
+'test4.pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: --input-format= error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --input-format= error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dblatex -o ./tmp/test5.pdf -i export common/test-1/test.xml
++ grep 'successfully built'
+'test5.pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: -i error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: -i error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dblatex -o ./tmp/test6.pdf --texinputs=export common/test-1/test.xml
++ grep 'successfully built'
+'test6.pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: --texinputs error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --texinputs error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'successfully built'
++ dblatex -o ./tmp/test7.pdf -I common/test-3/ -I /project/mugen/testcases/ -I /srv common/test-1/test.sgml
+'test7.pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: -I error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: -I error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'successfully built'
++ dblatex -o ./tmp/test8.pdf --fig-path=common/test-3/ --fig-path=/project/mugen/testcases/ --fig-path=/srv common/test-1/test.sgml
+'test8.pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: --fig-path error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --fig-path error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dblatex -o ./tmp/test9.pdf -l common/test-1/ -L common/test-1/ common/test-4/test.xml
++ grep 'successfully built'
+'test9.pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: -l error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: -l error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dblatex -o ./tmp/test10.pdf --bst-path=common/test-1/ -L common/test-1/ common/test-4/test.xml
++ grep 'successfully built'
+'test10.pdf' successfully built
++ CHECK_RESULT 0 0 0 'option: --bst-path error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --bst-path error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed Apr  5 09:11:50 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Apr  5 09:11:51 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Apr  5 09:11:52 2023 - INFO  - Start to restore the test environment.
++ common_post
+++ rpm -ql dblatex
+++ grep bibtex.py
++ sed -i 's#":".join(self.bib_path +#string.join(self.bib_path +#g' /usr/lib/python3.10/site-packages/dbtexmf/dblatex/grubber/bibtex.py
+++ rpm -ql dblatex
+++ grep bibtex.py
++ sed -i 's#\[os.getenv("BIBINPUTS", "")\])#\[os.getenv("BIBINPUTS", "")\], ":")#g' /usr/lib/python3.10/site-packages/dbtexmf/dblatex/grubber/bibtex.py
+++ grep bibtex.py
+++ rpm -ql dblatex
++ sed -i 's#":".join(self.bst_path +#string.join(self.bst_path +#g' /usr/lib/python3.10/site-packages/dbtexmf/dblatex/grubber/bibtex.py
+++ rpm -ql dblatex
+++ grep bibtex.py
++ sed -i 's#\[os.getenv("BSTINPUTS", "")\])#\[os.getenv("BSTINPUTS", "")\], ":")#g' /usr/lib/python3.10/site-packages/dbtexmf/dblatex/grubber/bibtex.py
+++ rpm -ql dblatex
+++ grep bibtex.py
++ sed -i 's#sorted(list)#list.sort()#g' /usr/lib/python3.10/site-packages/dbtexmf/dblatex/grubber/bibtex.py
+++ rpm -ql texlive-base
+++ grep texmf-dist/web2c
++ sed -i 's#openout_any = a#openout_any = p#g' /usr/share/texlive/texmf-dist/web2c/texmf.cnf
+++ rpm -ql dblatex
+++ grep bibtex.py
++ sed -i '271s#self.doc.must_compile = 0#self.doc.must_compile = 1#g' /usr/lib/python3.10/site-packages/dbtexmf/dblatex/grubber/bibtex.py
++ rm -rf ./tmp /O1 /O2
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpm8rawghv ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpm8rawghv
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed Apr  5 09:13:41 2023 - INFO  - End to restore the test environment.

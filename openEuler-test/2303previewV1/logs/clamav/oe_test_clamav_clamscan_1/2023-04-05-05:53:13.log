@@ -1,0 +1,1825 @@
++ source /root/GitRepo/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/GitRepo/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ grep expect
++ rpm -qa
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the database config.'
++ message='Start to prepare the database config.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the database config.'
+Wed Apr  5 05:53:17 2023 - INFO  - Start to prepare the database config.
++ DNF_INSTALL clamav
++ pkgs=clamav
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen/libs/locallibs/rpm_manage.py install --pkgs clamav --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpqhtpcv8k
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpqhtpcv8k
++ mkdir /opt/testscan
++ cd /opt/testscan/
++ sigtool -u /var/lib/clamav/daily.cvd
+LibClamAV Warning: **************************************************
+LibClamAV Warning: ***  The virus database is older than 7 days!  ***
+LibClamAV Warning: ***   Please update it as soon as possible.    ***
+LibClamAV Warning: **************************************************
++ cd -
+/root/GitRepo/mugen/testcases/cli-test/clamav
++ LOG_INFO 'End to prepare the database config.'
++ message='End to prepare the database config.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the database config.'
+Wed Apr  5 05:56:32 2023 - INFO  - End to prepare the database config.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Apr  5 05:56:33 2023 - INFO  - Start to run test.
++ clamscan --version
++ grep ClamAV
+ClamAV 0.103.8/26818/Mon Feb 20 16:21:31 2023
++ CHECK_RESULT 0 0 0 'Check clamscan version failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check clamscan version failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clamscan --help
+
+                       Clam AntiVirus: Scanner 0.103.8
+           By The ClamAV Team: https://www.clamav.net/about.html#credits
+           (C) 2022 Cisco Systems, Inc.
+
+    clamscan [options] [file/directory/-]
+
+    --help                -h             Show this help
+    --version             -V             Print version number
+    --verbose             -v             Be verbose
+    --archive-verbose     -a             Show filenames inside scanned archives
+    --debug                              Enable libclamav's debug messages
+    --quiet                              Only output error messages
+    --stdout                             Write to stdout instead of stderr. Does not affect 'debug' messages.
+    --no-summary                         Disable summary at end of scanning
+    --infected            -i             Only print infected files
+    --suppress-ok-results -o             Skip printing OK files
+    --bell                               Sound bell on virus detection
+
+    --tempdir=DIRECTORY                  Create temporary files in DIRECTORY
+    --leave-temps[=yes/no(*)]            Do not remove temporary files
+    --gen-json[=yes/no(*)]               Generate JSON description of scanned file(s). JSON will be printed and also-
+                                         dropped to the temp directory if --leave-temps is enabled.
+    --database=FILE/DIR   -d FILE/DIR    Load virus database from FILE or load all supported db files from DIR
+    --official-db-only[=yes/no(*)]       Only load official signatures
+    --log=FILE            -l FILE        Save scan report to FILE
+    --recursive[=yes/no(*)]  -r          Scan subdirectories recursively
+    --allmatch[=yes/no(*)]   -z          Continue scanning within file after finding a match
+    --cross-fs[=yes(*)/no]               Scan files and directories on other filesystems
+    --follow-dir-symlinks[=0/1(*)/2]     Follow directory symlinks (0 = never, 1 = direct, 2 = always)
+    --follow-file-symlinks[=0/1(*)/2]    Follow file symlinks (0 = never, 1 = direct, 2 = always)
+    --file-list=FILE      -f FILE        Scan files from FILE
+    --remove[=yes/no(*)]                 Remove infected files. Be careful!
+    --move=DIRECTORY                     Move infected files into DIRECTORY
+    --copy=DIRECTORY                     Copy infected files into DIRECTORY
+    --exclude=REGEX                      Don't scan file names matching REGEX
+    --exclude-dir=REGEX                  Don't scan directories matching REGEX
+    --include=REGEX                      Only scan file names matching REGEX
+    --include-dir=REGEX                  Only scan directories matching REGEX
+
+    --bytecode[=yes(*)/no]               Load bytecode from the database
+    --bytecode-unsigned[=yes/no(*)]      Load unsigned bytecode
+                                         **Caution**: You should NEVER run bytecode signatures from untrusted sources.
+                                         Doing so may result in arbitrary code execution.
+    --bytecode-timeout=N                 Set bytecode timeout (in milliseconds)
+    --statistics[=none(*)/bytecode/pcre] Collect and print execution statistics
+    --detect-pua[=yes/no(*)]             Detect Possibly Unwanted Applications
+    --exclude-pua=CAT                    Skip PUA sigs of category CAT
+    --include-pua=CAT                    Load PUA sigs of category CAT
+    --detect-structured[=yes/no(*)]      Detect structured data (SSN, Credit Card)
+    --structured-ssn-format=X            SSN format (0=normal,1=stripped,2=both)
+    --structured-ssn-count=N             Min SSN count to generate a detect
+    --structured-cc-count=N              Min CC count to generate a detect
+    --structured-cc-mode=X               CC mode (0=credit debit and private label, 1=credit cards only
+    --scan-mail[=yes(*)/no]              Scan mail files
+    --phishing-sigs[=yes(*)/no]          Enable email signature-based phishing detection
+    --phishing-scan-urls[=yes(*)/no]     Enable URL signature-based phishing detection
+    --heuristic-alerts[=yes(*)/no]       Heuristic alerts
+    --heuristic-scan-precedence[=yes/no(*)] Stop scanning as soon as a heuristic match is found
+    --normalize[=yes(*)/no]              Normalize html, script, and text files. Use normalize=no for yara compatibility
+    --scan-pe[=yes(*)/no]                Scan PE files
+    --scan-elf[=yes(*)/no]               Scan ELF files
+    --scan-ole2[=yes(*)/no]              Scan OLE2 containers
+    --scan-pdf[=yes(*)/no]               Scan PDF files
+    --scan-swf[=yes(*)/no]               Scan SWF files
+    --scan-html[=yes(*)/no]              Scan HTML files
+    --scan-xmldocs[=yes(*)/no]           Scan xml-based document files
+    --scan-hwp3[=yes(*)/no]              Scan HWP3 files
+    --scan-archive[=yes(*)/no]           Scan archive files (supported by libclamav)
+    --alert-broken[=yes/no(*)]           Alert on broken executable files (PE & ELF)
+    --alert-broken-media[=yes/no(*)]     Alert on broken graphics files (JPEG, TIFF, PNG, GIF)
+    --alert-encrypted[=yes/no(*)]        Alert on encrypted archives and documents
+    --alert-encrypted-archive[=yes/no(*)] Alert on encrypted archives
+    --alert-encrypted-doc[=yes/no(*)]    Alert on encrypted documents
+    --alert-macros[=yes/no(*)]           Alert on OLE2 files containing VBA macros
+    --alert-exceeds-max[=yes/no(*)]      Alert on files that exceed max file size, max scan size, or max recursion limit
+    --alert-phishing-ssl[=yes/no(*)]     Alert on emails containing SSL mismatches in URLs
+    --alert-phishing-cloak[=yes/no(*)]   Alert on emails containing cloaked URLs
+    --alert-partition-intersection[=yes/no(*)] Alert on raw DMG image files containing partition intersections
+    --nocerts                            Disable authenticode certificate chain verification in PE files
+    --dumpcerts                          Dump authenticode certificate chain in PE files
+
+    --max-scantime=#n                    Scan time longer than this will be skipped and assumed clean (milliseconds)
+    --max-filesize=#n                    Files larger than this will be skipped and assumed clean
+    --max-scansize=#n                    The maximum amount of data to scan for each container file (**)
+    --max-files=#n                       The maximum number of files to scan for each container file (**)
+    --max-recursion=#n                   Maximum archive recursion level for container file (**)
+    --max-dir-recursion=#n               Maximum directory recursion level
+    --max-embeddedpe=#n                  Maximum size file to check for embedded PE
+    --max-htmlnormalize=#n               Maximum size of HTML file to normalize
+    --max-htmlnotags=#n                  Maximum size of normalized HTML file to scan
+    --max-scriptnormalize=#n             Maximum size of script file to normalize
+    --max-ziptypercg=#n                  Maximum size zip to type reanalyze
+    --max-partitions=#n                  Maximum number of partitions in disk image to be scanned
+    --max-iconspe=#n                     Maximum number of icons in PE file to be scanned
+    --max-rechwp3=#n                     Maximum recursive calls to HWP3 parsing function
+    --pcre-match-limit=#n                Maximum calls to the PCRE match function.
+    --pcre-recmatch-limit=#n             Maximum recursive calls to the PCRE match function.
+    --pcre-max-filesize=#n               Maximum size file to perform PCRE subsig matching.
+    --disable-cache                      Disable caching and cache checks for hash sums of scanned files.
+
+Pass in - as the filename for stdin.
+
+(*) Default scan settings
+(**) Certain files (e.g. documents, archives, etc.) may in turn contain other
+   files inside. The above options ensure safe processing of this kind of data.
+
++ CHECK_RESULT 0 0 0 'Check clamscan help failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check clamscan help failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clamscan -a
++ grep 'SCAN SUMMARY'
+LibClamAV Warning: **************************************************
+LibClamAV Warning: ***  The virus database is older than 7 days!  ***
+LibClamAV Warning: ***   Please update it as soon as possible.    ***
+LibClamAV Warning: **************************************************
++ CHECK_RESULT 0 0 0 'Check clamscan -a failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check clamscan -a failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clamscan -v
++ grep 'SCAN SUMMARY'
+LibClamAV Warning: **************************************************
+LibClamAV Warning: ***  The virus database is older than 7 days!  ***
+LibClamAV Warning: ***   Please update it as soon as possible.    ***
+LibClamAV Warning: **************************************************
++ CHECK_RESULT 0 0 0 'Check clamscan -v failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check clamscan -v failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clamscan --debug
+LibClamAV debug: searching for unrar, user-searchpath: /usr/lib64
+LibClamAV debug: searching for unrar: libclamunrar_iface.so.9.0.5 not found
+LibClamAV debug: searching for unrar: libclamunrar_iface.so.9 not found
+LibClamAV debug: searching for unrar: libclamunrar_iface.so not found
+LibClamAV debug: searching for unrar: libclamunrar_iface.a not found
+LibClamAV debug: Cannot dlopen libclamunrar_iface: file not found - unrar support unavailable
+LibClamAV debug: Initialized 0.103.8 engine
+LibClamAV debug: Initializing phishcheck module
+LibClamAV debug: Phishcheck: Compiling regex: ^ *(http|https|ftp:(//)?)?[0-9]{1,3}(\.[0-9]{1,3}){3}[/?:]? *$
+LibClamAV debug: Phishcheck module initialized
+LibClamAV debug: Bytecode initialized in interpreter mode
+LibClamAV debug: Loading databases from /var/lib/clamav
+LibClamAV debug: in cli_cvdload()
+LibClamAV debug: MD5(.tar.gz) = 33cb7f4ed15ce12ce4f1dc68a7b91810
+LibClamAV debug: cli_versig: Decoded signature: 33cb7f4ed15ce12ce4f1dc68a7b91810
+LibClamAV debug: cli_versig: Digital signature is correct.
+LibClamAV Warning: **************************************************
+LibClamAV Warning: ***  The virus database is older than 7 days!  ***
+LibClamAV Warning: ***   Please update it as soon as possible.    ***
+LibClamAV Warning: **************************************************
+LibClamAV debug: in cli_tgzload()
+LibClamAV debug: daily.info loaded
+LibClamAV debug: in cli_tgzload_cleanup()
+LibClamAV debug: in cli_tgzload()
+LibClamAV debug: daily.cfg loaded
+LibClamAV debug: daily.ign loaded
+LibClamAV debug: daily.ign2 loaded
+LibClamAV debug: Initializing engine->root[0]
+LibClamAV debug: Initializing AC pattern matcher of root[0]
+LibClamAV debug: cli_initroots: Initializing BM tables of root[0]
+LibClamAV debug: Initializing engine->root[1]
+LibClamAV debug: Initializing AC pattern matcher of root[1]
+LibClamAV debug: cli_initroots: Initializing BM tables of root[1]
+LibClamAV debug: Initializing engine->root[2]
+LibClamAV debug: Initializing AC pattern matcher of root[2]
+LibClamAV debug: Initializing engine->root[3]
+LibClamAV debug: Initializing AC pattern matcher of root[3]
+LibClamAV debug: Initializing engine->root[4]
+LibClamAV debug: Initializing AC pattern matcher of root[4]
+LibClamAV debug: Initializing engine->root[5]
+LibClamAV debug: Initializing AC pattern matcher of root[5]
+LibClamAV debug: Initializing engine->root[6]
+LibClamAV debug: Initializing AC pattern matcher of root[6]
+LibClamAV debug: Initializing engine->root[7]
+LibClamAV debug: Initializing AC pattern matcher of root[7]
+LibClamAV debug: Initializing engine->root[8]
+LibClamAV debug: Initializing AC pattern matcher of root[8]
+LibClamAV debug: Initializing engine->root[9]
+LibClamAV debug: Initializing AC pattern matcher of root[9]
+LibClamAV debug: Initializing engine->root[10]
+LibClamAV debug: Initializing AC pattern matcher of root[10]
+LibClamAV debug: Initializing engine->root[11]
+LibClamAV debug: Initializing AC pattern matcher of root[11]
+LibClamAV debug: Initializing engine->root[12]
+LibClamAV debug: Initializing AC pattern matcher of root[12]
+LibClamAV debug: Initializing engine->root[13]
+LibClamAV debug: Initializing AC pattern matcher of root[13]
+LibClamAV debug: Initializing engine->root[14]
+LibClamAV debug: Initializing AC pattern matcher of root[14]
+LibClamAV debug: Loaded 156 filetype definitions
+LibClamAV debug: daily.ftm loaded
+LibClamAV debug: daily.hdb loaded
+LibClamAV debug: daily.hdu skipped
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffffa82f5130, because it has exceeded maxfill, old size:64
+LibClamAV debug: hashtab.c: new capacity: 128
+LibClamAV debug: Table 0xffffffa82f5130 size after grow:128
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffffa82f5130, because it has exceeded maxfill, old size:128
+LibClamAV debug: hashtab.c: new capacity: 256
+LibClamAV debug: Table 0xffffffa82f5130 size after grow:256
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffffa82f5130, because it has exceeded maxfill, old size:256
+LibClamAV debug: hashtab.c: new capacity: 512
+LibClamAV debug: Table 0xffffffa82f5130 size after grow:512
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffffa82f5130, because it has exceeded maxfill, old size:512
+LibClamAV debug: hashtab.c: new capacity: 1024
+LibClamAV debug: Table 0xffffffa82f5130 size after grow:1024
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffffa82f5130, because it has exceeded maxfill, old size:1024
+LibClamAV debug: hashtab.c: new capacity: 2048
+LibClamAV debug: Table 0xffffffa82f5130 size after grow:2048
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffffa82f5130, because it has exceeded maxfill, old size:2048
+LibClamAV debug: hashtab.c: new capacity: 4096
+LibClamAV debug: Table 0xffffffa82f5130 size after grow:4096
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffffa82f5130, because it has exceeded maxfill, old size:4096
+LibClamAV debug: hashtab.c: new capacity: 8192
+LibClamAV debug: Table 0xffffffa82f5130 size after grow:8192
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffffa82f5130, because it has exceeded maxfill, old size:8192
+LibClamAV debug: hashtab.c: new capacity: 16384
+LibClamAV debug: Table 0xffffffa82f5130 size after grow:16384
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffffa82f5130, because it has exceeded maxfill, old size:16384
+LibClamAV debug: hashtab.c: new capacity: 32768
+LibClamAV debug: Table 0xffffffa82f5130 size after grow:32768
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffffa82f5130, because it has exceeded maxfill, old size:32768
+LibClamAV debug: hashtab.c: new capacity: 65536
+LibClamAV debug: Table 0xffffffa82f5130 size after grow:65536
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffffa82f5130, because it has exceeded maxfill, old size:65536
+LibClamAV debug: hashtab.c: new capacity: 131072
+LibClamAV debug: Table 0xffffffa82f5130 size after grow:131072
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffffa82f5130, because it has exceeded maxfill, old size:131072
+LibClamAV debug: hashtab.c: new capacity: 262144
+LibClamAV debug: Table 0xffffffa82f5130 size after grow:262144
+LibClamAV debug: daily.hsb loaded
+LibClamAV debug: daily.hsu skipped
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffffa0f91560, because it has exceeded maxfill, old size:64
+LibClamAV debug: hashtab.c: new capacity: 128
+LibClamAV debug: Table 0xffffffa0f91560 size after grow:128
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffffa0f91560, because it has exceeded maxfill, old size:128
+LibClamAV debug: hashtab.c: new capacity: 256
+LibClamAV debug: Table 0xffffffa0f91560 size after grow:256
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffffa0f91560, because it has exceeded maxfill, old size:256
+LibClamAV debug: hashtab.c: new capacity: 512
+LibClamAV debug: Table 0xffffffa0f91560 size after grow:512
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffffa0f91560, because it has exceeded maxfill, old size:512
+LibClamAV debug: hashtab.c: new capacity: 1024
+LibClamAV debug: Table 0xffffffa0f91560 size after grow:1024
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffffa0f91560, because it has exceeded maxfill, old size:1024
+LibClamAV debug: hashtab.c: new capacity: 2048
+LibClamAV debug: Table 0xffffffa0f91560 size after grow:2048
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffffa0f91560, because it has exceeded maxfill, old size:2048
+LibClamAV debug: hashtab.c: new capacity: 4096
+LibClamAV debug: Table 0xffffffa0f91560 size after grow:4096
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffffa0f91560, because it has exceeded maxfill, old size:4096
+LibClamAV debug: hashtab.c: new capacity: 8192
+LibClamAV debug: Table 0xffffffa0f91560 size after grow:8192
+LibClamAV debug: daily.mdb loaded
+LibClamAV debug: daily.mdu skipped
+LibClamAV debug: daily.msb loaded
+LibClamAV debug: daily.msu skipped
+LibClamAV debug: daily.ndb loaded
+LibClamAV debug: daily.ndu skipped
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.Qbot-af43432fbcb8603c-9949169-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-b600c9ff3ec1c136-9950239-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-adc2d23d2dc26dd0-9950240-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-ea85857e7e81817a-9950241-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-add2d22d2bc26dd0-9950243-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-b3c4cc3b33c03bcc-9950244-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Qbot-aa2a2a3fd5f4342a-9950245-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-b3c5cc3b13c03bcc-9950246-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Lokibot-b7709cc9c9e32730-9950247-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Qbot-b760f03263b7c21b-9950248-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.IcedID-8ff0f02ff0876072-9950256-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Trojan-a3552b953bb78322-a3552b953bb78322-9950267-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Trojan-a0425f7f2000faff-a0425f7f2000faff-9950268-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.Trojan-bf70f023603538ee-bf70f023603538ee-9950269-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Trojan-b333b3b333898c4c-b333b3b333898c4c-9950284-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Zloader-f8537378cabc848c-9950315-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Abracadabra-f87353785a988c8e-9950319-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-bd646399c2d39496-bd646399c2d39496-9950330-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-fa81817e7e85817a-9950340-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.Trojan-f0f887070fc68787-f0f887070fc68787-9950342-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-aa524936374996af-9950344-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-b3b8ccc73b3840c7-9950421-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-adc2d23d2dc26dc2-9950422-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Trojan-aa0b8f388d8573cd-aa0b8f388d8573cd-9950439-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Qbot-b760f03262b6e23b-9950440-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-b2cbc93e36c0c13e-9950560-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.RedLine-9fe0e00f9e2fc00f-9950883-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-b2cbc93636c1c13e-9950990-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-a5251d2d2d7d3722-9950991-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-a5251d1d2d6d3726-9951018-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-ab81c42b2bdc747c-9951019-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-a5251d3d2d6d3722-9951020-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-b680c97f3ec1c03e-9951030-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-bd646319c2d29cd6-9951195-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-ab81c42b2bd4747e-9951196-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.IcedID-9f1f1d193a2a2a2b-9951463-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Qbot-aa2a2a2fd5f4742a-9951464-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.Formbook-bc97c1e0c33c3c93-9951465-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.SVCReady-8f5af0a5f0da7070-9951542-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-ea85817e7e81383e-9951566-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.IcedID-87f88705f807f878-9951567-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Remcos-ffff7e420001049f-9951592-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.SVCReady-81fe832081fe7c7c-9951593-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-ea81817e7f807ab1-9952142-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.DocuSign-dea86a54956ba3c2-9952540-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-aa87d5786a858772-9953435-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.SVCReady-c5c43a913b3eccc9-9953477-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.MirrorBlast-f8f807074fc98734-9955046-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.IcedID-87f0ff24f8876052-9955146-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.IcedID-8f0bf81ff0df2060-9955147-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-b649c93692b4c9d9-9976616-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Dropper.Detected-9977031-0 not loaded (required f-level: 151)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-ca2435d8af069a3f-9977227-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.Valyria-9978334-0 not loaded (required f-level: 151)
+LibClamAV debug: init_tdb: Signature for Html.Phishing.af0f91939b636494-9978353-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Html.Phishing.8f8e708f7b8f7080-9978354-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Html.Phishing.8786709b7b8f64a4-9978355-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Html.Phishing.a7279d9b7b606484-9978356-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Html.Phishing.8f8e708f7b8f6480-9978357-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.afc5c039d11fd238-9978787-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.be3e9999e42690c3-9978797-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.94c25b356b5a6cac-9978798-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.af2fa5c5d0587870-9978799-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.d795e45a60a593c6-9978800-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-OOXML_XL-b649c93692b4c9d9-9980043-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-XML_XL-b649c93692b4c9d9-9980044-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-OOXML_XL-ca2435d8af069a3f-9980045-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-XML_XL-ca2435d8af069a3f-9980046-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-MSOLE2-af43432fbcb8603c-9980047-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-OOXML_XL-af43432fbcb8603c-9980048-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.Emotet-XML_XL-af43432fbcb8603c-9980049-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.b83ac4c497e169b5-9980307-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.e341431ebcbc3c3a-9980308-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Xls.Downloader.bf2d2f272706032b-9980309-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.b767d0984d0d8df0-9980310-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.835b97208387fc57-MSOLE2-9981516-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.835b97208387fc57-OOXML-9981517-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.835b97208387fc57-XML-9981518-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.87e88716f38ff820-MSOLE2-9981519-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.87e88716f38ff820-OOXML-9981520-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.87e88716f38ff820-XML-9981521-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.9f7ec430680ff08e-MSOLE2-9981522-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.9f7ec430680ff08e-OOXML-9981523-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.9f7ec430680ff08e-XML-9981524-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.af2f0393915c6ce8-MSOLE2-9981525-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.af2f0393915c6ce8-OOXML-9981526-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.af2f0393915c6ce8-XML-9981527-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.bf93e2e062840f3b-MSOLE2-9981528-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.bf93e2e062840f3b-OOXML-9981529-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.bf93e2e062840f3b-XML-9981530-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.8f0f0f0fe0f0f0f0-MSOLE2-9981533-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.8f0f0f0fe0f0f0f0-OOXML-9981534-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.8f0f0f0fe0f0f0f0-XML-9981535-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.8a5a5aca5aca5a7a-MSOLE2-9981536-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.8a5a5aca5aca5a7a-OOXML-9981537-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.8a5a5aca5aca5a7a-XML-9981538-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.9b8dac787078270f-MSOLE2-9981539-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.9b8dac787078270f-OOXML-9981540-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.9b8dac787078270f-XML-9981541-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.87f88707f007f878-MSOLE2-9981543-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.87f88707f007f878-OOXML-9981544-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.87f88707f007f878-XML-9981545-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.b88fc1e0683e971e-MSOLE2-9981546-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.b88fc1e0683e971e-OOXML-9981547-0 not loaded (required f-level: 150)
+LibClamAV debug: init_tdb: Signature for Doc.Downloader.b88fc1e0683e971e-XML-9981548-0 not loaded (required f-level: 150)
+LibClamAV debug: daily.ldb loaded
+LibClamAV debug: daily.ldu skipped
+LibClamAV debug: daily.idb loaded
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffff7c3ac260, because it has exceeded maxfill, old size:64
+LibClamAV debug: hashtab.c: new capacity: 128
+LibClamAV debug: Table 0xffffff7c3ac260 size after grow:128
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffff7c3ac260, because it has exceeded maxfill, old size:128
+LibClamAV debug: hashtab.c: new capacity: 256
+LibClamAV debug: Table 0xffffff7c3ac260 size after grow:256
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffff7c3ac260, because it has exceeded maxfill, old size:256
+LibClamAV debug: hashtab.c: new capacity: 512
+LibClamAV debug: Table 0xffffff7c3ac260 size after grow:512
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffff7c3ac260, because it has exceeded maxfill, old size:512
+LibClamAV debug: hashtab.c: new capacity: 1024
+LibClamAV debug: Table 0xffffff7c3ac260 size after grow:1024
+LibClamAV debug: daily.fp loaded
+LibClamAV debug: daily.sfp loaded
+LibClamAV debug: Loading regex_list
+LibClamAV debug: daily.pdb loaded
+LibClamAV debug: Loading regex_list
+LibClamAV debug: daily.wdb loaded
+LibClamAV debug: cli_loadcrt: subject: 4a532974c46ae5048824c6da8cfb8e163705b693
+LibClamAV debug: cli_loadcrt: public key: ABCAC1194D5A2DDB91CD71AA7464BEE3EF5CFF333343EFFDA9A43DD193BEDEDD3276FBEF27DD41E3C86D2A44670388D6DB3FDE36F3EE1F96DEA1304CEB49E7355CD0C2AB5A9DA2A599155AE9D3787B5413CB00C0CBBC02AF8A0FF2EF8DE3CFF39F1CB6B001933A0D8FC9ED17C21BC27FFDD85BB0D7960BC7B863722B2503CCEDA1991ACF429908C3DA06DE4D59E399616F7E71269C27041B0425B9209167E1471911222C501D9322646BCFB0DE921542A611476A2E0CB60AA356A7CBE23BC127B8B20062996266539ACF4BD4042CF088E75E61BFFF2AB3FEA4BB5AF8B0D7198CEF14F60BA4F5FECB181D2566125E2854FD8DD65FD7AE665AF723077A5A5F8695
+LibClamAV debug: cli_loadcrt: subject: 9a02278e9cb12876c47ab0bc75dd694e72d1b2bc
+LibClamAV debug: cli_loadcrt: public key: 00d62b587861458653ea347b519cedb0e62e180efee05fa827d3b4c9e07c594e160e735460c17ff69f2ee93a8524153cdb470463c39ec4941a5adf4c7af3d9431d3c107a7925db90fef051e730d64100fd9f28df79be94bb9db614e32385d7a941e04ca479b02b1a8bf2f83b8a3e45ac719200b4904198fb5fedfab72e8af88837
+LibClamAV debug: cli_loadcrt: subject: 113bd86beddebcd4c5f10aa07ab2026b982f4b92
+LibClamAV debug: cli_loadcrt: public key: 00f35dfa8067d45aa7a90c2c9020d035083c7584cdb707899c89dadecec360fa91685a9e94712918767cc2e0c82576940e58fa043436e6dfaff780bae9580b2b93e59d05e3772291f734643c22911d5ee10990bc14fefc755819e179b70792a3ae885908d89f07ca0358fc68296d32d7d2a8cb4bfce10b48324fe6ebb8ad4fe45c6f139499db95d575dba81ab79491b4775bf5480c8f6a797d1470047d6daf90f5da70d847b7bf9b2f6ce705b7e11160ac7991147cc5d6a6e4e17ed5c37ee592d23c00b53682de79e16df3b56ef89f33c9cb527d739836db8ba16ba295979ba3dec24d26ff0696672506c8e7ace4ee1233953199c835084e34ca7953d5b5be6332594036c0a54e044d3ddb5b0733e458bfef3f5364d842593557fd0f457c24044d9ed6387411972290ce684474926fd54b6fb086e3c73642a0d0fcc1c05af9a361b9304771960a16b091c04295ef107f286ae32a1fb1e4cd033f777104c720fc490f1d4588a4d7cb7e88ad8e2dec45dbc45104c92afcec869e9a11975bdece5388e6e2b7fdac95c22840dbef0490df813339d9b245a5238706a5558931bb062d600e41187d1f2eb597cb11eb15d524a594ef151489fd4b73fa325bfcd13300f95962700732ea2eab402d7bcadd21671b30998f16aa23a841d1b06e119b36c4de40749ce15865c1601e7a5b38c88fbb04267cd41640e5b66b6caa86fd00bfcec135
+LibClamAV debug: cli_loadcrt: subject: adf79877065ef305eb95b56dbca9e63e9ab40d3b
+LibClamAV debug: cli_loadcrt: public key: a902bdc170e63bf24e1b289f97785e30eaa2a98d255ff8fe954ca3b7fe9da2203e7c51a29ba28f60326bd1426479eeac76c954daf2eb9c861c8f9f8466b3c56b7a6223d61d3cde0f0192e896c4bf2d669a9a682699d03a2cbf0cb55826c146e70a3e38962ca92839a8ec498342e3840fbb9a6c5561ac827ca1602d774ce999b4643b9a501c310824149fa9e7912b18e63d986314605805659f1d375287f7a7ef9402c61bd3bf5545b38980bf3aec54944eaefda77a6d744eaf18cc96092821005790606937bb4b12073c56ff5bfba4660a08a6d2815657efb63b5e16817704daf6beae8095feb0cd7fd6a71a725c3ccabcf008a32230b30685c9b320771385df
+LibClamAV debug: cli_loadcrt: subject: e025d4faa5924afc1fb920db4f10c1a5813e25aa
+LibClamAV debug: cli_loadcrt: public key: ae01d45da058caede8cce1374646105b7ac452b80b588f053d5da9ad51e20389e00612f802786b5e0450cfb6d6040c541e7937203ce37e631d457798141dbe7622dc5aaa3fe46f40622463c83cc04c87283d6b786b9839951a417f7351fe07fc147cf38f8409e1f8c22fa14ebd397dcc6367890c8004cdb082c9008b3e0987039dc27942c45c21912b951a6c35476cc8bf3c0a4eeaf68570d5c55fc19e47db5cc232615a08d6719d2c819f7eb8be6da1d86643690ae4f372f0914b2860a8d5e3dd84ae2865559f842b4a75ed24a62c7531d4857774f28055026341f27008f4c8c25391db140765200981e68ad79b0fca0cd71b5ffdd1e574855c10fb9ac9a62b9e4396cc5b7273d00f559987181b3df82978b06fd174bce520ba438b14386964a1730fc11629794f9b852968b13e992a8fb2dc4706cddfd0eb22dc1e571c7e599025a30382be8ccb1d9bb98d2ab8a110e7faad16feece553c6adc0977c449b81f37aa6f9ffaefaac17a9a660bd673c796c850b55af31c4c359900ea1d57c48398bade3bb0ee4e5fadffdda9d9e5b6f1b320ea637d3aaaa2c041765d3c64e4724ad825099412bd6b3e7265ab1359be67155e1c86fa2441dc85c84fcf9780176c13e7793f2a294e1da7030ec640aaea2a11d3f83437340d2e0897059af8d2ed4d4210a61a4f4f72386438028b21c430c45dafc06f8254007756978e3a61383d797
+LibClamAV debug: cli_loadcrt: subject: 6b39a3ffd27b26ba4c4e248d349fd632ab3ab763
+LibClamAV debug: cli_loadcrt: public key: b28041aa35384d13723268224db8b2f1ffd552bc6cc7f5d24a8c36eed1c25c7e8c8aaeaf13286fc073e33aced025a85a3a6defa8b859ab132368cd0c2987d16f805c8f447f5d90015258ac51c55f2a87dcdcd80a1dc103b97bb056e8a3de6461c29ef8f37cb9ec0db554fe4cb6654f88f09c48990c420b097c315917790678288d893a4c0325be716a5c0be78460a49922e3d2af84a4a7fbd198ed0ca9de9489e10ea0dcc0ce993dea0852bb5679e41f84ba1eb8b4c4495c4f314b87dddd0567269980e07111a3b8a541e2a453b9f73229830c13bf365e04b34b43472f6be2911ed3984fdd4207c8e81d12fc99a96b3e927ec8d6693afc64bdb6099dcafd0c0ba29b77604b0394a4306912d6422dc1414ccadcaafd8f5b83469ad9fcb1d1e3b3c97f487acd24f0418f5c74d0acb010200649b7c72d21c857e3d086f30368fbd0ce71c189994a64016cfdec3091cf413c92c7e5ba861d6184c75f833962aeb4922f47f30bf855eba01f59d0bb749b1ed076e6f2e906d710e8fa64de69c635968802f046b83f27996fcb71892935f7481602358fd5797c4d02cf5feb8a834f457188f9a90d4e72e9c29c07cf491b4e040e63518c5ed800c1552cb6c6e0c2654ec93439f59cb3c47ee8616e135f15c45fd97eed1dceee44eccb2e86b1ec38f670edab5c13c1d90f0dc780b255ed34f7ac9be4c3dae7473ca6b58f31dfc54bafebf1
+LibClamAV debug: cli_loadcrt: subject: 6a7c2a3146b0335e9a3e1f5fb193338cd71c072d
+LibClamAV debug: cli_loadcrt: public key: dd0cbba2e42e09e3e7c5f79669bc0021bd693333efad04cb5480ee0683bbc52084d9f7d28bf338b0aba4ad2d7c627905ffe34a3f04352070e3c4e76be09cc03675e98a31dd8d70e5dc37b5744696285b8760232cbfdc47a567f751279e72eb07a6c9b91e3b53357ce5d3ec27b9871cfeb9c923096fa84691c16e963c41d3cba33f5d026a4dec691f25285c36fffd43150a94e019b4cfdfc212e2c25b27ee2778308b5b2a096b22895360162cc0681d53baec49f39d618c85680973445d7da2542bdd79f715cf355d6c1c2b5ccebc9c238b6f6eb526d93613c34fd627aeb9323b41922ce1c7cd77e8aa544ef75c0b048765b44318a8b2e06d1977ec5a24fa4803
+LibClamAV debug: cli_loadcrt: subject: a6b2b69d8e6d3fe78ced0d68f471d13b3113d116
+LibClamAV debug: cli_loadcrt: public key: e90e64507967b5c4e3fd09004c9e94acf75668ea44d8cfc5584fa9a5767c6d45bad33992b4a41ef9f96582e417d28ffd449c08e86593ce2c5584bf7d08e32e2ba8412b18b7a24b6e494c6b1507ded1d2c2891e7194cdb57f4bb4af08d8cc88d66b17943a93ce263fece6fe349857d51d5d49f6b22a2ed585bb593ff890b42b8374ca2bb33b46e3f04649c1176654c91cbd1dc455625772f867b9252034de5da6a5955eab2880cdd5b29ee503b563d3b214c8c1c88a260a597f07ecff0eed8012354c12a6be525bf5a6dae08b0b4877d68547d510b9c6e8aaee8b6a2d055c60c6b42a5b9c231c5f45e31a141e6f37cb1933806a894da36a66637893d530cf951f
+LibClamAV debug: cli_loadcrt: subject: 4a965234e249688095d5b5aa16767a8cd06a5da1
+LibClamAV debug: cli_loadcrt: public key: c079bb3ab1f00f84b8ad642a751673d0bb07f63e0d9d14e4b19fc1c894b0387c1fd03355f5ba2366f52e284853c71683baf551ac7eace0267f0f74fc5995dcc9c6a2f752705a2c1d94ab19bfaf957daf66a16f9b626e6d4bbc2f356cdea46a635a5ffbf30d4d61cc0a7e31eb6c0ad04d970ffd7f3846e68ac77369765569964ce4d8f034ebbab11fce297ec44f9d1315ab131b725862566c8a81a36477984665299d8314a54c08a083d7231ff35fdf6f2ccfda16d80e720428d86b3ef813b17ca217794f7edc3ae49d70276bbfdbfc1ec707d8c0be0b931e28e0736dd254e9284cbf6b5d9fff5d331237952561346a42cb7c9d3abb8859e1a3426d3a505b48d1
+LibClamAV debug: cli_loadcrt: subject: e0d30e7b91a4b99e6b065367ce8db1fe7c0ee954
+LibClamAV debug: cli_loadcrt: public key: dc9434c1c0e72a53931aad78618deb5921537110442361c4f9ef5911c329e27d820a522a93765d28d9fcddac2cf39032f5f27b6f3ad422251695156d8576e657cd9c545c660202fa3e05874100fbe512bfa42f660c64a47bf4630957401d039c3c6e4cd2fc18165b0f6e9fa4473c2652b1fe02f7c38973031e3c3ae72ad138efaefae1a5fc2df6881b1c160f3ca852071bc87e28e9e222a212d1b926d727bd90fc490e95cf6dbae04080d15272f169435b3b5cc1eb7d2403d955e7c6ad4b0e249081ab77873ef123d332a76b258ced91b68db82f5354889acad3a7782d62d5c0fdd6b7bb8ce372a78afcc845c57a8d98af102472d504b422e24e369f5113b907
+LibClamAV debug: cli_loadcrt: subject: 98ac349cdb659173fcfa5f6627e3b5ab64ec855d
+LibClamAV debug: cli_loadcrt: public key: ae1612e8836e58725d73d1a087085d3dc6b72babc18e687c16057dfd5204c480c7caf06a47dfee62ec541dbe0ca152ad57eb70d6e32041b361fbab8b51756dc62ad9846bae19bc8281606dfd41a749ad020894827666848a4f20e7671717fc9983b16040e7aa38a4af586365144247e448605f4e5a7a477a272834370779bdee0263a02e084f0a032bfcdc5764362108530da9a83532ddc9d609a6edf676996bcc3c396a8634b36a5d447e97762ec11dc57655ae5c1d0635de721491f1bfff18145bd17907e58001eb2e7d6380f0e0832d36256c1c0fc76c358101dbecb42a15d282f8bf139bf1123ed745cc672ad7dc713b2e292a1c990d6500c5db8ae6d6fb
+LibClamAV debug: cli_loadcrt: subject: 18df2f83e03d73694d4981d9ed4ac0b59c60ca3b
+LibClamAV debug: cli_loadcrt: public key: 948adeb891aa3cca7db3fa09947f68db105ab50fccbf77cf43207d9c005ca24ecd35bd52ac0b4f0e48c77af7937d7185cc0c958551cb2b971892139c548b54bb50c96781dd3c6ade0ac2a0686efd5816ba68c144e24ae6579860de3daf70ac15b2332a5ff2874807a04983554f8e95ce034ac05c414fdc3e3f9f5eee778da849d8390d27876425d039c5cd70c6e710677ce9f63427771413f2d425fc4aac323fb5bf8905fa5df1895ec447d4bbff36001c8fdfb69d251f17befdb4fa1baf2dd4379a11935f9b9a6a47e5eee9ca2e84c5f96da9027f54f51ae85e7c250f423ac8de44d1a99aef9a9be014ef9b42794b01a6f2b297896583096233081fac6b4541
+LibClamAV debug: cli_loadcrt: subject: e630510be26df8dc6bac3260e4ab325699f1eb0d
+LibClamAV debug: cli_loadcrt: public key: ccad5080a4582a5b220940740d46cc4ded44e1be30cce98f19eaab06c6ff60a35e761caf6a55f4a5b694ce0158c83a50989021a8c91b8148d2640e62675020674c1e2c566817e98535d6a0ee53c9f77766cb845d1e6e030e17cbeb4668a6014f139488746f44001321ac230b9f6399025163efc7e8704661811a23fb2eff286ef1eef5cb5f6b085f0859b998506452aa2d0877e20027c63b16a8c5cd11b6fd5e79f11b3dc853c3b899fb04f8cdee05cc1bf60b982bc885e5a80923d18d2d93a4c1749be4bff9540a90bf2fe6122e769d1090918064ae87590e529fdb15f72e735cf048ffcbd528dd24f0af63ee5169cb5a187bc7a44dc2c35e1307680d711a91
+LibClamAV debug: cli_loadcrt: subject: e97fdc64018b28ecbbd7b4f15f2b1372457b1b83
+LibClamAV debug: cli_loadcrt: public key: E45BA156BF9133B5CB890BCB3C295F34025BA64B741F7E0CADA19F6A5AC8B64AFBF586D67B448D1DE8E5EC8616BCA82596076FEC7B2CA0545166C1F133F55DE8B3686147111C44AB3F83B983125B2E609AB28824344AB9087B2B8CF030221096D4F7F49BB9531EB1AB023022B5E2EB4764E1D0E39023015FD17644565D3D702251F3CACA7ACFFD98DD1BD3BAFFFACAAB1B9B4F6E045C808729FD05E92E833F9F8445F7A5F1BA488254C134405B5A04E2037E9D428F119F3082521D1612840EAC6446340C643DC05F0F728884873A50ADED4292264336623F728CFB8884838A85AC53A6CF90E4006F397E56A3C0F46EAB64FFD4E4C6819EC3DF4A297C0DF0C081
+LibClamAV debug: Number of certs: 14
+LibClamAV debug: daily.crb loaded
+LibClamAV debug: daily.cdb loaded
+LibClamAV debug: in cli_tgzload_cleanup()
+LibClamAV debug: /var/lib/clamav/daily.cvd loaded
+LibClamAV debug: in cli_cvdload()
+LibClamAV debug: MD5(.tar.gz) = d82da5df59cd2fc80f01f7895a5a88fd
+LibClamAV debug: cli_versig: Decoded signature: d82da5df59cd2fc80f01f7895a5a88fd
+LibClamAV debug: cli_versig: Digital signature is correct.
+LibClamAV debug: in cli_tgzload()
+LibClamAV debug: bytecode.info loaded
+LibClamAV debug: in cli_tgzload_cleanup()
+LibClamAV debug: in cli_tgzload()
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 11 APIcalls, maxapi 66
+LibClamAV debug: Parsed 48 BBs, 230 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986187.cbc(1) has logical signature: BC.Legacy.Exploit.CVE_2010_1885-2;Engine:52-255,Target:3;0;6863703a2f2f{25-700}736372697074{1-3}6465666572
+LibClamAV debug: 3986187.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 7 APIcalls, maxapi 89
+LibClamAV debug: Parsed 11 BBs, 43 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986188.cbc(2) has logical signature: BC.Heuristics.Trojan.Agent-1350164.{};Engine:56-255,IconGroup2:BIFROSE,Target:1;0;EP+0:60be00??41008dbe00??feff57eb0b908a064688074701db75078b1e83eefc11db72edb80100000001db75078b1e83eefc11db11c001
+LibClamAV debug: 3986188.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 9 APIcalls, maxapi 87
+LibClamAV debug: Parsed 20 BBs, 67 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: 3986206.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 11 APIcalls, maxapi 87
+LibClamAV debug: Parsed 26 BBs, 150 instructions
+LibClamAV debug: Parsed 40 BBs, 131 instructions
+LibClamAV debug: Parsed 2 functions
+LibClamAV debug: 3986212.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 66
+LibClamAV debug: Parsed 3 BBs, 13 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986214.cbc(5) has logical signature: BC.Legacy.Exploit.CVE_2010_3338-1.{Exploit-CVE_2010_3338};Engine:56-255,Target:1;0;S1+3125:003c005000
+LibClamAV debug: 3986214.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 66
+LibClamAV debug: Parsed 3 BBs, 23 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986215.cbc(6) has logical signature: BC.Legacy.Exploit.CVE_2010_3963-1.{Exploit-CVE_2010_3963};Engine:56-255,Target:1;(1|0);EOF-64:453a5c776f;453a5c776f
+LibClamAV debug: 3986215.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 2 APIcalls, maxapi 66
+LibClamAV debug: Parsed 3 BBs, 27 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986216.cbc(7) has logical signature: BC.Legacy.Exploit.CVE_2010_3943-1.{Exploit-CVE_2010_3943};Engine:56-255,Target:1;(0&2&1);S0+14736:ffff595f5e;S0+15632:8b00385dfc;S0+19520:83661c0059
+LibClamAV debug: 3986216.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 66
+LibClamAV debug: Parsed 3 BBs, 13 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986217.cbc(8) has logical signature: BC.Legacy.Exploit.CVE_2010_3939-1.{Exploit-CVE_2010_3939};Engine:56-255,Target:1;0;S0+0:81ecc80000
+LibClamAV debug: 3986217.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 66
+LibClamAV debug: Parsed 3 BBs, 33 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986218.cbc(9) has logical signature: BC.Legacy.Exploit.CVE_2010_3942-1.{Exploit-CVE_2010_3942};Engine:56-255,Target:1;(0&2&1);S0+4096:d6ffd05959;S0+9456:c6730f8b07;S0+12912:a0b9400089
+LibClamAV debug: 3986218.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 66
+LibClamAV debug: Parsed 3 BBs, 13 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986219.cbc(10) has logical signature: BC.Legacy.Exploit.CVE_2010_3940-1.{Exploit-CVE_2010_3940};Engine:56-255,Target:1;0;S1+608:256400000a
+LibClamAV debug: 3986219.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 66
+LibClamAV debug: Parsed 3 BBs, 13 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986220.cbc(11) has logical signature: BC.Legacy.Exploit.CVE_2010_3941-1.{Exploit-CVE_2010_3941};Engine:56-255,Target:1;0;S1+6656:436f756c64
+LibClamAV debug: 3986220.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 2 APIcalls, maxapi 66
+LibClamAV debug: Parsed 3 BBs, 19 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986221.cbc(12) has logical signature: BC.Legacy.Exploit.CVE_2010_3944-1.{Exploit-CVE_2010_3944};Engine:56-255,Target:1;(0&1);S0+1696:fc0000000f;S0+2864:1f837dfc00
+LibClamAV debug: 3986221.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 2 APIcalls, maxapi 66
+LibClamAV debug: Parsed 3 BBs, 11 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986222.cbc(13) has logical signature: BC.Legacy.Exploit.CVE_2010_3961-1.{Exploit-CVE_2010_3961};Engine:56-255,Target:1;0;S1+704:7665640044
+LibClamAV debug: 3986222.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 5 APIcalls, maxapi 66
+LibClamAV debug: Parsed 9 BBs, 38 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986223.cbc(14) has logical signature: BC.Legacy.Exploit.CVE_2010_3333-5.{Exploit-CVE_2010_3333};Engine:56-255,Target:0;0;5c7370{-100}5c736e2070467261676d656e7473{-100}5c7376
+LibClamAV debug: 3986223.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 66
+LibClamAV debug: Parsed 3 BBs, 13 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986224.cbc(15) has logical signature: BC.Legacy.Exploit.CVE_2011_0026-1.{Exploit-CVE_2011_0026};Engine:56-255,Target:1;0;S1+1200:fffeffebd0
+LibClamAV debug: 3986224.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 66
+LibClamAV debug: Parsed 3 BBs, 23 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986229.cbc(16) has logical signature: BC.Legacy.Exploit.CVE_2011_0030-1.{Exploit-CVE_2011_0030};Engine:56-255,Target:1;(1|0);S1+11272:483a5c7368656c6c;S1+2652:437372436c69656e7443616c6c536572766572
+LibClamAV debug: 3986229.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 66
+LibClamAV debug: Parsed 3 BBs, 23 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986230.cbc(17) has logical signature: BC.Legacy.Exploit.CVE_2011_0045-1.{Exploit-CVE_2011_0045};Engine:56-255,Target:1;(1|0);S1+346:54726163654576656e74;S0+0:558bec83ec48c745f0080000c0c745f8
+LibClamAV debug: 3986230.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 66
+LibClamAV debug: Parsed 3 BBs, 13 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986231.cbc(18) has logical signature: BC.Legacy.Exploit.CVE_2011_0090-1.{Exploit-CVE_2011_0090};Engine:56-255,Target:1;0;S0+64:558bec83ec68c745d80000000033c089
+LibClamAV debug: 3986231.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 66
+LibClamAV debug: Parsed 3 BBs, 23 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986232.cbc(19) has logical signature: BC.Legacy.Exploit.CVE_2011_0089-1.{Exploit-CVE_2011_0089};Engine:56-255,Target:1;(1|0);S2+16304:020000005c5c7265647465616d5c7365;S1+6000:51ff15242443003bf4e803efffff8bf4
+LibClamAV debug: 3986232.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 66
+LibClamAV debug: Parsed 3 BBs, 23 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986233.cbc(20) has logical signature: BC.Legacy.Exploit.CVE_2011_0088-1.{Exploit-CVE_2011_0088};Engine:56-255,Target:1;(1|0);S2+16224:4551466f020000005c5c726564746561;S1+5680:ec51ff15182443003bf4e838f0ffffb8
+LibClamAV debug: 3986233.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 66
+LibClamAV debug: Parsed 3 BBs, 23 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986234.cbc(21) has logical signature: BC.Legacy.Exploit.CVE_2011_0039-1.{Exploit-CVE_2011_0039};Engine:56-255,Target:1;(1|0);S0+784:5c564d572d5850535032454e5c63245c;S1+992:747874446f6d61696e00020438045802
+LibClamAV debug: 3986234.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 66
+LibClamAV debug: Parsed 3 BBs, 23 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986235.cbc(22) has logical signature: BC.Legacy.Exploit.CVE_2011_0087-1.{Exploit-CVE_2011_0087};Engine:56-255,Target:1;(1|0);S2+0:0a5b2a5d20466f756e642077696e646f;S0+80:550852ff15248140008b85f0feffff8b
+LibClamAV debug: 3986235.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 66
+LibClamAV debug: Parsed 3 BBs, 23 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986236.cbc(23) has logical signature: BC.Legacy.Exploit.CVE_2011_0086-1.{Exploit-CVE_2011_0086};Engine:56-255,Target:1;(1|0);S2+16:6e642077696e646f773a202578202825;S0+256:4000e8ad03000083c4048b550852ff15
+LibClamAV debug: 3986236.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 66
+LibClamAV debug: Parsed 3 BBs, 13 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986242.cbc(24) has logical signature: BC.Legacy.Exploit.CVE_2011_0037-1.{Exploit-CVE_2011_0037};Engine:56-255,Target:1;0;S1+736:626c6564000000002028557365642066
+LibClamAV debug: 3986242.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 66
+LibClamAV debug: Parsed 15 BBs, 85 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986244.cbc(25) has logical signature: BC.Legacy.Exploit.MS_04_11-1.{CVE_2011_0662,CVE_2011_1229_or_CVE_2011_1231,CVE_2011_1231,CVE_2011_1237,CVE_2011_1238,CVE_2011_1239,CVE_2011_1241,CVE_2011_1242};Engine:56-255,Target:1;(0|1|2|3|4|5|6);S2+16272:52534453bb1a649c7ea0154cb19ce3e3;S2+16240:000000000000000052534453646e64ce;S0+432:ff15d8ca40006a006830f10000681201;S2+16128:52534453645a82377e51384580df1e6c;S2+16272:00000000000000000000000052534453;S2+17568:0000000000000000525344537b499ed5;S2+16608:0000000000000000525344538c350b8e
+LibClamAV debug: 3986244.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 9 APIcalls, maxapi 72
+LibClamAV debug: Parsed 214 BBs, 952 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986249.cbc(26) has logical signature: BC.Win.Trojan.Xpaj-7;Engine:60-255,Target:1;(1|0);5589e583ec;558bec83ec
+LibClamAV debug: 3986249.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 5
+LibClamAV debug: Parsed 43 BBs, 111 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986259.cbc(27) has logical signature: BC.Legacy.Exploit.CVE_2011_4373-2;Engine:56-255,Container:CL_TYPE_PDF,Target:5;0;0:424d????00000000
+LibClamAV debug: 3986259.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 7 APIcalls, maxapi 55
+LibClamAV debug: Parsed 15 BBs, 76 instructions
+LibClamAV debug: Parsed 8 BBs, 29 instructions
+LibClamAV debug: Parsed 2 functions
+LibClamAV debug: Bytecode 3986282.cbc(28) has logical signature: BC.Legacy.Exploit.CVE_2012_0158-20.{CVE_2012_0158};Engine:56-255,Target:0;(0&1);0:7b5c7274;*:4430434631314530
+LibClamAV debug: 3986282.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 4 APIcalls, maxapi 16
+LibClamAV debug: Parsed 22 BBs, 58 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986283.cbc(29) has logical signature: BC.Legacy.Exploit.CVE_2012_1888-1.{};Engine:56-255,Target:0;0;0:2020300d0a53454354494f4e0d0a*454e544954494553{-500}4d54455854
+LibClamAV debug: 3986283.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 5
+LibClamAV debug: Parsed 17 BBs, 65 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986289.cbc(30) has logical signature: BC.Legacy.Exploit.Briefcase-1.{CVE_2012_1527,CVE_2012_1528};Engine:56-255,Target:0;0;0:444453480205011414000000
+LibClamAV debug: 3986289.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 4 APIcalls, maxapi 16
+LibClamAV debug: Parsed 14 BBs, 41 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986292.cbc(31) has logical signature: BC.Legacy.Exploit.CVE_2012_1886-2.{};Engine:56-255,Target:2;0;0:d0cf11e0a1b11ae1*57006f0072006b0062006f006f006b*88000800
+LibClamAV debug: 3986292.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 4 APIcalls, maxapi 16
+LibClamAV debug: Parsed 15 BBs, 54 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986301.cbc(32) has logical signature: BC.Legacy.Exploit.CVE_2013_0030-2.{};Engine:60-255,Target:3;(0&2&1);646f63756d656e742e637265617465656c656d656e7428;3a7368617065;73657461747472696275746528{-5}70617468
+LibClamAV debug: 3986301.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 8 APIcalls, maxapi 55
+LibClamAV debug: Parsed 101 BBs, 378 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986303.cbc(33) has logical signature: BC.Legacy.Exploit.CVE_2013_0024-1.{};Engine:60-255,Target:3;(0&2&1);646f63756d656e742e626f64792e676574656c656d656e747362797461676e616d6528222a22293b;646f63756d656e742e73656c656374696f6e2e63726561746572616e676528;2e6d6f7665746f656c656d656e747465787428{-100}2e636f6c6c617073652874727565293b{-100}2e73656c65637428{-100}2e706173746568746d6c28
+LibClamAV debug: 3986303.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 8 APIcalls, maxapi 55
+LibClamAV debug: Parsed 30 BBs, 108 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986305.cbc(34) has logical signature: BC.Legacy.Exploit.CVE_2013_3146-2.{};Engine:60-255,Target:0;0;2e676574656c656d656e747362797461676e616d6528*636f6c756d6e2d636f756e74
+LibClamAV debug: 3986305.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 5 APIcalls, maxapi 42
+LibClamAV debug: Parsed 61 BBs, 261 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986306.cbc(35) has logical signature: BC.Legacy.Exploit.Andr-2.{Extra_Field,Master_Key};Engine:56-255,Target:0;(0&2&1);0:504b0304;*:416e64726f69644d616e69666573742e786d6c;*:636c61737365732e646578
+LibClamAV debug: 3986306.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 8 APIcalls, maxapi 55
+LibClamAV debug: Parsed 38 BBs, 135 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986310.cbc(36) has logical signature: BC.Legacy.Exploit.CVE_2013_3893-1.{CVE_2013_3893};Engine:60-255,Target:3;0;2e6170706c79656c656d656e7428*2e6f6e6c6f736563617074757265*2e7365746361707475726528*2e7365746361707475726528
+LibClamAV debug: 3986310.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 4 APIcalls, maxapi 42
+LibClamAV debug: Parsed 83 BBs, 646 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986321.cbc(37) has logical signature: BC.Win.Virus.Ransom-9157.{A,B};Engine:56-255,Target:1;((1&2)|0);81c1????????81c2????????81c1;0bf2*0bca;0bd3*0bc1
+LibClamAV debug: 3986321.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 6 APIcalls, maxapi 42
+LibClamAV debug: Parsed 19 BBs, 65 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986322.cbc(38) has logical signature: BC.Legacy.Exploit.CVE_2014_8460-1.{};Engine:73-255,Target:10;0;2f537562727320
+LibClamAV debug: 3986322.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 4 APIcalls, maxapi 16
+LibClamAV debug: Parsed 11 BBs, 50 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986327.cbc(39) has logical signature: BC.Legacy.Exploit.CVE_2012_1535-2.{};Engine:56-255,Target:0;((1|0)&2);0:465753;0:d0cf11e0a1b11ae1*465753;4f54544f
+LibClamAV debug: 3986327.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 4 APIcalls, maxapi 16
+LibClamAV debug: Parsed 12 BBs, 52 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986328.cbc(40) has logical signature: BC.Legacy.Exploit.CVE_2012_1458-1.{};Engine:56-255,Target:0;(0&1);0:49545346;4c5a5843
+LibClamAV debug: 3986328.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 4 APIcalls, maxapi 16
+LibClamAV debug: Parsed 16 BBs, 52 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986334.cbc(41) has logical signature: BC.Legacy.Exploit.CVE_2015_3078-1;Engine:56-255,Target:0;0;4:6d6f6f76*00000001(61|68)766343
+LibClamAV debug: 3986334.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 16
+LibClamAV debug: Parsed 9 BBs, 21 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 3986337.cbc(42) has logical signature: BC.Legacy.Exploit.CVE_2015_5093-2.{};Engine:74-255,Target:10;0;6170702e646f632e676574416e6e6f74733344*6d616b654d6561737572656d656e74
+LibClamAV debug: 3986337.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 7 APIcalls, maxapi 55
+LibClamAV debug: Parsed 13 BBs, 47 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 4306126.cbc(43) has logical signature: BC.Unix.Exploit.Agent-1393645-1.{};Engine:56-255,Target:0;0;04002d6c68{14}2003{4}000000
+LibClamAV debug: 4306126.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 5 APIcalls, maxapi 42
+LibClamAV debug: Parsed 10 BBs, 50 instructions
+LibClamAV debug: Parsed 27 BBs, 134 instructions
+LibClamAV debug: Parsed 2 functions
+LibClamAV debug: Bytecode 4306157.cbc(44) has logical signature: BC.Win.Packer.Troll-14;Engine:56-255,Target:1;0;45088b00813863736de0752a8378100375248b40143d2005931974153d2105
+LibClamAV debug: 4306157.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 4 APIcalls, maxapi 66
+LibClamAV debug: Parsed 33 BBs, 130 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 4307467.cbc(45) has logical signature: BC.Multios.Exploit.ModPlug-6;Engine:56-255,Target:7;(0&(6|5)&(1|2|3|4));783a;693a206d69646920;693a6d69646920;2525206d69646920;25256d69646920;6d696469206472756d20;6d696469206763686f726420
+LibClamAV debug: 4307467.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 7 APIcalls, maxapi 55
+LibClamAV debug: Parsed 28 BBs, 105 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 4416867.cbc(46) has logical signature: BC.Gif.Exploit.Agent-1425366.{Agent};Engine:56-255,Target:5;0;0:47494638
+LibClamAV debug: 4416867.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: Skipping bytecode with (engine) functionality level 56-82 (current 129)
+LibClamAV debug: line: 4096
+LibClamAV debug: Parsed 0 functions
+LibClamAV debug: 4510302.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 4 APIcalls, maxapi 42
+LibClamAV debug: Parsed 41 BBs, 270 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 4526683.cbc(47) has logical signature: BC.Win.Trojan.Swrort-17210.{};Engine:56-255,Target:1;0;EOF-74:4e423130{12}433a5c6c6f63616c305c6173665c72656c656173655c6275696c642d322e322e31345c737570706f72745c52656c656173655c61622e70646200
+LibClamAV debug: 4526683.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: Skipping bytecode with (engine) functionality level 56-82 (current 129)
+LibClamAV debug: line: 4096
+LibClamAV debug: Parsed 0 functions
+LibClamAV debug: 4553522.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 4 APIcalls, maxapi 16
+LibClamAV debug: Parsed 19 BBs, 71 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 4970075.cbc(48) has logical signature: BC.Osx.Exploit.TALOS_CAN_0155-1.{};Engine:56-255,Target:0;(0&2&1);0:504b0304;504b0102{6}0000;5f5f4d41434f53582f
+LibClamAV debug: 4970075.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 5 APIcalls, maxapi 42
+LibClamAV debug: Parsed 21 BBs, 87 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 5044126.cbc(49) has logical signature: BC.Win.Packed.Locky-31475;Engine:56-255,Target:1;(0&1&2&3);5f5f7365745f6170705f7479706500;2e70646174610000;5f434973696e00;5f4349636f7300
+LibClamAV debug: 5044126.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 7 APIcalls, maxapi 42
+LibClamAV debug: Parsed 39 BBs, 212 instructions
+LibClamAV debug: Parsed 9 BBs, 72 instructions
+LibClamAV debug: Parsed 41 BBs, 295 instructions
+LibClamAV debug: Parsed 33 BBs, 205 instructions
+LibClamAV debug: Parsed 35 BBs, 239 instructions
+LibClamAV debug: Parsed 18 BBs, 113 instructions
+LibClamAV debug: Parsed 51 BBs, 429 instructions
+LibClamAV debug: Parsed 7 functions
+LibClamAV debug: Bytecode 5588995.cbc(50) has logical signature: BC.Win.Packer.LizardNest-5588995-4;Engine:56-255,Target:1;0;EP+0:e8????????e9????ffff
+LibClamAV debug: 5588995.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 4 APIcalls, maxapi 16
+LibClamAV debug: Parsed 20 BBs, 94 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 5819336.cbc(51) has logical signature: BC.Mp4.Exploit.CVE_2017_2992-5819336-0.{};Engine:56-255,Target:0;0;4:66747970
+LibClamAV debug: 5819336.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 9 APIcalls, maxapi 65
+LibClamAV debug: Parsed 41 BBs, 196 instructions
+LibClamAV debug: Parsed 7 BBs, 22 instructions
+LibClamAV debug: Parsed 2 functions
+LibClamAV debug: Bytecode 5999914.cbc(52) has logical signature: BC.Js.Downloader.Adodb-5999914-0.{};Engine:83-255,Target:7;(0&(2>1000)&1);76617220{3}203d206e657720617272617928293b;273b6576616c28{3}2e6a6f696e28222229293b;(30|31|32|33|34|35|36|37|38|39)5d3d27
+LibClamAV debug: 5999914.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 8 APIcalls, maxapi 65
+LibClamAV debug: Parsed 31 BBs, 204 instructions
+LibClamAV debug: Parsed 7 BBs, 22 instructions
+LibClamAV debug: Parsed 2 functions
+LibClamAV debug: Bytecode 5999936.cbc(53) has logical signature: BC.Js.Downloader.Nemucod-5999936-0.{};Engine:83-255,Target:7;((2>1000)&1&(0>1));76617220{3}3d27;273b6576616c28{3}293b;2b3d27
+LibClamAV debug: 5999936.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 11 APIcalls, maxapi 55
+LibClamAV debug: Parsed 49 BBs, 303 instructions
+LibClamAV debug: Parsed 238 BBs, 1925 instructions
+LibClamAV debug: Parsed 2 functions
+LibClamAV debug: Bytecode 6300337.cbc(54) has logical signature: BC.Win.Packer.MPRESS-6300337-2;Engine:56-255,Target:1;((2|1)&3&0);250,600:2e4d505245535331;80e1f0240fc1e10c;8bca498bfdb80004;00763?2e3?3?
+LibClamAV debug: 6300337.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 4 APIcalls, maxapi 16
+LibClamAV debug: Parsed 28 BBs, 93 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6311970.cbc(55) has logical signature: BC.Pdf.Exploit.CVE_2017_3033-6311970-5.{};Engine:76-255,Target:10;0;2f4a50584465636f6465
+LibClamAV debug: 6311970.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 4 APIcalls, maxapi 16
+LibClamAV debug: Parsed 19 BBs, 66 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6316126.cbc(56) has logical signature: BC.Win.Exploit.Exe_With_CVE_2017_0147-6316126-2.{};Engine:76-255,Target:1;0;ff534d423300000000{-100}00103500d0??00000010
+LibClamAV debug: 6316126.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 4 APIcalls, maxapi 16
+LibClamAV debug: Parsed 19 BBs, 76 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6324281.cbc(57) has logical signature: BC.Swf.Exploit.CVE_2017_3061.{};Engine:76-255,Target:11;0;3c696d67
+LibClamAV debug: 6324281.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 5
+LibClamAV debug: Parsed 17 BBs, 52 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6327695.cbc(58) has logical signature: Eicar-Signature.{};Engine:56-255,Target:0;0;0:58354f2150254041505b345c505a58353428505e2937434329377d2445494341522d5354414e444152442d414e544956495255532d544553542d46494c452124482b482a
+LibClamAV debug: 6327695.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 4 APIcalls, maxapi 6
+LibClamAV debug: Parsed 12 BBs, 37 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6329916.cbc(59) has logical signature: BC.Multios.Exploit.CVE_2017_2816-6329916-0.{};Engine:56-255,Target:0;0;0:3c6f66783e
+LibClamAV debug: 6329916.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 4 APIcalls, maxapi 6
+LibClamAV debug: Parsed 24 BBs, 95 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6329917.cbc(60) has logical signature: BC.Swf.Exploit.CVE_2016_6986-6329917-0.{};Engine:73-255,Target:11;0;0:465753
+LibClamAV debug: 6329917.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 4 APIcalls, maxapi 16
+LibClamAV debug: Parsed 21 BBs, 97 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6335400.cbc(61) has logical signature: BC.Win.Exploit.CVE_2017_11244-6335400-6.{};Engine:76-255,Target:0;0;0:01000000{36}20454d46*46000000*454d462b0840{14-18}0200000002000000*46000000
+LibClamAV debug: 6335400.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 5
+LibClamAV debug: Parsed 8 BBs, 29 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6335427.cbc(62) has logical signature: BC.Img.Exploit.CVE_2017_2887-6335427-1.{};Engine:56-255,Target:0;0;0:67696d702078636620
+LibClamAV debug: 6335427.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 5
+LibClamAV debug: Parsed 21 BBs, 66 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6335443.cbc(63) has logical signature: BC.Img.Exploit.CVE_2017_3124-6335443-1.{};Engine:76-255,Target:0;(0&1);0:0a050108;74:000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+LibClamAV debug: 6335443.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 5
+LibClamAV debug: Parsed 21 BBs, 66 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6335540.cbc(64) has logical signature: BC.Img.Exploit.CVE_2017_3124-6335540-2.{};Engine:56-255,Target:0;(0&1);0:0a050108;74:000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+LibClamAV debug: 6335540.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 5
+LibClamAV debug: Parsed 9 BBs, 34 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6335560.cbc(65) has logical signature: BC.Img.Exploit.CVE_2017_11226-6335560-0.{};Engine:56-255,Target:0;0;0:ff4fff51
+LibClamAV debug: 6335560.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 6 APIcalls, maxapi 55
+LibClamAV debug: Parsed 9 BBs, 53 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6335564.cbc(66) has logical signature: BC.Win.Exploit.CVE_2017_3123-6335564-2.{};Engine:76-255,Target:0;(0&1);1b000000;0:01000000{36}20454d46
+LibClamAV debug: 6335564.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 5
+LibClamAV debug: Parsed 15 BBs, 68 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6336023.cbc(67) has logical signature: BC.Win.Exploit.CVE_2016_3304-6336023-2.{};Engine:76-255,Target:0;(0&1);*:53000000;0:01000000{36}20454d46
+LibClamAV debug: 6336023.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 5
+LibClamAV debug: Parsed 15 BBs, 67 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6336035.cbc(68) has logical signature: BC.Win.Exploit.CVE_2017_3121-6336035-0.{};Engine:56-255,Target:0;(0&1);53000000;0:01000000{36}20454d46
+LibClamAV debug: 6336035.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 6 APIcalls, maxapi 55
+LibClamAV debug: Parsed 5 BBs, 23 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6336074.cbc(69) has logical signature: BC.Img.Exploit.CVE_2017_2906-6336074-1.{};Engine:56-255,Target:0;0;20:6864726c61766968
+LibClamAV debug: 6336074.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 5
+LibClamAV debug: Parsed 15 BBs, 75 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6336259.cbc(70) has logical signature: BC.Img.Exploit.CVE_2017_2903-6336259-0.{};Engine:56-255,Target:0;(1|0);0:58504453{764}0000;0:53445058{764}0000
+LibClamAV debug: 6336259.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 4 APIcalls, maxapi 16
+LibClamAV debug: Parsed 21 BBs, 94 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6336260.cbc(71) has logical signature: BC.Img.Exploit.CVE_2017_2908-6336260-0.{};Engine:56-255,Target:0;(1|0);0:424c454e444552??76{-251}54455354{4-8}0000000001000000;0:424c454e444552??56{-251}54455354{4-8}0000000000000001
+LibClamAV debug: 6336260.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 4 APIcalls, maxapi 16
+LibClamAV debug: Parsed 14 BBs, 61 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6336630.cbc(72) has logical signature: BC.Img.Exploit.CVE_2017_12099-6336630-0.{};Engine:56-255,Target:0;0;0:424c454e4445525f76*4d450000
+LibClamAV debug: 6336630.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 4 APIcalls, maxapi 16
+LibClamAV debug: Parsed 13 BBs, 59 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6336737.cbc(73) has logical signature: BC.Img.Exploit.CVE_2017_12104-6336737-0.{};Engine:56-255,Target:0;0;0:424c454e4445525f76*4f420000*50410000
+LibClamAV debug: 6336737.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 4 APIcalls, maxapi 16
+LibClamAV debug: Parsed 23 BBs, 109 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6336739.cbc(74) has logical signature: BC.Img.Exploit.CVE_2017_12101-6336739-0.{};Engine:56-255,Target:0;0;0:424c454e4445525f76*4f420000
+LibClamAV debug: 6336739.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 6 APIcalls, maxapi 55
+LibClamAV debug: Parsed 17 BBs, 94 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6380163.cbc(75) has logical signature: BC.Win.Exploit.CVE_2017_16404-6380163-1.{};Engine:56-255,Target:0;0;0:01000000{36}20454d46
+LibClamAV debug: 6380163.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 1 APIcalls, maxapi 5
+LibClamAV debug: Parsed 1 BBs, 2 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6395243.cbc(76) has logical signature: BC.Pdf.Exploit.TALOS_2017_0504-6395243-1.{};Engine:76-255,Target:10;(0&1);66696e64436f6d706f6e656e74;746869732e7072696e74
+LibClamAV debug: 6395243.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 4 APIcalls, maxapi 16
+LibClamAV debug: Parsed 27 BBs, 85 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6399052.cbc(77) has logical signature: BC.Pdf.Exploit.CVE_2017_2818-6399052-0.{};Engine:76-255,Target:10;(0&2&1);0:255044462d;2f4443544465636f6465{-244}73747265616d{-8}ffd8{-98}ffdb;ffc2
+LibClamAV debug: 6399052.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 4 APIcalls, maxapi 16
+LibClamAV debug: Parsed 13 BBs, 42 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6404655.cbc(78) has logical signature: BC.Img.Exploit.CVE-2017-16386-6404655-1.{};Engine:56-255,Target:0;0;ffed{2}50686f746f73686f7020332e30003842494d
+LibClamAV debug: 6404655.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 1 APIcalls, maxapi 5
+LibClamAV debug: Parsed 1 BBs, 2 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6428210.cbc(79) has logical signature: BC.Pdf.Exploit.Talos-2018-0518-6428210-0.{};Engine:76-255,Target:10;(0&2&1);414e46616e6379416c657274496d706c;5365745253534d6574686f6473;436f6c6c61622e64726976657273
+LibClamAV debug: 6428210.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 4 APIcalls, maxapi 16
+LibClamAV debug: Parsed 19 BBs, 80 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6428556.cbc(80) has logical signature: BC.Win.Packed.ConfuserEx-6428556-1.{};Engine:56-255,Target:1;(0&2&1);6d73636f7265652e646c6c;53797374656d2e5265666c656374696f6e;53797374656d2e5365637572697479
+LibClamAV debug: 6428556.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 5
+LibClamAV debug: Parsed 5 BBs, 16 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6441308.cbc(81) has logical signature: BC.Win.Exploit.CVE_2017_2935-6441308-0.{};Engine:56-255,Target:0;(0&(1=0));0:464c5601{1}00000009;21:000000
+LibClamAV debug: 6441308.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 1 APIcalls, maxapi 5
+LibClamAV debug: Parsed 1 BBs, 2 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6442366.cbc(82) has logical signature: BC.Pdf.Exploit.CVE_2018_3842-6442366-0.{};Engine:76-255,Target:10;(0&2&1);2f584641;2f53202f4a617661536372697074;73657450657273697374656e74
+LibClamAV debug: 6442366.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 5
+LibClamAV debug: Parsed 17 BBs, 54 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6447941.cbc(83) has logical signature: BC.Img.Exploit.CVE_2018_3837-6447941-0.{};Engine:56-255,Target:0;0;2:0108
+LibClamAV debug: 6447941.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 5
+LibClamAV debug: Parsed 5 BBs, 15 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6497366.cbc(84) has logical signature: BC.Img.Exploit.CVE_2018_3870-6497366-2.{};Engine:76-255,Target:0;0;0:0a0501{61}00
+LibClamAV debug: 6497366.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 8 APIcalls, maxapi 42
+LibClamAV debug: Parsed 67 BBs, 313 instructions
+LibClamAV debug: Parsed 1 BBs, 4 instructions
+LibClamAV debug: Parsed 15 BBs, 82 instructions
+LibClamAV debug: Parsed 1 BBs, 3 instructions
+LibClamAV debug: Parsed 6 BBs, 24 instructions
+LibClamAV debug: Parsed 20 BBs, 85 instructions
+LibClamAV debug: Parsed 22 BBs, 165 instructions
+LibClamAV debug: Parsed 32 BBs, 188 instructions
+LibClamAV debug: Parsed 13 BBs, 85 instructions
+LibClamAV debug: Parsed 21 BBs, 101 instructions
+LibClamAV debug: Parsed 9 BBs, 61 instructions
+LibClamAV debug: Parsed 29 BBs, 244 instructions
+LibClamAV debug: Parsed 15 BBs, 135 instructions
+LibClamAV debug: Parsed 13 functions
+LibClamAV debug: Bytecode 6539706.cbc(85) has logical signature: BC.Win.Packer.GandCrab-6539706-3.{};Engine:70-255,Target:1;0;0:4d5a{-196608}????0080??000080{-255}00000000000000000000000000000100!(00)000000??0?0080{-4096}0000000000000000000000000000010000000000??0?0000{-4096}!(0000)??0?!(0000)01000000000000000000
+LibClamAV debug: 6539706.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 3 APIcalls, maxapi 5
+LibClamAV debug: Parsed 7 BBs, 35 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6566834.cbc(86) has logical signature: BC.Win.Exploit.CVE_2018_8210-6566834-0.{};Engine:76-255,Target:0;0;0:4d5357494d0000
+LibClamAV debug: 6566834.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 1 APIcalls, maxapi 5
+LibClamAV debug: Parsed 1 BBs, 2 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6614848.cbc(87) has logical signature: BC.Win.Exploit.CVE_2018_3970-6614848-0.{};Engine:56-255,Target:1;0;6a006a006a106a006a006a00680020220057ff
+LibClamAV debug: 6614848.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 5 APIcalls, maxapi 65
+LibClamAV debug: Parsed 20 BBs, 55 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6645239.cbc(88) has logical signature: BC.Img.Exploit.CVE_2018_3976-6645239-0.{};Engine:56-255,Target:0;(0&1);0:737263646f6369643a;1024:7270656c636e743a
+LibClamAV debug: 6645239.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 7 APIcalls, maxapi 55
+LibClamAV debug: Parsed 32 BBs, 115 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode 6646491.cbc(89) has logical signature: BC.Img.Exploit.CVE_2018_3839-6646491-0.{};Engine:56-255,Target:0;0;0:67696d7020786366
+LibClamAV debug: 6646491.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 7 APIcalls, maxapi 42
+LibClamAV debug: Parsed 36 BBs, 209 instructions
+LibClamAV debug: Parsed 21 BBs, 101 instructions
+LibClamAV debug: Parsed 22 BBs, 165 instructions
+LibClamAV debug: Parsed 29 BBs, 242 instructions
+LibClamAV debug: Parsed 4 functions
+LibClamAV debug: Bytecode 6754169.cbc(90) has logical signature: BC.Win.Packer.script2exe-6754169-0.{};Engine:56-255,Target:1;(1|0);736372697074326578655c52656c656173655c6d79777363726970742e706462;736372697074326578655c7836345c52656c656173655c6d79777363726970742e706462
+LibClamAV debug: 6754169.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 7 APIcalls, maxapi 42
+LibClamAV debug: Parsed 33 BBs, 184 instructions
+LibClamAV debug: Parsed 21 BBs, 101 instructions
+LibClamAV debug: Parsed 2 functions
+LibClamAV debug: Bytecode 6754171.cbc(91) has logical signature: BC.Win.Packer.hta2exe-6754171-0.{};Engine:56-255,Target:1;(1|0);736372697074326578655c52656c656173655c687461326578652e706462;736372697074326578655c7836345c52656c656173655c687461326578652e706462
+LibClamAV debug: 6754171.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 7 APIcalls, maxapi 66
+LibClamAV debug: Parsed 75 BBs, 524 instructions
+LibClamAV debug: Parsed 5 BBs, 18 instructions
+LibClamAV debug: Parsed 23 BBs, 120 instructions
+LibClamAV debug: Parsed 27 BBs, 130 instructions
+LibClamAV debug: Parsed 111 BBs, 827 instructions
+LibClamAV debug: Parsed 19 BBs, 193 instructions
+LibClamAV debug: Parsed 6 functions
+LibClamAV debug: Bytecode 7001009.cbc(92) has logical signature: BC.Win.Virus.Virut-7001009-0.{};Engine:56-255,Target:1;0;83c4e0[0-20]e8
+LibClamAV debug: 7001009.cbc loaded
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: Skipping bytecode with (engine) functionality level 110-119 (current 129)
+LibClamAV debug: line: 8665
+LibClamAV debug: Parsed 0 functions
+LibClamAV debug: 7086472.cbc loaded
+LibClamAV debug: in cli_tgzload_cleanup()
+LibClamAV debug: /var/lib/clamav/bytecode.cvd loaded
+LibClamAV debug: in cli_cvdload()
+LibClamAV debug: MD5(.tar.gz) = 137eccce31aacb21b5a98bb8c21cefd6
+LibClamAV debug: cli_versig: Decoded signature: 137eccce31aacb21b5a98bb8c21cefd6
+LibClamAV debug: cli_versig: Digital signature is correct.
+LibClamAV debug: in cli_tgzload()
+LibClamAV debug: main.info loaded
+LibClamAV debug: in cli_tgzload_cleanup()
+LibClamAV debug: in cli_tgzload()
+LibClamAV debug: Ignoring signature Win.Trojan.Generic-1556
+LibClamAV debug: Ignoring signature Win.Malware.00386dc-1
+LibClamAV debug: main.hdb loaded
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffffa82f5130, because it has exceeded maxfill, old size:262144
+LibClamAV debug: hashtab.c: new capacity: 524288
+LibClamAV debug: Table 0xffffffa82f5130 size after grow:524288
+LibClamAV debug: Ignoring signature Win.Trojan.Agent-1840457
+LibClamAV debug: Ignoring signature Win.Trojan.Agent-5429482-0
+LibClamAV debug: Ignoring signature Win.Trojan.Agent-5463263-0
+LibClamAV debug: Ignoring signature Win.Trojan.Agent-5497466-0
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffffa82f5170, because it has exceeded maxfill, old size:64
+LibClamAV debug: hashtab.c: new capacity: 128
+LibClamAV debug: Table 0xffffffa82f5170 size after grow:128
+LibClamAV debug: Ignoring signature Win.Trojan.Agent-5739795-0
+LibClamAV debug: Ignoring signature Win.Trojan.Agent-1817571
+LibClamAV debug: Ignoring signature Txt.Malware.Agent-5637392-0
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffffa82f5130, because it has exceeded maxfill, old size:524288
+LibClamAV debug: hashtab.c: new capacity: 1048576
+LibClamAV debug: Table 0xffffffa82f5130 size after grow:1048576
+LibClamAV debug: Ignoring signature Xls.Dropper.Agent-6329824-0
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffffa82f5170, because it has exceeded maxfill, old size:128
+LibClamAV debug: hashtab.c: new capacity: 256
+LibClamAV debug: Table 0xffffffa82f5170 size after grow:256
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffffa82f5170, because it has exceeded maxfill, old size:256
+LibClamAV debug: hashtab.c: new capacity: 512
+LibClamAV debug: Table 0xffffffa82f5170 size after grow:512
+LibClamAV debug: Ignoring signature Win.Trojan.Agent-6369979-0
+LibClamAV debug: Ignoring signature Win.Trojan.Agent-6508615-0
+LibClamAV debug: Ignoring signature Doc.Dropper.Agent-6531863-0
+LibClamAV debug: Ignoring signature Doc.Dropper.Agent-6615997-0
+LibClamAV debug: Ignoring signature Pdf.Exploit.CVE_2018_12830-6809883-0
+LibClamAV debug: Ignoring signature Pdf.Dropper.Agent-7591093-0
+LibClamAV debug: main.hsb loaded
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffffa0f91560, because it has exceeded maxfill, old size:8192
+LibClamAV debug: hashtab.c: new capacity: 16384
+LibClamAV debug: Table 0xffffffa0f91560 size after grow:16384
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffffa0f91560, because it has exceeded maxfill, old size:16384
+LibClamAV debug: hashtab.c: new capacity: 32768
+LibClamAV debug: Table 0xffffffa0f91560 size after grow:32768
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffffa0f91560, because it has exceeded maxfill, old size:32768
+LibClamAV debug: hashtab.c: new capacity: 65536
+LibClamAV debug: Table 0xffffffa0f91560 size after grow:65536
+LibClamAV debug: Ignoring signature Win.Trojan.Agent-179626
+LibClamAV debug: Ignoring signature Win.Trojan.Poison-894
+LibClamAV debug: Ignoring signature Win.Trojan.Agent-192952
+LibClamAV debug: Ignoring signature Win.Trojan.Banker-9978
+LibClamAV debug: Ignoring signature Win.Trojan.Agent-342042
+LibClamAV debug: Ignoring signature Win.Trojan.Hupigon-33978
+LibClamAV debug: Ignoring signature Win.Trojan.Ardamax-399
+LibClamAV debug: Ignoring signature Win.Adware.Rabio-1
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffffa0f91560, because it has exceeded maxfill, old size:65536
+LibClamAV debug: hashtab.c: new capacity: 131072
+LibClamAV debug: Table 0xffffffa0f91560 size after grow:131072
+LibClamAV debug: Ignoring signature Win.Trojan.Vbiframe-40
+LibClamAV debug: Ignoring signature Win.Trojan.Magania-13785
+LibClamAV debug: Ignoring signature Win.Trojan.Agent-523843
+LibClamAV debug: Ignoring signature Win.Trojan.Agent-571886
+LibClamAV debug: Ignoring signature Win.Trojan.Agent-581012
+LibClamAV debug: Ignoring signature Win.Worm.Palevo-35017
+LibClamAV debug: Ignoring signature Win.Trojan.RAdmin-50
+LibClamAV debug: Ignoring signature Win.Trojan.RAdmin-51
+LibClamAV debug: Ignoring signature Win.Trojan.RAdmin-52
+LibClamAV debug: Ignoring signature Win.Trojan.RAdmin-53
+LibClamAV debug: Ignoring signature Win.Trojan.RAdmin-54
+LibClamAV debug: Ignoring signature Win.Trojan.RAdmin-55
+LibClamAV debug: Ignoring signature Win.Trojan.Katusha-604
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffffa0f91560, because it has exceeded maxfill, old size:131072
+LibClamAV debug: hashtab.c: new capacity: 262144
+LibClamAV debug: Table 0xffffffa0f91560 size after grow:262144
+LibClamAV debug: Ignoring signature Win.Trojan.5596964-1
+LibClamAV debug: Ignoring signature Win.Worm.Runouce-129
+LibClamAV debug: Ignoring signature Win.Trojan.Agent-1209723
+LibClamAV debug: Ignoring signature Win.Trojan.Agent-1223197
+LibClamAV debug: Ignoring signature Win.Trojan.Fileinfector-99
+LibClamAV debug: Ignoring signature Win.Trojan.Dropped-1961
+LibClamAV debug: Ignoring signature Win.Trojan.Virtob-1463
+LibClamAV debug: Ignoring signature Win.Trojan.Ramnit-5648
+LibClamAV debug: Ignoring signature Win.Trojan.Ramnit-6079
+LibClamAV debug: Ignoring signature Win.Trojan.Ramnit-6341
+LibClamAV debug: Ignoring signature Win.Trojan.Ramnit-6541
+LibClamAV debug: Ignoring signature Win.Trojan.Ramnit-6704
+LibClamAV debug: Ignoring signature Win.Trojan.Ramnit-6705
+LibClamAV debug: main.mdb loaded
+LibClamAV debug: main.msb loaded
+LibClamAV debug: Ignoring signature Unix.Worm.Slapper-1
+LibClamAV debug: Ignoring signature Win.Trojan.Flip-2
+LibClamAV debug: Ignoring signature Doc.Trojan.Lexar-1
+LibClamAV debug: Ignoring signature Js.Exploit.CVE_2006-1
+LibClamAV debug: Ignoring signature Win.Spyware.Banker-4587
+LibClamAV debug: Ignoring signature Win.Trojan.Virut-71
+LibClamAV debug: Ignoring signature Win.Trojan.Virut-266
+LibClamAV debug: Ignoring signature Win.Trojan.Virut-301
+LibClamAV debug: Ignoring signature Win.Trojan.Virut-369
+LibClamAV debug: Ignoring signature Win.Trojan.Virut-382
+LibClamAV debug: Ignoring signature Win.Trojan.Redirect-7
+LibClamAV debug: Ignoring signature Win.Trojan.Hide-2
+LibClamAV debug: Ignoring signature Win.Trojan.Maljava-2
+LibClamAV debug: Ignoring signature Pdf.Exploit.CVE_2015_5113-1
+LibClamAV debug: Ignoring signature Doc.Dropper.BabyShark-6879615-0
+LibClamAV debug: Ignoring signature Win.Ransomware.Maze-7473772-0
+LibClamAV debug: main.ndb loaded
+LibClamAV debug: Ignoring signature Unix.Trojan.Linux_DDoS_93-5364119-0
+LibClamAV debug: Ignoring signature Html.Exploit.CVE_2016_7202-5482931-0
+LibClamAV debug: Ignoring signature Html.Exploit.CVE_2017_11841-6373189-1
+LibClamAV debug: Ignoring signature Html.Exploit.CVE_2017_11909-6398048-0
+LibClamAV debug: Ignoring signature Doc.Downloader.Spider-6404604-0
+LibClamAV debug: Ignoring signature Html.Exploit.CVE_2018_4957-6544942-1
+LibClamAV debug: Ignoring signature Win.Malware.Daqc-6598201-0
+LibClamAV debug: Ignoring signature Win.Downloader.Generic-6663106-0
+LibClamAV debug: Ignoring signature Win.Trojan.Generic-6664550-0
+LibClamAV debug: Ignoring signature Win.Malware.Dfay-6722806-0
+LibClamAV debug: Ignoring signature Win.Virus.Parite-6737412-0
+LibClamAV debug: Ignoring signature Win.Malware.Dijo-6745425-0
+LibClamAV debug: Ignoring signature Win.Virus.Sality-6749017-0
+LibClamAV debug: Ignoring signature Win.Virus.Sality-6752313-0
+LibClamAV debug: Ignoring signature Win.Virus.Sality-6752318-0
+LibClamAV debug: Ignoring signature Win.Virus.Sality-6790010-0
+LibClamAV debug: Ignoring signature Win.Virus.Parite-6792476-0
+LibClamAV debug: Ignoring signature Win.Malware.Loadmoney-6795492-0
+LibClamAV debug: Ignoring signature Win.Virus.Sality-6800165-0
+LibClamAV debug: Ignoring signature Win.Worm.Mydoom-6804110-0
+LibClamAV debug: Ignoring signature Win.Virus.Sality-6804935-0
+LibClamAV debug: Ignoring signature Html.Exploit.CVE_2018_15992-6809916-1
+LibClamAV debug: Ignoring signature Win.Virus.Sality-6815301-0
+LibClamAV debug: Ignoring signature Win.Virus.Sality-6815376-0
+LibClamAV debug: Ignoring signature Win.Virus.Sality-6815410-0
+LibClamAV debug: Ignoring signature Win.Virus.Sality-6817102-0
+LibClamAV debug: Ignoring signature Win.Virus.Sality-6822263-0
+LibClamAV debug: Ignoring signature Win.Virus.Sality-6822642-0
+LibClamAV debug: Ignoring signature Win.Virus.Sality-6822682-0
+LibClamAV debug: Ignoring signature Win.Malware.Cmifao2i9nl-6825052-0
+LibClamAV debug: Ignoring signature Win.Virus.Sality-6827825-0
+LibClamAV debug: Ignoring signature Win.Virus.Sality-6827942-0
+LibClamAV debug: Ignoring signature Win.Virus.Sality-6828157-0
+LibClamAV debug: Ignoring signature Win.Virus.Sality-6828724-0
+LibClamAV debug: Ignoring signature Win.Virus.Sality-6829092-0
+LibClamAV debug: Ignoring signature Win.Virus.Sality-6832191-0
+LibClamAV debug: Ignoring signature Win.Virus.Sality-6832701-0
+LibClamAV debug: Ignoring signature Win.Virus.Sality-6832740-0
+LibClamAV debug: Ignoring signature Win.Virus.Sality-6832747-0
+LibClamAV debug: Ignoring signature Win.Malware.Vjadtre-6840658-0
+LibClamAV debug: Ignoring signature Win.Malware.Dnhy-6841891-0
+LibClamAV debug: Ignoring signature Win.Packed.Generic-6843178-0
+LibClamAV debug: Ignoring signature Win.Exploit.CVE_2019_0803-6976664-0
+LibClamAV debug: Ignoring signature Legacy.Trojan.Agent-1388596
+LibClamAV debug: Ignoring signature Html.Exploit.C99-24
+LibClamAV debug: Ignoring signature Win.Exploit.CVE_2015_0005-1
+LibClamAV debug: Ignoring signature Win.Exploit.CVE_2015_1681-1
+LibClamAV debug: Ignoring signature Win.Trojan.PowerShell-8
+LibClamAV debug: Ignoring signature Win.Trojan.Generic-6296801-0
+LibClamAV debug: Ignoring signature Win.Exploit.CVE_2017_3036-6309463-0
+LibClamAV debug: Ignoring signature Js.Downloader.Agent-6335779-0
+LibClamAV debug: Ignoring signature Win.Trojan.MSShellcode-6360729-0
+LibClamAV debug: Ignoring signature Multios.Exploit.CVE_2017_16361-6376056-0
+LibClamAV debug: Ignoring signature Pdf.Exploit.CVE_2018_4882-6449962-1
+LibClamAV debug: Ignoring signature Vbs.Dropper.Agent-6452392-0
+LibClamAV debug: Ignoring signature Txt.Malware.CMSTPEvasion-6664831-0
+LibClamAV debug: Ignoring signature Win.Malware.Emotet-6691278-0
+LibClamAV debug: Ignoring signature Win.Malware.Emotet-6691279-0
+LibClamAV debug: Ignoring signature Win.Malware.Emotet-6691280-0
+LibClamAV debug: Ignoring signature Win.Virus.Sality-6724136-0
+LibClamAV debug: Ignoring signature Win.Virus.Sality-6724268-0
+LibClamAV debug: Ignoring signature Andr.Trojan.FakeTelegram-6736160-2
+LibClamAV debug: Ignoring signature Ios.Trojan.FakeTelegram-6736161-0
+LibClamAV debug: Ignoring signature Win.Packed.Sivis-6749766-0
+LibClamAV debug: Ignoring signature Win.Virus.Sality-6761672-0
+LibClamAV debug: Ignoring signature Win.Virus.Sality-6762793-0
+LibClamAV debug: Ignoring signature Win.Malware.Generic-6763602-0
+LibClamAV debug: Ignoring signature Win.Virus.Sality-6776715-0
+LibClamAV debug: Ignoring signature Img.Packed.PngContainsDownloadCmd-6786216-0
+LibClamAV debug: Ignoring signature Win.Malware.Sivis-6798296-0
+LibClamAV debug: Ignoring signature Win.Malware.Generic-6803701-0
+LibClamAV debug: Ignoring signature Andr.Malware.Puma-6803819-0
+LibClamAV debug: Ignoring signature Win.Virus.Sality-6819266-0
+LibClamAV debug: Ignoring signature Win.Virus.Sality-6820647-0
+LibClamAV debug: Ignoring signature Win.Virus.Sality-6823716-0
+LibClamAV debug: Ignoring signature Win.Malware.Vmprotect-6824127-0
+LibClamAV debug: Ignoring signature Win.Trojan.Csmbjvai-6840938-0
+LibClamAV debug: Ignoring signature Win.Worm.Generic-6842031-0
+LibClamAV debug: Ignoring signature Win.Worm.Generic-6842389-0
+LibClamAV debug: Ignoring signature Win.Malware.Generic-6853570-0
+LibClamAV debug: Ignoring signature Win.Malware.Generic-6856527-0
+LibClamAV debug: Ignoring signature Win.Malware.Sivis-6857989-0
+LibClamAV debug: Ignoring signature Win.Malware.Johnnie-6858836-0
+LibClamAV debug: Ignoring signature Win.Malware.Delphinjector-6866656-0
+LibClamAV debug: Ignoring signature Win.Malware.Dqcf-6870845-0
+LibClamAV debug: Ignoring signature Win.Malware.Autoit-6877130-0
+LibClamAV debug: Ignoring signature Win.Trojan.Gdsda-6878765-0
+LibClamAV debug: Ignoring signature Win.Virus.Triusor-6887821-0
+LibClamAV debug: Ignoring signature Win.Packed.Ulise-6901583-0
+LibClamAV debug: Ignoring signature Win.Malware.Generickdz-6907156-0
+LibClamAV debug: Ignoring signature Win.Packed.Bladabindi-6907242-0
+LibClamAV debug: Ignoring signature Win.Packed.Chir-6912426-0
+LibClamAV debug: Ignoring signature Win.Trojan.Zbot-6921770-0
+LibClamAV debug: Ignoring signature Win.Malware.Jrvt-6921771-0
+LibClamAV debug: Ignoring signature Doc.Trojan.Suspici-6923148-0
+LibClamAV debug: Ignoring signature Win.Trojan.Ranapama-6933281-0
+LibClamAV debug: Ignoring signature Win.Malware.Bldx-6933282-0
+LibClamAV debug: Ignoring signature Win.Malware.Nymeria-6963007-0
+LibClamAV debug: Ignoring signature Doc.Dropper.MSHTA-6966166-0
+LibClamAV debug: main.ldb loaded
+LibClamAV debug: hashtab.c:Growing hashtable 0xffffff7c3ac260, because it has exceeded maxfill, old size:1024
+LibClamAV debug: hashtab.c: new capacity: 2048
+LibClamAV debug: Table 0xffffff7c3ac260 size after grow:2048
+LibClamAV debug: main.fp loaded
+LibClamAV debug: main.sfp loaded
+LibClamAV debug: Number of certs: 14
+LibClamAV debug: main.crb loaded
+LibClamAV debug: main.cdb loaded
+LibClamAV debug: in cli_tgzload_cleanup()
+LibClamAV debug: /var/lib/clamav/main.cvd loaded
+LibClamAV debug: Using filter for trie 0
+LibClamAV debug: Matcher[0]: GENERIC: AC sigs: 12429 (reloff: 16, absoff: 0) BM sigs: 30855 (reloff: 15, absoff: 129) PCREs: 453 (reloff: 0, absoff: 0) maxpatlen 8000 
+LibClamAV debug: Using filter for trie 1
+LibClamAV debug: Matcher[1]: PE: AC sigs: 1228924 (reloff: 5220, absoff: 0) BM sigs: 49027 (reloff: 44873, absoff: 4154) PCREs: 33 (reloff: 2, absoff: 0) maxpatlen 5584 
+LibClamAV debug: Matcher[2]: OLE2: AC sigs: 34849 (reloff: 0, absoff: 0) BM sigs: 0 (reloff: 0, absoff: 0) PCREs: 55 (reloff: 0, absoff: 1) maxpatlen 3548 (ac_only mode)
+LibClamAV debug: Matcher[3]: HTML: AC sigs: 9800 (reloff: 0, absoff: 0) BM sigs: 0 (reloff: 0, absoff: 0) PCREs: 17 (reloff: 0, absoff: 0) maxpatlen 866 (ac_only mode)
+LibClamAV debug: Using filter for trie 4
+LibClamAV debug: Matcher[4]: MAIL: AC sigs: 2904 (reloff: 0, absoff: 0) BM sigs: 0 (reloff: 0, absoff: 0) PCREs: 172 (reloff: 0, absoff: 0) maxpatlen 270 (ac_only mode)
+LibClamAV debug: Matcher[5]: GRAPHICS: AC sigs: 54 (reloff: 0, absoff: 0) BM sigs: 0 (reloff: 0, absoff: 0) PCREs: 1 (reloff: 0, absoff: 0) maxpatlen 227 (ac_only mode)
+LibClamAV debug: Matcher[6]: ELF: AC sigs: 15652 (reloff: 34, absoff: 0) BM sigs: 0 (reloff: 0, absoff: 0) PCREs: 1 (reloff: 0, absoff: 0) maxpatlen 400 (ac_only mode)
+LibClamAV debug: Using filter for trie 7
+LibClamAV debug: Matcher[7]: ASCII: AC sigs: 5683 (reloff: 17, absoff: 0) BM sigs: 0 (reloff: 0, absoff: 0) PCREs: 43 (reloff: 0, absoff: 2) maxpatlen 668 (ac_only mode)
+LibClamAV debug: Matcher[8]: NOT USED: AC sigs: 0 (reloff: 0, absoff: 0) BM sigs: 0 (reloff: 0, absoff: 0) PCREs: 0 (reloff: 0, absoff: 0) maxpatlen 0 (ac_only mode)
+LibClamAV debug: Matcher[9]: MACH-O: AC sigs: 3917 (reloff: 0, absoff: 0) BM sigs: 0 (reloff: 0, absoff: 0) PCREs: 0 (reloff: 0, absoff: 0) maxpatlen 273 (ac_only mode)
+LibClamAV debug: Matcher[10]: PDF: AC sigs: 846 (reloff: 0, absoff: 0) BM sigs: 0 (reloff: 0, absoff: 0) PCREs: 26 (reloff: 0, absoff: 0) maxpatlen 388 (ac_only mode)
+LibClamAV debug: Matcher[11]: FLASH: AC sigs: 725 (reloff: 0, absoff: 0) BM sigs: 0 (reloff: 0, absoff: 0) PCREs: 1 (reloff: 0, absoff: 0) maxpatlen 128 (ac_only mode)
+LibClamAV debug: Matcher[12]: JAVA: AC sigs: 194 (reloff: 0, absoff: 0) BM sigs: 0 (reloff: 0, absoff: 0) PCREs: 7 (reloff: 0, absoff: 0) maxpatlen 95 (ac_only mode)
+LibClamAV debug: Matcher[13]: INTERNAL: AC sigs: 0 (reloff: 0, absoff: 0) BM sigs: 0 (reloff: 0, absoff: 0) PCREs: 0 (reloff: 0, absoff: 0) maxpatlen 0 (ac_only mode)
+LibClamAV debug: Matcher[14]: OTHER: AC sigs: 0 (reloff: 0, absoff: 0) BM sigs: 0 (reloff: 0, absoff: 0) PCREs: 0 (reloff: 0, absoff: 0) maxpatlen 0 (ac_only mode)
+LibClamAV debug: Building regex list
+LibClamAV debug: Using filter for trie 0
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: Building regex list
+LibClamAV debug: Using filter for trie 0
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: Dynamic engine configuration settings:
+LibClamAV debug: --------------------------------------
+LibClamAV debug: Module PE: On
+LibClamAV debug:    * Submodule     PARITE:	On
+LibClamAV debug:    * Submodule       KRIZ:	On
+LibClamAV debug:    * Submodule    MAGISTR:	On
+LibClamAV debug:    * Submodule    POLIPOS:	On
+LibClamAV debug:    * Submodule    MD5SECT:	On
+LibClamAV debug:    * Submodule        UPX:	On
+LibClamAV debug:    * Submodule        FSG:	On
+LibClamAV debug:    * Submodule    SWIZZOR:	** Off **
+LibClamAV debug:    * Submodule     PETITE:	On
+LibClamAV debug:    * Submodule     PESPIN:	On
+LibClamAV debug:    * Submodule         YC:	On
+LibClamAV debug:    * Submodule     WWPACK:	On
+LibClamAV debug:    * Submodule     NSPACK:	On
+LibClamAV debug:    * Submodule        MEW:	On
+LibClamAV debug:    * Submodule      UPACK:	On
+LibClamAV debug:    * Submodule     ASPACK:	On
+LibClamAV debug:    * Submodule    CATALOG:	On
+LibClamAV debug:    * Submodule      CERTS:	On
+LibClamAV debug:    * Submodule  MATCHICON:	On
+LibClamAV debug:    * Submodule     IMPTBL:	On
+LibClamAV debug: Module ELF: On
+LibClamAV debug: Module MACHO: On
+LibClamAV debug: Module ARCHIVE: On
+LibClamAV debug:    * Submodule        RAR:	On
+LibClamAV debug:    * Submodule        ZIP:	On
+LibClamAV debug:    * Submodule       GZIP:	On
+LibClamAV debug:    * Submodule       BZIP:	On
+LibClamAV debug:    * Submodule        ARJ:	On
+LibClamAV debug:    * Submodule       SZDD:	On
+LibClamAV debug:    * Submodule        CAB:	On
+LibClamAV debug:    * Submodule        CHM:	On
+LibClamAV debug:    * Submodule       OLE2:	On
+LibClamAV debug:    * Submodule        TAR:	On
+LibClamAV debug:    * Submodule       CPIO:	On
+LibClamAV debug:    * Submodule     BINHEX:	On
+LibClamAV debug:    * Submodule        SIS:	On
+LibClamAV debug:    * Submodule       NSIS:	On
+LibClamAV debug:    * Submodule     AUTOIT:	On
+LibClamAV debug:    * Submodule    ISHIELD:	On
+LibClamAV debug:    * Submodule       7zip:	On
+LibClamAV debug:    * Submodule    ISO9660:	On
+LibClamAV debug:    * Submodule        DMG:	On
+LibClamAV debug:    * Submodule        XAR:	On
+LibClamAV debug:    * Submodule    HFSPLUS:	On
+LibClamAV debug:    * Submodule         XZ:	On
+LibClamAV debug:    * Submodule     PASSWD:	On
+LibClamAV debug:    * Submodule        MBR:	On
+LibClamAV debug:    * Submodule        GPT:	On
+LibClamAV debug:    * Submodule        APM:	On
+LibClamAV debug:    * Submodule        EGG:	On
+LibClamAV debug: Module DOCUMENT: On
+LibClamAV debug:    * Submodule       HTML:	On
+LibClamAV debug:    * Submodule        RTF:	On
+LibClamAV debug:    * Submodule        PDF:	On
+LibClamAV debug:    * Submodule     SCRIPT:	On
+LibClamAV debug:    * Submodule HTMLSKIPRAW:	On
+LibClamAV debug:    * Submodule     JSNORM:	On
+LibClamAV debug:    * Submodule        SWF:	On
+LibClamAV debug:    * Submodule      OOXML:	On
+LibClamAV debug:    * Submodule      MSPML:	On
+LibClamAV debug:    * Submodule        HWP:	On
+LibClamAV debug: Module MAIL: On
+LibClamAV debug:    * Submodule       MBOX:	On
+LibClamAV debug:    * Submodule       TNEF:	On
+LibClamAV debug: Module OTHER: On
+LibClamAV debug:    * Submodule  UUENCODED:	On
+LibClamAV debug:    * Submodule     SCRENC:	On
+LibClamAV debug:    * Submodule       RIFF:	On
+LibClamAV debug:    * Submodule       JPEG:	On
+LibClamAV debug:    * Submodule    CRYPTFF:	On
+LibClamAV debug:    * Submodule        DLP:	On
+LibClamAV debug:    * Submodule  MYDOOMLOG:	On
+LibClamAV debug:    * Submodule PREFILTERING:	On
+LibClamAV debug:    * Submodule PDFNAMEOBJ:	On
+LibClamAV debug:    * Submodule  PRTNINTXN:	On
+LibClamAV debug:    * Submodule        LZW:	On
+LibClamAV debug:    * Submodule        GIF:	On
+LibClamAV debug:    * Submodule        PNG:	On
+LibClamAV debug:    * Submodule       TIFF:	On
+LibClamAV debug: Module PHISHING On
+LibClamAV debug:    * Submodule     ENGINE:	On
+LibClamAV debug:    * Submodule    ENTCONV:	On
+LibClamAV debug: Module BYTECODE On
+LibClamAV debug:    * Submodule INTERPRETER:	On
+LibClamAV debug:    * Submodule    JIT X86:	On
+LibClamAV debug:    * Submodule    JIT PPC:	On
+LibClamAV debug:    * Submodule    JIT ARM:	** Off **
+LibClamAV debug: Module STATS Off
+LibClamAV debug: Module PCRE On
+LibClamAV debug:    * Submodule    SUPPORT:	On
+LibClamAV debug:    * Submodule    OPTIONS:	On
+LibClamAV debug:    * Submodule     GLOBAL:	On
+LibClamAV debug: pool memory used: 1297.659 MB
+LibClamAV debug: environment detected:
+LibClamAV debug: check_platform(0x0a018181, 0x08000000, 0x000a0301)
+LibClamAV debug: check_platform(0x0a  0  1  81  81,0x0  8       00 00 00,0x00    0a 03 01)
+LibClamAV debug: check_platform( OS CPU COM FL DCONF,BE PTR CXX VV.VV.VV, FLG CC VV.VV.VV)
+LibClamAV debug: Engine version: 0.103.8
+LibClamAV debug: Host triple: 
+LibClamAV debug: Host CPU: 
+LibClamAV debug: OS: Linux
+LibClamAV debug: OS release: 6.1.8-3.oe2303.riscv64
+LibClamAV debug: OS version: #1 SMP Wed Mar 29 16:00:08 UTC 2023
+LibClamAV debug: OS hardware: riscv64
+LibClamAV debug: OS LLVM category: 0
+LibClamAV debug: Has JIT compiled: 0
+LibClamAV debug: ------------------------------------------------------
+LibClamAV debug: Bytecode: JIT not supported on this architecture, falling back
+LibClamAV debug: Bytecode: mode changed to 2
+LibClamAV debug: Bytecode: mode is 2
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 9 APIcalls, maxapi 74
+LibClamAV debug: unknown inst type: 96
+LibClamAV debug: unknown inst type: 67
+LibClamAV debug: unknown inst type: 67
+LibClamAV debug: unknown inst type: 67
+LibClamAV debug: unknown inst type: 67
+LibClamAV debug: unknown inst type: 67
+LibClamAV debug: unknown inst type: 67
+LibClamAV debug: unknown inst type: 67
+LibClamAV debug: unknown inst type: 67
+LibClamAV debug: Parsed 53 BBs, 226 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode: BC_STARTUP running (builtin)
+LibClamAV debug: Bytecode 0: executing in interpreter mode
+LibClamAV debug: bytecode: registered ctx variable at 0xffffffaa5e9cf8 (+256) id 6
+LibClamAV debug: bytecode: registered ctx variable at 0xffffffaa5e9bf4 (+2) id 2
+LibClamAV debug: bytecode: registered ctx variable at 0xffffffaa5e9bf8 (+256) id 1
+LibClamAV debug: bytecode: registered ctx variable at 0xffffffaa5e9df8 (+4) id 5
+LibClamAV debug: bytecode: registered ctx variable at 0xffffffaa5e9e00 (+648) id 4
+LibClamAV debug: bytecode: registered ctx variable at 0xaaaaaab5e0e7f0 (+744) id 7
+LibClamAV debug: bytecode debug: startup: bytecode execution in auto mode
+LibClamAV debug: interpreter bytecode run finished in 1333us, after executing 96 opcodes
+LibClamAV debug: Bytecode: disable status is 0
+LibClamAV debug: Bytecode: 0 bytecode prepared with JIT, 92 prepared with interpreter, 92 total
+LibClamAV debug: Checking realpath of /root/GitRepo/mugen/testcases/cli-test/clamav/oe_test_clamav_clamonacc.sh
+LibClamAV debug: Recognized ASCII text
+LibClamAV debug: cache_check: 8841c47113f871c5e7f3571908c600d8 is negative
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+3679(3679) >= 3679
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: in cli_scanscript()
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+3292(3292) >= 3292
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+3292(3292) >= 3292
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: cli_magic_scan_desc: returning 0  at line 4725
+LibClamAV debug: cache_add: 8841c47113f871c5e7f3571908c600d8 (level 0)
+LibClamAV debug: Checking realpath of /root/GitRepo/mugen/testcases/cli-test/clamav/oe_test_clamav_clamsubmit.sh
+LibClamAV debug: Recognized ASCII text
+LibClamAV debug: cache_check: 719d4e0d58aaaaabe8bbc6cc867cb4ed is negative
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+2153(2153) >= 2153
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: in cli_scanscript()
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+1979(1979) >= 1979
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+1979(1979) >= 1979
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: cli_magic_scan_desc: returning 0  at line 4725
+LibClamAV debug: cache_add: 719d4e0d58aaaaabe8bbc6cc867cb4ed (level 0)
+LibClamAV debug: Checking realpath of /root/GitRepo/mugen/testcases/cli-test/clamav/oe_test_clamav_sigtool_2.sh
+LibClamAV debug: Recognized ASCII text
+LibClamAV debug: cache_check: 7a3bf3c3c6bfdaa4bc74587b7e2704e9 is negative
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+2649(2649) >= 2649
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: in cli_scanscript()
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+2440(2440) >= 2440
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+2440(2440) >= 2440
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: cli_magic_scan_desc: returning 0  at line 4725
+LibClamAV debug: cache_add: 7a3bf3c3c6bfdaa4bc74587b7e2704e9 (level 0)
+LibClamAV debug: Checking realpath of /root/GitRepo/mugen/testcases/cli-test/clamav/oe_test_clamav_clamdscan_scan.sh
+LibClamAV debug: Recognized ASCII text
+LibClamAV debug: cache_check: d823d94446c3110d63ac9a857ac1bb7a is negative
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+2915(2915) >= 2915
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: in cli_scanscript()
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+2676(2676) >= 2676
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+2676(2676) >= 2676
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: cli_magic_scan_desc: returning 0  at line 4725
+LibClamAV debug: cache_add: d823d94446c3110d63ac9a857ac1bb7a (level 0)
+LibClamAV debug: Checking realpath of /root/GitRepo/mugen/testcases/cli-test/clamav/oe_test_clamav_freshclam.sh
+LibClamAV debug: Recognized ASCII text
+LibClamAV debug: cache_check: 93575f559a107f4ad7230eabda5d15c7 is negative
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+3049(3049) >= 3049
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: in cli_scanscript()
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+2801(2801) >= 2801
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+2801(2801) >= 2801
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: cli_magic_scan_desc: returning 0  at line 4725
+LibClamAV debug: cache_add: 93575f559a107f4ad7230eabda5d15c7 (level 0)
+LibClamAV debug: Checking realpath of /root/GitRepo/mugen/testcases/cli-test/clamav/oe_test_clamav_clamscan_3.sh
+LibClamAV debug: Recognized ASCII text
+LibClamAV debug: cache_check: 84850174abfc30e819408077e6998b66 is negative
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+5292(5292) >= 5292
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: in cli_scanscript()
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+5073(5073) >= 5073
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+5073(5073) >= 5073
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: cli_magic_scan_desc: returning 0  at line 4725
+LibClamAV debug: cache_add: 84850174abfc30e819408077e6998b66 (level 0)
+LibClamAV debug: Checking realpath of /root/GitRepo/mugen/testcases/cli-test/clamav/oe_test_clamav_clamdscan_service.sh
+LibClamAV debug: Recognized ASCII text
+LibClamAV debug: cache_check: 61b5b26e014967b5e23981955fddd0b6 is negative
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+2259(2259) >= 2259
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: in cli_scanscript()
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+2056(2056) >= 2056
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+2056(2056) >= 2056
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: cli_magic_scan_desc: returning 0  at line 4725
+LibClamAV debug: cache_add: 61b5b26e014967b5e23981955fddd0b6 (level 0)
+LibClamAV debug: Checking realpath of /root/GitRepo/mugen/testcases/cli-test/clamav/oe_test_clamav_clamav-milter.sh
+LibClamAV debug: Recognized ASCII text
+LibClamAV debug: cache_check: 9d1f97ccc3a9ea2140d426f6d93f6e5c is negative
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+2341(2341) >= 2341
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: in cli_scanscript()
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+2147(2147) >= 2147
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+2147(2147) >= 2147
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: cli_magic_scan_desc: returning 0  at line 4725
+LibClamAV debug: cache_add: 9d1f97ccc3a9ea2140d426f6d93f6e5c (level 0)
+LibClamAV debug: Checking realpath of /root/GitRepo/mugen/testcases/cli-test/clamav/oe_test_service_clamav-clamonacc.sh
+LibClamAV debug: Recognized ASCII text
+LibClamAV debug: cache_check: 04f7acb384ab74206f1ae32a3a8cb249 is negative
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+1475(1475) >= 1475
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: in cli_scanscript()
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+1376(1376) >= 1376
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+1376(1376) >= 1376
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: cli_magic_scan_desc: returning 0  at line 4725
+LibClamAV debug: cache_add: 04f7acb384ab74206f1ae32a3a8cb249 (level 0)
+LibClamAV debug: Checking realpath of /root/GitRepo/mugen/testcases/cli-test/clamav/oe_test_clamav_clamconf.sh
+LibClamAV debug: Recognized ASCII text
+LibClamAV debug: cache_check: 7dc2bf693375e8be9218e309ac519c12 is negative
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+2266(2266) >= 2266
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: in cli_scanscript()
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+2107(2107) >= 2107
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+2107(2107) >= 2107
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: cli_magic_scan_desc: returning 0  at line 4725
+LibClamAV debug: cache_add: 7dc2bf693375e8be9218e309ac519c12 (level 0)
+LibClamAV debug: Checking realpath of /root/GitRepo/mugen/testcases/cli-test/clamav/oe_test_clamav_clamscan_2.sh
+LibClamAV debug: Recognized ASCII text
+LibClamAV debug: cache_check: 2ff6e29694232c94203186b545f6defb is negative
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+7036(7036) >= 7036
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: in cli_scanscript()
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+6701(6701) >= 6701
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+6701(6701) >= 6701
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: cli_magic_scan_desc: returning 0  at line 4725
+LibClamAV debug: cache_add: 2ff6e29694232c94203186b545f6defb (level 0)
+LibClamAV debug: Checking realpath of /root/GitRepo/mugen/testcases/cli-test/clamav/oe_test_clamav_clamscan_1.sh
+LibClamAV debug: Recognized ASCII text
+LibClamAV debug: cache_check: 1648f266dc8a41c3ec075a8cddedaa60 is negative
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+2532(2532) >= 2532
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: in cli_scanscript()
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+2347(2347) >= 2347
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+2347(2347) >= 2347
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: cli_magic_scan_desc: returning 0  at line 4725
+LibClamAV debug: cache_add: 1648f266dc8a41c3ec075a8cddedaa60 (level 0)
+LibClamAV debug: Checking realpath of /root/GitRepo/mugen/testcases/cli-test/clamav/oe_test_clamav_clamdtop.sh
+LibClamAV debug: Recognized ASCII text
+LibClamAV debug: cache_check: 251ebddb798592e7b1bc913b6fa5c19a is negative
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+2402(2402) >= 2402
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: in cli_scanscript()
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+2188(2188) >= 2188
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+2188(2188) >= 2188
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: cli_magic_scan_desc: returning 0  at line 4725
+LibClamAV debug: cache_add: 251ebddb798592e7b1bc913b6fa5c19a (level 0)
+LibClamAV debug: Checking realpath of /root/GitRepo/mugen/testcases/cli-test/clamav/oe_test_clamav_clambc.sh
+LibClamAV debug: Recognized ASCII text
+LibClamAV debug: cache_check: 35cbba17fb1ea63e192b5d62cb3c5007 is negative
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+2336(2336) >= 2336
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: in cli_scanscript()
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+2134(2134) >= 2134
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+2134(2134) >= 2134
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: cli_magic_scan_desc: returning 0  at line 4725
+LibClamAV debug: cache_add: 35cbba17fb1ea63e192b5d62cb3c5007 (level 0)
+LibClamAV debug: Checking realpath of /root/GitRepo/mugen/testcases/cli-test/clamav/oe_test_service_clamav-milter.sh
+LibClamAV debug: Recognized ASCII text
+LibClamAV debug: cache_check: 7ea5c0f4ca6085724aab7b7c59177922 is negative
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+1426(1426) >= 1426
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: in cli_scanscript()
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+1339(1339) >= 1339
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+1339(1339) >= 1339
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: cli_magic_scan_desc: returning 0  at line 4725
+LibClamAV debug: cache_add: 7ea5c0f4ca6085724aab7b7c59177922 (level 0)
+LibClamAV debug: Checking realpath of /root/GitRepo/mugen/testcases/cli-test/clamav/oe_test_clamav_sigtool_1.sh
+LibClamAV debug: Recognized ASCII text
+LibClamAV debug: cache_check: a643da05f76d421a1651a4e6b612e6d5 is negative
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+2766(2766) >= 2766
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: in cli_scanscript()
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+2554(2554) >= 2554
+LibClamAV debug: matcher_run: performing regex matching on full map: 0+2554(2554) >= 2554
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: cli_magic_scan_desc: returning 0  at line 4725
+LibClamAV debug: cache_add: a643da05f76d421a1651a4e6b612e6d5 (level 0)
+LibClamAV debug: Cleaning up phishcheck
+LibClamAV debug: Freeing phishcheck struct
+LibClamAV debug: Phishcheck cleaned up
++ CHECK_RESULT 0 0 0 'Check clamscan --debug failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check clamscan --debug failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clamscan --quiet --stdout
+LibClamAV Warning: **************************************************
+LibClamAV Warning: ***  The virus database is older than 7 days!  ***
+LibClamAV Warning: ***   Please update it as soon as possible.    ***
+LibClamAV Warning: **************************************************
++ CHECK_RESULT 0 0 0 'Check clamscan --quiet --stdout failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check clamscan --quiet --stdout failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clamscan --no-summary
+LibClamAV Warning: **************************************************
+LibClamAV Warning: ***  The virus database is older than 7 days!  ***
+LibClamAV Warning: ***   Please update it as soon as possible.    ***
+LibClamAV Warning: **************************************************
++ CHECK_RESULT 0 0 0 'Check clamscan --no-summary failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check clamscan --no-summary failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clamscan -i /opt/testscan/daily.cbd
++ grep 'SCAN SUMMARY'
+LibClamAV Warning: **************************************************
+LibClamAV Warning: ***  The virus database is older than 7 days!  ***
+LibClamAV Warning: ***   Please update it as soon as possible.    ***
+LibClamAV Warning: **************************************************
+/opt/testscan/daily.cbd: No such file or directory
+WARNING: /opt/testscan/daily.cbd: Can't access file
++ CHECK_RESULT 0 0 0 'Check clamscan -i failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check clamscan -i failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'SCAN SUMMARY'
++ clamscan --bell
+LibClamAV Warning: **************************************************
+LibClamAV Warning: ***  The virus database is older than 7 days!  ***
+LibClamAV Warning: ***   Please update it as soon as possible.    ***
+LibClamAV Warning: **************************************************
++ CHECK_RESULT 0 0 0 'Check clamscan --bell failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check clamscan --bell failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clamscan -r
++ grep 'SCAN SUMMARY'
+LibClamAV Warning: **************************************************
+LibClamAV Warning: ***  The virus database is older than 7 days!  ***
+LibClamAV Warning: ***   Please update it as soon as possible.    ***
+LibClamAV Warning: **************************************************
++ CHECK_RESULT 0 0 0 'Check clamscan -r failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check clamscan -r failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clamscan -o /opt/testscan/daily.cbd
++ grep 'SCAN SUMMARY'
+LibClamAV Warning: **************************************************
+LibClamAV Warning: ***  The virus database is older than 7 days!  ***
+LibClamAV Warning: ***   Please update it as soon as possible.    ***
+LibClamAV Warning: **************************************************
+/opt/testscan/daily.cbd: No such file or directory
+WARNING: /opt/testscan/daily.cbd: Can't access file
++ CHECK_RESULT 0 0 0 'Check clamscan -o failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check clamscan -o failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed Apr  5 06:20:00 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Apr  5 06:20:01 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Apr  5 06:20:02 2023 - INFO  - Start to restore the test environment.
++ rm -rf /opt/testscan
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpqhtpcv8k ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpqhtpcv8k
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed Apr  5 06:20:33 2023 - INFO  - End to restore the test environment.

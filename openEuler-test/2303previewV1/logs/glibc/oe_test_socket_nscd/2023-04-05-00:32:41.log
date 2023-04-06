@@ -1,0 +1,242 @@
++ source ../common/common_lib.sh
+++ source /root/GitRepo/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/GitRepo/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ grep expect
++ rpm -qa
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed Apr  5 00:32:47 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL nscd
++ pkgs=nscd
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/GitRepo/mugen/libs/locallibs/rpm_manage.py install --pkgs nscd --node 1 --tempfile ''
++ tmpfile2=/tmp/tmps7l9y7nx
++ '[' -z '' ']'
++ tmpfile=/tmp/tmps7l9y7nx
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Wed Apr  5 00:33:39 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Apr  5 00:33:40 2023 - INFO  - Start to run test.
++ test_execution nscd.socket
++ service=nscd.socket
+++ date '+%Y-%m-%d %T'
++ log_time='2023-04-05 00:33:40'
++ test_restart nscd.socket
++ service=nscd.socket
++ systemctl restart nscd.socket
++ CHECK_RESULT 0 0 0 'nscd.socket restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nscd.socket restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ grep 'Active: active'
++ systemctl status nscd.socket
+     Active: active (listening) since Wed 2023-04-05 00:33:40 CST; 6s ago
++ CHECK_RESULT 0 0 0 'nscd.socket restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nscd.socket restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop nscd.socket
++ CHECK_RESULT 0 0 0 'nscd.socket stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nscd.socket stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ grep 'Active: inactive'
++ systemctl status nscd.socket
+     Active: inactive (dead)
++ CHECK_RESULT 0 0 0 'nscd.socket stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nscd.socket stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start nscd.socket
++ CHECK_RESULT 0 0 0 'nscd.socket start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nscd.socket start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/GitRepo/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status nscd.socket
++ grep 'Active: active'
+     Active: active (listening) since Wed 2023-04-05 00:33:54 CST; 6s ago
++ CHECK_RESULT 0 0 0 'nscd.socket start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nscd.socket start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled nscd.socket
++ service=nscd.socket
+++ systemctl is-enabled nscd.socket
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ systemctl enable nscd.socket
+++ awk '{print $3}'
+++ grep 'Created symlink'
++ symlink_file=/etc/systemd/system/sockets.target.wants/nscd.socket
++ find /etc/systemd/system/sockets.target.wants/nscd.socket
+/etc/systemd/system/sockets.target.wants/nscd.socket
++ CHECK_RESULT 0 0 0 'nscd.socket enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nscd.socket enable failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable nscd.socket
+Removed /etc/systemd/system/sockets.target.wants/nscd.socket.
++ find /etc/systemd/system/sockets.target.wants/nscd.socket
+find: ‘/etc/systemd/system/sockets.target.wants/nscd.socket’: No such file or directory
++ CHECK_RESULT 1 0 1 'nscd.socket disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='nscd.socket disable failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ journalctl --since '2023-04-05 00:33:40' -u nscd.socket
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of nscd.socket'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of nscd.socket'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ systemctl start nscd.socket
++ systemctl reload nscd.socket
++ grep 'Job type reload is not applicable for unit nscd.socket'
+Failed to reload nscd.socket: Job type reload is not applicable for unit nscd.socket.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status nscd.socket
++ grep 'Active: active'
+     Active: active (listening) since Wed 2023-04-05 00:33:54 CST; 20s ago
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Wed Apr  5 00:34:16 2023 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Apr  5 00:34:17 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Wed Apr  5 00:34:18 2023 - INFO  - start environment cleanup.
++ systemctl stop nscd.socket
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmps7l9y7nx ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/GitRepo/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmps7l9y7nx
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/GitRepo/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Wed Apr  5 00:34:39 2023 - INFO  - Finish environment cleanup!
