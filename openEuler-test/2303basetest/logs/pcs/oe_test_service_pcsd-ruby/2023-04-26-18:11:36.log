@@ -1,0 +1,143 @@
++ source ../common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed Apr 26 18:11:41 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL pcs
++ pkgs=pcs
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs pcs --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpu334b89r
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpu334b89r
++ systemctl start pcsd-ruby.service
++ SLEEP_WAIT 3
++ wait_time=3
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd '' --mode 1
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Wed Apr 26 18:14:29 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Apr 26 18:14:30 2023 - INFO  - Start to run test.
++ test_oneshot pcsd-ruby.service 'Active: inactive (dead)'
++ service=pcsd-ruby.service
++ status='Active: inactive (dead)'
++ systemctl status pcsd-ruby.service
++ grep Active
++ grep -v 'Active: inactive (dead)'
++ CHECK_RESULT 1 0 1 'There is an error for the status of pcsd-ruby.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error for the status of pcsd-ruby.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_enabled pcsd-ruby.service
++ service=pcsd-ruby.service
+++ systemctl is-enabled pcsd-ruby.service
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ grep 'Created symlink'
+++ systemctl enable pcsd-ruby.service
+++ awk '{print $3}'
++ symlink_file=/etc/systemd/system/multi-user.target.wants/pcsd-ruby.service
++ find /etc/systemd/system/multi-user.target.wants/pcsd-ruby.service
+/etc/systemd/system/multi-user.target.wants/pcsd-ruby.service
++ CHECK_RESULT 0 0 0 'pcsd-ruby.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='pcsd-ruby.service enable failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable pcsd-ruby.service
+Removed /etc/systemd/system/multi-user.target.wants/pcsd-ruby.service.
++ find /etc/systemd/system/multi-user.target.wants/pcsd-ruby.service
+find: ‘/etc/systemd/system/multi-user.target.wants/pcsd-ruby.service’: No such file or directory
++ CHECK_RESULT 1 0 1 'pcsd-ruby.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='pcsd-ruby.service disable failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ journalctl -u pcsd-ruby.service
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of pcsd-ruby.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of pcsd-ruby.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Wed Apr 26 18:14:45 2023 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Apr 26 18:14:46 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Wed Apr 26 18:14:47 2023 - INFO  - start environment cleanup.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpu334b89r ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpu334b89r
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Wed Apr 26 18:15:47 2023 - INFO  - Finish environment cleanup!

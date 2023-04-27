@@ -1,0 +1,211 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu Apr 27 00:24:23 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL rrdtool
++ pkgs=rrdtool
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs rrdtool --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpgoea_duj
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpgoea_duj
++ rrdtool create ./common/test.rrd --start 920804400 DS:speed:COUNTER:600:U:U RRA:AVERAGE:0.5:1:24 RRA:AVERAGE:0.5:6:10
++ rrdtool update ./common/test.rrd 920804700:12345 920805000:12357 920805300:12363
++ rrdtool update ./common/test.rrd 920805600:12363 920805900:12363 920806200:12373
++ rrdtool update ./common/test.rrd 920806500:12383 920806800:12393 920807100:12399
++ rrdtool update ./common/test.rrd 920807400:12405 920807700:12411 920808000:12415
++ rrdtool update ./common/test.rrd 920808300:12420 920808600:12422 920808900:12423
++ rrdcached -l unix:/root/mugen/testcases/cli-test/rrdtool/common:9999
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu Apr 27 00:25:11 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Apr 27 00:25:12 2023 - INFO  - Start to run test.
++ grep 920805000
++ rrdtool fetch ./common/test.rrd MIN --start 920804400 --end 920808900 --resolution 5m
+ 920805000: 4.0000000000e-02
++ CHECK_RESULT 0 0 0 'rrdtool fetch: faild to test option --resolution'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rrdtool fetch: faild to test option --resolution'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rrdtool fetch ./common/test.rrd MIN --start 920804400 --end 920808900 -r 5m
++ grep 920805000
+ 920805000: 4.0000000000e-02
++ CHECK_RESULT 0 0 0 'rrdtool fetch: faild to test option -r'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rrdtool fetch: faild to test option -r'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 920804700
++ rrdtool fetch ./common/test.rrd MIN --start 920804400
+ 920804700: nan
++ CHECK_RESULT 0 0 0 'rrdtool fetch: faild to test option --start'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rrdtool fetch: faild to test option --start'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rrdtool fetch ./common/test.rrd MIN -s 920804400
++ grep 920804700
+ 920804700: nan
++ CHECK_RESULT 0 0 0 'rrdtool fetch: faild to test option -s'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rrdtool fetch: faild to test option -s'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rrdtool fetch ./common/test.rrd MIN --end 920805300
++ grep 920805300:
+ 920805300: 2.0000000000e-02
++ CHECK_RESULT 0 0 0 'rrdtool fetch: faild to test option --end'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rrdtool fetch: faild to test option --end'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rrdtool fetch ./common/test.rrd MIN -e 920805300
++ grep 920805300:
+ 920805300: 2.0000000000e-02
++ CHECK_RESULT 0 0 0 'rrdtool fetch: faild to test option -e'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rrdtool fetch: faild to test option -e'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rrdtool fetch ./common/test.rrd MIN --start 920804500 --end 920808900 --align-start
++ grep 920804700
+ 920804700: nan
++ CHECK_RESULT 0 0 0 'rrdtool fetch: faild to test option --align-start'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rrdtool fetch: faild to test option --align-start'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rrdtool fetch ./common/test.rrd MIN --start 920804500 --end 920808900 -a
++ grep 920804700
+ 920804700: nan
++ CHECK_RESULT 0 0 0 'rrdtool fetch: faild to test option -a'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rrdtool fetch: faild to test option -a'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rrdtool fetch ./common/test.rrd MIN --start 920804500 --end 920808900 --daemon unix:/root/mugen/testcases/cli-test/rrdtool/common:9999
++ grep 920805000:
+ 920805000: 4.0000000000e-02
++ CHECK_RESULT 0 0 0 'rrdtool fetch: faild to test option --daemon'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rrdtool fetch: faild to test option --daemon'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rrdtool fetch ./common/test.rrd MIN --start 920804500 --end 920808900 -d unix:/root/mugen/testcases/cli-test/rrdtool/common:9999
++ grep 920805000:
+ 920805000: 4.0000000000e-02
++ CHECK_RESULT 0 0 0 'rrdtool fetch: faild to test option -d'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rrdtool fetch: faild to test option -d'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu Apr 27 00:25:29 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Apr 27 00:25:30 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu Apr 27 00:25:31 2023 - INFO  - Start to restore the test environment.
+++ pgrep rrdcached
++ kill -9 19153
++ rm -rf ./common/test.rrd /root/mugen/testcases/cli-test/rrdtool/common:9999 /var/run/rrdcached.pid
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpgoea_duj ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpgoea_duj
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu Apr 27 00:25:52 2023 - INFO  - End to restore the test environment.

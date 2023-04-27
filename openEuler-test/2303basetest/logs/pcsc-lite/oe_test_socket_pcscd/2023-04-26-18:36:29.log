@@ -1,0 +1,234 @@
++ source ../common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed Apr 26 18:36:34 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL pcsc-lite
++ pkgs=pcsc-lite
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs pcsc-lite --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp9kfwzqk8
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp9kfwzqk8
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Wed Apr 26 18:37:28 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Apr 26 18:37:29 2023 - INFO  - Start to run test.
++ test_execution pcscd.socket
++ service=pcscd.socket
+++ date '+%Y-%m-%d %T'
++ log_time='2023-04-26 18:37:29'
++ test_restart pcscd.socket
++ service=pcscd.socket
++ systemctl restart pcscd.socket
++ CHECK_RESULT 0 0 0 'pcscd.socket restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='pcscd.socket restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status pcscd.socket
++ grep 'Active: active'
+     Active: active (listening) since Wed 2023-04-26 18:37:29 CST; 6s ago
++ CHECK_RESULT 0 0 0 'pcscd.socket restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='pcscd.socket restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop pcscd.socket
++ CHECK_RESULT 0 0 0 'pcscd.socket stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='pcscd.socket stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status pcscd.socket
++ grep 'Active: inactive'
+     Active: inactive (dead) since Wed 2023-04-26 18:37:36 CST; 6s ago
++ CHECK_RESULT 0 0 0 'pcscd.socket stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='pcscd.socket stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start pcscd.socket
++ CHECK_RESULT 0 0 0 'pcscd.socket start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='pcscd.socket start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ grep 'Active: active'
++ systemctl status pcscd.socket
+     Active: active (listening) since Wed 2023-04-26 18:37:43 CST; 6s ago
++ CHECK_RESULT 0 0 0 'pcscd.socket start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='pcscd.socket start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled pcscd.socket
++ service=pcscd.socket
+++ systemctl is-enabled pcscd.socket
++ state=enabled
++ '[' enabled == enabled ']'
+++ systemctl disable pcscd.socket
+++ awk '{print substr($0,1,length($0)-1)}'
+++ grep Removed
+++ awk '{print $2}'
++ symlink_file=/etc/systemd/system/sockets.target.wants/pcscd.socket
++ find /etc/systemd/system/sockets.target.wants/pcscd.socket
+find: ‘/etc/systemd/system/sockets.target.wants/pcscd.socket’: No such file or directory
++ CHECK_RESULT 1 0 1 'pcscd.socket disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='pcscd.socket disable failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ systemctl enable pcscd.socket
+Created symlink /etc/systemd/system/sockets.target.wants/pcscd.socket → /usr/lib/systemd/system/pcscd.socket.
++ find /etc/systemd/system/sockets.target.wants/pcscd.socket
+/etc/systemd/system/sockets.target.wants/pcscd.socket
++ CHECK_RESULT 0 0 0 'pcscd.socket enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='pcscd.socket enable failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ journalctl --since '2023-04-26 18:37:29' -u pcscd.socket
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of pcscd.socket'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of pcscd.socket'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_reload pcscd.socket
++ service=pcscd.socket
++ systemctl start pcscd.socket
++ systemctl reload pcscd.socket
++ grep 'Job type reload is not applicable'
+Failed to reload pcscd.socket: Job type reload is not applicable for unit pcscd.socket.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit pcscd.socket'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit pcscd.socket'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'Active: active'
++ systemctl status pcscd.socket
+     Active: active (listening) since Wed 2023-04-26 18:37:43 CST; 20s ago
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Wed Apr 26 18:38:04 2023 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Apr 26 18:38:05 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Wed Apr 26 18:38:07 2023 - INFO  - start environment cleanup.
++ systemctl stop pcscd.socket
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp9kfwzqk8 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp9kfwzqk8
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Wed Apr 26 18:38:32 2023 - INFO  - Finish environment cleanup!

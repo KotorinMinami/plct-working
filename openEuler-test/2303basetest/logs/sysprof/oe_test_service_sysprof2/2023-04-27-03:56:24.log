@@ -1,0 +1,210 @@
++ source ../common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu Apr 27 03:56:37 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL sysprof-cli
++ pkgs=sysprof-cli
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs sysprof-cli --node 1 --tempfile ''
++ tmpfile2=/tmp/tmprdk0j4o7
++ '[' -z '' ']'
++ tmpfile=/tmp/tmprdk0j4o7
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu Apr 27 03:57:21 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Thu Apr 27 03:57:22 2023 - INFO  - Start testing...
++ test_execution sysprof2.service
++ service=sysprof2.service
+++ date '+%Y-%m-%d %T'
++ log_time='2023-04-27 03:57:22'
++ test_restart sysprof2.service
++ service=sysprof2.service
++ systemctl restart sysprof2.service
++ CHECK_RESULT 0 0 0 'sysprof2.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='sysprof2.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status sysprof2.service
++ grep 'Active: active'
+     Active: active (running) since Thu 2023-04-27 03:57:22 CST; 6s ago
++ CHECK_RESULT 0 0 0 'sysprof2.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='sysprof2.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop sysprof2.service
++ CHECK_RESULT 0 0 0 'sysprof2.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='sysprof2.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status sysprof2.service
++ grep 'Active: inactive'
+     Active: inactive (dead)
++ CHECK_RESULT 0 0 0 'sysprof2.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='sysprof2.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start sysprof2.service
++ CHECK_RESULT 0 0 0 'sysprof2.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='sysprof2.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status sysprof2.service
++ grep 'Active: active'
+     Active: active (running) since Thu 2023-04-27 03:57:36 CST; 6s ago
++ CHECK_RESULT 0 0 0 'sysprof2.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='sysprof2.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled sysprof2.service
++ service=sysprof2.service
+++ systemctl is-enabled sysprof2.service
++ state=static
++ '[' static == enabled ']'
++ '[' static == disabled ']'
++ '[' static == masked ']'
++ '[' static == static ']'
++ LOG_INFO 'The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
++ message='The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
+Thu Apr 27 03:57:43 2023 - INFO  - The unit files have no installation config,This means they are not meant to be enabled using systemctl.
++ grep -i 'fail\|error'
++ journalctl --since '2023-04-27 03:57:22' -u sysprof2.service
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of sysprof2.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of sysprof2.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_reload sysprof2.service
++ service=sysprof2.service
++ systemctl start sysprof2.service
++ grep 'Job type reload is not applicable'
++ systemctl reload sysprof2.service
+Failed to reload sysprof2.service: Job type reload is not applicable for unit sysprof2.service.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit sysprof2.service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit sysprof2.service'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status sysprof2.service
++ grep 'Active: active'
+     Active: active (running) since Thu 2023-04-27 03:57:36 CST; 8s ago
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Thu Apr 27 03:57:45 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Apr 27 03:57:46 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu Apr 27 03:57:47 2023 - INFO  - start environment cleanup.
++ systemctl stop sysprof2.service
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmprdk0j4o7 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmprdk0j4o7
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Apr 27 03:58:08 2023 - INFO  - Finish environment cleanup!

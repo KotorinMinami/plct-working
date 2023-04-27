@@ -1,0 +1,234 @@
++ source ../common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ grep expect
++ rpm -qa
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed Apr 26 23:31:26 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL rpcbind
++ pkgs=rpcbind
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs rpcbind --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpedt7s5_x
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpedt7s5_x
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Wed Apr 26 23:32:21 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Apr 26 23:32:22 2023 - INFO  - Start to run test.
++ test_execution rpcbind.socket
++ service=rpcbind.socket
+++ date '+%Y-%m-%d %T'
++ log_time='2023-04-26 23:32:22'
++ test_restart rpcbind.socket
++ service=rpcbind.socket
++ systemctl restart rpcbind.socket
++ CHECK_RESULT 0 0 0 'rpcbind.socket restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rpcbind.socket restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status rpcbind.socket
++ grep 'Active: active'
+     Active: active (listening) since Wed 2023-04-26 23:32:22 CST; 6s ago
++ CHECK_RESULT 0 0 0 'rpcbind.socket restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rpcbind.socket restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop rpcbind.socket
++ CHECK_RESULT 0 0 0 'rpcbind.socket stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rpcbind.socket stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ grep 'Active: inactive'
++ systemctl status rpcbind.socket
+     Active: inactive (dead) since Wed 2023-04-26 23:32:29 CST; 6s ago
++ CHECK_RESULT 0 0 0 'rpcbind.socket stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rpcbind.socket stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start rpcbind.socket
++ CHECK_RESULT 0 0 0 'rpcbind.socket start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rpcbind.socket start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ grep 'Active: active'
++ systemctl status rpcbind.socket
+     Active: active (listening) since Wed 2023-04-26 23:32:35 CST; 6s ago
++ CHECK_RESULT 0 0 0 'rpcbind.socket start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rpcbind.socket start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled rpcbind.socket
++ service=rpcbind.socket
+++ systemctl is-enabled rpcbind.socket
++ state=enabled
++ '[' enabled == enabled ']'
+++ systemctl disable rpcbind.socket
+++ grep Removed
+++ awk '{print $2}'
+++ awk '{print substr($0,1,length($0)-1)}'
++ symlink_file=/etc/systemd/system/sockets.target.wants/rpcbind.socket
++ find /etc/systemd/system/sockets.target.wants/rpcbind.socket
+find: ‘/etc/systemd/system/sockets.target.wants/rpcbind.socket’: No such file or directory
++ CHECK_RESULT 1 0 1 'rpcbind.socket disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='rpcbind.socket disable failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ systemctl enable rpcbind.socket
+Created symlink /etc/systemd/system/sockets.target.wants/rpcbind.socket → /usr/lib/systemd/system/rpcbind.socket.
++ find /etc/systemd/system/sockets.target.wants/rpcbind.socket
+/etc/systemd/system/sockets.target.wants/rpcbind.socket
++ CHECK_RESULT 0 0 0 'rpcbind.socket enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rpcbind.socket enable failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ journalctl --since '2023-04-26 23:32:22' -u rpcbind.socket
++ grep -i 'fail\|error'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of rpcbind.socket'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of rpcbind.socket'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_reload rpcbind.socket
++ service=rpcbind.socket
++ systemctl start rpcbind.socket
++ systemctl reload rpcbind.socket
++ grep 'Job type reload is not applicable'
+Failed to reload rpcbind.socket: Job type reload is not applicable for unit rpcbind.socket.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit rpcbind.socket'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit rpcbind.socket'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status rpcbind.socket
++ grep 'Active: active'
+     Active: active (listening) since Wed 2023-04-26 23:32:35 CST; 16s ago
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Wed Apr 26 23:32:53 2023 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Apr 26 23:32:54 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Wed Apr 26 23:32:54 2023 - INFO  - start environment cleanup.
++ systemctl stop rpcbind.socket
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpedt7s5_x ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpedt7s5_x
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Wed Apr 26 23:33:14 2023 - INFO  - Finish environment cleanup!

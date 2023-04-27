@@ -1,0 +1,195 @@
++ source ../common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu Apr 27 02:40:19 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL scsi-target-utils
++ pkgs=scsi-target-utils
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs scsi-target-utils --node 1 --tempfile ''
++ tmpfile2=/tmp/tmps1yer1zi
++ '[' -z '' ']'
++ tmpfile=/tmp/tmps1yer1zi
++ service=tgtd.service
+++ date '+%Y-%m-%d %T'
++ log_time='2023-04-27 02:41:18'
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu Apr 27 02:41:19 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Thu Apr 27 02:41:20 2023 - INFO  - Start testing...
++ systemctl restart tgtd.service
++ CHECK_RESULT 0 0 0 'tgtd.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='tgtd.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop tgtd.service
++ CHECK_RESULT 0 0 0 'tgtd.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='tgtd.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start tgtd.service
++ CHECK_RESULT 0 0 0 'tgtd.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='tgtd.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status tgtd.service
++ grep 'active (running)'
++ grep Active
+     Active: active (running) since Thu 2023-04-27 02:41:36 CST; 505ms ago
++ CHECK_RESULT 0 0 0 'tgtd.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='tgtd.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ systemctl enable tgtd.service
+++ awk '{print $3}'
++ symlink_file=/etc/systemd/system/multi-user.target.wants/tgtd.service
++ find /etc/systemd/system/multi-user.target.wants/tgtd.service
+/etc/systemd/system/multi-user.target.wants/tgtd.service
++ CHECK_RESULT 0 0 0 'tgtd.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='tgtd.service enable failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable tgtd.service
+Removed /etc/systemd/system/multi-user.target.wants/tgtd.service.
++ find /etc/systemd/system/multi-user.target.wants/tgtd.service
+find: ‘/etc/systemd/system/multi-user.target.wants/tgtd.service’: No such file or directory
++ CHECK_RESULT 1 0 1 'tgtd.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='tgtd.service disable failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ grep -i 'fail\|error'
++ journalctl --since '2023-04-27 02:41:18' -u tgtd.service
++ grep -v 'initialize RDMA'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of tgtd.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of tgtd.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ systemctl start tgtd.service
++ sed -i 's\ExecStart=/usr/sbin/tgtd\ExecStart=/usr/sbin/tgtd -D\g' /usr/lib/systemd/system/tgtd.service
++ systemctl daemon-reload
++ systemctl reload tgtd.service
++ CHECK_RESULT 0 0 0 'tgtd.service reload failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='tgtd.service reload failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'Active: active'
++ systemctl status tgtd.service
+     Active: active (running) since Thu 2023-04-27 02:41:36 CST; 23s ago
++ CHECK_RESULT 0 0 0 'tgtd.service reload causes the service status to change'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='tgtd.service reload causes the service status to change'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Thu Apr 27 02:42:01 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Apr 27 02:42:02 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu Apr 27 02:42:03 2023 - INFO  - start environment cleanup.
++ sed -i 's\ExecStart=/usr/sbin/tgtd -D\ExecStart=/usr/sbin/tgtd\g' /usr/lib/systemd/system/tgtd.service
++ systemctl daemon-reload
++ systemctl reload tgtd.service
++ systemctl stop tgtd.service
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmps1yer1zi ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmps1yer1zi
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Apr 27 02:42:43 2023 - INFO  - Finish environment cleanup!

@@ -1,0 +1,354 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n function ']'
++ config_params
++ LOG_INFO 'Start to config params of the case.'
++ message='Start to config params of the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to config params of the case.'
+Wed Apr 26 12:03:58 2023 - INFO  - Start to config params of the case.
+++ GET_FREE_PORT '' 5900 5950
+++ ip=
+++ start_port=5900
+++ end_port=5950
+++ python3 /root/mugen/libs/locallibs/free_port.py get --ip '' --start 5900 --end 5950
++ vncConnPort=5910
+++ expr 5910 - 5900
++ vncConnName=:10
+++ GET_FREE_PORT
+++ ip=
+++ start_port=1000
+++ end_port=10000
+++ python3 /root/mugen/libs/locallibs/free_port.py get --ip '' --start 1000 --end 10000
++ novncLisPort=4875
++ LOG_INFO 'End to config params of the case.'
++ message='End to config params of the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to config params of the case.'
+Wed Apr 26 12:04:01 2023 - INFO  - End to config params of the case.
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Apr 26 12:04:02 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'novnc tigervnc-server openssl lsof'
++ pkgs='novnc tigervnc-server openssl lsof'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'novnc tigervnc-server openssl lsof' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpf0ui1zo9
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpf0ui1zo9
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Wed Apr 26 12:10:36 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Apr 26 12:10:37 2023 - INFO  - Start to run test.
++ expect
+spawn vncserver :10
+
+WARNING: vncserver has been replaced by a systemd unit and is now considered deprecated and removed in upstream.
+Please read /usr/share/doc/tigervnc/HOWTO.md for more information.
+
+You will require a password to access your desktops.
+
+Password:
+Verify:
+Would you like to enter a view-only password (y/n)? y
+Password:+ IS_FREE_PORT 5910 ''
++ port=5910
++ ip=
++ python3 /root/mugen/libs/locallibs/free_port.py check --port 5910 --ip ''
++ CHECK_RESULT 0 1 0 'vnc server doesn'\''t start up'
++ actual_result=0
++ expect_result=1
++ mode=0
++ error_log='vnc server doesn'\''t start up'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 1x
++ test -n 'vnc server doesn'\''t start up'
++ LOG_ERROR 'vnc server doesn'\''t start up'
++ message='vnc server doesn'\''t start up'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'vnc server doesn'\''t start up'
+Wed Apr 26 12:10:50 2023 - ERROR - vnc server doesn't start up
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_novnc.sh line 59'
++ message='oe_test_novnc.sh line 59'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_novnc.sh line 59'
+Wed Apr 26 12:10:51 2023 - ERROR - oe_test_novnc.sh line 59
++ '[' 0 -eq 1 ']'
++ return 0
++ SLEEP_WAIT 3
++ wait_time=3
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd '' --mode 1
++ novnc_server --listen 4875 --vnc localhost:5910 --web /usr/share/novnc
+Warning: could not find self.pem
+Using installed websockify at /usr/bin/websockify
+Starting webserver and WebSockets proxy on port 4875
+
+
+Navigate to this URL:
+
+    http://openeuler-riscv64:4875/vnc.html?host=openeuler-riscv64&port=4875
+
+Press Ctrl-C to exit
+
+
++ curl http://localhost:4875/vnc.html
++ grep '<title>noVNC</title>'
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+curl: (7) Failed to connect to localhost port 4875 after 53 ms: Couldn't connect to server
++ CHECK_RESULT 1 0 0 'novnc_server listen Test --listen --vnc --web FAILED.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='novnc_server listen Test --listen --vnc --web FAILED.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'novnc_server listen Test --listen --vnc --web FAILED.'
++ LOG_ERROR 'novnc_server listen Test --listen --vnc --web FAILED.'
++ message='novnc_server listen Test --listen --vnc --web FAILED.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'novnc_server listen Test --listen --vnc --web FAILED.'
+WebSocket server settings:
+  - Listen on :4875
+  - Web server. Web root: /usr/share/novnc
+  - No SSL/TLS support (no cert file)
+  - proxying from :4875 to localhost:5910
+Wed Apr 26 12:10:56 2023 - ERROR - novnc_server listen Test --listen --vnc --web FAILED.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_novnc.sh line 65'
++ message='oe_test_novnc.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_novnc.sh line 65'
+Wed Apr 26 12:10:57 2023 - ERROR - oe_test_novnc.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
+++ lsof -i:4875 -t
++ kill -9 3118
++ SLEEP_WAIT 3
++ wait_time=3
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd '' --mode 1
++ novnc_server --listen 4875 --vnc localhost:5910 --record novnc_record
+/usr/bin/novnc_server: line 183:  3118 Killed                  ${WEBSOCKIFY} ${SSLONLY} --web ${WEB} ${CERT:+--cert ${CERT}} ${KEY:+--key ${KEY}} ${PORT} ${VNC_DEST} ${RECORD_ARG}
+
+Terminating WebSockets proxy (3118)
+/usr/bin/novnc_server: line 56: kill: (3118) - No such process
++ grep 'Recording to' novnc_log.txt
++ CHECK_RESULT 1 0 0 'novnc_server record Test --listen --vnc --record FAILED.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='novnc_server record Test --listen --vnc --record FAILED.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'novnc_server record Test --listen --vnc --record FAILED.'
++ LOG_ERROR 'novnc_server record Test --listen --vnc --record FAILED.'
++ message='novnc_server record Test --listen --vnc --record FAILED.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'novnc_server record Test --listen --vnc --record FAILED.'
+Wed Apr 26 12:11:02 2023 - ERROR - novnc_server record Test --listen --vnc --record FAILED.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_novnc.sh line 72'
++ message='oe_test_novnc.sh line 72'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_novnc.sh line 72'
+Wed Apr 26 12:11:03 2023 - ERROR - oe_test_novnc.sh line 72
++ '[' 0 -eq 1 ']'
++ return 0
+++ lsof -i:4875 -t
++ kill -9 3181
++ echo -e 'CN\nProvince\nCity\nOpenEuler\nsigQA\nlocalhost\nroot@localhost\n'
++ openssl req -x509 -nodes -newkey rsa:2048 -keyout self.pem -out self.pem -days 365
+.+..........+.....+.............+..............+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*......+.+......+.....+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*....+.....+...+.......+.........+.........+..+..........+.....+.........+.+...+........+....+.........+.....+.........+...+.......+..+.+........+.+...+.....................+...............+............+..+.+..+....+...+..+.+..............+...+.+.....+....+...+..+......+...............+...................+............+......+.................+......+.......+...+...........+......+....+.....+.+.............................+.........+.+.........+..+.........+..........+......+..+...+.........+......+..................+.......+..+................+.........+.....+.+..+...+.......+..+.............+..+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.+.......+........+.........+...+...+.........+.............+...+..+...+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*.+...+...+.....+......+...+.+......+.....+.+..+.+..+.........+......+....+......+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*...+.........+...............+...+...+.+...+.....+.+.....+....+.....+............+.........+.+.....+...............+.+........+......+...+..................+....+...+.....+.+..+...+....+.....+.+......+...........+.......+........+..........+...+.....+....+..+...+...+....+.........+..+.......+......+.....+......+.+..+.+..............+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:State or Province Name (full name) [Some-State]:Locality Name (eg, city) []:Organization Name (eg, company) [Internet Widgits Pty Ltd]:Organizational Unit Name (eg, section) []:Common Name (e.g. server FQDN or YOUR name) []:Email Address []:+ test -f self.pem
++ CHECK_RESULT 0 0 0 'openssl fail to create self.pem'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='openssl fail to create self.pem'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 3
++ wait_time=3
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd '' --mode 1
++ novnc_server --listen 4875 --vnc localhost:5910 --cert ./self.pem --key ./self.pem
+Using installed websockify at /usr/bin/websockify
+Starting webserver and WebSockets proxy on port 4875
+
+
+Navigate to this URL:
+
+    http://openeuler-riscv64:4875/vnc.html?host=openeuler-riscv64&port=4875
+
+Press Ctrl-C to exit
+
+
++ curl --cacert self.pem https://localhost:4875/vnc.html
++ grep '<title>noVNC</title>'
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+curl: (7) Failed to connect to localhost port 4875 after 34 ms: Couldn't connect to server
++ CHECK_RESULT 1 0 0 'novnc_server cert and key Test --listen --vnc --cert --key FAILED.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='novnc_server cert and key Test --listen --vnc --cert --key FAILED.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'novnc_server cert and key Test --listen --vnc --cert --key FAILED.'
++ LOG_ERROR 'novnc_server cert and key Test --listen --vnc --cert --key FAILED.'
++ message='novnc_server cert and key Test --listen --vnc --cert --key FAILED.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'novnc_server cert and key Test --listen --vnc --cert --key FAILED.'
+WebSocket server settings:
+  - Listen on :4875
+  - Web server. Web root: /usr/share/novnc
+  - SSL/TLS support
+  - proxying from :4875 to localhost:5910
+Wed Apr 26 12:11:13 2023 - ERROR - novnc_server cert and key Test --listen --vnc --cert --key FAILED.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_novnc.sh line 85'
++ message='oe_test_novnc.sh line 85'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_novnc.sh line 85'
+Wed Apr 26 12:11:14 2023 - ERROR - oe_test_novnc.sh line 85
++ '[' 0 -eq 1 ']'
++ return 0
+++ lsof -i:4875 -t
++ kill -9 3254
++ SLEEP_WAIT 3
++ wait_time=3
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd '' --mode 1
+/usr/bin/novnc_server: line 183:  3254 Killed                  ${WEBSOCKIFY} ${SSLONLY} --web ${WEB} ${CERT:+--cert ${CERT}} ${KEY:+--key ${KEY}} ${PORT} ${VNC_DEST} ${RECORD_ARG}
++ novnc_server --listen 4875 --vnc localhost:5910 --cert ./self.pem --key ./self.pem --ssl-only
+
+Terminating WebSockets proxy (3254)
+/usr/bin/novnc_server: line 56: kill: (3254) - No such process
+Using installed websockify at /usr/bin/websockify
+Starting webserver and WebSockets proxy on port 4875
+
+
+Navigate to this URL:
+
+    https://openeuler-riscv64:4875/vnc.html?host=openeuler-riscv64&port=4875
+
+Press Ctrl-C to exit
+
+
++ grep 'Recv failure'
++ curl http://localhost:4875/vnc.html
++ CHECK_RESULT 1 0 0 'novnc_server ssl-only Test --listen --vnc --cert --key --ssl-only FAILED.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='novnc_server ssl-only Test --listen --vnc --cert --key --ssl-only FAILED.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'novnc_server ssl-only Test --listen --vnc --cert --key --ssl-only FAILED.'
++ LOG_ERROR 'novnc_server ssl-only Test --listen --vnc --cert --key --ssl-only FAILED.'
++ message='novnc_server ssl-only Test --listen --vnc --cert --key --ssl-only FAILED.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'novnc_server ssl-only Test --listen --vnc --cert --key --ssl-only FAILED.'
+WebSocket server settings:
+  - Listen on :4875
+  - Web server. Web root: /usr/share/novnc
+  - SSL/TLS support
+  - Deny non-SSL/TLS connections
+  - proxying from :4875 to localhost:5910
+Wed Apr 26 12:11:19 2023 - ERROR - novnc_server ssl-only Test --listen --vnc --cert --key --ssl-only FAILED.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_novnc.sh line 92'
++ message='oe_test_novnc.sh line 92'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_novnc.sh line 92'
+Wed Apr 26 12:11:20 2023 - ERROR - oe_test_novnc.sh line 92
++ '[' 0 -eq 1 ']'
++ return 0
+++ lsof -i:4875 -t
++ kill -9 3318
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+/usr/bin/novnc_server: line 183:  3318 Killed                  ${WEBSOCKIFY} ${SSLONLY} --web ${WEB} ${CERT:+--cert ${CERT}} ${KEY:+--key ${KEY}} ${PORT} ${VNC_DEST} ${RECORD_ARG}
+
+Terminating WebSockets proxy (3318)
+/usr/bin/novnc_server: line 56: kill: (3318) - No such process
+Wed Apr 26 12:11:21 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 5
++ test 5 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed Apr 26 12:11:22 2023 - ERROR - failed to execute the case.
++ exit 5
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Apr 26 12:11:23 2023 - INFO  - Start to restore the test environment.
++ vncserver -kill :10
+
+WARNING: vncserver has been replaced by a systemd unit and is now considered deprecated and removed in upstream.
+Please read /usr/share/doc/tigervnc/HOWTO.md for more information.
+
+Can't find file /root/.vnc/openeuler-riscv64:10.pid
+You'll have to kill the Xvnc process manually
+
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpf0ui1zo9 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpf0ui1zo9
++ '[' 0 -ne 0 ']'
++ rm -rf self.pem novnc_log.txt
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed Apr 26 12:11:54 2023 - INFO  - End to restore the test environment.

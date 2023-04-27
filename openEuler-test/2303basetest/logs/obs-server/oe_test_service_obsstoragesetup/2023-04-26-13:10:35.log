@@ -1,0 +1,257 @@
++ source ./common.sh
+++ source ../common/common_lib.sh
++++ source /root/mugen/libs/locallibs/common_lib.sh
+++++ python3 --version
+++++ '[' 0 -eq 0 ']'
+++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ grep expect
++ rpm -qa
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed Apr 26 13:10:39 2023 - INFO  - Start environmental preparation.
++ env_pre
++ flag=false
+++ grep Enforcing
+++ getenforce
++ '[' ']'
++ DNF_INSTALL 'mariadb-server obs-api obs-server'
++ pkgs='mariadb-server obs-api obs-server'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'mariadb-server obs-api obs-server' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp4b5_7g8w
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp4b5_7g8w
++ mv /etc/my.cnf /etc/my.bak
++ systemctl start mariadb
++ echo 'create database api_production;'
++ mysql
++ systemctl start obssrcserver
++ sed -i 's/OBS_API_AUTOSETUP="no"/OBS_API_AUTOSETUP="yes"/g' /etc/sysconfig/obs-server
++ systemctl start obsapisetup
+Job for obsapisetup.service failed because the control process exited with error code.
+See "systemctl status obsapisetup.service" and "journalctl -xeu obsapisetup.service" for details.
++ touch /etc/rc.status
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Wed Apr 26 13:18:42 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Wed Apr 26 13:18:42 2023 - INFO  - Start testing...
++ test_execution obsstoragesetup.service
++ service=obsstoragesetup.service
+++ date '+%Y-%m-%d %T'
++ log_time='2023-04-26 13:18:42'
++ test_restart obsstoragesetup.service
++ service=obsstoragesetup.service
++ systemctl restart obsstoragesetup.service
++ CHECK_RESULT 0 0 0 'obsstoragesetup.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='obsstoragesetup.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status obsstoragesetup.service
++ grep 'Active: active'
+     Active: active (exited) since Wed 2023-04-26 13:18:43 CST; 6s ago
++ CHECK_RESULT 0 0 0 'obsstoragesetup.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='obsstoragesetup.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop obsstoragesetup.service
++ CHECK_RESULT 0 0 0 'obsstoragesetup.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='obsstoragesetup.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ grep 'Active: inactive'
++ systemctl status obsstoragesetup.service
+     Active: inactive (dead) since Wed 2023-04-26 13:18:50 CST; 6s ago
++ CHECK_RESULT 0 0 0 'obsstoragesetup.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='obsstoragesetup.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start obsstoragesetup.service
++ CHECK_RESULT 0 0 0 'obsstoragesetup.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='obsstoragesetup.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status obsstoragesetup.service
++ grep 'Active: active'
+     Active: active (exited) since Wed 2023-04-26 13:18:56 CST; 6s ago
++ CHECK_RESULT 0 0 0 'obsstoragesetup.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='obsstoragesetup.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled obsstoragesetup.service
++ service=obsstoragesetup.service
+++ systemctl is-enabled obsstoragesetup.service
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ systemctl enable obsstoragesetup.service
+++ grep 'Created symlink'
+++ awk '{print $3}'
++ symlink_file=/etc/systemd/system/multi-user.target.wants/obsstoragesetup.service
++ find /etc/systemd/system/multi-user.target.wants/obsstoragesetup.service
+/etc/systemd/system/multi-user.target.wants/obsstoragesetup.service
++ CHECK_RESULT 0 0 0 'obsstoragesetup.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='obsstoragesetup.service enable failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable obsstoragesetup.service
+Removed /etc/systemd/system/multi-user.target.wants/obsstoragesetup.service.
++ find /etc/systemd/system/multi-user.target.wants/obsstoragesetup.service
+find: ‘/etc/systemd/system/multi-user.target.wants/obsstoragesetup.service’: No such file or directory
++ CHECK_RESULT 1 0 1 'obsstoragesetup.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='obsstoragesetup.service disable failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ journalctl --since '2023-04-26 13:18:42' -u obsstoragesetup.service
++ grep -i 'fail\|error'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of obsstoragesetup.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of obsstoragesetup.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_reload obsstoragesetup.service
++ service=obsstoragesetup.service
++ systemctl start obsstoragesetup.service
++ systemctl reload obsstoragesetup.service
++ grep 'Job type reload is not applicable'
+Failed to reload obsstoragesetup.service: Job type reload is not applicable for unit obsstoragesetup.service.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit obsstoragesetup.service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit obsstoragesetup.service'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status obsstoragesetup.service
++ grep 'Active: active'
+     Active: active (exited) since Wed 2023-04-26 13:18:56 CST; 16s ago
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Wed Apr 26 13:19:14 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Apr 26 13:19:15 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Wed Apr 26 13:19:15 2023 - INFO  - start environment cleanup.
++ systemctl stop obsstoragesetup.service
++ rm -rf /etc/rc.status
++ env_post
++ systemctl stop mariadb obssrcserver obsapisetup
++ sed -i 's/OBS_API_AUTOSETUP="yes"/OBS_API_AUTOSETUP="no"/g' /etc/sysconfig/obs-server
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp4b5_7g8w ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp4b5_7g8w
++ '[' 0 -ne 0 ']'
++ mv /etc/my.bak /etc/my.cnf
++ rm -rf /var/lib/mysql/api_production /var/lib/mysql/aria_log.00000001 /var/lib/mysql/aria_log_control /var/lib/mysql/ib_buffer_pool /var/lib/mysql/ibdata1 /var/lib/mysql/ib_logfile0 /var/lib/mysql/multi-master.info /var/lib/mysql/mysql /var/lib/mysql/mysql_upgrade_info /var/lib/mysql/performance_schema
++ '[' false = true ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Wed Apr 26 13:20:42 2023 - INFO  - Finish environment cleanup!

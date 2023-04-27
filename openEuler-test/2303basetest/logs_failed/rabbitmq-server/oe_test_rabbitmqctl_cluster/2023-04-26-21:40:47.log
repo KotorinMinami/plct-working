@@ -1,0 +1,552 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed Apr 26 21:40:51 2023 - INFO  - Start environmental preparation.
++ cluster_name=mycluster
+++ hostname
++ host_name=openeuler-riscv64
++ name_host=rabbitmq
++ name_host_1=rabbitmq1
++ name_host_2=rabbitmq2
++ DNF_INSTALL rabbitmq-server
++ pkgs=rabbitmq-server
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs rabbitmq-server --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpz5vh3ert
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpz5vh3ert
++ which firewalld
+which: no firewalld in (/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin)
++ sed -i /rabbitmq/d /etc/hosts
++ hostname
++ grep -i rabbitmq
++ hostnamectl set-hostname rabbitmq1
++ export NODENAME=rabbit@rabbitmq1
++ NODENAME=rabbit@rabbitmq1
++ echo -e 10.198.114.2 rabbitmq1
++ echo -e '' rabbitmq2
++ systemctl restart rabbitmq-server
+++ cat /var/lib/rabbitmq/.erlang.cookie
++ cookie_erlang=VQDACBIDBJWKIHZHSZUG
++ SSH_CMD '
+    dnf install -y rabbitmq-server
+    which firewalld && systemctl stop firewalld
+    sed -i '\''/rabbitmq/d'\'' /etc/hosts
+    hostname | grep -i rabbitmq || hostnamectl set-hostname rabbitmq2
+    export NODENAME=rabbit@rabbitmq2
+    echo -e 10.198.114.2 rabbitmq1 >>/etc/hosts
+    echo -e  rabbitmq2 >>/etc/hosts
+    echo VQDACBIDBJWKIHZHSZUG > /var/lib/rabbitmq/.erlang.cookie
+    chown rabbitmq:rabbitmq /var/lib/rabbitmq/.erlang.cookie
+    chmod 400 /var/lib/rabbitmq/.erlang.cookie
+    systemctl  restart rabbitmq-server
+    ' '' '' ''
++ cmd='
+    dnf install -y rabbitmq-server
+    which firewalld && systemctl stop firewalld
+    sed -i '\''/rabbitmq/d'\'' /etc/hosts
+    hostname | grep -i rabbitmq || hostnamectl set-hostname rabbitmq2
+    export NODENAME=rabbit@rabbitmq2
+    echo -e 10.198.114.2 rabbitmq1 >>/etc/hosts
+    echo -e  rabbitmq2 >>/etc/hosts
+    echo VQDACBIDBJWKIHZHSZUG > /var/lib/rabbitmq/.erlang.cookie
+    chown rabbitmq:rabbitmq /var/lib/rabbitmq/.erlang.cookie
+    chmod 400 /var/lib/rabbitmq/.erlang.cookie
+    systemctl  restart rabbitmq-server
+    '
++ remoteip=
++ remotepasswd=
++ remoteuser=
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c '
+    dnf install -y rabbitmq-server
+    which firewalld && systemctl stop firewalld
+    sed -i '\''/rabbitmq/d'\'' /etc/hosts
+    hostname | grep -i rabbitmq || hostnamectl set-hostname rabbitmq2
+    export NODENAME=rabbit@rabbitmq2
+    echo -e 10.198.114.2 rabbitmq1 >>/etc/hosts
+    echo -e  rabbitmq2 >>/etc/hosts
+    echo VQDACBIDBJWKIHZHSZUG > /var/lib/rabbitmq/.erlang.cookie
+    chown rabbitmq:rabbitmq /var/lib/rabbitmq/.erlang.cookie
+    chmod 400 /var/lib/rabbitmq/.erlang.cookie
+    systemctl  restart rabbitmq-server
+    ' -i '' -u '' -p '' -t 300 -o 22
+Usage: sshcmd.sh -c "command" -i "remote machinet ip" [-u login_user] [-p login_password] [-o port] [-t timeout]+ ret=1
++ test 1 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:1'
++ message='Failed in remote CMD operation:1'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:1'
+Wed Apr 26 21:44:01 2023 - ERROR - Failed in remote CMD operation:1
++ return 1
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Wed Apr 26 21:44:02 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Wed Apr 26 21:44:02 2023 - INFO  - Start testing...
++ rabbitmqctl stop_app
+Stopping rabbit application on node rabbit@rabbitmq1 ...
++ grep 'Clustering node'
++ rabbitmqctl join_cluster rabbit@rabbitmq2
+Error: unable to perform an operation on node 'rabbit@rabbitmq2'. Please see diagnostics information and suggestions below.
+
+Most common reasons for this are:
+
+ * Target node is unreachable (e.g. due to hostname resolution, TCP connection or firewall issues)
+ * CLI tool fails to authenticate with the server (e.g. due to CLI tool's Erlang cookie not matching that of the server)
+ * Target node is not running
+
+In addition to the diagnostics info below:
+
+ * See the CLI, clustering and networking guides on https://rabbitmq.com/documentation.html to learn more
+ * Consult server logs on node rabbit@rabbitmq2
+ * If target node is configured to use long node names, don't forget to use --longnames with CLI tools
+
+DIAGNOSTICS
+===========
+
+attempted to contact: [rabbit@rabbitmq2]
+
+rabbit@rabbitmq2:
+  * unable to connect to epmd (port 4369) on rabbitmq2: nxdomain (non-existing domain)
+
+
+Current node details:
+ * node name: 'rabbitmqcli-944-rabbit@rabbitmq1'
+ * effective user's home directory: /var/lib/rabbitmq
+ * Erlang cookie hash: pEhfhX92s7P+XQ8jdnqBLg==
+
+Clustering node rabbit@rabbitmq1 with rabbit@rabbitmq2
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rabbitmqctl start_app
+Starting node rabbit@rabbitmq1 ...
++ rabbitmqctl cluster_status
++ grep rabbit@rabbitmq2
++ grep rabbit@rabbitmq1
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_rabbitmqctl_cluster.sh line 61'
++ message='oe_test_rabbitmqctl_cluster.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_rabbitmqctl_cluster.sh line 61'
+Wed Apr 26 21:45:37 2023 - ERROR - oe_test_rabbitmqctl_cluster.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ rabbitmqctl -n rabbit@rabbitmq2 stop_app
+Stopping rabbit application on node rabbit@rabbitmq2 ...
+Error: unable to perform an operation on node 'rabbit@rabbitmq2'. Please see diagnostics information and suggestions below.
+
+Most common reasons for this are:
+
+ * Target node is unreachable (e.g. due to hostname resolution, TCP connection or firewall issues)
+ * CLI tool fails to authenticate with the server (e.g. due to CLI tool's Erlang cookie not matching that of the server)
+ * Target node is not running
+
+In addition to the diagnostics info below:
+
+ * See the CLI, clustering and networking guides on https://rabbitmq.com/documentation.html to learn more
+ * Consult server logs on node rabbit@rabbitmq2
+ * If target node is configured to use long node names, don't forget to use --longnames with CLI tools
+
+DIAGNOSTICS
+===========
+
+attempted to contact: [rabbit@rabbitmq2]
+
+rabbit@rabbitmq2:
+  * unable to connect to epmd (port 4369) on rabbitmq2: nxdomain (non-existing domain)
+
+
+Current node details:
+ * node name: 'rabbitmqcli-583-rabbit@rabbitmq1'
+ * effective user's home directory: /var/lib/rabbitmq
+ * Erlang cookie hash: pEhfhX92s7P+XQ8jdnqBLg==
+
++ grep 'Removing node'
++ rabbitmqctl forget_cluster_node rabbit@rabbitmq2
+Error:
+{:not_a_cluster_node, 'The node selected is not in the cluster.'}
+Removing node rabbit@rabbitmq2 from the cluster
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rabbitmqctl -n rabbit@rabbitmq2 reset
+Error: unable to perform an operation on node 'rabbit@rabbitmq2'. Please see diagnostics information and suggestions below.
+
+Most common reasons for this are:
+
+ * Target node is unreachable (e.g. due to hostname resolution, TCP connection or firewall issues)
+ * CLI tool fails to authenticate with the server (e.g. due to CLI tool's Erlang cookie not matching that of the server)
+ * Target node is not running
+
+In addition to the diagnostics info below:
+
+ * See the CLI, clustering and networking guides on https://rabbitmq.com/documentation.html to learn more
+ * Consult server logs on node rabbit@rabbitmq2
+ * If target node is configured to use long node names, don't forget to use --longnames with CLI tools
+
+DIAGNOSTICS
+===========
+
+attempted to contact: [rabbit@rabbitmq2]
+
+rabbit@rabbitmq2:
+  * unable to connect to epmd (port 4369) on rabbitmq2: nxdomain (non-existing domain)
+
+
+Current node details:
+ * node name: 'rabbitmqcli-220-rabbit@rabbitmq1'
+ * effective user's home directory: /var/lib/rabbitmq
+ * Erlang cookie hash: pEhfhX92s7P+XQ8jdnqBLg==
+
++ rabbitmqctl -n rabbit@rabbitmq2 start_app
+Starting node rabbit@rabbitmq2 ...
+Error: unable to perform an operation on node 'rabbit@rabbitmq2'. Please see diagnostics information and suggestions below.
+
+Most common reasons for this are:
+
+ * Target node is unreachable (e.g. due to hostname resolution, TCP connection or firewall issues)
+ * CLI tool fails to authenticate with the server (e.g. due to CLI tool's Erlang cookie not matching that of the server)
+ * Target node is not running
+
+In addition to the diagnostics info below:
+
+ * See the CLI, clustering and networking guides on https://rabbitmq.com/documentation.html to learn more
+ * Consult server logs on node rabbit@rabbitmq2
+ * If target node is configured to use long node names, don't forget to use --longnames with CLI tools
+
+DIAGNOSTICS
+===========
+
+attempted to contact: [rabbit@rabbitmq2]
+
+rabbit@rabbitmq2:
+  * unable to connect to epmd (port 4369) on rabbitmq2: nxdomain (non-existing domain)
+
+
+Current node details:
+ * node name: 'rabbitmqcli-850-rabbit@rabbitmq1'
+ * effective user's home directory: /var/lib/rabbitmq
+ * Erlang cookie hash: pEhfhX92s7P+XQ8jdnqBLg==
+
++ grep rabbit@rabbitmq2
++ rabbitmqctl cluster_status
++ grep rabbit@rabbitmq1
++ CHECK_RESULT 1 1 0
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ rabbitmqctl stop_app
+Stopping rabbit application on node rabbit@rabbitmq1 ...
++ rabbitmqctl join_cluster rabbit@rabbitmq2 --ram
++ grep 'Clustering node'
+Error: unable to perform an operation on node 'rabbit@rabbitmq2'. Please see diagnostics information and suggestions below.
+
+Most common reasons for this are:
+
+ * Target node is unreachable (e.g. due to hostname resolution, TCP connection or firewall issues)
+ * CLI tool fails to authenticate with the server (e.g. due to CLI tool's Erlang cookie not matching that of the server)
+ * Target node is not running
+
+In addition to the diagnostics info below:
+
+ * See the CLI, clustering and networking guides on https://rabbitmq.com/documentation.html to learn more
+ * Consult server logs on node rabbit@rabbitmq2
+ * If target node is configured to use long node names, don't forget to use --longnames with CLI tools
+
+DIAGNOSTICS
+===========
+
+attempted to contact: [rabbit@rabbitmq2]
+
+rabbit@rabbitmq2:
+  * unable to connect to epmd (port 4369) on rabbitmq2: nxdomain (non-existing domain)
+
+
+Current node details:
+ * node name: 'rabbitmqcli-359-rabbit@rabbitmq1'
+ * effective user's home directory: /var/lib/rabbitmq
+ * Erlang cookie hash: pEhfhX92s7P+XQ8jdnqBLg==
+
+Clustering node rabbit@rabbitmq1 with rabbit@rabbitmq2
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rabbitmqctl start_app
+Starting node rabbit@rabbitmq1 ...
++ rabbitmqctl cluster_status
++ grep rabbit@rabbitmq2
++ grep rabbit@rabbitmq1
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_rabbitmqctl_cluster.sh line 74'
++ message='oe_test_rabbitmqctl_cluster.sh line 74'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_rabbitmqctl_cluster.sh line 74'
+Wed Apr 26 21:50:17 2023 - ERROR - oe_test_rabbitmqctl_cluster.sh line 74
++ '[' 0 -eq 1 ']'
++ return 0
++ rabbitmqctl stop_app
+Stopping rabbit application on node rabbit@rabbitmq1 ...
++ rabbitmqctl change_cluster_node_type disc
++ grep 'disc node'
+Turning rabbit@rabbitmq1 into a disc node
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rabbitmqctl start_app
+Starting node rabbit@rabbitmq1 ...
++ rabbitmqctl cluster_status
++ grep disc
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_rabbitmqctl_cluster.sh line 80'
++ message='oe_test_rabbitmqctl_cluster.sh line 80'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_rabbitmqctl_cluster.sh line 80'
+Wed Apr 26 21:51:01 2023 - ERROR - oe_test_rabbitmqctl_cluster.sh line 80
++ '[' 0 -eq 1 ']'
++ return 0
++ systemctl restart rabbitmq-server
++ rabbitmqctl stop_app
+Stopping rabbit application on node rabbit@rabbitmq1 ...
++ grep seed
++ rabbitmqctl update_cluster_nodes rabbit@rabbitmq2
+Error: unable to perform an operation on node 'rabbit@rabbitmq2'. Please see diagnostics information and suggestions below.
+
+Most common reasons for this are:
+
+ * Target node is unreachable (e.g. due to hostname resolution, TCP connection or firewall issues)
+ * CLI tool fails to authenticate with the server (e.g. due to CLI tool's Erlang cookie not matching that of the server)
+ * Target node is not running
+
+In addition to the diagnostics info below:
+
+ * See the CLI, clustering and networking guides on https://rabbitmq.com/documentation.html to learn more
+ * Consult server logs on node rabbit@rabbitmq2
+ * If target node is configured to use long node names, don't forget to use --longnames with CLI tools
+
+DIAGNOSTICS
+===========
+
+attempted to contact: [rabbit@rabbitmq2]
+
+rabbit@rabbitmq2:
+  * unable to connect to epmd (port 4369) on rabbitmq2: nxdomain (non-existing domain)
+
+
+Current node details:
+ * node name: 'rabbitmqcli-378-rabbit@rabbitmq1'
+ * effective user's home directory: /var/lib/rabbitmq
+ * Erlang cookie hash: pEhfhX92s7P+XQ8jdnqBLg==
+
+Will seed rabbit@rabbitmq1 from rabbit@rabbitmq2 on next start
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rabbitmqctl force_boot
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rabbitmqctl start_app
++ grep 'Starting node'
+Starting node rabbit@rabbitmq1 ...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep mycluster
++ rabbitmqctl set_cluster_name mycluster
+Setting cluster name to mycluster ...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Wed Apr 26 21:54:24 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z 3
++ test 3 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed Apr 26 21:54:25 2023 - ERROR - failed to execute the case.
++ exit 3
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Wed Apr 26 21:54:26 2023 - INFO  - start environment cleanup.
++ systemctl stop rabbitmq-server
+++ pgrep -f erlang
++ kill -9 ''
+oe_test_rabbitmqctl_cluster.sh: line 97: kill: `': not a pid or valid job spec
++ sed -i /rabbitmq/d /etc/hosts
++ hostnamectl set-hostname openeuler-riscv64
+++ pgrep -u rabbitmq
++ kill -9
+kill: usage: kill [-s sigspec | -n signum | -sigspec] pid | jobspec ... or kill -l [sigspec]
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpz5vh3ert ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpz5vh3ert
++ '[' 0 -ne 0 ']'
++ rm -rf /var/lib/rabbitmq/ /var/log/rabbitmq
++ which firewalld
+which: no firewalld in (/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin)
++ SSH_CMD '
+    systemctl  stop rabbitmq-server
+    sed -i '\''/rabbitmq/d'\'' /etc/hosts
+    hostnamectl set-hostname '\''openeuler-riscv64'\''
+    dnf remove -y rabbitmq-server
+    rm -rf /var/lib/rabbitmq/ /var/log/rabbitmq
+    which firewalld && systemctl start firewalld
+    ' '' '' ''
++ cmd='
+    systemctl  stop rabbitmq-server
+    sed -i '\''/rabbitmq/d'\'' /etc/hosts
+    hostnamectl set-hostname '\''openeuler-riscv64'\''
+    dnf remove -y rabbitmq-server
+    rm -rf /var/lib/rabbitmq/ /var/log/rabbitmq
+    which firewalld && systemctl start firewalld
+    '
++ remoteip=
++ remotepasswd=
++ remoteuser=
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c '
+    systemctl  stop rabbitmq-server
+    sed -i '\''/rabbitmq/d'\'' /etc/hosts
+    hostnamectl set-hostname '\''openeuler-riscv64'\''
+    dnf remove -y rabbitmq-server
+    rm -rf /var/lib/rabbitmq/ /var/log/rabbitmq
+    which firewalld && systemctl start firewalld
+    ' -i '' -u '' -p '' -t 300 -o 22
+Usage: sshcmd.sh -c "command" -i "remote machinet ip" [-u login_user] [-p login_password] [-o port] [-t timeout]+ ret=1
++ test 1 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:1'
++ message='Failed in remote CMD operation:1'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:1'
+Wed Apr 26 21:55:29 2023 - ERROR - Failed in remote CMD operation:1
++ return 1
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Wed Apr 26 21:55:30 2023 - INFO  - Finish environment cleanup!

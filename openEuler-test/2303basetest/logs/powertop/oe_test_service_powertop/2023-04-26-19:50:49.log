@@ -1,0 +1,95 @@
++ source ../common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n '' ']'
++ trap POST_TEST_DEFAULT EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed Apr 26 19:51:01 2023 - INFO  - Start environmental preparation.
++ service=powertop.service
++ status='inactive (dead)'
++ systemctl start powertop.service
+Failed to start powertop.service: Unit powertop.service not found.
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Wed Apr 26 19:51:02 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Wed Apr 26 19:51:03 2023 - INFO  - Start testing...
++ systemctl status powertop.service
++ grep Active
++ grep -v 'inactive (dead)'
+Unit powertop.service could not be found.
++ CHECK_RESULT 1 0 1 'There is an error for the status of powertop.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error for the status of powertop.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_enabled powertop.service
++ service=powertop.service
+++ systemctl is-enabled powertop.service
+Failed to get unit file state for powertop.service: No such file or directory
++ state=
++ '[' '' == enabled ']'
++ '[' '' == disabled ']'
++ '[' '' == masked ']'
++ '[' '' == static ']'
++ LOG_INFO 'Unit is indirect, ignoring.'
++ message='Unit is indirect, ignoring.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Unit is indirect, ignoring.'
+Wed Apr 26 19:51:04 2023 - INFO  - Unit is indirect, ignoring.
++ journalctl -u powertop.service
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ grep -v 'modprobe cpufreq_stats failedLoaded'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of powertop.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of powertop.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Wed Apr 26 19:51:05 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Apr 26 19:51:06 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ POST_TEST_DEFAULT
++ LOG_INFO 'oe_test_service_powertop.sh post_test'
++ message='oe_test_service_powertop.sh post_test'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'oe_test_service_powertop.sh post_test'
+Wed Apr 26 19:51:07 2023 - INFO  - oe_test_service_powertop.sh post_test

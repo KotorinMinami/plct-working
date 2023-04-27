@@ -1,0 +1,304 @@
++ source common/common_pcp-system-tools.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Apr 26 19:31:08 2023 - INFO  - Start to prepare the test environment.
++ deploy_env
++ DNF_INSTALL 'pcp pcp-system-tools'
++ pkgs='pcp pcp-system-tools'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'pcp pcp-system-tools' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpe7kfk2ts
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpe7kfk2ts
++ systemctl enable pmcd
++ systemctl start pmcd
++ systemctl enable pmlogger
++ systemctl start pmlogger
++ SLEEP_WAIT 20
++ wait_time=20
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 20 --cmd '' --mode 1
+++ hostname
++ host_name=openeuler-riscv64
+++ awk -F - '{print $2}'
+++ rpm -qa pcp
++ pcp_version=5.3.7
+++ grep 'primary logger:'
+++ awk -F: '{print $NF}'
+++ pcp -h openeuler-riscv64
++ archive_data=' /var/log/pcp/pmlogger/openeuler-riscv64/20230426.19.33'
++ OLD_PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
++ export PATH=/usr/libexec/pcp/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
++ PATH=/usr/libexec/pcp/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Wed Apr 26 19:35:44 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Apr 26 19:35:45 2023 - INFO  - Start to run test.
++ SLEEP_WAIT 60
++ wait_time=60
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 60 --cmd '' --mode 1
++ pcp-mpstat --version
++ grep 5.3.7
+pcp-mpstat version 5.3.7
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pcp-mpstat -a /var/log/pcp/pmlogger/openeuler-riscv64/20230426.19.33 -s 10 -t 2
++ grep CPU
+Traceback (most recent call last):
+  File "/usr/libexec/pcp/bin/pcp-mpstat", line 653, in <module>
+    sts = manager.run()
+  File "/usr/lib64/python3.10/site-packages/pcp/pmcc.py", line 687, in run
+    self._printer.report(self)
+  File "/usr/libexec/pcp/bin/pcp-mpstat", line 606, in report
+    self.print_machine_info(group, manager)
+  File "/usr/libexec/pcp/bin/pcp-mpstat", line 588, in print_machine_info
+    header_string += group['kernel.uname.sysname'].netValues[0][2] + '  '
+IndexError: list index out of range
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pcp-mpstat_pcp-numastat.sh line 36'
++ message='oe_test_pcp-mpstat_pcp-numastat.sh line 36'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pcp-mpstat_pcp-numastat.sh line 36'
+Wed Apr 26 19:36:51 2023 - ERROR - oe_test_pcp-mpstat_pcp-numastat.sh line 36
++ '[' 0 -eq 1 ']'
++ return 0
++ pcp-mpstat -a /var/log/pcp/pmlogger/openeuler-riscv64/20230426.19.33 -u -s 10
++ grep %usr
+Traceback (most recent call last):
+  File "/usr/libexec/pcp/bin/pcp-mpstat", line 653, in <module>
+    sts = manager.run()
+  File "/usr/lib64/python3.10/site-packages/pcp/pmcc.py", line 687, in run
+    self._printer.report(self)
+  File "/usr/libexec/pcp/bin/pcp-mpstat", line 606, in report
+    self.print_machine_info(group, manager)
+  File "/usr/libexec/pcp/bin/pcp-mpstat", line 588, in print_machine_info
+    header_string += group['kernel.uname.sysname'].netValues[0][2] + '  '
+IndexError: list index out of range
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pcp-mpstat_pcp-numastat.sh line 38'
++ message='oe_test_pcp-mpstat_pcp-numastat.sh line 38'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pcp-mpstat_pcp-numastat.sh line 38'
+Wed Apr 26 19:36:54 2023 - ERROR - oe_test_pcp-mpstat_pcp-numastat.sh line 38
++ '[' 0 -eq 1 ']'
++ return 0
++ pcp-mpstat -a /var/log/pcp/pmlogger/openeuler-riscv64/20230426.19.33 -A -s 10
++ grep %nice
+Traceback (most recent call last):
+  File "/usr/libexec/pcp/bin/pcp-mpstat", line 653, in <module>
+    sts = manager.run()
+  File "/usr/lib64/python3.10/site-packages/pcp/pmcc.py", line 687, in run
+    self._printer.report(self)
+  File "/usr/libexec/pcp/bin/pcp-mpstat", line 606, in report
+    self.print_machine_info(group, manager)
+  File "/usr/libexec/pcp/bin/pcp-mpstat", line 588, in print_machine_info
+    header_string += group['kernel.uname.sysname'].netValues[0][2] + '  '
+IndexError: list index out of range
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pcp-mpstat_pcp-numastat.sh line 40'
++ message='oe_test_pcp-mpstat_pcp-numastat.sh line 40'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pcp-mpstat_pcp-numastat.sh line 40'
+Wed Apr 26 19:36:57 2023 - ERROR - oe_test_pcp-mpstat_pcp-numastat.sh line 40
++ '[' 0 -eq 1 ']'
++ return 0
++ pcp-mpstat -a /var/log/pcp/pmlogger/openeuler-riscv64/20230426.19.33 -P ON -s 10
++ grep %sys
+Traceback (most recent call last):
+  File "/usr/libexec/pcp/bin/pcp-mpstat", line 653, in <module>
+    sts = manager.run()
+  File "/usr/lib64/python3.10/site-packages/pcp/pmcc.py", line 687, in run
+    self._printer.report(self)
+  File "/usr/libexec/pcp/bin/pcp-mpstat", line 606, in report
+    self.print_machine_info(group, manager)
+  File "/usr/libexec/pcp/bin/pcp-mpstat", line 588, in print_machine_info
+    header_string += group['kernel.uname.sysname'].netValues[0][2] + '  '
+IndexError: list index out of range
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pcp-mpstat_pcp-numastat.sh line 42'
++ message='oe_test_pcp-mpstat_pcp-numastat.sh line 42'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pcp-mpstat_pcp-numastat.sh line 42'
+Wed Apr 26 19:37:00 2023 - ERROR - oe_test_pcp-mpstat_pcp-numastat.sh line 42
++ '[' 0 -eq 1 ']'
++ return 0
++ pcp-mpstat -a /var/log/pcp/pmlogger/openeuler-riscv64/20230426.19.33 -I SUM -s 10
++ grep intr/s
+Traceback (most recent call last):
+  File "/usr/libexec/pcp/bin/pcp-mpstat", line 653, in <module>
+    sts = manager.run()
+  File "/usr/lib64/python3.10/site-packages/pcp/pmcc.py", line 687, in run
+    self._printer.report(self)
+  File "/usr/libexec/pcp/bin/pcp-mpstat", line 606, in report
+    self.print_machine_info(group, manager)
+  File "/usr/libexec/pcp/bin/pcp-mpstat", line 588, in print_machine_info
+    header_string += group['kernel.uname.sysname'].netValues[0][2] + '  '
+IndexError: list index out of range
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pcp-mpstat_pcp-numastat.sh line 44'
++ message='oe_test_pcp-mpstat_pcp-numastat.sh line 44'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pcp-mpstat_pcp-numastat.sh line 44'
+Wed Apr 26 19:37:03 2023 - ERROR - oe_test_pcp-mpstat_pcp-numastat.sh line 44
++ '[' 0 -eq 1 ']'
++ return 0
++ grep Usage
++ pcp-numastat --help
+Usage: pcp-numastat [options]
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pcp-numastat --version
++ grep 5.3.7
+pcp-numastat version 5.3.7
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pcp-numastat -w 3
++ grep node0
+                           node0
+                           node0
+                           node0
+                           node0
+                           node0
+                           node0
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed Apr 26 19:37:09 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 5
++ test 5 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed Apr 26 19:37:10 2023 - ERROR - failed to execute the case.
++ exit 5
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Apr 26 19:37:11 2023 - INFO  - Start to restore the test environment.
++ clear_env
++ systemctl stop pmcd
++ systemctl stop pmlogger
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpe7kfk2ts ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpe7kfk2ts
++ '[' 0 -ne 0 ']'
++ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed Apr 26 19:39:03 2023 - INFO  - End to restore the test environment.

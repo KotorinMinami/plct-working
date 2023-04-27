@@ -1,0 +1,252 @@
++ source ../common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ grep expect
++ rpm -qa
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed Apr 26 11:42:38 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL nghttp2
++ pkgs=nghttp2
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs nghttp2 --node 1 --tempfile ''
++ tmpfile2=/tmp/tmphsaru_7z
++ '[' -z '' ']'
++ tmpfile=/tmp/tmphsaru_7z
++ mkdir /etc/nghttpx/
++ echo 'frontend=0.0.0.0,4433;no-tls
+backend=127.0.0.1,3128
+http2-proxy=yes
+workers=2
+no-ocsp=yes'
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Wed Apr 26 11:43:22 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Wed Apr 26 11:43:23 2023 - INFO  - Start testing...
++ test_execution nghttpx.service
++ service=nghttpx.service
+++ date '+%Y-%m-%d %T'
++ log_time='2023-04-26 11:43:23'
++ test_restart nghttpx.service
++ service=nghttpx.service
++ systemctl restart nghttpx.service
++ CHECK_RESULT 0 0 0 'nghttpx.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nghttpx.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status nghttpx.service
++ grep 'Active: active'
+     Active: active (running) since Wed 2023-04-26 11:43:24 CST; 6s ago
++ CHECK_RESULT 0 0 0 'nghttpx.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nghttpx.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop nghttpx.service
++ CHECK_RESULT 0 0 0 'nghttpx.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nghttpx.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ grep 'Active: inactive'
++ systemctl status nghttpx.service
+     Active: inactive (dead)
++ CHECK_RESULT 0 0 0 'nghttpx.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nghttpx.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start nghttpx.service
++ CHECK_RESULT 0 0 0 'nghttpx.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nghttpx.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status nghttpx.service
++ grep 'Active: active'
+     Active: active (running) since Wed 2023-04-26 11:43:38 CST; 6s ago
++ CHECK_RESULT 0 0 0 'nghttpx.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nghttpx.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled nghttpx.service
++ service=nghttpx.service
+++ systemctl is-enabled nghttpx.service
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ grep 'Created symlink'
+++ awk '{print $3}'
+++ systemctl enable nghttpx.service
++ symlink_file=/etc/systemd/system/multi-user.target.wants/nghttpx.service
++ find /etc/systemd/system/multi-user.target.wants/nghttpx.service
+/etc/systemd/system/multi-user.target.wants/nghttpx.service
++ CHECK_RESULT 0 0 0 'nghttpx.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nghttpx.service enable failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable nghttpx.service
+Removed /etc/systemd/system/multi-user.target.wants/nghttpx.service.
++ find /etc/systemd/system/multi-user.target.wants/nghttpx.service
+find: ‘/etc/systemd/system/multi-user.target.wants/nghttpx.service’: No such file or directory
++ CHECK_RESULT 1 0 1 'nghttpx.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='nghttpx.service disable failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ journalctl --since '2023-04-26 11:43:23' -u nghttpx.service
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of nghttpx.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of nghttpx.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ systemctl start nghttpx.service
++ sed -i 's\ExecStart=/usr/bin/nghttpx\ExecStart=/usr/bin/nghttpx -D\g' /usr/lib/systemd/system/nghttpx.service
++ systemctl daemon-reload
++ systemctl reload nghttpx.service
++ CHECK_RESULT 0 0 0 'nghttpx.service reload failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nghttpx.service reload failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'Active: active'
++ systemctl status nghttpx.service
+     Active: active (running) since Wed 2023-04-26 11:43:38 CST; 21s ago
++ CHECK_RESULT 0 0 0 'nghttpx.service reload causes the service status to change'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nghttpx.service reload causes the service status to change'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Wed Apr 26 11:44:00 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Apr 26 11:44:01 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Wed Apr 26 11:44:02 2023 - INFO  - start environment cleanup.
++ sed -i 's\ExecStart=/usr/bin/nghttpx -D\ExecStart=/usr/bin/nghttpx\g' /usr/lib/systemd/system/nghttpx.service
++ systemctl daemon-reload
++ systemctl reload nghttpx.service
++ systemctl stop nghttpx.service
++ rm -rf /etc/nghttpx/
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmphsaru_7z ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmphsaru_7z
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Wed Apr 26 11:44:25 2023 - INFO  - Finish environment cleanup!

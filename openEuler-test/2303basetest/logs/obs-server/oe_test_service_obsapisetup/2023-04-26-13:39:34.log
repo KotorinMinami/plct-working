@@ -1,0 +1,190 @@
++ source ./common.sh
+++ source ../common/common_lib.sh
++++ source /root/mugen/libs/locallibs/common_lib.sh
+++++ python3 --version
+++++ '[' 0 -eq 0 ']'
+++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed Apr 26 13:39:38 2023 - INFO  - Start environmental preparation.
++ env_pre
++ flag=false
+++ getenforce
+++ grep Enforcing
++ '[' ']'
++ DNF_INSTALL 'mariadb-server obs-api obs-server'
++ pkgs='mariadb-server obs-api obs-server'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'mariadb-server obs-api obs-server' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpx16qcyuw
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpx16qcyuw
++ mv /etc/my.cnf /etc/my.bak
++ systemctl start mariadb
++ mysql
++ echo 'create database api_production;'
++ systemctl start obssrcserver
++ sed -i 's/OBS_API_AUTOSETUP="no"/OBS_API_AUTOSETUP="yes"/g' /etc/sysconfig/obs-server
++ systemctl start obsapisetup
+Job for obsapisetup.service failed because the control process exited with error code.
+See "systemctl status obsapisetup.service" and "journalctl -xeu obsapisetup.service" for details.
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Wed Apr 26 13:48:03 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Wed Apr 26 13:48:04 2023 - INFO  - Start testing...
++ test_oneshot obsapisetup.service 'inactive (dead)'
++ service=obsapisetup.service
++ status='inactive (dead)'
++ grep Active
++ grep -v 'inactive (dead)'
++ systemctl status obsapisetup.service
+     Active: failed (Result: exit-code) since Wed 2023-04-26 13:48:02 CST; 2s ago
++ CHECK_RESULT 0 0 1 'There is an error for the status of obsapisetup.service'
++ actual_result=0
++ expect_result=0
++ mode=1
++ error_log='There is an error for the status of obsapisetup.service'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 1 -eq 0 ']'
++ test 0x == 0x
++ test -n 'There is an error for the status of obsapisetup.service'
++ LOG_ERROR 'There is an error for the status of obsapisetup.service'
++ message='There is an error for the status of obsapisetup.service'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'There is an error for the status of obsapisetup.service'
+Wed Apr 26 13:48:06 2023 - ERROR - There is an error for the status of obsapisetup.service
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 54'
++ message='../common/common_lib.sh line 54'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 54'
+Wed Apr 26 13:48:07 2023 - ERROR - ../common/common_lib.sh line 54
++ '[' 0 -eq 1 ']'
++ return 0
++ test_enabled obsapisetup.service
++ service=obsapisetup.service
+++ systemctl is-enabled obsapisetup.service
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ grep 'Created symlink'
+++ systemctl enable obsapisetup.service
+++ awk '{print $3}'
++ symlink_file=/etc/systemd/system/multi-user.target.wants/obsapisetup.service
++ find /etc/systemd/system/multi-user.target.wants/obsapisetup.service
+/etc/systemd/system/multi-user.target.wants/obsapisetup.service
++ CHECK_RESULT 0 0 0 'obsapisetup.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='obsapisetup.service enable failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable obsapisetup.service
+Removed /etc/systemd/system/multi-user.target.wants/obsapisetup.service.
++ find /etc/systemd/system/multi-user.target.wants/obsapisetup.service
+find: ‘/etc/systemd/system/multi-user.target.wants/obsapisetup.service’: No such file or directory
++ CHECK_RESULT 1 0 1 'obsapisetup.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='obsapisetup.service disable failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ journalctl -u obsapisetup.service
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
+Apr 26 13:18:40 openeuler-riscv64 setup-appliance.sh[29560]: NameError: uninitialized constant Uglifier
+Apr 26 13:18:41 openeuler-riscv64 setup-appliance.sh[29773]: Command db:create FAILED
+Apr 26 13:18:41 openeuler-riscv64 systemd[1]: obsapisetup.service: Main process exited, code=exited, status=1/FAILURE
+Apr 26 13:18:41 openeuler-riscv64 systemd[1]: obsapisetup.service: Failed with result 'exit-code'.
+Apr 26 13:18:41 openeuler-riscv64 systemd[1]: Failed to start OBS API Setup.
+Apr 26 13:48:02 openeuler-riscv64 setup-appliance.sh[37312]: NameError: uninitialized constant Uglifier
+Apr 26 13:48:02 openeuler-riscv64 setup-appliance.sh[37507]: Command db:create FAILED
+Apr 26 13:48:02 openeuler-riscv64 systemd[1]: obsapisetup.service: Main process exited, code=exited, status=1/FAILURE
+Apr 26 13:48:02 openeuler-riscv64 systemd[1]: obsapisetup.service: Failed with result 'exit-code'.
+Apr 26 13:48:02 openeuler-riscv64 systemd[1]: Failed to start OBS API Setup.
++ CHECK_RESULT 0 0 1 'There is an error message for the log of obsapisetup.service'
++ actual_result=0
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of obsapisetup.service'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 1 -eq 0 ']'
++ test 0x == 0x
++ test -n 'There is an error message for the log of obsapisetup.service'
++ LOG_ERROR 'There is an error message for the log of obsapisetup.service'
++ message='There is an error message for the log of obsapisetup.service'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'There is an error message for the log of obsapisetup.service'
+Wed Apr 26 13:48:20 2023 - ERROR - There is an error message for the log of obsapisetup.service
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 57'
++ message='../common/common_lib.sh line 57'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 57'
+Wed Apr 26 13:48:20 2023 - ERROR - ../common/common_lib.sh line 57
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Wed Apr 26 13:48:21 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z 2
++ test 2 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed Apr 26 13:48:22 2023 - ERROR - failed to execute the case.
++ exit 2
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Wed Apr 26 13:48:23 2023 - INFO  - start environment cleanup.
++ env_post
++ systemctl stop mariadb obssrcserver obsapisetup
++ sed -i 's/OBS_API_AUTOSETUP="yes"/OBS_API_AUTOSETUP="no"/g' /etc/sysconfig/obs-server
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpx16qcyuw ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpx16qcyuw
++ '[' 0 -ne 0 ']'
++ mv /etc/my.bak /etc/my.cnf
++ rm -rf /var/lib/mysql/api_production /var/lib/mysql/aria_log.00000001 /var/lib/mysql/aria_log_control /var/lib/mysql/ib_buffer_pool /var/lib/mysql/ibdata1 /var/lib/mysql/ib_logfile0 /var/lib/mysql/multi-master.info /var/lib/mysql/mysql /var/lib/mysql/mysql_upgrade_info /var/lib/mysql/performance_schema
++ '[' false = true ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Wed Apr 26 13:49:55 2023 - INFO  - Finish environment cleanup!

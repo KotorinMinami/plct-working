@@ -1,0 +1,120 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu Apr 27 00:22:54 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL rrdtool
++ pkgs=rrdtool
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs rrdtool --node 1 --tempfile ''
++ tmpfile2=/tmp/tmptb_xkrz6
++ '[' -z '' ']'
++ tmpfile=/tmp/tmptb_xkrz6
++ rrdtool create ./common/test.rrd DS:probe1-temp:GAUGE:600:55:95 RRA:MIN:0.5:12:1440
++ rrdtool dump ./common/test.rrd ./common/test.xml
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu Apr 27 00:23:43 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Apr 27 00:23:44 2023 - INFO  - Start to run test.
++ rrdtool restore ./common/test.xml ./common/test1.rrd --range-check
++ test -f ./common/test1.rrd
++ CHECK_RESULT 0 0 0 'rrdtool restore: faild to test option --range-check'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rrdtool restore: faild to test option --range-check'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rrdtool restore ./common/test.xml ./common/test2.rrd -r
++ test -f ./common/test2.rrd
++ CHECK_RESULT 0 0 0 'rrdtool restore: faild to test option -r'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rrdtool restore: faild to test option -r'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rrdtool restore ./common/test.xml ./common/test1.rrd --force-overwrite
++ CHECK_RESULT 0 0 0 'rrdtool restore: faild to test option --force-overwrite'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rrdtool restore: faild to test option --force-overwrite'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rrdtool restore ./common/test.xml ./common/test1.rrd -f
++ CHECK_RESULT 0 0 0 'rrdtool restore: faild to test option -f'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rrdtool restore: faild to test option -f'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu Apr 27 00:23:46 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Apr 27 00:23:47 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu Apr 27 00:23:48 2023 - INFO  - Start to restore the test environment.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmptb_xkrz6 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmptb_xkrz6
++ '[' 0 -ne 0 ']'
++ rm -rf common/test1.rrd common/test2.rrd common/test.rrd common/test.xml
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu Apr 27 00:24:10 2023 - INFO  - End to restore the test environment.

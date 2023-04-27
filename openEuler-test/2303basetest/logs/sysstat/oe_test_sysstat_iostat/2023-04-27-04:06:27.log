@@ -1,0 +1,144 @@
++ '﻿#!/usr/bin/bash'
+oe_test_sysstat_iostat.sh: line 1: ﻿#!/usr/bin/bash: No such file or directory
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu Apr 27 04:06:31 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL sysstat
++ pkgs=sysstat
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs sysstat --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpkce4l6u9
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpkce4l6u9
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu Apr 27 04:07:18 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Thu Apr 27 04:07:19 2023 - INFO  - Start testing...
++ iostat
++ grep avg-cpu
+avg-cpu:  %user   %nice %system %iowait  %steal   %idle
++ CHECK_RESULT 0 0 0 'iostat Display statistics of error CPU and disk'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='iostat Display statistics of error CPU and disk'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ iostat -c
++ grep avg-cpu
+avg-cpu:  %user   %nice %system %iowait  %steal   %idle
++ CHECK_RESULT 0 0 0 'iostat  -c Do not display cpu statistics'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='iostat  -c Do not display cpu statistics'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep Device
++ iostat -d
+Device             tps    kB_read/s    kB_wrtn/s    kB_dscd/s    kB_read    kB_wrtn    kB_dscd
++ CHECK_RESULT 0 0 0 'iostat -d  Do not display disk statistics'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='iostat -d  Do not display disk statistics'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ iostat -k
++ grep Device
+Device             tps    kB_read/s    kB_wrtn/s    kB_dscd/s    kB_read    kB_wrtn    kB_dscd
++ CHECK_RESULT 0 0 0 'iostat -k Does not display the number of disk requests per second in K, the default unit is block'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='iostat -k Does not display the number of disk requests per second in K, the default unit is block'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ iostat --help
++ grep iostat
+Usage: iostat [ options ] [ <interval> [ <count> ] ]
+Options are:
+[ -c ] [ -d ] [ -h ] [ -k | -m ] [ -N ] [ -s ] [ -t ] [ -V ] [ -x ] [ -y ] [ -z ]
+[ { -f | +f } <directory> ] [ -j { ID | LABEL | PATH | UUID | ... } ]
+[ --compact ] [ --dec={ 0 | 1 | 2 } ] [ --human ] [ --pretty ] [ -o JSON ]
+[ [ -H ] -g <group_name> ] [ -p [ <device> [,...] | ALL ] ]
+[ <device> [...] | ALL ]
++ CHECK_RESULT 1 0 1 'iostat --help Display iostat command error help information'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='iostat --help Display iostat command error help information'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Thu Apr 27 04:07:21 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Apr 27 04:07:21 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu Apr 27 04:07:22 2023 - INFO  - Start to restore the test environment.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpkce4l6u9 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpkce4l6u9
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu Apr 27 04:07:43 2023 - INFO  - End to restore the test environment.

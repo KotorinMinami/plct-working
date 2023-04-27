@@ -1,0 +1,233 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Apr 26 15:59:02 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'pax tar'
++ pkgs='pax tar'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'pax tar' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp6i7p1p13
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp6i7p1p13
++ test -d tmp
++ mkdir tmp
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Wed Apr 26 15:59:40 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Apr 26 15:59:41 2023 - INFO  - Start to run test.
++ pax -wf ./tmp/test_a.tar.gz common/file
++ pax -w -a common/test.log -f ./tmp/test_a.tar.gz
++ tar -tvf ./tmp/test_a.tar.gz
++ grep common/test.log
+-rw-r--r-- root/root         4 2023-04-26 00:41 common/test.log
++ CHECK_RESULT 0 0 0 'Failed to run command: pax -a'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to run command: pax -a'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pax -wf ./tmp/test_d.tar.gz -d common
++ tar -tvf ./tmp/test_d.tar.gz
++ grep common/file
++ CHECK_RESULT 1 1 0 'Failed to run command: pax -d'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='Failed to run command: pax -d'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ pax -wf ./tmp/test_s.tar.gz -s :common:test/test:g common
++ grep test/test
++ tar -tvf ./tmp/test_s.tar.gz
+drwxr-xr-x root/root         0 2023-04-26 00:41 test/test
+-rw-r--r-- root/root         4 2023-04-26 00:41 test/test/file
+-rw-r--r-- root/root         4 2023-04-26 00:41 test/test/test.log
+-rw-r--r-- root/root     10240 2023-04-26 00:41 test/test/test.pax
++ CHECK_RESULT 0 0 0 'Failed to run command: pax -s'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to run command: pax -s'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ ls -l common/file
+++ awk '{print $3}'
++ pax -wf ./tmp/test_U.tar.gz -U root common/file
++ tar -tvf ./tmp/test_U.tar.gz
++ grep common/file
+-rw-r--r-- root/root         4 2023-04-26 00:41 common/file
++ CHECK_RESULT 0 0 0 'Failed to run command: pax -U'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to run command: pax -U'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ ls -l common/file
+++ awk '{print $4}'
++ pax -wf ./tmp/test_G.tar.gz -G root common/file
++ tar -tvf ./tmp/test_G.tar.gz
++ grep common/file
+-rw-r--r-- root/root         4 2023-04-26 00:41 common/file
++ CHECK_RESULT 0 0 0 'Failed to run command: pax -G'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to run command: pax -G'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pax -T 0000 -wf ./tmp/test_T.tar.gz common
++ tar -tvf ./tmp/test_T.tar.gz
++ grep file
+-rw-r--r-- root/root         4 2023-04-26 00:41 common/file
++ CHECK_RESULT 0 0 0 'Failed to run command: pax -T'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to run command: pax -T'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect
+spawn pax -wf ./tmp/test_i.tar.gz common/file -i
+
+ATTENTION: pax interactive file rename operation.
+-rw-r--r-- Apr 26 00:41 common/file
+Input new name, or a "." to keep the old name, or a "return" to skip this file.
+Input > test-i
+Processing continues, name changed to: test-i
++ tar -tvf ./tmp/test_i.tar.gz
++ grep test-i
+-rw-r--r-- root/root         4 2023-04-26 00:41 test-i
++ CHECK_RESULT 0 0 0 'Failed to run command: pax -i'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to run command: pax -i'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect
+spawn pax -rf test
+pax: Failed open to read on test: No such file or directory
+
+ATTENTION! pax archive volume change required.
+Ready for archive volume: 1
+Input archive name or "." to quit pax.
+Archive name > .
+Quitting pax!
++ CHECK_RESULT 0 0 0 'Failed to run command: pax -r'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to run command: pax -r'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pax -rwl ./common/file ./tmp
++ ls -i ./tmp/common/file
+++ ls -i ./common/file
+++ awk '{print $1}'
++ grep 659291
+659291 ./tmp/common/file
++ CHECK_RESULT 0 0 0 'Failed to run command: pax -l'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to run command: pax -l'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pax -wu -f ./tmp/test_u.tar.gz common/file
++ test -f ./tmp/test_u.tar.gz
++ CHECK_RESULT 0 0 0 'Failed to run command: pax -u'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to run command: pax -u'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed Apr 26 15:59:44 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Apr 26 15:59:45 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Apr 26 15:59:46 2023 - INFO  - Start to restore the test environment.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp6i7p1p13 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp6i7p1p13
++ '[' 0 -ne 0 ']'
++ rm -rf tmp
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed Apr 26 16:00:01 2023 - INFO  - End to restore the test environment.

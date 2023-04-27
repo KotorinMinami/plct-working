@@ -1,0 +1,417 @@
++ source ./common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ grep expect
++ rpm -qa
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Apr 26 11:26:14 2023 - INFO  - Start to prepare the test environment.
++ pre_env
++ DNF_INSTALL netperf
++ pkgs=netperf
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs netperf --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp3cwnm4hn
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp3cwnm4hn
++ DNF_INSTALL netperf 2
++ pkgs=netperf
++ node=2
++ '[' -z /tmp/tmp3cwnm4hn ']'
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs netperf --node 2 --tempfile /tmp/tmp3cwnm4hn
++ tmpfile2=/tmp/tmp3cwnm4hn
++ '[' -z /tmp/tmp3cwnm4hn ']'
+++ GET_FREE_PORT 10.198.114.4
+++ ip=10.198.114.4
+++ start_port=1000
+++ end_port=10000
+++ python3 /root/mugen/libs/locallibs/free_port.py get --ip 10.198.114.4 --start 1000 --end 10000
++ rdport=6939
++ P_SSH_CMD --cmd 'systemctl stop firewalld'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'systemctl stop firewalld'
+Failed to stop firewalld.service: Unit firewalld.service not loaded.
++ echo teststring
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Wed Apr 26 11:28:21 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Apr 26 11:28:22 2023 - INFO  - Start to run test.
++ P_SSH_CMD --cmd 'netserver -p 6939'
++ grep 'Starting netserver'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'netserver -p 6939'
+Starting netserver with host 'IN(6)ADDR_ANY' port '6939' and family AF_UNSPEC
++ CHECK_RESULT 0 0 0 'netserver execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netserver execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ netperf -V
++ grep version
+Netperf version 2.7.0
++ CHECK_RESULT 0 0 0 'netperf -V execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netperf -V execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ netperf -h
++ grep Usage
+Usage: netperf [global options] -- [test options] 
++ CHECK_RESULT 0 0 0 'netperf -h execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netperf -h execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ netperf -H 10.198.114.4 -p 6939 -l 1
++ grep Throughput
+Size   Size    Size     Time     Throughput  
++ CHECK_RESULT 0 0 0 'netperf -H execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netperf -H execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep Throughput
++ netperf -H 10.198.114.4 -p 6939 -a 1024,1024 -A 1024,1024 -l 1
+Size   Size    Size     Time     Throughput  
++ CHECK_RESULT 0 0 0 'netperf -a -A execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netperf -a -A execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ netperf -H 10.198.114.4 -p 6939 -c 0.5 -C 0.5 -l 1
++ grep '% S'
+bytes  bytes   bytes    secs.    10^6bits/s  % S      % S      us/KB   us/KB
++ CHECK_RESULT 0 0 0 'netperf -c -C execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netperf -c -C execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ netperf -H 10.198.114.4 -p 6939 -d -l 1
++ grep complete_addrinfo
+complete_addrinfo using hostname 10.198.114.4 port 0 family AF_INET type SOCK_STREAM prot IPPROTO_TCP flags 0x0
+complete_addrinfo using hostname 0.0.0.0 port 0 family AF_UNSPEC type SOCK_STREAM prot IPPROTO_TCP flags 0x1
++ CHECK_RESULT 0 0 0 'netperf -d execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netperf -d execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep Throughput
++ netperf -H 10.198.114.4 -p 6939 -F test.txt -l 1
+Size   Size    Size     Time     Throughput  
++ CHECK_RESULT 0 0 0 'netperf -F file execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netperf -F file execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ netperf -H 10.198.114.4 -p 6939 -i 2,1 -I 95% -l 1
++ grep '95% conf'
+MIGRATED TCP STREAM TEST from 0.0.0.0 (0.0.0.0) port 0 AF_INET to 10.198.114.4 () port 0 AF_INET : +/-47.500% @ 95% conf. 
++ CHECK_RESULT 0 0 0 'netperf -i -I execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netperf -i -I execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ netperf -H 10.198.114.4 -p 6939 -i 2,1 -I 95% -r -l 1
++ grep 'on result only'
+MIGRATED TCP STREAM TEST from 0.0.0.0 (0.0.0.0) port 0 AF_INET to 10.198.114.4 () port 0 AF_INET : +/-47.500% @ 95% conf.  on result only
++ CHECK_RESULT 0 0 0 'netperf -r execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netperf -r execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ netperf -H 10.198.114.4 -p 6939 -j -L 0.0.0.0 AF_INET -l 1
++ grep Throughput
+Size   Size    Size     Time     Throughput  
++ CHECK_RESULT 0 0 0 'netperf -j -L execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netperf -j -L execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ netperf -H 10.198.114.4 -p 6939 -o 1024,1024 -n 2 -l 1
++ grep Throughput
+Size   Size    Size     Time     Throughput  
++ CHECK_RESULT 0 0 0 'netperf -o -n 2 execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netperf -o -n 2 execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ netperf -H 10.198.114.4 -p 6939 -N -l 1
++ grep 'no control'
+netperf: send_omni: connect_data_socket failed: Connection refused
+MIGRATED TCP STREAM TEST from 0.0.0.0 (0.0.0.0) port 0 AF_INET to 10.198.114.4 () port 9 AF_INET : no control
++ CHECK_RESULT 0 0 0 'netperf -N execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netperf -N execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ netperf -H 10.198.114.4 -p 6939 -s 1 -S -l 1
++ grep Throughput
+Size   Size    Size     Time     Throughput  
++ CHECK_RESULT 0 0 0 'netperf -s 1 -S 1execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netperf -s 1 -S 1execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'cpu bind'
++ netperf -H 10.198.114.4 -p 6939 -T 1,1 -l 1
+MIGRATED TCP STREAM TEST from 0.0.0.0 (0.0.0.0) port 0 AF_INET to 10.198.114.4 () port 0 AF_INET : cpu bind
++ CHECK_RESULT 0 0 0 'netperf -T 1,1 -S 1execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netperf -T 1,1 -S 1execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ netperf -H 10.198.114.4 -p 6939 -v 2 -l 1
++ grep Segment
+Segment
++ CHECK_RESULT 0 0 0 'netperf -v 2 1execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netperf -v 2 1execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ netperf -H 10.198.114.4 -p 6939 -y 1,1 -l 1
++ grep Throughput
+Size   Size    Size     Time     Throughput  
++ CHECK_RESULT 0 0 0 'netperf -y 1,1 1execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netperf -y 1,1 1execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ netperf -H 10.198.114.4 -p 6939 -Y 1,1 -l 1
++ grep Throughput
+Size   Size    Size     Time     Throughput  
++ CHECK_RESULT 0 0 0 'netperf -Y 1,1 1execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netperf -Y 1,1 1execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ netperf -H 10.198.114.4 -p 6939 -f M -l 1
++ grep MBytes/sec
+bytes  bytes   bytes    secs.    MBytes/sec  
++ CHECK_RESULT 0 0 0 'netperf -f M execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netperf -f M execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep ' 5.'
++ netperf -H 10.198.114.4 -p 6939 -l 5
+131072  16384  16384    5.00      868.67   
++ CHECK_RESULT 0 0 0 'netperf -l 5 execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netperf -l 5 execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ netperf -H 10.198.114.4 -p 6939 -t UDP_STREAM -l 1 -- -m 1024 -R 1
++ grep 1024
+212992    1024   1.00         8148      0      66.49
++ CHECK_RESULT 0 0 0 'netperf -m 1024 execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netperf -m 1024 execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ netperf -H 10.198.114.4 -p 6939 -P 0 -l 1 -- -m 1024
++ grep MIGRATED
++ CHECK_RESULT 1 0 1 'netperf -P 0 execution failed.'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='netperf -P 0 execution failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ netperf -H 10.198.114.4 -p 6939 -l 1 -O MIN_LAETENCY,MAX_LATENCY,MEAN_LATENCY,P90_LATENCY,P99_LATENCY,THROUGHPUT,THROUGHPUT_UNITS
++ grep sec
+bytes  bytes   bytes    secs.    10^6bits/sec  
++ CHECK_RESULT 0 0 0 'netperf -O with different options execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netperf -O with different options execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep netserver
++ P_SSH_CMD --cmd 'pkill -9 netserver
+        netstat -apn'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'pkill -9 netserver
+        netstat -apn'
++ CHECK_RESULT 1 0 1 'pkill -9 netserver execution failed.'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='pkill -9 netserver execution failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed Apr 26 11:29:09 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Apr 26 11:29:10 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Apr 26 11:29:11 2023 - INFO  - Start to restore the test environment.
++ rm -rf test.txt
++ clean_env
++ P_SSH_CMD --cmd 'systemctl start firewalld'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'systemctl start firewalld'
+Failed to start firewalld.service: Unit firewalld.service not found.
++ DNF_REMOVE 0
++ node=0
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp3cwnm4hn ]]
++ '[' 0 -ne 0 ']'
++ '[' 0 == 0 ']'
+++ python3 /root/mugen/libs/locallibs/read_conf.py node-num
++ node_num=2
+++ seq 1 2
++ for node_id in $(seq 1 $node_num)
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp3cwnm4hn
++ for node_id in $(seq 1 $node_num)
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 2 --pkgs '' --tempfile /tmp/tmp3cwnm4hn
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed Apr 26 11:29:55 2023 - INFO  - End to restore the test environment.

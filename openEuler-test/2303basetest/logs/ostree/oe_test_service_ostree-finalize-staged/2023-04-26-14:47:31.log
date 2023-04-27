@@ -1,0 +1,219 @@
++ source ../common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ grep expect
++ rpm -qa
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed Apr 26 14:47:35 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL ostree
++ pkgs=ostree
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs ostree --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpye2828wm
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpye2828wm
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Wed Apr 26 14:48:46 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Wed Apr 26 14:48:46 2023 - INFO  - Start testing...
++ test_oneshot ostree-finalize-staged.service 'inactive (dead)'
++ service=ostree-finalize-staged.service
++ status='inactive (dead)'
++ systemctl status ostree-finalize-staged.service
++ grep Active
++ grep -v 'inactive (dead)'
++ CHECK_RESULT 1 0 1 'There is an error for the status of ostree-finalize-staged.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error for the status of ostree-finalize-staged.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_enabled ostree-finalize-staged.service
++ service=ostree-finalize-staged.service
+++ systemctl is-enabled ostree-finalize-staged.service
++ state=static
++ '[' static == enabled ']'
++ '[' static == disabled ']'
++ '[' static == masked ']'
++ '[' static == static ']'
++ LOG_INFO 'The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
++ message='The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
+Wed Apr 26 14:48:48 2023 - INFO  - The unit files have no installation config,This means they are not meant to be enabled using systemctl.
++ journalctl -u ostree-finalize-staged.service
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of ostree-finalize-staged.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of ostree-finalize-staged.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_oneshot ostree-prepare-root.service 'inactive (dead)'
++ service=ostree-prepare-root.service
++ status='inactive (dead)'
++ systemctl status ostree-prepare-root.service
++ grep Active
++ grep -v 'inactive (dead)'
++ CHECK_RESULT 1 0 1 'There is an error for the status of ostree-prepare-root.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error for the status of ostree-prepare-root.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_enabled ostree-prepare-root.service
++ service=ostree-prepare-root.service
+++ systemctl is-enabled ostree-prepare-root.service
++ state=static
++ '[' static == enabled ']'
++ '[' static == disabled ']'
++ '[' static == masked ']'
++ '[' static == static ']'
++ LOG_INFO 'The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
++ message='The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
+Wed Apr 26 14:48:49 2023 - INFO  - The unit files have no installation config,This means they are not meant to be enabled using systemctl.
++ journalctl -u ostree-prepare-root.service
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of ostree-prepare-root.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of ostree-prepare-root.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_oneshot ostree-remount.service 'inactive (dead)'
++ service=ostree-remount.service
++ status='inactive (dead)'
++ systemctl status ostree-remount.service
++ grep Active
++ grep -v 'inactive (dead)'
++ CHECK_RESULT 1 0 1 'There is an error for the status of ostree-remount.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error for the status of ostree-remount.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_enabled ostree-remount.service
++ service=ostree-remount.service
+++ systemctl is-enabled ostree-remount.service
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ awk '{print $3}'
+++ grep 'Created symlink'
+++ systemctl enable ostree-remount.service
++ symlink_file=/etc/systemd/system/local-fs.target.wants/ostree-remount.service
++ find /etc/systemd/system/local-fs.target.wants/ostree-remount.service
+/etc/systemd/system/local-fs.target.wants/ostree-remount.service
++ CHECK_RESULT 0 0 0 'ostree-remount.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='ostree-remount.service enable failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable ostree-remount.service
+Removed /etc/systemd/system/local-fs.target.wants/ostree-remount.service.
++ find /etc/systemd/system/local-fs.target.wants/ostree-remount.service
+find: ‘/etc/systemd/system/local-fs.target.wants/ostree-remount.service’: No such file or directory
++ CHECK_RESULT 1 0 1 'ostree-remount.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='ostree-remount.service disable failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ journalctl -u ostree-remount.service
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ grep -i 'fail\|error'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of ostree-remount.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of ostree-remount.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Wed Apr 26 14:49:00 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Apr 26 14:49:01 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Wed Apr 26 14:49:02 2023 - INFO  - start environment cleanup.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpye2828wm ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpye2828wm
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Wed Apr 26 14:49:12 2023 - INFO  - Finish environment cleanup!

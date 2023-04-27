@@ -1,0 +1,405 @@
++ source ../common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu Apr 27 04:32:45 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL tidy
++ pkgs=tidy
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs tidy --node 1 --tempfile ''
++ tmpfile2=/tmp/tmppn9g5y59
++ '[' -z '' ']'
++ tmpfile=/tmp/tmppn9g5y59
++ OLD_LANG=en_US.UTF-8
++ export LANG=en_US.UTF-8
++ LANG=en_US.UTF-8
+++ grep VERSION_ID /etc/os-release
+++ awk -F '"' '{print $2}'
++ version_id=23.03
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu Apr 27 04:33:23 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Thu Apr 27 04:33:24 2023 - INFO  - Start testing...
++ echo '<h1>hi'
++ tidy --gnu-emacs true ./sample.html
++ grep Warning
++ grep sample.html
+./sample.html:1:1: Warning: missing <!DOCTYPE> declaration
+./sample.html:1:1: Warning: inserting implicit <body>
+./sample.html:1:1: Warning: missing </h1>
+./sample.html:1:1: Warning: inserting missing 'title' element
++ CHECK_RESULT 0 0 0 'Failed to use option: --gnu-emacs'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use option: --gnu-emacs'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ echo 'gnu-emacs: true'
++ grep sample.html
++ grep Warning
++ tidy -config ./tidyrc sample.html
+sample.html:1:1: Warning: missing <!DOCTYPE> declaration
+sample.html:1:1: Warning: inserting implicit <body>
+sample.html:1:1: Warning: missing </h1>
+sample.html:1:1: Warning: inserting missing 'title' element
++ CHECK_RESULT 0 0 0 'Failed to use option in configuration: gnu-emacs'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use option in configuration: gnu-emacs'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ echo hi
++ grep hi
++ tidy --markup false
+line 1 column 1 - Warning: missing <!DOCTYPE> declaration
+line 1 column 1 - Warning: plain text isn't allowed in <head> elements
+line 1 column 1 - Info: <head> previously mentioned
+line 1 column 1 - Warning: inserting implicit <body>
+line 1 column 1 - Warning: inserting missing 'title' element
+Info: Document content looks like HTML5
+Tidy found 4 warnings and 0 errors!
+
+
+About HTML Tidy: https://github.com/htacg/tidy-html5
+Bug reports and comments: https://github.com/htacg/tidy-html5/issues
+Official mailing list: https://lists.w3.org/Archives/Public/public-htacg/
+Latest HTML specification: http://dev.w3.org/html5/spec-author-view/
+Validate your HTML documents: http://validator.w3.org/nu/
+Lobby your company to join the W3C: http://www.w3.org/Consortium
+
+Do you speak a language other than English, or a different variant of 
+English? Consider helping us to localize HTML Tidy. For details please see 
+https://github.com/htacg/tidy-html5/blob/master/README/LOCALIZE.md
++ CHECK_RESULT 1 1 0 'Failed to use option: --markup'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='Failed to use option: --markup'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ echo 'markup: false'
++ tidy -config ./tidyrc
++ echo hi
++ grep hi
+line 1 column 1 - Warning: missing <!DOCTYPE> declaration
+line 1 column 1 - Warning: plain text isn't allowed in <head> elements
+line 1 column 1 - Info: <head> previously mentioned
+line 1 column 1 - Warning: inserting implicit <body>
+line 1 column 1 - Warning: inserting missing 'title' element
+Info: Document content looks like HTML5
+Tidy found 4 warnings and 0 errors!
+
+
+About HTML Tidy: https://github.com/htacg/tidy-html5
+Bug reports and comments: https://github.com/htacg/tidy-html5/issues
+Official mailing list: https://lists.w3.org/Archives/Public/public-htacg/
+Latest HTML specification: http://dev.w3.org/html5/spec-author-view/
+Validate your HTML documents: http://validator.w3.org/nu/
+Lobby your company to join the W3C: http://www.w3.org/Consortium
+
+Do you speak a language other than English, or a different variant of 
+English? Consider helping us to localize HTML Tidy. For details please see 
+https://github.com/htacg/tidy-html5/blob/master/README/LOCALIZE.md
++ CHECK_RESULT 1 1 0 'Failed to use option in configuration: markup'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='Failed to use option in configuration: markup'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ echo ''
++ tidy --mute MISSING_TITLE_ELEMENT
++ grep 'missing '\''title'\'' element'
++ CHECK_RESULT 1 1 0 'Failed to use option: --mute'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='Failed to use option: --mute'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ echo 'mute: MISSING_TITLE_ELEMENT'
++ echo ''
++ tidy -config ./tidyrc
++ grep 'missing '\''title'\'' element'
++ CHECK_RESULT 1 1 0 'Failed to use option in configuration: mute'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='Failed to use option in configuration: mute'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ echo ''
++ tidy --quiet true
++ grep Info
++ CHECK_RESULT 1 1 0 'Failed to use option:--quiet'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='Failed to use option:--quiet'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ echo 'quiet: true'
++ echo ''
++ tidy -config ./tidyrc
++ grep Info
++ CHECK_RESULT 1 1 0 'Failed to use option in configuration: quiet'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='Failed to use option in configuration: quiet'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ tidy --show-body-only yes
++ echo '<head><title>123</title></head><body><h1>hi</h1><body>'
++ grep '<head>'
+line 1 column 49 - Warning: discarding unexpected <body>
+Info: Document content looks like HTML5
+Tidy found 1 warning and 0 errors!
+
+
+About HTML Tidy: https://github.com/htacg/tidy-html5
+Bug reports and comments: https://github.com/htacg/tidy-html5/issues
+Official mailing list: https://lists.w3.org/Archives/Public/public-htacg/
+Latest HTML specification: http://dev.w3.org/html5/spec-author-view/
+Validate your HTML documents: http://validator.w3.org/nu/
+Lobby your company to join the W3C: http://www.w3.org/Consortium
+
+Do you speak a language other than English, or a different variant of 
+English? Consider helping us to localize HTML Tidy. For details please see 
+https://github.com/htacg/tidy-html5/blob/master/README/LOCALIZE.md
++ CHECK_RESULT 1 1 0 'Failed to use option: --show-body-only'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='Failed to use option: --show-body-only'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ echo 'show-body-only: yes'
++ echo '<head><title>123</title></head><body><h1>hi</h1><body>'
++ grep '<head>'
++ tidy -config ./tidyrc
+line 1 column 49 - Warning: discarding unexpected <body>
+Info: Document content looks like HTML5
+Tidy found 1 warning and 0 errors!
+
+
+About HTML Tidy: https://github.com/htacg/tidy-html5
+Bug reports and comments: https://github.com/htacg/tidy-html5/issues
+Official mailing list: https://lists.w3.org/Archives/Public/public-htacg/
+Latest HTML specification: http://dev.w3.org/html5/spec-author-view/
+Validate your HTML documents: http://validator.w3.org/nu/
+Lobby your company to join the W3C: http://www.w3.org/Consortium
+
+Do you speak a language other than English, or a different variant of 
+English? Consider helping us to localize HTML Tidy. For details please see 
+https://github.com/htacg/tidy-html5/blob/master/README/LOCALIZE.md
++ CHECK_RESULT 1 1 0 'Failed to use option in configuration: show-body-only'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='Failed to use option in configuration: show-body-only'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ echo '<wrong>hi'
++ tidy --show-errors 0
++ grep 'Error: <wrong>'
+Tidy found 5 warnings and 1 error! Not all warnings/errors were shown.
+
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+About HTML Tidy: https://github.com/htacg/tidy-html5
+Bug reports and comments: https://github.com/htacg/tidy-html5/issues
+Official mailing list: https://lists.w3.org/Archives/Public/public-htacg/
+Latest HTML specification: http://dev.w3.org/html5/spec-author-view/
+Validate your HTML documents: http://validator.w3.org/nu/
+Lobby your company to join the W3C: http://www.w3.org/Consortium
+
+Do you speak a language other than English, or a different variant of 
+English? Consider helping us to localize HTML Tidy. For details please see 
+https://github.com/htacg/tidy-html5/blob/master/README/LOCALIZE.md
++ CHECK_RESULT 1 1 0 'Failed to use option: --show-errors'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='Failed to use option: --show-errors'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ echo 'show-errors: 0'
++ echo '<wrong>hi'
++ grep 'Error: <wrong>'
++ tidy -config ./tidyrc
+Tidy found 5 warnings and 1 error! Not all warnings/errors were shown.
+
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+About HTML Tidy: https://github.com/htacg/tidy-html5
+Bug reports and comments: https://github.com/htacg/tidy-html5/issues
+Official mailing list: https://lists.w3.org/Archives/Public/public-htacg/
+Latest HTML specification: http://dev.w3.org/html5/spec-author-view/
+Validate your HTML documents: http://validator.w3.org/nu/
+Lobby your company to join the W3C: http://www.w3.org/Consortium
+
+Do you speak a language other than English, or a different variant of 
+English? Consider helping us to localize HTML Tidy. For details please see 
+https://github.com/htacg/tidy-html5/blob/master/README/LOCALIZE.md
++ CHECK_RESULT 1 1 0 'Failed to use option in configuration: show-errors'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='Failed to use option in configuration: show-errors'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ '[' 23.03 = 22.03 ']'
++ echo ''
++ grep Info
++ tidy --show-info false
++ CHECK_RESULT 1 1 0 'Failed to use option: --show-info'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='Failed to use option: --show-info'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ echo 'show-info: false'
++ echo ''
++ grep Info
++ tidy -config ./tidyrc
++ CHECK_RESULT 1 1 0 'Failed to use option in configuration: show-info'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='Failed to use option in configuration: show-info'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ tidy --show-warnings false
++ echo ''
++ grep Warning
++ CHECK_RESULT 1 1 0 'Failed to use option: --show-warnings'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='Failed to use option: --show-warnings'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ echo 'show-warnings: false'
++ tidy -config ./tidyrc
++ echo ''
++ grep Warning
++ CHECK_RESULT 1 1 0 'Failed to use option in configuration: show-warnings'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='Failed to use option in configuration: show-warnings'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Thu Apr 27 04:33:27 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Apr 27 04:33:28 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu Apr 27 04:33:29 2023 - INFO  - start environment cleanup.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmppn9g5y59 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmppn9g5y59
++ '[' 0 -ne 0 ']'
++ rm -rf tidyrc sample.html
++ export LANG=en_US.UTF-8
++ LANG=en_US.UTF-8
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Apr 27 04:33:42 2023 - INFO  - Finish environment cleanup!

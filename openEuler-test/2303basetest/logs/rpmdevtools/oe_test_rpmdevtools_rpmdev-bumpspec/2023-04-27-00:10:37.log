@@ -1,0 +1,375 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Thu Apr 27 00:10:42 2023 - INFO  - Start environment preparation.
++ DNF_INSTALL rpmdevtools
++ pkgs=rpmdevtools
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs rpmdevtools --node 1 --tempfile ''
+Thu Apr 27 00:10:54 2023 - INFO  - pkgs:(rpmdevtools) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ rpmdev-newspec -o test.spec
+test.spec created; type minimal, rpm version >= 4.18.
++ echo 'test -f.'
++ LOG_INFO 'End of environmental preparation.'
++ message='End of environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation.'
+Thu Apr 27 00:10:56 2023 - INFO  - End of environmental preparation.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Apr 27 00:10:57 2023 - INFO  - Start to run test.
++ rpmdev-bumpspec -h
++ grep 'Usage: rpmdev-bumpspec \[OPTION\]'
+Usage: rpmdev-bumpspec [OPTION]... SPECFILE...
++ CHECK_RESULT 0 0 0 'Failed option: -h'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -h'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rpmdev-bumpspec -c test1 test.spec
+error: line 2: Empty tag: Version:
+error: query of specfile test.spec failed, can't parse
++ grep '\- test1'
++ grep -A 2 %changelog test.spec
+- test1
++ CHECK_RESULT 0 0 0 'Failed option: -c'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -c'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rpmdev-bumpspec -V test.spec
++ grep +
++ grep -A 2 test.spec
++ grep -A 1 -
+error: line 2: Empty tag: Version:
+error: query of specfile test.spec failed, can't parse
++3%{?dist}
++ CHECK_RESULT 0 0 0 'Failed option: -V'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -V'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rpmdev-bumpspec -v
++ grep 'rpmdev-bumpspec version'
+rpmdev-bumpspec version 1.0.13
++ CHECK_RESULT 0 0 0 'Failed option: -v'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -v'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rpmdev-bumpspec -u 'test_name xxxxxxxxxx@qq.com' test.spec
+error: line 2: Empty tag: Version:
+error: query of specfile test.spec failed, can't parse
++ grep '\*.*test_name xxxxxxxxxx@qq.com'
++ grep -A 2 %changelog test.spec
+* Wed Apr 26 2023 test_name xxxxxxxxxx@qq.com
++ CHECK_RESULT 0 0 0 'Failed option: -u'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -u'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rpmdev-bumpspec -f file1 test.spec
+error: line 2: Empty tag: Version:
+error: query of specfile test.spec failed, can't parse
++ grep '\- test -f.'
++ grep -A 2 changelog test.spec
+- test -f.
++ CHECK_RESULT 0 0 0 'Failed option: -f'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -f'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rpmdev-bumpspec -r test.spec
+error: line 2: Empty tag: Version:
+error: query of specfile test.spec failed, can't parse
++ grep -A 2 %changelog test.spec
++ grep '\- rebuilt'
+- rebuilt
++ CHECK_RESULT 0 0 0 'Failed option: -r'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -r'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rpmdev-bumpspec -s release test.spec
+error: line 2: Empty tag: Version:
+error: query of specfile test.spec failed, can't parse
++ grep -A 2 %changelog test.spec
++ grep '\- rebuilt'
+- rebuilt
++ CHECK_RESULT 0 0 0 'Failed option: -s'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -s'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rpmdev-bumpspec -n new_test test.spec
+error: line 4: Empty tag: Summary:
+error: query of specfile test.spec failed, can't parse
++ grep -A 2 %changelog test.spec
++ grep '\- new version'
+- new version
++ CHECK_RESULT 0 0 0 'Failed option: -n'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -n'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rpmdev-newinit -v
++ grep 'rpmdev-newinit version'
+rpmdev-newinit version 1.1
++ CHECK_RESULT 0 0 0 'Failed options: -v'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed options: -v'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rpmdev-newinit -h
++ grep 'Usage: rpmdev-newinit \[option\]'
+Usage: rpmdev-newinit [option]... [appname[.init]]
++ CHECK_RESULT 0 0 0 'Failed options: -h'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed options: -h'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rpmdev-newinit -o test.init
+Skeleton init script has been created to "test.init".
++ test -f ./test.init
++ CHECK_RESULT 0 0 0 'Failted options: -o'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failted options: -o'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rpmdev-newspec -o testo.spec
+testo.spec created; type minimal, rpm version >= 4.18.
++ test -f testo.spec
++ CHECK_RESULT 0 0 0 'Failed option: -o'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -o'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rpmdev-newspec -t python -o testt.spec
+testt.spec created; type python, rpm version >= 4.18.
++ grep python testt.spec
+%{!?__python2: %global __python2 %__python}
+%{!?python2_sitelib: %global python2_sitelib %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
+%{!?python2_sitearch: %global python2_sitearch %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")}
+%bcond_without python3
+%bcond_with python3
+BuildRequires:  python2-devel
+%if %{with python3}
+BuildRequires:  python3-devel
+%endif # with python3
+%if %{with python3}
+%endif # with python3
+mv %{name}-%{version} python2
+%if %{with python3}
+cp -a python2 python3
+%endif # with python3
+pushd python2
+CFLAGS="$RPM_OPT_FLAGS" %{__python2} setup.py build
+%if %{with python3}
+pushd python3
+CFLAGS="$RPM_OPT_FLAGS" %{__python3} setup.py build
+%endif # with python3
+# Must do the python3 install first because the scripts in /usr/bin are
+# overwritten with every setup.py install (and we want the python2 version
+%if %{with python3}
+pushd python3
+%{__python3} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT
+%endif # with python3
+pushd python2
+%{__python2} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT
+pushd python2
+%{__python2} setup.py test
+%if %{with python3}
+pushd python3
+%{__python3} setup.py test
+%{python2_sitelib}/*
+%{python2_sitearch}/*
+%if %{with python3}
+%{python3_sitelib}/*
+%{python3_sitearch}/*
+%endif # with python3
++ CHECK_RESULT 0 0 0 'Failed option: -t'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -t'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rpmdev-newspec -m -o testm.spec
+testm.spec created; type minimal, rpm version >= 4.18.
++ grep '%{buildroot}' testm.spec
+rm -rf %{buildroot}
++ CHECK_RESULT 0 0 0 'Failed option: -m'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -m'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rpmdev-newspec -r 4.3 -o testr.spec
++ grep 4.3
+testr.spec created; type minimal, rpm version >= 4.3.
++ CHECK_RESULT 0 0 0 'Failed option: -r'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -r'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rpmdev-newspec -h
++ grep 'Usage: rpmdev-newspec \[option\]'
+Usage: rpmdev-newspec [option]... [appname[.spec]]
++ CHECK_RESULT 0 0 0 'Failed option: -h'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -h'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rpmdev-newspec -v
++ grep 'rpmdev-newspec version'
+rpmdev-newspec version 2.4
++ CHECK_RESULT 0 0 0 'Failed option: -v'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -v'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu Apr 27 00:11:23 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Apr 27 00:11:24 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu Apr 27 00:11:25 2023 - INFO  - Start to restore the test environment.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Thu Apr 27 00:11:26 2023 - WARN  - no thing to do.
++ return 0
++ rm -rf test.init testm.spec testo.spec testr.spec test.spec testt.spec file1
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu Apr 27 00:11:27 2023 - INFO  - End to restore the test environment.

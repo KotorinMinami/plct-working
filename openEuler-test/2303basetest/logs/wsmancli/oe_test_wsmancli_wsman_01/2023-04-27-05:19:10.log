@@ -1,0 +1,210 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu Apr 27 05:19:14 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'wsmancli openwsman-server'
++ pkgs='wsmancli openwsman-server'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'wsmancli openwsman-server' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp1j3cwi9f
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp1j3cwi9f
++ cp common/simple_auth.passwd /etc/openwsman/test_simple_auth.passwd
++ openwsmand -c common/openwsman.conf
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu Apr 27 05:20:03 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Apr 27 05:20:03 2023 - INFO  - Start to run test.
++ wsman -q
++ grep wsmancli
+wsmancli 2.6.0 (202303202334)
++ CHECK_RESULT 0 0 0 'wamancli: faild to test option -q'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test option -q'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman identify -h localhost --port 5985 -u wsman --password wsmanerr --non-interactive
++ grep 'Login denied'
+Login denied
++ CHECK_RESULT 0 0 0 'wamancli: faild to test option --non-interactive'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test option --non-interactive'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman identify -h localhost --port 5985 -u wsman --password wsman -d 1
++ grep HTTP
++ CHECK_RESULT 1 1 0 'wamancli: faild to test option -d'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='wamancli: faild to test option -d'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ wsman identify -h localhost --port 5985 -u wsman --password wsman -d 4
++ grep HTTP
+> POST /wsman HTTP/1.1
+< HTTP/1.1 401 Unauthorized
+> POST /wsman HTTP/1.1
+> POST /wsman HTTP/1.1
+< HTTP/1.1 200 (null)
++ CHECK_RESULT 0 0 0 'wamancli: faild to test option -d'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test option -d'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman identify -h localhost --port 5985 -u wsman --password wsman -j GBK
++ grep '<?xml version="1.0" encoding="GBK"?>'
+<?xml version="1.0" encoding="GBK"?>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test option -j'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test option -j'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman identify -h localhost --port 5985 -u wsman --password wsman -c common/my.cert
++ grep cert
+Problem with the SSL CA cert (path? access rights?)
++ CHECK_RESULT 0 0 0 'wamancli: faild to test option -c'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test option -c'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman identify -h localhost --port 5985 -u wsman --password wsman -A common/my.cert
++ grep cert
+Warning: --cacert not set to enable SSL operation
++ CHECK_RESULT 0 0 0 'wamancli: faild to test option -A'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test option -A'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman identify -h localhost --port 5985 -u wsman --password wsman -K common/my,cert
++ grep cert
+Warning: --cacert not set to enable SSL operation
++ CHECK_RESULT 0 0 0 'wamancli: faild to test option -K'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test option -K'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman identify -h localhost --port 5985 -u wsman --password wsman -J my.cert
+<?xml version="1.0" encoding="UTF-8"?>
+<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:wsmid="http://schemas.dmtf.org/wbem/wsman/identity/1/wsmanidentity.xsd">
+  <s:Header/>
+  <s:Body>
+    <wsmid:IdentifyResponse>
+      <wsmid:ProtocolVersion>http://schemas.dmtf.org/wbem/wsman/1/wsman.xsd</wsmid:ProtocolVersion>
+      <wsmid:ProductVendor>Openwsman Project</wsmid:ProductVendor>
+      <wsmid:ProductVersion>2.6</wsmid:ProductVersion>
+    </wsmid:IdentifyResponse>
+  </s:Body>
+</s:Envelope>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test option -J'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test option -J'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu Apr 27 05:20:06 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Apr 27 05:20:07 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu Apr 27 05:20:07 2023 - INFO  - Start to restore the test environment.
++ rm -rf /etc/openwsman/test_simple_auth.passwd
+++ pgrep openwsmand
++ kill -9 5524
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp1j3cwi9f ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp1j3cwi9f
++ '[' 0 -ne 0 ']'
++ SLEEP_WAIT 10
++ wait_time=10
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 10 --cmd '' --mode 1
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu Apr 27 05:20:39 2023 - INFO  - End to restore the test environment.

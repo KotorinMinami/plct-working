@@ -1,0 +1,148 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu Apr 27 00:21:28 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL rrdtool
++ pkgs=rrdtool
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs rrdtool --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp34n4boz8
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp34n4boz8
++ rrdtool create ./common/test.rrd DS:probe1-temp:GAUGE:600:55:95 RRA:MIN:0.5:12:1440
++ rrdcached -l unix:/root/mugen/testcases/cli-test/rrdtool/common:9999
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu Apr 27 00:22:16 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Apr 27 00:22:16 2023 - INFO  - Start to run test.
++ rrdtool dump ./common/test.rrd ./common/test.xml --header dtd
++ test -f ./common/test.xml
++ CHECK_RESULT 0 0 0 'rrdtool update: faild to test option --header'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rrdtool update: faild to test option --header'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rrdtool dump ./common/test.rrd ./common/test1.xml -h dtd
++ test -f ./common/test1.xml
++ CHECK_RESULT 0 0 0 'rrdtool update: faild to test option -h'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rrdtool update: faild to test option -h'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rrdtool dump ./common/test.rrd ./common/test2.xml --no-header
++ test -f ./common/test2.xml
++ CHECK_RESULT 0 0 0 'rrdtool update: faild to test option --no-header'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rrdtool update: faild to test option --no-header'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rrdtool dump ./common/test.rrd ./common/test3.xml -n
++ test -f ./common/test3.xml
++ CHECK_RESULT 0 0 0 'rrdtool update: faild to test option -n'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rrdtool update: faild to test option -n'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rrdtool dump ./common/test.rrd ./common/test4.xml --daemon unix:/root/mugen/testcases/cli-test/rrdtool/common:9999
++ test -f ./common/test4.xml
++ CHECK_RESULT 0 0 0 'rrdtool update: faild to test option --daemon'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rrdtool update: faild to test option --daemon'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rrdtool dump ./common/test.rrd ./common/test5.xml -d unix:/root/mugen/testcases/cli-test/rrdtool/common:9999
++ test -f ./common/test5.xml
++ CHECK_RESULT 0 0 0 'rrdtool update: faild to test option -d'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rrdtool update: faild to test option -d'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu Apr 27 00:22:18 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Apr 27 00:22:19 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu Apr 27 00:22:20 2023 - INFO  - Start to restore the test environment.
+++ pgrep rrdcached
++ kill -9 18127
++ rm -rf ./common/test.rrd ./common/test1.xml ./common/test2.xml ./common/test3.xml ./common/test4.xml ./common/test5.xml ./common/test.xml /root/mugen/testcases/cli-test/rrdtool/common:9999 /var/run/rrdcached.pid
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp34n4boz8 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp34n4boz8
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu Apr 27 00:22:42 2023 - INFO  - End to restore the test environment.

@@ -1,0 +1,291 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Apr 26 19:32:28 2023 - INFO  - Start to prepare the test environment.
++ mkdir output_test
++ wget -P ./ https://pngquant.org/Ducati_side_shadow.png
+--2023-04-26 19:32:28--  https://pngquant.org/Ducati_side_shadow.png
+Resolving pngquant.org (pngquant.org)... 83.169.2.68, 2a01:488:66:1000:53a9:244:0:1
+Connecting to pngquant.org (pngquant.org)|83.169.2.68|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 75628 (74K) [image/png]
+Saving to: ‘./Ducati_side_shadow.png’
+
+     0K .......... .......... .......... .......... .......... 67%  102K 0s
+    50K .......... .......... ...                             100% 2.92M=0.5s
+
+2023-04-26 19:32:30 (149 KB/s) - ‘./Ducati_side_shadow.png’ saved [75628/75628]
+
++ mv Ducati_side_shadow.png test.png
++ cp test.png test-copy.png
++ DNF_INSTALL 'pngquant libimagequant'
++ pkgs='pngquant libimagequant'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'pngquant libimagequant' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp7i975_ma
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp7i975_ma
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Wed Apr 26 19:33:14 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Apr 26 19:33:15 2023 - INFO  - Start to run test.
++ pngquant --help
++ grep usage
+usage:  pngquant [options] [ncolors] -- pngfile [pngfile ...]
++ CHECK_RESULT 0 0 0 'Failed to run command: pngquant --help'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to run command: pngquant --help'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pngquant test.png --verbose
+test.png:
+  read 74KB file
+  made histogram...15547 colors found
+  selecting colors...6%
+  selecting colors...46%
+  selecting colors...93%
+  selecting colors...100%
+  moving colormap towards local minimum
+  eliminated opaque tRNS-chunk entries...109 entries transparent
+  mapped image to new colors...MSE=5.204 (Q=82)
+  writing 256-color image as test-fs8.png
+Quantized 1 image.
++ test -f test-fs8.png
++ CHECK_RESULT 0 0 0 'Failed to run command: pngquant --verbose'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to run command: pngquant --verbose'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -f ./test-fs8.png
++ pngquant test.png
++ test -f test-fs8.png
++ CHECK_RESULT 0 0 0 'Failed to run command: pngquant test.png'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to run command: pngquant test.png'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pngquant -
++ test -f test-stdout.png
++ CHECK_RESULT 0 0 0 'Failed to test stdin and stdout'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to test stdin and stdout'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -f ./test-fs8.png
++ pngquant test.png test-copy.png
++ test -f test-fs8.png
++ test -f test-copy-fs8.png
++ CHECK_RESULT 0 0 0 'Failed to test more than one file'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to test more than one file'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -f ./test-fs8.png
++ pngquant --posterize 3 test.png
+++ ls
+++ grep -cE test-fs8.png
++ CHECK_RESULT 1 1 0 'Failed to run command: pngquant --posterize'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='Failed to run command: pngquant --posterize'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ rm -f ./test-fs8.png
++ pngquant --strip test.png
++ test -f test-fs8.png
++ CHECK_RESULT 0 0 0 'Failed to run command: pngquant --strip'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to run command: pngquant --strip'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pngquant test.png --ext .demo
++ test -f test.demo
++ CHECK_RESULT 0 0 0 'Failed to run command: pngquant --ext'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to run command: pngquant --ext'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pngquant test.png --output ./output_test/test_output.png
++ test -f ./output_test/test_output.png
++ CHECK_RESULT 0 0 0 'Failed to run command: pngquant --output'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to run command: pngquant --output'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -f ./test-fs8.png
++ pngquant 64 test.png
++ test -f test-fs8.png
++ CHECK_RESULT 0 0 0 'Failed to test option [ncolors]'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to test option [ncolors]'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pngquant --force test.png
++ test -f test-fs8.png
++ CHECK_RESULT 0 0 0 'Failed to run command: pngquant --force'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to run command: pngquant --force'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -f ./test-fs8.png
++ pngquant --skip-if-larger test.png
++ test -f test-fs8.png
++ CHECK_RESULT 0 0 0 'Failed to run command: pngquant --skip-if-larger'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to run command: pngquant --skip-if-larger'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pngquant --nofs test.png
++ test -f test-or8.png
++ CHECK_RESULT 0 0 0 'Failed to run command: pngquant --nofs'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to run command: pngquant --nofs'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -f ./test-fs8.png
++ pngquant test.png --quality 50
++ test -f test-fs8.png
++ CHECK_RESULT 0 0 0 'Failed to run command: pngquant --quality'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to run command: pngquant --quality'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -f ./test-fs8.png
++ pngquant test.png --speed 5
++ test -f test-fs8.png
++ CHECK_RESULT 0 0 0 'Failed to run command: pngquant --speed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to run command: pngquant --speed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed Apr 26 19:33:42 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Apr 26 19:33:43 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Apr 26 19:33:45 2023 - INFO  - Start to restore the test environment.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp7i975_ma ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp7i975_ma
++ '[' 0 -ne 0 ']'
++ rm -rf ./test-copy-fs8.png ./test-copy.png ./test.demo ./test-fs8.png ./test-or8.png ./test.png ./test-stdout.png ./output_test/
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed Apr 26 19:34:01 2023 - INFO  - End to restore the test environment.

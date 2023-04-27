@@ -1,0 +1,188 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu Apr 27 00:19:57 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL rrdtool
++ pkgs=rrdtool
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs rrdtool --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpecq7m0wy
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpecq7m0wy
++ rrdtool create ./common/test.rrd --start 920804400 DS:speed:COUNTER:600:U:U RRA:AVERAGE:0.5:1:24 RRA:AVERAGE:0.5:6:10
++ rrdtool update ./common/test.rrd 920804700:12345 920805000:12357 920805300:12363
++ rrdtool update ./common/test.rrd 920805600:12363 920805900:12363 920806200:12373
++ rrdtool update ./common/test.rrd 920806500:12383 920806800:12393 920807100:12399
++ rrdtool update ./common/test.rrd 920807400:12405 920807700:12411 920808000:12415
++ rrdtool update ./common/test.rrd 920808300:12420 920808600:12422 920808900:12423
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu Apr 27 00:20:46 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Apr 27 00:20:47 2023 - INFO  - Start to run test.
++ rrdtool graphv ./common/test.png --base 1024 -s 920804400 -e 920808000 DEF:myspeed=common/test.rrd:speed:AVERAGE LINE2:myspeed#FF0000
+graph_left = 51
+graph_top = 15
+graph_width = 400
+graph_height = 100
+image_width = 481
+image_height = 141
+graph_start = 920804400
+graph_end = 920808000
+value_min = 0.0000000000e+00
+value_max = 4.8828125000e-02
++ test -f ./common/test.png
++ CHECK_RESULT 0 0 0 'rrdtool graphv: faild to test option --base'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rrdtool graphv: faild to test option --base'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rrdtool graphv ./common/test1.png -W string -s 920804400 -e 920808000 DEF:myspeed=common/test.rrd:speed:AVERAGE LINE2:myspeed#FF0000
+graph_left = 51
+graph_top = 15
+graph_width = 400
+graph_height = 100
+image_width = 481
+image_height = 152
+graph_start = 920804400
+graph_end = 920808000
+value_min = 0.0000000000e+00
+value_max = 4.0000000000e-02
++ test -f ./common/test1.png
++ CHECK_RESULT 0 0 0 'rrdtool graphv: faild to test option -W'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rrdtool graphv: faild to test option -W'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rrdtool graphv ./common/test2.png --watermark string -s 920804400 -e 920808000 DEF:myspeed=common/test.rrd:speed:AVERAGE LINE2:myspeed#FF0000
+graph_left = 51
+graph_top = 15
+graph_width = 400
+graph_height = 100
+image_width = 481
+image_height = 152
+graph_start = 920804400
+graph_end = 920808000
+value_min = 0.0000000000e+00
+value_max = 4.0000000000e-02
++ test -f ./common/test2.png
++ CHECK_RESULT 0 0 0 'rrdtool graphv: faild to test option --watermark'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rrdtool graphv: faild to test option --watermark'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rrdtool graphv ./common/test3.png -Z -s 920804400 -e 920808000 DEF:myspeed=common/test.rrd:speed:AVERAGE LINE2:myspeed#FF0000
+graph_left = 51
+graph_top = 15
+graph_width = 400
+graph_height = 100
+image_width = 481
+image_height = 141
+graph_start = 920804400
+graph_end = 920808000
+value_min = 0.0000000000e+00
+value_max = 4.0000000000e-02
++ test -f ./common/test3.png
++ CHECK_RESULT 0 0 0 'rrdtool graphv: faild to test option -Z'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rrdtool graphv: faild to test option -Z'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rrdtool graphv ./common/test4.png --use-nan-for-all-missing-data -s 920804400 -e 920808000 DEF:myspeed=common/test.rrd:speed:AVERAGE LINE2:myspeed#FF0000
+graph_left = 51
+graph_top = 15
+graph_width = 400
+graph_height = 100
+image_width = 481
+image_height = 141
+graph_start = 920804400
+graph_end = 920808000
+value_min = 0.0000000000e+00
+value_max = 4.0000000000e-02
++ test -f ./common/test4.png
++ CHECK_RESULT 0 0 0 'rrdtool graphv: faild to test option --use-nan-for-all-missing-data'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rrdtool graphv: faild to test option --use-nan-for-all-missing-data'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu Apr 27 00:20:51 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Apr 27 00:20:52 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu Apr 27 00:20:53 2023 - INFO  - Start to restore the test environment.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpecq7m0wy ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpecq7m0wy
++ '[' 0 -ne 0 ']'
++ rm -rf ./common/test.rrd /var/run/rrdcached.pid ./common/test1.png ./common/test2.png ./common/test3.png ./common/test4.png ./common/test.png
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu Apr 27 00:21:16 2023 - INFO  - End to restore the test environment.

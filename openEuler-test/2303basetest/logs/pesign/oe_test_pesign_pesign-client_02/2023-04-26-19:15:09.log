@@ -1,0 +1,175 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed Apr 26 19:15:14 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL pesign
++ pkgs=pesign
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs pesign --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp6jzqjoia
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp6jzqjoia
++ mkdir pesigntest
++ cd pesigntest
++ cp ../common/baidu.zip ./
++ cp ../common/grubx64.efi ./
++ unzip baidu.zip
+Archive:  baidu.zip
+   creating: baidu/
+  inflating: baidu/cert9.db          
+  inflating: baidu/key4.db           
+  inflating: baidu/pkcs11.txt        
++ pesign -i grubx64.efi -n ./baidu -D
+pesignd starting (pid 0)
++ pesign -i grubx64.efi -o grubx64.efi.signed -c 'ALT Linux UEFI SB CA' -s -n ./baidu -t 'NSS Certificate DB' -a -v -p -P -N
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Wed Apr 26 19:16:12 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Apr 26 19:16:13 2023 - INFO  - Start to run test.
++ pesign-client -i grubx64.efi.signed -o out -c 'ALT Linux UEFI SB CA' -s
++ test -f ./out
++ CHECK_RESULT 0 0 0 'Check pesign-client -i -o -c -s failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check pesign-client -i -o -c -s failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pesign-client --infile=grubx64.efi.signed --outfile=out1 -c 'ALT Linux UEFI SB CA' --sign
++ test -f ./out1
++ CHECK_RESULT 0 0 0 'Check pesign-client --infile --outfile -c --sign failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check pesign-client --infile --outfile -c --sign failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pesign-client -i grubx64.efi.signed -c 'ALT Linux UEFI SB CA' -F out -s -e out2
++ test -f ./out2
++ CHECK_RESULT 0 0 0 'Check pesign-client -i -c -F -s -e failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check pesign-client -i -c -F -s -e failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pesign-client -i grubx64.efi.signed -c 'ALT Linux UEFI SB CA' --pinfile=out -s -e out3
++ test -f ./out3
++ CHECK_RESULT 0 0 0 'Check pesign-client -i -c --pinfile -s -e failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check pesign-client -i -c --pinfile -s -e failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pesign-client -i grubx64.efi.signed -o out4 -c 'ALT Linux UEFI SB CA' -s -f 1
++ test -f ./out4
++ CHECK_RESULT 0 0 0 'Check pesign-client -i -o -c -s -f failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check pesign-client -i -o -c -s -f failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pesign-client -i grubx64.efi.signed -o out5 -c 'ALT Linux UEFI SB CA' -s --pinfd=1
++ test -f ./out5
++ CHECK_RESULT 0 0 0 'Check pesign-client -i -o -c -s --pinfd failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check pesign-client -i -o -c -s --pinfd failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pesign-client -kill
++ CHECK_RESULT 0 0 0 'Check pesign-client -kill failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check pesign-client -kill failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed Apr 26 19:16:20 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Apr 26 19:16:21 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Apr 26 19:16:22 2023 - INFO  - Start to restore the test environment.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp6jzqjoia ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp6jzqjoia
++ '[' 0 -ne 0 ']'
++ grep grubx64.efi
++ ps -ef
++ grep -v grep
++ awk '{print $2}'
++ xargs kill -9
+kill: not enough arguments
++ cd ..
++ rm -rf pesigntest
++ LOG_INFO 'Finish restore the test environment.'
++ message='Finish restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish restore the test environment.'
+Wed Apr 26 19:16:48 2023 - INFO  - Finish restore the test environment.

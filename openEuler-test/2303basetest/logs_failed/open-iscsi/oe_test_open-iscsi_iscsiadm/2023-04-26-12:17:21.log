@@ -1,0 +1,211 @@
++ source ./common/open-iscsi_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Apr 26 12:17:26 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'open-iscsi net-tools'
++ pkgs='open-iscsi net-tools'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'open-iscsi net-tools' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpudypg5us
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpudypg5us
++ DNF_INSTALL 'targetcli net-tools' 2
++ pkgs='targetcli net-tools'
++ node=2
++ '[' -z /tmp/tmpudypg5us ']'
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'targetcli net-tools' --node 2 --tempfile /tmp/tmpudypg5us
+Traceback (most recent call last):
+  File "/root/mugen/libs/locallibs/rpm_manage.py", line 168, in <module>
+    exitcode, output = rpm_install(args.pkgs, args.node, args.tempfile)
+  File "/root/mugen/libs/locallibs/rpm_manage.py", line 66, in rpm_install
+    conn = ssh_cmd.pssh_conn(
+  File "/root/mugen/libs/locallibs/ssh_cmd.py", line 53, in pssh_conn
+    conn.connect(ip, port, user, password, timeout=timeout)
+  File "/usr/lib/python3.10/site-packages/paramiko/client.py", line 340, in connect
+    to_try = list(self._families_and_addresses(hostname, port))
+  File "/usr/lib/python3.10/site-packages/paramiko/client.py", line 203, in _families_and_addresses
+    addrinfos = socket.getaddrinfo(
+  File "/usr/lib64/python3.10/socket.py", line 955, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
++ tmpfile2=
++ '[' -z /tmp/tmpudypg5us ']'
++ TARGET_CONF
+++ TEST_DISK 2
+++ id=2
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 2
+Traceback (most recent call last):
+  File "/root/mugen/libs/locallibs/get_test_device.py", line 127, in <module>
+    print(get_test_disk(args.node))
+  File "/root/mugen/libs/locallibs/get_test_device.py", line 98, in get_test_disk
+    conn = ssh_cmd.pssh_conn(
+  File "/root/mugen/libs/locallibs/ssh_cmd.py", line 53, in pssh_conn
+    conn.connect(ip, port, user, password, timeout=timeout)
+  File "/usr/lib/python3.10/site-packages/paramiko/client.py", line 340, in connect
+    to_try = list(self._families_and_addresses(hostname, port))
+  File "/usr/lib/python3.10/site-packages/paramiko/client.py", line 203, in _families_and_addresses
+    addrinfos = socket.getaddrinfo(
+  File "/usr/lib64/python3.10/socket.py", line 955, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
++ unused_disk=
++ test_disk=/dev/1
+++ ip route
+++ grep 127.0.0.1
+++ awk '{print$3}'
++ LOCAL_NICS=
+++ cat /sys/class/net//address
+cat: /sys/class/net//address: No such file or directory
++ LOCAL_MAC=
++ SSH_CMD '
+    dnf install targetcli net-tools -y;
+    systemctl stop firewalld;
+    systemctl start target;
+    ' '' '' ''
++ cmd='
+    dnf install targetcli net-tools -y;
+    systemctl stop firewalld;
+    systemctl start target;
+    '
++ remoteip=
++ remotepasswd=
++ remoteuser=
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c '
+    dnf install targetcli net-tools -y;
+    systemctl stop firewalld;
+    systemctl start target;
+    ' -i '' -u '' -p '' -t 300 -o 22
+Usage: sshcmd.sh -c "command" -i "remote machinet ip" [-u login_user] [-p login_password] [-o port] [-t timeout]+ ret=1
++ test 1 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:1'
++ message='Failed in remote CMD operation:1'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:1'
+Wed Apr 26 12:18:37 2023 - ERROR - Failed in remote CMD operation:1
++ return 1
++ SSH_SCP ./common/target_config.json @:/etc/target/saveconfig.json ''
++ src=./common/target_config.json
++ dest=@:/etc/target/saveconfig.json
++ remotepasswd=
++ connport=22
++ bash /root/mugen/libs/locallibs/sshscp.sh -p '' -o 22 -s ./common/target_config.json -d @:/etc/target/saveconfig.json
+Wed Apr 26 12:18:38 2023 - WARN  - the connect port using the default configuration
+spawn scp -P 22 -r ./common/target_config.json @:/etc/target/saveconfig.json
+ssh: Could not resolve hostname : Name or service not known
+scp: Connection closed
++ ret=255
++ test 255 -ne 0
++ LOG_ERROR 'Failed in remote SCP operation: 255'
++ message='Failed in remote SCP operation: 255'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote SCP operation: 255'
+Wed Apr 26 12:18:39 2023 - ERROR - Failed in remote SCP operation: 255
++ return 255
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ SSH_CMD '
+    sed -i '\''s|DISK_NAME|/dev/1|g'\'' /etc/target/saveconfig.json;
+    sed -i '\''s/IP_ADDRESS//g'\'' /etc/target/saveconfig.json;
+    systemctl restart target;
+    netstat -tulnp|grep 3260;
+    ' '' '' ''
++ cmd='
+    sed -i '\''s|DISK_NAME|/dev/1|g'\'' /etc/target/saveconfig.json;
+    sed -i '\''s/IP_ADDRESS//g'\'' /etc/target/saveconfig.json;
+    systemctl restart target;
+    netstat -tulnp|grep 3260;
+    '
++ remoteip=
++ remotepasswd=
++ remoteuser=
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c '
+    sed -i '\''s|DISK_NAME|/dev/1|g'\'' /etc/target/saveconfig.json;
+    sed -i '\''s/IP_ADDRESS//g'\'' /etc/target/saveconfig.json;
+    systemctl restart target;
+    netstat -tulnp|grep 3260;
+    ' -i '' -u '' -p '' -t 300 -o 22
+Usage: sshcmd.sh -c "command" -i "remote machinet ip" [-u login_user] [-p login_password] [-o port] [-t timeout]+ ret=1
++ test 1 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:1'
++ message='Failed in remote CMD operation:1'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:1'
+Wed Apr 26 12:18:43 2023 - ERROR - Failed in remote CMD operation:1
++ return 1
++ sed -i 's/InitiatorName=.*$/InitiatorName=iqn.2020-08.com.example:client/g' /etc/iscsi/initiatorname.iscsi
++ systemctl restart iscsid
+Job for iscsid.service failed because the control process exited with error code.
+See "systemctl status iscsid.service" and "journalctl -xeu iscsid.service" for details.
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ systemctl status iscsid
++ grep -i running
++ exit 1
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Apr 26 12:18:48 2023 - INFO  - Start to restore the test environment.
++ SSH_CMD '
+    dd if=/dev/zero of=/dev/ bs=2G count=1;
+    rm -rf /tmp/disk_info.sh;
+    ' '' '' ''
++ cmd='
+    dd if=/dev/zero of=/dev/ bs=2G count=1;
+    rm -rf /tmp/disk_info.sh;
+    '
++ remoteip=
++ remotepasswd=
++ remoteuser=
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c '
+    dd if=/dev/zero of=/dev/ bs=2G count=1;
+    rm -rf /tmp/disk_info.sh;
+    ' -i '' -u '' -p '' -t 300 -o 22
+Usage: sshcmd.sh -c "command" -i "remote machinet ip" [-u login_user] [-p login_password] [-o port] [-t timeout]+ ret=1
++ test 1 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:1'
++ message='Failed in remote CMD operation:1'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:1'
+Wed Apr 26 12:18:49 2023 - ERROR - Failed in remote CMD operation:1
++ return 1
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpudypg5us ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpudypg5us
++ '[' 0 -ne 0 ']'
++ rm -rf '/etc/iscsi/*'
++ LOG_INFO 'Finish restoring the test environment.'
++ message='Finish restoring the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish restoring the test environment.'
+Wed Apr 26 12:19:08 2023 - INFO  - Finish restoring the test environment.

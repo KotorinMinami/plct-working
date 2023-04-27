@@ -1,0 +1,228 @@
++ source ../common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed Apr 26 14:39:55 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL openvswitch-ovn-vtep
++ pkgs=openvswitch-ovn-vtep
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs openvswitch-ovn-vtep --node 1 --tempfile ''
++ tmpfile2='Last metadata expiration check: 14:02:39 ago on Wed 26 Apr 2023 12:37:42 AM CST.
+No match for argument: openvswitch-ovn-vtep
+Error: Unable to find a match: openvswitch-ovn-vtep'
++ '[' -z '' ']'
++ tmpfile='Last metadata expiration check: 14:02:39 ago on Wed 26 Apr 2023 12:37:42 AM CST.
+No match for argument: openvswitch-ovn-vtep
+Error: Unable to find a match: openvswitch-ovn-vtep'
++ service=ovn-controller-vtep.service
+++ date '+%Y-%m-%d %T'
++ log_time='2023-04-26 14:40:22'
++ flag=false
+++ getenforce
+++ grep Enforcing
++ '[' ']'
++ userdel -rf openvswitch_ovn
+userdel: user 'openvswitch_ovn' does not exist
++ useradd openvswitch_ovn
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Wed Apr 26 14:40:23 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Wed Apr 26 14:40:24 2023 - INFO  - Start testing...
++ su - openvswitch_ovn
+spawn service ovn-controller-vtep.service restart
+couldn't execute "service": no such file or directory
+    while executing
+"spawn service ovn-controller-vtep.service restart "
++ grep -iE 'fail|error' /tmp/testlog1
++ CHECK_RESULT 1 1 0 'ovn-controller-vtep.service restart failed'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='ovn-controller-vtep.service restart failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ su - openvswitch_ovn
+Last login: Wed Apr 26 14:40:25 CST 2023
+spawn service ovn-controller-vtep.service stop
+couldn't execute "service": no such file or directory
+    while executing
+"spawn service ovn-controller-vtep.service stop"
++ grep -iE 'fail|error' /tmp/testlog2
++ CHECK_RESULT 1 1 0 'ovn-controller-vtep.service stop failed'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='ovn-controller-vtep.service stop failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ SLEEP_WAIT 10
++ wait_time=10
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 10 --cmd '' --mode 1
++ su - openvswitch_ovn
+Last login: Wed Apr 26 14:40:29 CST 2023
+spawn service ovn-controller-vtep.service start
+couldn't execute "service": no such file or directory
+    while executing
+"spawn service ovn-controller-vtep.service start"
++ grep -iE 'fail|error' /tmp/testlog3
++ CHECK_RESULT 1 1 0 'ovn-controller-vtep.service start failed'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='ovn-controller-vtep.service start failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ su - openvswitch_ovn -c 'service ovn-controller-vtep.service status'
++ grep 'Active: active (running)'
+-bash: line 1: service: command not found
++ CHECK_RESULT 1 0 0 'ovn-controller-vtep.service start failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='ovn-controller-vtep.service start failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'ovn-controller-vtep.service start failed'
++ LOG_ERROR 'ovn-controller-vtep.service start failed'
++ message='ovn-controller-vtep.service start failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'ovn-controller-vtep.service start failed'
+Wed Apr 26 14:40:49 2023 - ERROR - ovn-controller-vtep.service start failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_service_ovn-controller-vtep.sh line 76'
++ message='oe_test_service_ovn-controller-vtep.sh line 76'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_service_ovn-controller-vtep.sh line 76'
+Wed Apr 26 14:40:50 2023 - ERROR - oe_test_service_ovn-controller-vtep.sh line 76
++ '[' 0 -eq 1 ']'
++ return 0
++ journalctl --since '2023-04-26 14:40:22' -u ovn-controller-vtep.service
++ grep -i 'fail\|error'
++ grep -v -i '[FAILED]'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 1 0 'There is an error message for the log of ovn-controller-vtep.service'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='There is an error message for the log of ovn-controller-vtep.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ su - openvswitch_ovn
+Last login: Wed Apr 26 14:40:46 CST 2023
+spawn service ovn-controller-vtep.service reload
+couldn't execute "service": no such file or directory
+    while executing
+"spawn service ovn-controller-vtep.service reload"
++ grep 'Job type reload is not applicable for unit ovn-controller-vtep.service' /tmp/testlog4
++ CHECK_RESULT 1 0 0 'ovn-controller-vtep.service reload failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='ovn-controller-vtep.service reload failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'ovn-controller-vtep.service reload failed'
++ LOG_ERROR 'ovn-controller-vtep.service reload failed'
++ message='ovn-controller-vtep.service reload failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'ovn-controller-vtep.service reload failed'
+Wed Apr 26 14:40:54 2023 - ERROR - ovn-controller-vtep.service reload failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_service_ovn-controller-vtep.sh line 90'
++ message='oe_test_service_ovn-controller-vtep.sh line 90'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_service_ovn-controller-vtep.sh line 90'
+Wed Apr 26 14:40:55 2023 - ERROR - oe_test_service_ovn-controller-vtep.sh line 90
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Wed Apr 26 14:40:56 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z 2
++ test 2 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed Apr 26 14:40:56 2023 - ERROR - failed to execute the case.
++ exit 2
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Wed Apr 26 14:40:57 2023 - INFO  - start environment cleanup.
++ su - openvswitch_ovn
+Last login: Wed Apr 26 14:40:50 CST 2023
+spawn systemctl stop ovn-controller-vtep.service
+[1;31m==== AUTHENTICATING FOR org.freedesktop.systemd1.manage-units ====
+[0mAuthentication is required to stop 'ovn-controller-vtep.service'.
+Authenticating as: Super User (root)
+Password: 
+[1;31m==== AUTHENTICATION COMPLETE ====
+[0mFailed to stop ovn-controller-vtep.service: Unit ovn-controller-vtep.service not loaded.
++ userdel -rf openvswitch_ovn
++ '[' false = true ']'
++ rm -rf /tmp/testlog1 /tmp/testlog2 /tmp/testlog3 /tmp/testlog4
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z Last metadata expiration check: 14:02:39 ago on Wed 26 Apr 2023 12:37:42 AM CST.
+No match for argument: openvswitch-ovn-vtep
+Error: Unable to find a match: openvswitch-ovn-vtep ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile 'Last metadata expiration check: 14:02:39 ago on Wed 26 Apr 2023 12:37:42 AM CST.
+No match for argument: openvswitch-ovn-vtep
+Error: Unable to find a match: openvswitch-ovn-vtep'
+Traceback (most recent call last):
+  File "/root/mugen/libs/locallibs/rpm_manage.py", line 173, in <module>
+    exitcode = rpm_remove(args.node, args.pkgs, args.tempfile)
+  File "/root/mugen/libs/locallibs/rpm_manage.py", line 144, in rpm_remove
+    with open(tmpfile, "r") as f:
+FileNotFoundError: [Errno 2] No such file or directory: 'Last metadata expiration check: 14:02:39 ago on Wed 26 Apr 2023 12:37:42 AM CST.\nNo match for argument: openvswitch-ovn-vtep\nError: Unable to find a match: openvswitch-ovn-vtep'
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Wed Apr 26 14:41:06 2023 - INFO  - Finish environment cleanup!

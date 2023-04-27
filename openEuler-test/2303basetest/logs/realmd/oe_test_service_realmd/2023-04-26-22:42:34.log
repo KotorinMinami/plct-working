@@ -1,0 +1,224 @@
++ source ../common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed Apr 26 22:42:48 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL realmd
++ pkgs=realmd
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs realmd --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp248vvwu8
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp248vvwu8
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Wed Apr 26 22:43:45 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Wed Apr 26 22:43:46 2023 - INFO  - Start testing...
++ test_execution realmd.service
++ service=realmd.service
+++ date '+%Y-%m-%d %T'
++ log_time='2023-04-26 22:43:47'
++ test_restart realmd.service
++ service=realmd.service
++ systemctl restart realmd.service
++ CHECK_RESULT 0 0 0 'realmd.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='realmd.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status realmd.service
++ grep 'Active: active'
+     Active: active (running) since Wed 2023-04-26 22:43:47 CST; 6s ago
++ CHECK_RESULT 0 0 0 'realmd.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='realmd.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop realmd.service
++ CHECK_RESULT 0 0 0 'realmd.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='realmd.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status realmd.service
++ grep 'Active: inactive'
+     Active: inactive (dead)
++ CHECK_RESULT 0 0 0 'realmd.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='realmd.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start realmd.service
++ CHECK_RESULT 0 0 0 'realmd.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='realmd.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status realmd.service
++ grep 'Active: active'
+     Active: active (running) since Wed 2023-04-26 22:44:01 CST; 6s ago
++ CHECK_RESULT 0 0 0 'realmd.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='realmd.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled realmd.service
++ service=realmd.service
+++ systemctl is-enabled realmd.service
++ state=static
++ '[' static == enabled ']'
++ '[' static == disabled ']'
++ '[' static == masked ']'
++ '[' static == static ']'
++ LOG_INFO 'The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
++ message='The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
+Wed Apr 26 22:44:09 2023 - INFO  - The unit files have no installation config,This means they are not meant to be enabled using systemctl.
++ journalctl --since '2023-04-26 22:43:47' -u realmd.service
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
+Apr 26 22:43:47 openeuler-riscv64 realmd[963]: Failed to load module: /usr/lib64/gio/modules/libgioremote-volume-monitor.so
+Apr 26 22:43:47 openeuler-riscv64 realmd[963]: Failed to load module: /usr/lib64/gio/modules/libgvfsdbus.so
+Apr 26 22:44:01 openeuler-riscv64 realmd[1056]: Failed to load module: /usr/lib64/gio/modules/libgioremote-volume-monitor.so
+Apr 26 22:44:01 openeuler-riscv64 realmd[1056]: Failed to load module: /usr/lib64/gio/modules/libgvfsdbus.so
++ CHECK_RESULT 0 0 1 'There is an error message for the log of realmd.service'
++ actual_result=0
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of realmd.service'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 1 -eq 0 ']'
++ test 0x == 0x
++ test -n 'There is an error message for the log of realmd.service'
++ LOG_ERROR 'There is an error message for the log of realmd.service'
++ message='There is an error message for the log of realmd.service'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'There is an error message for the log of realmd.service'
+Wed Apr 26 22:44:11 2023 - ERROR - There is an error message for the log of realmd.service
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 28'
++ message='../common/common_lib.sh line 28'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 28'
+Wed Apr 26 22:44:12 2023 - ERROR - ../common/common_lib.sh line 28
++ '[' 0 -eq 1 ']'
++ return 0
++ test_reload realmd.service
++ service=realmd.service
++ systemctl start realmd.service
++ systemctl reload realmd.service
++ grep 'Job type reload is not applicable'
+Failed to reload realmd.service: Job type reload is not applicable for unit realmd.service.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit realmd.service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit realmd.service'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status realmd.service
++ grep 'Active: active'
+     Active: active (running) since Wed 2023-04-26 22:44:01 CST; 10s ago
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Wed Apr 26 22:44:13 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed Apr 26 22:44:14 2023 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Wed Apr 26 22:44:15 2023 - INFO  - start environment cleanup.
++ systemctl stop realmd.service
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp248vvwu8 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp248vvwu8
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Wed Apr 26 22:44:40 2023 - INFO  - Finish environment cleanup!

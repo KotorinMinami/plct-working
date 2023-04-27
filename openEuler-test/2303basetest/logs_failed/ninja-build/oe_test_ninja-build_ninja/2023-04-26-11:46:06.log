@@ -1,0 +1,231 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed Apr 26 11:46:11 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL 'ninja-build gcc gcc-c++'
++ pkgs='ninja-build gcc gcc-c++'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'ninja-build gcc gcc-c++' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpafzmpunv
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpafzmpunv
++ cp ./common/dome.cpp ./
++ cp ./common/build.ninja ./
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Wed Apr 26 11:46:59 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Apr 26 11:47:00 2023 - INFO  - Start to run test.
++ ninja --help
++ grep 'usage: ninja'
+usage: ninja [options] [targets...]
++ CHECK_RESULT 0 0 0 'Check ninja --help failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ninja --help failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'usage: ninja'
++ ninja -h
+usage: ninja [options] [targets...]
++ CHECK_RESULT 0 0 0 'Check ninja -h failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ninja -h failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep '[[:digit:]]'
++ ninja --version
+1.11.1
++ CHECK_RESULT 0 0 0 'Check ninja --version failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ninja --version failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ninja -C ./common -v
++ grep '\-Wall \-Werror dome.o \-o dome'
+grep: warning: stray \ before -
+grep: warning: stray \ before -
++ CHECK_RESULT 1 0 0 'ninja -C -v failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='ninja -C -v failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'ninja -C -v failed'
++ LOG_ERROR 'ninja -C -v failed'
++ message='ninja -C -v failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'ninja -C -v failed'
+Wed Apr 26 11:47:03 2023 - ERROR - ninja -C -v failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ninja-build_ninja.sh line 44'
++ message='oe_test_ninja-build_ninja.sh line 44'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ninja-build_ninja.sh line 44'
+Wed Apr 26 11:47:04 2023 - ERROR - oe_test_ninja-build_ninja.sh line 44
++ '[' 0 -eq 1 ']'
++ return 0
++ rm -rf ./common/dome ./common/dome.o
++ ninja -f build.ninja -j 2 -k 2 -l 2
+[1/2] make dome.cpp become dome.o
+FAILED: dome.o 
+g++ -c -Wall -Werror -MD -MF dome.o.d dome.cpp -o dome.o
+In file included from /usr/include/errno.h:28,
+                 from /usr/include/c++/10.3.1/cerrno:42,
+                 from /usr/include/c++/10.3.1/ext/string_conversions.h:44,
+                 from /usr/include/c++/10.3.1/bits/basic_string.h:6545,
+                 from /usr/include/c++/10.3.1/string:55,
+                 from /usr/include/c++/10.3.1/bits/locale_classes.h:40,
+                 from /usr/include/c++/10.3.1/bits/ios_base.h:41,
+                 from /usr/include/c++/10.3.1/ios:42,
+                 from /usr/include/c++/10.3.1/ostream:38,
+                 from /usr/include/c++/10.3.1/iostream:39,
+                 from dome.cpp:1:
+/usr/include/bits/errno.h:26:11: fatal error: linux/errno.h: No such file or directory
+   26 | # include <linux/errno.h>
+      |           ^~~~~~~~~~~~~~~
+compilation terminated.
+ninja: build stopped: cannot make progress due to previous errors.
++ ./dome
++ grep hello
+oe_test_ninja-build_ninja.sh: line 48: ./dome: No such file or directory
++ CHECK_RESULT 1 0 0 'ninja -f build.ninja -j -k -l failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='ninja -f build.ninja -j -k -l failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'ninja -f build.ninja -j -k -l failed'
++ LOG_ERROR 'ninja -f build.ninja -j -k -l failed'
++ message='ninja -f build.ninja -j -k -l failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'ninja -f build.ninja -j -k -l failed'
+Wed Apr 26 11:47:06 2023 - ERROR - ninja -f build.ninja -j -k -l failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ninja-build_ninja.sh line 49'
++ message='oe_test_ninja-build_ninja.sh line 49'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ninja-build_ninja.sh line 49'
+Wed Apr 26 11:47:07 2023 - ERROR - oe_test_ninja-build_ninja.sh line 49
++ '[' 0 -eq 1 ']'
++ return 0
++ rm -rf dome dome.o
++ ninja -n -f build.ninja
++ grep connect
+[2/2] connect dome.o become dome
++ CHECK_RESULT 0 0 0 'Check ninja -n -f build.ninja failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ninja -n -f build.ninja failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ninja -d list
++ grep 'debugging modes'
+debugging modes:
++ CHECK_RESULT 0 0 0 'Check ninja -d list failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ninja -d list failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ninja -t list
++ grep 'ninja subtools'
+ninja subtools:
++ CHECK_RESULT 0 0 0 'Check ninja -t list failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ninja -t list failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ninja -w list
++ grep 'warning flags'
+warning flags:
++ CHECK_RESULT 0 0 0 'Check ninja -w list failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ninja -w list failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ CASE_RESULT 0
++ case_re=0
++ test -z 2
++ test 2 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed Apr 26 11:47:08 2023 - ERROR - failed to execute the case.
++ exit 2
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Apr 26 11:47:09 2023 - INFO  - Start to restore the test environment.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpafzmpunv ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpafzmpunv
++ '[' 0 -ne 0 ']'
++ rm -rf dome.cpp build.ninja
++ LOG_INFO 'Finish restoring the test environment.'
++ message='Finish restoring the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish restoring the test environment.'
+Wed Apr 26 11:47:24 2023 - INFO  - Finish restoring the test environment.

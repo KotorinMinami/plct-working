@@ -1,0 +1,211 @@
++ source ../common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu Apr 27 03:15:27 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL sssd
++ pkgs=sssd
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs sssd --node 1 --tempfile ''
++ tmpfile2=/tmp/tmphx0ftskc
++ '[' -z '' ']'
++ tmpfile=/tmp/tmphx0ftskc
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu Apr 27 03:16:24 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Thu Apr 27 03:16:25 2023 - INFO  - Start testing...
++ test_execution sssd-ifp.service
++ service=sssd-ifp.service
+++ date '+%Y-%m-%d %T'
++ log_time='2023-04-27 03:16:25'
++ test_restart sssd-ifp.service
++ service=sssd-ifp.service
++ systemctl restart sssd-ifp.service
++ CHECK_RESULT 0 0 0 'sssd-ifp.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='sssd-ifp.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ grep 'Active: active'
++ systemctl status sssd-ifp.service
+     Active: active (running) since Thu 2023-04-27 03:16:28 CST; 6s ago
++ CHECK_RESULT 0 0 0 'sssd-ifp.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='sssd-ifp.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop sssd-ifp.service
++ CHECK_RESULT 0 0 0 'sssd-ifp.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='sssd-ifp.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status sssd-ifp.service
++ grep 'Active: inactive'
+     Active: inactive (dead)
++ CHECK_RESULT 0 0 0 'sssd-ifp.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='sssd-ifp.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start sssd-ifp.service
++ CHECK_RESULT 0 0 0 'sssd-ifp.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='sssd-ifp.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status sssd-ifp.service
++ grep 'Active: active'
+     Active: active (running) since Thu 2023-04-27 03:16:42 CST; 6s ago
++ CHECK_RESULT 0 0 0 'sssd-ifp.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='sssd-ifp.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled sssd-ifp.service
++ service=sssd-ifp.service
+++ systemctl is-enabled sssd-ifp.service
++ state=static
++ '[' static == enabled ']'
++ '[' static == disabled ']'
++ '[' static == masked ']'
++ '[' static == static ']'
++ LOG_INFO 'The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
++ message='The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
+Thu Apr 27 03:16:49 2023 - INFO  - The unit files have no installation config,This means they are not meant to be enabled using systemctl.
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ journalctl --since '2023-04-27 03:16:25' -u sssd-ifp.service
++ CHECK_RESULT 1 0 1 'There is an error message for the log of sssd-ifp.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of sssd-ifp.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_reload sssd-ifp.service
++ service=sssd-ifp.service
++ systemctl start sssd-ifp.service
++ systemctl reload sssd-ifp.service
++ grep 'Job type reload is not applicable'
+Failed to reload sssd-ifp.service: Job type reload is not applicable for unit sssd-ifp.service.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit sssd-ifp.service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit sssd-ifp.service'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'Active: active'
++ systemctl status sssd-ifp.service
+     Active: active (running) since Thu 2023-04-27 03:16:42 CST; 8s ago
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Thu Apr 27 03:16:51 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Apr 27 03:16:52 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu Apr 27 03:16:53 2023 - INFO  - start environment cleanup.
++ systemctl stop sssd-ifp.service
++ systemctl stop sssd.service
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmphx0ftskc ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmphx0ftskc
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Apr 27 03:17:20 2023 - INFO  - Finish environment cleanup!

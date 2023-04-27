@@ -1,0 +1,339 @@
++ source ./common.sh
+++ source ../common/common_lib.sh
++++ source /root/mugen/libs/locallibs/common_lib.sh
+++++ python3 --version
+++++ '[' 0 -eq 0 ']'
+++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed Apr 26 15:00:04 2023 - INFO  - Start environmental preparation.
++ env_pre
++ flag=false
+++ getenforce
+++ grep Enforcing
++ '[' ']'
++ DNF_INSTALL 'mariadb-server obs-api obs-server'
++ pkgs='mariadb-server obs-api obs-server'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'mariadb-server obs-api obs-server' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpt0klzkny
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpt0klzkny
++ mv /etc/my.cnf /etc/my.bak
++ systemctl start mariadb
++ echo 'create database api_production;'
++ mysql
++ systemctl start obssrcserver
++ sed -i 's/OBS_API_AUTOSETUP="no"/OBS_API_AUTOSETUP="yes"/g' /etc/sysconfig/obs-server
++ systemctl start obsapisetup
+Job for obsapisetup.service failed because the control process exited with error code.
+See "systemctl status obsapisetup.service" and "journalctl -xeu obsapisetup.service" for details.
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Wed Apr 26 15:08:43 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Wed Apr 26 15:08:44 2023 - INFO  - Start testing...
++ test_execution obs-delayedjob-queue-mailers.service
++ service=obs-delayedjob-queue-mailers.service
+++ date '+%Y-%m-%d %T'
++ log_time='2023-04-26 15:08:44'
++ test_restart obs-delayedjob-queue-mailers.service
++ service=obs-delayedjob-queue-mailers.service
++ systemctl restart obs-delayedjob-queue-mailers.service
+Job for obs-delayedjob-queue-mailers.service failed because the control process exited with error code.
+See "systemctl status obs-delayedjob-queue-mailers.service" and "journalctl -xeu obs-delayedjob-queue-mailers.service" for details.
++ CHECK_RESULT 1 0 0 'obs-delayedjob-queue-mailers.service restart failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='obs-delayedjob-queue-mailers.service restart failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'obs-delayedjob-queue-mailers.service restart failed'
++ LOG_ERROR 'obs-delayedjob-queue-mailers.service restart failed'
++ message='obs-delayedjob-queue-mailers.service restart failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'obs-delayedjob-queue-mailers.service restart failed'
+Wed Apr 26 15:11:07 2023 - ERROR - obs-delayedjob-queue-mailers.service restart failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 34'
++ message='../common/common_lib.sh line 34'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 34'
+Wed Apr 26 15:11:08 2023 - ERROR - ../common/common_lib.sh line 34
++ '[' 0 -eq 1 ']'
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status obs-delayedjob-queue-mailers.service
++ grep 'Active: active'
++ CHECK_RESULT 1 0 0 'obs-delayedjob-queue-mailers.service restart failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='obs-delayedjob-queue-mailers.service restart failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'obs-delayedjob-queue-mailers.service restart failed'
++ LOG_ERROR 'obs-delayedjob-queue-mailers.service restart failed'
++ message='obs-delayedjob-queue-mailers.service restart failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'obs-delayedjob-queue-mailers.service restart failed'
+Wed Apr 26 15:11:15 2023 - ERROR - obs-delayedjob-queue-mailers.service restart failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 37'
++ message='../common/common_lib.sh line 37'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 37'
+Wed Apr 26 15:11:16 2023 - ERROR - ../common/common_lib.sh line 37
++ '[' 0 -eq 1 ']'
++ return 0
++ systemctl stop obs-delayedjob-queue-mailers.service
++ CHECK_RESULT 0 0 0 'obs-delayedjob-queue-mailers.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='obs-delayedjob-queue-mailers.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status obs-delayedjob-queue-mailers.service
++ grep 'Active: inactive'
++ CHECK_RESULT 1 0 0 'obs-delayedjob-queue-mailers.service stop failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='obs-delayedjob-queue-mailers.service stop failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'obs-delayedjob-queue-mailers.service stop failed'
++ LOG_ERROR 'obs-delayedjob-queue-mailers.service stop failed'
++ message='obs-delayedjob-queue-mailers.service stop failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'obs-delayedjob-queue-mailers.service stop failed'
+Wed Apr 26 15:11:24 2023 - ERROR - obs-delayedjob-queue-mailers.service stop failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 42'
++ message='../common/common_lib.sh line 42'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 42'
+Wed Apr 26 15:11:25 2023 - ERROR - ../common/common_lib.sh line 42
++ '[' 0 -eq 1 ']'
++ return 0
++ systemctl start obs-delayedjob-queue-mailers.service
+Job for obs-delayedjob-queue-mailers.service failed because the control process exited with error code.
+See "systemctl status obs-delayedjob-queue-mailers.service" and "journalctl -xeu obs-delayedjob-queue-mailers.service" for details.
++ CHECK_RESULT 1 0 0 'obs-delayedjob-queue-mailers.service start failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='obs-delayedjob-queue-mailers.service start failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'obs-delayedjob-queue-mailers.service start failed'
++ LOG_ERROR 'obs-delayedjob-queue-mailers.service start failed'
++ message='obs-delayedjob-queue-mailers.service start failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'obs-delayedjob-queue-mailers.service start failed'
+Wed Apr 26 15:12:13 2023 - ERROR - obs-delayedjob-queue-mailers.service start failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 44'
++ message='../common/common_lib.sh line 44'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 44'
+Wed Apr 26 15:12:14 2023 - ERROR - ../common/common_lib.sh line 44
++ '[' 0 -eq 1 ']'
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status obs-delayedjob-queue-mailers.service
++ grep 'Active: active'
++ CHECK_RESULT 1 0 0 'obs-delayedjob-queue-mailers.service start failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='obs-delayedjob-queue-mailers.service start failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'obs-delayedjob-queue-mailers.service start failed'
++ LOG_ERROR 'obs-delayedjob-queue-mailers.service start failed'
++ message='obs-delayedjob-queue-mailers.service start failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'obs-delayedjob-queue-mailers.service start failed'
+Wed Apr 26 15:12:21 2023 - ERROR - obs-delayedjob-queue-mailers.service start failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 47'
++ message='../common/common_lib.sh line 47'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 47'
+Wed Apr 26 15:12:22 2023 - ERROR - ../common/common_lib.sh line 47
++ '[' 0 -eq 1 ']'
++ return 0
++ test_enabled obs-delayedjob-queue-mailers.service
++ service=obs-delayedjob-queue-mailers.service
+++ systemctl is-enabled obs-delayedjob-queue-mailers.service
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ systemctl enable obs-delayedjob-queue-mailers.service
+++ grep 'Created symlink'
+++ awk '{print $3}'
++ symlink_file=/etc/systemd/system/obs-api-support.target.wants/obs-delayedjob-queue-mailers.service
++ find /etc/systemd/system/obs-api-support.target.wants/obs-delayedjob-queue-mailers.service
+/etc/systemd/system/obs-api-support.target.wants/obs-delayedjob-queue-mailers.service
++ CHECK_RESULT 0 0 0 'obs-delayedjob-queue-mailers.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='obs-delayedjob-queue-mailers.service enable failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable obs-delayedjob-queue-mailers.service
+Removed /etc/systemd/system/obs-api-support.target.wants/obs-delayedjob-queue-mailers.service.
++ find /etc/systemd/system/obs-api-support.target.wants/obs-delayedjob-queue-mailers.service
+find: ‘/etc/systemd/system/obs-api-support.target.wants/obs-delayedjob-queue-mailers.service’: No such file or directory
++ CHECK_RESULT 1 0 1 'obs-delayedjob-queue-mailers.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='obs-delayedjob-queue-mailers.service disable failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ journalctl --since '2023-04-26 15:08:44' -u obs-delayedjob-queue-mailers.service
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ grep -i 'fail\|error'
+Apr 26 15:11:06 openeuler-riscv64 bundle[58261]: bundler: failed to load command: script/delayed_job.api.rb (script/delayed_job.api.rb)
+Apr 26 15:11:06 openeuler-riscv64 bundle[58261]: /srv/www/obs/api/config/environments/production.rb:45:in `block in <top (required)>': uninitialized constant Uglifier (NameError)
+Apr 26 15:11:06 openeuler-riscv64 bundle[58261]:         from /usr/share/gems/gems/bundler-2.3.26/lib/bundler/friendly_errors.rb:120:in `with_friendly_errors'
+Apr 26 15:11:06 openeuler-riscv64 bundle[58261]: Error while parsing config file /srv/www/obs/api/config/options.yml
+Apr 26 15:11:06 openeuler-riscv64 systemd[1]: obs-delayedjob-queue-mailers.service: Control process exited, code=exited, status=1/FAILURE
+Apr 26 15:11:06 openeuler-riscv64 systemd[1]: obs-delayedjob-queue-mailers.service: Failed with result 'exit-code'.
+Apr 26 15:11:06 openeuler-riscv64 systemd[1]: Failed to start Open Build Service DelayedJob Queue: mailers.
+Apr 26 15:12:12 openeuler-riscv64 bundle[58423]: bundler: failed to load command: script/delayed_job.api.rb (script/delayed_job.api.rb)
+Apr 26 15:12:12 openeuler-riscv64 bundle[58423]: /srv/www/obs/api/config/environments/production.rb:45:in `block in <top (required)>': uninitialized constant Uglifier (NameError)
+Apr 26 15:12:12 openeuler-riscv64 bundle[58423]:         from /usr/share/gems/gems/bundler-2.3.26/lib/bundler/friendly_errors.rb:120:in `with_friendly_errors'
+Apr 26 15:12:12 openeuler-riscv64 bundle[58423]: Error while parsing config file /srv/www/obs/api/config/options.yml
+Apr 26 15:12:12 openeuler-riscv64 systemd[1]: obs-delayedjob-queue-mailers.service: Control process exited, code=exited, status=1/FAILURE
+Apr 26 15:12:12 openeuler-riscv64 systemd[1]: obs-delayedjob-queue-mailers.service: Failed with result 'exit-code'.
+Apr 26 15:12:12 openeuler-riscv64 systemd[1]: Failed to start Open Build Service DelayedJob Queue: mailers.
++ CHECK_RESULT 0 0 1 'There is an error message for the log of obs-delayedjob-queue-mailers.service'
++ actual_result=0
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of obs-delayedjob-queue-mailers.service'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 1 -eq 0 ']'
++ test 0x == 0x
++ test -n 'There is an error message for the log of obs-delayedjob-queue-mailers.service'
++ LOG_ERROR 'There is an error message for the log of obs-delayedjob-queue-mailers.service'
++ message='There is an error message for the log of obs-delayedjob-queue-mailers.service'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'There is an error message for the log of obs-delayedjob-queue-mailers.service'
+Wed Apr 26 15:12:34 2023 - ERROR - There is an error message for the log of obs-delayedjob-queue-mailers.service
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 28'
++ message='../common/common_lib.sh line 28'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 28'
+Wed Apr 26 15:12:35 2023 - ERROR - ../common/common_lib.sh line 28
++ '[' 0 -eq 1 ']'
++ return 0
++ test_reload obs-delayedjob-queue-mailers.service
++ service=obs-delayedjob-queue-mailers.service
++ systemctl start obs-delayedjob-queue-mailers.service
+Job for obs-delayedjob-queue-mailers.service failed because the control process exited with error code.
+See "systemctl status obs-delayedjob-queue-mailers.service" and "journalctl -xeu obs-delayedjob-queue-mailers.service" for details.
++ systemctl reload obs-delayedjob-queue-mailers.service
++ grep 'Job type reload is not applicable'
+Failed to reload obs-delayedjob-queue-mailers.service: Job type reload is not applicable for unit obs-delayedjob-queue-mailers.service.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit obs-delayedjob-queue-mailers.service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit obs-delayedjob-queue-mailers.service'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status obs-delayedjob-queue-mailers.service
++ grep 'Active: active'
++ systemctl status obs-delayedjob-queue-mailers.service
++ grep 'inactive (dead)'
++ return 1
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Wed Apr 26 15:13:22 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z 6
++ test 6 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed Apr 26 15:13:23 2023 - ERROR - failed to execute the case.
++ exit 6
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Wed Apr 26 15:13:24 2023 - INFO  - start environment cleanup.
++ systemctl stop obs-delayedjob-queue-mailers.service
++ env_post
++ systemctl stop mariadb obssrcserver obsapisetup
++ sed -i 's/OBS_API_AUTOSETUP="yes"/OBS_API_AUTOSETUP="no"/g' /etc/sysconfig/obs-server
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpt0klzkny ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpt0klzkny
++ '[' 0 -ne 0 ']'
++ mv /etc/my.bak /etc/my.cnf
++ rm -rf /var/lib/mysql/api_production /var/lib/mysql/aria_log.00000001 /var/lib/mysql/aria_log_control /var/lib/mysql/ib_buffer_pool /var/lib/mysql/ibdata1 /var/lib/mysql/ib_logfile0 /var/lib/mysql/multi-master.info /var/lib/mysql/mysql /var/lib/mysql/mysql_upgrade_info /var/lib/mysql/performance_schema
++ '[' false = true ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Wed Apr 26 15:15:03 2023 - INFO  - Finish environment cleanup!

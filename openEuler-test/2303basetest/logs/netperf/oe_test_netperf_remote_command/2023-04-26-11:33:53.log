@@ -1,0 +1,413 @@
++ source ./common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ grep expect
++ rpm -qa
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Apr 26 11:33:58 2023 - INFO  - Start to prepare the test environment.
++ pre_env
++ DNF_INSTALL netperf
++ pkgs=netperf
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs netperf --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpj41e7lqb
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpj41e7lqb
++ DNF_INSTALL netperf 2
++ pkgs=netperf
++ node=2
++ '[' -z /tmp/tmpj41e7lqb ']'
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs netperf --node 2 --tempfile /tmp/tmpj41e7lqb
++ tmpfile2=/tmp/tmpj41e7lqb
++ '[' -z /tmp/tmpj41e7lqb ']'
+++ GET_FREE_PORT 10.198.114.4
+++ ip=10.198.114.4
+++ start_port=1000
+++ end_port=10000
+++ python3 /root/mugen/libs/locallibs/free_port.py get --ip 10.198.114.4 --start 1000 --end 10000
++ rdport=1549
++ P_SSH_CMD --cmd 'systemctl stop firewalld'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'systemctl stop firewalld'
+Failed to stop firewalld.service: Unit firewalld.service not loaded.
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Wed Apr 26 11:35:58 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Apr 26 11:35:59 2023 - INFO  - Start to run test.
++ P_SSH_CMD --cmd 'netserver -h 2>&1 | grep Usage'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'netserver -h 2>&1 | grep Usage'
+Usage: netserver [options] 
++ CHECK_RESULT 0 0 0 'netserver -h failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netserver -h failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ P_SSH_CMD --cmd 'netserver -V'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'netserver -V'
++ grep version
+Netperf version 2.7.0
++ CHECK_RESULT 0 0 0 'netserver -V failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netserver -V failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep check_if_inetd
++ P_SSH_CMD --cmd 'netserver -d -p 1549'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'netserver -d -p 1549'
+check_if_inetd: enter
++ CHECK_RESULT 0 0 0 'netserver -d failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netserver -d failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_server Throughput -d
++ netperf -H 10.198.114.4 -p 1549 -l 1
++ grep Throughput
+Size   Size    Size     Time     Throughput  
++ CHECK_RESULT 0 0 0 'after netserver -d,netperf execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='after netserver -d,netperf execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ P_SSH_CMD --cmd 'pkill -9 netserver
+        netstat -apn'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'pkill -9 netserver
+        netstat -apn'
++ grep netserver
++ CHECK_RESULT 1 0 1 'pkill -9 netserver execution failed.'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='pkill -9 netserver execution failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ grep 'Starting netserver'
++ P_SSH_CMD --cmd 'netserver -f -N -v 2 -p 1549'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'netserver -f -N -v 2 -p 1549'
+Starting netserver with host 'IN(6)ADDR_ANY' port '1549' and family AF_UNSPEC
++ CHECK_RESULT 0 0 0 'netserver -f -N -v 2 failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netserver -f -N -v 2 failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_server Throughput '-f -N -v 2'
++ netperf -H 10.198.114.4 -p 1549 -l 1
++ grep Throughput
+Size   Size    Size     Time     Throughput  
++ CHECK_RESULT 0 0 0 'after netserver -f -N -v 2,netperf execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='after netserver -f -N -v 2,netperf execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep netserver
++ P_SSH_CMD --cmd 'pkill -9 netserver
+        netstat -apn'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'pkill -9 netserver
+        netstat -apn'
++ CHECK_RESULT 1 0 1 'pkill -9 netserver execution failed.'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='pkill -9 netserver execution failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ P_SSH_CMD --cmd 'netserver -L ,AF_INET6 -p 1549'
++ grep AF_INET6
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'netserver -L ,AF_INET6 -p 1549'
+Starting netserver with host 'IN(6)ADDR_ANY' port '1549' and family AF_INET6
++ CHECK_RESULT 0 0 0 'netserver -L name,family failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netserver -L name,family failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_server Throughput '-L name,family'
++ grep Throughput
++ netperf -H 10.198.114.4 -p 1549 -l 1
+Size   Size    Size     Time     Throughput  
++ CHECK_RESULT 0 0 0 'after netserver -L name,family,netperf execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='after netserver -L name,family,netperf execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ P_SSH_CMD --cmd 'pkill -9 netserver
+        netstat -apn'
++ grep netserver
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'pkill -9 netserver
+        netstat -apn'
++ CHECK_RESULT 1 0 1 'pkill -9 netserver execution failed.'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='pkill -9 netserver execution failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ grep 'Starting netserver'
++ P_SSH_CMD --cmd 'netserver -4 -p 1549'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'netserver -4 -p 1549'
+Starting netserver with host 'IN(6)ADDR_ANY' port '1549' and family AF_INET
++ CHECK_RESULT 0 0 0 'netserver -4 failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netserver -4 failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_server Throughput -4
++ netperf -H 10.198.114.4 -p 1549 -l 1
++ grep Throughput
+Size   Size    Size     Time     Throughput  
++ CHECK_RESULT 0 0 0 'after netserver -4,netperf execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='after netserver -4,netperf execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ P_SSH_CMD --cmd 'pkill -9 netserver
+        netstat -apn'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'pkill -9 netserver
+        netstat -apn'
++ grep netserver
++ CHECK_RESULT 1 0 1 'pkill -9 netserver execution failed.'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='pkill -9 netserver execution failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ P_SSH_CMD --cmd 'netserver -6 -p 1549'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'netserver -6 -p 1549'
++ grep AF_INET6
+Starting netserver with host 'IN(6)ADDR_ANY' port '1549' and family AF_INET6
++ CHECK_RESULT 0 0 0 'netserver -6 failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netserver -6 failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_server Throughput -6
++ netperf -H 10.198.114.4 -p 1549 -l 1
++ grep Throughput
+Size   Size    Size     Time     Throughput  
++ CHECK_RESULT 0 0 0 'after netserver -6,netperf execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='after netserver -6,netperf execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ P_SSH_CMD --cmd 'pkill -9 netserver
+        netstat -apn'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'pkill -9 netserver
+        netstat -apn'
++ grep netserver
++ CHECK_RESULT 1 0 1 'pkill -9 netserver execution failed.'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='pkill -9 netserver execution failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ P_SSH_CMD --cmd 'netserver -Z 123 -p 1549'
++ grep 'Starting netserver'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'netserver -Z 123 -p 1549'
+Starting netserver with host 'IN(6)ADDR_ANY' port '1549' and family AF_UNSPEC
++ CHECK_RESULT 0 0 0 'netserver -Z 123 failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netserver -Z 123 failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ netperf -H 10.198.114.4 -Z 123 -p 1549 -l 1
++ grep Throughput
+Size   Size    Size     Time     Throughput  
++ CHECK_RESULT 0 0 0 'after netserver -Z 123,netperf -Z execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='after netserver -Z 123,netperf -Z execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ P_SSH_CMD --cmd 'pkill -9 netserver
+        netstat -apn'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'pkill -9 netserver
+        netstat -apn'
++ grep netserver
++ CHECK_RESULT 1 0 1 'pkill -9 netserver execution failed.'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='pkill -9 netserver execution failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed Apr 26 11:38:25 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Apr 26 11:38:25 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Apr 26 11:38:27 2023 - INFO  - Start to restore the test environment.
++ clean_env
++ P_SSH_CMD --cmd 'systemctl start firewalld'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'systemctl start firewalld'
+Failed to start firewalld.service: Unit firewalld.service not found.
++ DNF_REMOVE 0
++ node=0
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpj41e7lqb ]]
++ '[' 0 -ne 0 ']'
++ '[' 0 == 0 ']'
+++ python3 /root/mugen/libs/locallibs/read_conf.py node-num
++ node_num=2
+++ seq 1 2
++ for node_id in $(seq 1 $node_num)
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpj41e7lqb
++ for node_id in $(seq 1 $node_num)
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 2 --pkgs '' --tempfile /tmp/tmpj41e7lqb
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed Apr 26 11:39:29 2023 - INFO  - End to restore the test environment.

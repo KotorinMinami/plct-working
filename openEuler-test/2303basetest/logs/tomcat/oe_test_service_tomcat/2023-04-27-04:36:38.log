@@ -1,0 +1,236 @@
++ source ../common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu Apr 27 04:36:43 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL tomcat
++ pkgs=tomcat
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs tomcat --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpnjrs2a__
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpnjrs2a__
++ sed -i 's/protocol="AJP\/1.3"/protocol="AJP\/1.3" secretRequired=""/g' /etc/tomcat/server.xml
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu Apr 27 04:38:35 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Thu Apr 27 04:38:36 2023 - INFO  - Start testing...
++ test_execution tomcat.service
++ service=tomcat.service
+++ date '+%Y-%m-%d %T'
++ log_time='2023-04-27 04:38:36'
++ test_restart tomcat.service
++ service=tomcat.service
++ systemctl restart tomcat.service
++ CHECK_RESULT 0 0 0 'tomcat.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='tomcat.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status tomcat.service
++ grep 'Active: active'
+     Active: active (running) since Thu 2023-04-27 04:38:36 CST; 6s ago
++ CHECK_RESULT 0 0 0 'tomcat.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='tomcat.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop tomcat.service
++ CHECK_RESULT 0 0 0 'tomcat.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='tomcat.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status tomcat.service
++ grep 'Active: inactive'
+     Active: inactive (dead)
++ CHECK_RESULT 0 0 0 'tomcat.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='tomcat.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start tomcat.service
++ CHECK_RESULT 0 0 0 'tomcat.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='tomcat.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status tomcat.service
++ grep 'Active: active'
+     Active: active (running) since Thu 2023-04-27 04:38:50 CST; 6s ago
++ CHECK_RESULT 0 0 0 'tomcat.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='tomcat.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled tomcat.service
++ service=tomcat.service
+++ systemctl is-enabled tomcat.service
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ systemctl enable tomcat.service
+++ grep 'Created symlink'
+++ awk '{print $3}'
++ symlink_file=/etc/systemd/system/multi-user.target.wants/tomcat.service
++ find /etc/systemd/system/multi-user.target.wants/tomcat.service
+/etc/systemd/system/multi-user.target.wants/tomcat.service
++ CHECK_RESULT 0 0 0 'tomcat.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='tomcat.service enable failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable tomcat.service
+Removed /etc/systemd/system/multi-user.target.wants/tomcat.service.
++ find /etc/systemd/system/multi-user.target.wants/tomcat.service
+find: ‘/etc/systemd/system/multi-user.target.wants/tomcat.service’: No such file or directory
++ CHECK_RESULT 1 0 1 'tomcat.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='tomcat.service disable failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ journalctl --since '2023-04-27 04:38:36' -u tomcat.service
++ grep -i 'fail\|error'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of tomcat.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of tomcat.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_reload tomcat.service
++ service=tomcat.service
++ systemctl start tomcat.service
++ systemctl reload tomcat.service
++ grep 'Job type reload is not applicable'
+Failed to reload tomcat.service: Job type reload is not applicable for unit tomcat.service.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit tomcat.service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit tomcat.service'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status tomcat.service
++ grep 'Active: active'
+     Active: active (running) since Thu 2023-04-27 04:38:50 CST; 16s ago
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Thu Apr 27 04:39:07 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Apr 27 04:39:08 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu Apr 27 04:39:09 2023 - INFO  - start environment cleanup.
++ systemctl stop tomcat.service
++ sed -i 's/protocol="AJP\/1.3" secretRequired=""/protocol="AJP\/1.3"/g' /etc/tomcat/server.xml
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpnjrs2a__ ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpnjrs2a__
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Apr 27 04:39:37 2023 - INFO  - Finish environment cleanup!

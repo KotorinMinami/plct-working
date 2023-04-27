@@ -1,0 +1,354 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Apr 26 19:55:03 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'pps-tools kernel-source'
++ pkgs='pps-tools kernel-source'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'pps-tools kernel-source' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpltlst9lp
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpltlst9lp
++++ dirname oe_test_pps-tools.sh
+++ cd .
+++ pwd
++ CRTDIR=/root/mugen/testcases/cli-test/pps-tools
++ mkdir pps_client
++ cd ./pps_client
+++ find / -name pps-ktimer.c
+find: ‘/proc/4357’: No such file or directory
+find: ‘/proc/4363’: No such file or directory
++ cp /usr/src/linux-6.1.8-3.oe2303.riscv64/drivers/pps/clients/pps-ktimer.c pps-ktimer1.c
++ cp pps-ktimer1.c pps-ktimer2.c
++ sed -i s/PPS_CAPTUREASSERT/PPS_CAPTURECLEAR/g pps-ktimer2.c
++ sed -i s/PPS_OFFSETASSERT/PPS_OFFSETCLEAR/g pps-ktimer2.c
++ echo 'obj-m+=pps-ktimer1.o
+obj-m+=pps-ktimer2.o
+
+all:
+	make -C /lib/modules/$(shell uname -r)/build M=`pwd` modules'
++ make
+make -C /lib/modules/6.1.8-3.oe2303.riscv64/build M=`pwd` modules
+make[1]: Entering directory '/usr/src/kernels/6.1.8-3.oe2303.riscv64'
+warning: the compiler differs from the one used to build the kernel
+  The kernel was built by: gcc_old (GCC) 10.3.1
+  You are using:           gcc (GCC) 10.3.1
+  CC [M]  /root/mugen/testcases/cli-test/pps-tools/pps_client/pps-ktimer1.o
+  CC [M]  /root/mugen/testcases/cli-test/pps-tools/pps_client/pps-ktimer2.o
+  MODPOST /root/mugen/testcases/cli-test/pps-tools/pps_client/Module.symvers
+ERROR: modpost: "pps_event" [/root/mugen/testcases/cli-test/pps-tools/pps_client/pps-ktimer1.ko] undefined!
+ERROR: modpost: "pps_register_source" [/root/mugen/testcases/cli-test/pps-tools/pps_client/pps-ktimer1.ko] undefined!
+ERROR: modpost: "pps_unregister_source" [/root/mugen/testcases/cli-test/pps-tools/pps_client/pps-ktimer1.ko] undefined!
+ERROR: modpost: "pps_event" [/root/mugen/testcases/cli-test/pps-tools/pps_client/pps-ktimer2.ko] undefined!
+ERROR: modpost: "pps_register_source" [/root/mugen/testcases/cli-test/pps-tools/pps_client/pps-ktimer2.ko] undefined!
+ERROR: modpost: "pps_unregister_source" [/root/mugen/testcases/cli-test/pps-tools/pps_client/pps-ktimer2.ko] undefined!
+make[2]: *** [scripts/Makefile.modpost:126: /root/mugen/testcases/cli-test/pps-tools/pps_client/Module.symvers] Error 1
+make[1]: *** [Makefile:1944: modpost] Error 2
+make[1]: Leaving directory '/usr/src/kernels/6.1.8-3.oe2303.riscv64'
+make: *** [Makefile:5: all] Error 2
++ insmod pps-ktimer1.ko
+insmod: ERROR: could not load module pps-ktimer1.ko: No such file or directory
++ insmod pps-ktimer2.ko
+insmod: ERROR: could not load module pps-ktimer2.ko: No such file or directory
++ cd /root/mugen/testcases/cli-test/pps-tools
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Wed Apr 26 20:07:41 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Apr 26 20:07:42 2023 - INFO  - Start to run test.
++ grep 'pps[0-9]:.*name=ktimer path='
++ ppsfind ktimer
+grep: /sys/class/pps//*/name: No such file or directory
+grep: /sys/class/pps//*/path: No such file or directory
++ CHECK_RESULT 1 0 0 'ppsfind command failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='ppsfind command failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'ppsfind command failed'
++ LOG_ERROR 'ppsfind command failed'
++ message='ppsfind command failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'ppsfind command failed'
+Wed Apr 26 20:07:43 2023 - ERROR - ppsfind command failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pps-tools.sh line 68'
++ message='oe_test_pps-tools.sh line 68'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pps-tools.sh line 68'
+Wed Apr 26 20:07:44 2023 - ERROR - oe_test_pps-tools.sh line 68
++ '[' 0 -eq 1 ']'
++ return 0
++ SLEEP_WAIT 3
++ wait_time=3
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd '' --mode 1
++ ppstest /dev/pps0
++ grep 'source.* - assert.*, sequence:.* - clear.*' ppstest_log.txt
++ CHECK_RESULT 1 0 0 'ppstest command failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='ppstest command failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'ppstest command failed'
++ LOG_ERROR 'ppstest command failed'
++ message='ppstest command failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'ppstest command failed'
+Wed Apr 26 20:07:49 2023 - ERROR - ppstest command failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pps-tools.sh line 74'
++ message='oe_test_pps-tools.sh line 74'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pps-tools.sh line 74'
+Wed Apr 26 20:07:50 2023 - ERROR - oe_test_pps-tools.sh line 74
++ '[' 0 -eq 1 ']'
++ return 0
++ pkill -9 ppstest
++ SLEEP_WAIT 3
++ wait_time=3
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd '' --mode 1
++ ppsldisc /dev/ttyS0
+ioctl(TIOCSETD): Invalid argument
++ test -d /sys/devices/virtual/pps/pps2
++ CHECK_RESULT 1 0 0 'ppsldisc command failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='ppsldisc command failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'ppsldisc command failed'
++ LOG_ERROR 'ppsldisc command failed'
++ message='ppsldisc command failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'ppsldisc command failed'
+Wed Apr 26 20:07:55 2023 - ERROR - ppsldisc command failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pps-tools.sh line 81'
++ message='oe_test_pps-tools.sh line 81'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pps-tools.sh line 81'
+Wed Apr 26 20:07:57 2023 - ERROR - oe_test_pps-tools.sh line 81
++ '[' 0 -eq 1 ']'
++ return 0
++ pkill -9 ppsldisc
++ SLEEP_WAIT 3
++ wait_time=3
++ cmd=
++ mode=1
++ ppswatch -a /dev/pps0
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd '' --mode 1
++ grep 'timestamp:.*, sequence:.*, offset:.*' ppswatch_log1.txt
++ CHECK_RESULT 1 0 0 'ppswatch -a command failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='ppswatch -a command failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'ppswatch -a command failed'
++ LOG_ERROR 'ppswatch -a command failed'
++ message='ppswatch -a command failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'ppswatch -a command failed'
+Wed Apr 26 20:08:02 2023 - ERROR - ppswatch -a command failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pps-tools.sh line 88'
++ message='oe_test_pps-tools.sh line 88'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pps-tools.sh line 88'
+Wed Apr 26 20:08:03 2023 - ERROR - oe_test_pps-tools.sh line 88
++ '[' 0 -eq 1 ']'
++ return 0
++ pkill -9 ppswatch
++ SLEEP_WAIT 3
++ wait_time=3
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd '' --mode 1
++ ppswatch -c /dev/pps1
++ grep 'timestamp:.*, sequence:.*, offset:.*' ppswatch_log2.txt
++ CHECK_RESULT 1 0 0 'ppswatch -c command failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='ppswatch -c command failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'ppswatch -c command failed'
++ LOG_ERROR 'ppswatch -c command failed'
++ message='ppswatch -c command failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'ppswatch -c command failed'
+Wed Apr 26 20:08:09 2023 - ERROR - ppswatch -c command failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pps-tools.sh line 94'
++ message='oe_test_pps-tools.sh line 94'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pps-tools.sh line 94'
+Wed Apr 26 20:08:10 2023 - ERROR - oe_test_pps-tools.sh line 94
++ '[' 0 -eq 1 ']'
++ return 0
++ pkill -9 ppswatch
++ ppsctl -fa /dev/pps0
+unable to open device "/dev/pps0" (No such file or directory)
+trying PPS source "/dev/pps0"
++ CHECK_RESULT 1 0 0 'ppswatch -fa command failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='ppswatch -fa command failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'ppswatch -fa command failed'
++ LOG_ERROR 'ppswatch -fa command failed'
++ message='ppswatch -fa command failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'ppswatch -fa command failed'
+Wed Apr 26 20:08:11 2023 - ERROR - ppswatch -fa command failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pps-tools.sh line 99'
++ message='oe_test_pps-tools.sh line 99'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pps-tools.sh line 99'
+Wed Apr 26 20:08:12 2023 - ERROR - oe_test_pps-tools.sh line 99
++ '[' 0 -eq 1 ']'
++ return 0
++ ppsctl -Fa /dev/pps0
+unable to open device "/dev/pps0" (No such file or directory)
+trying PPS source "/dev/pps0"
++ CHECK_RESULT 1 0 0 'ppswatch -Fa command failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='ppswatch -Fa command failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'ppswatch -Fa command failed'
++ LOG_ERROR 'ppswatch -Fa command failed'
++ message='ppswatch -Fa command failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'ppswatch -Fa command failed'
+Wed Apr 26 20:08:14 2023 - ERROR - ppswatch -Fa command failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pps-tools.sh line 102'
++ message='oe_test_pps-tools.sh line 102'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pps-tools.sh line 102'
+Wed Apr 26 20:08:15 2023 - ERROR - oe_test_pps-tools.sh line 102
++ '[' 0 -eq 1 ']'
++ return 0
++ ppsctl -fc /dev/pps0
+unable to open device "/dev/pps0" (No such file or directory)
+trying PPS source "/dev/pps0"
++ CHECK_RESULT 1 0 0 'ppswatch -fc command failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='ppswatch -fc command failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'ppswatch -fc command failed'
++ LOG_ERROR 'ppswatch -fc command failed'
++ message='ppswatch -fc command failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'ppswatch -fc command failed'
+Wed Apr 26 20:08:16 2023 - ERROR - ppswatch -fc command failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pps-tools.sh line 105'
++ message='oe_test_pps-tools.sh line 105'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pps-tools.sh line 105'
+Wed Apr 26 20:08:17 2023 - ERROR - oe_test_pps-tools.sh line 105
++ '[' 0 -eq 1 ']'
++ return 0
++ ppsctl -Fc /dev/pps0
+unable to open device "/dev/pps0" (No such file or directory)
+trying PPS source "/dev/pps0"
++ CHECK_RESULT 1 0 0 'ppswatch -Fc command failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='ppswatch -Fc command failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'ppswatch -Fc command failed'
++ LOG_ERROR 'ppswatch -Fc command failed'
++ message='ppswatch -Fc command failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'ppswatch -Fc command failed'
+Wed Apr 26 20:08:18 2023 - ERROR - ppswatch -Fc command failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pps-tools.sh line 108'
++ message='oe_test_pps-tools.sh line 108'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pps-tools.sh line 108'
+Wed Apr 26 20:08:19 2023 - ERROR - oe_test_pps-tools.sh line 108
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed Apr 26 20:08:20 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 9
++ test 9 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed Apr 26 20:08:21 2023 - ERROR - failed to execute the case.
++ exit 9
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Apr 26 20:08:22 2023 - INFO  - Start to restore the test environment.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpltlst9lp ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpltlst9lp
++ '[' 0 -ne 0 ']'
++ rmmod pps-ktimer1 pps-ktimer2
+rmmod: ERROR: Module pps_ktimer1 is not currently loaded
+rmmod: ERROR: Module pps_ktimer2 is not currently loaded
++ rm -rf pps_client ppstest_log.txt ppswatch_log1.txt ppswatch_log2.txt
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed Apr 26 20:11:19 2023 - INFO  - End to restore the test environment.

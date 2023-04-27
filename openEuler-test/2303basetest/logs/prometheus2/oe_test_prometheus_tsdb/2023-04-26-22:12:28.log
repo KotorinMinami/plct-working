@@ -1,0 +1,583 @@
++ source ./common_lib.sh
+++ source ../common/common_lib.sh
++++ source /root/mugen/libs/locallibs/common_lib.sh
+++++ python3 --version
+++++ '[' 0 -eq 0 ']'
+++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed Apr 26 22:12:34 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL prometheus2
++ pkgs=prometheus2
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs prometheus2 --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpexke13ik
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpexke13ik
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Wed Apr 26 22:14:21 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Wed Apr 26 22:14:22 2023 - INFO  - Start testing...
++ tsdb --help
++ grep 'usage: tsdb'
+usage: tsdb [<flags>] <command> [<args> ...]
++ CHECK_RESULT 0 0 0 'Failed to check flag: --help.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check flag: --help.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ tsdb --help-long
++ grep 'usage: tsdb'
+usage: tsdb [<flags>] <command> [<args> ...]
++ CHECK_RESULT 0 0 0 'Failed to check flag: --help-long.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check flag: --help-long.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ tsdb --help-man
++ grep DESCRIPTION
+.SH "DESCRIPTION"
++ CHECK_RESULT 0 0 0 'Failed to check flag: --help-man.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check flag: --help-man.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ tsdb help
++ grep 'usage: tsdb'
+usage: tsdb [<flags>] <command> [<args> ...]
++ CHECK_RESULT 0 0 0 'Failed to use command: help.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use command: help.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'usage: tsdb bench write'
++ tsdb bench write --help
+usage: tsdb bench write [<flags>] [<file>]
++ CHECK_RESULT 0 0 0 'Failed to use command: bench write, with flag: --help.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use command: bench write, with flag: --help.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ tsdb bench write ./20kseries.json
++ grep completed
+level=info ts=2023-04-26T14:14:23.752503426Z caller=head.go:641 msg="Replaying on-disk memory mappable chunks if any"
+level=info ts=2023-04-26T14:14:23.802891895Z caller=head.go:655 msg="On-disk memory mappable chunks replay completed" duration=416.701µs
+level=info ts=2023-04-26T14:14:23.8041315Z caller=head.go:661 msg="Replaying WAL, this may take a while"
+level=info ts=2023-04-26T14:14:23.818565948Z caller=head.go:713 msg="WAL segment loaded" segment=0 maxSegment=0
+level=info ts=2023-04-26T14:14:23.819785552Z caller=head.go:716 msg="WAL replay completed" checkpoint_replay_duration=1.576605ms wal_replay_duration=10.442635ms total_replay_duration=17.245658ms
+runtime: lfstack.push invalid packing: node=0xffffff6e509c20 cnt=0x1 packed=0xffff6e509c200001 -> node=0xffff6e509c20
+fatal error: lfstack.push
+
+runtime stack:
+runtime.throw({0x488255, 0xc})
+	/usr/lib/golang/src/runtime/panic.go:1198 +0x60
+runtime.(*lfstack).push(0x811b88, 0xffffff6e509c20)
+	/usr/lib/golang/src/runtime/lfstack.go:30 +0x1a8
+runtime.(*spanSetBlockAlloc).free(...)
+	/usr/lib/golang/src/runtime/mspanset.go:292
+runtime.(*spanSet).reset(0x80b1a0)
+	/usr/lib/golang/src/runtime/mspanset.go:265 +0xe4
+runtime.finishsweep_m()
+	/usr/lib/golang/src/runtime/mgcsweep.go:145 +0xb4
+runtime.gcStart.func1()
+	/usr/lib/golang/src/runtime/mgc.go:660 +0x24
+runtime.systemstack()
+	/usr/lib/golang/src/runtime/asm_riscv64.s:131 +0x58
+
+goroutine 1 [running]:
+runtime.systemstack_switch()
+	/usr/lib/golang/src/runtime/asm_riscv64.s:94 +0x8 fp=0xc0000ff1c8 sp=0xc0000ff1c0 pc=0x7fce0
+runtime.gcStart({0x0, 0x0, 0x0})
+	/usr/lib/golang/src/runtime/mgc.go:659 +0x544 fp=0xc0000ff240 sp=0xc0000ff1c8 pc=0x2bc14
+runtime.mallocgc(0x1818, 0x43b1a0, 0x1)
+	/usr/lib/golang/src/runtime/malloc.go:1174 +0x7d0 fp=0xc0000ff2c0 sp=0xc0000ff240 pc=0x1cfd0
+runtime.newobject(0x43b1a0)
+	/usr/lib/golang/src/runtime/malloc.go:1228 +0x3c fp=0xc0000ff2e8 sp=0xc0000ff2c0 pc=0x1d194
+strings.(*Replacer).build(0xc0000bbd40)
+	/usr/lib/golang/src/strings/replace.go:75 +0x1e4 fp=0xc0000ff3b8 sp=0xc0000ff2e8 pc=0x9a694
+strings.(*Replacer).buildOnce(...)
+	/usr/lib/golang/src/strings/replace.go:40
+strings.(*Replacer).buildOnce-fm()
+	/usr/lib/golang/src/strings/replace.go:39 +0x38 fp=0xc0000ff3e0 sp=0xc0000ff3b8 pc=0xa11d0
+sync.(*Once).doSlow(0xc0000bbd40, 0xc0000ff458)
+	/usr/lib/golang/src/sync/once.go:68 +0xcc fp=0xc0000ff428 sp=0xc0000ff3e0 pc=0x8a22c
+sync.(*Once).Do(...)
+	/usr/lib/golang/src/sync/once.go:59
+strings.(*Replacer).Replace(0xc0000bbd40, {0xc00079a240, 0x215})
+	/usr/lib/golang/src/strings/replace.go:96 +0x60 fp=0xc0000ff468 sp=0xc0000ff428 pc=0x9ab28
+main.readPrometheusLabels({0x513e80, 0xc0000b6018}, 0x2710)
+	/src/github.com/prometheus/prometheus/tsdb/cmd/tsdb/main.go:421 +0x240 fp=0xc0000ff6a0 sp=0xc0000ff468 pc=0x3c9408
+main.(*writeBenchmark).run.func1()
+	/src/github.com/prometheus/prometheus/tsdb/cmd/tsdb/main.go:198 +0xb0 fp=0xc0000ff710 sp=0xc0000ff6a0 pc=0x3c7be0
+main.measureTime({0x486908, 0x8}, 0xc0000ff888)
+	/src/github.com/prometheus/prometheus/tsdb/cmd/tsdb/main.go:402 +0xc8 fp=0xc0000ff7c0 sp=0xc0000ff710 pc=0x3c9088
+main.(*writeBenchmark).run(0xc00023c540)
+	/src/github.com/prometheus/prometheus/tsdb/cmd/tsdb/main.go:191 +0x2f4 fp=0xc0000ff968 sp=0xc0000ff7c0 pc=0x3c7634
+main.execute()
+	/src/github.com/prometheus/prometheus/tsdb/cmd/tsdb/main.go:85 +0x2558 fp=0xc0000fff30 sp=0xc0000ff968 pc=0x3c6208
+main.main()
+	/src/github.com/prometheus/prometheus/tsdb/cmd/tsdb/main.go:45 +0x24 fp=0xc0000fff88 sp=0xc0000fff30 pc=0x3c3c34
+runtime.main()
+	/usr/lib/golang/src/runtime/proc.go:255 +0x268 fp=0xc0000fffd8 sp=0xc0000fff88 pc=0x503d0
+runtime.goexit()
+	/usr/lib/golang/src/runtime/asm_riscv64.s:507 +0x4 fp=0xc0000fffd8 sp=0xc0000fffd8 pc=0x81c8c
+
+goroutine 33 [select]:
+github.com/prometheus/prometheus/tsdb/wal.(*WAL).run(0xc0002482d0)
+	/src/github.com/prometheus/prometheus/tsdb/wal/wal.go:322 +0x9c
+created by github.com/prometheus/prometheus/tsdb/wal.NewSize
+	/src/github.com/prometheus/prometheus/tsdb/wal/wal.go:291 +0x364
+
+goroutine 49 [select]:
+github.com/prometheus/prometheus/tsdb.(*DB).run(0xc0002051e0)
+	/src/github.com/prometheus/prometheus/tsdb/db.go:673 +0x140
+created by github.com/prometheus/prometheus/tsdb.open
+	/src/github.com/prometheus/prometheus/tsdb/db.go:640 +0x9a0
++ CHECK_RESULT 1 0 0 'Failed to use command: bench write, with arg: file.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed to use command: bench write, with arg: file.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed to use command: bench write, with arg: file.'
++ LOG_ERROR 'Failed to use command: bench write, with arg: file.'
++ message='Failed to use command: bench write, with arg: file.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed to use command: bench write, with arg: file.'
+Wed Apr 26 22:14:25 2023 - ERROR - Failed to use command: bench write, with arg: file.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_prometheus_tsdb.sh line 41'
++ message='oe_test_prometheus_tsdb.sh line 41'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_prometheus_tsdb.sh line 41'
+Wed Apr 26 22:14:26 2023 - ERROR - oe_test_prometheus_tsdb.sh line 41
++ '[' 0 -eq 1 ']'
++ return 0
++ tsdb bench write ./20kseries.json --out ./out_of_bench_write
+level=info ts=2023-04-26T14:14:27.369746686Z caller=head.go:641 msg="Replaying on-disk memory mappable chunks if any"
+level=info ts=2023-04-26T14:14:27.376174707Z caller=head.go:655 msg="On-disk memory mappable chunks replay completed" duration=310.001µs
+level=info ts=2023-04-26T14:14:27.377720912Z caller=head.go:661 msg="Replaying WAL, this may take a while"
+level=info ts=2023-04-26T14:14:27.41285213Z caller=head.go:713 msg="WAL segment loaded" segment=0 maxSegment=0
+level=info ts=2023-04-26T14:14:27.417575446Z caller=head.go:716 msg="WAL replay completed" checkpoint_replay_duration=774.802µs wal_replay_duration=37.875128ms total_replay_duration=41.350239ms
+>> start stage=readData
+runtime: lfstack.push invalid packing: node=0xffffff7f735640 cnt=0x1 packed=0xffff7f7356400001 -> node=0xffff7f735640
+fatal error: lfstack.push
+
+runtime stack:
+runtime.throw({0x488255, 0xc})
+	/usr/lib/golang/src/runtime/panic.go:1198 +0x60
+runtime.(*lfstack).push(0x811b88, 0xffffff7f735640)
+	/usr/lib/golang/src/runtime/lfstack.go:30 +0x1a8
+runtime.(*spanSetBlockAlloc).free(...)
+	/usr/lib/golang/src/runtime/mspanset.go:292
+runtime.(*spanSet).reset(0x80b1a0)
+	/usr/lib/golang/src/runtime/mspanset.go:265 +0xe4
+runtime.finishsweep_m()
+	/usr/lib/golang/src/runtime/mgcsweep.go:145 +0xb4
+runtime.gcStart.func1()
+	/usr/lib/golang/src/runtime/mgc.go:660 +0x24
+runtime.systemstack()
+	/usr/lib/golang/src/runtime/asm_riscv64.s:131 +0x58
+
+goroutine 1 [running]:
+runtime.systemstack_switch()
+	/usr/lib/golang/src/runtime/asm_riscv64.s:94 +0x8 fp=0xc0001391c8 sp=0xc0001391c0 pc=0x7fce0
+runtime.gcStart({0x0, 0x0, 0x0})
+	/usr/lib/golang/src/runtime/mgc.go:659 +0x544 fp=0xc000139240 sp=0xc0001391c8 pc=0x2bc14
+runtime.mallocgc(0x1818, 0x43b1a0, 0x1)
+	/usr/lib/golang/src/runtime/malloc.go:1174 +0x7d0 fp=0xc0001392c0 sp=0xc000139240 pc=0x1cfd0
+runtime.newobject(0x43b1a0)
+	/usr/lib/golang/src/runtime/malloc.go:1228 +0x3c fp=0xc0001392e8 sp=0xc0001392c0 pc=0x1d194
+strings.(*Replacer).build(0xc0008ce2c0)
+	/usr/lib/golang/src/strings/replace.go:75 +0x1e4 fp=0xc0001393b8 sp=0xc0001392e8 pc=0x9a694
+strings.(*Replacer).buildOnce(...)
+	/usr/lib/golang/src/strings/replace.go:40
+strings.(*Replacer).buildOnce-fm()
+	/usr/lib/golang/src/strings/replace.go:39 +0x38 fp=0xc0001393e0 sp=0xc0001393b8 pc=0xa11d0
+sync.(*Once).doSlow(0xc0008ce2c0, 0xc000139458)
+	/usr/lib/golang/src/sync/once.go:68 +0xcc fp=0xc000139428 sp=0xc0001393e0 pc=0x8a22c
+sync.(*Once).Do(...)
+	/usr/lib/golang/src/sync/once.go:59
+strings.(*Replacer).Replace(0xc0008ce2c0, {0xc0007e7b80, 0x261})
+	/usr/lib/golang/src/strings/replace.go:96 +0x60 fp=0xc000139468 sp=0xc000139428 pc=0x9ab28
+main.readPrometheusLabels({0x513e80, 0xc00000c028}, 0x2710)
+	/src/github.com/prometheus/prometheus/tsdb/cmd/tsdb/main.go:421 +0x240 fp=0xc0001396a0 sp=0xc000139468 pc=0x3c9408
+main.(*writeBenchmark).run.func1()
+	/src/github.com/prometheus/prometheus/tsdb/cmd/tsdb/main.go:198 +0xb0 fp=0xc000139710 sp=0xc0001396a0 pc=0x3c7be0
+main.measureTime({0x486908, 0x8}, 0xc000139888)
+	/src/github.com/prometheus/prometheus/tsdb/cmd/tsdb/main.go:402 +0xc8 fp=0xc0001397c0 sp=0xc000139710 pc=0x3c9088
+main.(*writeBenchmark).run(0xc0001a25b0)
+	/src/github.com/prometheus/prometheus/tsdb/cmd/tsdb/main.go:191 +0x2f4 fp=0xc000139968 sp=0xc0001397c0 pc=0x3c7634
+main.execute()
+	/src/github.com/prometheus/prometheus/tsdb/cmd/tsdb/main.go:85 +0x2558 fp=0xc000139f30 sp=0xc000139968 pc=0x3c6208
+main.main()
+	/src/github.com/prometheus/prometheus/tsdb/cmd/tsdb/main.go:45 +0x24 fp=0xc000139f88 sp=0xc000139f30 pc=0x3c3c34
+runtime.main()
+	/usr/lib/golang/src/runtime/proc.go:255 +0x268 fp=0xc000139fd8 sp=0xc000139f88 pc=0x503d0
+runtime.goexit()
+	/usr/lib/golang/src/runtime/asm_riscv64.s:507 +0x4 fp=0xc000139fd8 sp=0xc000139fd8 pc=0x81c8c
+
+goroutine 6 [select]:
+github.com/prometheus/prometheus/tsdb/wal.(*WAL).run(0xc0001ae2d0)
+	/src/github.com/prometheus/prometheus/tsdb/wal/wal.go:322 +0x9c
+created by github.com/prometheus/prometheus/tsdb/wal.NewSize
+	/src/github.com/prometheus/prometheus/tsdb/wal/wal.go:291 +0x364
+
+goroutine 15 [select]:
+github.com/prometheus/prometheus/tsdb.(*DB).run(0xc0001a1520)
+	/src/github.com/prometheus/prometheus/tsdb/db.go:673 +0x140
+created by github.com/prometheus/prometheus/tsdb.open
+	/src/github.com/prometheus/prometheus/tsdb/db.go:640 +0x9a0
+++ ls ./out_of_bench_write
+++ grep -cE 'block.prof|cpu.prof|mem.prof|mutex.prof|storage'
++ CHECK_RESULT 1 5 0 'Failed to use command: bench write, with flag: --out.'
++ actual_result=1
++ expect_result=5
++ mode=0
++ error_log='Failed to use command: bench write, with flag: --out.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 5x
++ test -n 'Failed to use command: bench write, with flag: --out.'
++ LOG_ERROR 'Failed to use command: bench write, with flag: --out.'
++ message='Failed to use command: bench write, with flag: --out.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed to use command: bench write, with flag: --out.'
+Wed Apr 26 22:14:28 2023 - ERROR - Failed to use command: bench write, with flag: --out.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_prometheus_tsdb.sh line 43'
++ message='oe_test_prometheus_tsdb.sh line 43'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_prometheus_tsdb.sh line 43'
+Wed Apr 26 22:14:30 2023 - ERROR - oe_test_prometheus_tsdb.sh line 43
++ '[' 0 -eq 1 ']'
++ return 0
++ grep completed
++ tsdb bench write ./20kseries.json --metrics=100
+level=info ts=2023-04-26T14:14:30.391502415Z caller=head.go:641 msg="Replaying on-disk memory mappable chunks if any"
+level=info ts=2023-04-26T14:14:30.39326522Z caller=head.go:655 msg="On-disk memory mappable chunks replay completed" duration=87.1µs
+level=info ts=2023-04-26T14:14:30.393773022Z caller=head.go:661 msg="Replaying WAL, this may take a while"
+level=info ts=2023-04-26T14:14:30.402511351Z caller=head.go:713 msg="WAL segment loaded" segment=0 maxSegment=0
+level=info ts=2023-04-26T14:14:30.404559258Z caller=head.go:716 msg="WAL replay completed" checkpoint_replay_duration=918.603µs wal_replay_duration=8.99843ms total_replay_duration=11.056437ms
+runtime: lfstack.push invalid packing: node=0xffffff7f2d3920 cnt=0x1 packed=0xffff7f2d39200001 -> node=0xffff7f2d3920
+fatal error: lfstack.push
+
+runtime stack:
+runtime.throw({0x488255, 0xc})
+	/usr/lib/golang/src/runtime/panic.go:1198 +0x60
+runtime.(*lfstack).push(0x811b88, 0xffffff7f2d3920)
+	/usr/lib/golang/src/runtime/lfstack.go:30 +0x1a8
+runtime.(*spanSetBlockAlloc).free(...)
+	/usr/lib/golang/src/runtime/mspanset.go:292
+runtime.(*spanSet).reset(0x80b1a0)
+	/usr/lib/golang/src/runtime/mspanset.go:265 +0xe4
+runtime.finishsweep_m()
+	/usr/lib/golang/src/runtime/mgcsweep.go:145 +0xb4
+runtime.gcStart.func1()
+	/usr/lib/golang/src/runtime/mgc.go:660 +0x24
+runtime.systemstack()
+	/usr/lib/golang/src/runtime/asm_riscv64.s:131 +0x58
+
+goroutine 38 [running]:
+runtime.systemstack_switch()
+	/usr/lib/golang/src/runtime/asm_riscv64.s:94 +0x8 fp=0xc0000a1578 sp=0xc0000a1570 pc=0x7fce0
+runtime.gcStart({0x0, 0x0, 0x0})
+	/usr/lib/golang/src/runtime/mgc.go:659 +0x544 fp=0xc0000a15f0 sp=0xc0000a1578 pc=0x2bc14
+runtime.mallocgc(0xa8, 0x46bb40, 0x1)
+	/usr/lib/golang/src/runtime/malloc.go:1174 +0x7d0 fp=0xc0000a1670 sp=0xc0000a15f0 pc=0x1cfd0
+runtime.newobject(0x46bb40)
+	/usr/lib/golang/src/runtime/malloc.go:1228 +0x3c fp=0xc0000a1698 sp=0xc0000a1670 pc=0x1d194
+compress/gzip.NewWriterLevel({0x513ea0, 0xc0001bc078}, 0x1)
+	/usr/lib/golang/src/compress/gzip/gzip.go:64 +0xb8 fp=0xc0000a16f0 sp=0xc0000a1698 pc=0x126ac0
+runtime/pprof.newProfileBuilder({0x513ea0, 0xc0001bc078})
+	/usr/lib/golang/src/runtime/pprof/proto.go:257 +0x3c fp=0xc0000a1758 sp=0xc0000a16f0 pc=0x130094
+runtime/pprof.profileWriter({0x513ea0, 0xc0001bc078})
+	/usr/lib/golang/src/runtime/pprof/pprof.go:796 +0x34 fp=0xc0000a17c8 sp=0xc0000a1758 pc=0x12d04c
+runtime.goexit()
+	/usr/lib/golang/src/runtime/asm_riscv64.s:507 +0x4 fp=0xc0000a17c8 sp=0xc0000a17c8 pc=0x81c8c
+created by runtime/pprof.StartCPUProfile
+	/usr/lib/golang/src/runtime/pprof/pprof.go:784 +0x190
+
+goroutine 1 [runnable]:
+path/filepath.join({0xc000107628, 0x2, 0x2})
+	/usr/lib/golang/src/path/filepath/path_unix.go:42 +0x10
+path/filepath.Join(...)
+	/usr/lib/golang/src/path/filepath/path.go:213
+main.(*writeBenchmark).startProfiling(0xc0001b8540)
+	/src/github.com/prometheus/prometheus/tsdb/cmd/tsdb/main.go:359 +0x4b8
+main.(*writeBenchmark).run.func2()
+	/src/github.com/prometheus/prometheus/tsdb/cmd/tsdb/main.go:211 +0x48
+main.measureTime({0x488898, 0xd}, 0xc000107900)
+	/src/github.com/prometheus/prometheus/tsdb/cmd/tsdb/main.go:402 +0xc8
+main.(*writeBenchmark).run(0xc0001b8540)
+	/src/github.com/prometheus/prometheus/tsdb/cmd/tsdb/main.go:210 +0x370
+main.execute()
+	/src/github.com/prometheus/prometheus/tsdb/cmd/tsdb/main.go:85 +0x2558
+main.main()
+	/src/github.com/prometheus/prometheus/tsdb/cmd/tsdb/main.go:45 +0x24
+
+goroutine 3 [select]:
+github.com/prometheus/prometheus/tsdb/wal.(*WAL).run(0xc000072240)
+	/src/github.com/prometheus/prometheus/tsdb/wal/wal.go:322 +0x9c
+created by github.com/prometheus/prometheus/tsdb/wal.NewSize
+	/src/github.com/prometheus/prometheus/tsdb/wal/wal.go:291 +0x364
+
+goroutine 37 [select]:
+github.com/prometheus/prometheus/tsdb.(*DB).run(0xc00006a000)
+	/src/github.com/prometheus/prometheus/tsdb/db.go:673 +0x140
+created by github.com/prometheus/prometheus/tsdb.open
+	/src/github.com/prometheus/prometheus/tsdb/db.go:640 +0x9a0
+>> completed stage=readData duration=44.86185ms
++ CHECK_RESULT 0 0 0 'Failed to use command: bench write, with flag: --metrics.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use command: bench write, with flag: --metrics.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ tsdb ls --help
++ grep 'usage: tsdb ls'
+usage: tsdb ls [<flags>] [<db path>]
++ CHECK_RESULT 0 0 0 'Failed to use command: ls, with flag: --help.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use command: ls, with flag: --help.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ tsdb ls
++ grep -E 'BLOCK|ULID|MIN|TIME|MAX|TIME|NUM|SAMPLES|NUM|CHUNKS|NUM|SERIES'
+BLOCK ULID  MIN TIME  MAX TIME  NUM SAMPLES  NUM CHUNKS  NUM SERIES
++ CHECK_RESULT 0 0 0 'Failed to use command: ls.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use command: ls.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ tsdb ls
++ grep -E 'BLOCK|ULID|MIN|TIME|MAX|TIME|NUM|SAMPLES|NUM|CHUNKS|NUM|SERIES|UTC'
+BLOCK ULID  MIN TIME  MAX TIME  NUM SAMPLES  NUM CHUNKS  NUM SERIES
++ CHECK_RESULT 0 0 0 'Failed to use command: ls, with flag: -h.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use command: ls, with flag: -h.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep -E 'BLOCK|ULID|MIN|TIME|MAX|TIME|NUM|SAMPLES|NUM|CHUNKS|NUM|SERIES'
++ tsdb ls ./out_of_bench_write/storage
+BLOCK ULID  MIN TIME  MAX TIME  NUM SAMPLES  NUM CHUNKS  NUM SERIES
++ CHECK_RESULT 0 0 0 'Failed to use command: ls, with arg: db path.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use command: ls, with arg: db path.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ tsdb analyze --help
++ grep 'usage: tsdb analyze'
+usage: tsdb analyze [<flags>] [<db path>] [<block id>]
++ CHECK_RESULT 0 0 0 'Failed to use command: analyze, with flag: --help.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use command: analyze, with flag: --help.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ tsdb analyze
+++ grep -cE 'Block ID|Duration|Series|Label names|Postings|Postings entries'
+block not found
++ CHECK_RESULT 0 8 0 'Failed to use command: analyze'
++ actual_result=0
++ expect_result=8
++ mode=0
++ error_log='Failed to use command: analyze'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 8x
++ test -n 'Failed to use command: analyze'
++ LOG_ERROR 'Failed to use command: analyze'
++ message='Failed to use command: analyze'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed to use command: analyze'
+Wed Apr 26 22:14:33 2023 - ERROR - Failed to use command: analyze
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_prometheus_tsdb.sh line 56'
++ message='oe_test_prometheus_tsdb.sh line 56'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_prometheus_tsdb.sh line 56'
+Wed Apr 26 22:14:34 2023 - ERROR - oe_test_prometheus_tsdb.sh line 56
++ '[' 0 -eq 1 ']'
++ return 0
+++ grep -cE 'Block ID|Duration|Series|Label names|Postings|Postings entries'
+++ tsdb analyze ./out_of_bench_write/storage
+block not found
++ CHECK_RESULT 0 8 0 'Failed to use command: analyze, with arg: db path'
++ actual_result=0
++ expect_result=8
++ mode=0
++ error_log='Failed to use command: analyze, with arg: db path'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 8x
++ test -n 'Failed to use command: analyze, with arg: db path'
++ LOG_ERROR 'Failed to use command: analyze, with arg: db path'
++ message='Failed to use command: analyze, with arg: db path'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed to use command: analyze, with arg: db path'
+Wed Apr 26 22:14:35 2023 - ERROR - Failed to use command: analyze, with arg: db path
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_prometheus_tsdb.sh line 57'
++ message='oe_test_prometheus_tsdb.sh line 57'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_prometheus_tsdb.sh line 57'
+Wed Apr 26 22:14:37 2023 - ERROR - oe_test_prometheus_tsdb.sh line 57
++ '[' 0 -eq 1 ']'
++ return 0
+++ tsdb analyze --limit=1
+++ wc -l
+block not found
++ CHECK_RESULT 0 24 0 'Failed to use command: analyze, with flag: --limit'
++ actual_result=0
++ expect_result=24
++ mode=0
++ error_log='Failed to use command: analyze, with flag: --limit'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 24x
++ test -n 'Failed to use command: analyze, with flag: --limit'
++ LOG_ERROR 'Failed to use command: analyze, with flag: --limit'
++ message='Failed to use command: analyze, with flag: --limit'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed to use command: analyze, with flag: --limit'
+Wed Apr 26 22:14:38 2023 - ERROR - Failed to use command: analyze, with flag: --limit
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_prometheus_tsdb.sh line 58'
++ message='oe_test_prometheus_tsdb.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_prometheus_tsdb.sh line 58'
+Wed Apr 26 22:14:40 2023 - ERROR - oe_test_prometheus_tsdb.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
+++ awk '{if(NR==2) print $1}'
+++ tsdb ls
++ block_id=
++ tsdb analyze ./benchout/storage
++ grep 'Block ID: '
+block not found
++ CHECK_RESULT 1 0 0 'Failed to use command: analyze, with arg: block id'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed to use command: analyze, with arg: block id'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed to use command: analyze, with arg: block id'
++ LOG_ERROR 'Failed to use command: analyze, with arg: block id'
++ message='Failed to use command: analyze, with arg: block id'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed to use command: analyze, with arg: block id'
+Wed Apr 26 22:14:41 2023 - ERROR - Failed to use command: analyze, with arg: block id
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_prometheus_tsdb.sh line 61'
++ message='oe_test_prometheus_tsdb.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_prometheus_tsdb.sh line 61'
+Wed Apr 26 22:14:43 2023 - ERROR - oe_test_prometheus_tsdb.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Wed Apr 26 22:14:44 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z 6
++ test 6 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed Apr 26 22:14:45 2023 - ERROR - failed to execute the case.
++ exit 6
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Wed Apr 26 22:14:47 2023 - INFO  - start environment cleanup.
++ rm -rf ./benchout
++ rm -rf ./out_of_bench_write
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpexke13ik ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpexke13ik
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Wed Apr 26 22:15:14 2023 - INFO  - Finish environment cleanup!

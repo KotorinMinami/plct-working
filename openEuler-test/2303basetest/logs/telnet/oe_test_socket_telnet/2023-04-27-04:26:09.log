@@ -1,0 +1,241 @@
++ source ../common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu Apr 27 04:26:22 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL telnet
++ pkgs=telnet
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs telnet --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpe8ongutu
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpe8ongutu
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu Apr 27 04:27:07 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu Apr 27 04:27:08 2023 - INFO  - Start to run test.
++ test_execution telnet.socket
++ service=telnet.socket
+++ date '+%Y-%m-%d %T'
++ log_time='2023-04-27 04:27:08'
++ test_restart telnet.socket
++ service=telnet.socket
++ systemctl restart telnet.socket
++ CHECK_RESULT 0 0 0 'telnet.socket restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='telnet.socket restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ grep 'Active: active'
++ systemctl status telnet.socket
+     Active: active (listening) since Thu 2023-04-27 04:27:08 CST; 6s ago
++ CHECK_RESULT 0 0 0 'telnet.socket restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='telnet.socket restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop telnet.socket
++ CHECK_RESULT 0 0 0 'telnet.socket stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='telnet.socket stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ grep 'Active: inactive'
++ systemctl status telnet.socket
+     Active: inactive (dead)
++ CHECK_RESULT 0 0 0 'telnet.socket stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='telnet.socket stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start telnet.socket
++ CHECK_RESULT 0 0 0 'telnet.socket start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='telnet.socket start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status telnet.socket
++ grep 'Active: active'
+     Active: active (listening) since Thu 2023-04-27 04:27:21 CST; 6s ago
++ CHECK_RESULT 0 0 0 'telnet.socket start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='telnet.socket start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled telnet.socket
++ service=telnet.socket
+++ systemctl is-enabled telnet.socket
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ systemctl enable telnet.socket
+++ grep 'Created symlink'
+++ awk '{print $3}'
++ symlink_file=/etc/systemd/system/sockets.target.wants/telnet.socket
++ find /etc/systemd/system/sockets.target.wants/telnet.socket
+/etc/systemd/system/sockets.target.wants/telnet.socket
++ CHECK_RESULT 0 0 0 'telnet.socket enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='telnet.socket enable failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable telnet.socket
+Removed /etc/systemd/system/sockets.target.wants/telnet.socket.
++ find /etc/systemd/system/sockets.target.wants/telnet.socket
+find: ‘/etc/systemd/system/sockets.target.wants/telnet.socket’: No such file or directory
++ CHECK_RESULT 1 0 1 'telnet.socket disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='telnet.socket disable failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ grep -i 'fail\|error'
++ journalctl --since '2023-04-27 04:27:08' -u telnet.socket
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of telnet.socket'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of telnet.socket'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ systemctl start telnet.socket
++ systemctl reload telnet.socket
++ grep 'Job type reload is not applicable for unit telnet.socket'
+Failed to reload telnet.socket: Job type reload is not applicable for unit telnet.socket.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status telnet.socket
++ grep 'Active: active'
+     Active: active (listening) since Thu 2023-04-27 04:27:21 CST; 17s ago
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Thu Apr 27 04:27:40 2023 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Apr 27 04:27:40 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu Apr 27 04:27:41 2023 - INFO  - start environment cleanup.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpe8ongutu ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpe8ongutu
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Apr 27 04:28:00 2023 - INFO  - Finish environment cleanup!

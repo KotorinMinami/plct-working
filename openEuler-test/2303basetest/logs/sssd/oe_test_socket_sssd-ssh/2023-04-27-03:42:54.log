@@ -1,0 +1,235 @@
++ source ../common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ grep expect
++ rpm -qa
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu Apr 27 03:42:59 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL sssd
++ pkgs=sssd
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs sssd --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpvrrt31d0
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpvrrt31d0
++ service=sssd-ssh.socket
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu Apr 27 03:44:06 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Thu Apr 27 03:44:07 2023 - INFO  - Start testing...
++ test_execution sssd-ssh.socket
++ service=sssd-ssh.socket
+++ date '+%Y-%m-%d %T'
++ log_time='2023-04-27 03:44:07'
++ test_restart sssd-ssh.socket
++ service=sssd-ssh.socket
++ systemctl restart sssd-ssh.socket
++ CHECK_RESULT 0 0 0 'sssd-ssh.socket restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='sssd-ssh.socket restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status sssd-ssh.socket
++ grep 'Active: active'
+     Active: active (listening) since Thu 2023-04-27 03:44:11 CST; 6s ago
++ CHECK_RESULT 0 0 0 'sssd-ssh.socket restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='sssd-ssh.socket restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop sssd-ssh.socket
++ CHECK_RESULT 0 0 0 'sssd-ssh.socket stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='sssd-ssh.socket stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ grep 'Active: inactive'
++ systemctl status sssd-ssh.socket
+     Active: inactive (dead)
++ CHECK_RESULT 0 0 0 'sssd-ssh.socket stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='sssd-ssh.socket stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start sssd-ssh.socket
++ CHECK_RESULT 0 0 0 'sssd-ssh.socket start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='sssd-ssh.socket start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ grep 'Active: active'
++ systemctl status sssd-ssh.socket
+     Active: active (listening) since Thu 2023-04-27 03:44:24 CST; 6s ago
++ CHECK_RESULT 0 0 0 'sssd-ssh.socket start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='sssd-ssh.socket start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled sssd-ssh.socket
++ service=sssd-ssh.socket
+++ systemctl is-enabled sssd-ssh.socket
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ systemctl enable sssd-ssh.socket
+++ grep 'Created symlink'
+++ awk '{print $3}'
++ symlink_file=/etc/systemd/system/sssd.service.wants/sssd-ssh.socket
++ find /etc/systemd/system/sssd.service.wants/sssd-ssh.socket
+/etc/systemd/system/sssd.service.wants/sssd-ssh.socket
++ CHECK_RESULT 0 0 0 'sssd-ssh.socket enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='sssd-ssh.socket enable failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable sssd-ssh.socket
+Removed /etc/systemd/system/sssd.service.wants/sssd-ssh.socket.
++ find /etc/systemd/system/sssd.service.wants/sssd-ssh.socket
+find: ‘/etc/systemd/system/sssd.service.wants/sssd-ssh.socket’: No such file or directory
++ CHECK_RESULT 1 0 1 'sssd-ssh.socket disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='sssd-ssh.socket disable failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ journalctl --since '2023-04-27 03:44:07' -u sssd-ssh.socket
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ grep -i 'fail\|error'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of sssd-ssh.socket'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of sssd-ssh.socket'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_reload sssd-ssh.socket
++ service=sssd-ssh.socket
++ systemctl start sssd-ssh.socket
++ systemctl reload sssd-ssh.socket
++ grep 'Job type reload is not applicable'
+Failed to reload sssd-ssh.socket: Job type reload is not applicable for unit sssd-ssh.socket.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit sssd-ssh.socket'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit sssd-ssh.socket'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status sssd-ssh.socket
++ grep 'Active: active'
+     Active: active (listening) since Thu 2023-04-27 03:44:24 CST; 18s ago
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Thu Apr 27 03:44:44 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu Apr 27 03:44:45 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu Apr 27 03:44:46 2023 - INFO  - start environment cleanup.
++ systemctl stop sssd-ssh.socket
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpvrrt31d0 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpvrrt31d0
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Apr 27 03:45:17 2023 - INFO  - Finish environment cleanup!

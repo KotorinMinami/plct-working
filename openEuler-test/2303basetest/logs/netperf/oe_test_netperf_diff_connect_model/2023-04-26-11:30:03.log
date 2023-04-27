@@ -1,0 +1,193 @@
++ source ./common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Apr 26 11:30:07 2023 - INFO  - Start to prepare the test environment.
++ pre_env
++ DNF_INSTALL netperf
++ pkgs=netperf
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs netperf --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpbhq6ayt7
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpbhq6ayt7
++ DNF_INSTALL netperf 2
++ pkgs=netperf
++ node=2
++ '[' -z /tmp/tmpbhq6ayt7 ']'
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs netperf --node 2 --tempfile /tmp/tmpbhq6ayt7
++ tmpfile2=/tmp/tmpbhq6ayt7
++ '[' -z /tmp/tmpbhq6ayt7 ']'
+++ GET_FREE_PORT 10.198.114.4
+++ ip=10.198.114.4
+++ start_port=1000
+++ end_port=10000
+++ python3 /root/mugen/libs/locallibs/free_port.py get --ip 10.198.114.4 --start 1000 --end 10000
++ rdport=5019
++ P_SSH_CMD --cmd 'systemctl stop firewalld'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'systemctl stop firewalld'
+Failed to stop firewalld.service: Unit firewalld.service not loaded.
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Wed Apr 26 11:32:12 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Apr 26 11:32:13 2023 - INFO  - Start to run test.
++ P_SSH_CMD --cmd 'netserver -p 5019'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'netserver -p 5019'
++ grep 'Starting netserver'
+Starting netserver with host 'IN(6)ADDR_ANY' port '5019' and family AF_UNSPEC
++ CHECK_RESULT 0 0 0 'netserver execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netserver execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ netperf -H 10.198.114.4 -p 5019 -t UDP_STREAM -l 1
++ grep 'UDP STREAM TEST'
+MIGRATED UDP STREAM TEST from 0.0.0.0 (0.0.0.0) port 0 AF_INET to 10.198.114.4 () port 0 AF_INET
++ CHECK_RESULT 0 0 0 'netperf -t UDP_STREAM execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netperf -t UDP_STREAM execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ netperf -H 10.198.114.4 -p 5019 -t TCP_STREAM -l 1
++ grep 'TCP STREAM TEST'
+MIGRATED TCP STREAM TEST from 0.0.0.0 (0.0.0.0) port 0 AF_INET to 10.198.114.4 () port 0 AF_INET
++ CHECK_RESULT 0 0 0 'netperf -t TCP_STREAM execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netperf -t TCP_STREAM execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ netperf -H 10.198.114.4 -p 5019 -t TCP_RR -l 1
++ grep 'TCP REQUEST/RESPONSE TEST'
+MIGRATED TCP REQUEST/RESPONSE TEST from 0.0.0.0 (0.0.0.0) port 0 AF_INET to 10.198.114.4 () port 0 AF_INET : first burst 0
++ CHECK_RESULT 0 0 0 'netperf -t TCP_RR execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netperf -t TCP_RR execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'TCP Connect/Request/Response TEST'
++ netperf -H 10.198.114.4 -p 5019 -t TCP_CRR -l 1
+MIGRATED TCP Connect/Request/Response TEST from 0.0.0.0 (0.0.0.0) port 0 AF_INET to 10.198.114.4 () port 0 AF_INET
++ CHECK_RESULT 0 0 0 'netperf -t TCP_CRR execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netperf -t TCP_CRR execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ netperf -H 10.198.114.4 -p 5019 -t UDP_RR -l 1
++ grep 'UDP REQUEST/RESPONSE TEST'
+MIGRATED UDP REQUEST/RESPONSE TEST from 0.0.0.0 (0.0.0.0) port 0 AF_INET to 10.198.114.4 () port 0 AF_INET : first burst 0
++ CHECK_RESULT 0 0 0 'netperf -t UDP_RR execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='netperf -t UDP_RR execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ P_SSH_CMD --cmd 'pkill -9 netserver
+        netstat -apn'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'pkill -9 netserver
+        netstat -apn'
++ grep netserver
++ CHECK_RESULT 1 0 1 'pkill -9 netserver execution failed.'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='pkill -9 netserver execution failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed Apr 26 11:32:42 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Apr 26 11:32:43 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Apr 26 11:32:44 2023 - INFO  - Start to restore the test environment.
++ clean_env
++ P_SSH_CMD --cmd 'systemctl start firewalld'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'systemctl start firewalld'
+Failed to start firewalld.service: Unit firewalld.service not found.
++ DNF_REMOVE 0
++ node=0
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpbhq6ayt7 ]]
++ '[' 0 -ne 0 ']'
++ '[' 0 == 0 ']'
+++ python3 /root/mugen/libs/locallibs/read_conf.py node-num
++ node_num=2
+++ seq 1 2
++ for node_id in $(seq 1 $node_num)
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpbhq6ayt7
++ for node_id in $(seq 1 $node_num)
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 2 --pkgs '' --tempfile /tmp/tmpbhq6ayt7
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed Apr 26 11:33:43 2023 - INFO  - End to restore the test environment.

@@ -1,0 +1,239 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Apr 26 20:48:08 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL qpdf
++ pkgs=qpdf
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs qpdf --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpllpvf2vj
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpllpvf2vj
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Wed Apr 26 20:48:45 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Apr 26 20:48:46 2023 - INFO  - Start to run test.
++ qpdf --copy-encryption=./common/encrypt.pdf --encryption-file-password=123456 --empty output1.pdf
++ test -f output1.pdf
++ CHECK_RESULT 0 0 0 'qpdf --copy-encryption --encryption-file-password running failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='qpdf --copy-encryption --encryption-file-password running failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ qpdf --copy-encryption=./common/encrypt.pdf --encryption-file-password=123456 --empty output2.pdf
++ test -f output2.pdf
++ CHECK_RESULT 0 0 0 'qpdf --encryption-file-password=password running failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='qpdf --encryption-file-password=password running failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ qpdf --password=123456 --decrypt ./common/encrypt.pdf output3.pdf
++ test -f output3.pdf
++ CHECK_RESULT 0 0 0 'qpdf --decrypt running failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='qpdf --decrypt running failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ qpdf --password-is-hex-key ./common/encrypt.pdf output4.pdf
++ test -f output4.pdf
++ CHECK_RESULT 0 0 0 'qpdf --password-is-hex-key running failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='qpdf --password-is-hex-key running failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ qpdf --decrypt --password=123456 --suppress-password-recovery ./common/encrypt.pdf output5.pdf
++ test -f output5.pdf
++ CHECK_RESULT 0 0 0 'qpdf --suppress-password-recovery running failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='qpdf --suppress-password-recovery running failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ qpdf --password-mode=bytes --encrypt 123456 123456 40 -- ./common/infile.pdf output6.pdf
+qpdf: refusing to write a file with RC4, a weak cryptographic algorithm
+Please use 256-bit keys for better security.
+Pass --allow-weak-crypto to enable writing insecure files.
+See also https://qpdf.readthedocs.io/en/stable/weak-crypto.html
+qpdf: refusing to write a file with weak crypto
++ CHECK_RESULT 2 0 0 'qpdf --password-mode=bytes running failed'
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log='qpdf --password-mode=bytes running failed'
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n 'qpdf --password-mode=bytes running failed'
++ LOG_ERROR 'qpdf --password-mode=bytes running failed'
++ message='qpdf --password-mode=bytes running failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'qpdf --password-mode=bytes running failed'
+Wed Apr 26 20:48:48 2023 - ERROR - qpdf --password-mode=bytes running failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_qpdf_qpdf_02.sh line 42'
++ message='oe_test_qpdf_qpdf_02.sh line 42'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_qpdf_qpdf_02.sh line 42'
+Wed Apr 26 20:48:49 2023 - ERROR - oe_test_qpdf_qpdf_02.sh line 42
++ '[' 0 -eq 1 ']'
++ return 0
++ qpdf --password-mode=hex-bytes --encrypt user-password owner-password 40 -- ./common/infile.pdf output7.pdf
+qpdf: refusing to write a file with RC4, a weak cryptographic algorithm
+Please use 256-bit keys for better security.
+Pass --allow-weak-crypto to enable writing insecure files.
+See also https://qpdf.readthedocs.io/en/stable/weak-crypto.html
+qpdf: refusing to write a file with weak crypto
++ CHECK_RESULT 2 0 0 'qpdf --password-mode=hex-bytes running failed'
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log='qpdf --password-mode=hex-bytes running failed'
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n 'qpdf --password-mode=hex-bytes running failed'
++ LOG_ERROR 'qpdf --password-mode=hex-bytes running failed'
++ message='qpdf --password-mode=hex-bytes running failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'qpdf --password-mode=hex-bytes running failed'
+Wed Apr 26 20:48:50 2023 - ERROR - qpdf --password-mode=hex-bytes running failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_qpdf_qpdf_02.sh line 44'
++ message='oe_test_qpdf_qpdf_02.sh line 44'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_qpdf_qpdf_02.sh line 44'
+Wed Apr 26 20:48:51 2023 - ERROR - oe_test_qpdf_qpdf_02.sh line 44
++ '[' 0 -eq 1 ']'
++ return 0
++ qpdf --password-mode=unicode --encrypt user-password owner-password 40 -- ./common/infile.pdf output8.pdf
+qpdf: refusing to write a file with RC4, a weak cryptographic algorithm
+Please use 256-bit keys for better security.
+Pass --allow-weak-crypto to enable writing insecure files.
+See also https://qpdf.readthedocs.io/en/stable/weak-crypto.html
+qpdf: refusing to write a file with weak crypto
++ CHECK_RESULT 2 0 0 'qpdf --password-mode=unicode running failed'
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log='qpdf --password-mode=unicode running failed'
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n 'qpdf --password-mode=unicode running failed'
++ LOG_ERROR 'qpdf --password-mode=unicode running failed'
++ message='qpdf --password-mode=unicode running failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'qpdf --password-mode=unicode running failed'
+Wed Apr 26 20:48:52 2023 - ERROR - qpdf --password-mode=unicode running failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_qpdf_qpdf_02.sh line 46'
++ message='oe_test_qpdf_qpdf_02.sh line 46'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_qpdf_qpdf_02.sh line 46'
+Wed Apr 26 20:48:53 2023 - ERROR - oe_test_qpdf_qpdf_02.sh line 46
++ '[' 0 -eq 1 ']'
++ return 0
++ qpdf --password-mode=auto --encrypt user-password owner-password 40 -- ./common/infile.pdf output9.pdf
+qpdf: refusing to write a file with RC4, a weak cryptographic algorithm
+Please use 256-bit keys for better security.
+Pass --allow-weak-crypto to enable writing insecure files.
+See also https://qpdf.readthedocs.io/en/stable/weak-crypto.html
+qpdf: refusing to write a file with weak crypto
++ CHECK_RESULT 2 0 0 'qpdf --password-mode=auto running failed'
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log='qpdf --password-mode=auto running failed'
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n 'qpdf --password-mode=auto running failed'
++ LOG_ERROR 'qpdf --password-mode=auto running failed'
++ message='qpdf --password-mode=auto running failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'qpdf --password-mode=auto running failed'
+Wed Apr 26 20:48:54 2023 - ERROR - qpdf --password-mode=auto running failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_qpdf_qpdf_02.sh line 48'
++ message='oe_test_qpdf_qpdf_02.sh line 48'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_qpdf_qpdf_02.sh line 48'
+Wed Apr 26 20:48:54 2023 - ERROR - oe_test_qpdf_qpdf_02.sh line 48
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed Apr 26 20:48:55 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 4
++ test 4 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed Apr 26 20:48:56 2023 - ERROR - failed to execute the case.
++ exit 4
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Apr 26 20:48:57 2023 - INFO  - Start to restore the test environment.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpllpvf2vj ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpllpvf2vj
++ '[' 0 -ne 0 ']'
++ rm -rf output1.pdf output2.pdf output3.pdf output4.pdf output5.pdf output6.pdf output7.pdf output8.pdf output9.pdf
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed Apr 26 20:49:11 2023 - INFO  - End to restore the test environment.

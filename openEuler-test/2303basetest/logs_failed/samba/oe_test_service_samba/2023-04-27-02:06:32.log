@@ -1,0 +1,377 @@
++ source ../common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu Apr 27 02:06:37 2023 - INFO  - Start environmental preparation.
+++ hostname
++ host_name=openeuler-riscv64
++ hostname OE-TESTD
++ echo '127.0.0.1 TESTAD.LOCAL'
++ DNF_INSTALL 'samba-dc python3-samba-dc krb5-server'
++ pkgs='samba-dc python3-samba-dc krb5-server'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'samba-dc python3-samba-dc krb5-server' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmppooxyw08
++ '[' -z '' ']'
++ tmpfile=/tmp/tmppooxyw08
++ mv /etc/samba/smb.conf /etc/samba/smb.conf_bak
++ expect
+spawn samba-tool domain provision --use-rfc2307 --interactive --function-level=2008_R2
+Traceback (most recent call last):
+  File "/usr/bin/samba-tool", line 33, in <module>
+    from samba.netcmd.main import cmd_sambatool
+  File "/usr/lib64/python3.10/site-packages/samba/__init__.py", line 29, in <module>
+    import samba.param
+ImportError: libserver-role-samba4.so: cannot open shared object file: No such file or directory
+expect: spawn id exp3 not open
+    while executing
+"expect eof"
++ mv /etc/krb5.conf /etc/krb5.bak
++ rm -rf /etc/krb5.conf
++ cp -raf /var/lib/samba/private/krb5.conf /etc/
+cp: cannot stat '/var/lib/samba/private/krb5.conf': No such file or directory
++ systemctl stop firewalld
+Failed to stop firewalld.service: Unit firewalld.service not loaded.
++ sed -i s/nameserver/#nameserver/ /etc/resolv.conf
++ echo 'nameserver 127.0.0.1'
++ flag=false
+++ getenforce
+++ grep Enforcing
++ '[' ']'
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu Apr 27 02:08:11 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Thu Apr 27 02:08:12 2023 - INFO  - Start testing...
++ test_execution samba.service
++ service=samba.service
+++ date '+%Y-%m-%d %T'
++ log_time='2023-04-27 02:08:13'
++ test_restart samba.service
++ service=samba.service
++ systemctl restart samba.service
+Job for samba.service failed because the control process exited with error code.
+See "systemctl status samba.service" and "journalctl -xeu samba.service" for details.
++ CHECK_RESULT 1 0 0 'samba.service restart failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='samba.service restart failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'samba.service restart failed'
++ LOG_ERROR 'samba.service restart failed'
++ message='samba.service restart failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'samba.service restart failed'
+Thu Apr 27 02:08:14 2023 - ERROR - samba.service restart failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 34'
++ message='../common/common_lib.sh line 34'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 34'
+Thu Apr 27 02:08:15 2023 - ERROR - ../common/common_lib.sh line 34
++ '[' 0 -eq 1 ']'
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status samba.service
++ grep 'Active: active'
++ CHECK_RESULT 1 0 0 'samba.service restart failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='samba.service restart failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'samba.service restart failed'
++ LOG_ERROR 'samba.service restart failed'
++ message='samba.service restart failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'samba.service restart failed'
+Thu Apr 27 02:08:22 2023 - ERROR - samba.service restart failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 37'
++ message='../common/common_lib.sh line 37'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 37'
+Thu Apr 27 02:08:23 2023 - ERROR - ../common/common_lib.sh line 37
++ '[' 0 -eq 1 ']'
++ return 0
++ systemctl stop samba.service
++ CHECK_RESULT 0 0 0 'samba.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='samba.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ grep 'Active: inactive'
++ systemctl status samba.service
++ CHECK_RESULT 1 0 0 'samba.service stop failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='samba.service stop failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'samba.service stop failed'
++ LOG_ERROR 'samba.service stop failed'
++ message='samba.service stop failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'samba.service stop failed'
+Thu Apr 27 02:08:31 2023 - ERROR - samba.service stop failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 42'
++ message='../common/common_lib.sh line 42'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 42'
+Thu Apr 27 02:08:32 2023 - ERROR - ../common/common_lib.sh line 42
++ '[' 0 -eq 1 ']'
++ return 0
++ systemctl start samba.service
+Job for samba.service failed because the control process exited with error code.
+See "systemctl status samba.service" and "journalctl -xeu samba.service" for details.
++ CHECK_RESULT 1 0 0 'samba.service start failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='samba.service start failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'samba.service start failed'
++ LOG_ERROR 'samba.service start failed'
++ message='samba.service start failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'samba.service start failed'
+Thu Apr 27 02:08:33 2023 - ERROR - samba.service start failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 44'
++ message='../common/common_lib.sh line 44'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 44'
+Thu Apr 27 02:08:34 2023 - ERROR - ../common/common_lib.sh line 44
++ '[' 0 -eq 1 ']'
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status samba.service
++ grep 'Active: active'
++ CHECK_RESULT 1 0 0 'samba.service start failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='samba.service start failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'samba.service start failed'
++ LOG_ERROR 'samba.service start failed'
++ message='samba.service start failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'samba.service start failed'
+Thu Apr 27 02:08:42 2023 - ERROR - samba.service start failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 47'
++ message='../common/common_lib.sh line 47'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 47'
+Thu Apr 27 02:08:42 2023 - ERROR - ../common/common_lib.sh line 47
++ '[' 0 -eq 1 ']'
++ return 0
++ test_enabled samba.service
++ service=samba.service
+++ systemctl is-enabled samba.service
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ systemctl enable samba.service
+++ grep 'Created symlink'
+++ awk '{print $3}'
++ symlink_file=/etc/systemd/system/multi-user.target.wants/samba.service
++ find /etc/systemd/system/multi-user.target.wants/samba.service
+/etc/systemd/system/multi-user.target.wants/samba.service
++ CHECK_RESULT 0 0 0 'samba.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='samba.service enable failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable samba.service
+Removed /etc/systemd/system/multi-user.target.wants/samba.service.
++ find /etc/systemd/system/multi-user.target.wants/samba.service
+find: ‘/etc/systemd/system/multi-user.target.wants/samba.service’: No such file or directory
++ CHECK_RESULT 1 0 1 'samba.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='samba.service disable failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ grep -i 'fail\|error'
++ journalctl --since '2023-04-27 02:08:13' -u samba.service
++ grep -v -i 'DEBUG\|INFO\|WARNING'
+Apr 27 02:08:13 openeuler-riscv64 samba[3171]: /usr/sbin/samba: error while loading shared libraries: libevents-samba4.so: cannot open shared object file: No such file or directory
+Apr 27 02:08:13 openeuler-riscv64 systemd[1]: samba.service: Failed with result 'exit-code'.
+Apr 27 02:08:13 openeuler-riscv64 systemd[1]: Failed to start Samba AD Daemon.
+Apr 27 02:08:32 openeuler-riscv64 samba[3281]: /usr/sbin/samba: error while loading shared libraries: libevents-samba4.so: cannot open shared object file: No such file or directory
+Apr 27 02:08:32 openeuler-riscv64 systemd[1]: samba.service: Failed with result 'exit-code'.
+Apr 27 02:08:32 openeuler-riscv64 systemd[1]: Failed to start Samba AD Daemon.
++ CHECK_RESULT 0 0 1 'There is an error message for the log of samba.service'
++ actual_result=0
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of samba.service'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 1 -eq 0 ']'
++ test 0x == 0x
++ test -n 'There is an error message for the log of samba.service'
++ LOG_ERROR 'There is an error message for the log of samba.service'
++ message='There is an error message for the log of samba.service'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'There is an error message for the log of samba.service'
+Thu Apr 27 02:08:55 2023 - ERROR - There is an error message for the log of samba.service
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 28'
++ message='../common/common_lib.sh line 28'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 28'
+Thu Apr 27 02:08:56 2023 - ERROR - ../common/common_lib.sh line 28
++ '[' 0 -eq 1 ']'
++ return 0
++ sed -i 's\/usr/sbin/samba --foreground --no-process-group $SAMBAOPTIONS\/usr/sbin/samba --foreground --no-process-group $SAMBAOPTIONS -d 10\' /usr/lib/systemd/system/samba.service
++ systemctl daemon-reload
++ systemctl reload samba.service
+samba.service is not active, cannot reload.
++ CHECK_RESULT 1 0 0 'samba.service reload failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='samba.service reload failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'samba.service reload failed'
++ LOG_ERROR 'samba.service reload failed'
++ message='samba.service reload failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'samba.service reload failed'
+Thu Apr 27 02:09:02 2023 - ERROR - samba.service reload failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_service_samba.sh line 62'
++ message='oe_test_service_samba.sh line 62'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_service_samba.sh line 62'
+Thu Apr 27 02:09:03 2023 - ERROR - oe_test_service_samba.sh line 62
++ '[' 0 -eq 1 ']'
++ return 0
++ systemctl status samba.service
++ grep 'Active: active'
++ CHECK_RESULT 1 0 0 'samba.service reload causes the service status to change'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='samba.service reload causes the service status to change'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'samba.service reload causes the service status to change'
++ LOG_ERROR 'samba.service reload causes the service status to change'
++ message='samba.service reload causes the service status to change'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'samba.service reload causes the service status to change'
+Thu Apr 27 02:09:05 2023 - ERROR - samba.service reload causes the service status to change
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_service_samba.sh line 64'
++ message='oe_test_service_samba.sh line 64'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_service_samba.sh line 64'
+Thu Apr 27 02:09:06 2023 - ERROR - oe_test_service_samba.sh line 64
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Thu Apr 27 02:09:07 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z 8
++ test 8 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Thu Apr 27 02:09:08 2023 - ERROR - failed to execute the case.
++ exit 8
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu Apr 27 02:09:09 2023 - INFO  - start environment cleanup.
++ sed -i 's\/usr/sbin/samba --foreground --no-process-group $SAMBAOPTIONS -d\/usr/sbin/samba --foreground --no-process-group $SAMBAOPTIONS\' /usr/lib/systemd/system/samba.service
++ systemctl daemon-reload
++ systemctl reload samba.service
+samba.service is not active, cannot reload.
++ systemctl stop samba.service
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmppooxyw08 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmppooxyw08
++ '[' 0 -ne 0 ']'
++ sed -i '/nameserver 127.0.0.1/d' /etc/resolv.conf
++ sed -i s/#nameserver/nameserver/ /etc/resolv.conf
++ hostname openeuler-riscv64
++ sed -i /TESTAD/d /etc/hosts
++ systemctl start firewalld
+Failed to start firewalld.service: Unit firewalld.service not found.
++ '[' false = true ']'
++ rm -rf /etc/samba/smb.conf '/var/lib/samba/private/*' '/var/lib/samba/sysvol/*'
++ mv -f /etc/krb5.bak /etc/krb5.conf
++ mv -f /etc/samba/smb.conf_bak /etc/samba/smb.conf
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu Apr 27 02:09:49 2023 - INFO  - Finish environment cleanup!
