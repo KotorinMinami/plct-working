@@ -1,0 +1,3752 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n function ']'
++ config_params
++ LOG_INFO 'Start to prepare the database config.'
++ message='Start to prepare the database config.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the database config.'
+Fri Apr 28 13:24:21 2023 - INFO  - Start to prepare the database config.
+++ grep disk
+++ lsblk
+++ tail -n 1
+++ awk '{print $1}'
++ free_disk=vdt
++ disk_name=/dev/vdt
++ LOG_INFO 'Finish to prepare the database config.'
++ message='Finish to prepare the database config.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish to prepare the database config.'
+Fri Apr 28 13:24:22 2023 - INFO  - Finish to prepare the database config.
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the database config.'
++ message='Start to prepare the database config.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the database config.'
+Fri Apr 28 13:24:23 2023 - INFO  - Start to prepare the database config.
++ DNF_INSTALL mdadm
++ pkgs=mdadm
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs mdadm --node 1 --tempfile ''
+Fri Apr 28 13:24:32 2023 - INFO  - pkgs:(mdadm) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ mkdir /mnt/test_md
++ fdisk /dev/vdt
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+The device contains 'LVM2_member' signature and it may remain on the device. It is recommended to wipe the device with wipefs(8) or fdisk --wipe, in order to avoid possible collisions.
+
+Device does not contain a recognized partition table.
+Created a new DOS disklabel with disk identifier 0xe8b35c84.
+
+Command (m for help): Partition type
+   p   primary (0 primary, 0 extended, 4 free)
+   e   extended (container for logical partitions)
+Select (default p): Partition number (1-4, default 1): First sector (2048-1023999, default 2048): Last sector, +/-sectors or +/-size{K,M,G,T,P} (2048-1023999, default 1023999): 
+Created a new partition 1 of type 'Linux' and of size 47.8 MiB.
+
+Command (m for help): Y: unknown command
+
+Command (m for help): Partition type
+   p   primary (1 primary, 0 extended, 3 free)
+   e   extended (container for logical partitions)
+Select (default p): Partition number (2-4, default 2): First sector (100001-1023999, default 100352): Last sector, +/-sectors or +/-size{K,M,G,T,P} (100352-1023999, default 1023999): 
+Created a new partition 2 of type 'Linux' and of size 48.7 MiB.
+
+Command (m for help): Y: unknown command
+
+Command (m for help): 
+The partition table has been altered.
+Calling ioctl() to re-read partition table.
+Syncing disks.
+
++ mdadm --stop /dev/md1
+mdadm: error opening /dev/md1: No such file or directory
++ mdadm -C -v /dev/md1 -l 1 -n 2 /dev/vdt1 /dev/vdt2
++ echo y
+mdadm: Note: this array has metadata at the start and
+    may not be suitable as a boot device.  If you plan to
+    store '/boot' on this device please ensure that
+    your boot-loader understands md/v1.x metadata, or use
+    --metadata=0.90
+mdadm: size set to 47936K
+mdadm: largest drive (/dev/vdt2) exceeds size (47936K) by more than 1%
+Continue creating array? modprobe: FATAL: Module md_mod not found in directory /lib/modules/6.1.8-3.oe2303.riscv64
+mdadm: Fail to create md1 when using /sys/module/md_mod/parameters/new_array, fallback to creation via node
+mdadm: unexpected failure opening /dev/md1
++ echo y
++ mkfs -t ext4 /dev/md1
+mke2fs 1.46.5 (30-Dec-2021)
+The file /dev/md1 does not exist and no size was specified.
++ mount /dev/md1 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md1 does not exist.
++ cd ../../../libs/fault_injection/inject_mem_overloading_kmalloc
+oe_test_raid_compress.sh: line 51: cd: ../../../libs/fault_injection/inject_mem_overloading_kmalloc: No such file or directory
++ bash inject_mem_overloading_kmalloc.sh inject
+bash: inject_mem_overloading_kmalloc.sh: No such file or directory
++ cd -
+/root/mugen
++ LOG_INFO 'Finish to prepare the database config.'
++ message='Finish to prepare the database config.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish to prepare the database config.'
+Fri Apr 28 13:24:34 2023 - INFO  - Finish to prepare the database config.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri Apr 28 13:24:35 2023 - INFO  - Start to run test.
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:24:35 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:24:36 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:24:37 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:24:38 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:24:39 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:24:39 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:24:40 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:24:41 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:24:42 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:24:43 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:24:44 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:24:44 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:24:45 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:24:46 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:24:47 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:24:48 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:24:48 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:24:49 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:24:50 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:24:50 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:24:51 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:24:52 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:24:53 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:24:54 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:24:54 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:24:55 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:24:56 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:24:57 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:24:57 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:24:58 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:24:59 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:25:00 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:00 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:25:01 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:02 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:25:03 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:04 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:25:04 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:05 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:25:06 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:07 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:25:08 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:08 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:25:09 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:10 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:25:11 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:12 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:25:12 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:13 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:25:14 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:15 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:25:16 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:16 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:25:17 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:18 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:25:19 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:19 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:25:20 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:21 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:25:22 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:23 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:25:23 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:24 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:25:25 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:26 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:25:26 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:27 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:25:28 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:29 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:25:29 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:30 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:25:31 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:32 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:25:33 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:34 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:25:34 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:35 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:25:36 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:37 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:25:38 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:38 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:25:39 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:40 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:25:41 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:41 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:25:42 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:43 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:25:44 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:44 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:25:45 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:46 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:25:47 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:47 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:25:48 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:49 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:25:50 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:50 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:25:51 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:52 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:25:53 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:53 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:25:54 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:55 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:25:56 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:57 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:25:58 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:25:58 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:25:59 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:00 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:26:01 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:02 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:26:02 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:03 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:26:04 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:05 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:26:05 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:06 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:26:07 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:08 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:26:08 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:09 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:26:10 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:11 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:26:11 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:12 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:26:13 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:14 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:26:14 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:15 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:26:16 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:16 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:26:17 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:18 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:26:19 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:20 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:26:21 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:21 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:26:22 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:23 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:26:24 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:24 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:26:25 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:26 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:26:27 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:27 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:26:28 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:29 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:26:30 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:30 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:26:31 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:32 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:26:33 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:33 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:26:34 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:35 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:26:36 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:36 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:26:37 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:38 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:26:39 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:40 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:26:40 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:41 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:26:42 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:43 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:26:44 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:44 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:26:45 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:46 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:26:47 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:47 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:26:48 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:49 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:26:50 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:50 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:26:51 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:52 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:26:53 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:54 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:26:54 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:55 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:26:56 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:57 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:26:57 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:26:58 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:26:59 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:00 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:27:00 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:01 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:27:02 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:03 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:27:04 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:04 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:27:05 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:06 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:27:07 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:08 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:27:08 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:09 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:27:10 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:11 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:27:11 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:12 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:27:13 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:14 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:27:15 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:15 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:27:16 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:17 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:27:18 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:18 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:27:19 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:20 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:27:21 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:21 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:27:22 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:23 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:27:24 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:24 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:27:25 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:26 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:27:27 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:27 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:27:28 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:29 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:27:30 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:31 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:27:32 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:33 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:27:33 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:34 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:27:35 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:36 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:27:36 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:37 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:27:38 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:39 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:27:39 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:40 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:27:41 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:41 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:27:42 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:43 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:27:44 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:44 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:27:45 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:46 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:27:47 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:47 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:27:48 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:49 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:27:49 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:50 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:27:51 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:52 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:27:53 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:53 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:27:54 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:55 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:27:56 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:57 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:27:58 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:27:58 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:27:59 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:28:00 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:28:01 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:28:02 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:28:02 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:28:03 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:28:04 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:28:04 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:28:05 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:28:06 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:28:07 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:28:08 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:28:08 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:28:09 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:28:10 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:28:11 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:28:11 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:28:12 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:28:13 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:28:14 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:28:14 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:28:15 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:28:16 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:28:17 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:28:18 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:28:19 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:28:20 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:28:21 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:28:22 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:28:22 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:28:23 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:28:24 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:28:25 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:28:26 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:28:27 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:28:27 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:28:29 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ for i in seq {1..50}
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:28:30 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 61'
++ message='oe_test_raid_compress.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 61'
+Fri Apr 28 13:28:30 2023 - ERROR - oe_test_raid_compress.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -r /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Remove /dev/vdt2 faulty failed.'
++ message='Remove /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove /dev/vdt2 faulty failed.'
+Fri Apr 28 13:28:31 2023 - ERROR - Remove /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 63'
++ message='oe_test_raid_compress.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 63'
+Fri Apr 28 13:28:32 2023 - ERROR - oe_test_raid_compress.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md1 -a /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Add /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Add /dev/vdt2 faulty failed.'
++ message='Add /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add /dev/vdt2 faulty failed.'
+Fri Apr 28 13:28:33 2023 - ERROR - Add /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_compress.sh line 65'
++ message='oe_test_raid_compress.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_compress.sh line 65'
+Fri Apr 28 13:28:34 2023 - ERROR - oe_test_raid_compress.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Fri Apr 28 13:28:35 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 153
++ test 153 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri Apr 28 13:28:35 2023 - ERROR - failed to execute the case.
++ exit 153
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri Apr 28 13:28:36 2023 - INFO  - Start to restore the test environment.
++ cd ../../../libs/fault_injection/inject_mem_overloading_kmalloc
+oe_test_raid_compress.sh: line 72: cd: ../../../libs/fault_injection/inject_mem_overloading_kmalloc: No such file or directory
++ bash inject_mem_overloading_kmalloc.sh revert
+bash: inject_mem_overloading_kmalloc.sh: No such file or directory
++ cd -
+/root/mugen/testcases/system-test/fs-test/FS_Device
++ umount /dev/md1
+umount: /dev/md1: no mount point specified.
++ mdadm --stop /dev/md1
+mdadm: error opening /dev/md1: No such file or directory
++ rm -rf /mnt/test_md
++ mdadm --misc --zero-superblock /dev/vdt1 /dev/vdt2
+mdadm: Unrecognised md component device - /dev/vdt1
+mdadm: Unrecognised md component device - /dev/vdt2
++ fdisk /dev/vdt
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+The device contains 'LVM2_member' signature and it may remain on the device. It is recommended to wipe the device with wipefs(8) or fdisk --wipe, in order to avoid possible collisions.
+
+Command (m for help): Partition number (1,2, default 2): 
+Partition 2 has been deleted.
+
+Command (m for help): Selected partition 1
+Partition 1 has been deleted.
+
+Command (m for help): 
+
+Command (m for help): 
+The partition table has been altered.
+Calling ioctl() to re-read partition table.
+Syncing disks.
+
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Fri Apr 28 13:28:38 2023 - WARN  - no thing to do.
++ return 0
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Fri Apr 28 13:28:38 2023 - INFO  - End to restore the test environment.

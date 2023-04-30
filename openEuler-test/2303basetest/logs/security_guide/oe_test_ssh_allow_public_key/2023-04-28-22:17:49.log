@@ -1,0 +1,205 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n '' ']'
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Fri Apr 28 22:17:54 2023 - INFO  - Start executing testcase.
++ grep '^PubkeyAuthentication yes' /etc/ssh/sshd_config
++ CHECK_RESULT 1 0 0 'grep '\''PubkeyAuthentication yes'\'' failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='grep '\''PubkeyAuthentication yes'\'' failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'grep '\''PubkeyAuthentication yes'\'' failed'
++ LOG_ERROR 'grep '\''PubkeyAuthentication yes'\'' failed'
++ message='grep '\''PubkeyAuthentication yes'\'' failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'grep '\''PubkeyAuthentication yes'\'' failed'
+Fri Apr 28 22:17:55 2023 - ERROR - grep 'PubkeyAuthentication yes' failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ssh_allow_public_key.sh line 25'
++ message='oe_test_ssh_allow_public_key.sh line 25'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ssh_allow_public_key.sh line 25'
+Fri Apr 28 22:17:56 2023 - ERROR - oe_test_ssh_allow_public_key.sh line 25
++ '[' 0 -eq 1 ']'
++ return 0
++ expect
+spawn ssh-keygen
+Generating public/private rsa key pair.
+Enter file in which to save the key (/root/.ssh/id_rsa): 
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /root/.ssh/id_rsa
+Your public key has been saved in /root/.ssh/id_rsa.pub
+The key fingerprint is:
+SHA256:oj0aIbfwS5tVm4CBET6VFFI5Eyti8mnh7yvBFo36G0s root@openeuler-riscv64
+The key's randomart image is:
++---[RSA 3072]----+
+|  ++*=           |
+| . ==.           |
+|o.*ooo           |
+|o+o=.o           |
+| oB.+ o S        |
+|..+* = + o       |
+| oE.B + o        |
+| .o= B .         |
+|  ooB.           |
++----[SHA256]-----+
++ grep id_rsa
++ ls -l /root/.ssh
+-rw------- 1 root root 2610 Apr 28 22:18 id_rsa
+-rw-r--r-- 1 root root  576 Apr 28 22:18 id_rsa.pub
++ CHECK_RESULT 0 0 0 'grep id_rsa failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='grep id_rsa failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect
+spawn ssh-copy-id -i /root/.ssh/id_rsa.pub root@10.198.114.3
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/root/.ssh/id_rsa.pub"
+The authenticity of host '10.198.114.3 (10.198.114.3)' can't be established.
+ED25519 key fingerprint is SHA256:j2wdRtPc00KLhvK3Tj+SkYkwB1FXdanKLflYeFA0yE8.
+This host key is known by the following other names/addresses:
+    ~/.ssh/known_hosts:1: 10.198.114.1
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+root@10.198.114.3's password: 
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh 'root@10.198.114.3'"
+and check to make sure that only the key(s) you wanted were added.
+
++ SSH_SCP root@10.198.114.3:/root/.ssh/authorized_keys /home 'openEuler12#$'
++ src=root@10.198.114.3:/root/.ssh/authorized_keys
++ dest=/home
++ remotepasswd='openEuler12#$'
++ connport=22
++ bash /root/mugen/libs/locallibs/sshscp.sh -p 'openEuler12#$' -o 22 -s root@10.198.114.3:/root/.ssh/authorized_keys -d /home
+Fri Apr 28 22:18:24 2023 - WARN  - the remote password uses the default configuration.
+Fri Apr 28 22:18:24 2023 - WARN  - the connect port using the default configuration
+spawn scp -P 22 -r root@10.198.114.3:/root/.ssh/authorized_keys /home
+authorized_keys                                 0%    0     0.0KB/s   --:-- ETAauthorized_keys                               100%  576    28.2KB/s   00:00    
++ ret=0
++ test 0 -ne 0
++ return 0
++ grep ssh-rsa /home/authorized_keys
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC9dXUQdayv7WU47nJhUUP5L+vN7qzl9L8YceR0rAhbTFR5Dw/hCbUD7zXBc6IoE4FZ6jgry0PkSfB9XmgTrGmNVVHy3aypF1TGTcNT0mrOCSILzT4RFI+vLogZtWjCyKF5t11kTpljfMKwEKmM1B/sxPymA96quQUka0MkD70c+g9Yta8OGEd5qNto5WP3qc3w4Dsw0exLrjJT6wbMNSLE2oeMOZJYvXMfoJyGpT4GAqYUSFkBJTwThzpKdBObYMknqMVjKkLJEK/4DR/p72J6pCw4wFhAYOKONp67BvckpdpxwcOQBGIdHJBuw5EdGErZnjCvcxDn/mue8nSrkPYHqyl1IbaXxtH0LJFfiyZoGw+nvZuZcyoXOvNksvsiu5QAytmbP+G/cam/CIQ1nzsqRirribbz57NgUjVdQPmTtcoaOHzq8EslplvMqq7qAFxCMAR1Wv86x+DumAZHBtdvssnoKk3E6iMYCGlTlhxYIh2YvSwqH6tVoKcO3ShIzfE= root@openeuler-riscv64
++ CHECK_RESULT 0 0 0 'grep ssh-rsa failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='grep ssh-rsa failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect
+spawn ssh root@10.198.114.3
+Last login: Fri Apr 28 22:10:58 2023 from 10.198.114.1
+
+
+Welcome to 6.1.8-3.oe2303.riscv64
+
+System information as of time: 	Fri Apr 28 10:18:36 PM CST 2023
+
+System load: 	[0;33;40m1.52[0m
+Processes: 	107
+Memory used: 	3.1%
+Swap used: 	0.0%
+Usage On: 	27%
+IP address: 	10.198.114.3
+IP address: 	10.0.2.15
+Users online: 	1
+
+
+[root@openeuler-riscv64 ~]# + SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ grep '\[root@openEuler ~]#' testlog
++ CHECK_RESULT 1 0 0 'login failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='login failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'login failed'
++ LOG_ERROR 'login failed'
++ message='login failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'login failed'
+Fri Apr 28 22:19:19 2023 - ERROR - login failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ssh_allow_public_key.sh line 84'
++ message='oe_test_ssh_allow_public_key.sh line 84'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ssh_allow_public_key.sh line 84'
+Fri Apr 28 22:19:20 2023 - ERROR - oe_test_ssh_allow_public_key.sh line 84
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'Finish testcase execution.'
++ message='Finish testcase execution.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish testcase execution.'
+Fri Apr 28 22:19:21 2023 - INFO  - Finish testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z 2
++ test 2 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri Apr 28 22:19:22 2023 - ERROR - failed to execute the case.
++ exit 2
++ post_test
++ LOG_INFO 'Start cleanning environment.'
++ message='Start cleanning environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start cleanning environment.'
+Fri Apr 28 22:19:23 2023 - INFO  - Start cleanning environment.
++ SSH_CMD 'rm -rf /root/.ssh/authorized_keys' 10.198.114.3 'openEuler12#$' root
++ cmd='rm -rf /root/.ssh/authorized_keys'
++ remoteip=10.198.114.3
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'rm -rf /root/.ssh/authorized_keys' -i 10.198.114.3 -u root -p 'openEuler12#$' -t 300 -o 22
+Fri Apr 28 22:19:24 2023 - WARN  - the remote user uses the default configuration.
+Fri Apr 28 22:19:25 2023 - WARN  - the remote password uses the default configuration.
+Fri Apr 28 22:19:26 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@10.198.114.3 rm -rf /root/.ssh/authorized_keys
++ ret=0
++ test 0 -ne 0
++ return 0
++ rm -rf /root/.ssh/id_rsa /root/.ssh/id_rsa.pub /home/authorized_keys testlog
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Fri Apr 28 22:19:37 2023 - INFO  - Finish environment cleanup!

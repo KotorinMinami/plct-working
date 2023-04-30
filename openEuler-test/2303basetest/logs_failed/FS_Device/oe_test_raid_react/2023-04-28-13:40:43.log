@@ -1,0 +1,3966 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n function ']'
++ config_params
++ LOG_INFO 'Start to prepare the database config.'
++ message='Start to prepare the database config.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the database config.'
+Fri Apr 28 13:40:47 2023 - INFO  - Start to prepare the database config.
+++ lsblk
+++ grep disk
+++ awk '{print $1}'
+++ tail -n 1
++ free_disk=vdt
++ disk_name=/dev/vdt
++ LOG_INFO 'Finish to prepare the database config.'
++ message='Finish to prepare the database config.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish to prepare the database config.'
+Fri Apr 28 13:40:48 2023 - INFO  - Finish to prepare the database config.
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the database config.'
++ message='Start to prepare the database config.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the database config.'
+Fri Apr 28 13:40:49 2023 - INFO  - Start to prepare the database config.
++ DNF_INSTALL mdadm
++ pkgs=mdadm
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs mdadm --node 1 --tempfile ''
+Fri Apr 28 13:41:00 2023 - INFO  - pkgs:(mdadm) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ mkdir /mnt/test_md
++ fdisk /dev/vdt
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+The device contains 'LVM2_member' signature and it may remain on the device. It is recommended to wipe the device with wipefs(8) or fdisk --wipe, in order to avoid possible collisions.
+
+Command (m for help): Partition type
+   p   primary (0 primary, 0 extended, 4 free)
+   e   extended (container for logical partitions)
+Select (default p): Partition number (1-4, default 1): First sector (2048-1023999, default 2048): Last sector, +/-sectors or +/-size{K,M,G,T,P} (2048-1023999, default 1023999): 
+Created a new partition 1 of type 'Linux' and of size 47.8 MiB.
+
+Command (m for help): Y: unknown command
+
+Command (m for help): Partition type
+   p   primary (1 primary, 0 extended, 3 free)
+   e   extended (container for logical partitions)
+Select (default p): Partition number (2-4, default 2): First sector (100001-1023999, default 100352): Last sector, +/-sectors or +/-size{K,M,G,T,P} (100352-1023999, default 1023999): 
+Created a new partition 2 of type 'Linux' and of size 48.7 MiB.
+
+Command (m for help): Y: unknown command
+
+Command (m for help): 
+The partition table has been altered.
+Calling ioctl() to re-read partition table.
+Syncing disks.
+
++ mdadm --stop /dev/md0
+mdadm: error opening /dev/md0: No such file or directory
++ echo y
++ mdadm -C -v /dev/md0 -l 1 -n 2 /dev/vdt1 /dev/vdt2
+mdadm: Note: this array has metadata at the start and
+    may not be suitable as a boot device.  If you plan to
+    store '/boot' on this device please ensure that
+    your boot-loader understands md/v1.x metadata, or use
+    --metadata=0.90
+mdadm: size set to 47936K
+mdadm: largest drive (/dev/vdt2) exceeds size (47936K) by more than 1%
+Continue creating array? modprobe: FATAL: Module md_mod not found in directory /lib/modules/6.1.8-3.oe2303.riscv64
+mdadm: Fail to create md0 when using /sys/module/md_mod/parameters/new_array, fallback to creation via node
+mdadm: unexpected failure opening /dev/md0
++ echo y
++ mkfs -t ext4 /dev/md0
+mke2fs 1.46.5 (30-Dec-2021)
+The file /dev/md0 does not exist and no size was specified.
++ LOG_INFO 'Finish to prepare the database config.'
++ message='Finish to prepare the database config.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish to prepare the database config.'
+Fri Apr 28 13:41:02 2023 - INFO  - Finish to prepare the database config.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri Apr 28 13:41:03 2023 - INFO  - Start to run test.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:41:04 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:41:05 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:41:06 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:41:07 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 1
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 1 /mnt/test_md/testfile1
+1
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:41:08 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:41:09 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:41:10 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:41:11 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 2
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 2 /mnt/test_md/testfile2
+2
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:41:12 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:41:13 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:41:14 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:41:15 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 3
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 3 /mnt/test_md/testfile3
+3
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:41:17 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:41:18 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:41:18 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:41:19 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 4
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 4 /mnt/test_md/testfile4
+4
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:41:21 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:41:22 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:41:23 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:41:24 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 5
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 5 /mnt/test_md/testfile5
+5
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:41:25 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:41:26 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:41:27 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:41:28 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 6
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 6 /mnt/test_md/testfile6
+6
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:41:29 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:41:30 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:41:31 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:41:32 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 7
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 7 /mnt/test_md/testfile7
+7
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:41:34 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:41:35 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:41:36 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:41:37 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 8
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 8 /mnt/test_md/testfile8
+8
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:41:38 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:41:39 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:41:40 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:41:41 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 9
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 9 /mnt/test_md/testfile9
+9
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:41:43 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:41:44 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:41:45 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:41:46 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 10
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 10 /mnt/test_md/testfile10
+10
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:41:47 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:41:48 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:41:49 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:41:50 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 11
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 11 /mnt/test_md/testfile11
+11
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:41:51 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:41:52 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:41:53 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:41:54 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 12
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 12 /mnt/test_md/testfile12
+12
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:41:55 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:41:56 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:41:57 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:41:58 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 13
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 13 /mnt/test_md/testfile13
+13
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:42:00 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:42:01 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:42:02 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:42:02 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 14
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 14 /mnt/test_md/testfile14
+14
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:42:04 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:42:04 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:42:06 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:42:07 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 15
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 15 /mnt/test_md/testfile15
+15
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:42:08 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:42:09 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:42:10 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:42:11 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 16
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 16 /mnt/test_md/testfile16
+16
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:42:12 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:42:13 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:42:14 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:42:15 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 17
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 17 /mnt/test_md/testfile17
+17
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:42:16 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:42:17 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:42:18 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:42:19 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 18
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 18 /mnt/test_md/testfile18
+18
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:42:20 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:42:21 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:42:22 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:42:23 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 19
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 19 /mnt/test_md/testfile19
+19
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:42:25 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:42:26 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:42:27 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:42:27 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 20
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 20 /mnt/test_md/testfile20
+20
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:42:29 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:42:30 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:42:31 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:42:31 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 21
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 21 /mnt/test_md/testfile21
+21
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:42:33 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:42:34 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:42:35 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:42:36 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 22
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 22 /mnt/test_md/testfile22
+22
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:42:37 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:42:38 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:42:39 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:42:40 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 23
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 23 /mnt/test_md/testfile23
+23
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:42:42 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:42:43 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:42:44 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:42:45 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 24
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 24 /mnt/test_md/testfile24
+24
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:42:46 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:42:47 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:42:48 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:42:49 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 25
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 25 /mnt/test_md/testfile25
+25
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:42:50 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:42:51 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:42:52 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:42:53 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 26
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 26 /mnt/test_md/testfile26
+26
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:42:54 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:42:55 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:42:56 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:42:57 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 27
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 27 /mnt/test_md/testfile27
+27
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:42:58 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:42:59 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:43:00 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:43:01 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 28
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 28 /mnt/test_md/testfile28
+28
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:43:03 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:43:04 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:43:05 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:43:06 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 29
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 29 /mnt/test_md/testfile29
+29
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:43:07 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:43:08 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:43:09 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:43:10 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 30
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 30 /mnt/test_md/testfile30
+30
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:43:11 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:43:12 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:43:13 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:43:14 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 31
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 31 /mnt/test_md/testfile31
+31
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:43:15 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:43:16 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:43:17 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:43:18 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 32
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 32 /mnt/test_md/testfile32
+32
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:43:19 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:43:20 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:43:21 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:43:22 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 33
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 33 /mnt/test_md/testfile33
+33
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:43:23 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:43:24 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:43:25 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:43:26 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 34
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 34 /mnt/test_md/testfile34
+34
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:43:27 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:43:29 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:43:30 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:43:31 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 35
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 35 /mnt/test_md/testfile35
+35
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:43:32 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:43:33 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:43:34 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:43:35 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 36
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 36 /mnt/test_md/testfile36
+36
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:43:36 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:43:37 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:43:38 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:43:39 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 37
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 37 /mnt/test_md/testfile37
+37
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:43:40 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:43:41 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:43:42 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:43:42 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 38
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 38 /mnt/test_md/testfile38
+38
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:43:43 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:43:44 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:43:45 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:43:46 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 39
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 39 /mnt/test_md/testfile39
+39
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:43:47 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:43:48 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:43:49 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:43:50 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 40
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 40 /mnt/test_md/testfile40
+40
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:43:51 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:43:52 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:43:53 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:43:54 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 41
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 41 /mnt/test_md/testfile41
+41
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:43:55 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:43:56 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:43:57 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:43:58 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 42
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 42 /mnt/test_md/testfile42
+42
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:44:00 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:44:01 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:44:02 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:44:03 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 43
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 43 /mnt/test_md/testfile43
+43
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:44:04 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:44:05 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:44:06 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:44:07 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 44
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 44 /mnt/test_md/testfile44
+44
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:44:08 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:44:09 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:44:10 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:44:11 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 45
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 45 /mnt/test_md/testfile45
+45
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:44:12 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:44:13 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:44:14 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:44:15 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 46
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 46 /mnt/test_md/testfile46
+46
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:44:16 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:44:17 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:44:18 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:44:19 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 47
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 47 /mnt/test_md/testfile47
+47
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:44:21 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:44:22 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:44:23 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:44:24 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 48
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 48 /mnt/test_md/testfile48
+48
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:44:25 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:44:26 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:44:27 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:44:28 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 49
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 49 /mnt/test_md/testfile49
+49
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ for i in {1..50}
++ mdadm /dev/md0 -f /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ mdadm /dev/md0 -r /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Remove device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Remove device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Remove device part failed.'
++ LOG_ERROR 'Remove device part failed.'
++ message='Remove device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Remove device part failed.'
+Fri Apr 28 13:44:29 2023 - ERROR - Remove device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 58'
++ message='oe_test_raid_react.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 58'
+Fri Apr 28 13:44:30 2023 - ERROR - oe_test_raid_react.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm /dev/md0 -a /dev/vdt2
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1 0 0 'Add device part failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Add device part failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Add device part failed.'
++ LOG_ERROR 'Add device part failed.'
++ message='Add device part failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Add device part failed.'
+Fri Apr 28 13:44:31 2023 - ERROR - Add device part failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_react.sh line 60'
++ message='oe_test_raid_react.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_react.sh line 60'
+Fri Apr 28 13:44:32 2023 - ERROR - oe_test_raid_react.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/md0 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ echo 50
++ CHECK_RESULT 0 0 0 'Write file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Write file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 50 /mnt/test_md/testfile50
+50
++ CHECK_RESULT 0 0 0 'Read file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Fri Apr 28 13:44:33 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 100
++ test 100 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri Apr 28 13:44:34 2023 - ERROR - failed to execute the case.
++ exit 100
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri Apr 28 13:44:35 2023 - INFO  - Start to restore the test environment.
++ umount /dev/md0
+umount: /dev/md0: no mount point specified.
++ mdadm --stop /dev/md0
+mdadm: error opening /dev/md0: No such file or directory
++ rm -rf /mnt/test_md
++ mdadm --misc --zero-superblock /dev/vdt1
+mdadm: Unrecognised md component device - /dev/vdt1
++ mdadm --misc --zero-superblock /dev/vdt2
+mdadm: Unrecognised md component device - /dev/vdt2
++ fdisk /dev/vdt
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+The device contains 'LVM2_member' signature and it may remain on the device. It is recommended to wipe the device with wipefs(8) or fdisk --wipe, in order to avoid possible collisions.
+
+Command (m for help): Partition number (1,2, default 2): 
+Partition 2 has been deleted.
+
+Command (m for help): Selected partition 1
+Partition 1 has been deleted.
+
+Command (m for help): 
+
+Command (m for help): 
+The partition table has been altered.
+Calling ioctl() to re-read partition table.
+Syncing disks.
+
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Fri Apr 28 13:44:36 2023 - WARN  - no thing to do.
++ return 0
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Fri Apr 28 13:44:37 2023 - INFO  - End to restore the test environment.

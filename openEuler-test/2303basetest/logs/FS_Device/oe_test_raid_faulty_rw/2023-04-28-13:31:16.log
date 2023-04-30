@@ -1,0 +1,205 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n function ']'
++ config_params
++ LOG_INFO 'Start to prepare the database config.'
++ message='Start to prepare the database config.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the database config.'
+Fri Apr 28 13:31:21 2023 - INFO  - Start to prepare the database config.
+++ lsblk
+++ awk '{print $1}'
+++ tail -n 1
+++ grep disk
++ free_disk=vdt
++ disk_name=/dev/vdt
++ LOG_INFO 'Finish to prepare the database config.'
++ message='Finish to prepare the database config.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish to prepare the database config.'
+Fri Apr 28 13:31:22 2023 - INFO  - Finish to prepare the database config.
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the database config.'
++ message='Start to prepare the database config.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the database config.'
+Fri Apr 28 13:31:23 2023 - INFO  - Start to prepare the database config.
++ DNF_INSTALL mdadm
++ pkgs=mdadm
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs mdadm --node 1 --tempfile ''
+Fri Apr 28 13:31:35 2023 - INFO  - pkgs:(mdadm) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ mkdir /mnt/test_md
++ fdisk /dev/vdt
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+The device contains 'LVM2_member' signature and it may remain on the device. It is recommended to wipe the device with wipefs(8) or fdisk --wipe, in order to avoid possible collisions.
+
+Command (m for help): Partition type
+   p   primary (0 primary, 0 extended, 4 free)
+   e   extended (container for logical partitions)
+Select (default p): Partition number (1-4, default 1): First sector (2048-1023999, default 2048): Last sector, +/-sectors or +/-size{K,M,G,T,P} (2048-1023999, default 1023999): 
+Created a new partition 1 of type 'Linux' and of size 47.8 MiB.
+
+Command (m for help): Y: unknown command
+
+Command (m for help): Partition type
+   p   primary (1 primary, 0 extended, 3 free)
+   e   extended (container for logical partitions)
+Select (default p): Partition number (2-4, default 2): First sector (100001-1023999, default 100352): Last sector, +/-sectors or +/-size{K,M,G,T,P} (100352-1023999, default 1023999): 
+Created a new partition 2 of type 'Linux' and of size 48.7 MiB.
+
+Command (m for help): Y: unknown command
+
+Command (m for help): 
+The partition table has been altered.
+Calling ioctl() to re-read partition table.
+Syncing disks.
+
++ echo y
++ mdadm -C /dev/md1 -l 1 -n 2 /dev/vdt1 /dev/vdt2
+mdadm: Note: this array has metadata at the start and
+    may not be suitable as a boot device.  If you plan to
+    store '/boot' on this device please ensure that
+    your boot-loader understands md/v1.x metadata, or use
+    --metadata=0.90
+mdadm: largest drive (/dev/vdt2) exceeds size (47936K) by more than 1%
+Continue creating array? modprobe: FATAL: Module md_mod not found in directory /lib/modules/6.1.8-3.oe2303.riscv64
+mdadm: Fail to create md1 when using /sys/module/md_mod/parameters/new_array, fallback to creation via node
+mdadm: unexpected failure opening /dev/md1
++ mkfs -t ext4 /dev/md1
++ echo y
+mke2fs 1.46.5 (30-Dec-2021)
+The file /dev/md1 does not exist and no size was specified.
++ mount /dev/md1 /mnt/test_md
+mount: /mnt/test_md: special device /dev/md1 does not exist.
++ echo test
++ LOG_INFO 'Finish to prepare the database config.'
++ message='Finish to prepare the database config.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish to prepare the database config.'
+Fri Apr 28 13:31:37 2023 - INFO  - Finish to prepare the database config.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri Apr 28 13:31:38 2023 - INFO  - Start to run test.
++ dd if=/dev/zero of=/mnt/test_md/testfull bs=51200000 count=1000
+dd: error writing '/mnt/test_md/testfull': No space left on device
+292+0 records in
+291+0 records out
+14931509248 bytes (15 GB, 14 GiB) copied, 490.421 s, 30.4 MB/s
++ mdadm /dev/md1 -f /dev/vdt2
+mdadm: error opening /dev/md1: No such file or directory
++ CHECK_RESULT 1 0 0 'Set /dev/vdt2 faulty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set /dev/vdt2 faulty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set /dev/vdt2 faulty failed.'
++ LOG_ERROR 'Set /dev/vdt2 faulty failed.'
++ message='Set /dev/vdt2 faulty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set /dev/vdt2 faulty failed.'
+Fri Apr 28 13:39:49 2023 - ERROR - Set /dev/vdt2 faulty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_faulty_rw.sh line 58'
++ message='oe_test_raid_faulty_rw.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_faulty_rw.sh line 58'
+Fri Apr 28 13:39:50 2023 - ERROR - oe_test_raid_faulty_rw.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ ls /mnt/test_md/testfile
+/mnt/test_md/testfile
++ CHECK_RESULT 0 0 0 'Check file failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check file failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Fri Apr 28 13:39:51 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri Apr 28 13:39:52 2023 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri Apr 28 13:39:52 2023 - INFO  - Start to restore the test environment.
++ umount /dev/md1
+umount: /dev/md1: no mount point specified.
++ mdadm --stop /dev/md1
+mdadm: error opening /dev/md1: No such file or directory
++ rm -rf /mnt/test_md
++ mdadm --misc --zero-superblock /dev/vdt1 /dev/vdt2
+mdadm: Unrecognised md component device - /dev/vdt1
+mdadm: Unrecognised md component device - /dev/vdt2
++ fdisk /dev/vdt
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+The device contains 'LVM2_member' signature and it may remain on the device. It is recommended to wipe the device with wipefs(8) or fdisk --wipe, in order to avoid possible collisions.
+
+Command (m for help): Partition number (1,2, default 2): 
+Partition 2 has been deleted.
+
+Command (m for help): Selected partition 1
+Partition 1 has been deleted.
+
+Command (m for help): 
+
+Command (m for help): 
+The partition table has been altered.
+Calling ioctl() to re-read partition table.
+Syncing disks.
+
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Fri Apr 28 13:40:00 2023 - WARN  - no thing to do.
++ return 0
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Fri Apr 28 13:40:01 2023 - INFO  - End to restore the test environment.

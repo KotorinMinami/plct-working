@@ -1,0 +1,91 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ grep expect
++ rpm -qa
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Fri Apr 28 05:58:03 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL wireshark
++ pkgs=wireshark
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs wireshark --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp95msnd97
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp95msnd97
+++ rpm -qa wireshark
+++ awk -F - '{print$2}'
++ version=3.6.11
++ LOG_INFO 'Finish preparing the test environment.'
++ message='Finish preparing the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish preparing the test environment.'
+Fri Apr 28 05:59:50 2023 - INFO  - Finish preparing the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri Apr 28 05:59:50 2023 - INFO  - Start to run test.
+++ tshark -D
+++ awk -F . '{print $2}'
+++ head -1
+Running as user "root" and group "root". This could be dangerous.
++ netCard=' eth0'
++ SLEEP_WAIT 5 'tshark -i 1 -F pcap -c 10 -w tsfile17' 2
++ wait_time=5
++ cmd='tshark -i 1 -F pcap -c 10 -w tsfile17'
++ mode=2
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd 'tshark -i 1 -F pcap -c 10 -w tsfile17' --mode 2
+Running as user "root" and group "root". This could be dangerous.
+Capturing on 'eth0'
+ ** (tshark:67909) 06:00:00.782095 [Main MESSAGE] -- Capture started.
+ ** (tshark:67909) 06:00:00.793934 [Main MESSAGE] -- File: "tsfile17"
+10 packets captured
++ grep -E 'File type:.*pcap|File name:.*tsfile17'
++ capinfos tsfile17
+File name:           tsfile17
+File type:           Wireshark/tcpdump/... - pcap
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'tsfile17: pcap'
++ captype tsfile17
+tsfile17: pcap
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ tshark -i eth0 -c 100 -V
++ grep -E 'Linux cooked capture|SSH Protocol|Internet Protocol Version'
+Running as user "root" and group "root". This could be dangerous.
+Capturing on 'eth0'
+ ** (tshark:69520) 06:07:47.411028 [Main MESSAGE] -- Capture started.
+ ** (tshark:69520) 06:07:47.415807 [Main MESSAGE] -- File: "/var/tmp/wireshark_eth06IfE2r.pcapng"
+Fri Apr 28 06:27:59 2023 - ERROR - Timeout : Command 'bash -x oe_test_tshark_03.sh' timed out after 1799.9993107040027 seconds

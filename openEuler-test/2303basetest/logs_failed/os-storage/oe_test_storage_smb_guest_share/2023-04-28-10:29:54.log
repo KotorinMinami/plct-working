@@ -1,0 +1,128 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Fri Apr 28 10:29:58 2023 - INFO  - Start environment preparation.
++ DNF_INSTALL samba
++ pkgs=samba
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs samba --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpxb5yafgg
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpxb5yafgg
++ cp -a /etc/samba/smb.conf /etc/samba/smb.conf.bak
++ echo -e '\n\n[example]\n\tguest ok = yes'
++ sed -i '/[global]/a\\tmap to guest = Bad User' /etc/samba/smb.conf
++ sed -i '/[global]/a\\tguest account = ' /etc/samba/smb.conf
++ sed -i '/[global]/a\\tusershare prefix allow list = /data /srv' /etc/samba/smb.conf
++ sed -i '/[global]/a\\interfaces = enp3s0 9.82.234.94/24' /etc/samba/smb.conf
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Fri Apr 28 10:30:49 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Fri Apr 28 10:30:50 2023 - INFO  - Start executing testcase.
++ expect -c '
+        set timeout 30
+	log_file testlog
+        spawn testparm
+        expect "Press enter*" {send "\n\r"}
+        expect eof
+    '
+spawn testparm
+testparm: error while loading shared libraries: libserver-role-samba4.so: cannot open shared object file: No such file or directory
+expect: spawn id exp4 not open
+    while executing
+"expect eof"
++ grep -iE 'fail|error' testlog
+testparm: error while loading shared libraries: libserver-role-samba4.so: cannot open shared object file: No such file or directory
++ CHECK_RESULT 0 1
++ actual_result=0
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 1x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_smb_guest_share.sh line 42'
++ message='oe_test_storage_smb_guest_share.sh line 42'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_smb_guest_share.sh line 42'
+Fri Apr 28 10:30:51 2023 - ERROR - oe_test_storage_smb_guest_share.sh line 42
++ '[' 0 -eq 1 ']'
++ return 0
++ smbcontrol all reload-config
+smbcontrol: error while loading shared libraries: libmessages-util-samba4.so: cannot open shared object file: No such file or directory
++ CHECK_RESULT 127
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_smb_guest_share.sh line 44'
++ message='oe_test_storage_smb_guest_share.sh line 44'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_smb_guest_share.sh line 44'
+Fri Apr 28 10:30:52 2023 - ERROR - oe_test_storage_smb_guest_share.sh line 44
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End of testcase execution.'
++ message='End of testcase execution.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution.'
+Fri Apr 28 10:30:52 2023 - INFO  - End of testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z 2
++ test 2 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri Apr 28 10:30:53 2023 - ERROR - failed to execute the case.
++ exit 2
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri Apr 28 10:30:54 2023 - INFO  - start environment cleanup.
++ rm -f /etc/samba/smb.conf testlog
++ mv /etc/samba/smb.conf.bak /etc/samba/smb.conf
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpxb5yafgg ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpxb5yafgg
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Fri Apr 28 10:31:16 2023 - INFO  - Finish environment cleanup.

@@ -1,0 +1,506 @@
++ source ../common_lib/fsio_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
+++ export 'FS_TYPE=ext3 ext4 xfs'
+++ FS_TYPE='ext3 ext4 xfs'
+++ export LANG=en_US.UTF-8
+++ LANG=en_US.UTF-8
+++ REMOVE_VG
+++ vggroup=
+++ [[ '' != '' ]]
++++ df -T
++++ grep test_vggroup
++++ awk '{print $7}'
+++ mounted=
+++ [[ '' != '' ]]
+++ grep test_vggroup
+++ lsblk
+++ [[ 1 -eq 0 ]]
+++ rm -rf '/tmp/point*'
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the database config.'
++ message='Start to prepare the database config.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the database config.'
+Fri Apr 28 13:50:15 2023 - INFO  - Start to prepare the database config.
++ DNF_INSTALL 'dump xfsdump'
++ pkgs='dump xfsdump'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'dump xfsdump' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmph1yea3jt
++ '[' -z '' ']'
++ tmpfile=/tmp/tmph1yea3jt
++ point_list=($(CREATE_FS))
+++ CREATE_FS
+++ fs_type='ext3 ext4 xfs'
++++ date +%Y%m%d%H%M%S
+++ cur_date=20230428135051
++++ CREATE_VG
+++++ date +%Y%m%d%H%M%S
++++ cur_date=20230428135051
+++++ lsblk
+++++ grep disk
+++++ awk '{print $1}'
+++++ tail -n 1
++++ free_disk=vdt
++++ disk_name=/dev/vdt
++++ pvcreate /dev/vdt -f
++++ [[ 5 -eq 0 ]]
+++++ pvcreate /dev/vdt
+++++ grep test_vggroup
+++++ cut -d '"' -f 4
++++ vggroup=test_vggroup20230428122339
++++ printf test_vggroup20230428122339
+++ vggroup=test_vggroup20230428122339
+++ count=1
+++ msg='test_vggroup20230428122339 '
+++ for fs in ${fs_type[@]}
+++ lvname=test_lv120230428135051
+++ point=/tmp/point120230428135051
+++ lvcreate -n test_lv120230428135051 -L 512M test_vggroup20230428122339 -y
+  Volume group "test_vggroup20230428122339" has insufficient free space (124 extents): 128 required.
+++ mkfs -t ext3 /dev/test_vggroup20230428122339/test_lv120230428135051
+mke2fs 1.46.5 (30-Dec-2021)
+The file /dev/test_vggroup20230428122339/test_lv120230428135051 does not exist and no size was specified.
+++ mkdir /tmp/point120230428135051
+++ mount /dev/test_vggroup20230428122339/test_lv120230428135051 /tmp/point120230428135051
+mount: /tmp/point120230428135051: special device /dev/test_vggroup20230428122339/test_lv120230428135051 does not exist.
+++ msg='test_vggroup20230428122339 /tmp/point120230428135051 '
+++ count=2
+++ for fs in ${fs_type[@]}
+++ lvname=test_lv220230428135051
+++ point=/tmp/point220230428135051
+++ lvcreate -n test_lv220230428135051 -L 512M test_vggroup20230428122339 -y
+  Volume group "test_vggroup20230428122339" has insufficient free space (124 extents): 128 required.
+++ mkfs -t ext4 /dev/test_vggroup20230428122339/test_lv220230428135051
+mke2fs 1.46.5 (30-Dec-2021)
+The file /dev/test_vggroup20230428122339/test_lv220230428135051 does not exist and no size was specified.
+++ mkdir /tmp/point220230428135051
+++ mount /dev/test_vggroup20230428122339/test_lv220230428135051 /tmp/point220230428135051
+mount: /tmp/point220230428135051: special device /dev/test_vggroup20230428122339/test_lv220230428135051 does not exist.
+++ msg='test_vggroup20230428122339 /tmp/point120230428135051 /tmp/point220230428135051 '
+++ count=3
+++ for fs in ${fs_type[@]}
+++ lvname=test_lv320230428135051
+++ point=/tmp/point320230428135051
+++ lvcreate -n test_lv320230428135051 -L 512M test_vggroup20230428122339 -y
+  Volume group "test_vggroup20230428122339" has insufficient free space (124 extents): 128 required.
+++ mkfs -t xfs /dev/test_vggroup20230428122339/test_lv320230428135051
+Error accessing specified device /dev/test_vggroup20230428122339/test_lv320230428135051: No such file or directory
+Usage: mkfs.xfs
+/* blocksize */		[-b size=num]
+/* config file */	[-c options=xxx]
+/* metadata */		[-m crc=0|1,finobt=0|1,uuid=xxx,rmapbt=0|1,reflink=0|1,
+			    inobtcount=0|1,bigtime=0|1]
+/* data subvol */	[-d agcount=n,agsize=n,file,name=xxx,size=num,
+			    (sunit=value,swidth=value|su=num,sw=num|noalign),
+			    sectsize=num
+/* force overwrite */	[-f]
+/* inode size */	[-i perblock=n|size=num,maxpct=n,attr=0|1|2,
+			    projid32bit=0|1,sparse=0|1,nrext64=0|1]
+/* no discard */	[-K]
+/* log subvol */	[-l agnum=n,internal,size=num,logdev=xxx,version=n
+			    sunit=value|su=num,sectsize=num,lazy-count=0|1]
+/* label */		[-L label (maximum 12 characters)]
+/* naming */		[-n size=num,version=2|ci,ftype=0|1]
+/* no-op info only */	[-N]
+/* prototype file */	[-p fname]
+/* quiet */		[-q]
+/* realtime subvol */	[-r extsize=num,size=num,rtdev=xxx]
+/* sectorsize */	[-s size=num]
+/* version */		[-V]
+			devicename
+<devicename> is required unless -d name=xxx is given.
+<num> is xxx (bytes), xxxs (sectors), xxxb (fs blocks), xxxk (xxx KiB),
+      xxxm (xxx MiB), xxxg (xxx GiB), xxxt (xxx TiB) or xxxp (xxx PiB).
+<value> is xxx (512 byte blocks).
+++ mkdir /tmp/point320230428135051
+++ mount /dev/test_vggroup20230428122339/test_lv320230428135051 /tmp/point320230428135051
+mount: /tmp/point320230428135051: special device /dev/test_vggroup20230428122339/test_lv320230428135051 does not exist.
+++ msg='test_vggroup20230428122339 /tmp/point120230428135051 /tmp/point220230428135051 /tmp/point320230428135051 '
+++ count=4
+++ echo test_vggroup20230428122339 /tmp/point120230428135051 /tmp/point220230428135051 /tmp/point320230428135051
+++ tail -n 1
+++ grep 'VG Name'
+++ vgdisplay
+++ awk '{print $3}'
++ group_name=test_vggroup20230428122339
+++ seq 1 3
++ for i in $(seq 1 $((${#point_list[@]} - 1)))
++ var=/tmp/point120230428135051
++ echo 'test write file'
++ mkdir /tmp/point120230428135051/test_dir
++ for i in $(seq 1 $((${#point_list[@]} - 1)))
++ var=/tmp/point220230428135051
++ echo 'test write file'
++ mkdir /tmp/point220230428135051/test_dir
++ for i in $(seq 1 $((${#point_list[@]} - 1)))
++ var=/tmp/point320230428135051
++ echo 'test write file'
++ mkdir /tmp/point320230428135051/test_dir
++ LOG_INFO 'Finish to prepare the database config.'
++ message='Finish to prepare the database config.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish to prepare the database config.'
+Fri Apr 28 13:50:55 2023 - INFO  - Finish to prepare the database config.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri Apr 28 13:50:56 2023 - INFO  - Start to run test.
+++ seq 1 3
++ for i in $(seq 1 $((${#point_list[@]} - 1)))
++ var=/tmp/point120230428135051
+++ grep /tmp/point120230428135051
+++ df -iT
+++ awk '{print $1}'
++ lv_name=
+++ df -iT
+++ awk '{print $2}'
+++ grep /tmp/point120230428135051
++ fs_type=
++ [[ '' == \x\f\s ]]
++ dump -0f /tmp/test_dump.dump /tmp/point120230428135051
+  DUMP: Date of this level 0 dump: Fri Apr 28 13:50:56 2023
+  DUMP: Dumping /dev/vda2 (/ (dir tmp/point120230428135051)) to /tmp/test_dump.dump
+  DUMP: Label: none
+  DUMP: Writing 10 Kilobyte records
+  DUMP: mapping (Pass I) [regular files]
+/dev/vda2: File not found by ext2_lookup while translating tmp/point120230428135051
++ rm -rf /tmp/point120230428135051/test_dir /tmp/point120230428135051/test_file
++ cd /tmp/point120230428135051
++ restore -rf /tmp/test_dump.dump
+restore: /tmp/test_dump.dump: No such file or directory
++ CHECK_RESULT 1 0 0 'Dump data failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Dump data failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Dump data failed.'
++ LOG_ERROR 'Dump data failed.'
++ message='Dump data failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Dump data failed.'
+Fri Apr 28 13:50:57 2023 - ERROR - Dump data failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_snapshot_dump.sh line 52'
++ message='oe_test_snapshot_dump.sh line 52'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_snapshot_dump.sh line 52'
+Fri Apr 28 13:50:58 2023 - ERROR - oe_test_snapshot_dump.sh line 52
++ '[' 0 -eq 1 ']'
++ return 0
++ cd -
+/root/mugen/testcases/system-test/fs-test/FS_Device
++ test -f /tmp/point120230428135051/restoresymtable
++ CHECK_RESULT 1 0 0 'The file restoresymtable doesn'\''t exist.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='The file restoresymtable doesn'\''t exist.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'The file restoresymtable doesn'\''t exist.'
++ LOG_ERROR 'The file restoresymtable doesn'\''t exist.'
++ message='The file restoresymtable doesn'\''t exist.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'The file restoresymtable doesn'\''t exist.'
+Fri Apr 28 13:50:59 2023 - ERROR - The file restoresymtable doesn't exist.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_snapshot_dump.sh line 55'
++ message='oe_test_snapshot_dump.sh line 55'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_snapshot_dump.sh line 55'
+Fri Apr 28 13:51:00 2023 - ERROR - oe_test_snapshot_dump.sh line 55
++ '[' 0 -eq 1 ']'
++ return 0
++ grep -q test /tmp/point120230428135051/test_file
+grep: /tmp/point120230428135051/test_file: No such file or directory
++ CHECK_RESULT 2 0 0 'Check data failed.'
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log='Check data failed.'
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n 'Check data failed.'
++ LOG_ERROR 'Check data failed.'
++ message='Check data failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check data failed.'
+Fri Apr 28 13:51:01 2023 - ERROR - Check data failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_snapshot_dump.sh line 58'
++ message='oe_test_snapshot_dump.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_snapshot_dump.sh line 58'
+Fri Apr 28 13:51:01 2023 - ERROR - oe_test_snapshot_dump.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ rm -rf /tmp/test_dump.dump
++ for i in $(seq 1 $((${#point_list[@]} - 1)))
++ var=/tmp/point220230428135051
+++ df -iT
+++ awk '{print $1}'
+++ grep /tmp/point220230428135051
++ lv_name=
+++ df -iT
+++ grep /tmp/point220230428135051
+++ awk '{print $2}'
++ fs_type=
++ [[ '' == \x\f\s ]]
++ dump -0f /tmp/test_dump.dump /tmp/point220230428135051
+  DUMP: Date of this level 0 dump: Fri Apr 28 13:51:02 2023
+  DUMP: Dumping /dev/vda2 (/ (dir tmp/point220230428135051)) to /tmp/test_dump.dump
+  DUMP: Label: none
+  DUMP: Writing 10 Kilobyte records
+  DUMP: mapping (Pass I) [regular files]
+/dev/vda2: File not found by ext2_lookup while translating tmp/point220230428135051
++ rm -rf /tmp/point220230428135051/test_dir /tmp/point220230428135051/test_file
++ cd /tmp/point220230428135051
++ restore -rf /tmp/test_dump.dump
+restore: /tmp/test_dump.dump: No such file or directory
++ CHECK_RESULT 1 0 0 'Dump data failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Dump data failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Dump data failed.'
++ LOG_ERROR 'Dump data failed.'
++ message='Dump data failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Dump data failed.'
+Fri Apr 28 13:51:03 2023 - ERROR - Dump data failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_snapshot_dump.sh line 52'
++ message='oe_test_snapshot_dump.sh line 52'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_snapshot_dump.sh line 52'
+Fri Apr 28 13:51:04 2023 - ERROR - oe_test_snapshot_dump.sh line 52
++ '[' 0 -eq 1 ']'
++ return 0
++ cd -
+/root/mugen/testcases/system-test/fs-test/FS_Device
++ test -f /tmp/point220230428135051/restoresymtable
++ CHECK_RESULT 1 0 0 'The file restoresymtable doesn'\''t exist.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='The file restoresymtable doesn'\''t exist.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'The file restoresymtable doesn'\''t exist.'
++ LOG_ERROR 'The file restoresymtable doesn'\''t exist.'
++ message='The file restoresymtable doesn'\''t exist.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'The file restoresymtable doesn'\''t exist.'
+Fri Apr 28 13:51:04 2023 - ERROR - The file restoresymtable doesn't exist.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_snapshot_dump.sh line 55'
++ message='oe_test_snapshot_dump.sh line 55'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_snapshot_dump.sh line 55'
+Fri Apr 28 13:51:05 2023 - ERROR - oe_test_snapshot_dump.sh line 55
++ '[' 0 -eq 1 ']'
++ return 0
++ grep -q test /tmp/point220230428135051/test_file
+grep: /tmp/point220230428135051/test_file: No such file or directory
++ CHECK_RESULT 2 0 0 'Check data failed.'
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log='Check data failed.'
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n 'Check data failed.'
++ LOG_ERROR 'Check data failed.'
++ message='Check data failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check data failed.'
+Fri Apr 28 13:51:06 2023 - ERROR - Check data failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_snapshot_dump.sh line 58'
++ message='oe_test_snapshot_dump.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_snapshot_dump.sh line 58'
+Fri Apr 28 13:51:07 2023 - ERROR - oe_test_snapshot_dump.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ rm -rf /tmp/test_dump.dump
++ for i in $(seq 1 $((${#point_list[@]} - 1)))
++ var=/tmp/point320230428135051
+++ df -iT
+++ grep /tmp/point320230428135051
+++ awk '{print $1}'
++ lv_name=
+++ df -iT
+++ grep /tmp/point320230428135051
+++ awk '{print $2}'
++ fs_type=
++ [[ '' == \x\f\s ]]
++ dump -0f /tmp/test_dump.dump /tmp/point320230428135051
+  DUMP: Date of this level 0 dump: Fri Apr 28 13:51:07 2023
+  DUMP: Dumping /dev/vda2 (/ (dir tmp/point320230428135051)) to /tmp/test_dump.dump
+  DUMP: Label: none
+  DUMP: Writing 10 Kilobyte records
+  DUMP: mapping (Pass I) [regular files]
+/dev/vda2: File not found by ext2_lookup while translating tmp/point320230428135051
++ rm -rf /tmp/point320230428135051/test_dir /tmp/point320230428135051/test_file
++ cd /tmp/point320230428135051
++ restore -rf /tmp/test_dump.dump
+restore: /tmp/test_dump.dump: No such file or directory
++ CHECK_RESULT 1 0 0 'Dump data failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Dump data failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Dump data failed.'
++ LOG_ERROR 'Dump data failed.'
++ message='Dump data failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Dump data failed.'
+Fri Apr 28 13:51:08 2023 - ERROR - Dump data failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_snapshot_dump.sh line 52'
++ message='oe_test_snapshot_dump.sh line 52'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_snapshot_dump.sh line 52'
+Fri Apr 28 13:51:09 2023 - ERROR - oe_test_snapshot_dump.sh line 52
++ '[' 0 -eq 1 ']'
++ return 0
++ cd -
+/root/mugen/testcases/system-test/fs-test/FS_Device
++ test -f /tmp/point320230428135051/restoresymtable
++ CHECK_RESULT 1 0 0 'The file restoresymtable doesn'\''t exist.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='The file restoresymtable doesn'\''t exist.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'The file restoresymtable doesn'\''t exist.'
++ LOG_ERROR 'The file restoresymtable doesn'\''t exist.'
++ message='The file restoresymtable doesn'\''t exist.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'The file restoresymtable doesn'\''t exist.'
+Fri Apr 28 13:51:10 2023 - ERROR - The file restoresymtable doesn't exist.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_snapshot_dump.sh line 55'
++ message='oe_test_snapshot_dump.sh line 55'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_snapshot_dump.sh line 55'
+Fri Apr 28 13:51:10 2023 - ERROR - oe_test_snapshot_dump.sh line 55
++ '[' 0 -eq 1 ']'
++ return 0
++ grep -q test /tmp/point320230428135051/test_file
+grep: /tmp/point320230428135051/test_file: No such file or directory
++ CHECK_RESULT 2 0 0 'Check data failed.'
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log='Check data failed.'
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n 'Check data failed.'
++ LOG_ERROR 'Check data failed.'
++ message='Check data failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check data failed.'
+Fri Apr 28 13:51:11 2023 - ERROR - Check data failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_snapshot_dump.sh line 58'
++ message='oe_test_snapshot_dump.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_snapshot_dump.sh line 58'
+Fri Apr 28 13:51:12 2023 - ERROR - oe_test_snapshot_dump.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ rm -rf /tmp/test_dump.dump
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Fri Apr 28 13:51:13 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 9
++ test 9 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri Apr 28 13:51:14 2023 - ERROR - failed to execute the case.
++ exit 9
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri Apr 28 13:51:14 2023 - INFO  - Start to restore the test environment.
+++ echo test_vggroup20230428122339 /tmp/point120230428135051 /tmp/point220230428135051 /tmp/point320230428135051
++ list='test_vggroup20230428122339 /tmp/point120230428135051 /tmp/point220230428135051 /tmp/point320230428135051'
++ REMOVE_FS 'test_vggroup20230428122339 /tmp/point120230428135051 /tmp/point220230428135051 /tmp/point320230428135051'
++ point_list=($1)
+++ seq 0 3
++ for i in $(seq 0 $((${#point_list[@]} - 1)))
++ tmp=test_vggroup20230428122339
+++ df -T
+++ awk '{print $1}'
+++ grep test_vggroup20230428122339
++ lv=
++ [[ '' == '' ]]
++ continue
++ for i in $(seq 0 $((${#point_list[@]} - 1)))
++ tmp=/tmp/point120230428135051
+++ grep /tmp/point120230428135051
+++ df -T
+++ awk '{print $1}'
++ lv=
++ [[ '' == '' ]]
++ continue
++ for i in $(seq 0 $((${#point_list[@]} - 1)))
++ tmp=/tmp/point220230428135051
+++ df -T
+++ grep /tmp/point220230428135051
+++ awk '{print $1}'
++ lv=
++ [[ '' == '' ]]
++ continue
++ for i in $(seq 0 $((${#point_list[@]} - 1)))
++ tmp=/tmp/point320230428135051
+++ df -T
+++ grep /tmp/point320230428135051
+++ awk '{print $1}'
++ lv=
++ [[ '' == '' ]]
++ continue
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmph1yea3jt ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmph1yea3jt
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Fri Apr 28 13:51:29 2023 - INFO  - End to restore the test environment.

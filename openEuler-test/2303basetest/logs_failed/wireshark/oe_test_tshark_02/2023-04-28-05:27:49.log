@@ -1,0 +1,94 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Fri Apr 28 05:27:53 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL wireshark
++ pkgs=wireshark
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs wireshark --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpy_fmw4p3
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpy_fmw4p3
++ LOG_INFO 'Finish preparing the test environment.'
++ message='Finish preparing the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish preparing the test environment.'
+Fri Apr 28 05:29:39 2023 - INFO  - Finish preparing the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri Apr 28 05:29:40 2023 - INFO  - Start to run test.
+++ tshark -D
+++ awk -F . '{print $2}'
+++ head -1
+Running as user "root" and group "root". This could be dangerous.
++ netCard=' eth0'
++ SLEEP_WAIT 5 'tshark -i  eth0 -a duration:5 -w tsfile7' 2
++ wait_time=5
++ cmd='tshark -i  eth0 -a duration:5 -w tsfile7'
++ mode=2
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd 'tshark -i  eth0 -a duration:5 -w tsfile7' --mode 2
+Running as user "root" and group "root". This could be dangerous.
+Capturing on 'eth0'
+ ** (tshark:61249) 05:29:50.463758 [Main MESSAGE] -- Capture started.
+ ** (tshark:61249) 05:29:50.466951 [Main MESSAGE] -- File: "tsfile7"
+0 packets captured
++ capinfos tsfile7
++ grep -E 'Capture duration:.*seconds|File name:.*tsfile7'
+File name:           tsfile7
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5 'tshark -i  eth0 -a filesize:3 -w tsfile8' 2
++ wait_time=5
++ cmd='tshark -i  eth0 -a filesize:3 -w tsfile8'
++ mode=2
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd 'tshark -i  eth0 -a filesize:3 -w tsfile8' --mode 2
+Fri Apr 28 05:57:50 2023 - ERROR - Timeout : Command 'bash -x oe_test_tshark_02.sh' timed out after 1799.9991921049987 seconds
+Running as user "root" and group "root". This could be dangerous.
+Capturing on 'eth0'
+ ** (tshark:61321) 05:30:02.154398 [Main MESSAGE] -- Capture started.
+ ** (tshark:61321) 05:30:02.168194 [Main MESSAGE] -- File: "tsfile8"
+21 packets captured
+++ post_test
+++ LOG_INFO 'Start to restore the test environment.'
+++ message='Start to restore the test environment.'
+++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri Apr 28 05:57:51 2023 - INFO  - Start to restore the test environment.
++++ ls
++++ grep -v .sh
+++ rm -rf tsfile7 tsfile8
+++ DNF_REMOVE
+++ node=1
+++ pkg_list=
+++ mode=0
+++ [[ -z /tmp/tmpy_fmw4p3 ]]
+++ '[' 0 -ne 0 ']'
+++ '[' 1 == 0 ']'
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpy_fmw4p3

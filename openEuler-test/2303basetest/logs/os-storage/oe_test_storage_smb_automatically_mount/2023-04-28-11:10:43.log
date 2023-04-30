@@ -1,0 +1,293 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Fri Apr 28 11:10:47 2023 - INFO  - Start environment preparation.
++ SSH_CMD 'yum install -y samba; sed -i '\''/testsamba/d'\'' /etc/security/opasswd;useradd testsamba;
+    (echo openEuler12#$;echo openEuler12#$) | smbpasswd -a testsamba -s' 10.198.114.3 'openEuler12#$' root
++ cmd='yum install -y samba; sed -i '\''/testsamba/d'\'' /etc/security/opasswd;useradd testsamba;
+    (echo openEuler12#$;echo openEuler12#$) | smbpasswd -a testsamba -s'
++ remoteip=10.198.114.3
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'yum install -y samba; sed -i '\''/testsamba/d'\'' /etc/security/opasswd;useradd testsamba;
+    (echo openEuler12#$;echo openEuler12#$) | smbpasswd -a testsamba -s' -i 10.198.114.3 -u root -p 'openEuler12#$' -t 300 -o 22
+1 packets transmitted, 0 received, 100% packet loss, time 0ms
+Fri Apr 28 11:10:58 2023 - ERROR - connection to 10.198.114.3 failed.
++ ret=101
++ test 101 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:101'
++ message='Failed in remote CMD operation:101'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:101'
+Fri Apr 28 11:10:59 2023 - ERROR - Failed in remote CMD operation:101
++ return 101
++ SSH_CMD 'cp -a /etc/samba/smb.conf /etc/samba/smb.conf.bak;echo  \" \" >> /etc/samba/smb.conf;
+    echo  \"\[testsamba\]\" >> /etc/samba/smb.conf;echo  \"\tcomment = public stuff\" >> /etc/samba/smb.conf;
+    echo  \"\tpath = /home/testsamba\" >> /etc/samba/smb.conf' 10.198.114.3 'openEuler12#$' root
++ cmd='cp -a /etc/samba/smb.conf /etc/samba/smb.conf.bak;echo  \" \" >> /etc/samba/smb.conf;
+    echo  \"\[testsamba\]\" >> /etc/samba/smb.conf;echo  \"\tcomment = public stuff\" >> /etc/samba/smb.conf;
+    echo  \"\tpath = /home/testsamba\" >> /etc/samba/smb.conf'
++ remoteip=10.198.114.3
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'cp -a /etc/samba/smb.conf /etc/samba/smb.conf.bak;echo  \" \" >> /etc/samba/smb.conf;
+    echo  \"\[testsamba\]\" >> /etc/samba/smb.conf;echo  \"\tcomment = public stuff\" >> /etc/samba/smb.conf;
+    echo  \"\tpath = /home/testsamba\" >> /etc/samba/smb.conf' -i 10.198.114.3 -u root -p 'openEuler12#$' -t 300 -o 22
+Fri Apr 28 11:11:00 2023 - WARN  - the remote user uses the default configuration.
+Fri Apr 28 11:11:01 2023 - WARN  - the remote password uses the default configuration.
+Fri Apr 28 11:11:02 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@10.198.114.3 cp -a /etc/samba/smb.conf /etc/samba/smb.conf.bak;echo  " " >> /etc/samba/smb.conf;
+    echo  "[testsamba]" >> /etc/samba/smb.conf;echo  "	comment = public stuff" >> /etc/samba/smb.conf;
+    echo  "	path = /home/testsamba" >> /etc/samba/smb.conf
+ssh: connect to host 10.198.114.3 port 22: Connection timed out
++ ret=255
++ test 255 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:255'
++ message='Failed in remote CMD operation:255'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:255'
+Fri Apr 28 11:13:13 2023 - ERROR - Failed in remote CMD operation:255
++ return 255
++ SSH_CMD 'systemctl start smb;systemctl enable smb;systemctl stop firewalld;
+	setsebool -P samba_export_all_ro on;setsebool -P samba_export_all_rw on;chmod 755 /home/testsamba' 10.198.114.3 'openEuler12#$' root
++ cmd='systemctl start smb;systemctl enable smb;systemctl stop firewalld;
+	setsebool -P samba_export_all_ro on;setsebool -P samba_export_all_rw on;chmod 755 /home/testsamba'
++ remoteip=10.198.114.3
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'systemctl start smb;systemctl enable smb;systemctl stop firewalld;
+	setsebool -P samba_export_all_ro on;setsebool -P samba_export_all_rw on;chmod 755 /home/testsamba' -i 10.198.114.3 -u root -p 'openEuler12#$' -t 300 -o 22
+Fri Apr 28 11:13:15 2023 - WARN  - the remote user uses the default configuration.
+Fri Apr 28 11:13:15 2023 - WARN  - the remote password uses the default configuration.
+Fri Apr 28 11:13:16 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@10.198.114.3 systemctl start smb;systemctl enable smb;systemctl stop firewalld;
+	setsebool -P samba_export_all_ro on;setsebool -P samba_export_all_rw on;chmod 755 /home/testsamba
+ssh: connect to host 10.198.114.3 port 22: Connection timed out
++ ret=255
++ test 255 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:255'
++ message='Failed in remote CMD operation:255'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:255'
+Fri Apr 28 11:15:27 2023 - ERROR - Failed in remote CMD operation:255
++ return 255
++ DNF_INSTALL cifs-utils
++ pkgs=cifs-utils
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs cifs-utils --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp2sdkguwx
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp2sdkguwx
++ systemctl stop firewalld
+Failed to stop firewalld.service: Unit firewalld.service not loaded.
++ mkdir -p /home/client
++ touch /root/smb.cred
++ echo username=testsamba
++ echo 'password=openEuler12#$'
++ chmod 600 /root/smb.cred
++ cp -a /etc/fstab /etc/fstab.bak
++ echo '//10.198.114.3/testsamba /home/client cifs credentials=/root/smb.cred  0 0'
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Fri Apr 28 11:15:58 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Fri Apr 28 11:15:58 2023 - INFO  - Start executing testcase.
++ mount -a
+mount error: cifs filesystem not supported by the system
+mount error(19): No such device
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs) and kernel log messages (dmesg)
++ CHECK_RESULT 32
++ actual_result=32
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 32 ']'
++ '[' 0 -eq 0 ']'
++ test 32x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_smb_automatically_mount.sh line 47'
++ message='oe_test_storage_smb_automatically_mount.sh line 47'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_smb_automatically_mount.sh line 47'
+Fri Apr 28 11:15:59 2023 - ERROR - oe_test_storage_smb_automatically_mount.sh line 47
++ '[' 0 -eq 1 ']'
++ return 0
++ df -h
++ grep -i /home/client
++ grep 10.198.114.3
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_smb_automatically_mount.sh line 49'
++ message='oe_test_storage_smb_automatically_mount.sh line 49'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_smb_automatically_mount.sh line 49'
+Fri Apr 28 11:16:00 2023 - ERROR - oe_test_storage_smb_automatically_mount.sh line 49
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End of testcase execution.'
++ message='End of testcase execution.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution.'
+Fri Apr 28 11:16:01 2023 - INFO  - End of testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z 2
++ test 2 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri Apr 28 11:16:01 2023 - ERROR - failed to execute the case.
++ exit 2
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri Apr 28 11:16:02 2023 - INFO  - start environment cleanup.
++ umount /home/client
+umount: /home/client: not mounted.
++ rmdir /home/client
+rmdir: failed to remove '/home/client': Directory not empty
++ SSH_CMD 'systemctl stop smb; rm -f /etc/samba/smb.conf;mv /etc/samba/smb.conf.bak /etc/samba/smb.conf; 
+    yum remove samba -y; userdel -r testsamba; systemctl stop firewalld' 10.198.114.3 'openEuler12#$' root
++ cmd='systemctl stop smb; rm -f /etc/samba/smb.conf;mv /etc/samba/smb.conf.bak /etc/samba/smb.conf; 
+    yum remove samba -y; userdel -r testsamba; systemctl stop firewalld'
++ remoteip=10.198.114.3
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'systemctl stop smb; rm -f /etc/samba/smb.conf;mv /etc/samba/smb.conf.bak /etc/samba/smb.conf; 
+    yum remove samba -y; userdel -r testsamba; systemctl stop firewalld' -i 10.198.114.3 -u root -p 'openEuler12#$' -t 300 -o 22
+Fri Apr 28 11:16:03 2023 - WARN  - the remote user uses the default configuration.
+Fri Apr 28 11:16:04 2023 - WARN  - the remote password uses the default configuration.
+Fri Apr 28 11:16:04 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@10.198.114.3 systemctl stop smb; rm -f /etc/samba/smb.conf;mv /etc/samba/smb.conf.bak /etc/samba/smb.conf; 
+    yum remove samba -y; userdel -r testsamba; systemctl stop firewalld
+root@10.198.114.3's password: 
+Dependencies resolved.
+================================================================================
+ Package                   Arch        Version              Repository     Size
+================================================================================
+Removing:
+ samba                     riscv64     4.17.5-2.oe2303      @mainline     5.5 M
+Removing unused dependencies:
+ krb5                      riscv64     1.20.1-1.oe2303      @mainline     282 k
+ samba-common-tools        riscv64     4.17.5-2.oe2303      @mainline     1.2 M
+ samba-dc                  riscv64     4.17.5-2.oe2303      @mainline     1.5 M
+ samba-dc-provision        riscv64     4.17.5-2.oe2303      @mainline      15 M
+ samba-libs                riscv64     4.17.5-2.oe2303      @mainline     463 k
+ samba-winbind             riscv64     4.17.5-2.oe2303      @mainline     1.2 M
+ samba-winbind-modules     riscv64     4.17.5-2.oe2303      @mainline     236 k
+ tdb-tools                 riscv64     1.4.7-1.oe2303       @mainline      58 k
+
+Transaction Summary
+================================================================================
+Remove  9 Packages
+
+Freed space: 25 M
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Preparing        :                                                        1/1 
+  Running scriptlet: samba-dc-4.17.5-2.oe2303.riscv64                       1/1 
+  Running scriptlet: samba-dc-4.17.5-2.oe2303.riscv64                       1/9 
+  Erasing          : samba-dc-4.17.5-2.oe2303.riscv64                       1/9 
+  Running scriptlet: samba-dc-4.17.5-2.oe2303.riscv64                       1/9 
+  Erasing          : samba-dc-provision-4.17.5-2.oe2303.riscv64             2/9 
+  Running scriptlet: samba-4.17.5-2.oe2303.riscv64                          3/9 
+Removed /etc/systemd/system/multi-user.target.wants/smb.service.
+
+  Erasing          : samba-4.17.5-2.oe2303.riscv64                          3/9 
+  Running scriptlet: samba-4.17.5-2.oe2303.riscv64                          3/9 
+  Running scriptlet: samba-winbind-4.17.5-2.oe2303.riscv64                  4/9 
+  Erasing          : samba-winbind-4.17.5-2.oe2303.riscv64                  4/9 
+  Running scriptlet: samba-winbind-4.17.5-2.oe2303.riscv64                  4/9 
+  Erasing          : samba-common-tools-4.17.5-2.oe2303.riscv64             5/9 
+  Erasing          : samba-winbind-modules-4.17.5-2.oe2303.riscv64          6/9 
+  Erasing          : samba-libs-4.17.5-2.oe2303.riscv64                     7/9 
+  Erasing          : krb5-1.20.1-1.oe2303.riscv64                           8/9 
+  Running scriptlet: krb5-1.20.1-1.oe2303.riscv64                           8/9 
+  Erasing          : tdb-tools-1.4.7-1.oe2303.riscv64                       9/9 
+  Verifying        : krb5-1.20.1-1.oe2303.riscv64                           1/9 
+  Verifying        : samba-4.17.5-2.oe2303.riscv64                          2/9 
+  Verifying        : samba-common-tools-4.17.5-2.oe2303.riscv64             3/9 
+  Verifying        : samba-dc-4.17.5-2.oe2303.riscv64                       4/9 
+  Verifying        : samba-dc-provision-4.17.5-2.oe2303.riscv64             5/9 
+  Verifying        : samba-libs-4.17.5-2.oe2303.riscv64                     6/9 
+  Verifying        : samba-winbind-4.17.5-2.oe2303.riscv64                  7/9 
+  Verifying        : samba-winbind-modules-4.17.5-2.oe2303.riscv64          8/9 
+  Verifying        : tdb-tools-1.4.7-1.oe2303.riscv64                       9/9 
+
+Removed:
+  krb5-1.20.1-1.oe2303.riscv64                                                  
+  samba-4.17.5-2.oe2303.riscv64                                                 
+  samba-common-tools-4.17.5-2.oe2303.riscv64                                    
+  samba-dc-4.17.5-2.oe2303.riscv64                                              
+  samba-dc-provision-4.17.5-2.oe2303.riscv64                                    
+  samba-libs-4.17.5-2.oe2303.riscv64                                            
+  samba-winbind-4.17.5-2.oe2303.riscv64                                         
+  samba-winbind-modules-4.17.5-2.oe2303.riscv64                                 
+  tdb-tools-1.4.7-1.oe2303.riscv64                                              
+
+Complete!
+Failed to stop firewalld.service: Unit firewalld.service not loaded.
++ ret=5
++ test 5 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:5'
++ message='Failed in remote CMD operation:5'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:5'
+Fri Apr 28 11:16:35 2023 - ERROR - Failed in remote CMD operation:5
++ return 5
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp2sdkguwx ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp2sdkguwx
++ '[' 0 -ne 0 ']'
++ rm -f /root/smb.cred /etc/fstab
++ mv /etc/fstab.bak /etc/fstab
++ systemctl start firewalld
+Failed to start firewalld.service: Unit firewalld.service not found.
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Fri Apr 28 11:16:47 2023 - INFO  - Finish environment cleanup.

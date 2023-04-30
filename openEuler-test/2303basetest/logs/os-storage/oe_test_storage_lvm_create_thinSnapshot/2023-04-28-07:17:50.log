@@ -1,0 +1,162 @@
++ source ../common/storage_disk_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Fri Apr 28 07:17:54 2023 - INFO  - Start environment preparation.
++ check_free_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks=vdb
++ disk_list=($disks)
++ local_disk=vdb
++ local_disk1=
++ local_disk2=
++ local_disk3=
++ pvcreate -y /dev/vdb
+  Wiping dos signature on /dev/vdb.
+  Physical volume "/dev/vdb" successfully created.
++ vgcreate openeulertest /dev/vdb
+  Volume group "openeulertest" successfully created
++ lvcreate -y -L 100M -T openeulertest/mythinpool
+  Thin pool volume with chunk size 64.00 KiB can address at most <15.88 TiB of data.
+  Logical volume "mythinpool" created.
++ lvcreate -y -V 1G -T openeulertest/mythinpool -n thinvolume
+  WARNING: Sum of all thin volume sizes (1.00 GiB) exceeds the size of thin pool openeulertest/mythinpool and the size of whole volume group (496.00 MiB).
+  WARNING: You have not turned on protection against thin pools running out of space.
+  WARNING: Set activation/thin_pool_autoextend_threshold below 100 to trigger automatic extension of thin pools before they get full.
+  Logical volume "thinvolume" created.
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Fri Apr 28 07:18:08 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase!'
++ message='Start executing testcase!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase!'
+Fri Apr 28 07:18:09 2023 - INFO  - Start executing testcase!
++ lvcreate -y -s --name mysnapshot1 openeulertest/thinvolume
+modprobe: FATAL: Module dm-snapshot not found in directory /lib/modules/6.1.8-3.oe2303.riscv64
+  /usr/sbin/modprobe failed: 1
+  snapshot: Required device-mapper target(s) not detected in your kernel.
+  Run `lvcreate --help' for more information.
++ CHECK_RESULT 3
++ actual_result=3
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 3 ']'
++ '[' 0 -eq 0 ']'
++ test 3x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_lvm_create_thinSnapshot.sh line 33'
++ message='oe_test_storage_lvm_create_thinSnapshot.sh line 33'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_lvm_create_thinSnapshot.sh line 33'
+Fri Apr 28 07:18:10 2023 - ERROR - oe_test_storage_lvm_create_thinSnapshot.sh line 33
++ '[' 0 -eq 1 ']'
++ return 0
++ lvcreate -y -s --thinpool openeulertest/mythinpool thinvolume --name mythinsnap
+modprobe: FATAL: Module dm-snapshot not found in directory /lib/modules/6.1.8-3.oe2303.riscv64
+  /usr/sbin/modprobe failed: 1
+  snapshot: Required device-mapper target(s) not detected in your kernel.
+  Run `lvcreate --help' for more information.
++ CHECK_RESULT 3
++ actual_result=3
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 3 ']'
++ '[' 0 -eq 0 ']'
++ test 3x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_lvm_create_thinSnapshot.sh line 35'
++ message='oe_test_storage_lvm_create_thinSnapshot.sh line 35'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_lvm_create_thinSnapshot.sh line 35'
+Fri Apr 28 07:18:11 2023 - ERROR - oe_test_storage_lvm_create_thinSnapshot.sh line 35
++ '[' 0 -eq 1 ']'
++ return 0
++ lvcreate -y -s openeulertest/mythinsnap --name my2ndthinsnap
+modprobe: FATAL: Module dm-snapshot not found in directory /lib/modules/6.1.8-3.oe2303.riscv64
+  /usr/sbin/modprobe failed: 1
+  snapshot: Required device-mapper target(s) not detected in your kernel.
+  Run `lvcreate --help' for more information.
++ CHECK_RESULT 3
++ actual_result=3
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 3 ']'
++ '[' 0 -eq 0 ']'
++ test 3x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_lvm_create_thinSnapshot.sh line 37'
++ message='oe_test_storage_lvm_create_thinSnapshot.sh line 37'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_lvm_create_thinSnapshot.sh line 37'
+Fri Apr 28 07:18:12 2023 - ERROR - oe_test_storage_lvm_create_thinSnapshot.sh line 37
++ '[' 0 -eq 1 ']'
++ return 0
++ lvs -o name,lv_ancestors,lv_descendants openeulertest
+  LV         Ancestors Descendants
+  mythinpool                      
+  thinvolume                      
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End of testcase execution!'
++ message='End of testcase execution!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution!'
+Fri Apr 28 07:18:13 2023 - INFO  - End of testcase execution!
++ CASE_RESULT 0
++ case_re=0
++ test -z 3
++ test 3 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri Apr 28 07:18:14 2023 - ERROR - failed to execute the case.
++ exit 3
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri Apr 28 07:18:15 2023 - INFO  - start environment cleanup.
++ vgremove -y openeulertest
+  Logical volume "thinvolume" successfully removed.
+  Logical volume "mythinpool" successfully removed.
+  Volume group "openeulertest" successfully removed
++ pvremove -y /dev/vdb
+  Labels on physical volume "/dev/vdb" successfully wiped.
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Fri Apr 28 07:18:17 2023 - INFO  - Finish environment cleanup.

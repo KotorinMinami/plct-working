@@ -1,0 +1,344 @@
++ source common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Fri Apr 28 00:11:46 2023 - INFO  - Start to prepare the test environment.
++ get_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='vdb vdc vdd vde'
++ disk_list=($disks)
++ disk1=vdb
++ disk2=vdc
++ DNF_INSTALL ntfs-3g
++ pkgs=ntfs-3g
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs ntfs-3g --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpinuplrqm
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpinuplrqm
++ mkntfs --fast /dev/vdb
+Cluster size has been automatically set to 4096 bytes.
+Creating NTFS volume structures.
+mkntfs completed successfully. Have a nice day.
++ mkntfs --fast /dev/vdc
+Cluster size has been automatically set to 4096 bytes.
+Creating NTFS volume structures.
+mkntfs completed successfully. Have a nice day.
++ mkdir -p /mnt/windows
++ ntfs-3g /dev/vdb /mnt/windows
+modprobe: FATAL: Module fuse not found in directory /lib/modules/6.1.8-3.oe2303.riscv64
+ntfs-3g-mount: fuse device is missing, try 'modprobe fuse' as root
++ touch /mnt/windows/test.txt
++ umount /mnt/windows
+umount: /mnt/windows: not mounted.
++ LOG_INFO 'Finish preparing the test environment.'
++ message='Finish preparing the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish preparing the test environment.'
+Fri Apr 28 00:12:36 2023 - INFO  - Finish preparing the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri Apr 28 00:12:37 2023 - INFO  - Start to run test.
++ grep 'Usage: ntfsmove \[options\]'
++ ntfsmove --help
+Usage: ntfsmove [options] device file
++ CHECK_RESULT 0 0 0 'Check ntfsmove --help failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfsmove --help failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'ntfsmove v'
++ ntfsmove --version
+ntfsmove v2022.5.17 (libntfs-3g) - Move files and directories on an NTFS volume.
++ CHECK_RESULT 0 0 0 'Check ntfsmove --version failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfsmove --version failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ntfsmove --start /dev/vdb test.txt
++ grep success
++ CHECK_RESULT 1 0 0 'Check ntfsmove --start failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsmove --start failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsmove --start failed.'
++ LOG_ERROR 'Check ntfsmove --start failed.'
++ message='Check ntfsmove --start failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsmove --start failed.'
+Fri Apr 28 00:12:38 2023 - ERROR - Check ntfsmove --start failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsmove.sh line 39'
++ message='oe_test_ntfs-3g_ntfsmove.sh line 39'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsmove.sh line 39'
+Fri Apr 28 00:12:39 2023 - ERROR - oe_test_ntfs-3g_ntfsmove.sh line 39
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsmove --best /dev/vdb test.txt
++ grep success
++ CHECK_RESULT 1 0 0 'Check ntfsmove --best failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsmove --best failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsmove --best failed.'
++ LOG_ERROR 'Check ntfsmove --best failed.'
++ message='Check ntfsmove --best failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsmove --best failed.'
+Fri Apr 28 00:12:40 2023 - ERROR - Check ntfsmove --best failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsmove.sh line 41'
++ message='oe_test_ntfs-3g_ntfsmove.sh line 41'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsmove.sh line 41'
+Fri Apr 28 00:12:41 2023 - ERROR - oe_test_ntfs-3g_ntfsmove.sh line 41
++ '[' 0 -eq 1 ']'
++ return 0
++ grep success
++ ntfsmove --end /dev/vdb test.txt
++ CHECK_RESULT 1 0 0 'Check ntfsmove --end failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsmove --end failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsmove --end failed.'
++ LOG_ERROR 'Check ntfsmove --end failed.'
++ message='Check ntfsmove --end failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsmove --end failed.'
+Fri Apr 28 00:12:42 2023 - ERROR - Check ntfsmove --end failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsmove.sh line 43'
++ message='oe_test_ntfs-3g_ntfsmove.sh line 43'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsmove.sh line 43'
+Fri Apr 28 00:12:43 2023 - ERROR - oe_test_ntfs-3g_ntfsmove.sh line 43
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsmove --cluster 5 /dev/vdb test.txt
++ grep success
++ CHECK_RESULT 1 0 0 'Check ntfsmove --cluster failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsmove --cluster failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsmove --cluster failed.'
++ LOG_ERROR 'Check ntfsmove --cluster failed.'
++ message='Check ntfsmove --cluster failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsmove --cluster failed.'
+Fri Apr 28 00:12:44 2023 - ERROR - Check ntfsmove --cluster failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsmove.sh line 45'
++ message='oe_test_ntfs-3g_ntfsmove.sh line 45'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsmove.sh line 45'
+Fri Apr 28 00:12:45 2023 - ERROR - oe_test_ntfs-3g_ntfsmove.sh line 45
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsmove --no-dirty /dev/vdb test.txt
++ grep success
++ CHECK_RESULT 1 0 0 'Check ntfsmove --no-dirty failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsmove --no-dirty failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsmove --no-dirty failed.'
++ LOG_ERROR 'Check ntfsmove --no-dirty failed.'
++ message='Check ntfsmove --no-dirty failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsmove --no-dirty failed.'
+Fri Apr 28 00:12:46 2023 - ERROR - Check ntfsmove --no-dirty failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsmove.sh line 47'
++ message='oe_test_ntfs-3g_ntfsmove.sh line 47'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsmove.sh line 47'
+Fri Apr 28 00:12:47 2023 - ERROR - oe_test_ntfs-3g_ntfsmove.sh line 47
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsmove --no-action /dev/vdb test.txt
++ grep success
++ CHECK_RESULT 1 0 0 'Check ntfsmove --no-action failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsmove --no-action failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsmove --no-action failed.'
++ LOG_ERROR 'Check ntfsmove --no-action failed.'
++ message='Check ntfsmove --no-action failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsmove --no-action failed.'
+Fri Apr 28 00:12:48 2023 - ERROR - Check ntfsmove --no-action failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsmove.sh line 49'
++ message='oe_test_ntfs-3g_ntfsmove.sh line 49'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsmove.sh line 49'
+Fri Apr 28 00:12:49 2023 - ERROR - oe_test_ntfs-3g_ntfsmove.sh line 49
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsmove --force /dev/vdb test.txt
++ grep success
++ CHECK_RESULT 1 0 0 'Check ntfsmove --force failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsmove --force failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsmove --force failed.'
++ LOG_ERROR 'Check ntfsmove --force failed.'
++ message='Check ntfsmove --force failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsmove --force failed.'
+Fri Apr 28 00:12:50 2023 - ERROR - Check ntfsmove --force failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsmove.sh line 51'
++ message='oe_test_ntfs-3g_ntfsmove.sh line 51'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsmove.sh line 51'
+Fri Apr 28 00:12:51 2023 - ERROR - oe_test_ntfs-3g_ntfsmove.sh line 51
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsmove --quiet /dev/vdb test.txt
++ grep success
++ CHECK_RESULT 1 0 0 'Check ntfsmove --quiet failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsmove --quiet failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsmove --quiet failed.'
++ LOG_ERROR 'Check ntfsmove --quiet failed.'
++ message='Check ntfsmove --quiet failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsmove --quiet failed.'
+Fri Apr 28 00:12:52 2023 - ERROR - Check ntfsmove --quiet failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsmove.sh line 53'
++ message='oe_test_ntfs-3g_ntfsmove.sh line 53'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsmove.sh line 53'
+Fri Apr 28 00:12:53 2023 - ERROR - oe_test_ntfs-3g_ntfsmove.sh line 53
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsmove --verbose /dev/vdb test.txt
++ grep success
++ CHECK_RESULT 1 0 0 'Check ntfsmove --verbose failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsmove --verbose failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsmove --verbose failed.'
++ LOG_ERROR 'Check ntfsmove --verbose failed.'
++ message='Check ntfsmove --verbose failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsmove --verbose failed.'
+Fri Apr 28 00:12:54 2023 - ERROR - Check ntfsmove --verbose failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsmove.sh line 55'
++ message='oe_test_ntfs-3g_ntfsmove.sh line 55'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsmove.sh line 55'
+Fri Apr 28 00:12:55 2023 - ERROR - oe_test_ntfs-3g_ntfsmove.sh line 55
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Fri Apr 28 00:12:56 2023 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 9
++ test 9 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri Apr 28 00:12:57 2023 - ERROR - failed to execute the case.
++ exit 9
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri Apr 28 00:12:58 2023 - INFO  - Start to restore the test environment.
++ expect
+spawn mkfs.ext4 /dev/vdb
+y
+mke2fs 1.46.5 (30-Dec-2021)
+/dev/vdb contains a ntfs file system
+Proceed anyway? (y,N) Discarding device blocks:      0/512000             done                            
+Creating filesystem with 512000 1k blocks and 128016 inodes
+Filesystem UUID: b13261db-ba36-4b13-9edc-942f28375c41
+Superblock backups stored on blocks: 
+	8193, 24577, 40961, 57345, 73729, 204801, 221185, 401409
+
+Allocating group tables:  0/63     done                            
+Writing inode tables:  0/63     done                            
+Creating journal (8192 blocks): done
+Writing superblocks and filesystem accounting information:  0/63     done
+
++ rm -rf /mnt/windows
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpinuplrqm ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpinuplrqm
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish restoring the test environment.'
++ message='Finish restoring the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish restoring the test environment.'
+Fri Apr 28 00:13:12 2023 - INFO  - Finish restoring the test environment.

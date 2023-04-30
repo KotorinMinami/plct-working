@@ -1,0 +1,157 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n function ']'
++ config_params
++ LOG_INFO 'Start to config params of the case.'
++ message='Start to config params of the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to config params of the case.'
+Sat Apr 29 03:31:03 2023 - INFO  - Start to config params of the case.
++ encry_file=/tmp/encry_18618
++ decry_file=/tmp/decry_18618
++ LOG_INFO 'End to config params of the case.'
++ message='End to config params of the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to config params of the case.'
+Sat Apr 29 03:31:04 2023 - INFO  - End to config params of the case.
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Sat Apr 29 03:31:04 2023 - INFO  - Start environment preparation.
++ DNF_INSTALL openssl
++ pkgs=openssl
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs openssl --node 1 --tempfile ''
+Sat Apr 29 03:31:13 2023 - INFO  - pkgs:(openssl) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Sat Apr 29 03:31:14 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Sat Apr 29 03:31:15 2023 - INFO  - Start testing...
++ openssl enc -des3 -pbkdf2 -pass pass:abc123 -in /etc/fstab -out /tmp/encry_18618
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ diff /etc/fstab /tmp/encry_18618
+1,3c1
+< # <device>                                <dir> <type> <options> <dump> <fsck>
+< UUID=bbf05e3d-b72d-472d-b3fe-d772890044cc   /   ext4    rw,noatime  0   1
+< UUID=e1559ec8-e1f3-4789-9e09-274818dfa055   /boot   ext2    rw,noatime  0   2
+---
+> Salted__IX√Á:Q…œbSÖâ¬‰`YŸ¥É‰…mYç-Ò7(¢ªœ‹€^‡“È”¯nÍê&iñÙÉÖÌREΩÏÚ0Ämºv¯µªõƒı2≤ª+V’m wB'‘b^LêGôŒ:N`éyü™öÄHµ "ñÍ˜x∏2»<qÅ#Rì!StÍ¥∏lG+ŸŒÏRõY úMÿc©›èg-nv≤ ñæA¿®µﬂ¶G6±|w!ú^ÙÑh 5N”x¡–2‘÷É§o.LB¡Âga/åÊùÕH3ÀXE“s<M‰x˘@üCs%EÏéÈSîﬁü(
+\ No newline at end of file
++ openssl enc -d -des3 -pbkdf2 -pass pass:abc123 -in /tmp/encry_18618 -out /tmp/decry_18618
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ diff /etc/fstab /tmp/decry_18618
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ openssl req -newkey rsa:2048 -nodes -keyout rsa_private.key -x509 -out cert.crt -subj /C=CN/O=openeuler/OU=oec
+.......+....+.........+.....+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*...+....+...+..+.......+...+.....+......+.+.....+.+..+...+.......+..+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*....+......+.......+..+.+............+..+...+....+......+...+..+.......+..+...+...+....+.....+...+......+.+...+...+.....+...+.........+......+......+.+...+......+...+..+......+.........+.+...+.........+...+...+.........+............+........+.+..+..................+..........+.....+.+..................+..+.........+....+............+.....+....+..+...+.+...+..................+..+.+.....+......+.+........+.......+..+...+...+......+....+...........+.+.....+............+.+......+...+...+...+.....+.+.....................+...+.........+...+..+............+....+........................+............+......+..+.......+........+.+...........+...+.+..+...+....+.....+......+......+.+.....+..........+.....+............+...+...+.........+...+....+...+............+......+...+.........+..+.+..+..........+..+......+.........+....+..+.............+.....+.+.........+..+...+..........+.....+.+..............+....+...+..+.......+...+...............+......+..+.........+...+......+....+.....+..........+..+...+.+......+........+.+..+....+..................+.................+....+.........+..+......+.......+............+.....+....+.....+......+.+........+......+.+........+....+......+...........+.+..+.+..+....+........+...+.............+.....+.........+.......+.....+.+.....+...+....+..+...+..........+...+.....+...+....+...+..+.+.........+......+.....+..........+.....+.......+..+............................+..+.......+.....+.........+......+...+.......+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+...+...+.+.....+.....................+.......+.....+...+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*.+..............+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*....+..+....+..+...+.+......+...+...............+.....+.........+.+......+.....+.+.........+.....+.+...+.....+..........+...........+...+..........+........+...+.+...............+.........+......+.....+......+...+..........+.........+..+.+............+...........+.+......+...+.........+......+.....+......+...+.+..+...+.+.....+................+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+-----
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ openssl x509 -in cert.crt -noout -text
++ grep CN
++ grep openeuler
++ grep oec
+        Issuer: C = CN, O = openeuler, OU = oec
+        Subject: C = CN, O = openeuler, OU = oec
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Sat Apr 29 03:31:22 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Sat Apr 29 03:31:23 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Sat Apr 29 03:31:23 2023 - INFO  - start environment cleanup.
++ rm -rf cert.crt rsa_private.key /tmp/encry_18618 /tmp/decry_18618
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Sat Apr 29 03:31:24 2023 - WARN  - no thing to do.
++ return 0
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Sat Apr 29 03:31:25 2023 - INFO  - Finish environment cleanup!

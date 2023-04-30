@@ -1,0 +1,319 @@
++ source common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ grep expect
++ rpm -qa
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Fri Apr 28 00:32:40 2023 - INFO  - Start to prepare the test environment.
++ get_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='vdb vdc vdd vde'
++ disk_list=($disks)
++ disk1=vdb
++ disk2=vdc
++ DNF_INSTALL ntfs-3g
++ pkgs=ntfs-3g
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs ntfs-3g --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpenqjl6h2
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpenqjl6h2
++ mkntfs --fast /dev/vdb
+Cluster size has been automatically set to 4096 bytes.
+Creating NTFS volume structures.
+mkntfs completed successfully. Have a nice day.
++ mkntfs --fast /dev/vdc
+Cluster size has been automatically set to 4096 bytes.
+Creating NTFS volume structures.
+mkntfs completed successfully. Have a nice day.
++ mkdir -p /mnt/windows
++ ntfs-3g /dev/vdb /mnt/windows
+modprobe: FATAL: Module fuse not found in directory /lib/modules/6.1.8-3.oe2303.riscv64
+ntfs-3g-mount: fuse device is missing, try 'modprobe fuse' as root
++ touch /mnt/windows/database.db
++ umount /mnt/windows
+umount: /mnt/windows: not mounted.
++ LOG_INFO 'Finish preparing the test environment.'
++ message='Finish preparing the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish preparing the test environment.'
+Fri Apr 28 00:33:29 2023 - INFO  - Finish preparing the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri Apr 28 00:33:30 2023 - INFO  - Start to run test.
++ ntfsfallocate -h
++ grep 'Usage: ntfsfallocate \[options\]'
+Usage: ntfsfallocate [options] -l length device file [attr-type [attr-name]]
++ CHECK_RESULT 0 0 0 'Check ntfsfallocate -h failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfsfallocate -h failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ntfsfallocate -V
++ grep 'ntfsfallocate v'
+ntfsfallocate v2022.5.17 (libntfs-3g)
++ CHECK_RESULT 0 0 0 'Check ntfsfallocate -V failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfsfallocate -V failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ntfsfallocate -l 100M /dev/vdb database.db
++ grep 'ntfsfallocate completed successfully'
+ntfsfallocate v2022.5.17 (libntfs-3g)
+ERROR: Failed to open file "database.db": No such file or directory
+Aborting...
++ CHECK_RESULT 1 0 0 'Check ntfsfallocate -l failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsfallocate -l failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsfallocate -l failed.'
++ LOG_ERROR 'Check ntfsfallocate -l failed.'
++ message='Check ntfsfallocate -l failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsfallocate -l failed.'
+Fri Apr 28 00:33:31 2023 - ERROR - Check ntfsfallocate -l failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsfallocate.sh line 39'
++ message='oe_test_ntfs-3g_ntfsfallocate.sh line 39'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsfallocate.sh line 39'
+Fri Apr 28 00:33:32 2023 - ERROR - oe_test_ntfs-3g_ntfsfallocate.sh line 39
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsfallocate -l 101M /dev/vdb database.db -f
++ grep 'ntfsfallocate completed successfully'
+ntfsfallocate v2022.5.17 (libntfs-3g)
+ERROR: Failed to open file "database.db": No such file or directory
+Aborting...
++ CHECK_RESULT 1 0 0 'Check ntfsfallocate -f failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsfallocate -f failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsfallocate -f failed.'
++ LOG_ERROR 'Check ntfsfallocate -f failed.'
++ message='Check ntfsfallocate -f failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsfallocate -f failed.'
+Fri Apr 28 00:33:33 2023 - ERROR - Check ntfsfallocate -f failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsfallocate.sh line 41'
++ message='oe_test_ntfs-3g_ntfsfallocate.sh line 41'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsfallocate.sh line 41'
+Fri Apr 28 00:33:34 2023 - ERROR - oe_test_ntfs-3g_ntfsfallocate.sh line 41
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsfallocate -l 102M /dev/vdb database.db -n
++ grep 'ntfsfallocate completed successfully'
+ntfsfallocate v2022.5.17 (libntfs-3g)
+ERROR: Failed to open file "database.db": No such file or directory
+Aborting...
++ CHECK_RESULT 1 0 0 'Check ntfsfallocate -n failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsfallocate -n failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsfallocate -n failed.'
++ LOG_ERROR 'Check ntfsfallocate -n failed.'
++ message='Check ntfsfallocate -n failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsfallocate -n failed.'
+Fri Apr 28 00:33:35 2023 - ERROR - Check ntfsfallocate -n failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsfallocate.sh line 43'
++ message='oe_test_ntfs-3g_ntfsfallocate.sh line 43'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsfallocate.sh line 43'
+Fri Apr 28 00:33:36 2023 - ERROR - oe_test_ntfs-3g_ntfsfallocate.sh line 43
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsfallocate -l 103M /dev/vdb database.db -o 1
++ grep 'ntfsfallocate completed successfully'
+ntfsfallocate v2022.5.17 (libntfs-3g)
+ERROR: Failed to open file "database.db": No such file or directory
+Aborting...
++ CHECK_RESULT 1 0 0 'Check ntfsfallocate -o failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsfallocate -o failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsfallocate -o failed.'
++ LOG_ERROR 'Check ntfsfallocate -o failed.'
++ message='Check ntfsfallocate -o failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsfallocate -o failed.'
+Fri Apr 28 00:33:37 2023 - ERROR - Check ntfsfallocate -o failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsfallocate.sh line 45'
++ message='oe_test_ntfs-3g_ntfsfallocate.sh line 45'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsfallocate.sh line 45'
+Fri Apr 28 00:33:38 2023 - ERROR - oe_test_ntfs-3g_ntfsfallocate.sh line 45
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsfallocate -l 104M /dev/vdb database.db -v
++ grep 'ntfsfallocate completed successfully'
+ntfsfallocate v2022.5.17 (libntfs-3g)
+ERROR: Failed to open file "database.db": No such file or directory
+Aborting...
++ CHECK_RESULT 1 0 0 'Check ntfsfallocate -v failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsfallocate -v failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsfallocate -v failed.'
++ LOG_ERROR 'Check ntfsfallocate -v failed.'
++ message='Check ntfsfallocate -v failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsfallocate -v failed.'
+Fri Apr 28 00:33:40 2023 - ERROR - Check ntfsfallocate -v failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsfallocate.sh line 47'
++ message='oe_test_ntfs-3g_ntfsfallocate.sh line 47'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsfallocate.sh line 47'
+Fri Apr 28 00:33:41 2023 - ERROR - oe_test_ntfs-3g_ntfsfallocate.sh line 47
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsfallocate -l 105M /dev/vdb database.db -vv
++ grep 'ntfsfallocate completed successfully'
+ntfsfallocate v2022.5.17 (libntfs-3g)
+ERROR: Failed to open file "database.db": No such file or directory
+Aborting...
++ CHECK_RESULT 1 0 0 'Check ntfsfallocate -vv failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsfallocate -vv failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsfallocate -vv failed.'
++ LOG_ERROR 'Check ntfsfallocate -vv failed.'
++ message='Check ntfsfallocate -vv failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsfallocate -vv failed.'
+Fri Apr 28 00:33:42 2023 - ERROR - Check ntfsfallocate -vv failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsfallocate.sh line 49'
++ message='oe_test_ntfs-3g_ntfsfallocate.sh line 49'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsfallocate.sh line 49'
+Fri Apr 28 00:33:43 2023 - ERROR - oe_test_ntfs-3g_ntfsfallocate.sh line 49
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsfallocate -l 106M /dev/vdb database.db 256
++ grep 'ntfsfallocate completed successfully'
+ntfsfallocate v2022.5.17 (libntfs-3g)
+ERROR: Failed to open file "database.db": No such file or directory
+Aborting...
++ CHECK_RESULT 1 0 0 'Check ntfsfallocate attr-name failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsfallocate attr-name failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsfallocate attr-name failed.'
++ LOG_ERROR 'Check ntfsfallocate attr-name failed.'
++ message='Check ntfsfallocate attr-name failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsfallocate attr-name failed.'
+Fri Apr 28 00:33:44 2023 - ERROR - Check ntfsfallocate attr-name failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsfallocate.sh line 51'
++ message='oe_test_ntfs-3g_ntfsfallocate.sh line 51'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsfallocate.sh line 51'
+Fri Apr 28 00:33:45 2023 - ERROR - oe_test_ntfs-3g_ntfsfallocate.sh line 51
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Fri Apr 28 00:33:46 2023 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 7
++ test 7 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri Apr 28 00:33:47 2023 - ERROR - failed to execute the case.
++ exit 7
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri Apr 28 00:33:47 2023 - INFO  - Start to restore the test environment.
++ expect
+spawn mkfs.ext4 /dev/vdb
+y
+mke2fs 1.46.5 (30-Dec-2021)
+/dev/vdb contains a ntfs file system
+Proceed anyway? (y,N) Discarding device blocks:      0/512000             done                            
+Creating filesystem with 512000 1k blocks and 128016 inodes
+Filesystem UUID: c89188bc-02b5-4fab-8bf2-9af5babb980d
+Superblock backups stored on blocks: 
+	8193, 24577, 40961, 57345, 73729, 204801, 221185, 401409
+
+Allocating group tables:  0/63     done                            
+Writing inode tables:  0/63     done                            
+Creating journal (8192 blocks): done
+Writing superblocks and filesystem accounting information:  0/63     done
+
++ rm -rf /mnt/windows
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpenqjl6h2 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpenqjl6h2
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish restoring the test environment.'
++ message='Finish restoring the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish restoring the test environment.'
+Fri Apr 28 00:34:02 2023 - INFO  - Finish restoring the test environment.
