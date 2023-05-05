@@ -1,0 +1,231 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Fri Apr 28 09:00:31 2023 - INFO  - Start environment preparation.
++ DNF_INSTALL nfs-utils
++ pkgs=nfs-utils
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs nfs-utils --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpvwssdfpl
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpvwssdfpl
++ systemctl stop firewalld
+Failed to stop firewalld.service: Unit firewalld.service not loaded.
++ iptables -F
++ SSH_CMD 'systemctl stop firewalld;iptables -F' 10.198.114.3 'openEuler12#$' root
++ cmd='systemctl stop firewalld;iptables -F'
++ remoteip=10.198.114.3
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'systemctl stop firewalld;iptables -F' -i 10.198.114.3 -u root -p 'openEuler12#$' -t 300 -o 22
+1 packets transmitted, 0 received, 100% packet loss, time 1ms
+Fri Apr 28 09:01:45 2023 - ERROR - connection to 10.198.114.3 failed.
++ ret=101
++ test 101 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:101'
++ message='Failed in remote CMD operation:101'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:101'
+Fri Apr 28 09:01:46 2023 - ERROR - Failed in remote CMD operation:101
++ return 101
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Fri Apr 28 09:01:46 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Fri Apr 28 09:01:47 2023 - INFO  - Start executing testcase.
++ SSH_CMD 'yum install nfs-utils -y;mkdir /home/nfs;touch /home/nfs/testnfs;chmod -R 777 /home/nfs;
+    mv /etc/exports /etc/exports.bak;echo '\''/home/nfs *(rw,sync,all_squash)'\'' >/etc/exports' 10.198.114.3 'openEuler12#$' root
++ cmd='yum install nfs-utils -y;mkdir /home/nfs;touch /home/nfs/testnfs;chmod -R 777 /home/nfs;
+    mv /etc/exports /etc/exports.bak;echo '\''/home/nfs *(rw,sync,all_squash)'\'' >/etc/exports'
++ remoteip=10.198.114.3
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'yum install nfs-utils -y;mkdir /home/nfs;touch /home/nfs/testnfs;chmod -R 777 /home/nfs;
+    mv /etc/exports /etc/exports.bak;echo '\''/home/nfs *(rw,sync,all_squash)'\'' >/etc/exports' -i 10.198.114.3 -u root -p 'openEuler12#$' -t 300 -o 22
+Fri Apr 28 09:01:48 2023 - WARN  - the remote user uses the default configuration.
+Fri Apr 28 09:01:49 2023 - WARN  - the remote password uses the default configuration.
+Fri Apr 28 09:01:50 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@10.198.114.3 yum install nfs-utils -y;mkdir /home/nfs;touch /home/nfs/testnfs;chmod -R 777 /home/nfs;
+    mv /etc/exports /etc/exports.bak;echo '/home/nfs *(rw,sync,all_squash)' >/etc/exports
+root@10.198.114.3's password: 
+Last metadata expiration check: 1:11:31 ago on Fri 28 Apr 2023 07:51:39 AM CST.
+Package nfs-utils-2:2.6.2-3.oe2303.riscv64 is already installed.
+Dependencies resolved.
+Nothing to do.
+Complete!
+mkdir: cannot create directory ‘/home/nfs’: File exists
++ ret=0
++ test 0 -ne 0
++ return 0
++ SSH_CMD 'exportfs -avr' 10.198.114.3 'openEuler12#$' root
++ cmd='exportfs -avr'
++ remoteip=10.198.114.3
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'exportfs -avr' -i 10.198.114.3 -u root -p 'openEuler12#$' -t 300 -o 22
+Fri Apr 28 09:03:12 2023 - WARN  - the remote user uses the default configuration.
+Fri Apr 28 09:03:13 2023 - WARN  - the remote password uses the default configuration.
+Fri Apr 28 09:03:14 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@10.198.114.3 exportfs -avr
+root@10.198.114.3's password: 
+exportfs: /etc/exports [1]: Neither 'subtree_check' or 'no_subtree_check' specified for export "*:/home/nfs".
+  Assuming default behaviour ('no_subtree_check').
+  NOTE: this default has changed since nfs-utils version 1.0.x
+
+exporting *:/home/nfs
++ ret=0
++ test 0 -ne 0
++ return 0
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SSH_CMD 'systemctl restart nfs-server rpcbind' 10.198.114.3 'openEuler12#$' root
++ cmd='systemctl restart nfs-server rpcbind'
++ remoteip=10.198.114.3
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'systemctl restart nfs-server rpcbind' -i 10.198.114.3 -u root -p 'openEuler12#$' -t 300 -o 22
+Fri Apr 28 09:04:29 2023 - WARN  - the remote user uses the default configuration.
+Fri Apr 28 09:04:30 2023 - WARN  - the remote password uses the default configuration.
+Fri Apr 28 09:04:30 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@10.198.114.3 systemctl restart nfs-server rpcbind
+root@10.198.114.3's password: 
++ ret=0
++ test 0 -ne 0
++ return 0
++ mkdir /home/client
++ systemctl restart nfs-server rpcbind
++ mount -t nfs 10.198.114.3:/home/nfs /home/client
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 10.198.114.3
++ df -h
+10.198.114.3:/home/nfs   20G  5.7G   13G  32% /home/client
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test -f /home/client/testnfs
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ echo test
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End of testcase execution.'
++ message='End of testcase execution.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution.'
+Fri Apr 28 09:06:53 2023 - INFO  - End of testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri Apr 28 09:06:54 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri Apr 28 09:06:54 2023 - INFO  - start environment cleanup.
++ umount /home/client
++ rmdir /home/client
++ SSH_CMD 'rm -rf /home/nfs;yum remove -y nfs-utils;mv -f /etc/exports.bak /etc/exports' 10.198.114.3 'openEuler12#$' root
++ cmd='rm -rf /home/nfs;yum remove -y nfs-utils;mv -f /etc/exports.bak /etc/exports'
++ remoteip=10.198.114.3
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'rm -rf /home/nfs;yum remove -y nfs-utils;mv -f /etc/exports.bak /etc/exports' -i 10.198.114.3 -u root -p 'openEuler12#$' -t 300 -o 22
+1 packets transmitted, 0 received, 100% packet loss, time 0ms
+Fri Apr 28 09:08:00 2023 - ERROR - connection to 10.198.114.3 failed.
++ ret=101
++ test 101 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:101'
++ message='Failed in remote CMD operation:101'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:101'
+Fri Apr 28 09:08:00 2023 - ERROR - Failed in remote CMD operation:101
++ return 101
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpvwssdfpl ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpvwssdfpl
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Fri Apr 28 09:08:30 2023 - INFO  - Finish environment cleanup.

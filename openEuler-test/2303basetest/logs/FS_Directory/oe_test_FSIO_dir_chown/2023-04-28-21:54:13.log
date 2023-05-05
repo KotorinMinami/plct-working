@@ -1,0 +1,448 @@
++ source ../common_lib/fsio_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
+++ export 'FS_TYPE=ext3 ext4 xfs'
+++ FS_TYPE='ext3 ext4 xfs'
+++ export LANG=en_US.UTF-8
+++ LANG=en_US.UTF-8
+++ REMOVE_VG
+++ vggroup=
+++ [[ '' != '' ]]
++++ df -T
++++ grep test_vggroup
++++ awk '{print $7}'
+++ mounted=
+++ [[ '' != '' ]]
+++ lsblk
+++ grep test_vggroup
+++ [[ 1 -eq 0 ]]
+++ rm -rf /tmp/point120230428215334 /tmp/point220230428215334 /tmp/point320230428215334
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Fri Apr 28 21:54:18 2023 - INFO  - Start environment preparation.
+++ date +%Y%m%d%H%M%S
++ cur_date=20230428215418
++ point_list=($(CREATE_FS))
+++ CREATE_FS
+++ fs_type='ext3 ext4 xfs'
++++ date +%Y%m%d%H%M%S
+++ cur_date=20230428215418
++++ CREATE_VG
+++++ date +%Y%m%d%H%M%S
++++ cur_date=20230428215418
+++++ lsblk
+++++ grep disk
+++++ tail -n 1
+++++ awk '{print $1}'
++++ free_disk=vdt
++++ disk_name=/dev/vdt
++++ pvcreate /dev/vdt -f
++++ [[ 5 -eq 0 ]]
+++++ pvcreate /dev/vdt
+++++ grep test_vggroup
+++++ cut -d '"' -f 4
++++ vggroup=test_vggroup20230428215305
++++ printf test_vggroup20230428215305
+++ vggroup=test_vggroup20230428215305
+++ count=1
+++ msg='test_vggroup20230428215305 '
+++ for fs in ${fs_type[@]}
+++ lvname=test_lv120230428215418
+++ point=/tmp/point120230428215418
+++ lvcreate -n test_lv120230428215418 -L 512M test_vggroup20230428215305 -y
+  Volume group "test_vggroup20230428215305" has insufficient free space (124 extents): 128 required.
+++ mkfs -t ext3 /dev/test_vggroup20230428215305/test_lv120230428215418
+mke2fs 1.46.5 (30-Dec-2021)
+The file /dev/test_vggroup20230428215305/test_lv120230428215418 does not exist and no size was specified.
+++ mkdir /tmp/point120230428215418
+++ mount /dev/test_vggroup20230428215305/test_lv120230428215418 /tmp/point120230428215418
+mount: /tmp/point120230428215418: special device /dev/test_vggroup20230428215305/test_lv120230428215418 does not exist.
+++ msg='test_vggroup20230428215305 /tmp/point120230428215418 '
+++ count=2
+++ for fs in ${fs_type[@]}
+++ lvname=test_lv220230428215418
+++ point=/tmp/point220230428215418
+++ lvcreate -n test_lv220230428215418 -L 512M test_vggroup20230428215305 -y
+  Volume group "test_vggroup20230428215305" has insufficient free space (124 extents): 128 required.
+++ mkfs -t ext4 /dev/test_vggroup20230428215305/test_lv220230428215418
+mke2fs 1.46.5 (30-Dec-2021)
+The file /dev/test_vggroup20230428215305/test_lv220230428215418 does not exist and no size was specified.
+++ mkdir /tmp/point220230428215418
+++ mount /dev/test_vggroup20230428215305/test_lv220230428215418 /tmp/point220230428215418
+mount: /tmp/point220230428215418: special device /dev/test_vggroup20230428215305/test_lv220230428215418 does not exist.
+++ msg='test_vggroup20230428215305 /tmp/point120230428215418 /tmp/point220230428215418 '
+++ count=3
+++ for fs in ${fs_type[@]}
+++ lvname=test_lv320230428215418
+++ point=/tmp/point320230428215418
+++ lvcreate -n test_lv320230428215418 -L 512M test_vggroup20230428215305 -y
+  Volume group "test_vggroup20230428215305" has insufficient free space (124 extents): 128 required.
+++ mkfs -t xfs /dev/test_vggroup20230428215305/test_lv320230428215418
+Error accessing specified device /dev/test_vggroup20230428215305/test_lv320230428215418: No such file or directory
+Usage: mkfs.xfs
+/* blocksize */		[-b size=num]
+/* config file */	[-c options=xxx]
+/* metadata */		[-m crc=0|1,finobt=0|1,uuid=xxx,rmapbt=0|1,reflink=0|1,
+			    inobtcount=0|1,bigtime=0|1]
+/* data subvol */	[-d agcount=n,agsize=n,file,name=xxx,size=num,
+			    (sunit=value,swidth=value|su=num,sw=num|noalign),
+			    sectsize=num
+/* force overwrite */	[-f]
+/* inode size */	[-i perblock=n|size=num,maxpct=n,attr=0|1|2,
+			    projid32bit=0|1,sparse=0|1,nrext64=0|1]
+/* no discard */	[-K]
+/* log subvol */	[-l agnum=n,internal,size=num,logdev=xxx,version=n
+			    sunit=value|su=num,sectsize=num,lazy-count=0|1]
+/* label */		[-L label (maximum 12 characters)]
+/* naming */		[-n size=num,version=2|ci,ftype=0|1]
+/* no-op info only */	[-N]
+/* prototype file */	[-p fname]
+/* quiet */		[-q]
+/* realtime subvol */	[-r extsize=num,size=num,rtdev=xxx]
+/* sectorsize */	[-s size=num]
+/* version */		[-V]
+			devicename
+<devicename> is required unless -d name=xxx is given.
+<num> is xxx (bytes), xxxs (sectors), xxxb (fs blocks), xxxk (xxx KiB),
+      xxxm (xxx MiB), xxxg (xxx GiB), xxxt (xxx TiB) or xxxp (xxx PiB).
+<value> is xxx (512 byte blocks).
+++ mkdir /tmp/point320230428215418
+++ mount /dev/test_vggroup20230428215305/test_lv320230428215418 /tmp/point320230428215418
+mount: /tmp/point320230428215418: special device /dev/test_vggroup20230428215305/test_lv320230428215418 does not exist.
+++ msg='test_vggroup20230428215305 /tmp/point120230428215418 /tmp/point220230428215418 /tmp/point320230428215418 '
+++ count=4
+++ echo test_vggroup20230428215305 /tmp/point120230428215418 /tmp/point220230428215418 /tmp/point320230428215418
++ cp /etc/passwd /etc/passwd.bak
++ user=test20230428215418
++ useradd test20230428215418
++ echo
++ passwd test20230428215418 --stdin
+passwd: Authentication token manipulation error
+Changing password for user test20230428215418.
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Fri Apr 28 21:54:27 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri Apr 28 21:54:28 2023 - INFO  - Start to run test.
+++ seq 1 3
++ for i in $(seq 1 $((${#point_list[@]} - 1)))
++ var=/tmp/point120230428215418
++ mkdir -p /tmp/point120230428215418/tmp0120230428215418
++ touch /tmp/point120230428215418/tmp0120230428215418/testfile
++ tail -n 1
++ ls -l /tmp/point120230428215418/tmp0120230428215418
++ awk '{print $3}'
++ grep root
+root
++ CHECK_RESULT 0 0 0 'Check dir user failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check dir user failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ls -l /tmp/point120230428215418/tmp0120230428215418
++ tail -n 1
++ awk '{print $4}'
++ grep root
+root
++ CHECK_RESULT 0 0 0 'Check dir group failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check dir group failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ chown -R test20230428215418:test20230428215418 /tmp/point120230428215418/tmp0120230428215418
++ CHECK_RESULT 0 0 0 'chown failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='chown failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ls -l /tmp/point120230428215418/tmp0120230428215418
++ grep test20230428215418
++ tail -n 1
++ awk '{print $3}'
+test20230428215418
++ CHECK_RESULT 0 0 0 'Check user after chown failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check user after chown failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ tail -n 1
++ ls -l /tmp/point120230428215418/tmp0120230428215418
++ grep test20230428215418
++ awk '{print $4}'
+test20230428215418
++ CHECK_RESULT 0 0 0 'Check group agter chown failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check group agter chown failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ for i in $(seq 1 $((${#point_list[@]} - 1)))
++ var=/tmp/point220230428215418
++ mkdir -p /tmp/point220230428215418/tmp0120230428215418
++ touch /tmp/point220230428215418/tmp0120230428215418/testfile
++ ls -l /tmp/point220230428215418/tmp0120230428215418
++ tail -n 1
++ grep root
++ awk '{print $3}'
+root
++ CHECK_RESULT 0 0 0 'Check dir user failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check dir user failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ls -l /tmp/point220230428215418/tmp0120230428215418
++ tail -n 1
++ awk '{print $4}'
++ grep root
+root
++ CHECK_RESULT 0 0 0 'Check dir group failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check dir group failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ chown -R test20230428215418:test20230428215418 /tmp/point220230428215418/tmp0120230428215418
++ CHECK_RESULT 0 0 0 'chown failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='chown failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ls -l /tmp/point220230428215418/tmp0120230428215418
++ tail -n 1
++ grep test20230428215418
++ awk '{print $3}'
+test20230428215418
++ CHECK_RESULT 0 0 0 'Check user after chown failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check user after chown failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ tail -n 1
++ ls -l /tmp/point220230428215418/tmp0120230428215418
++ grep test20230428215418
++ awk '{print $4}'
+test20230428215418
++ CHECK_RESULT 0 0 0 'Check group agter chown failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check group agter chown failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ for i in $(seq 1 $((${#point_list[@]} - 1)))
++ var=/tmp/point320230428215418
++ mkdir -p /tmp/point320230428215418/tmp0120230428215418
++ touch /tmp/point320230428215418/tmp0120230428215418/testfile
++ ls -l /tmp/point320230428215418/tmp0120230428215418
++ tail -n 1
++ grep root
++ awk '{print $3}'
+root
++ CHECK_RESULT 0 0 0 'Check dir user failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check dir user failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ls -l /tmp/point320230428215418/tmp0120230428215418
++ grep root
++ tail -n 1
++ awk '{print $4}'
+root
++ CHECK_RESULT 0 0 0 'Check dir group failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check dir group failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ chown -R test20230428215418:test20230428215418 /tmp/point320230428215418/tmp0120230428215418
++ CHECK_RESULT 0 0 0 'chown failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='chown failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ls -l /tmp/point320230428215418/tmp0120230428215418
++ tail -n 1
++ awk '{print $3}'
++ grep test20230428215418
+test20230428215418
++ CHECK_RESULT 0 0 0 'Check user after chown failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check user after chown failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ls -l /tmp/point320230428215418/tmp0120230428215418
++ tail -n 1
++ grep test20230428215418
++ awk '{print $4}'
+test20230428215418
++ CHECK_RESULT 0 0 0 'Check group agter chown failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check group agter chown failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep Usage
++ chown --help
+Usage: chown [OPTION]... [OWNER][:[GROUP]] FILE...
++ CHECK_RESULT 0 0 0 'Check help failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check help failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Fri Apr 28 21:54:31 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri Apr 28 21:54:32 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri Apr 28 21:54:33 2023 - INFO  - Start to restore the test environment.
+++ echo test_vggroup20230428215305 /tmp/point120230428215418 /tmp/point220230428215418 /tmp/point320230428215418
++ list='test_vggroup20230428215305 /tmp/point120230428215418 /tmp/point220230428215418 /tmp/point320230428215418'
++ REMOVE_FS 'test_vggroup20230428215305 /tmp/point120230428215418 /tmp/point220230428215418 /tmp/point320230428215418'
++ point_list=($1)
+++ seq 0 3
++ for i in $(seq 0 $((${#point_list[@]} - 1)))
++ tmp=test_vggroup20230428215305
+++ grep test_vggroup20230428215305
+++ df -T
+++ awk '{print $1}'
++ lv=
++ [[ '' == '' ]]
++ continue
++ for i in $(seq 0 $((${#point_list[@]} - 1)))
++ tmp=/tmp/point120230428215418
+++ df -T
+++ grep /tmp/point120230428215418
+++ awk '{print $1}'
++ lv=
++ [[ '' == '' ]]
++ continue
++ for i in $(seq 0 $((${#point_list[@]} - 1)))
++ tmp=/tmp/point220230428215418
+++ grep /tmp/point220230428215418
+++ awk '{print $1}'
+++ df -T
++ lv=
++ [[ '' == '' ]]
++ continue
++ for i in $(seq 0 $((${#point_list[@]} - 1)))
++ tmp=/tmp/point320230428215418
+++ df -T
+++ grep /tmp/point320230428215418
+++ awk '{print $1}'
++ lv=
++ [[ '' == '' ]]
++ continue
++ userdel -r test20230428215418
++ rm -rf /etc/passwd
++ mv /etc/passwd.bak /etc/passwd
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Fri Apr 28 21:54:35 2023 - INFO  - End to restore the test environment.

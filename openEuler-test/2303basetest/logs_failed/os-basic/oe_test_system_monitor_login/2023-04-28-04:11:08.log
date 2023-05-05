@@ -1,0 +1,215 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Fri Apr 28 04:11:12 2023 - INFO  - Start to prepare the test environment.
++ SSH_CMD 'useradd -m test1;echo openEuler12#$|passwd --stdin test1;
+	useradd -m test2;echo openEuler12#$|passwd --stdin test2' 10.198.114.4 'openEuler12#$' root
++ cmd='useradd -m test1;echo openEuler12#$|passwd --stdin test1;
+	useradd -m test2;echo openEuler12#$|passwd --stdin test2'
++ remoteip=10.198.114.4
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'useradd -m test1;echo openEuler12#$|passwd --stdin test1;
+	useradd -m test2;echo openEuler12#$|passwd --stdin test2' -i 10.198.114.4 -u root -p 'openEuler12#$' -t 300 -o 22
+1 packets transmitted, 0 received, +1 errors, 100% packet loss, time 0ms
+Fri Apr 28 04:11:13 2023 - ERROR - connection to 10.198.114.4 failed.
++ ret=101
++ test 101 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:101'
++ message='Failed in remote CMD operation:101'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:101'
+Fri Apr 28 04:11:14 2023 - ERROR - Failed in remote CMD operation:101
++ return 101
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Fri Apr 28 04:11:15 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri Apr 28 04:11:15 2023 - INFO  - Start to run test.
++ expect -c '
+	spawn ssh root@10.198.114.4
+  	expect {
+  		"*)?" {
+        send "yes\r"
+        exp_continue
+		}
+        "*assword*" {
+        send "openEuler12#$\r"
+        expect "*localhost*" {send "exit\r"}
+        exp_continue
+		}
+	}
+'
+spawn ssh root@10.198.114.4
+ssh: connect to host 10.198.114.4 port 22: No route to host
++ expect -c '
+	spawn ssh test1@10.198.114.4
+  	expect {
+  		"*)?" {
+        send "yes\r"
+        exp_continue
+		}
+        "*assword*" {
+        send "openEuler12#$\r"
+        expect "*localhost*" {send "exit\r"}
+        exp_continue
+		}
+	}
+'
+spawn ssh test1@10.198.114.4
+ssh: connect to host 10.198.114.4 port 22: No route to host
++ expect -c '
+	spawn ssh test2@10.198.114.4
+  	expect {
+  		"*)?" {
+        send "yes\r"
+        exp_continue
+		}
+        "*assword*" {
+        send "openEuler12#$\r"
+        expect "*localhost*" {send "exit\r"}
+        exp_continue
+		}
+	}
+'
+spawn ssh test2@10.198.114.4
+ssh: connect to host 10.198.114.4 port 22: No route to host
++ SSH_CMD 'last -f /var/log/wtmp>/tmp/rebootlog1' 10.198.114.4 'openEuler12#$' root
++ cmd='last -f /var/log/wtmp>/tmp/rebootlog1'
++ remoteip=10.198.114.4
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'last -f /var/log/wtmp>/tmp/rebootlog1' -i 10.198.114.4 -u root -p 'openEuler12#$' -t 300 -o 22
+1 packets transmitted, 0 received, +1 errors, 100% packet loss, time 0ms
+Fri Apr 28 04:11:27 2023 - ERROR - connection to 10.198.114.4 failed.
++ ret=101
++ test 101 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:101'
++ message='Failed in remote CMD operation:101'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:101'
+Fri Apr 28 04:11:28 2023 - ERROR - Failed in remote CMD operation:101
++ return 101
++ SSH_SCP root@10.198.114.4:/tmp/rebootlog1 . 'openEuler12#$'
++ src=root@10.198.114.4:/tmp/rebootlog1
++ dest=.
++ remotepasswd='openEuler12#$'
++ connport=22
++ bash /root/mugen/libs/locallibs/sshscp.sh -p 'openEuler12#$' -o 22 -s root@10.198.114.4:/tmp/rebootlog1 -d .
+Fri Apr 28 04:11:29 2023 - WARN  - the remote password uses the default configuration.
+Fri Apr 28 04:11:29 2023 - WARN  - the connect port using the default configuration
+spawn scp -P 22 -r root@10.198.114.4:/tmp/rebootlog1 .
+ssh: connect to host 10.198.114.4 port 22: No route to host
+scp: Connection closed
++ ret=255
++ test 255 -ne 0
++ LOG_ERROR 'Failed in remote SCP operation: 255'
++ message='Failed in remote SCP operation: 255'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote SCP operation: 255'
+Fri Apr 28 04:11:31 2023 - ERROR - Failed in remote SCP operation: 255
++ return 255
++ CHECK_RESULT 255
++ actual_result=255
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 255 ']'
++ '[' 0 -eq 0 ']'
++ test 255x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_system_monitor_login.sh line 74'
++ message='oe_test_system_monitor_login.sh line 74'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_system_monitor_login.sh line 74'
+Fri Apr 28 04:11:32 2023 - ERROR - oe_test_system_monitor_login.sh line 74
++ '[' 0 -eq 1 ']'
++ return 0
+++ cat rebootlog1
+++ grep -iE 'test1|test2|root'
+++ sort -u
+++ wc -l
+++ awk '{print$1}'
+cat: rebootlog1: No such file or directory
++ num_user=0
++ test 0 -eq 3
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_system_monitor_login.sh line 77'
++ message='oe_test_system_monitor_login.sh line 77'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_system_monitor_login.sh line 77'
+Fri Apr 28 04:11:33 2023 - ERROR - oe_test_system_monitor_login.sh line 77
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Fri Apr 28 04:11:34 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 2
++ test 2 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri Apr 28 04:11:34 2023 - ERROR - failed to execute the case.
++ exit 2
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri Apr 28 04:11:35 2023 - INFO  - Start to restore the test environment.
++ rm -rf rebootlog1
++ SSH_CMD 'userdel -r test1;userdel -r test2;rm -rf /tmp/rebootlog1' 10.198.114.4 'openEuler12#$' root
++ cmd='userdel -r test1;userdel -r test2;rm -rf /tmp/rebootlog1'
++ remoteip=10.198.114.4
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'userdel -r test1;userdel -r test2;rm -rf /tmp/rebootlog1' -i 10.198.114.4 -u root -p 'openEuler12#$' -t 300 -o 22
+1 packets transmitted, 0 received, +1 errors, 100% packet loss, time 0ms
+Fri Apr 28 04:11:39 2023 - ERROR - connection to 10.198.114.4 failed.
++ ret=101
++ test 101 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:101'
++ message='Failed in remote CMD operation:101'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:101'
+Fri Apr 28 04:11:40 2023 - ERROR - Failed in remote CMD operation:101
++ return 101
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Fri Apr 28 04:11:41 2023 - INFO  - End to restore the test environment.

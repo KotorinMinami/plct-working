@@ -1,0 +1,146 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Fri Apr 28 22:35:01 2023 - INFO  - Start environmental preparation.
++ useradd test1
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Fri Apr 28 22:35:02 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Fri Apr 28 22:35:03 2023 - INFO  - Start executing testcase.
++ expect -c '
+        spawn passwd test1
+        expect {
+            "New password*" {
+                send "aaa\r"
+                }
+            "Retype password*" {
+                send "aaa\r"
+                }
+            eof
+        }       
+        expect eof {
+            catch wait result
+            exit [lindex $result 3] 
+        }
+    '
+spawn passwd test1
+Changing password for user test1.
+New password: 
+BAD PASSWORD: The password is shorter than 8 characters
+Retype new password: + CHECK_RESULT 0 0 0 'The password complexity is secured, but it should not be secured here.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='The password complexity is secured, but it should not be secured here.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect -c '
+        spawn passwd test1     
+        expect {
+            "New password*" {
+                send "123456789\r"
+                }
+            "Retype password*" {
+                send "123456789\r"
+                }
+            eof
+        }
+        expect eof {
+            catch wait result
+            exit [lindex $result 3] 
+        }
+    '
+spawn passwd test1
+Changing password for user test1.
+New password: 
+BAD PASSWORD: The password contains less than 3 character classes
+Retype new password: + CHECK_RESULT 0 0 0 'The password complexity is secured, but it should not be secured here.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='The password complexity is secured, but it should not be secured here.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect -c '
+        spawn passwd test1
+        expect {
+            "New password*" {
+                send "abcdef!@#\r"
+                }
+
+            "Retype password*" {
+                send "abcdef!@#\r"
+                }
+            eof
+        }
+        expect eof {
+            catch wait result
+            exit [lindex $result 3] 
+        }
+    '
+spawn passwd test1
+Changing password for user test1.
+New password: 
+BAD PASSWORD: The password contains less than 3 character classes
+Retype new password: + CHECK_RESULT 0 0 0 'Password setting failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Password setting failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish testcase execution.'
++ message='Finish testcase execution.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish testcase execution.'
+Fri Apr 28 22:35:35 2023 - INFO  - Finish testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri Apr 28 22:35:36 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start cleanning environment.'
++ message='Start cleanning environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start cleanning environment.'
+Fri Apr 28 22:35:37 2023 - INFO  - Start cleanning environment.
++ userdel -rf test1
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Fri Apr 28 22:35:38 2023 - INFO  - Finish environment cleanup!

@@ -1,0 +1,272 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ source ../common/storage_disk_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Fri Apr 28 11:05:57 2023 - INFO  - Start environment preparation.
++ check_free_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks=vdb
++ disk_list=($disks)
++ local_disk=vdb
++ local_disk1=
++ local_disk2=
++ local_disk3=
++ DNF_INSTALL xfsdump
++ pkgs=xfsdump
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs xfsdump --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpdl3m04ew
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpdl3m04ew
++ echo 'n
+
+p
+
+
++20M
+w'
++ fdisk /dev/vdb
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+
+Command (m for help): Partition type
+   p   primary (0 primary, 0 extended, 4 free)
+   e   extended (container for logical partitions)
+Select (default p): 
+Using default response p.
+Partition number (1-4, default 1): Value out of range.
+Partition number (1-4, default 1): First sector (2048-1023999, default 2048): Last sector, +/-sectors or +/-size{K,M,G,T,P} (2048-1023999, default 1023999): 
+Created a new partition 1 of type 'Linux' and of size 20 MiB.
+
+Command (m for help): The partition table has been altered.
+Calling ioctl() to re-read partition table.
+Syncing disks.
+
++ mkfs.xfs -f /dev/
+specified device /dev/ not a file or block device
+Usage: mkfs.xfs
+/* blocksize */		[-b size=num]
+/* config file */	[-c options=xxx]
+/* metadata */		[-m crc=0|1,finobt=0|1,uuid=xxx,rmapbt=0|1,reflink=0|1,
+			    inobtcount=0|1,bigtime=0|1]
+/* data subvol */	[-d agcount=n,agsize=n,file,name=xxx,size=num,
+			    (sunit=value,swidth=value|su=num,sw=num|noalign),
+			    sectsize=num
+/* force overwrite */	[-f]
+/* inode size */	[-i perblock=n|size=num,maxpct=n,attr=0|1|2,
+			    projid32bit=0|1,sparse=0|1,nrext64=0|1]
+/* no discard */	[-K]
+/* log subvol */	[-l agnum=n,internal,size=num,logdev=xxx,version=n
+			    sunit=value|su=num,sectsize=num,lazy-count=0|1]
+/* label */		[-L label (maximum 12 characters)]
+/* naming */		[-n size=num,version=2|ci,ftype=0|1]
+/* no-op info only */	[-N]
+/* prototype file */	[-p fname]
+/* quiet */		[-q]
+/* realtime subvol */	[-r extsize=num,size=num,rtdev=xxx]
+/* sectorsize */	[-s size=num]
+/* version */		[-V]
+			devicename
+<devicename> is required unless -d name=xxx is given.
+<num> is xxx (bytes), xxxs (sectors), xxxb (fs blocks), xxxk (xxx KiB),
+      xxxm (xxx MiB), xxxg (xxx GiB), xxxt (xxx TiB) or xxxp (xxx PiB).
+<value> is xxx (512 byte blocks).
++ udevadm settle
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Fri Apr 28 11:06:40 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Fri Apr 28 11:06:41 2023 - INFO  - Start executing testcase.
++ mkdir /home/data /home/backup /opt/data
++ mount /dev/ /home/data
+mount: /home/data: /dev is not a block device.
++ echo test
++ xfsdump -l 0 -f /home/backup/data.xfsdump /home/data
++ echo 'backup_data
+1
+'
+xfsdump: using file dump (drive_simple) strategy
+xfsdump: version 3.1.12 (dump format 3.0)
+
+ ============================= dump label dialog ==============================
+
+please enter label for this dump session (timeout in 300 sec)
+ -> session label entered: "backup_data
+1
+"
+
+ --------------------------------- end dialog ---------------------------------
+
+xfsdump: ERROR: /home/data does not identify a file system
+xfsdump: usage: xfsdump [ -a (dump DMF dualstate files as offline) ]
+                        [ -b <blocksize> ]
+                        [ -c <media change alert program>  ]
+                        [ -d <dump media file size>  ]
+                        [ -e (allow files to be excluded) ]
+                        [ -f <destination> ... ]
+                        [ -h (help) ]
+                        [ -l <level> ]
+                        [ -m (force usage of minimal rmt) ]
+                        [ -o (overwrite tape) ]
+                        [ -p <seconds between progress reports> ]
+                        [ -q <use QIC tape settings> ]
+                        [ -s <subtree> ... ]
+                        [ -t <file> (use file mtime for dump time ]
+                        [ -v <verbosity {silent, verbose, trace}> ]
+                        [ -z <maximum file size> ]
+                        [ -A (don't dump extended file attributes) ]
+                        [ -B <base dump session id> ]
+                        [ -D (skip unchanged directories) ]
+                        [ -E (pre-erase media) ]
+                        [ -F (don't prompt) ]
+                        [ -I (display dump inventory) ]
+                        [ -J (inhibit inventory update) ]
+                        [ -K (generate format 2 dump) ]
+                        [ -L <session label> ]
+                        [ -M <media label> ... ]
+                        [ -O <options file> ]
+                        [ -R (resume) ]
+                        [ -T (don't timeout dialogs) ]
+                        [ -Y <I/O buffer ring length> ]
+                        [ - (stdout) ]
+                        [ <source (mntpnt|device)> ]
+xfsdump: Dump Status: ERROR
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_xfs_restore.sh line 46'
++ message='oe_test_storage_xfs_restore.sh line 46'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_xfs_restore.sh line 46'
+Fri Apr 28 11:06:42 2023 - ERROR - oe_test_storage_xfs_restore.sh line 46
++ '[' 0 -eq 1 ']'
++ return 0
++ xfsrestore -f /home/backup/data.xfsdump /opt/data
+xfsrestore: using file dump (drive_simple) strategy
+xfsrestore: version 3.1.12 (dump format 3.0)
+xfsrestore: searching media for dump
+xfsrestore: restore complete: 0 seconds elapsed
+xfsrestore: Restore Summary:
+xfsrestore:   stream 0 /home/backup/data.xfsdump OK (success)
+xfsrestore: Restore Status: SUCCESS
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test -f /opt/data/test
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_xfs_restore.sh line 50'
++ message='oe_test_storage_xfs_restore.sh line 50'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_xfs_restore.sh line 50'
+Fri Apr 28 11:06:43 2023 - ERROR - oe_test_storage_xfs_restore.sh line 50
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End of testcase execution.'
++ message='End of testcase execution.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution.'
+Fri Apr 28 11:06:44 2023 - INFO  - End of testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z 2
++ test 2 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri Apr 28 11:06:44 2023 - ERROR - failed to execute the case.
++ exit 2
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri Apr 28 11:06:45 2023 - INFO  - start environment cleanup.
++ umount /home/data
+umount: /home/data: not mounted.
++ rm -rf /home/data /home/backup /opt/data
++ echo 'd
+
+w'
++ fdisk /dev/vdb
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+
+Command (m for help): Selected partition 1
+Partition 1 has been deleted.
+
+Command (m for help): 
+
+Command (m for help): 
+The partition table has been altered.
+Calling ioctl() to re-read partition table.
+Syncing disks.
+
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpdl3m04ew ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpdl3m04ew
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Fri Apr 28 11:06:58 2023 - INFO  - Finish environment cleanup.

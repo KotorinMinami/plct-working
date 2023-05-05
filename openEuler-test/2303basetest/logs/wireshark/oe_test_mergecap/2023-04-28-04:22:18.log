@@ -1,0 +1,480 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Fri Apr 28 04:22:22 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL wireshark
++ pkgs=wireshark
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs wireshark --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpi0pggcp1
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpi0pggcp1
+++ rpm -qa wireshark
+++ awk -F - '{print$2}'
++ version=3.6.11
++ LOG_INFO 'Finish preparing the test environment.'
++ message='Finish preparing the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish preparing the test environment.'
+Fri Apr 28 04:24:21 2023 - INFO  - Finish preparing the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri Apr 28 04:24:21 2023 - INFO  - Start to run test.
++ mergecap --help
++ grep 'Usage: mergecap \[options\]'
+Usage: mergecap [options] -w <outfile>|- <infile> [<infile> ...]
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mergecap --version
++ grep 3.6.11
+Mergecap (Wireshark) 3.6.11 (Git commit 6529b24d7c78)
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ dumpcap -D
+++ awk -F . '{print $2}'
+++ head -1
++ netCard=' eth0'
++ SLEEP_WAIT 10 'dumpcap -i  eth0 -c 20 -w testfile1' 2
++ wait_time=10
++ cmd='dumpcap -i  eth0 -c 20 -w testfile1'
++ mode=2
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 10 --cmd 'dumpcap -i  eth0 -c 20 -w testfile1' --mode 2
+Fri Apr 28 04:52:19 2023 - ERROR - Timeout : Command 'bash -x oe_test_mergecap.sh' timed out after 1799.9991702039988 seconds
+Capturing on 'eth0'
+File: testfile1
+
+Packets: 2 
+Packets: 4 
+Packets: 6 
+Packets: 7 
+Packets: 9 
+Packets: 10 
+Packets: 13 
+Packets: 14 
+Packets: 16 
+Packets: 17 
+Packets: 19 
+Packets: 20 
+Packets captured: 20
+Packets received/dropped on interface 'eth0': 20/0 (pcap:0/dumpcap:0/flushed:0/ps_ifdrop:0) (100.0%)
+++ post_test
+++ LOG_INFO 'Start to restore the test environment.'
+++ message='Start to restore the test environment.'
+++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri Apr 28 04:52:21 2023 - INFO  - Start to restore the test environment.
++++ ls
++++ grep -v .sh
+++ rm -rf testfile1
+++ DNF_REMOVE
+++ node=1
+++ pkg_list=
+++ mode=0
+++ [[ -z /tmp/tmpi0pggcp1 ]]
+++ '[' 0 -ne 0 ']'
+++ '[' 1 == 0 ']'
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpi0pggcp1
+++ '[' 0 -ne 0 ']'
+++ LOG_INFO 'Finish restoring the test environment.'
+++ message='Finish restoring the test environment.'
+++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish restoring the test environment.'
+Fri Apr 28 04:52:50 2023 - INFO  - Finish restoring the test environment.
++ grep 'Number of packets:.*20'
++ capinfos testfile1
+oe_test_mergecap.sh: line 36: capinfos: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mergecap.sh line 37'
++ message='oe_test_mergecap.sh line 37'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mergecap.sh line 37'
+Fri Apr 28 04:52:51 2023 - ERROR - oe_test_mergecap.sh line 37
++ '[' 0 -eq 1 ']'
++ return 0
++ SLEEP_WAIT 5 'dumpcap -i  eth0 -f "tcp port 22" -c 20 -w testfile2' 2
++ wait_time=5
++ cmd='dumpcap -i  eth0 -f "tcp port 22" -c 20 -w testfile2'
++ mode=2
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd 'dumpcap -i  eth0 -f "tcp port 22" -c 20 -w testfile2' --mode 2
++ capinfos testfile2
++ grep -E 'Number of packets:.*20|Filter string = tcp port 22'
+oe_test_mergecap.sh: line 39: capinfos: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mergecap.sh line 40'
++ message='oe_test_mergecap.sh line 40'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mergecap.sh line 40'
+Fri Apr 28 04:52:58 2023 - ERROR - oe_test_mergecap.sh line 40
++ '[' 0 -eq 1 ']'
++ return 0
++ mergecap -a -w mergefile1 testfile1 testfile2
+oe_test_mergecap.sh: line 41: mergecap: command not found
++ CHECK_RESULT 127
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mergecap.sh line 42'
++ message='oe_test_mergecap.sh line 42'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mergecap.sh line 42'
+Fri Apr 28 04:52:59 2023 - ERROR - oe_test_mergecap.sh line 42
++ '[' 0 -eq 1 ']'
++ return 0
++ capinfos mergefile1
+oe_test_mergecap.sh: line 43: capinfos: command not found
++ grep 'Number of packets:.*40'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mergecap.sh line 44'
++ message='oe_test_mergecap.sh line 44'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mergecap.sh line 44'
+Fri Apr 28 04:53:00 2023 - ERROR - oe_test_mergecap.sh line 44
++ '[' 0 -eq 1 ']'
++ return 0
++ mergecap -a -s 10 -w mergefile2 testfile1 testfile2
+oe_test_mergecap.sh: line 45: mergecap: command not found
++ CHECK_RESULT 127
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mergecap.sh line 46'
++ message='oe_test_mergecap.sh line 46'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mergecap.sh line 46'
+Fri Apr 28 04:53:01 2023 - ERROR - oe_test_mergecap.sh line 46
++ '[' 0 -eq 1 ']'
++ return 0
++ capinfos mergefile2
+oe_test_mergecap.sh: line 47: capinfos: command not found
++ grep -E 'Number of packets:.*40|Packet size limit:.*inferred: 10 bytes'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mergecap.sh line 48'
++ message='oe_test_mergecap.sh line 48'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mergecap.sh line 48'
+Fri Apr 28 04:53:01 2023 - ERROR - oe_test_mergecap.sh line 48
++ '[' 0 -eq 1 ']'
++ return 0
++ mergecap -a -w mergefile3 testfile1 testfile2
+oe_test_mergecap.sh: line 49: mergecap: command not found
++ CHECK_RESULT 127
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mergecap.sh line 50'
++ message='oe_test_mergecap.sh line 50'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mergecap.sh line 50'
+Fri Apr 28 04:53:02 2023 - ERROR - oe_test_mergecap.sh line 50
++ '[' 0 -eq 1 ']'
++ return 0
++ capinfos mergefile3
+oe_test_mergecap.sh: line 51: capinfos: command not found
++ grep 'File name:.*mergefile3'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mergecap.sh line 52'
++ message='oe_test_mergecap.sh line 52'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mergecap.sh line 52'
+Fri Apr 28 04:53:03 2023 - ERROR - oe_test_mergecap.sh line 52
++ '[' 0 -eq 1 ']'
++ return 0
++ captype testfile1
+oe_test_mergecap.sh: line 53: captype: command not found
++ grep 'testfile1: pcapng'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mergecap.sh line 54'
++ message='oe_test_mergecap.sh line 54'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mergecap.sh line 54'
+Fri Apr 28 04:53:04 2023 - ERROR - oe_test_mergecap.sh line 54
++ '[' 0 -eq 1 ']'
++ return 0
++ captype testfile2
++ grep 'testfile2: pcapng'
+oe_test_mergecap.sh: line 55: captype: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mergecap.sh line 56'
++ message='oe_test_mergecap.sh line 56'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mergecap.sh line 56'
+Fri Apr 28 04:53:04 2023 - ERROR - oe_test_mergecap.sh line 56
++ '[' 0 -eq 1 ']'
++ return 0
++ mergecap -a -F snoop -w mergefile4 testfile1 testfile2
+oe_test_mergecap.sh: line 57: mergecap: command not found
++ CHECK_RESULT 127
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mergecap.sh line 58'
++ message='oe_test_mergecap.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mergecap.sh line 58'
+Fri Apr 28 04:53:05 2023 - ERROR - oe_test_mergecap.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ captype mergefile4
++ grep 'mergefile4: snoop'
+oe_test_mergecap.sh: line 59: captype: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mergecap.sh line 60'
++ message='oe_test_mergecap.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mergecap.sh line 60'
+Fri Apr 28 04:53:06 2023 - ERROR - oe_test_mergecap.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ mergecap -a -I none -w mergefile5 testfile1 testfile2
+oe_test_mergecap.sh: line 61: mergecap: command not found
++ CHECK_RESULT 127
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mergecap.sh line 62'
++ message='oe_test_mergecap.sh line 62'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mergecap.sh line 62'
+Fri Apr 28 04:53:07 2023 - ERROR - oe_test_mergecap.sh line 62
++ '[' 0 -eq 1 ']'
++ return 0
++ capinfos mergefile5
+oe_test_mergecap.sh: line 63: capinfos: command not found
++ grep -E 'Number of packets = 20|Filter string = tcp port 22|Interface #.* info:'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mergecap.sh line 64'
++ message='oe_test_mergecap.sh line 64'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mergecap.sh line 64'
+Fri Apr 28 04:53:08 2023 - ERROR - oe_test_mergecap.sh line 64
++ '[' 0 -eq 1 ']'
++ return 0
++ mergecap -a -v -w mergefile6 testfile1 testfile2
++ CHECK_RESULT 127
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mergecap.sh line 66'
++ message='oe_test_mergecap.sh line 66'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mergecap.sh line 66'
+Fri Apr 28 04:53:08 2023 - ERROR - oe_test_mergecap.sh line 66
++ '[' 0 -eq 1 ']'
++ return 0
++ grep -E 'mergecap|Record|merging complete|ready to merge records' runlog
+oe_test_mergecap.sh: line 65: mergecap: command not found
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'Number of packets:.*40'
++ capinfos mergefile6
+oe_test_mergecap.sh: line 69: capinfos: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mergecap.sh line 70'
++ message='oe_test_mergecap.sh line 70'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mergecap.sh line 70'
+Fri Apr 28 04:53:09 2023 - ERROR - oe_test_mergecap.sh line 70
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Fri Apr 28 04:53:10 2023 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 16
++ test 16 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri Apr 28 04:53:11 2023 - ERROR - failed to execute the case.
++ exit 16
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri Apr 28 04:53:12 2023 - INFO  - Start to restore the test environment.
+++ grep -v .sh
+++ ls
++ rm -rf runlog
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpi0pggcp1 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpi0pggcp1
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish restoring the test environment.'
++ message='Finish restoring the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish restoring the test environment.'
+Fri Apr 28 04:53:22 2023 - INFO  - Finish restoring the test environment.

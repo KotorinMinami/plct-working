@@ -1,0 +1,136 @@
++ source ../common/storage_disk_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Fri Apr 28 06:38:50 2023 - INFO  - Start environment preparation.
++ check_free_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks=vdb
++ disk_list=($disks)
++ local_disk=vdb
++ local_disk1=
++ local_disk2=
++ local_disk3=
++ pvcreate -y /dev/vdb
+  Wiping dos signature on /dev/vdb.
+  Physical volume "/dev/vdb" successfully created.
++ vgcreate -y openeulertest /dev/vdb
+  Volume group "openeulertest" successfully created
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Fri Apr 28 06:39:02 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase!'
++ message='Start executing testcase!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase!'
+Fri Apr 28 06:39:02 2023 - INFO  - Start executing testcase!
++ vgextend openeulertest /dev/ /dev/ -y
+  No device found for /dev/.
+  No device found for /dev/.
++ expect -c '
+    set timeout 30
+    log_file testlog
+    spawn lvcreate --type raid1 -m 1 -L 1G -n test openeulertest -y
+    expect "*\[y/n\]*" {send "y\r"}
+    expect eof
+'
+spawn lvcreate --type raid1 -m 1 -L 1G -n test openeulertest -y
+modprobe: FATAL: Module dm-raid not found in directory /lib/modules/6.1.8-3.oe2303.riscv64
+  /usr/sbin/modprobe failed: 1
+  raid1: Required device-mapper target(s) not detected in your kernel.
+  Run `lvcreate --help' for more information.
+y
++ grep -iE 'fail|error' testlog
+  /usr/sbin/modprobe failed: 1
++ CHECK_RESULT 0 1
++ actual_result=0
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 1x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_lvm_raid_synchronization.sh line 39'
++ message='oe_test_storage_lvm_raid_synchronization.sh line 39'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_lvm_raid_synchronization.sh line 39'
+Fri Apr 28 06:39:04 2023 - ERROR - oe_test_storage_lvm_raid_synchronization.sh line 39
++ '[' 0 -eq 1 ']'
++ return 0
++ SLEEP_WAIT 10
++ wait_time=10
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 10 --cmd '' --mode 1
++ lvchange -y --syncaction repair openeulertest/test
+  Failed to find logical volume "openeulertest/test"
++ CHECK_RESULT 5
++ actual_result=5
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 5 ']'
++ '[' 0 -eq 0 ']'
++ test 5x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_lvm_raid_synchronization.sh line 42'
++ message='oe_test_storage_lvm_raid_synchronization.sh line 42'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_lvm_raid_synchronization.sh line 42'
+Fri Apr 28 06:39:16 2023 - ERROR - oe_test_storage_lvm_raid_synchronization.sh line 42
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End of testcase execution!'
++ message='End of testcase execution!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution!'
+Fri Apr 28 06:39:17 2023 - INFO  - End of testcase execution!
++ CASE_RESULT 0
++ case_re=0
++ test -z 2
++ test 2 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri Apr 28 06:39:18 2023 - ERROR - failed to execute the case.
++ exit 2
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri Apr 28 06:39:19 2023 - INFO  - start environment cleanup.
++ lvremove -y openeulertest/test
+  Failed to find logical volume "openeulertest/test"
++ vgremove -y openeulertest
+  Volume group "openeulertest" successfully removed
++ pvremove -y /dev/vdb /dev/ /dev/
+  No device found for /dev/.
+  No device found for /dev/.
+  Labels on physical volume "/dev/vdb" successfully wiped.
++ rm -rf testlog
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Fri Apr 28 06:39:21 2023 - INFO  - Finish environment cleanup.

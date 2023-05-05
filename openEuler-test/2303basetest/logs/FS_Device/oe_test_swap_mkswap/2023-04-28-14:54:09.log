@@ -1,0 +1,168 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n function ']'
++ config_params
++ LOG_INFO 'Start to prepare the database config.'
++ message='Start to prepare the database config.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the database config.'
+Fri Apr 28 14:54:13 2023 - INFO  - Start to prepare the database config.
+++ lsblk
+++ grep disk
+++ tail -n 1
+++ awk '{print $1}'
++ free_disk=vdt
++ disk_name=/dev/vdt
+++ free -m
+++ grep -i swap
+++ awk '{print $4}'
++ free_swap=0
++ LOG_INFO 'Finish to prepare the database config.'
++ message='Finish to prepare the database config.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish to prepare the database config.'
+Fri Apr 28 14:54:14 2023 - INFO  - Finish to prepare the database config.
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the database config.'
++ message='Start to prepare the database config.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the database config.'
+Fri Apr 28 14:54:15 2023 - INFO  - Start to prepare the database config.
++ fdisk /dev/vdt
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+The device contains 'LVM2_member' signature and it may remain on the device. It is recommended to wipe the device with wipefs(8) or fdisk --wipe, in order to avoid possible collisions.
+
+Command (m for help): Partition type
+   p   primary (0 primary, 0 extended, 4 free)
+   e   extended (container for logical partitions)
+Select (default p): Partition number (1-4, default 1): First sector (2048-1023999, default 2048): Last sector, +/-sectors or +/-size{K,M,G,T,P} (2048-1023999, default 1023999): 
+Created a new partition 1 of type 'Linux' and of size 47.8 MiB.
+
+Command (m for help): The partition table has been altered.
+Calling ioctl() to re-read partition table.
+Syncing disks.
+
++ dm_name=/dev/vdt1
++ LOG_INFO 'Finish to prepare the database config.'
++ message='Finish to prepare the database config.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish to prepare the database config.'
+Fri Apr 28 14:54:16 2023 - INFO  - Finish to prepare the database config.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri Apr 28 14:54:17 2023 - INFO  - Start to run test.
++ mkswap /dev/vdt1
+Setting up swapspace version 1, size = 47.8 MiB (50147328 bytes)
+no label, UUID=7dde60a3-e746-4464-91a7-61c492185d96
++ swapon /dev/vdt1
+++ free -m
+++ grep -i swap
+++ awk '{print $4}'
++ cur_free_swap=47
++ [[ 47 -gt 0 ]]
++ CHECK_RESULT 0 0 0 'The new device doesn'\''t add to swap.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='The new device doesn'\''t add to swap.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ swapon -v
++ grep /dev/vdt1
+/dev/vdt1 partition 47.8M   0B   -2
++ CHECK_RESULT 0 0 0 'Check swap device failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check swap device failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ swapoff /dev/vdt1
++ CHECK_RESULT 0 0 0 'Remove swap device failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Remove swap device failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ grep -i swap
+++ free -m
+++ awk '{print $4}'
++ cur_free_swap=0
++ [[ 0 -eq 0 ]]
++ CHECK_RESULT 0 0 0 'The new device doesn'\''t add to swap.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='The new device doesn'\''t add to swap.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Fri Apr 28 14:54:18 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri Apr 28 14:54:19 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri Apr 28 14:54:20 2023 - INFO  - Start to restore the test environment.
++ fdisk /dev/vdt
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+The device contains 'LVM2_member' signature and it may remain on the device. It is recommended to wipe the device with wipefs(8) or fdisk --wipe, in order to avoid possible collisions.
+
+Command (m for help): 
+Selected partition 1
+Partition 1 has been deleted.
+
+Command (m for help): 
+
+Command (m for help): 
+The partition table has been altered.
+Calling ioctl() to re-read partition table.
+Syncing disks.
+
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Fri Apr 28 14:54:21 2023 - INFO  - End to restore the test environment.

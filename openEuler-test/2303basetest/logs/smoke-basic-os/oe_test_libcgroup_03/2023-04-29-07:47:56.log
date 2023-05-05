@@ -1,0 +1,131 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Sat Apr 29 07:48:00 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL libcgroup
++ pkgs=libcgroup
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs libcgroup --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp_u5965uz
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp_u5965uz
++ cgcreate -g cpu:test
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Sat Apr 29 07:48:34 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Sat Apr 29 07:48:35 2023 - INFO  - Start to run test.
++ cgexec -g cpu:test ip a
++ grep 127.0.0.1
+    inet 127.0.0.1/8 scope host lo
++ CHECK_RESULT 0 0 0 'Failed to execute cgexec'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to execute cgexec'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ping -q www.baidu.com
+++ ps -aux
+++ grep 'ping -q www.baidu.com'
+++ awk '{print $2}'
+++ grep -v grep
++ ping_pid=64541
++ cgclassify -g cpu:test 64541
++ CHECK_RESULT 0 0 0 'Failed to execute cgclassify'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to execute cgclassify'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 64541 /sys/fs/cgroup/cpu/test/tasks
+64541
++ CHECK_RESULT 0 0 0 'Failed to display pid'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to display pid'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ kill -9 64541
++ wc -l
++ grep 0
++ cat /sys/fs/cgroup/cpu/test/tasks
+0
+oe_test_libcgroup_03.sh: line 29: 64541 Killed                  ping -q www.baidu.com
++ CHECK_RESULT 0 0 0 'File is not empty'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='File is not empty'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Sat Apr 29 07:48:37 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Sat Apr 29 07:48:37 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Sat Apr 29 07:48:38 2023 - INFO  - Start to restore the test environment.
++ cgdelete -g cpu:test
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp_u5965uz ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp_u5965uz
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Sat Apr 29 07:48:54 2023 - INFO  - End to restore the test environment.

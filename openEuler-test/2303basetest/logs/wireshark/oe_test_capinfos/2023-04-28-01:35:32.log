@@ -1,0 +1,476 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Fri Apr 28 01:35:50 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL wireshark
++ pkgs=wireshark
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs wireshark --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpvy8ytqrl
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpvy8ytqrl
+++ rpm -qa wireshark
+++ awk -F - '{print$2}'
++ version=3.6.11
++ LOG_INFO 'Finish preparing the test environment.'
++ message='Finish preparing the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish preparing the test environment.'
+Fri Apr 28 01:38:24 2023 - INFO  - Finish preparing the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri Apr 28 01:38:25 2023 - INFO  - Start to run test.
++ capinfos --help
++ grep 'Usage: capinfos \[options\] <infile>'
+Usage: capinfos [options] <infile> ...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ capinfos --version
++ grep 3.6.11
+Capinfos (Wireshark) 3.6.11 (Git commit 6529b24d7c78)
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ dumpcap -D
+++ head -1
+++ awk -F . '{print $2}'
++ netCard=' eth0'
++ SLEEP_WAIT 10 'dumpcap -i  eth0 -c 20 -w testfile1' 2
++ wait_time=10
++ cmd='dumpcap -i  eth0 -c 20 -w testfile1'
++ mode=2
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 10 --cmd 'dumpcap -i  eth0 -c 20 -w testfile1' --mode 2
+Capturing on 'eth0'
+File: testfile1
+
+Packets: 2 
+Packets: 4 
+Packets: 6 
+Packets: 8 
+Packets: 11 
+Packets: 18 
+Packets: 20 
+Packets captured: 20
+Packets received/dropped on interface 'eth0': 20/0 (pcap:0/dumpcap:0/flushed:0/ps_ifdrop:0) (100.0%)
++ test -f testfile1
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ capinfos -t testfile1
++ grep -E 'File type|Wireshark/... - pcapng'
+File type:           Wireshark/... - pcapng
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep -E 'File encapsulation|Ethernet'
++ capinfos -E testfile1
+File encapsulation:  Ethernet
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ capinfos -I testfile1
++ grep 'Interface #0 info:'
+Interface #0 info:
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ capinfos -F testfile1
++ grep -Ei 'file|Capture'
+File name:           testfile1
+File timestamp precision:  nanoseconds (9)
+Capture oper-sys:    Linux 6.1.8-3.oe2303.riscv64
+Capture application: Dumpcap (Wireshark) 3.6.11 (Git commit 6529b24d7c78)
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 10 'dumpcap -i  eth0 --capture-comment "test dumpcap usage" -c 20 -w testfile17' 2
++ wait_time=10
++ cmd='dumpcap -i  eth0 --capture-comment "test dumpcap usage" -c 20 -w testfile17'
++ mode=2
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 10 --cmd 'dumpcap -i  eth0 --capture-comment "test dumpcap usage" -c 20 -w testfile17' --mode 2
+Capturing on 'eth0'
+File: testfile17
+
+Packets: 20 
+Packets captured: 20
+Packets received/dropped on interface 'eth0': 20/0 (pcap:0/dumpcap:0/flushed:0/ps_ifdrop:0) (100.0%)
++ test -f testfile17
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ capinfos -k testfile17
++ grep 'Capture comment:.*test dumpcap usage'
+Capture comment:     test dumpcap usage
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep -E 'Number of packets|20'
++ capinfos -c testfile1
+Number of packets:   20
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ capinfos -s testfile1
++ grep 'File size'
+File size:           3,016 bytes
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'Capture duration:'
++ capinfos -u testfile1
+Capture duration:    648.357956696 seconds
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ capinfos -a testfile1
++ grep 'First packet time: '
+First packet time:   2023-04-28 01:39:33.965899459
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ capinfos -e testfile1
++ grep 'Last packet time:'
+Last packet time:    2023-04-28 01:50:22.323856155
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ capinfos -y testfile1
++ grep 'Data byte rate:'
+Data byte rate:      3 bytes/s
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ capinfos -z testfile1
++ grep 'Average packet size:'
+Average packet size: 102.05 bytes
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ capinfos -x testfile1
++ grep 'Average packet rate:'
+Average packet rate: 0 packets/s
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ capinfos -L testfile1
++ grep -E 'File|packet|size|Capture|time|rate|Interface'
+File name:           testfile1
+File type:           Wireshark/... - pcapng
+File encapsulation:  Ethernet
+File timestamp precision:  nanoseconds (9)
+Packet size limit:   file hdr: (not set)
+Number of packets:   20
+File size:           3,016 bytes
+Data size:           2,041 bytes
+Capture duration:    648.357956696 seconds
+First packet time:   2023-04-28 01:39:33.965899459
+Last packet time:    2023-04-28 01:50:22.323856155
+Data byte rate:      3 bytes/s
+Data bit rate:       25 bits/s
+Average packet size: 102.05 bytes
+Average packet rate: 0 packets/s
+Strict time order:   True
+Capture oper-sys:    Linux 6.1.8-3.oe2303.riscv64
+Capture application: Dumpcap (Wireshark) 3.6.11 (Git commit 6529b24d7c78)
+Interface #0 info:
+                     Capture length = 262144
+                     Number of packets = 20
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ capinfos -T testfile1
++ grep '.*'
+File name	File type	File encapsulation	File time precision	Packet size limit	Packet size limit min (inferred)	Packet size limit max (inferred)	Number of packets	File size (bytes)	Data size (bytes)	Capture duration (seconds)	Start time	End time	Data byte rate (bytes/sec)	Data bit rate (bits/sec)	Average packet size (bytes)	Average packet rate (packets/sec)	SHA256	RIPEMD160	SHA1	Strict time order	Capture hardware	Capture oper-sys	Capture application	Capture comment
+testfile1	pcapng	ether	nanoseconds	(not set)	n/a	n/a	20	3016	2041	648.357956696	2023-04-28 01:39:33.965899459	2023-04-28 01:50:22.323856155	3.15	25.18	102.05	0.03	690258f290de4acc7a560babce5ae6e61f739e0dc74393ba81179f08f877a42a	43ee96b60508d2f3919718f53b5ee71f078fa182	d085fb6c01a04f27be3c9b5dfc28135608a7fa5a	True		Linux 6.1.8-3.oe2303.riscv64	Dumpcap (Wireshark) 3.6.11 (Git commit 6529b24d7c78)	
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ capinfos -T -R testfile1
++ grep File
+File name	File type	File encapsulation	File time precision	Packet size limit	Packet size limit min (inferred)	Packet size limit max (inferred)	Number of packets	File size (bytes)	Data size (bytes)	Capture duration (seconds)	Start time	End time	Data byte rate (bytes/sec)	Data bit rate (bits/sec)	Average packet size (bytes)	Average packet rate (packets/sec)	SHA256	RIPEMD160	SHA1	Strict time order	Capture hardware	Capture oper-sys	Capture application	Capture comment
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ capinfos -T -r testfile1
++ grep File
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ capinfos -T -B testfile1
++ grep '	'
+File name	File type	File encapsulation	File time precision	Packet size limit	Packet size limit min (inferred)	Packet size limit max (inferred)	Number of packets	File size (bytes)	Data size (bytes)	Capture duration (seconds)	Start time	End time	Data byte rate (bytes/sec)	Data bit rate (bits/sec)	Average packet size (bytes)	Average packet rate (packets/sec)	SHA256	RIPEMD160	SHA1	Strict time order	Capture hardware	Capture oper-sys	Capture application	Capture comment
+testfile1	pcapng	ether	nanoseconds	(not set)	n/a	n/a	20	3016	2041	648.357956696	2023-04-28 01:39:33.965899459	2023-04-28 01:50:22.323856155	3.15	25.18	102.05	0.03	690258f290de4acc7a560babce5ae6e61f739e0dc74393ba81179f08f877a42a	43ee96b60508d2f3919718f53b5ee71f078fa182	d085fb6c01a04f27be3c9b5dfc28135608a7fa5a	True		Linux 6.1.8-3.oe2303.riscv64	Dumpcap (Wireshark) 3.6.11 (Git commit 6529b24d7c78)	
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep ,
++ capinfos -T -m testfile1
+File name,File type,File encapsulation,File time precision,Packet size limit,Packet size limit min (inferred),Packet size limit max (inferred),Number of packets,File size (bytes),Data size (bytes),Capture duration (seconds),Start time,End time,Data byte rate (bytes/sec),Data bit rate (bits/sec),Average packet size (bytes),Average packet rate (packets/sec),SHA256,RIPEMD160,SHA1,Strict time order,Capture hardware,Capture oper-sys,Capture application,Capture comment
+testfile1,pcapng,ether,nanoseconds,(not set),n/a,n/a,20,3016,2041,648.357956696,2023-04-28 01:39:33.965899459,2023-04-28 01:50:22.323856155,3.15,25.18,102.05,0.03,690258f290de4acc7a560babce5ae6e61f739e0dc74393ba81179f08f877a42a,43ee96b60508d2f3919718f53b5ee71f078fa182,d085fb6c01a04f27be3c9b5dfc28135608a7fa5a,True,,Linux 6.1.8-3.oe2303.riscv64,Dumpcap (Wireshark) 3.6.11 (Git commit 6529b24d7c78),
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ capinfos -T -b testfile1
++ grep '[[:space:]]'
+File name File type File encapsulation File time precision Packet size limit Packet size limit min (inferred) Packet size limit max (inferred) Number of packets File size (bytes) Data size (bytes) Capture duration (seconds) Start time End time Data byte rate (bytes/sec) Data bit rate (bits/sec) Average packet size (bytes) Average packet rate (packets/sec) SHA256 RIPEMD160 SHA1 Strict time order Capture hardware Capture oper-sys Capture application Capture comment
+testfile1 pcapng ether nanoseconds (not set) n/a n/a 20 3016 2041 648.357956696 2023-04-28 01:39:33.965899459 2023-04-28 01:50:22.323856155 3.15 25.18 102.05 0.03 690258f290de4acc7a560babce5ae6e61f739e0dc74393ba81179f08f877a42a 43ee96b60508d2f3919718f53b5ee71f078fa182 d085fb6c01a04f27be3c9b5dfc28135608a7fa5a True  Linux 6.1.8-3.oe2303.riscv64 Dumpcap (Wireshark) 3.6.11 (Git commit 6529b24d7c78) 
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep -E 'File|packet|size|Capture|time|rate|Interface'
++ capinfos -A testfile1
+File name:           testfile1
+File type:           Wireshark/... - pcapng
+File encapsulation:  Ethernet
+File timestamp precision:  nanoseconds (9)
+Packet size limit:   file hdr: (not set)
+Number of packets:   20
+File size:           3,016 bytes
+Data size:           2,041 bytes
+Capture duration:    648.357956696 seconds
+First packet time:   2023-04-28 01:39:33.965899459
+Last packet time:    2023-04-28 01:50:22.323856155
+Data byte rate:      3 bytes/s
+Data bit rate:       25 bits/s
+Average packet size: 102.05 bytes
+Average packet rate: 0 packets/s
+Strict time order:   True
+Capture oper-sys:    Linux 6.1.8-3.oe2303.riscv64
+Capture application: Dumpcap (Wireshark) 3.6.11 (Git commit 6529b24d7c78)
+Interface #0 info:
+                     Capture length = 262144
+                     Number of packets = 20
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Fri Apr 28 01:50:30 2023 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri Apr 28 01:50:31 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri Apr 28 01:50:32 2023 - INFO  - Start to restore the test environment.
+++ grep -v .sh
+++ ls
++ rm -rf testfile1 testfile17
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpvy8ytqrl ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpvy8ytqrl
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish restoring the test environment.'
++ message='Finish restoring the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish restoring the test environment.'
+Fri Apr 28 01:51:13 2023 - INFO  - Finish restoring the test environment.

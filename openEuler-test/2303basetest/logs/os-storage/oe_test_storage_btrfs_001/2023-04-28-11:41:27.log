@@ -1,0 +1,149 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Fri Apr 28 11:41:31 2023 - INFO  - Start environment preparation.
++ DNF_INSTALL btrfs-progs
++ pkgs=btrfs-progs
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs btrfs-progs --node 1 --tempfile ''
+Fri Apr 28 11:41:40 2023 - INFO  - pkgs:(btrfs-progs) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ testdir=/tmp/test
++ mountdir=/mnt/test
++ mkdir /tmp/test /mnt/test
++ dd if=/dev/zero of=/tmp/test/test.img bs=100M count=4
+4+0 records in
+4+0 records out
+419430400 bytes (419 MB, 400 MiB) copied, 7.1154 s, 58.9 MB/s
++ cd /tmp/test
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Fri Apr 28 11:41:48 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase!'
++ message='Start executing testcase!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase!'
+Fri Apr 28 11:41:49 2023 - INFO  - Start executing testcase!
++ mkfs -t btrfs test.img
+btrfs-progs v6.0
+See http://btrfs.wiki.kernel.org for more information.
+
+NOTE: several default settings have changed in version 5.15, please make sure
+      this does not affect your deployments:
+      - DUP for metadata (-m dup)
+      - enabled no-holes (-O no-holes)
+      - enabled free-space-tree (-R free-space-tree)
+
+Label:              (null)
+UUID:               63e75a3c-a89d-4821-8a0c-f3f9e5f5f6c8
+Node size:          16384
+Sector size:        4096
+Filesystem size:    400.00MiB
+Block group profiles:
+  Data:             single            8.00MiB
+  Metadata:         DUP              32.00MiB
+  System:           DUP               8.00MiB
+SSD detected:       no
+Zoned device:       no
+Incompat features:  extref, skinny-metadata, no-holes
+Runtime features:   free-space-tree
+Checksum:           crc32c
+Number of devices:  1
+Devices:
+   ID        SIZE  PATH
+    1   400.00MiB  test.img
+
++ CHECK_RESULT 0 0 0 'Formatting failure'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Formatting failure'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mount test.img /mnt/test
++ df -hT
++ grep btrfs
+/dev/loop0     btrfs     400M  3.8M  319M   2% /mnt/test
++ CHECK_RESULT 0 0 0 'Mount failure'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Mount failure'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ touch /file
++ test -e /file
++ CHECK_RESULT 0 0 0 'Create failure'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Create failure'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /mnt/test
++ test -e /mnt/test/file
++ CHECK_RESULT 1 0 1 'Umount failure'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='Umount failure'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ LOG_INFO 'End of testcase execution!'
++ message='End of testcase execution!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution!'
+Fri Apr 28 11:41:51 2023 - INFO  - End of testcase execution!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri Apr 28 11:41:52 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri Apr 28 11:41:53 2023 - INFO  - start environment cleanup.
++ rm -rf /tmp/test /mnt/test
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Fri Apr 28 11:41:54 2023 - INFO  - Finish environment cleanup.

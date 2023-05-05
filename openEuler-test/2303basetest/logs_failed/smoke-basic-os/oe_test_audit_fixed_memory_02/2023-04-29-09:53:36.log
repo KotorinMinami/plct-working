@@ -1,0 +1,127 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Sat Apr 29 09:53:40 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL audit-devel
++ pkgs=audit-devel
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs audit-devel --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp07_53u9k
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp07_53u9k
++ auditctl rate_limit=0
++ auditctl backlog_wait_time=0
++ echo '
+    #include<stdio.h>
+#include<libaudit.h>
+
+int main(int argc, char** atgv) {
+        int ret;
+        int fd = audit_open();
+        while(1) {
+                audit_log_user_command(fd, AUDIT_USYS_CONFIG, "command", "tty", 1);
+        }
+        return 0;
+
+}'
++ chmod +777 ./test.c
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Sat Apr 29 09:54:14 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Sat Apr 29 09:54:15 2023 - INFO  - Start to run test.
++ gcc -laudit test.c
+In file included from test.c:3:
+/usr/include/libaudit.h:26:10: fatal error: asm/types.h: No such file or directory
+   26 | #include <asm/types.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
++ '[' -e a.out ']'
++ CHECK_RESULT 1 0 0 'Get a.out: failed!'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Get a.out: failed!'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Get a.out: failed!'
++ LOG_ERROR 'Get a.out: failed!'
++ message='Get a.out: failed!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Get a.out: failed!'
+Sat Apr 29 09:54:16 2023 - ERROR - Get a.out: failed!
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_audit_fixed_memory_02.sh line 47'
++ message='oe_test_audit_fixed_memory_02.sh line 47'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_audit_fixed_memory_02.sh line 47'
+Sat Apr 29 09:54:17 2023 - ERROR - oe_test_audit_fixed_memory_02.sh line 47
++ '[' 0 -eq 1 ']'
++ return 0
++ ./a.out
++ auditctl -s
+oe_test_audit_fixed_memory_02.sh: line 48: ./a.out: No such file or directory
++ grep -w backlog
+backlog 0
++ CHECK_RESULT 0 0 0 'Get backlog: failed!'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Get backlog: failed!'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Sat Apr 29 09:54:18 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Sat Apr 29 09:54:18 2023 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Sat Apr 29 09:54:19 2023 - INFO  - Start to restore the test environment.
++ rm -rf test.c a.out
+++ ps -ef
+++ awk '{print $2}'
+++ grep -v grep
+++ grep ./a.out
++ kill -9
+kill: usage: kill [-s sigspec | -n signum | -sigspec] pid | jobspec ... or kill -l [sigspec]
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Sat Apr 29 09:54:20 2023 - INFO  - End to restore the test environment.

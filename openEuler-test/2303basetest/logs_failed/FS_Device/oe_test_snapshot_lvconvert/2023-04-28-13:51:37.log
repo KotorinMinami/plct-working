@@ -1,0 +1,728 @@
++ source ../common_lib/fsio_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
+++ export 'FS_TYPE=ext3 ext4 xfs'
+++ FS_TYPE='ext3 ext4 xfs'
+++ export LANG=en_US.UTF-8
+++ LANG=en_US.UTF-8
+++ REMOVE_VG
+++ vggroup=
+++ [[ '' != '' ]]
++++ df -T
++++ grep test_vggroup
++++ awk '{print $7}'
+++ mounted=
+++ [[ '' != '' ]]
+++ lsblk
+++ grep test_vggroup
+++ [[ 1 -eq 0 ]]
+++ rm -rf /tmp/point120230428135051 /tmp/point220230428135051 /tmp/point320230428135051
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the database config.'
++ message='Start to prepare the database config.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the database config.'
+Fri Apr 28 13:51:41 2023 - INFO  - Start to prepare the database config.
+++ lsblk
+++ grep disk
+++ tail -n 1
+++ awk '{print $1}'
++ free_disk=vdt
++ point_list=($(CREATE_FS))
+++ CREATE_FS
+++ fs_type='ext3 ext4 xfs'
++++ date +%Y%m%d%H%M%S
+++ cur_date=20230428135141
++++ CREATE_VG
+++++ date +%Y%m%d%H%M%S
++++ cur_date=20230428135141
+++++ lsblk
+++++ grep disk
+++++ awk '{print $1}'
+++++ tail -n 1
++++ free_disk=vdt
++++ disk_name=/dev/vdt
++++ pvcreate /dev/vdt -f
++++ [[ 5 -eq 0 ]]
+++++ grep test_vggroup
+++++ cut -d '"' -f 4
+++++ pvcreate /dev/vdt
++++ vggroup=test_vggroup20230428122339
++++ printf test_vggroup20230428122339
+++ vggroup=test_vggroup20230428122339
+++ count=1
+++ msg='test_vggroup20230428122339 '
+++ for fs in ${fs_type[@]}
+++ lvname=test_lv120230428135141
+++ point=/tmp/point120230428135141
+++ lvcreate -n test_lv120230428135141 -L 512M test_vggroup20230428122339 -y
+  Volume group "test_vggroup20230428122339" has insufficient free space (124 extents): 128 required.
+++ mkfs -t ext3 /dev/test_vggroup20230428122339/test_lv120230428135141
+mke2fs 1.46.5 (30-Dec-2021)
+The file /dev/test_vggroup20230428122339/test_lv120230428135141 does not exist and no size was specified.
+++ mkdir /tmp/point120230428135141
+++ mount /dev/test_vggroup20230428122339/test_lv120230428135141 /tmp/point120230428135141
+mount: /tmp/point120230428135141: special device /dev/test_vggroup20230428122339/test_lv120230428135141 does not exist.
+++ msg='test_vggroup20230428122339 /tmp/point120230428135141 '
+++ count=2
+++ for fs in ${fs_type[@]}
+++ lvname=test_lv220230428135141
+++ point=/tmp/point220230428135141
+++ lvcreate -n test_lv220230428135141 -L 512M test_vggroup20230428122339 -y
+  Volume group "test_vggroup20230428122339" has insufficient free space (124 extents): 128 required.
+++ mkfs -t ext4 /dev/test_vggroup20230428122339/test_lv220230428135141
+mke2fs 1.46.5 (30-Dec-2021)
+The file /dev/test_vggroup20230428122339/test_lv220230428135141 does not exist and no size was specified.
+++ mkdir /tmp/point220230428135141
+++ mount /dev/test_vggroup20230428122339/test_lv220230428135141 /tmp/point220230428135141
+mount: /tmp/point220230428135141: special device /dev/test_vggroup20230428122339/test_lv220230428135141 does not exist.
+++ msg='test_vggroup20230428122339 /tmp/point120230428135141 /tmp/point220230428135141 '
+++ count=3
+++ for fs in ${fs_type[@]}
+++ lvname=test_lv320230428135141
+++ point=/tmp/point320230428135141
+++ lvcreate -n test_lv320230428135141 -L 512M test_vggroup20230428122339 -y
+  Volume group "test_vggroup20230428122339" has insufficient free space (124 extents): 128 required.
+++ mkfs -t xfs /dev/test_vggroup20230428122339/test_lv320230428135141
+Error accessing specified device /dev/test_vggroup20230428122339/test_lv320230428135141: No such file or directory
+Usage: mkfs.xfs
+/* blocksize */		[-b size=num]
+/* config file */	[-c options=xxx]
+/* metadata */		[-m crc=0|1,finobt=0|1,uuid=xxx,rmapbt=0|1,reflink=0|1,
+			    inobtcount=0|1,bigtime=0|1]
+/* data subvol */	[-d agcount=n,agsize=n,file,name=xxx,size=num,
+			    (sunit=value,swidth=value|su=num,sw=num|noalign),
+			    sectsize=num
+/* force overwrite */	[-f]
+/* inode size */	[-i perblock=n|size=num,maxpct=n,attr=0|1|2,
+			    projid32bit=0|1,sparse=0|1,nrext64=0|1]
+/* no discard */	[-K]
+/* log subvol */	[-l agnum=n,internal,size=num,logdev=xxx,version=n
+			    sunit=value|su=num,sectsize=num,lazy-count=0|1]
+/* label */		[-L label (maximum 12 characters)]
+/* naming */		[-n size=num,version=2|ci,ftype=0|1]
+/* no-op info only */	[-N]
+/* prototype file */	[-p fname]
+/* quiet */		[-q]
+/* realtime subvol */	[-r extsize=num,size=num,rtdev=xxx]
+/* sectorsize */	[-s size=num]
+/* version */		[-V]
+			devicename
+<devicename> is required unless -d name=xxx is given.
+<num> is xxx (bytes), xxxs (sectors), xxxb (fs blocks), xxxk (xxx KiB),
+      xxxm (xxx MiB), xxxg (xxx GiB), xxxt (xxx TiB) or xxxp (xxx PiB).
+<value> is xxx (512 byte blocks).
+++ mkdir /tmp/point320230428135141
+++ mount /dev/test_vggroup20230428122339/test_lv320230428135141 /tmp/point320230428135141
+mount: /tmp/point320230428135141: special device /dev/test_vggroup20230428122339/test_lv320230428135141 does not exist.
+++ msg='test_vggroup20230428122339 /tmp/point120230428135141 /tmp/point220230428135141 /tmp/point320230428135141 '
+++ count=4
+++ echo test_vggroup20230428122339 /tmp/point120230428135141 /tmp/point220230428135141 /tmp/point320230428135141
+++ vgdisplay
+++ grep test_vggroup
+++ tail -n 1
+++ awk '{print $3}'
+++ grep 'VG Name'
++ group_name=test_vggroup20230428122339
+++ seq 1 3
++ for i in $(seq 1 $((${#point_list[@]} - 1)))
++ var=/tmp/point120230428135141
++ echo 'test write file'
++ mkdir /tmp/point120230428135141/test_dir
++ for i in $(seq 1 $((${#point_list[@]} - 1)))
++ var=/tmp/point220230428135141
++ echo 'test write file'
++ mkdir /tmp/point220230428135141/test_dir
++ for i in $(seq 1 $((${#point_list[@]} - 1)))
++ var=/tmp/point320230428135141
++ echo 'test write file'
++ mkdir /tmp/point320230428135141/test_dir
++ mkdir /mnt/test_snap_dir
+mkdir: cannot create directory ‘/mnt/test_snap_dir’: File exists
++ LOG_INFO 'Finish to prepare the database config.'
++ message='Finish to prepare the database config.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish to prepare the database config.'
+Fri Apr 28 13:51:46 2023 - INFO  - Finish to prepare the database config.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri Apr 28 13:51:47 2023 - INFO  - Start to run test.
+++ seq 1 3
++ for i in $(seq 1 $((${#point_list[@]} - 1)))
++ var=/tmp/point120230428135141
+++ df -iT
+++ awk '{print $1}'
+++ grep /tmp/point120230428135141
++ lv_name=
+++ df -iT
+++ awk '{print $2}'
+++ grep /tmp/point120230428135141
++ fs_type=
++ lvcreate -L 1G -n test_snap -s
+  No command with matching syntax recognised.  Run 'lvcreate --help' for more information.
+  Nearest similar command has syntax:
+  lvcreate -s|--snapshot -L|--size Size[m|UNIT] LV
+  Create a COW snapshot LV of an origin LV.
+
++ CHECK_RESULT 3 0 0 'Create snapshot failed.'
++ actual_result=3
++ expect_result=0
++ mode=0
++ error_log='Create snapshot failed.'
++ exit_mode=0
++ '[' -z 3 ']'
++ '[' 0 -eq 0 ']'
++ test 3x '!=' 0x
++ test -n 'Create snapshot failed.'
++ LOG_ERROR 'Create snapshot failed.'
++ message='Create snapshot failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Create snapshot failed.'
+Fri Apr 28 13:51:48 2023 - ERROR - Create snapshot failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_snapshot_lvconvert.sh line 42'
++ message='oe_test_snapshot_lvconvert.sh line 42'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_snapshot_lvconvert.sh line 42'
+Fri Apr 28 13:51:49 2023 - ERROR - oe_test_snapshot_lvconvert.sh line 42
++ '[' 0 -eq 1 ']'
++ return 0
++ [[ '' == \x\f\s ]]
++ mount /dev/test_vggroup20230428122339/test_snap /mnt/test_snap_dir
+mount: /mnt/test_snap_dir: special device /dev/test_vggroup20230428122339/test_snap does not exist.
++ CHECK_RESULT 32 0 0 'Mount snapshot failed.'
++ actual_result=32
++ expect_result=0
++ mode=0
++ error_log='Mount snapshot failed.'
++ exit_mode=0
++ '[' -z 32 ']'
++ '[' 0 -eq 0 ']'
++ test 32x '!=' 0x
++ test -n 'Mount snapshot failed.'
++ LOG_ERROR 'Mount snapshot failed.'
++ message='Mount snapshot failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Mount snapshot failed.'
+Fri Apr 28 13:51:50 2023 - ERROR - Mount snapshot failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_snapshot_lvconvert.sh line 48'
++ message='oe_test_snapshot_lvconvert.sh line 48'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_snapshot_lvconvert.sh line 48'
+Fri Apr 28 13:51:51 2023 - ERROR - oe_test_snapshot_lvconvert.sh line 48
++ '[' 0 -eq 1 ']'
++ return 0
++ grep -q test /mnt/test_snap_dir/test_file
+grep: /mnt/test_snap_dir/test_file: No such file or directory
++ CHECK_RESULT 2 0 0 'Check file in snapshot failed.'
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log='Check file in snapshot failed.'
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n 'Check file in snapshot failed.'
++ LOG_ERROR 'Check file in snapshot failed.'
++ message='Check file in snapshot failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check file in snapshot failed.'
+Fri Apr 28 13:51:52 2023 - ERROR - Check file in snapshot failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_snapshot_lvconvert.sh line 50'
++ message='oe_test_snapshot_lvconvert.sh line 50'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_snapshot_lvconvert.sh line 50'
+Fri Apr 28 13:51:53 2023 - ERROR - oe_test_snapshot_lvconvert.sh line 50
++ '[' 0 -eq 1 ']'
++ return 0
++ test -d /mnt/test_snap_dir/test_dir
++ CHECK_RESULT 1 0 0 'Check directory in snapshot failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check directory in snapshot failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check directory in snapshot failed.'
++ LOG_ERROR 'Check directory in snapshot failed.'
++ message='Check directory in snapshot failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check directory in snapshot failed.'
+Fri Apr 28 13:51:53 2023 - ERROR - Check directory in snapshot failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_snapshot_lvconvert.sh line 52'
++ message='oe_test_snapshot_lvconvert.sh line 52'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_snapshot_lvconvert.sh line 52'
+Fri Apr 28 13:51:54 2023 - ERROR - oe_test_snapshot_lvconvert.sh line 52
++ '[' 0 -eq 1 ']'
++ return 0
++ echo 'add file'
++ umount /mnt/test_snap_dir
+umount: /mnt/test_snap_dir: not mounted.
++ umount /tmp/point120230428135141
+umount: /tmp/point120230428135141: not mounted.
++ lvconvert --merge /dev/test_vggroup20230428122339/test_snap
+  Failed to find logical volume "test_vggroup20230428122339/test_snap"
++ CHECK_RESULT 5 0 0 'lvconvert snapshot failed.'
++ actual_result=5
++ expect_result=0
++ mode=0
++ error_log='lvconvert snapshot failed.'
++ exit_mode=0
++ '[' -z 5 ']'
++ '[' 0 -eq 0 ']'
++ test 5x '!=' 0x
++ test -n 'lvconvert snapshot failed.'
++ LOG_ERROR 'lvconvert snapshot failed.'
++ message='lvconvert snapshot failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'lvconvert snapshot failed.'
+Fri Apr 28 13:51:56 2023 - ERROR - lvconvert snapshot failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_snapshot_lvconvert.sh line 57'
++ message='oe_test_snapshot_lvconvert.sh line 57'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_snapshot_lvconvert.sh line 57'
+Fri Apr 28 13:51:56 2023 - ERROR - oe_test_snapshot_lvconvert.sh line 57
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /tmp/point120230428135141
+mount: /tmp/point120230428135141: can't find in /etc/fstab.
++ grep -q add /tmp/point120230428135141/test_touch_ss
+grep: /tmp/point120230428135141/test_touch_ss: No such file or directory
++ CHECK_RESULT 2 0 0 'lvconvert snapshot failed.'
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log='lvconvert snapshot failed.'
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n 'lvconvert snapshot failed.'
++ LOG_ERROR 'lvconvert snapshot failed.'
++ message='lvconvert snapshot failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'lvconvert snapshot failed.'
+Fri Apr 28 13:51:57 2023 - ERROR - lvconvert snapshot failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_snapshot_lvconvert.sh line 60'
++ message='oe_test_snapshot_lvconvert.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_snapshot_lvconvert.sh line 60'
+Fri Apr 28 13:51:58 2023 - ERROR - oe_test_snapshot_lvconvert.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ umount /tmp/point120230428135141
+umount: /tmp/point120230428135141: not mounted.
++ lvremove -y
+  No command with matching syntax recognised.  Run 'lvremove --help' for more information.
+  Correct command syntax is:
+  lvremove VG|LV|Tag|Select ...
+
++ lvremove /dev/test_vggroup20230428122339/test_snap -y
+  Failed to find logical volume "test_vggroup20230428122339/test_snap"
++ for i in $(seq 1 $((${#point_list[@]} - 1)))
++ var=/tmp/point220230428135141
+++ df -iT
+++ grep /tmp/point220230428135141
+++ awk '{print $1}'
++ lv_name=
+++ df -iT
+++ grep /tmp/point220230428135141
+++ awk '{print $2}'
++ fs_type=
++ lvcreate -L 1G -n test_snap -s
+  No command with matching syntax recognised.  Run 'lvcreate --help' for more information.
+  Nearest similar command has syntax:
+  lvcreate -s|--snapshot -L|--size Size[m|UNIT] LV
+  Create a COW snapshot LV of an origin LV.
+
++ CHECK_RESULT 3 0 0 'Create snapshot failed.'
++ actual_result=3
++ expect_result=0
++ mode=0
++ error_log='Create snapshot failed.'
++ exit_mode=0
++ '[' -z 3 ']'
++ '[' 0 -eq 0 ']'
++ test 3x '!=' 0x
++ test -n 'Create snapshot failed.'
++ LOG_ERROR 'Create snapshot failed.'
++ message='Create snapshot failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Create snapshot failed.'
+Fri Apr 28 13:52:00 2023 - ERROR - Create snapshot failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_snapshot_lvconvert.sh line 42'
++ message='oe_test_snapshot_lvconvert.sh line 42'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_snapshot_lvconvert.sh line 42'
+Fri Apr 28 13:52:01 2023 - ERROR - oe_test_snapshot_lvconvert.sh line 42
++ '[' 0 -eq 1 ']'
++ return 0
++ [[ '' == \x\f\s ]]
++ mount /dev/test_vggroup20230428122339/test_snap /mnt/test_snap_dir
+mount: /mnt/test_snap_dir: special device /dev/test_vggroup20230428122339/test_snap does not exist.
++ CHECK_RESULT 32 0 0 'Mount snapshot failed.'
++ actual_result=32
++ expect_result=0
++ mode=0
++ error_log='Mount snapshot failed.'
++ exit_mode=0
++ '[' -z 32 ']'
++ '[' 0 -eq 0 ']'
++ test 32x '!=' 0x
++ test -n 'Mount snapshot failed.'
++ LOG_ERROR 'Mount snapshot failed.'
++ message='Mount snapshot failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Mount snapshot failed.'
+Fri Apr 28 13:52:02 2023 - ERROR - Mount snapshot failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_snapshot_lvconvert.sh line 48'
++ message='oe_test_snapshot_lvconvert.sh line 48'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_snapshot_lvconvert.sh line 48'
+Fri Apr 28 13:52:02 2023 - ERROR - oe_test_snapshot_lvconvert.sh line 48
++ '[' 0 -eq 1 ']'
++ return 0
++ grep -q test /mnt/test_snap_dir/test_file
+grep: /mnt/test_snap_dir/test_file: No such file or directory
++ CHECK_RESULT 2 0 0 'Check file in snapshot failed.'
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log='Check file in snapshot failed.'
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n 'Check file in snapshot failed.'
++ LOG_ERROR 'Check file in snapshot failed.'
++ message='Check file in snapshot failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check file in snapshot failed.'
+Fri Apr 28 13:52:03 2023 - ERROR - Check file in snapshot failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_snapshot_lvconvert.sh line 50'
++ message='oe_test_snapshot_lvconvert.sh line 50'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_snapshot_lvconvert.sh line 50'
+Fri Apr 28 13:52:04 2023 - ERROR - oe_test_snapshot_lvconvert.sh line 50
++ '[' 0 -eq 1 ']'
++ return 0
++ test -d /mnt/test_snap_dir/test_dir
++ CHECK_RESULT 1 0 0 'Check directory in snapshot failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check directory in snapshot failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check directory in snapshot failed.'
++ LOG_ERROR 'Check directory in snapshot failed.'
++ message='Check directory in snapshot failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check directory in snapshot failed.'
+Fri Apr 28 13:52:05 2023 - ERROR - Check directory in snapshot failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_snapshot_lvconvert.sh line 52'
++ message='oe_test_snapshot_lvconvert.sh line 52'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_snapshot_lvconvert.sh line 52'
+Fri Apr 28 13:52:06 2023 - ERROR - oe_test_snapshot_lvconvert.sh line 52
++ '[' 0 -eq 1 ']'
++ return 0
++ echo 'add file'
++ umount /mnt/test_snap_dir
+umount: /mnt/test_snap_dir: not mounted.
++ umount /tmp/point220230428135141
+umount: /tmp/point220230428135141: not mounted.
++ lvconvert --merge /dev/test_vggroup20230428122339/test_snap
+  Failed to find logical volume "test_vggroup20230428122339/test_snap"
++ CHECK_RESULT 5 0 0 'lvconvert snapshot failed.'
++ actual_result=5
++ expect_result=0
++ mode=0
++ error_log='lvconvert snapshot failed.'
++ exit_mode=0
++ '[' -z 5 ']'
++ '[' 0 -eq 0 ']'
++ test 5x '!=' 0x
++ test -n 'lvconvert snapshot failed.'
++ LOG_ERROR 'lvconvert snapshot failed.'
++ message='lvconvert snapshot failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'lvconvert snapshot failed.'
+Fri Apr 28 13:52:07 2023 - ERROR - lvconvert snapshot failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_snapshot_lvconvert.sh line 57'
++ message='oe_test_snapshot_lvconvert.sh line 57'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_snapshot_lvconvert.sh line 57'
+Fri Apr 28 13:52:08 2023 - ERROR - oe_test_snapshot_lvconvert.sh line 57
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /tmp/point220230428135141
+mount: /tmp/point220230428135141: can't find in /etc/fstab.
++ grep -q add /tmp/point220230428135141/test_touch_ss
+grep: /tmp/point220230428135141/test_touch_ss: No such file or directory
++ CHECK_RESULT 2 0 0 'lvconvert snapshot failed.'
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log='lvconvert snapshot failed.'
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n 'lvconvert snapshot failed.'
++ LOG_ERROR 'lvconvert snapshot failed.'
++ message='lvconvert snapshot failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'lvconvert snapshot failed.'
+Fri Apr 28 13:52:09 2023 - ERROR - lvconvert snapshot failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_snapshot_lvconvert.sh line 60'
++ message='oe_test_snapshot_lvconvert.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_snapshot_lvconvert.sh line 60'
+Fri Apr 28 13:52:10 2023 - ERROR - oe_test_snapshot_lvconvert.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ umount /tmp/point220230428135141
+umount: /tmp/point220230428135141: not mounted.
++ lvremove -y
+  No command with matching syntax recognised.  Run 'lvremove --help' for more information.
+  Correct command syntax is:
+  lvremove VG|LV|Tag|Select ...
+
++ lvremove /dev/test_vggroup20230428122339/test_snap -y
+  Failed to find logical volume "test_vggroup20230428122339/test_snap"
++ for i in $(seq 1 $((${#point_list[@]} - 1)))
++ var=/tmp/point320230428135141
+++ df -iT
+++ grep /tmp/point320230428135141
+++ awk '{print $1}'
++ lv_name=
+++ grep /tmp/point320230428135141
+++ df -iT
+++ awk '{print $2}'
++ fs_type=
++ lvcreate -L 1G -n test_snap -s
+  No command with matching syntax recognised.  Run 'lvcreate --help' for more information.
+  Nearest similar command has syntax:
+  lvcreate -s|--snapshot -L|--size Size[m|UNIT] LV
+  Create a COW snapshot LV of an origin LV.
+
++ CHECK_RESULT 3 0 0 'Create snapshot failed.'
++ actual_result=3
++ expect_result=0
++ mode=0
++ error_log='Create snapshot failed.'
++ exit_mode=0
++ '[' -z 3 ']'
++ '[' 0 -eq 0 ']'
++ test 3x '!=' 0x
++ test -n 'Create snapshot failed.'
++ LOG_ERROR 'Create snapshot failed.'
++ message='Create snapshot failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Create snapshot failed.'
+Fri Apr 28 13:52:11 2023 - ERROR - Create snapshot failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_snapshot_lvconvert.sh line 42'
++ message='oe_test_snapshot_lvconvert.sh line 42'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_snapshot_lvconvert.sh line 42'
+Fri Apr 28 13:52:13 2023 - ERROR - oe_test_snapshot_lvconvert.sh line 42
++ '[' 0 -eq 1 ']'
++ return 0
++ [[ '' == \x\f\s ]]
++ mount /dev/test_vggroup20230428122339/test_snap /mnt/test_snap_dir
+mount: /mnt/test_snap_dir: special device /dev/test_vggroup20230428122339/test_snap does not exist.
++ CHECK_RESULT 32 0 0 'Mount snapshot failed.'
++ actual_result=32
++ expect_result=0
++ mode=0
++ error_log='Mount snapshot failed.'
++ exit_mode=0
++ '[' -z 32 ']'
++ '[' 0 -eq 0 ']'
++ test 32x '!=' 0x
++ test -n 'Mount snapshot failed.'
++ LOG_ERROR 'Mount snapshot failed.'
++ message='Mount snapshot failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Mount snapshot failed.'
+Fri Apr 28 13:52:14 2023 - ERROR - Mount snapshot failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_snapshot_lvconvert.sh line 48'
++ message='oe_test_snapshot_lvconvert.sh line 48'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_snapshot_lvconvert.sh line 48'
+Fri Apr 28 13:52:14 2023 - ERROR - oe_test_snapshot_lvconvert.sh line 48
++ '[' 0 -eq 1 ']'
++ return 0
++ grep -q test /mnt/test_snap_dir/test_file
+grep: /mnt/test_snap_dir/test_file: No such file or directory
++ CHECK_RESULT 2 0 0 'Check file in snapshot failed.'
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log='Check file in snapshot failed.'
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n 'Check file in snapshot failed.'
++ LOG_ERROR 'Check file in snapshot failed.'
++ message='Check file in snapshot failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check file in snapshot failed.'
+Fri Apr 28 13:52:15 2023 - ERROR - Check file in snapshot failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_snapshot_lvconvert.sh line 50'
++ message='oe_test_snapshot_lvconvert.sh line 50'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_snapshot_lvconvert.sh line 50'
+Fri Apr 28 13:52:16 2023 - ERROR - oe_test_snapshot_lvconvert.sh line 50
++ '[' 0 -eq 1 ']'
++ return 0
++ test -d /mnt/test_snap_dir/test_dir
++ CHECK_RESULT 1 0 0 'Check directory in snapshot failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check directory in snapshot failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check directory in snapshot failed.'
++ LOG_ERROR 'Check directory in snapshot failed.'
++ message='Check directory in snapshot failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check directory in snapshot failed.'
+Fri Apr 28 13:52:17 2023 - ERROR - Check directory in snapshot failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_snapshot_lvconvert.sh line 52'
++ message='oe_test_snapshot_lvconvert.sh line 52'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_snapshot_lvconvert.sh line 52'
+Fri Apr 28 13:52:18 2023 - ERROR - oe_test_snapshot_lvconvert.sh line 52
++ '[' 0 -eq 1 ']'
++ return 0
++ echo 'add file'
++ umount /mnt/test_snap_dir
+umount: /mnt/test_snap_dir: not mounted.
++ umount /tmp/point320230428135141
+umount: /tmp/point320230428135141: not mounted.
++ lvconvert --merge /dev/test_vggroup20230428122339/test_snap
+  Failed to find logical volume "test_vggroup20230428122339/test_snap"
++ CHECK_RESULT 5 0 0 'lvconvert snapshot failed.'
++ actual_result=5
++ expect_result=0
++ mode=0
++ error_log='lvconvert snapshot failed.'
++ exit_mode=0
++ '[' -z 5 ']'
++ '[' 0 -eq 0 ']'
++ test 5x '!=' 0x
++ test -n 'lvconvert snapshot failed.'
++ LOG_ERROR 'lvconvert snapshot failed.'
++ message='lvconvert snapshot failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'lvconvert snapshot failed.'
+Fri Apr 28 13:52:19 2023 - ERROR - lvconvert snapshot failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_snapshot_lvconvert.sh line 57'
++ message='oe_test_snapshot_lvconvert.sh line 57'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_snapshot_lvconvert.sh line 57'
+Fri Apr 28 13:52:20 2023 - ERROR - oe_test_snapshot_lvconvert.sh line 57
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /tmp/point320230428135141
+mount: /tmp/point320230428135141: can't find in /etc/fstab.
++ grep -q add /tmp/point320230428135141/test_touch_ss
+grep: /tmp/point320230428135141/test_touch_ss: No such file or directory
++ CHECK_RESULT 2 0 0 'lvconvert snapshot failed.'
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log='lvconvert snapshot failed.'
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n 'lvconvert snapshot failed.'
++ LOG_ERROR 'lvconvert snapshot failed.'
++ message='lvconvert snapshot failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'lvconvert snapshot failed.'
+Fri Apr 28 13:52:21 2023 - ERROR - lvconvert snapshot failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_snapshot_lvconvert.sh line 60'
++ message='oe_test_snapshot_lvconvert.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_snapshot_lvconvert.sh line 60'
+Fri Apr 28 13:52:21 2023 - ERROR - oe_test_snapshot_lvconvert.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ umount /tmp/point320230428135141
+umount: /tmp/point320230428135141: not mounted.
++ lvremove -y
+  No command with matching syntax recognised.  Run 'lvremove --help' for more information.
+  Correct command syntax is:
+  lvremove VG|LV|Tag|Select ...
+
++ lvremove /dev/test_vggroup20230428122339/test_snap -y
+  Failed to find logical volume "test_vggroup20230428122339/test_snap"
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Fri Apr 28 13:52:23 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 18
++ test 18 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri Apr 28 13:52:24 2023 - ERROR - failed to execute the case.
++ exit 18
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri Apr 28 13:52:24 2023 - INFO  - Start to restore the test environment.
+++ echo test_vggroup20230428122339 /tmp/point120230428135141 /tmp/point220230428135141 /tmp/point320230428135141
++ list='test_vggroup20230428122339 /tmp/point120230428135141 /tmp/point220230428135141 /tmp/point320230428135141'
++ REMOVE_FS 'test_vggroup20230428122339 /tmp/point120230428135141 /tmp/point220230428135141 /tmp/point320230428135141'
++ point_list=($1)
+++ seq 0 3
++ for i in $(seq 0 $((${#point_list[@]} - 1)))
++ tmp=test_vggroup20230428122339
+++ df -T
+++ grep test_vggroup20230428122339
+++ awk '{print $1}'
++ lv=
++ [[ '' == '' ]]
++ continue
++ for i in $(seq 0 $((${#point_list[@]} - 1)))
++ tmp=/tmp/point120230428135141
+++ df -T
+++ awk '{print $1}'
+++ grep /tmp/point120230428135141
++ lv=
++ [[ '' == '' ]]
++ continue
++ for i in $(seq 0 $((${#point_list[@]} - 1)))
++ tmp=/tmp/point220230428135141
+++ df -T
+++ grep /tmp/point220230428135141
+++ awk '{print $1}'
++ lv=
++ [[ '' == '' ]]
++ continue
++ for i in $(seq 0 $((${#point_list[@]} - 1)))
++ tmp=/tmp/point320230428135141
+++ df -T
+++ grep /tmp/point320230428135141
+++ awk '{print $1}'
++ lv=
++ [[ '' == '' ]]
++ continue
++ rm -rf /mnt/test_snap_dir
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Fri Apr 28 13:52:26 2023 - INFO  - End to restore the test environment.

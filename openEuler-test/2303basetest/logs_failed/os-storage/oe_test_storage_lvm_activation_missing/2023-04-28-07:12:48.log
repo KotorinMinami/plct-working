@@ -1,0 +1,127 @@
++ source ../common/storage_disk_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Fri Apr 28 07:12:52 2023 - INFO  - Start environment preparation.
++ check_free_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks=vdb
++ disk_list=($disks)
++ local_disk=vdb
++ local_disk1=
++ local_disk2=
++ local_disk3=
++ pvcreate -y /dev/vdb /dev/
+  No device found for /dev/.
+  Physical volume "/dev/vdb" successfully created.
++ vgcreate openeulertest /dev/vdb
+  Volume group "openeulertest" successfully created
++ vgcreate opentest /dev/
+  No device found for /dev/.
++ lvcreate -y -L 50MB -n test openeulertest /dev/vdb
+  Rounding up size to full physical extent 52.00 MiB
+  Logical volume "test" created.
++ lvcreate -y -L 50MB -n test1 opentest /dev/
+  Volume group "opentest" not found
+  Cannot process volume group opentest
++ LOG_INFO 'Loading data is complete!'
++ message='Loading data is complete!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Loading data is complete!'
+Fri Apr 28 07:13:05 2023 - INFO  - Loading data is complete!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase!'
++ message='Start executing testcase!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase!'
+Fri Apr 28 07:13:06 2023 - INFO  - Start executing testcase!
++ lvchange -ay openeulertest/test --activationmode degraded openeulertest
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ lvchange -ay openeulertest/test --activationmode degraded
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ lvchange -ay opentest/test1 --activationmode degraded opentest
+  Volume group "opentest" not found
+  Cannot process volume group opentest
++ CHECK_RESULT 5
++ actual_result=5
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 5 ']'
++ '[' 0 -eq 0 ']'
++ test 5x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_lvm_activation_missing.sh line 38'
++ message='oe_test_storage_lvm_activation_missing.sh line 38'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_lvm_activation_missing.sh line 38'
+Fri Apr 28 07:13:08 2023 - ERROR - oe_test_storage_lvm_activation_missing.sh line 38
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End of testcase execution!'
++ message='End of testcase execution!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution!'
+Fri Apr 28 07:13:09 2023 - INFO  - End of testcase execution!
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri Apr 28 07:13:09 2023 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri Apr 28 07:13:10 2023 - INFO  - start environment cleanup.
++ vgremove -y openeulertest
+  Logical volume "test" successfully removed.
+  Volume group "openeulertest" successfully removed
++ vgremove -y opentest
+  Volume group "opentest" not found
+  Cannot process volume group opentest
++ pvremove /dev/vdb /dev/
+  No device found for /dev/.
+  Labels on physical volume "/dev/vdb" successfully wiped.
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Fri Apr 28 07:13:12 2023 - INFO  - Finish environment cleanup.

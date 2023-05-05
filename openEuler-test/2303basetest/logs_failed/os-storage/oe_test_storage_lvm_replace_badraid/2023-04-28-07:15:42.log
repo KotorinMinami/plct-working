@@ -1,0 +1,226 @@
++ source ../common/storage_disk_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ grep expect
++ rpm -qa
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Fri Apr 28 07:15:46 2023 - INFO  - Start environment preparation.
++ check_free_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks=vdb
++ disk_list=($disks)
++ local_disk=vdb
++ local_disk1=
++ local_disk2=
++ local_disk3=
++ mkfs.ext4 -F /dev/vdb
+mke2fs 1.46.5 (30-Dec-2021)
+Discarding device blocks:      0/512000             done                            
+Creating filesystem with 512000 1k blocks and 128016 inodes
+Filesystem UUID: cc17e203-c40c-4c8b-bdae-b0ddd663ac6b
+Superblock backups stored on blocks: 
+	8193, 24577, 40961, 57345, 73729, 204801, 221185, 401409
+
+Allocating group tables:  0/63     done                            
+Writing inode tables:  0/63     done                            
+Creating journal (8192 blocks): done
+Writing superblocks and filesystem accounting information:  0/63     done
+
++ pvcreate /dev/vdb -y
+  Wiping ext4 signature on /dev/vdb.
+  Physical volume "/dev/vdb" successfully created.
++ vgcreate openeulertest /dev/vdb
+  Volume group "openeulertest" successfully created
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Fri Apr 28 07:15:57 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase!'
++ message='Start executing testcase!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase!'
+Fri Apr 28 07:15:58 2023 - INFO  - Start executing testcase!
++ vgextend openeulertest /dev/ /dev/ -y
+  No device found for /dev/.
+  No device found for /dev/.
++ lvcreate --type mirror -m 1 -L 50MB -n test openeulertest -y
+modprobe: FATAL: Module dm-mirror not found in directory /lib/modules/6.1.8-3.oe2303.riscv64
+  /usr/sbin/modprobe failed: 1
+  mirror: Required device-mapper target(s) not detected in your kernel.
+  Run `lvcreate --help' for more information.
++ CHECK_RESULT 3
++ actual_result=3
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 3 ']'
++ '[' 0 -eq 0 ']'
++ test 3x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_lvm_replace_badraid.sh line 33'
++ message='oe_test_storage_lvm_replace_badraid.sh line 33'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_lvm_replace_badraid.sh line 33'
+Fri Apr 28 07:16:00 2023 - ERROR - oe_test_storage_lvm_replace_badraid.sh line 33
++ '[' 0 -eq 1 ']'
++ return 0
++ expect -c '
+    set timeout 30
+    log_file testlog
+    spawn lvconvert --type raid1 /dev/openeulertest/test
+    expect "*\[y/n\]*" {send "y\r"}
+    expect eof
+'
+spawn lvconvert --type raid1 /dev/openeulertest/test
+  Failed to find logical volume "openeulertest/test"
+y
++ grep -iE 'error|fail' testlog
+  Failed to find logical volume "openeulertest/test"
++ CHECK_RESULT 0 1
++ actual_result=0
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 1x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_lvm_replace_badraid.sh line 42'
++ message='oe_test_storage_lvm_replace_badraid.sh line 42'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_lvm_replace_badraid.sh line 42'
+Fri Apr 28 07:16:01 2023 - ERROR - oe_test_storage_lvm_replace_badraid.sh line 42
++ '[' 0 -eq 1 ']'
++ return 0
++ expect -c '
+    log_file testlog1
+    set timeout 30
+    spawn lvconvert --type mirror /dev/openeulertest/test
+    expect "*\[y/n\]*" {send "y\r"}
+    expect eof
+'
+spawn lvconvert --type mirror /dev/openeulertest/test
+  Failed to find logical volume "openeulertest/test"
+y
++ grep -iE 'error|fail' testlog1
+  Failed to find logical volume "openeulertest/test"
++ CHECK_RESULT 0 1
++ actual_result=0
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 1x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_lvm_replace_badraid.sh line 52'
++ message='oe_test_storage_lvm_replace_badraid.sh line 52'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_lvm_replace_badraid.sh line 52'
+Fri Apr 28 07:16:03 2023 - ERROR - oe_test_storage_lvm_replace_badraid.sh line 52
++ '[' 0 -eq 1 ']'
++ return 0
++ dd if=/dev/zero of=/dev/
+dd: failed to open '/dev/': Is a directory
++ lvconvert --repair openeulertest/test -y
+  Failed to find logical volume "openeulertest/test"
++ CHECK_RESULT 5
++ actual_result=5
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 5 ']'
++ '[' 0 -eq 0 ']'
++ test 5x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_lvm_replace_badraid.sh line 55'
++ message='oe_test_storage_lvm_replace_badraid.sh line 55'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_lvm_replace_badraid.sh line 55'
+Fri Apr 28 07:16:04 2023 - ERROR - oe_test_storage_lvm_replace_badraid.sh line 55
++ '[' 0 -eq 1 ']'
++ return 0
++ lvs -a -o name,copy_percent,devices openeulertest
++ vgreduce -y --removemissing openeulertest
+  Volume group "openeulertest" is already consistent.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ lvchange -y --refresh openeulertest/test
+  Failed to find logical volume "openeulertest/test"
++ CHECK_RESULT 5
++ actual_result=5
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 5 ']'
++ '[' 0 -eq 0 ']'
++ test 5x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_lvm_replace_badraid.sh line 60'
++ message='oe_test_storage_lvm_replace_badraid.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_lvm_replace_badraid.sh line 60'
+Fri Apr 28 07:16:06 2023 - ERROR - oe_test_storage_lvm_replace_badraid.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End of testcase execution!'
++ message='End of testcase execution!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution!'
+Fri Apr 28 07:16:07 2023 - INFO  - End of testcase execution!
++ CASE_RESULT 0
++ case_re=0
++ test -z 5
++ test 5 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri Apr 28 07:16:08 2023 - ERROR - failed to execute the case.
++ exit 5
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri Apr 28 07:16:08 2023 - INFO  - start environment cleanup.
++ lvremove -y openeulertest/test
+  Failed to find logical volume "openeulertest/test"
++ vgremove -y openeulertest
+  Volume group "openeulertest" successfully removed
++ pvremove -y /dev/ '' /dev/vdb
+  No device found for /dev/.
+  No device found for .
+  Labels on physical volume "/dev/vdb" successfully wiped.
++ rm -rf testlog testlog1
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Fri Apr 28 07:16:10 2023 - INFO  - Finish environment cleanup.

@@ -1,0 +1,149 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Sat Apr 29 07:50:11 2023 - INFO  - Start to prepare the test environment.
++ cp /etc/libuser.conf /etc/libuser.conf.bak
++ sed -i 's/crypt_style =.*/crypt_style = sha256/' /etc/libuser.conf
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Sat Apr 29 07:50:12 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Sat Apr 29 07:50:12 2023 - INFO  - Start to run test.
++ luseradd ltestuser
++ CHECK_RESULT 0 0 0 'Failed to execute luseradd'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to execute luseradd'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ echo -e 'openEuler12#$\nopenEuler12#$'
++ lpasswd ltestuser
+New password: New password (confirm): Password changed.
++ CHECK_RESULT 0 0 0 'Failed to execute lpasswd'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to execute lpasswd'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep user /etc/shadow
++ grep '\$5\$'
+ltestuser:$5$vNq.cVVcj96F8JGh$RgmIcyJWNbDK5GmwsYEiyh/P6aiK15zOMrmalKLDK31:19475:0:99999:7:::
++ CHECK_RESULT 0 0 0 'Failed to display user'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to display user'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect
+spawn ssh ltestuser@127.0.0.1
+ltestuser@127.0.0.1's password: 
+
+
+Welcome to 6.1.8-3.oe2303.riscv64
+
+System information as of time: 	Sat Apr 29 07:50:31 AM CST 2023
+
+System load: 	[0;33;40m2.28[0m
+Processes: 	124
+Memory used: 	4.0%
+Swap used: 	0.0%
+Usage On: 	32%
+IP address: 	10.0.2.15
+Users online: 	1
+To run a command as administrator(user "root"),use "sudo <command>".
+[ltestuser@openeuler-riscv64 ~]$ invalid command name "exit""
+    while executing
+"exit\r""
+    invoked from within
+"expect {
+            "]*" {
+                exit\r"
+            }
+        }"
++ grep ltestuser@ testlog
+spawn ssh ltestuser@127.0.0.1
+ltestuser@127.0.0.1's password: 
+[ltestuser@openeuler-riscv64 ~]$ invalid command name "exit""
++ CHECK_RESULT 0 0 0 'Failed to display ltestuser'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to display ltestuser'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ sed -i 's/crypt_style =.*/crypt_style = sm3/' /etc/libuser.conf
++ CHECK_RESULT 0 0 0 'Failed to execute sed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to execute sed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep -iE 'SP3|22.03' /etc/os-release
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Sat Apr 29 07:50:32 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Sat Apr 29 07:50:33 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Sat Apr 29 07:50:34 2023 - INFO  - Start to restore the test environment.
++ mv -f /etc/libuser.conf.bak /etc/libuser.conf
++ luserdel -r ltestuser
++ userdel -rf testuser
+userdel: user 'testuser' does not exist
++ rm -rf testlog
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Sat Apr 29 07:50:35 2023 - INFO  - End to restore the test environment.

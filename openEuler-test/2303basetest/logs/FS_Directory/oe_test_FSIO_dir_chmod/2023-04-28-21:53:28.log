@@ -1,0 +1,648 @@
++ source ../common_lib/fsio_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
+++ export 'FS_TYPE=ext3 ext4 xfs'
+++ FS_TYPE='ext3 ext4 xfs'
+++ export LANG=en_US.UTF-8
+++ LANG=en_US.UTF-8
+++ REMOVE_VG
+++ vggroup=
+++ [[ '' != '' ]]
++++ df -T
++++ grep test_vggroup
++++ awk '{print $7}'
+++ mounted=
+++ [[ '' != '' ]]
+++ lsblk
+++ grep test_vggroup
+++ [[ 1 -eq 0 ]]
+++ rm -rf /tmp/point120230428215305 /tmp/point220230428215305 /tmp/point320230428215305
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Fri Apr 28 21:53:34 2023 - INFO  - Start environment preparation.
+++ date +%Y%m%d%H%M%S
++ cur_date=20230428215334
++ point_list=($(CREATE_FS))
+++ CREATE_FS
+++ fs_type='ext3 ext4 xfs'
++++ date +%Y%m%d%H%M%S
+++ cur_date=20230428215334
++++ CREATE_VG
+++++ date +%Y%m%d%H%M%S
++++ cur_date=20230428215334
+++++ lsblk
+++++ grep disk
+++++ tail -n 1
+++++ awk '{print $1}'
++++ free_disk=vdt
++++ disk_name=/dev/vdt
++++ pvcreate /dev/vdt -f
++++ [[ 5 -eq 0 ]]
+++++ pvcreate /dev/vdt
+++++ grep test_vggroup
+++++ cut -d '"' -f 4
++++ vggroup=test_vggroup20230428215305
++++ printf test_vggroup20230428215305
+++ vggroup=test_vggroup20230428215305
+++ count=1
+++ msg='test_vggroup20230428215305 '
+++ for fs in ${fs_type[@]}
+++ lvname=test_lv120230428215334
+++ point=/tmp/point120230428215334
+++ lvcreate -n test_lv120230428215334 -L 512M test_vggroup20230428215305 -y
+  Volume group "test_vggroup20230428215305" has insufficient free space (124 extents): 128 required.
+++ mkfs -t ext3 /dev/test_vggroup20230428215305/test_lv120230428215334
+mke2fs 1.46.5 (30-Dec-2021)
+The file /dev/test_vggroup20230428215305/test_lv120230428215334 does not exist and no size was specified.
+++ mkdir /tmp/point120230428215334
+++ mount /dev/test_vggroup20230428215305/test_lv120230428215334 /tmp/point120230428215334
+mount: /tmp/point120230428215334: special device /dev/test_vggroup20230428215305/test_lv120230428215334 does not exist.
+++ msg='test_vggroup20230428215305 /tmp/point120230428215334 '
+++ count=2
+++ for fs in ${fs_type[@]}
+++ lvname=test_lv220230428215334
+++ point=/tmp/point220230428215334
+++ lvcreate -n test_lv220230428215334 -L 512M test_vggroup20230428215305 -y
+  Volume group "test_vggroup20230428215305" has insufficient free space (124 extents): 128 required.
+++ mkfs -t ext4 /dev/test_vggroup20230428215305/test_lv220230428215334
+mke2fs 1.46.5 (30-Dec-2021)
+The file /dev/test_vggroup20230428215305/test_lv220230428215334 does not exist and no size was specified.
+++ mkdir /tmp/point220230428215334
+++ mount /dev/test_vggroup20230428215305/test_lv220230428215334 /tmp/point220230428215334
+mount: /tmp/point220230428215334: special device /dev/test_vggroup20230428215305/test_lv220230428215334 does not exist.
+++ msg='test_vggroup20230428215305 /tmp/point120230428215334 /tmp/point220230428215334 '
+++ count=3
+++ for fs in ${fs_type[@]}
+++ lvname=test_lv320230428215334
+++ point=/tmp/point320230428215334
+++ lvcreate -n test_lv320230428215334 -L 512M test_vggroup20230428215305 -y
+  Volume group "test_vggroup20230428215305" has insufficient free space (124 extents): 128 required.
+++ mkfs -t xfs /dev/test_vggroup20230428215305/test_lv320230428215334
+Error accessing specified device /dev/test_vggroup20230428215305/test_lv320230428215334: No such file or directory
+Usage: mkfs.xfs
+/* blocksize */		[-b size=num]
+/* config file */	[-c options=xxx]
+/* metadata */		[-m crc=0|1,finobt=0|1,uuid=xxx,rmapbt=0|1,reflink=0|1,
+			    inobtcount=0|1,bigtime=0|1]
+/* data subvol */	[-d agcount=n,agsize=n,file,name=xxx,size=num,
+			    (sunit=value,swidth=value|su=num,sw=num|noalign),
+			    sectsize=num
+/* force overwrite */	[-f]
+/* inode size */	[-i perblock=n|size=num,maxpct=n,attr=0|1|2,
+			    projid32bit=0|1,sparse=0|1,nrext64=0|1]
+/* no discard */	[-K]
+/* log subvol */	[-l agnum=n,internal,size=num,logdev=xxx,version=n
+			    sunit=value|su=num,sectsize=num,lazy-count=0|1]
+/* label */		[-L label (maximum 12 characters)]
+/* naming */		[-n size=num,version=2|ci,ftype=0|1]
+/* no-op info only */	[-N]
+/* prototype file */	[-p fname]
+/* quiet */		[-q]
+/* realtime subvol */	[-r extsize=num,size=num,rtdev=xxx]
+/* sectorsize */	[-s size=num]
+/* version */		[-V]
+			devicename
+<devicename> is required unless -d name=xxx is given.
+<num> is xxx (bytes), xxxs (sectors), xxxb (fs blocks), xxxk (xxx KiB),
+      xxxm (xxx MiB), xxxg (xxx GiB), xxxt (xxx TiB) or xxxp (xxx PiB).
+<value> is xxx (512 byte blocks).
+++ mkdir /tmp/point320230428215334
+++ mount /dev/test_vggroup20230428215305/test_lv320230428215334 /tmp/point320230428215334
+mount: /tmp/point320230428215334: special device /dev/test_vggroup20230428215305/test_lv320230428215334 does not exist.
+++ msg='test_vggroup20230428215305 /tmp/point120230428215334 /tmp/point220230428215334 /tmp/point320230428215334 '
+++ count=4
+++ echo test_vggroup20230428215305 /tmp/point120230428215334 /tmp/point220230428215334 /tmp/point320230428215334
++ user=test20230428215334
++ useradd test20230428215334
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Fri Apr 28 21:53:40 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri Apr 28 21:53:41 2023 - INFO  - Start to run test.
+++ seq 1 3
++ for i in $(seq 1 $((${#point_list[@]} - 1)))
++ var=/tmp/point120230428215334
++ mkdir -p /tmp/point120230428215334/tmp/test01/test02/test03
+++ ls -l /tmp/point120230428215334/tmp
+++ awk '{print $1}'
+++ grep test01
++ per01=drwxr-xr-x
+++ ls -l /tmp/point120230428215334/tmp/test01
+++ grep test02
+++ awk '{print $1}'
++ per02=drwxr-xr-x
++ [[ drwxr-xr-x =~ drwxr-xr-x ]]
++ CHECK_RESULT 0 0 0 'Check access of /tmp/point120230428215334/tmp failed when creating defualt.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check access of /tmp/point120230428215334/tmp failed when creating defualt.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ chmod 777 /tmp/point120230428215334/tmp/test01
+++ ls -l /tmp/point120230428215334/tmp
+++ grep test01
+++ awk '{print $1}'
++ per03=drwxrwxrwx
+++ ls -l /tmp/point120230428215334/tmp/test01
+++ awk '{print $1}'
+++ grep test02
++ per04=drwxr-xr-x
++ [[ drwxrwxrwx =~ drwxrwxrwx ]]
++ CHECK_RESULT 0 0 0 'Check access of /tmp/point120230428215334/tmp failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check access of /tmp/point120230428215334/tmp failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ '[' drwxr-xr-x == drwxr-xr-x ']'
++ CHECK_RESULT 0 0 0 'Check access of /tmp/point120230428215334/tmp/test01 failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check access of /tmp/point120230428215334/tmp/test01 failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ chmod u-x /tmp/point120230428215334/tmp/test01/test02
+++ ls -l /tmp/point120230428215334/tmp/test01
+++ awk '{print $1}'
+++ grep test02
++ per07=drw-r-xr-x
++ [[ drw-r-xr-x =~ drw-r-xr-x ]]
++ CHECK_RESULT 0 0 0 'Check access of /tmp/point120230428215334/tmp/test01/test02 failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check access of /tmp/point120230428215334/tmp/test01/test02 failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ chmod a-r /tmp/point120230428215334/tmp/test01/test02/test03
+++ ls -l /tmp/point120230428215334/tmp/test01/test02
+++ awk '{print $1}'
+++ grep test03
++ per08=d-wx--x--x
++ [[ d-wx--x--x =~ d-wx--x--x ]]
++ CHECK_RESULT 0 0 0 'Check access of /tmp/point120230428215334/tmp/test01/test02/test03 failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check access of /tmp/point120230428215334/tmp/test01/test02/test03 failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ chmod o-x /tmp/point120230428215334/tmp/test01/test02/test03
+++ ls -l /tmp/point120230428215334/tmp/test01/test02
+++ grep test03
+++ awk '{print $1}'
++ per09=d-wx--x---
++ [[ d-wx--x--- =~ d-wx--x--- ]]
++ CHECK_RESULT 0 0 0 'Check access of /tmp/point120230428215334/tmp/test01/test02/test03 failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check access of /tmp/point120230428215334/tmp/test01/test02/test03 failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - test20230428215334 -c 'cd /tmp/point120230428215334/tmp/test01/test02/test03'
+-bash: line 1: cd: /tmp/point120230428215334/tmp/test01/test02/test03: Permission denied
++ CHECK_RESULT 1 0 1 'Successfully accessed /tmp/point120230428215334/tmp/test01/test02/test03 using test20230428215334'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='Successfully accessed /tmp/point120230428215334/tmp/test01/test02/test03 using test20230428215334'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ chmod -R 777 /tmp/point120230428215334/tmp/test01
+++ ls -l /tmp/point120230428215334/tmp/
+++ grep test01
+++ awk '{print $1}'
++ per05=drwxrwxrwx
+++ ls -l /tmp/point120230428215334/tmp/test01
+++ grep test02
+++ awk '{print $1}'
++ per06=drwxrwxrwx
++ [[ drwxrwxrwx =~ drwxrwxrwx ]]
++ CHECK_RESULT 0 0 0 'Check access of /tmp/point120230428215334/tmp failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check access of /tmp/point120230428215334/tmp failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ [[ drwxrwxrwx =~ drwxrwxrwx ]]
++ CHECK_RESULT 0 0 0 'Check access of /tmp/point120230428215334/tmp/test01 failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check access of /tmp/point120230428215334/tmp/test01 failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ for i in $(seq 1 $((${#point_list[@]} - 1)))
++ var=/tmp/point220230428215334
++ mkdir -p /tmp/point220230428215334/tmp/test01/test02/test03
+++ ls -l /tmp/point220230428215334/tmp
+++ grep test01
+++ awk '{print $1}'
++ per01=drwxr-xr-x
+++ ls -l /tmp/point220230428215334/tmp/test01
+++ grep test02
+++ awk '{print $1}'
++ per02=drwxr-xr-x
++ [[ drwxr-xr-x =~ drwxr-xr-x ]]
++ CHECK_RESULT 0 0 0 'Check access of /tmp/point220230428215334/tmp failed when creating defualt.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check access of /tmp/point220230428215334/tmp failed when creating defualt.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ chmod 777 /tmp/point220230428215334/tmp/test01
+++ ls -l /tmp/point220230428215334/tmp
+++ grep test01
+++ awk '{print $1}'
++ per03=drwxrwxrwx
+++ ls -l /tmp/point220230428215334/tmp/test01
+++ grep test02
+++ awk '{print $1}'
++ per04=drwxr-xr-x
++ [[ drwxrwxrwx =~ drwxrwxrwx ]]
++ CHECK_RESULT 0 0 0 'Check access of /tmp/point220230428215334/tmp failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check access of /tmp/point220230428215334/tmp failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ '[' drwxr-xr-x == drwxr-xr-x ']'
++ CHECK_RESULT 0 0 0 'Check access of /tmp/point220230428215334/tmp/test01 failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check access of /tmp/point220230428215334/tmp/test01 failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ chmod u-x /tmp/point220230428215334/tmp/test01/test02
+++ ls -l /tmp/point220230428215334/tmp/test01
+++ awk '{print $1}'
+++ grep test02
++ per07=drw-r-xr-x
++ [[ drw-r-xr-x =~ drw-r-xr-x ]]
++ CHECK_RESULT 0 0 0 'Check access of /tmp/point220230428215334/tmp/test01/test02 failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check access of /tmp/point220230428215334/tmp/test01/test02 failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ chmod a-r /tmp/point220230428215334/tmp/test01/test02/test03
+++ ls -l /tmp/point220230428215334/tmp/test01/test02
+++ awk '{print $1}'
+++ grep test03
++ per08=d-wx--x--x
++ [[ d-wx--x--x =~ d-wx--x--x ]]
++ CHECK_RESULT 0 0 0 'Check access of /tmp/point220230428215334/tmp/test01/test02/test03 failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check access of /tmp/point220230428215334/tmp/test01/test02/test03 failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ chmod o-x /tmp/point220230428215334/tmp/test01/test02/test03
+++ ls -l /tmp/point220230428215334/tmp/test01/test02
+++ grep test03
+++ awk '{print $1}'
++ per09=d-wx--x---
++ [[ d-wx--x--- =~ d-wx--x--- ]]
++ CHECK_RESULT 0 0 0 'Check access of /tmp/point220230428215334/tmp/test01/test02/test03 failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check access of /tmp/point220230428215334/tmp/test01/test02/test03 failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - test20230428215334 -c 'cd /tmp/point220230428215334/tmp/test01/test02/test03'
+-bash: line 1: cd: /tmp/point220230428215334/tmp/test01/test02/test03: Permission denied
++ CHECK_RESULT 1 0 1 'Successfully accessed /tmp/point220230428215334/tmp/test01/test02/test03 using test20230428215334'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='Successfully accessed /tmp/point220230428215334/tmp/test01/test02/test03 using test20230428215334'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ chmod -R 777 /tmp/point220230428215334/tmp/test01
+++ grep test01
+++ ls -l /tmp/point220230428215334/tmp/
+++ awk '{print $1}'
++ per05=drwxrwxrwx
+++ ls -l /tmp/point220230428215334/tmp/test01
+++ awk '{print $1}'
+++ grep test02
++ per06=drwxrwxrwx
++ [[ drwxrwxrwx =~ drwxrwxrwx ]]
++ CHECK_RESULT 0 0 0 'Check access of /tmp/point220230428215334/tmp failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check access of /tmp/point220230428215334/tmp failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ [[ drwxrwxrwx =~ drwxrwxrwx ]]
++ CHECK_RESULT 0 0 0 'Check access of /tmp/point220230428215334/tmp/test01 failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check access of /tmp/point220230428215334/tmp/test01 failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ for i in $(seq 1 $((${#point_list[@]} - 1)))
++ var=/tmp/point320230428215334
++ mkdir -p /tmp/point320230428215334/tmp/test01/test02/test03
+++ ls -l /tmp/point320230428215334/tmp
+++ grep test01
+++ awk '{print $1}'
++ per01=drwxr-xr-x
+++ awk '{print $1}'
+++ ls -l /tmp/point320230428215334/tmp/test01
+++ grep test02
++ per02=drwxr-xr-x
++ [[ drwxr-xr-x =~ drwxr-xr-x ]]
++ CHECK_RESULT 0 0 0 'Check access of /tmp/point320230428215334/tmp failed when creating defualt.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check access of /tmp/point320230428215334/tmp failed when creating defualt.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ chmod 777 /tmp/point320230428215334/tmp/test01
+++ ls -l /tmp/point320230428215334/tmp
+++ grep test01
+++ awk '{print $1}'
++ per03=drwxrwxrwx
+++ ls -l /tmp/point320230428215334/tmp/test01
+++ grep test02
+++ awk '{print $1}'
++ per04=drwxr-xr-x
++ [[ drwxrwxrwx =~ drwxrwxrwx ]]
++ CHECK_RESULT 0 0 0 'Check access of /tmp/point320230428215334/tmp failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check access of /tmp/point320230428215334/tmp failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ '[' drwxr-xr-x == drwxr-xr-x ']'
++ CHECK_RESULT 0 0 0 'Check access of /tmp/point320230428215334/tmp/test01 failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check access of /tmp/point320230428215334/tmp/test01 failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ chmod u-x /tmp/point320230428215334/tmp/test01/test02
+++ ls -l /tmp/point320230428215334/tmp/test01
+++ grep test02
+++ awk '{print $1}'
++ per07=drw-r-xr-x
++ [[ drw-r-xr-x =~ drw-r-xr-x ]]
++ CHECK_RESULT 0 0 0 'Check access of /tmp/point320230428215334/tmp/test01/test02 failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check access of /tmp/point320230428215334/tmp/test01/test02 failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ chmod a-r /tmp/point320230428215334/tmp/test01/test02/test03
+++ ls -l /tmp/point320230428215334/tmp/test01/test02
+++ grep test03
+++ awk '{print $1}'
++ per08=d-wx--x--x
++ [[ d-wx--x--x =~ d-wx--x--x ]]
++ CHECK_RESULT 0 0 0 'Check access of /tmp/point320230428215334/tmp/test01/test02/test03 failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check access of /tmp/point320230428215334/tmp/test01/test02/test03 failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ chmod o-x /tmp/point320230428215334/tmp/test01/test02/test03
+++ ls -l /tmp/point320230428215334/tmp/test01/test02
+++ grep test03
+++ awk '{print $1}'
++ per09=d-wx--x---
++ [[ d-wx--x--- =~ d-wx--x--- ]]
++ CHECK_RESULT 0 0 0 'Check access of /tmp/point320230428215334/tmp/test01/test02/test03 failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check access of /tmp/point320230428215334/tmp/test01/test02/test03 failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - test20230428215334 -c 'cd /tmp/point320230428215334/tmp/test01/test02/test03'
+-bash: line 1: cd: /tmp/point320230428215334/tmp/test01/test02/test03: Permission denied
++ CHECK_RESULT 1 0 1 'Successfully accessed /tmp/point320230428215334/tmp/test01/test02/test03 using test20230428215334'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='Successfully accessed /tmp/point320230428215334/tmp/test01/test02/test03 using test20230428215334'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ chmod -R 777 /tmp/point320230428215334/tmp/test01
+++ ls -l /tmp/point320230428215334/tmp/
+++ grep test01
+++ awk '{print $1}'
++ per05=drwxrwxrwx
+++ ls -l /tmp/point320230428215334/tmp/test01
+++ grep test02
+++ awk '{print $1}'
++ per06=drwxrwxrwx
++ [[ drwxrwxrwx =~ drwxrwxrwx ]]
++ CHECK_RESULT 0 0 0 'Check access of /tmp/point320230428215334/tmp failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check access of /tmp/point320230428215334/tmp failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ [[ drwxrwxrwx =~ drwxrwxrwx ]]
++ CHECK_RESULT 0 0 0 'Check access of /tmp/point320230428215334/tmp/test01 failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check access of /tmp/point320230428215334/tmp/test01 failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ chmod --help
++ grep Usage
+Usage: chmod [OPTION]... MODE[,MODE]... FILE...
++ CHECK_RESULT 0 0 0 'Check help failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check help failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Fri Apr 28 21:53:59 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri Apr 28 21:54:00 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri Apr 28 21:54:02 2023 - INFO  - Start to restore the test environment.
+++ echo test_vggroup20230428215305 /tmp/point120230428215334 /tmp/point220230428215334 /tmp/point320230428215334
++ list='test_vggroup20230428215305 /tmp/point120230428215334 /tmp/point220230428215334 /tmp/point320230428215334'
++ REMOVE_FS 'test_vggroup20230428215305 /tmp/point120230428215334 /tmp/point220230428215334 /tmp/point320230428215334'
++ point_list=($1)
+++ seq 0 3
++ for i in $(seq 0 $((${#point_list[@]} - 1)))
++ tmp=test_vggroup20230428215305
+++ df -T
+++ grep test_vggroup20230428215305
+++ awk '{print $1}'
++ lv=
++ [[ '' == '' ]]
++ continue
++ for i in $(seq 0 $((${#point_list[@]} - 1)))
++ tmp=/tmp/point120230428215334
+++ df -T
+++ grep /tmp/point120230428215334
+++ awk '{print $1}'
++ lv=
++ [[ '' == '' ]]
++ continue
++ for i in $(seq 0 $((${#point_list[@]} - 1)))
++ tmp=/tmp/point220230428215334
+++ df -T
+++ grep /tmp/point220230428215334
+++ awk '{print $1}'
++ lv=
++ [[ '' == '' ]]
++ continue
++ for i in $(seq 0 $((${#point_list[@]} - 1)))
++ tmp=/tmp/point320230428215334
+++ df -T
+++ awk '{print $1}'
+++ grep /tmp/point320230428215334
++ lv=
++ [[ '' == '' ]]
++ continue
++ userdel test20230428215334
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Fri Apr 28 21:54:04 2023 - INFO  - End to restore the test environment.

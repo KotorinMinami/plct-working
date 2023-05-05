@@ -1,0 +1,201 @@
++ source ../common/storage_disk_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start loading data!'
++ message='Start loading data!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start loading data!'
+Fri Apr 28 06:43:44 2023 - INFO  - Start loading data!
++ check_free_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks=vdb
++ disk_list=($disks)
++ local_disk=vdb
++ local_disk1=
++ local_disk2=
++ local_disk3=
++ LOG_INFO 'Loading data is complete!'
++ message='Loading data is complete!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Loading data is complete!'
+Fri Apr 28 06:43:54 2023 - INFO  - Loading data is complete!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase!'
++ message='Start executing testcase!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase!'
+Fri Apr 28 06:43:54 2023 - INFO  - Start executing testcase!
++ pvcreate -y /dev/vdb /dev/
+  No device found for /dev/.
+  Wiping dos signature on /dev/vdb.
+  Physical volume "/dev/vdb" successfully created.
++ pvdisplay
++ grep /dev/vdb
++ grep 'PV Name'
+  PV Name               /dev/vdb
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgcreate openeulertest /dev/vdb /dev/
+  No device found for /dev/.
+  Command requires all devices to be found.
++ grep 'VG Name'
++ vgdisplay
++ grep openeulertest
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_lvm_create_cache.sh line 33'
++ message='oe_test_storage_lvm_create_cache.sh line 33'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_lvm_create_cache.sh line 33'
+Fri Apr 28 06:43:57 2023 - ERROR - oe_test_storage_lvm_create_cache.sh line 33
++ '[' 0 -eq 1 ']'
++ return 0
++ lvcreate -y -L 50MB -n test openeulertest /dev/vdb
+  Volume group "openeulertest" not found
+  Cannot process volume group openeulertest
++ lvcreate --type cache-pool -L 1G -n cpool openeulertest /dev/ -y
+modprobe: FATAL: Module dm-cache not found in directory /lib/modules/6.1.8-3.oe2303.riscv64
+  /usr/sbin/modprobe failed: 1
+  cache-pool: Required device-mapper target(s) not detected in your kernel.
+  Run `lvcreate --help' for more information.
++ lvs -a -o name,size,attr,devices openeulertest
+  Volume group "openeulertest" not found
+  Cannot process volume group openeulertest
++ CHECK_RESULT 5
++ actual_result=5
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 5 ']'
++ '[' 0 -eq 0 ']'
++ test 5x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_lvm_create_cache.sh line 37'
++ message='oe_test_storage_lvm_create_cache.sh line 37'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_lvm_create_cache.sh line 37'
+Fri Apr 28 06:43:59 2023 - ERROR - oe_test_storage_lvm_create_cache.sh line 37
++ '[' 0 -eq 1 ']'
++ return 0
++ lvconvert -y --type cache --cachepool cpool openeulertest/test
+  Volume group "openeulertest" not found
+  Cannot process volume group openeulertest
++ CHECK_RESULT 5
++ actual_result=5
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 5 ']'
++ '[' 0 -eq 0 ']'
++ test 5x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_lvm_create_cache.sh line 39'
++ message='oe_test_storage_lvm_create_cache.sh line 39'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_lvm_create_cache.sh line 39'
+Fri Apr 28 06:44:00 2023 - ERROR - oe_test_storage_lvm_create_cache.sh line 39
++ '[' 0 -eq 1 ']'
++ return 0
++ lvs -a -o name,size,attr,devices openeulertest
+  Volume group "openeulertest" not found
+  Cannot process volume group openeulertest
++ CHECK_RESULT 5
++ actual_result=5
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 5 ']'
++ '[' 0 -eq 0 ']'
++ test 5x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_lvm_create_cache.sh line 41'
++ message='oe_test_storage_lvm_create_cache.sh line 41'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_lvm_create_cache.sh line 41'
+Fri Apr 28 06:44:01 2023 - ERROR - oe_test_storage_lvm_create_cache.sh line 41
++ '[' 0 -eq 1 ']'
++ return 0
++ lvconvert --type thin-pool openeulertest/test /dev/vdb -y
+  Volume group "openeulertest" not found
+  Cannot process volume group openeulertest
++ lvs -a -o name,size,attr,devices openeulertest
+  Volume group "openeulertest" not found
+  Cannot process volume group openeulertest
++ CHECK_RESULT 5
++ actual_result=5
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 5 ']'
++ '[' 0 -eq 0 ']'
++ test 5x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_lvm_create_cache.sh line 44'
++ message='oe_test_storage_lvm_create_cache.sh line 44'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_lvm_create_cache.sh line 44'
+Fri Apr 28 06:44:03 2023 - ERROR - oe_test_storage_lvm_create_cache.sh line 44
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End of testcase execution!'
++ message='End of testcase execution!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution!'
+Fri Apr 28 06:44:03 2023 - INFO  - End of testcase execution!
++ CASE_RESULT 0
++ case_re=0
++ test -z 5
++ test 5 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri Apr 28 06:44:04 2023 - ERROR - failed to execute the case.
++ exit 5
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri Apr 28 06:44:05 2023 - INFO  - start environment cleanup.
++ vgremove -y openeulertest
+  Volume group "openeulertest" not found
+  Cannot process volume group openeulertest
++ pvremove -y /dev/ /dev/vdb
+  No device found for /dev/.
+  Labels on physical volume "/dev/vdb" successfully wiped.
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Fri Apr 28 06:44:06 2023 - INFO  - Finish environment cleanup.

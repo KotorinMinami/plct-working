@@ -1,0 +1,152 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Fri Apr 28 22:14:40 2023 - INFO  - Start environmental preparation.
++ grep '^testuser1:' /etc/passwd
++ grep '^testuser2:' /etc/passwd
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Fri Apr 28 22:14:42 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Fri Apr 28 22:14:43 2023 - INFO  - Start executing testcase.
++ useradd testuser1
++ grep '^testuser1:' /etc/passwd
+testuser1:x:1001:1001::/home/testuser1:/bin/bash
++ CHECK_RESULT 0 0 0 'add testuser1 failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='add testuser1 failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ useradd testuser2
++ grep '^testuser2:' /etc/passwd
+testuser2:x:1002:1002::/home/testuser2:/bin/bash
++ CHECK_RESULT 0 0 0 'add testuser2 failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='add testuser2 failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ echo testuser1
++ grep '^testuser1' /etc/cron.allow
+testuser1
++ CHECK_RESULT 0 0 0 'add testuser1 to /etc/cron.allow failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='add testuser1 to /etc/cron.allow failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - testuser1 -c 'id 2>&1'
++ grep testuser1
+uid=1001(testuser1) gid=1001(testuser1) groups=1001(testuser1)
++ CHECK_RESULT 0 0 0 'su testuser1 failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='su testuser1 failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - testuser1 -c 'crontab -l 2>&1'
++ grep 'no crontab for testuser1'
+no crontab for testuser1
++ CHECK_RESULT 0 0 0 'testuser1 not allowed to use crontab'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='testuser1 not allowed to use crontab'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - testuser2 -c 'id 2>&1'
++ grep testuser2
+uid=1002(testuser2) gid=1002(testuser2) groups=1002(testuser2)
++ CHECK_RESULT 0 0 0 'su testuser2 failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='su testuser2 failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - testuser2 -c 'crontab -l 2>&1'
++ grep 'You (testuser2) are not allowed to use this program (crontab)'
+You (testuser2) are not allowed to use this program (crontab)
++ CHECK_RESULT 0 0 0 'testuser2 allow to use crontab'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='testuser2 allow to use crontab'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish testcase execution.'
++ message='Finish testcase execution.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish testcase execution.'
+Fri Apr 28 22:14:59 2023 - INFO  - Finish testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri Apr 28 22:15:00 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start cleanning environment.'
++ message='Start cleanning environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start cleanning environment.'
+Fri Apr 28 22:15:01 2023 - INFO  - Start cleanning environment.
++ mv /etc/cron.allow-bak /etc/cron.allow -f
+mv: cannot stat '/etc/cron.allow-bak': No such file or directory
++ test -f /etc/cron.deny-bak
++ userdel -rf testuser1
++ userdel -rf testuser2
++ rm -rf /run/faillock/testuser1
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Fri Apr 28 22:15:02 2023 - INFO  - Finish environment cleanup!
