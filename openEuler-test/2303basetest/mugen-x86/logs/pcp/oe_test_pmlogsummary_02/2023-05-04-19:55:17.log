@@ -1,0 +1,231 @@
++ source common/common_pcp.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu May  4 19:55:19 2023 - INFO  - Start to prepare the test environment.
++ deploy_env
++ DNF_INSTALL pcp
++ pkgs=pcp
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs pcp --node 1 --tempfile ''
++ tmpfile2=/tmp/tmppp3xzzv1
++ '[' -z '' ']'
++ tmpfile=/tmp/tmppp3xzzv1
++ systemctl enable pmcd
+Created symlink /etc/systemd/system/multi-user.target.wants/pmcd.service → /usr/lib/systemd/system/pmcd.service.
++ systemctl start pmcd
++ systemctl enable pmlogger
+Created symlink /etc/systemd/system/multi-user.target.wants/pmlogger.service → /usr/lib/systemd/system/pmlogger.service.
++ systemctl start pmlogger
++ SLEEP_WAIT 10
++ wait_time=10
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 10 --cmd '' --mode 1
+++ hostname
++ host_name=localhost.localdomain
+++ rpm -qa pcp
+++ awk -F - '{print $2}'
++ pcp_version=5.3.7
+++ pcp -h localhost.localdomain
+++ grep 'primary logger:'
+++ awk -F: '{print $NF}'
++ archive_data=' /var/log/pcp/pmlogger/localhost.localdomain/20230504.19.57'
++ metric_name=disk.dev.write
++ SLEEP_WAIT 60
++ wait_time=60
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 60 --cmd '' --mode 1
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu May  4 19:58:27 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu May  4 19:58:27 2023 - INFO  - Start to run test.
++ pmlogsummary -m /var/log/pcp/pmlogger/localhost.localdomain/20230504.19.57 disk.dev.write
++ grep 'count / sec'
+disk.dev.write ["vda"] 1.251 1.251 count / sec
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pmlogsummary -M /var/log/pcp/pmlogger/localhost.localdomain/20230504.19.57 disk.dev.write
++ grep 'count / sec'
+disk.dev.write ["vda"] 1.251 1.251 count / sec
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pmlogsummary -n /var/lib/pcp/pmns/root /var/log/pcp/pmlogger/localhost.localdomain/20230504.19.57 disk.dev.write
++ grep disk.dev.write
+disk.dev.write ["vda"] 1.251 count / sec
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pmlogsummary -N /var/log/pcp/pmlogger/localhost.localdomain/20230504.19.57 disk.dev.write
++ grep 'count / sec'
+disk.dev.write ["vda"] 1.251 count / sec
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pmlogsummary -p 5 /var/log/pcp/pmlogger/localhost.localdomain/20230504.19.57 disk.dev.write
++ grep '[0-9]'
+disk.dev.write ["vda"] 1.25124 count / sec
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pmlogsummary -S @00 -T @23 /var/log/pcp/pmlogger/localhost.localdomain/20230504.19.57 disk.dev.write
++ grep disk.dev.write
+disk.dev.write ["vda"] 1.251 count / sec
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pmlogsummary -v /var/log/pcp/pmlogger/localhost.localdomain/20230504.19.57 disk.dev.write
++ grep 'count / sec'
+pmlogsummary: swap.out(60.0.11) - failed in archive value fetch: Metric not supported by this version of monitored application
+pmlogsummary: swap.in(60.0.10) - failed in archive value fetch: Metric not supported by this version of monitored application
+disk.dev.write ["vda"] 1.251 count / sec
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pmlogsummary -x /var/log/pcp/pmlogger/localhost.localdomain/20230504.19.57 disk.dev.write
++ grep 'count / sec'
+disk.dev.write ["vda"] 1.251 count / sec
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pmlogsummary -Z Africa/Lagos /var/log/pcp/pmlogger/localhost.localdomain/20230504.19.57 disk.dev.write
++ grep TZ=Africa/Lagos
+Note: timezone set to "TZ=Africa/Lagos"
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pmlogsummary -z /var/log/pcp/pmlogger/localhost.localdomain/20230504.19.57 disk.dev.write
++ grep 'local timezone'
+Note: timezone set to local timezone of host "localhost.localdomain" from archive
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu May  4 19:58:28 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu May  4 19:58:29 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu May  4 19:58:29 2023 - INFO  - Start to restore the test environment.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmppp3xzzv1 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmppp3xzzv1
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu May  4 19:58:43 2023 - INFO  - End to restore the test environment.

@@ -1,0 +1,40 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n '' ']'
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Mon May  8 18:16:25 2023 - INFO  - Start to run test.
++ expect
+spawn python3
+Python 3.10.9 (main, Mar 27 2023, 23:05:54) [GCC 10.3.1] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import subprocess
+>>> import os
+>>> subprocess.Popen('hostname', close_fds=True, preexec_fn=os.setsid)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/usr/lib64/python3.10/subprocess.py", line 971, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib64/python3.10/subprocess.py", line 1847, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'hostname'
+>>> exit()
+++ hostname
+oe_test_python_subprocess_03.sh: line 33: hostname: command not found
++ grep ./testlog
+Mon May  8 18:46:24 2023 - ERROR - Timeout : Command 'bash -x oe_test_python_subprocess_03.sh' timed out after 1799.9996998200004 seconds

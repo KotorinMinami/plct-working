@@ -1,0 +1,300 @@
++ source common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed May  3 21:55:34 2023 - INFO  - Start to prepare the test environment.
++ get_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='sr0 vdb vdc'
++ disk_list=($disks)
++ disk1=sr0
++ disk2=vdb
++ DNF_INSTALL ntfs-3g
++ pkgs=ntfs-3g
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs ntfs-3g --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpefmhc7p7
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpefmhc7p7
++ mkntfs --fast /dev/sr0
+Could not open /dev/sr0: No medium found
++ mkntfs --fast /dev/vdb
+Cluster size has been automatically set to 4096 bytes.
+Creating NTFS volume structures.
+mkntfs completed successfully. Have a nice day.
++ LOG_INFO 'Finish preparing the test environment.'
++ message='Finish preparing the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish preparing the test environment.'
+Wed May  3 21:55:59 2023 - INFO  - Finish preparing the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed May  3 21:55:59 2023 - INFO  - Start to run test.
++ grep 'Usage: ntfscat \[options\]'
++ ntfscat --help
+Usage: ntfscat [options] device [file]
++ CHECK_RESULT 0 0 0 'Check ntfscat --help failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfscat --help failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'ntfscat v'
++ ntfscat --version
+ntfscat v2022.5.17 (libntfs-3g) - Concatenate files and print on the standard output.
++ CHECK_RESULT 0 0 0 'Check ntfscat --version failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfscat --version failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ntfscat /dev/sr0 --inode 5 --attribute INDEX_ROOT
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
+ERROR: couldn't mount volume: No medium found
++ CHECK_RESULT 1 0 0 'Check ntfscat --attribute failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfscat --attribute failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfscat --attribute failed.'
++ LOG_ERROR 'Check ntfscat --attribute failed.'
++ message='Check ntfscat --attribute failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfscat --attribute failed.'
+Wed May  3 21:56:00 2023 - ERROR - Check ntfscat --attribute failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfscat.sh line 35'
++ message='oe_test_ntfs-3g_ntfscat.sh line 35'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfscat.sh line 35'
+Wed May  3 21:56:00 2023 - ERROR - oe_test_ntfs-3g_ntfscat.sh line 35
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfscat /dev/sr0 --inode 15 --attribute-name ''
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
+ERROR: couldn't mount volume: No medium found
++ CHECK_RESULT 1 0 0 'Check ntfscat --attribute-name failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfscat --attribute-name failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfscat --attribute-name failed.'
++ LOG_ERROR 'Check ntfscat --attribute-name failed.'
++ message='Check ntfscat --attribute-name failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfscat --attribute-name failed.'
+Wed May  3 21:56:01 2023 - ERROR - Check ntfscat --attribute-name failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfscat.sh line 37'
++ message='oe_test_ntfs-3g_ntfscat.sh line 37'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfscat.sh line 37'
+Wed May  3 21:56:01 2023 - ERROR - oe_test_ntfs-3g_ntfscat.sh line 37
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfscat /dev/sr0 --inode 4 --force
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
+ERROR: couldn't mount volume: No medium found
++ CHECK_RESULT 1 0 0 'Check ntfscat --force failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfscat --force failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfscat --force failed.'
++ LOG_ERROR 'Check ntfscat --force failed.'
++ message='Check ntfscat --force failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfscat --force failed.'
+Wed May  3 21:56:01 2023 - ERROR - Check ntfscat --force failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfscat.sh line 39'
++ message='oe_test_ntfs-3g_ntfscat.sh line 39'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfscat.sh line 39'
+Wed May  3 21:56:01 2023 - ERROR - oe_test_ntfs-3g_ntfscat.sh line 39
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfscat /dev/sr0 --inode 4 --quiet
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
+ERROR: couldn't mount volume: No medium found
++ CHECK_RESULT 1 0 0 'Check ntfscat --quiet failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfscat --quiet failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfscat --quiet failed.'
++ LOG_ERROR 'Check ntfscat --quiet failed.'
++ message='Check ntfscat --quiet failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfscat --quiet failed.'
+Wed May  3 21:56:02 2023 - ERROR - Check ntfscat --quiet failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfscat.sh line 41'
++ message='oe_test_ntfs-3g_ntfscat.sh line 41'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfscat.sh line 41'
+Wed May  3 21:56:02 2023 - ERROR - oe_test_ntfs-3g_ntfscat.sh line 41
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfscat /dev/sr0 --inode 4 --verbose
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
+ERROR: couldn't mount volume: No medium found
++ CHECK_RESULT 1 0 0 'Check ntfscat --verbose failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfscat --verbose failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfscat --verbose failed.'
++ LOG_ERROR 'Check ntfscat --verbose failed.'
++ message='Check ntfscat --verbose failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfscat --verbose failed.'
+Wed May  3 21:56:03 2023 - ERROR - Check ntfscat --verbose failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfscat.sh line 43'
++ message='oe_test_ntfs-3g_ntfscat.sh line 43'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfscat.sh line 43'
+Wed May  3 21:56:03 2023 - ERROR - oe_test_ntfs-3g_ntfscat.sh line 43
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfs-3g.probe --help
++ grep 'Usage:.*ntfs-3g.probe'
+Usage:    ntfs-3g.probe <--readonly|--readwrite> <device|image_file>
++ CHECK_RESULT 0 0 0 'Check ntfs-3g.probe --help failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfs-3g.probe --help failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ntfs-3g.probe --readonly /dev/sr0
+Error opening '/dev/sr0': No medium found
++ CHECK_RESULT 18 0 0 'Check ntfs-3g.probe --readonly failed.'
++ actual_result=18
++ expect_result=0
++ mode=0
++ error_log='Check ntfs-3g.probe --readonly failed.'
++ exit_mode=0
++ '[' -z 18 ']'
++ '[' 0 -eq 0 ']'
++ test 18x '!=' 0x
++ test -n 'Check ntfs-3g.probe --readonly failed.'
++ LOG_ERROR 'Check ntfs-3g.probe --readonly failed.'
++ message='Check ntfs-3g.probe --readonly failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfs-3g.probe --readonly failed.'
+Wed May  3 21:56:03 2023 - ERROR - Check ntfs-3g.probe --readonly failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfscat.sh line 47'
++ message='oe_test_ntfs-3g_ntfscat.sh line 47'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfscat.sh line 47'
+Wed May  3 21:56:03 2023 - ERROR - oe_test_ntfs-3g_ntfscat.sh line 47
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfs-3g.probe --readwrite /dev/sr0
+Error opening '/dev/sr0': No medium found
++ CHECK_RESULT 18 0 0 'Check ntfscat ntfs-3g.probe --readwrite failed.'
++ actual_result=18
++ expect_result=0
++ mode=0
++ error_log='Check ntfscat ntfs-3g.probe --readwrite failed.'
++ exit_mode=0
++ '[' -z 18 ']'
++ '[' 0 -eq 0 ']'
++ test 18x '!=' 0x
++ test -n 'Check ntfscat ntfs-3g.probe --readwrite failed.'
++ LOG_ERROR 'Check ntfscat ntfs-3g.probe --readwrite failed.'
++ message='Check ntfscat ntfs-3g.probe --readwrite failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfscat ntfs-3g.probe --readwrite failed.'
+Wed May  3 21:56:04 2023 - ERROR - Check ntfscat ntfs-3g.probe --readwrite failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfscat.sh line 49'
++ message='oe_test_ntfs-3g_ntfscat.sh line 49'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfscat.sh line 49'
+Wed May  3 21:56:04 2023 - ERROR - oe_test_ntfs-3g_ntfscat.sh line 49
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Wed May  3 21:56:04 2023 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 7
++ test 7 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed May  3 21:56:05 2023 - ERROR - failed to execute the case.
++ exit 7
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed May  3 21:56:05 2023 - INFO  - Start to restore the test environment.
++ expect
+spawn mkfs.ext4 /dev/sr0
+y
+mke2fs 1.46.5 (30-Dec-2021)
+mkfs.ext4: No medium found while trying to determine filesystem size
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpefmhc7p7 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpefmhc7p7
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish restoring the test environment.'
++ message='Finish restoring the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish restoring the test environment.'
+Wed May  3 21:56:10 2023 - INFO  - Finish restoring the test environment.

@@ -1,0 +1,247 @@
++ source ../common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Fri May  5 03:52:07 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL 'storm apache-zookeeper'
++ pkgs='storm apache-zookeeper'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'storm apache-zookeeper' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp8jb_0w4c
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp8jb_0w4c
++ echo 'storm.zookeeper.servers:
+      - "127.0.0.1"
+nimbus.host: "127.0.0.1"
+storm.local.dir: "/etc/storm/data"
+ui.port: 8080
+supervisor.slotd.ports :
+      - 6700
+      - 6701
+      - 6702
+      - 6703
+'
++ systemctl start zookeeper.service
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Fri May  5 04:03:08 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Fri May  5 04:03:08 2023 - INFO  - Start testing...
++ test_execution storm-nimbus.service
++ service=storm-nimbus.service
+++ date '+%Y-%m-%d %T'
++ log_time='2023-05-05 04:03:08'
++ test_restart storm-nimbus.service
++ service=storm-nimbus.service
++ systemctl restart storm-nimbus.service
++ CHECK_RESULT 0 0 0 'storm-nimbus.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='storm-nimbus.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status storm-nimbus.service
++ grep 'Active: active'
+     Active: active (running) since Fri 2023-05-05 04:03:08 UTC; 5s ago
++ CHECK_RESULT 0 0 0 'storm-nimbus.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='storm-nimbus.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop storm-nimbus.service
++ CHECK_RESULT 0 0 0 'storm-nimbus.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='storm-nimbus.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status storm-nimbus.service
++ grep 'Active: inactive'
+     Active: inactive (dead)
++ CHECK_RESULT 0 0 0 'storm-nimbus.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='storm-nimbus.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start storm-nimbus.service
++ CHECK_RESULT 0 0 0 'storm-nimbus.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='storm-nimbus.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status storm-nimbus.service
++ grep 'Active: active'
+     Active: active (running) since Fri 2023-05-05 04:03:19 UTC; 5s ago
++ CHECK_RESULT 0 0 0 'storm-nimbus.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='storm-nimbus.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled storm-nimbus.service
++ service=storm-nimbus.service
+++ systemctl is-enabled storm-nimbus.service
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ systemctl enable storm-nimbus.service
+++ grep 'Created symlink'
+++ awk '{print $3}'
++ symlink_file=/etc/systemd/system/multi-user.target.wants/storm-nimbus.service
++ find /etc/systemd/system/multi-user.target.wants/storm-nimbus.service
+/etc/systemd/system/multi-user.target.wants/storm-nimbus.service
++ CHECK_RESULT 0 0 0 'storm-nimbus.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='storm-nimbus.service enable failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable storm-nimbus.service
+Removed /etc/systemd/system/multi-user.target.wants/storm-nimbus.service.
++ find /etc/systemd/system/multi-user.target.wants/storm-nimbus.service
+find: ‘/etc/systemd/system/multi-user.target.wants/storm-nimbus.service’: No such file or directory
++ CHECK_RESULT 1 0 1 'storm-nimbus.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='storm-nimbus.service disable failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ journalctl --since '2023-05-05 04:03:08' -u storm-nimbus.service
++ CHECK_RESULT 1 0 1 'There is an error message for the log of storm-nimbus.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of storm-nimbus.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_reload storm-nimbus.service
++ service=storm-nimbus.service
++ systemctl start storm-nimbus.service
++ systemctl reload storm-nimbus.service
++ grep 'Job type reload is not applicable'
+Failed to reload storm-nimbus.service: Job type reload is not applicable for unit storm-nimbus.service.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit storm-nimbus.service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit storm-nimbus.service'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status storm-nimbus.service
++ grep 'Active: active'
+     Active: active (running) since Fri 2023-05-05 04:03:19 UTC; 8s ago
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Fri May  5 04:03:28 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri May  5 04:03:28 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri May  5 04:03:29 2023 - INFO  - start environment cleanup.
++ systemctl stop zookeeper.service
++ systemctl stop storm-nimbus.service
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp8jb_0w4c ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp8jb_0w4c
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Fri May  5 04:03:43 2023 - INFO  - Finish environment cleanup!

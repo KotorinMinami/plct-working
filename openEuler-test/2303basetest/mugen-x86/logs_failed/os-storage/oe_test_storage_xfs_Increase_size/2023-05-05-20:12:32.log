@@ -1,0 +1,312 @@
++ source ../common/storage_disk_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Fri May  5 20:12:33 2023 - INFO  - Start environment preparation.
++ check_free_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='sr0 vdb vdc vdd vde'
++ disk_list=($disks)
++ local_disk=sr0
++ local_disk1=vdb
++ local_disk2=vdc
++ local_disk3=vdd
++ DNF_INSTALL xfsdump
++ pkgs=xfsdump
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs xfsdump --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpdu0yqe11
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpdu0yqe11
++ echo 'n
+
+p
+
+
++40M
+n
+
+p
+
+
++40M
+w'
++ fdisk /dev/sr0
+fdisk: cannot open /dev/sr0: No medium found
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Fri May  5 20:13:00 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Fri May  5 20:13:00 2023 - INFO  - Start executing testcase.
++ mkdir /home/pv
++ pvcreate /dev/vdb -y
+oe_test_storage_xfs_Increase_size.sh: line 43: pvcreate: command not found
++ vgcreate test /dev/vdb -y
+oe_test_storage_xfs_Increase_size.sh: line 44: vgcreate: command not found
++ lvcreate -L 20MiB -n lv1 test -y
+oe_test_storage_xfs_Increase_size.sh: line 45: lvcreate: command not found
++ CHECK_RESULT 127
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_xfs_Increase_size.sh line 46'
++ message='oe_test_storage_xfs_Increase_size.sh line 46'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_xfs_Increase_size.sh line 46'
+Fri May  5 20:13:01 2023 - ERROR - oe_test_storage_xfs_Increase_size.sh line 46
++ '[' 0 -eq 1 ']'
++ return 0
++ mkfs.xfs -f /dev/mapper/test-lv1
+Error accessing specified device /dev/mapper/test-lv1: No such file or directory
+Usage: mkfs.xfs
+/* blocksize */		[-b size=num]
+/* config file */	[-c options=xxx]
+/* metadata */		[-m crc=0|1,finobt=0|1,uuid=xxx,rmapbt=0|1,reflink=0|1,
+			    inobtcount=0|1,bigtime=0|1]
+/* data subvol */	[-d agcount=n,agsize=n,file,name=xxx,size=num,
+			    (sunit=value,swidth=value|su=num,sw=num|noalign),
+			    sectsize=num
+/* force overwrite */	[-f]
+/* inode size */	[-i perblock=n|size=num,maxpct=n,attr=0|1|2,
+			    projid32bit=0|1,sparse=0|1,nrext64=0|1]
+/* no discard */	[-K]
+/* log subvol */	[-l agnum=n,internal,size=num,logdev=xxx,version=n
+			    sunit=value|su=num,sectsize=num,lazy-count=0|1]
+/* label */		[-L label (maximum 12 characters)]
+/* naming */		[-n size=num,version=2|ci,ftype=0|1]
+/* no-op info only */	[-N]
+/* prototype file */	[-p fname]
+/* quiet */		[-q]
+/* realtime subvol */	[-r extsize=num,size=num,rtdev=xxx]
+/* sectorsize */	[-s size=num]
+/* version */		[-V]
+			devicename
+<devicename> is required unless -d name=xxx is given.
+<num> is xxx (bytes), xxxs (sectors), xxxb (fs blocks), xxxk (xxx KiB),
+      xxxm (xxx MiB), xxxg (xxx GiB), xxxt (xxx TiB) or xxxp (xxx PiB).
+<value> is xxx (512 byte blocks).
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_xfs_Increase_size.sh line 48'
++ message='oe_test_storage_xfs_Increase_size.sh line 48'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_xfs_Increase_size.sh line 48'
+Fri May  5 20:13:01 2023 - ERROR - oe_test_storage_xfs_Increase_size.sh line 48
++ '[' 0 -eq 1 ']'
++ return 0
++ mount /dev/mapper/test-lv1 /home/pv
+mount: /home/pv: special device /dev/mapper/test-lv1 does not exist.
++ CHECK_RESULT 32
++ actual_result=32
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 32 ']'
++ '[' 0 -eq 0 ']'
++ test 32x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_xfs_Increase_size.sh line 50'
++ message='oe_test_storage_xfs_Increase_size.sh line 50'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_xfs_Increase_size.sh line 50'
+Fri May  5 20:13:01 2023 - ERROR - oe_test_storage_xfs_Increase_size.sh line 50
++ '[' 0 -eq 1 ']'
++ return 0
++ pvcreate /dev/vdc -y
+oe_test_storage_xfs_Increase_size.sh: line 51: pvcreate: command not found
++ vgextend test /dev/vdc -y
+oe_test_storage_xfs_Increase_size.sh: line 52: vgextend: command not found
++ CHECK_RESULT 127
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_xfs_Increase_size.sh line 53'
++ message='oe_test_storage_xfs_Increase_size.sh line 53'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_xfs_Increase_size.sh line 53'
+Fri May  5 20:13:01 2023 - ERROR - oe_test_storage_xfs_Increase_size.sh line 53
++ '[' 0 -eq 1 ']'
++ return 0
++ lvextend -L +10MiB /dev/mapper/test-lv1 /dev/vdc -y
+oe_test_storage_xfs_Increase_size.sh: line 54: lvextend: command not found
++ CHECK_RESULT 127
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_xfs_Increase_size.sh line 55'
++ message='oe_test_storage_xfs_Increase_size.sh line 55'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_xfs_Increase_size.sh line 55'
+Fri May  5 20:13:02 2023 - ERROR - oe_test_storage_xfs_Increase_size.sh line 55
++ '[' 0 -eq 1 ']'
++ return 0
++ xfs_info /home/pv
+xfs_info: cannot open /home/pv: Is a directory
++ lvextend -L +10MiB /dev/mapper/test-lv1 /dev/vdc -y
+oe_test_storage_xfs_Increase_size.sh: line 57: lvextend: command not found
++ CHECK_RESULT 127
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_xfs_Increase_size.sh line 58'
++ message='oe_test_storage_xfs_Increase_size.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_xfs_Increase_size.sh line 58'
+Fri May  5 20:13:02 2023 - ERROR - oe_test_storage_xfs_Increase_size.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ xfs_growfs /home/pv -D 5500
++ grep 'blocks changed from 5120 to 5500'
+xfs_growfs: /home/pv is not a mounted XFS filesystem
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_xfs_Increase_size.sh line 60'
++ message='oe_test_storage_xfs_Increase_size.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_xfs_Increase_size.sh line 60'
+Fri May  5 20:13:02 2023 - ERROR - oe_test_storage_xfs_Increase_size.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ xfs_growfs /home/pv
++ grep 'data blocks changed from 5500 to'
+xfs_growfs: /home/pv is not a mounted XFS filesystem
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_xfs_Increase_size.sh line 62'
++ message='oe_test_storage_xfs_Increase_size.sh line 62'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_xfs_Increase_size.sh line 62'
+Fri May  5 20:13:03 2023 - ERROR - oe_test_storage_xfs_Increase_size.sh line 62
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End of testcase execution.'
++ message='End of testcase execution.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution.'
+Fri May  5 20:13:03 2023 - INFO  - End of testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z 8
++ test 8 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri May  5 20:13:03 2023 - ERROR - failed to execute the case.
++ exit 8
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri May  5 20:13:03 2023 - INFO  - start environment cleanup.
++ umount /home/pv
+umount: /home/pv: not mounted.
++ lvremove /dev/test/lv1 -y
+oe_test_storage_xfs_Increase_size.sh: line 69: lvremove: command not found
++ vgremove /dev/test -y
+oe_test_storage_xfs_Increase_size.sh: line 70: vgremove: command not found
++ pvremove /dev/vdc /dev/vdc
+oe_test_storage_xfs_Increase_size.sh: line 71: pvremove: command not found
++ rm -rf /home/pv
++ echo 'd
+
+d
+
+w'
++ fdisk /dev/sr0
+fdisk: cannot open /dev/sr0: No medium found
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpdu0yqe11 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpdu0yqe11
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Fri May  5 20:13:10 2023 - INFO  - Finish environment cleanup.

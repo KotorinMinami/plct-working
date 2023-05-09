@@ -1,0 +1,236 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Fri May  5 04:43:41 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'strongswan podman tar'
++ pkgs='strongswan podman tar'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'strongswan podman tar' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpzzq3k3sn
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpzzq3k3sn
++ tar -xvf ./common/data.tar.gz
++ podman stop -all
+Error: --all and --latest cannot be used together
+++ podman ps -qa
++ podman rm -f
+Error: you must provide at least one name or id
++ podman load
+Getting image source signatures
+Copying blob sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef
+Copying blob sha256:bf26b7f4efbc07dd458c8b6022e9fd0972c99d40141a3ef33ae3cef70bd63b48
+Copying blob sha256:44fc4957fa0ea999f102fa1bb150d5207482c9f9a79bb3665a50a1f9bf873674
+Copying blob sha256:765b447667ab2812a696a552fc85a7cf74eb2455d39294e2e618afcdb44a6ffc
+Copying blob sha256:3fd9c45a9d4f49cf9847101b430ce8abd026b80fe82241809fbb9390efb1b138
+Copying blob sha256:17bec77d7fdc6988cd96b3051b4ad4d3cd6031b2faf0581468be64aac0acc20b
+Copying config sha256:76c644218ebbf3138eed9b6a0064c1550e9c2e1768aa101770197d0bde00e3b6
+Writing manifest to image destination
+Storing signatures
+Loaded image(s): docker.io/hwdsl2/ipsec-vpn-server:latest
++ podman run -itd --name vpn --env-file ./test_file/vpn.env -p 700:700/udp -p 4700:4700/udp -d --privileged docker.io/hwdsl2/ipsec-vpn-server:latest
+time="2023-05-05T04:46:38Z" level=warning msg="The input device is not a TTY. The --tty and --interactive flags might not work properly"
+time="2023-05-05T04:46:39Z" level=warning msg="Path \"/usr/share/rhel/secrets\" from \"/usr/share/containers/mounts.conf\" doesn't exist, skipping"
+a94faa38f05b8931317d274d9e0077f8b2eb512759fae941e8ca059cf5333149
++ SLEEP_WAIT 5 'strongswan stop'
++ wait_time=5
++ cmd='strongswan stop'
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd 'strongswan stop' --mode 1
+Stopping strongSwan IPsec failed: starter is not running
++ SLEEP_WAIT 3 'rm -rf strongswan_test*.log'
++ wait_time=3
++ cmd='rm -rf strongswan_test*.log'
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd 'rm -rf strongswan_test*.log' --mode 1
+++ date '+%Y-%m-%d %T'
++ log_time='2023-05-05 04:46:41'
++ grep shared /etc/strongswan/ipsec.conf
++ cat ./test_file/ipsec_add.conf
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Fri May  5 04:46:41 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri May  5 04:46:41 2023 - INFO  - Start to run test.
++ strongswan start
+Starting strongSwan 5.9.7 IPsec [starter]...
++ SLEEP_WAIT 3
++ wait_time=3
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd '' --mode 1
++ charon-cmd --help
++ grep 'Usage: charon-cmd'
+Usage: charon-cmd
++ CHECK_RESULT 0 0 0 'Failed to check the --help'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the --help'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ charon-cmd --version
++ grep 'charon-cmd, strongSwan'
+charon-cmd, strongSwan 5.9.7
++ CHECK_RESULT 0 0 0 'Failed to check the --version'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the --version'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pgrep -f 'charon-cmd --host'
++ charon-cmd --host 114.114.114.114 --identity shared
+10820
++ CHECK_RESULT 0 0 0 'Failed to check the --host and --identity'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the --host and --identity'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pgrep -f 'charon-cmd --host 114.114.114.114 --identity shared --eap-identity'
++ charon-cmd --host 114.114.114.114 --identity shared --eap-identity shared
+10822
++ CHECK_RESULT 0 0 0 'Failed to check the --eap-identity'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the --eap-identity'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ pgrep -f 'charon-cmd --host 114.114.114.114 --identity shared --eap-identity'
++ kill -9 10822
++ pgrep -f '\-\-xauth-username test_sun'
++ charon-cmd --host 114.114.114.114 --identity shared --xauth-username test_sun
+10861
+oe_test_service_charon-cmd_01.sh: line 37: 10822 Killed                  charon-cmd --host 114.114.114.114 --identity shared --eap-identity shared > strongswan_test_charon-cmd-host-eapidentity.log 2>&1
++ CHECK_RESULT 0 0 0 0 'Failed to check the --xauth-username'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=0
++ exit_mode='Failed to check the --xauth-username'
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ pgrep -f 'xauth-username test_sun'
++ kill -9 10861
++ pgrep -f '\-\-remote-identity'
++ charon-cmd --host 114.114.114.114 --identity shared --remote-identity shared
+10865
+oe_test_service_charon-cmd_01.sh: line 37: 10861 Killed                  charon-cmd --host 114.114.114.114 --identity shared --xauth-username test_sun > strongswan_test_charon-cmd-host-eapidentity.log 2>&1
++ CHECK_RESULT 0 0 0 'Failed to check the --xauth-username'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the --xauth-username'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ pgrep -f remote-identity
++ kill -9 10865
++ pgrep -f 'test_file\/test_strongswan.pem'
++ charon-cmd --host 114.114.114.114 --identity shared --cert ./test_file/test_strongswan.pem
+10885
+oe_test_service_charon-cmd_01.sh: line 37: 10865 Killed                  charon-cmd --host 114.114.114.114 --identity shared --remote-identity shared > strongswan_test_charon-cmd-remote-identity.log 2>&1
++ CHECK_RESULT 0 0 0 'Failed to check the --cert'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the --cert'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ pgrep -f 'test_file\/test_strongswan.pem'
++ kill -9 10885
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Fri May  5 04:46:47 2023 - INFO  - End to run test.
+/root/mugen/libs/locallibs/common_lib_python.sh: line 19: 10885 Killed                  charon-cmd --host 114.114.114.114 --identity shared --cert ./test_file/test_strongswan.pem > strongswan_test_charon-cmd-cert.log 2>&1
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri May  5 04:46:47 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri May  5 04:46:47 2023 - INFO  - Start to restore the test environment.
++ pgrep -f strongswan
+10205
+10206
+10208
+10796
+10797
++ strongswan stop
+Stopping strongSwan IPsec...
++ SLEEP_WAIT 3 'podman stop -all'
++ wait_time=3
++ cmd='podman stop -all'
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd 'podman stop -all' --mode 1
+Error: --all and --latest cannot be used together
+++ podman ps -qa
++ podman rm -f a94faa38f05b
+a94faa38f05b8931317d274d9e0077f8b2eb512759fae941e8ca059cf5333149
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpzzq3k3sn ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpzzq3k3sn
++ '[' 0 -ne 0 ']'
++ rm -rf strongswan_test_charon-cmd-cert.log strongswan_test_charon-cmd-host-eapidentity.log strongswan_test_charon-cmd-host-identity.log strongswan_test_charon-cmd-remote-identity.log test_file
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Fri May  5 04:48:05 2023 - INFO  - End to restore the test environment.

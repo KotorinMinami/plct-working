@@ -1,0 +1,362 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Fri May  5 09:59:42 2023 - INFO  - Start environmental preparation.
++ cp /etc/ssh/ssh_config /etc/ssh/ssh_config-bak
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Fri May  5 09:59:42 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Fri May  5 09:59:42 2023 - INFO  - Start executing testcase.
++ grep '^AllowAgentForwarding no' /etc/ssh/sshd_config
+AllowAgentForwarding no
++ CHECK_RESULT 0 0 0 'AllowAgentForwarding is not no'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='AllowAgentForwarding is not no'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect
+spawn ssh-keygen
+Generating public/private rsa key pair.
+Enter file in which to save the key (/root/.ssh/id_rsa): 
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /root/.ssh/id_rsa
+Your public key has been saved in /root/.ssh/id_rsa.pub
+The key fingerprint is:
+SHA256:l/X83y9cS5vjv4YiyNy1XkIXWOk66E5Krxk976FC/jM root@localhost.localdomain
+The key's randomart image is:
++---[RSA 3072]----+
+|             ..  |
+|            o.   |
+|           .o.   |
+|           o +.  |
+|        S +...o  |
+|       ..o.+.  o.|
+|      =o++.oooo.=|
+|      .**E+o+.o*o|
+|       +==*+. o+X|
++----[SHA256]-----+
++ ls -l /root/.ssh
++ grep id_rsa
+-rw------- 1 root root 2610 May  5 09:59 id_rsa
+-rw-r--r-- 1 root root  580 May  5 09:59 id_rsa.pub
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect
+spawn ssh-copy-id -i /root/.ssh/id_rsa.pub root@10.198.114.3
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/root/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Authorized users only. All activities may be monitored and reported.
+root@10.198.114.3's password: 
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh 'root@10.198.114.3'"
+and check to make sure that only the key(s) you wanted were added.
+
++ expect
+spawn ssh-copy-id -i /root/.ssh/id_rsa.pub root@10.198.114.5
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/root/.ssh/id_rsa.pub"
+The authenticity of host '10.198.114.5 (10.198.114.5)' can't be established.
+ED25519 key fingerprint is SHA256:M6IZ/zy3MxMo6/o/fy+aY4RQYnH9M5BZVPilD5Busik.
+This host key is known by the following other names/addresses:
+    ~/.ssh/known_hosts:1: 10.198.114.1
+    ~/.ssh/known_hosts:3: 10.198.114.3
+    ~/.ssh/known_hosts:4: 127.0.0.1
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+
+Authorized users only. All activities may be monitored and reported.
+root@10.198.114.5's password: 
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh 'root@10.198.114.5'"
+and check to make sure that only the key(s) you wanted were added.
+
++ SSH_SCP root@10.198.114.3:/root/.ssh/authorized_keys /home 'openEuler12#$'
++ src=root@10.198.114.3:/root/.ssh/authorized_keys
++ dest=/home
++ remotepasswd='openEuler12#$'
++ connport=22
++ bash /root/mugen/libs/locallibs/sshscp.sh -p 'openEuler12#$' -o 22 -s root@10.198.114.3:/root/.ssh/authorized_keys -d /home
+Fri May  5 10:00:05 2023 - WARN  - the remote password uses the default configuration.
+Fri May  5 10:00:05 2023 - WARN  - the connect port using the default configuration
+spawn scp -P 22 -r root@10.198.114.3:/root/.ssh/authorized_keys /home
+
+Authorized users only. All activities may be monitored and reported.
+authorized_keys                                 0%    0     0.0KB/s   --:-- ETAauthorized_keys                               100%  580   102.8KB/s   00:00    
++ ret=0
++ test 0 -ne 0
++ return 0
++ grep ssh-rsa /home/authorized_keys
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCnT9wAweYFvEPVdeWwkWSKQ9P4ppI+/GPT6I30fXutw30ycCGe5MZAkYIffdEk4X2JyIawnbbyMXRQ5jEDhNvz/mtlsmPQeuzmDRFdlUKnDfqR1jcoLzJFIj2m+r9FycTpZDmfin2N0uB/5UT0+0kVqX//C4oln4twaay6vIZs/IBJjJ5EJZ9KYabNb/Rpj6RKSdQForb2xkbw+I1Ihd23H1D1YWtGNy6iDvqO7+z1g8TNsdmfHsgW4r3mFjHbeX+w1QalVZLq5wSWfFYPXBk/FJqbfj1lE/xZFq3qbLT5qglXv1Pf++ekElkLyreZYSgivlP90wBWTp91FpAfsF95S17hdyevXz/OcbNbK2QZAS4NCjDSfri6vteNyq/2/UkxPA9sMRfQQGr/J99y8jexbQpqPyf4xYwY3xrKu2dR3RiyQ0lGKx2gaqcnqpiDMXM4VqaXoOg4ccYct2bURvnr/P4ra7okSriqtXGxUeNqVgulQ8xjCXBAEjFVmeEeqdM= root@localhost.localdomain
++ CHECK_RESULT 0 0 0 'NODE2 grep ssh-rsa failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='NODE2 grep ssh-rsa failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf /home/authorized_keys
++ SSH_SCP root@10.198.114.5:/root/.ssh/authorized_keys /home 'openEuler12#$'
++ src=root@10.198.114.5:/root/.ssh/authorized_keys
++ dest=/home
++ remotepasswd='openEuler12#$'
++ connport=22
++ bash /root/mugen/libs/locallibs/sshscp.sh -p 'openEuler12#$' -o 22 -s root@10.198.114.5:/root/.ssh/authorized_keys -d /home
+Fri May  5 10:00:06 2023 - WARN  - the remote password uses the default configuration.
+Fri May  5 10:00:07 2023 - WARN  - the connect port using the default configuration
+spawn scp -P 22 -r root@10.198.114.5:/root/.ssh/authorized_keys /home
+
+Authorized users only. All activities may be monitored and reported.
+authorized_keys                                 0%    0     0.0KB/s   --:-- ETAauthorized_keys                               100%  580    85.7KB/s   00:00    
++ ret=0
++ test 0 -ne 0
++ return 0
++ grep ssh-rsa /home/authorized_keys
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCnT9wAweYFvEPVdeWwkWSKQ9P4ppI+/GPT6I30fXutw30ycCGe5MZAkYIffdEk4X2JyIawnbbyMXRQ5jEDhNvz/mtlsmPQeuzmDRFdlUKnDfqR1jcoLzJFIj2m+r9FycTpZDmfin2N0uB/5UT0+0kVqX//C4oln4twaay6vIZs/IBJjJ5EJZ9KYabNb/Rpj6RKSdQForb2xkbw+I1Ihd23H1D1YWtGNy6iDvqO7+z1g8TNsdmfHsgW4r3mFjHbeX+w1QalVZLq5wSWfFYPXBk/FJqbfj1lE/xZFq3qbLT5qglXv1Pf++ekElkLyreZYSgivlP90wBWTp91FpAfsF95S17hdyevXz/OcbNbK2QZAS4NCjDSfri6vteNyq/2/UkxPA9sMRfQQGr/J99y8jexbQpqPyf4xYwY3xrKu2dR3RiyQ0lGKx2gaqcnqpiDMXM4VqaXoOg4ccYct2bURvnr/P4ra7okSriqtXGxUeNqVgulQ8xjCXBAEjFVmeEeqdM= root@localhost.localdomain
++ CHECK_RESULT 0 0 0 'NODE3 grep ssh-rsa failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='NODE3 grep ssh-rsa failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ ssh-agent
++ eval 'SSH_AUTH_SOCK=/tmp/ssh-XXXXXXDtp8vC/agent.11704;' export 'SSH_AUTH_SOCK;' 'SSH_AGENT_PID=11705;' export 'SSH_AGENT_PID;' echo Agent pid '11705;'
+++ SSH_AUTH_SOCK=/tmp/ssh-XXXXXXDtp8vC/agent.11704
+++ export SSH_AUTH_SOCK
+++ SSH_AGENT_PID=11705
+++ export SSH_AGENT_PID
+++ echo Agent pid 11705
+Agent pid 11705
++ ssh-add /root/.ssh/id_rsa
+Identity added: /root/.ssh/id_rsa (root@localhost.localdomain)
++ sed -i 's/#   ForwardAgent no/ForwardAgent yes/g' /etc/ssh/ssh_config
++ systemctl restart sshd
++ grep '^ForwardAgent yes' /etc/ssh/ssh_config
+ForwardAgent yes
++ CHECK_RESULT 0 0 0 'ForwardAgent is not yes'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='ForwardAgent is not yes'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SSH_CMD 'touch /home/test.txt' 10.198.114.3 'openEuler12#$' root
++ cmd='touch /home/test.txt'
++ remoteip=10.198.114.3
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'touch /home/test.txt' -i 10.198.114.3 -u root -p 'openEuler12#$' -t 300 -o 22
+Fri May  5 10:00:09 2023 - WARN  - the remote user uses the default configuration.
+Fri May  5 10:00:09 2023 - WARN  - the remote password uses the default configuration.
+Fri May  5 10:00:09 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@10.198.114.3 touch /home/test.txt
+
+Authorized users only. All activities may be monitored and reported.
++ ret=0
++ test 0 -ne 0
++ return 0
++ expect
+spawn scp -R root@10.198.114.3:/home/test.txt root@10.198.114.5:/home
+
+Authorized users only. All activities may be monitored and reported.
+The authenticity of host '10.198.114.5 (10.198.114.5)' can't be established.
+ED25519 key fingerprint is SHA256:M6IZ/zy3MxMo6/o/fy+aY4RQYnH9M5BZVPilD5Busik.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '10.198.114.5' (ED25519) to the list of known hosts.
+
+Authorized users only. All activities may be monitored and reported.
+root@10.198.114.5's password: + grep password: testlog
+root@10.198.114.5's password: 
++ CHECK_RESULT 0 0 0 'check scp failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='check scp failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SSH_CMD 'cp /etc/ssh/sshd_config /etc/ssh/sshd_config-bak
+    sed -i '\''s/AllowAgentForwarding no/AllowAgentForwarding yes/g'\'' /etc/ssh/sshd_config
+    systemctl restart sshd' 10.198.114.3 'openEuler12#$' root
++ cmd='cp /etc/ssh/sshd_config /etc/ssh/sshd_config-bak
+    sed -i '\''s/AllowAgentForwarding no/AllowAgentForwarding yes/g'\'' /etc/ssh/sshd_config
+    systemctl restart sshd'
++ remoteip=10.198.114.3
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'cp /etc/ssh/sshd_config /etc/ssh/sshd_config-bak
+    sed -i '\''s/AllowAgentForwarding no/AllowAgentForwarding yes/g'\'' /etc/ssh/sshd_config
+    systemctl restart sshd' -i 10.198.114.3 -u root -p 'openEuler12#$' -t 300 -o 22
+Fri May  5 10:00:26 2023 - WARN  - the remote user uses the default configuration.
+Fri May  5 10:00:26 2023 - WARN  - the remote password uses the default configuration.
+Fri May  5 10:00:27 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@10.198.114.3 cp /etc/ssh/sshd_config /etc/ssh/sshd_config-bak
+    sed -i 's/AllowAgentForwarding no/AllowAgentForwarding yes/g' /etc/ssh/sshd_config
+    systemctl restart sshd
+
+Authorized users only. All activities may be monitored and reported.
++ ret=0
++ test 0 -ne 0
++ return 0
++ scp root@10.198.114.3:/home/test.txt root@10.198.114.5:/home
+
+Authorized users only. All activities may be monitored and reported.
+
+Authorized users only. All activities may be monitored and reported.
++ CHECK_RESULT 0 0 0 'scp failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='scp failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish testcase execution.'
++ message='Finish testcase execution.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish testcase execution.'
+Fri May  5 10:00:30 2023 - INFO  - Finish testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri May  5 10:00:30 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start cleanning environment.'
++ message='Start cleanning environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start cleanning environment.'
+Fri May  5 10:00:31 2023 - INFO  - Start cleanning environment.
++ mv /etc/ssh/ssh_config-bak /etc/ssh/ssh_config -f
++ systemctl restart sshd
+++ pgrep -f ssh-agent
++ kill -9 11705
++ SSH_CMD 'rm -rf /root/.ssh/authorized_keys' 10.198.114.3 'openEuler12#$' root
++ cmd='rm -rf /root/.ssh/authorized_keys'
++ remoteip=10.198.114.3
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'rm -rf /root/.ssh/authorized_keys' -i 10.198.114.3 -u root -p 'openEuler12#$' -t 300 -o 22
+Fri May  5 10:00:31 2023 - WARN  - the remote user uses the default configuration.
+Fri May  5 10:00:32 2023 - WARN  - the remote password uses the default configuration.
+Fri May  5 10:00:32 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@10.198.114.3 rm -rf /root/.ssh/authorized_keys
+
+Authorized users only. All activities may be monitored and reported.
++ ret=0
++ test 0 -ne 0
++ return 0
++ SSH_CMD 'rm -rf /home/test.txt' 10.198.114.3 'openEuler12#$' root
++ cmd='rm -rf /home/test.txt'
++ remoteip=10.198.114.3
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'rm -rf /home/test.txt' -i 10.198.114.3 -u root -p 'openEuler12#$' -t 300 -o 22
+Fri May  5 10:00:33 2023 - WARN  - the remote user uses the default configuration.
+Fri May  5 10:00:34 2023 - WARN  - the remote password uses the default configuration.
+Fri May  5 10:00:34 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@10.198.114.3 rm -rf /home/test.txt
+
+Authorized users only. All activities may be monitored and reported.
+root@10.198.114.3's password: 
++ ret=0
++ test 0 -ne 0
++ return 0
++ SSH_CMD 'rm -rf /root/.ssh/authorized_keys
+    mv /etc/ssh/sshd_config-bak /etc/ssh/sshd_config -f
+    systemctl restart sshd' 10.198.114.3 'openEuler12#$' root
++ cmd='rm -rf /root/.ssh/authorized_keys
+    mv /etc/ssh/sshd_config-bak /etc/ssh/sshd_config -f
+    systemctl restart sshd'
++ remoteip=10.198.114.3
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'rm -rf /root/.ssh/authorized_keys
+    mv /etc/ssh/sshd_config-bak /etc/ssh/sshd_config -f
+    systemctl restart sshd' -i 10.198.114.3 -u root -p 'openEuler12#$' -t 300 -o 22
+Fri May  5 10:00:35 2023 - WARN  - the remote user uses the default configuration.
+Fri May  5 10:00:35 2023 - WARN  - the remote password uses the default configuration.
+Fri May  5 10:00:36 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@10.198.114.3 rm -rf /root/.ssh/authorized_keys
+    mv /etc/ssh/sshd_config-bak /etc/ssh/sshd_config -f
+    systemctl restart sshd
+
+Authorized users only. All activities may be monitored and reported.
+root@10.198.114.3's password: 
++ ret=0
++ test 0 -ne 0
++ return 0
++ rm -rf /root/.ssh/id_rsa /root/.ssh/id_rsa.pub testlog /home/authorized_keys
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Fri May  5 10:00:37 2023 - INFO  - Finish environment cleanup!

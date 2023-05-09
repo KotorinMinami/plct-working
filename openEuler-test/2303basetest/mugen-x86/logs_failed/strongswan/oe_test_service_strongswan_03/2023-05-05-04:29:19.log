@@ -1,0 +1,1129 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Fri May  5 04:29:21 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'strongswan podman tar'
++ pkgs='strongswan podman tar'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'strongswan podman tar' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp3j6xlwwv
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp3j6xlwwv
++ tar -xvf ./common/data.tar.gz
++ podman stop -all
+Error: --all and --latest cannot be used together
+++ podman ps -qa
++ podman rm -f
+Error: you must provide at least one name or id
++ SLEEP_WAIT 5 'podman load < ./test_file/vpn-server.tar'
++ wait_time=5
++ cmd='podman load < ./test_file/vpn-server.tar'
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd 'podman load < ./test_file/vpn-server.tar' --mode 1
+Getting image source signatures
+Copying blob sha256:bf26b7f4efbc07dd458c8b6022e9fd0972c99d40141a3ef33ae3cef70bd63b48
+Copying blob sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef
+Copying blob sha256:44fc4957fa0ea999f102fa1bb150d5207482c9f9a79bb3665a50a1f9bf873674
+Copying blob sha256:765b447667ab2812a696a552fc85a7cf74eb2455d39294e2e618afcdb44a6ffc
+Copying blob sha256:3fd9c45a9d4f49cf9847101b430ce8abd026b80fe82241809fbb9390efb1b138
+Copying blob sha256:17bec77d7fdc6988cd96b3051b4ad4d3cd6031b2faf0581468be64aac0acc20b
+Copying config sha256:76c644218ebbf3138eed9b6a0064c1550e9c2e1768aa101770197d0bde00e3b6
+Writing manifest to image destination
+Storing signatures
+Loaded image(s): docker.io/hwdsl2/ipsec-vpn-server:latest
++ podman run -itd --name vpn --env-file ./test_file/vpn.env -p 700:700/udp -p 4700:4700/udp -d --privileged docker.io/hwdsl2/ipsec-vpn-server:latest
+time="2023-05-05T04:32:15Z" level=warning msg="The input device is not a TTY. The --tty and --interactive flags might not work properly"
+time="2023-05-05T04:32:16Z" level=warning msg="Path \"/usr/share/rhel/secrets\" from \"/usr/share/containers/mounts.conf\" doesn't exist, skipping"
+25f45d97c57c848e7ddcb47ec97532ae0e07f0307ee16df078730abedfd77234
++ SLEEP_WAIT 5 'strongswan stop'
++ wait_time=5
++ cmd='strongswan stop'
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd 'strongswan stop' --mode 1
+Stopping strongSwan IPsec failed: starter is not running
++ SLEEP_WAIT 3
++ wait_time=3
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd '' --mode 1
++ grep shared /etc/strongswan/ipsec.conf
++ cat ./test_file/ipsec_add.conf
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Fri May  5 04:32:21 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri May  5 04:32:21 2023 - INFO  - Start to run test.
++ strongswan start
+Starting strongSwan 5.9.7 IPsec [starter]...
++ SLEEP_WAIT 3
++ wait_time=3
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd '' --mode 1
++ pgrep -f starter
+7681
++ CHECK_RESULT 0 0 0 'Failed to check the start'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the start'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan listcrls
++ CHECK_RESULT 0 0 0 'Failed to check the listcrls'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the listcrls'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan listocsp
++ CHECK_RESULT 0 0 0 'Failed to check the listocsp'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the listocsp'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan listplugins
+
+List of loaded Plugins:
+
+charon:
+    CUSTOM:libcharon
+        NONCE_GEN
+        CUSTOM:libcharon-sa-managers
+        CUSTOM:libcharon-receiver
+        CUSTOM:kernel-ipsec
+        CUSTOM:kernel-net
+    CUSTOM:libcharon-receiver
+        HASHER:HASH_SHA1
+        RNG:RNG_STRONG
+        CUSTOM:socket
+    CUSTOM:libcharon-sa-managers
+        HASHER:HASH_SHA1
+        RNG:RNG_WEAK
+pkcs11:
+    CUSTOM:pkcs11-certs
+        CERT_DECODE:X509
+    PRIVKEY:ANY
+tpm:
+    PRIVKEY:ANY
+    CERT_DECODE:X509
+        CERT_DECODE:X509
+aes:
+    CRYPTER:AES_CBC-16
+    CRYPTER:AES_CBC-24
+    CRYPTER:AES_CBC-32
+    CRYPTER:AES_ECB-16
+    CRYPTER:AES_ECB-24
+    CRYPTER:AES_ECB-32
+des:
+    CRYPTER:3DES_CBC-24
+    CRYPTER:DES_CBC-8
+    CRYPTER:DES_ECB-8
+rc2:
+    CRYPTER:RC2_CBC-0
+sha2:
+    HASHER:HASH_SHA2_224
+    HASHER:HASH_SHA2_256
+    HASHER:HASH_SHA2_384
+    HASHER:HASH_SHA2_512
+sha1:
+    HASHER:HASH_SHA1
+    PRF:PRF_KEYED_SHA1
+md4:
+    HASHER:HASH_MD4
+md5:
+    HASHER:HASH_MD5
+mgf1:
+    XOF:XOF_MGF1_SHA1
+        HASHER:HASH_SHA1
+    XOF:XOF_MGF1_SHA224
+        HASHER:HASH_SHA2_224
+    XOF:XOF_MGF1_SHA256
+        HASHER:HASH_SHA2_256
+    XOF:XOF_MGF1_SHA384
+        HASHER:HASH_SHA2_384
+    XOF:XOF_MGF1_SHA512
+        HASHER:HASH_SHA2_512
+random:
+    RNG:RNG_STRONG
+    RNG:RNG_TRUE
+nonce:
+    NONCE_GEN
+        RNG:RNG_WEAK
+x509:
+    CERT_ENCODE:X509
+        HASHER:HASH_SHA1
+    CERT_DECODE:X509
+        HASHER:HASH_SHA1
+        PUBKEY:ANY
+    CERT_ENCODE:X509_AC
+    CERT_DECODE:X509_AC
+    CERT_ENCODE:X509_CRL
+    CERT_DECODE:X509_CRL
+    CERT_ENCODE:OCSP_REQUEST
+        HASHER:HASH_SHA1
+        RNG:RNG_WEAK
+    CERT_DECODE:OCSP_RESPONSE
+    CERT_ENCODE:PKCS10_REQUEST
+    CERT_DECODE:PKCS10_REQUEST
+revocation:
+    CUSTOM:revocation
+        CERT_ENCODE:OCSP_REQUEST (soft)
+        CERT_DECODE:OCSP_RESPONSE (soft)
+        CERT_DECODE:X509_CRL (soft)
+        CERT_DECODE:X509 (soft)
+        FETCHER:(null) (soft)
+constraints:
+    CUSTOM:constraints
+        CERT_DECODE:X509 (soft)
+acert:
+    CUSTOM:acert
+pubkey:
+    CERT_ENCODE:PUBKEY
+    CERT_DECODE:PUBKEY
+        PUBKEY:RSA (soft)
+        PUBKEY:ECDSA (soft)
+        PUBKEY:DSA (soft)
+pkcs1:
+    PRIVKEY:ANY
+        PRIVKEY:RSA (soft)
+        PRIVKEY:ECDSA (soft)
+    PRIVKEY:RSA
+    PUBKEY:ANY
+        PUBKEY:RSA (soft)
+        PUBKEY:ECDSA (soft)
+        PUBKEY:ED25519 (soft)
+        PUBKEY:ED448 (soft)
+        PUBKEY:BLISS (soft)
+        PUBKEY:DSA (soft)
+    PUBKEY:RSA
+pkcs7:
+    CONTAINER_DECODE:PKCS7
+    CONTAINER_ENCODE:PKCS7_DATA
+    CONTAINER_ENCODE:PKCS7_SIGNED_DATA
+    CONTAINER_ENCODE:PKCS7_ENVELOPED_DATA
+pkcs12:
+    CONTAINER_DECODE:PKCS12
+        CONTAINER_DECODE:PKCS7
+        CERT_DECODE:X509 (soft)
+        PRIVKEY:ANY (soft)
+        HASHER:HASH_SHA1 (soft)
+        CRYPTER:3DES_CBC-24 (soft)
+        CRYPTER:RC2_CBC-0 (soft)
+pgp:
+    PRIVKEY:ANY
+    PRIVKEY:RSA
+    PUBKEY:ANY
+    PUBKEY:RSA
+    CERT_DECODE:PGP
+dnskey:
+    PUBKEY:ANY
+    PUBKEY:RSA
+sshkey:
+    PUBKEY:ANY
+    CERT_DECODE:PUBKEY
+pem:
+    PRIVKEY:ANY
+        PRIVKEY:ANY
+        HASHER:HASH_MD5 (soft)
+    PRIVKEY:RSA
+        PRIVKEY:RSA
+        HASHER:HASH_MD5 (soft)
+    PRIVKEY:ECDSA
+        PRIVKEY:ECDSA
+        HASHER:HASH_MD5 (soft)
+    PRIVKEY:DSA (not loaded)
+        PRIVKEY:DSA
+        HASHER:HASH_MD5 (soft)
+    PRIVKEY:BLISS (not loaded)
+        PRIVKEY:BLISS
+    PRIVKEY:ED25519
+        PRIVKEY:ED25519
+    PRIVKEY:ED448
+        PRIVKEY:ED448
+    PUBKEY:ANY
+        PUBKEY:ANY
+    PUBKEY:RSA
+        PUBKEY:RSA
+    PUBKEY:ECDSA (not loaded)
+        PUBKEY:ECDSA
+    PUBKEY:DSA (not loaded)
+        PUBKEY:DSA
+    PUBKEY:BLISS (not loaded)
+        PUBKEY:BLISS
+    PUBKEY:ED25519
+        PUBKEY:ED25519
+    PUBKEY:ED448 (not loaded)
+        PUBKEY:ED448
+    CERT_DECODE:ANY
+        CERT_DECODE:X509 (soft)
+        CERT_DECODE:PGP (soft)
+    CERT_DECODE:X509
+        CERT_DECODE:X509
+    CERT_DECODE:X509_CRL
+        CERT_DECODE:X509_CRL
+    CERT_DECODE:OCSP_REQUEST (not loaded)
+        CERT_DECODE:OCSP_REQUEST
+    CERT_DECODE:OCSP_RESPONSE
+        CERT_DECODE:OCSP_RESPONSE
+    CERT_DECODE:X509_AC
+        CERT_DECODE:X509_AC
+    CERT_DECODE:PKCS10_REQUEST
+        CERT_DECODE:PKCS10_REQUEST
+    CERT_DECODE:PUBKEY
+        CERT_DECODE:PUBKEY
+    CERT_DECODE:PGP
+        CERT_DECODE:PGP
+    CONTAINER_DECODE:PKCS12
+        CONTAINER_DECODE:PKCS12
+    CONTAINER_DECODE:PKCS7
+        CONTAINER_DECODE:PKCS7
+gcrypt:
+    CUSTOM:gcrypt-threading
+    CRYPTER:AES_CTR-16
+    CRYPTER:AES_CTR-24
+    CRYPTER:AES_CTR-32
+    CRYPTER:AES_CBC-16
+    CRYPTER:AES_CBC-24
+    CRYPTER:AES_CBC-32
+    CRYPTER:AES_ECB-16
+    CRYPTER:AES_ECB-24
+    CRYPTER:AES_ECB-32
+    CRYPTER:AES_CFB-16
+    CRYPTER:AES_CFB-24
+    CRYPTER:AES_CFB-32
+    CRYPTER:BLOWFISH_CBC-16
+    CRYPTER:CAMELLIA_CTR-16
+    CRYPTER:CAMELLIA_CTR-24
+    CRYPTER:CAMELLIA_CTR-32
+    CRYPTER:CAMELLIA_CBC-16
+    CRYPTER:CAMELLIA_CBC-24
+    CRYPTER:CAMELLIA_CBC-32
+    CRYPTER:CAST_CBC-0
+    CRYPTER:3DES_CBC-24
+    CRYPTER:DES_CBC-8
+    CRYPTER:DES_ECB-8
+    CRYPTER:SERPENT_CBC-16
+    CRYPTER:SERPENT_CBC-24
+    CRYPTER:SERPENT_CBC-32
+    CRYPTER:TWOFISH_CBC-16
+    CRYPTER:TWOFISH_CBC-32
+    HASHER:HASH_MD4
+    HASHER:HASH_MD5
+    HASHER:HASH_SHA1
+    HASHER:HASH_SHA2_224
+    HASHER:HASH_SHA2_256
+    HASHER:HASH_SHA2_384
+    HASHER:HASH_SHA2_512
+    KE:MODP_3072
+    KE:MODP_4096
+    KE:MODP_6144
+    KE:MODP_8192
+    KE:MODP_2048
+    KE:MODP_2048_224
+    KE:MODP_2048_256
+    KE:MODP_1536
+    KE:MODP_1024
+    KE:MODP_1024_160
+    KE:MODP_768
+    KE:MODP_CUSTOM
+    PUBKEY:RSA
+    PRIVKEY:RSA
+    PRIVKEY_GEN:RSA
+    PRIVKEY_SIGN:RSA_EMSA_PSS
+    PRIVKEY_SIGN:RSA_EMSA_PKCS1_NULL
+    PRIVKEY_SIGN:RSA_EMSA_PKCS1_SHA2_224
+    PRIVKEY_SIGN:RSA_EMSA_PKCS1_SHA2_256
+    PRIVKEY_SIGN:RSA_EMSA_PKCS1_SHA2_384
+    PRIVKEY_SIGN:RSA_EMSA_PKCS1_SHA2_512
+    PRIVKEY_SIGN:RSA_EMSA_PKCS1_SHA1
+    PRIVKEY_SIGN:RSA_EMSA_PKCS1_MD5
+    PRIVKEY_DECRYPT:ENCRYPT_RSA_PKCS1
+    PRIVKEY_DECRYPT:ENCRYPT_RSA_OAEP_SHA1
+    PUBKEY_VERIFY:RSA_EMSA_PSS
+    PUBKEY_VERIFY:RSA_EMSA_PKCS1_NULL
+    PUBKEY_VERIFY:RSA_EMSA_PKCS1_SHA2_224
+    PUBKEY_VERIFY:RSA_EMSA_PKCS1_SHA2_256
+    PUBKEY_VERIFY:RSA_EMSA_PKCS1_SHA2_384
+    PUBKEY_VERIFY:RSA_EMSA_PKCS1_SHA2_512
+    PUBKEY_VERIFY:RSA_EMSA_PKCS1_SHA1
+    PUBKEY_VERIFY:RSA_EMSA_PKCS1_MD5
+    PUBKEY_ENCRYPT:ENCRYPT_RSA_PKCS1
+    PUBKEY_ENCRYPT:ENCRYPT_RSA_OAEP_SHA1
+    RNG:RNG_WEAK
+    RNG:RNG_STRONG
+    RNG:RNG_TRUE
+pkcs8:
+    PRIVKEY:ANY
+    PRIVKEY:RSA
+    PRIVKEY:ECDSA
+    PRIVKEY:ED25519
+    PRIVKEY:ED448
+fips-prf:
+    PRF:PRF_FIPS_SHA1_160
+        PRF:PRF_KEYED_SHA1
+gmp:
+    KE:MODP_3072
+        RNG:RNG_STRONG
+    KE:MODP_4096
+        RNG:RNG_STRONG
+    KE:MODP_6144
+        RNG:RNG_STRONG
+    KE:MODP_8192
+        RNG:RNG_STRONG
+    KE:MODP_2048
+        RNG:RNG_STRONG
+    KE:MODP_2048_224
+        RNG:RNG_STRONG
+    KE:MODP_2048_256
+        RNG:RNG_STRONG
+    KE:MODP_1536
+        RNG:RNG_STRONG
+    KE:MODP_1024
+        RNG:RNG_STRONG
+    KE:MODP_1024_160
+        RNG:RNG_STRONG
+    KE:MODP_768
+        RNG:RNG_STRONG
+    KE:MODP_CUSTOM
+        RNG:RNG_STRONG
+    PRIVKEY:RSA
+    PRIVKEY_GEN:RSA
+        RNG:RNG_TRUE
+    PUBKEY:RSA
+    PRIVKEY_SIGN:RSA_EMSA_PSS
+        HASHER:HASH_SHA1 (soft)
+        HASHER:HASH_SHA2_256 (soft)
+        HASHER:HASH_SHA2_512 (soft)
+        RNG:RNG_STRONG (soft)
+        XOF:XOF_MGF1_SHA1 (soft)
+        XOF:XOF_MGF1_SHA256 (soft)
+        XOF:XOF_MGF1_SHA512 (soft)
+    PRIVKEY_SIGN:RSA_EMSA_PKCS1_NULL
+    PRIVKEY_SIGN:RSA_EMSA_PKCS1_SHA2_224
+        HASHER:HASH_SHA2_224
+    PRIVKEY_SIGN:RSA_EMSA_PKCS1_SHA2_256
+        HASHER:HASH_SHA2_256
+    PRIVKEY_SIGN:RSA_EMSA_PKCS1_SHA2_384
+        HASHER:HASH_SHA2_384
+    PRIVKEY_SIGN:RSA_EMSA_PKCS1_SHA2_512
+        HASHER:HASH_SHA2_512
+    PRIVKEY_SIGN:RSA_EMSA_PKCS1_SHA3_224 (not loaded)
+        HASHER:HASH_SHA3_224
+    PRIVKEY_SIGN:RSA_EMSA_PKCS1_SHA3_256 (not loaded)
+        HASHER:HASH_SHA3_256
+    PRIVKEY_SIGN:RSA_EMSA_PKCS1_SHA3_384 (not loaded)
+        HASHER:HASH_SHA3_384
+    PRIVKEY_SIGN:RSA_EMSA_PKCS1_SHA3_512 (not loaded)
+        HASHER:HASH_SHA3_512
+    PRIVKEY_SIGN:RSA_EMSA_PKCS1_SHA1
+        HASHER:HASH_SHA1
+    PRIVKEY_SIGN:RSA_EMSA_PKCS1_MD5
+        HASHER:HASH_MD5
+    PUBKEY_VERIFY:RSA_EMSA_PSS
+        HASHER:HASH_SHA1 (soft)
+        HASHER:HASH_SHA2_256 (soft)
+        HASHER:HASH_SHA2_512 (soft)
+        XOF:XOF_MGF1_SHA1 (soft)
+        XOF:XOF_MGF1_SHA256 (soft)
+        XOF:XOF_MGF1_SHA512 (soft)
+    PUBKEY_VERIFY:RSA_EMSA_PKCS1_NULL
+    PUBKEY_VERIFY:RSA_EMSA_PKCS1_SHA2_224
+        HASHER:HASH_SHA2_224
+    PUBKEY_VERIFY:RSA_EMSA_PKCS1_SHA2_256
+        HASHER:HASH_SHA2_256
+    PUBKEY_VERIFY:RSA_EMSA_PKCS1_SHA2_384
+        HASHER:HASH_SHA2_384
+    PUBKEY_VERIFY:RSA_EMSA_PKCS1_SHA2_512
+        HASHER:HASH_SHA2_512
+    PUBKEY_VERIFY:RSA_EMSA_PKCS1_SHA3_224 (not loaded)
+        HASHER:HASH_SHA3_224
+    PUBKEY_VERIFY:RSA_EMSA_PKCS1_SHA3_256 (not loaded)
+        HASHER:HASH_SHA3_256
+    PUBKEY_VERIFY:RSA_EMSA_PKCS1_SHA3_384 (not loaded)
+        HASHER:HASH_SHA3_384
+    PUBKEY_VERIFY:RSA_EMSA_PKCS1_SHA3_512 (not loaded)
+        HASHER:HASH_SHA3_512
+    PUBKEY_VERIFY:RSA_EMSA_PKCS1_SHA1
+        HASHER:HASH_SHA1
+    PUBKEY_VERIFY:RSA_EMSA_PKCS1_MD5
+        HASHER:HASH_MD5
+    PRIVKEY_DECRYPT:ENCRYPT_RSA_PKCS1
+    PUBKEY_ENCRYPT:ENCRYPT_RSA_PKCS1
+        RNG:RNG_WEAK
+curve25519:
+    KE:CURVE_25519
+        RNG:RNG_STRONG
+    PRIVKEY:ED25519
+    PRIVKEY_GEN:ED25519
+        RNG:RNG_TRUE
+        HASHER:HASH_SHA2_512
+    PUBKEY:ED25519
+    PRIVKEY_SIGN:ED25519
+        HASHER:HASH_SHA2_512
+    PUBKEY_VERIFY:ED25519
+        HASHER:HASH_SHA2_512
+    HASHER:HASH_IDENTITY
+chapoly:
+    AEAD:CHACHA20_POLY1305-32
+    XOF:XOF_CHACHA20
+xcbc:
+    PRF:PRF_AES128_XCBC
+        CRYPTER:AES_CBC-16
+    PRF:PRF_CAMELLIA128_XCBC
+        CRYPTER:CAMELLIA_CBC-16
+    SIGNER:CAMELLIA_XCBC_96
+        CRYPTER:CAMELLIA_CBC-16
+    SIGNER:AES_XCBC_96
+        CRYPTER:AES_CBC-16
+cmac:
+    PRF:PRF_AES128_CMAC
+        CRYPTER:AES_CBC-16
+    SIGNER:AES_CMAC_96
+        CRYPTER:AES_CBC-16
+hmac:
+    PRF:PRF_HMAC_SHA1
+        HASHER:HASH_SHA1
+    PRF:PRF_HMAC_MD5
+        HASHER:HASH_MD5
+    PRF:PRF_HMAC_SHA2_256
+        HASHER:HASH_SHA2_256
+    PRF:PRF_HMAC_SHA2_384
+        HASHER:HASH_SHA2_384
+    PRF:PRF_HMAC_SHA2_512
+        HASHER:HASH_SHA2_512
+    SIGNER:HMAC_SHA1_96
+        HASHER:HASH_SHA1
+    SIGNER:HMAC_SHA1_128
+        HASHER:HASH_SHA1
+    SIGNER:HMAC_SHA1_160
+        HASHER:HASH_SHA1
+    SIGNER:HMAC_MD5_96
+        HASHER:HASH_MD5
+    SIGNER:HMAC_MD5_128
+        HASHER:HASH_MD5
+    SIGNER:HMAC_SHA2_256_128
+        HASHER:HASH_SHA2_256
+    SIGNER:HMAC_SHA2_256_256
+        HASHER:HASH_SHA2_256
+    SIGNER:HMAC_SHA2_384_192
+        HASHER:HASH_SHA2_384
+    SIGNER:HMAC_SHA2_384_384
+        HASHER:HASH_SHA2_384
+    SIGNER:HMAC_SHA2_512_256
+        HASHER:HASH_SHA2_512
+    SIGNER:HMAC_SHA2_512_512
+        HASHER:HASH_SHA2_512
+kdf:
+    KDF:KDF_PRF
+        PRF:PRF_HMAC_SHA1 (soft)
+        PRF:PRF_HMAC_SHA2_256 (soft)
+        PRF:PRF_HMAC_SHA2_384 (soft)
+        PRF:PRF_HMAC_SHA2_512 (soft)
+        PRF:PRF_AES128_XCBC (soft)
+        PRF:PRF_AES128_CMAC (soft)
+    KDF:KDF_PRF_PLUS
+        PRF:PRF_HMAC_SHA1 (soft)
+        PRF:PRF_HMAC_SHA2_256 (soft)
+        PRF:PRF_HMAC_SHA2_384 (soft)
+        PRF:PRF_HMAC_SHA2_512 (soft)
+        PRF:PRF_AES128_XCBC (soft)
+        PRF:PRF_AES128_CMAC (soft)
+ctr:
+    CRYPTER:AES_CTR-16
+        CRYPTER:AES_CBC-16
+    CRYPTER:AES_CTR-24
+        CRYPTER:AES_CBC-24
+    CRYPTER:AES_CTR-32
+        CRYPTER:AES_CBC-32
+    CRYPTER:CAMELLIA_CTR-16
+        CRYPTER:CAMELLIA_CBC-16
+    CRYPTER:CAMELLIA_CTR-24
+        CRYPTER:CAMELLIA_CBC-24
+    CRYPTER:CAMELLIA_CTR-32
+        CRYPTER:CAMELLIA_CBC-32
+ccm:
+    AEAD:AES_CCM_8-16
+        CRYPTER:AES_CBC-16
+    AEAD:AES_CCM_8-24
+        CRYPTER:AES_CBC-24
+    AEAD:AES_CCM_8-32
+        CRYPTER:AES_CBC-32
+    AEAD:AES_CCM_12-16
+        CRYPTER:AES_CBC-16
+    AEAD:AES_CCM_12-24
+        CRYPTER:AES_CBC-24
+    AEAD:AES_CCM_12-32
+        CRYPTER:AES_CBC-32
+    AEAD:AES_CCM_16-16
+        CRYPTER:AES_CBC-16
+    AEAD:AES_CCM_16-24
+        CRYPTER:AES_CBC-24
+    AEAD:AES_CCM_16-32
+        CRYPTER:AES_CBC-32
+    AEAD:CAMELLIA_CCM_8-16
+        CRYPTER:CAMELLIA_CBC-16
+    AEAD:CAMELLIA_CCM_8-24
+        CRYPTER:CAMELLIA_CBC-24
+    AEAD:CAMELLIA_CCM_8-32
+        CRYPTER:CAMELLIA_CBC-32
+    AEAD:CAMELLIA_CCM_12-16
+        CRYPTER:CAMELLIA_CBC-16
+    AEAD:CAMELLIA_CCM_12-24
+        CRYPTER:CAMELLIA_CBC-24
+    AEAD:CAMELLIA_CCM_12-32
+        CRYPTER:CAMELLIA_CBC-32
+    AEAD:CAMELLIA_CCM_16-16
+        CRYPTER:CAMELLIA_CBC-16
+    AEAD:CAMELLIA_CCM_16-24
+        CRYPTER:CAMELLIA_CBC-24
+    AEAD:CAMELLIA_CCM_16-32
+        CRYPTER:CAMELLIA_CBC-32
+gcm:
+    AEAD:AES_GCM_8-16
+        CRYPTER:AES_CBC-16
+    AEAD:AES_GCM_8-24
+        CRYPTER:AES_CBC-24
+    AEAD:AES_GCM_8-32
+        CRYPTER:AES_CBC-32
+    AEAD:AES_GCM_12-16
+        CRYPTER:AES_CBC-16
+    AEAD:AES_GCM_12-24
+        CRYPTER:AES_CBC-24
+    AEAD:AES_GCM_12-32
+        CRYPTER:AES_CBC-32
+    AEAD:AES_GCM_16-16
+        CRYPTER:AES_CBC-16
+    AEAD:AES_GCM_16-24
+        CRYPTER:AES_CBC-24
+    AEAD:AES_GCM_16-32
+        CRYPTER:AES_CBC-32
+drbg:
+    DRBG:DRBG_CTR_AES128
+        CRYPTER:AES_ECB-16
+    DRBG:DRBG_CTR_AES192
+        CRYPTER:AES_ECB-24
+    DRBG:DRBG_CTR_AES256
+        CRYPTER:AES_ECB-32
+    DRBG:DRBG_HMAC_SHA1
+        PRF:PRF_HMAC_SHA1
+    DRBG:DRBG_HMAC_SHA256
+        PRF:PRF_HMAC_SHA2_256
+    DRBG:DRBG_HMAC_SHA384
+        PRF:PRF_HMAC_SHA2_384
+    DRBG:DRBG_HMAC_SHA512
+        PRF:PRF_HMAC_SHA2_512
+curl:
+    FETCHER:file://
+    FETCHER:ftp://
+    FETCHER:http://
+    FETCHER:https:// (not loaded)
+        CUSTOM:openssl-threading
+sqlite:
+    DATABASE:SQLite
+attr:
+    CUSTOM:attr
+kernel-libipsec:
+    CUSTOM:kernel-ipsec
+    CUSTOM:kernel-libipsec-router
+        CUSTOM:libcharon-receiver
+kernel-netlink:
+    CUSTOM:kernel-ipsec (not loaded)
+    CUSTOM:kernel-net
+resolve:
+    CUSTOM:resolve
+socket-default:
+    CUSTOM:socket
+        CUSTOM:kernel-ipsec (soft)
+farp:
+    CUSTOM:farp
+stroke:
+    CUSTOM:stroke
+        CUSTOM:counters (soft)
+        PRIVKEY:RSA (soft)
+        PRIVKEY:ECDSA (soft)
+        PRIVKEY:DSA (soft)
+        PRIVKEY:BLISS (soft)
+        PRIVKEY:ED25519 (soft)
+        PRIVKEY:ED448 (soft)
+        CERT_DECODE:ANY (soft)
+        CERT_DECODE:X509 (soft)
+        CERT_DECODE:X509_CRL (soft)
+        CERT_DECODE:X509_AC (soft)
+        CERT_DECODE:PUBKEY (soft)
+vici:
+    CUSTOM:vici
+        CUSTOM:counters (soft)
+updown:
+    CUSTOM:updown
+eap-identity:
+    EAP_SERVER:ID
+    EAP_CLIENT:ID
+eap-sim:
+    CUSTOM:sim-manager
+    EAP_SERVER:SIM
+        RNG:RNG_WEAK
+        HASHER:HASH_SHA1
+        PRF:PRF_FIPS_SHA1_160
+        SIGNER:HMAC_SHA1_128
+        CRYPTER:AES_CBC-16
+    EAP_CLIENT:SIM
+        RNG:RNG_WEAK
+        HASHER:HASH_SHA1
+        PRF:PRF_FIPS_SHA1_160
+        SIGNER:HMAC_SHA1_128
+        CRYPTER:AES_CBC-16
+eap-aka:
+    CUSTOM:aka-manager
+    EAP_SERVER:AKA
+        RNG:RNG_WEAK
+        HASHER:HASH_SHA1
+        PRF:PRF_FIPS_SHA1_160
+        SIGNER:HMAC_SHA1_128
+        CRYPTER:AES_CBC-16
+    EAP_CLIENT:AKA
+        RNG:RNG_WEAK
+        HASHER:HASH_SHA1
+        PRF:PRF_FIPS_SHA1_160
+        SIGNER:HMAC_SHA1_128
+        CRYPTER:AES_CBC-16
+eap-aka-3gpp:
+    CUSTOM:eap-aka-3gpp-functions
+        CRYPTER:AES_CBC-16
+    CUSTOM:aka-card
+        CUSTOM:aka-manager
+        CUSTOM:eap-aka-3gpp-functions
+    CUSTOM:aka-provider
+        CUSTOM:aka-manager
+        CUSTOM:eap-aka-3gpp-functions
+eap-aka-3gpp2:
+    CUSTOM:eap-aka-3gpp2-functions
+        PRF:PRF_KEYED_SHA1
+    CUSTOM:aka-card
+        CUSTOM:aka-manager
+        CUSTOM:eap-aka-3gpp2-functions
+    CUSTOM:aka-provider
+        CUSTOM:aka-manager
+        CUSTOM:eap-aka-3gpp2-functions
+eap-md5:
+    EAP_SERVER:MD5
+        HASHER:HASH_MD5
+        RNG:RNG_WEAK
+    EAP_CLIENT:MD5
+        HASHER:HASH_MD5
+        RNG:RNG_WEAK
+eap-gtc:
+    EAP_SERVER:GTC
+    EAP_CLIENT:GTC
+eap-mschapv2:
+    EAP_SERVER:MSCHAPV2
+        CRYPTER:DES_ECB-8
+        HASHER:HASH_MD4
+        HASHER:HASH_SHA1
+        RNG:RNG_WEAK
+    EAP_CLIENT:MSCHAPV2
+        CRYPTER:DES_ECB-8
+        HASHER:HASH_MD4
+        HASHER:HASH_SHA1
+        RNG:RNG_WEAK
+eap-dynamic:
+    EAP_SERVER:DYN
+eap-radius:
+    EAP_SERVER:RAD
+        CUSTOM:eap-radius
+    XAUTH_SERVER:radius
+        CUSTOM:eap-radius
+    CUSTOM:eap-radius
+        HASHER:HASH_MD5
+        SIGNER:HMAC_MD5_128
+        RNG:RNG_WEAK
+eap-tls:
+    EAP_SERVER:TLS
+        HASHER:HASH_MD5
+        HASHER:HASH_SHA1
+        RNG:RNG_WEAK
+    EAP_CLIENT:TLS
+        HASHER:HASH_MD5
+        HASHER:HASH_SHA1
+        RNG:RNG_WEAK
+        RNG:RNG_STRONG
+eap-ttls:
+    EAP_SERVER:TTLS
+        EAP_SERVER:ID
+        HASHER:HASH_MD5
+        HASHER:HASH_SHA1
+        RNG:RNG_WEAK
+    EAP_CLIENT:TTLS
+        EAP_CLIENT:ID
+        HASHER:HASH_MD5
+        HASHER:HASH_SHA1
+        RNG:RNG_WEAK
+        RNG:RNG_STRONG
+eap-peap:
+    EAP_SERVER:PEAP
+        EAP_SERVER:ID
+        HASHER:HASH_MD5
+        HASHER:HASH_SHA1
+        RNG:RNG_WEAK
+    EAP_CLIENT:PEAP
+        EAP_CLIENT:ID
+        HASHER:HASH_MD5
+        HASHER:HASH_SHA1
+        RNG:RNG_WEAK
+        RNG:RNG_STRONG
+eap-tnc:
+    EAP_SERVER:TNC
+        EAP_SERVER:TTLS
+        CUSTOM:tnccs-manager
+    EAP_CLIENT:TNC
+        EAP_CLIENT:TTLS
+        CUSTOM:tnccs-manager
+    EAP_SERVER:PT
+        EAP_SERVER:TTLS
+        CUSTOM:tnccs-manager
+    EAP_CLIENT:PT
+        EAP_CLIENT:TTLS
+        CUSTOM:tnccs-manager
+xauth-generic:
+    XAUTH_SERVER:generic
+    XAUTH_CLIENT:generic
+xauth-eap:
+    XAUTH_SERVER:eap
+xauth-pam:
+    XAUTH_SERVER:pam
+xauth-noauth:
+    XAUTH_SERVER:noauth
+tnc-imc:
+    CUSTOM:imc-manager
+        CUSTOM:tnccs-manager
+        CUSTOM:imv-manager (soft)
+        CERT_DECODE:X509 (soft)
+        CERT_DECODE:PUBKEY (soft)
+tnc-imv:
+    CUSTOM:imv-manager
+        CUSTOM:tnccs-manager
+        CERT_DECODE:X509 (soft)
+        CERT_DECODE:PUBKEY (soft)
+        DATABASE:any (soft)
+tnc-tnccs:
+    CUSTOM:tnccs-manager
+tnccs-20:
+    CUSTOM:tnccs-2.0
+        CUSTOM:tnccs-manager
+tnccs-11:
+    CUSTOM:tnccs-1.1
+        CUSTOM:tnccs-manager
+tnccs-dynamic:
+    CUSTOM:tnccs-dynamic
+        CUSTOM:tnccs-1.1
+        CUSTOM:tnccs-2.0
+dhcp:
+    CUSTOM:dhcp
+        RNG:RNG_WEAK
+led:
+    CUSTOM:led
+duplicheck:
+    CUSTOM:duplicheck
+unity:
+    CUSTOM:unity
+counters:
+    CUSTOM:counters
++ CHECK_RESULT 0 0 0 'Failed to check the listplugins'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the listplugins'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan listcounters
++ grep 'List of IKE counters:' strongswan_test_listcounters.log
+List of IKE counters:
++ CHECK_RESULT 0 0 0 'Failed to check the listcounters'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the listcounters'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan rereadocspcerts
++ CHECK_RESULT 0 0 0 'Failed to check the rereadocspcerts'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the rereadocspcerts'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan rereadacerts
++ CHECK_RESULT 0 0 0 'Failed to check the rereadacerts'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the rereadacerts'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan rereadaacerts
++ CHECK_RESULT 0 0 0 'Failed to check the rereadaacerts'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the rereadaacerts'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan resetcounters
++ CHECK_RESULT 0 0 0 'Failed to check the resetcounters'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the resetcounters'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan rereadsecrets
++ CHECK_RESULT 0 0 0 'Failed to check the rereadsecrets'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the rereadsecrets'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan rereadcacerts
++ CHECK_RESULT 0 0 0 'Failed to check the rereadcacerts'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the rereadcacerts'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan rereadcrls
++ CHECK_RESULT 0 0 0 'Failed to check the rereadcrls'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the rereadcrls'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan rereadall
++ CHECK_RESULT 0 0 0 'Failed to check the rereadall'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the rereadall'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan purgecerts
++ CHECK_RESULT 0 0 0 'Failed to check the purgecerts'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the purgecerts'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan purgecrls
++ CHECK_RESULT 0 0 0 'Failed to check the purgecrls'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the purgecrls'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan purgeike
+destroying IKE_SA in state CONNECTING without notification
+IKE_SA [1] closed successfully
++ CHECK_RESULT 0 0 0 'Failed to check the purgeike'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the purgeike'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan purgeocsp
++ CHECK_RESULT 0 0 0 'Failed to check the purgeocsp'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the purgeocsp'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan scepclient --help
++ grep 'Usage: scepclient' strongswan_test_scepclient.log
+Usage: scepclient
++ CHECK_RESULT 0 0 0 'Failed to check the scepclient'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the scepclient'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan pki
+unable to set OpenSSL FIPS mode(2) from (0)
+plugin 'openssl': failed to load - openssl_plugin_create returned NULL
++ grep 'strongSwan 5.7.2 PKI tool' strongswan_test_pki.log
++ CHECK_RESULT 1 0 0 'Failed to check the pki'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed to check the pki'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed to check the pki'
++ LOG_ERROR 'Failed to check the pki'
++ message='Failed to check the pki'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed to check the pki'
+Fri May  5 04:32:29 2023 - ERROR - Failed to check the pki
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_service_strongswan_03.sh line 80'
++ message='oe_test_service_strongswan_03.sh line 80'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_service_strongswan_03.sh line 80'
+Fri May  5 04:32:30 2023 - ERROR - oe_test_service_strongswan_03.sh line 80
++ '[' 0 -eq 1 ']'
++ return 0
++ strongswan stroke --help
++ grep 'stroke \[OPTIONS\] command \[ARGUMENTS\]' strongswan_test_stroke.log
+stroke [OPTIONS] command [ARGUMENTS]
++ CHECK_RESULT 0 0 0 'Failed to check the stroke'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the stroke'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan version
++ grep 'Linux strongSwan'
+Linux strongSwan U5.9.7/K6.1.19-7.0.0.17.oe2303.x86_64
++ CHECK_RESULT 0 0 0 'Failed to check the version'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the version'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Fri May  5 04:32:30 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri May  5 04:32:31 2023 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri May  5 04:32:31 2023 - INFO  - Start to restore the test environment.
++ rm -rf strongswan_test_listcounters.log strongswan_test_pki.log strongswan_test_scepclient.log strongswan_test_stroke.log test_file
++ strongswan stop
+Stopping strongSwan IPsec...
++ SLEEP_WAIT 3 'podman stop -all'
++ wait_time=3
++ cmd='podman stop -all'
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd 'podman stop -all' --mode 1
+Error: --all and --latest cannot be used together
+++ podman ps -qa
++ podman rm -f 25f45d97c57c
+25f45d97c57c848e7ddcb47ec97532ae0e07f0307ee16df078730abedfd77234
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp3j6xlwwv ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp3j6xlwwv
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Fri May  5 04:33:50 2023 - INFO  - End to restore the test environment.

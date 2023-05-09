@@ -1,0 +1,281 @@
++ source ../common/common_podman.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n function ']'
++ config_params
++ LOG_INFO 'Start loading data!'
++ message='Start loading data!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start loading data!'
+Thu May  4 22:56:25 2023 - INFO  - Start loading data!
++ name=postgres
++ LOG_INFO 'Loading data is complete!'
++ message='Loading data is complete!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Loading data is complete!'
+Thu May  4 22:56:25 2023 - INFO  - Loading data is complete!
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Thu May  4 22:56:25 2023 - INFO  - Start environment preparation.
++ deploy_env
++ DNF_INSTALL 'podman podman-docker'
++ pkgs='podman podman-docker'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'podman podman-docker' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpvdh7qyie
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpvdh7qyie
++ echo -e '[registries.search]
+registries = ['\''docker.io'\'']
+
+[registries.insecure]
+registries = []
+
+[registries.block]
+registries = []
+'
++ podman rm -all
+Error: --all and --latest cannot be used together
++ cp ../common/common3.4.4.2_podman.sh ../common/common_podman.sh ../common/Containerfile.notsosimple ../common/Dockerfile ../common/Dockerfile.example ../common/Dockerfile.in ../common/Dockerfile.simple ../common/test.json .
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Thu May  4 22:58:30 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Thu May  4 22:58:30 2023 - INFO  - Start executing testcase.
++ podman build --security-opt label=level:s0:c100,c200 --cgroup-parent /path/to/cgroup/parent -t imageme .
+Resolving "nginx" using unqualified-search registries (/etc/containers/registries.conf)
+Trying to pull docker.io/library/nginx:latest...
+Getting image source signatures
+Copying blob sha256:8db4caa19df89c606d39076b27fe163e1f37516f889ff5bfee1fce03056bb6b0
+Copying blob sha256:15a97cf85bb88997d139f86b2be23f99175d51d7e45a4c4b04ec0cbdbb56a63b
+Copying blob sha256:6b7e4a5c7c7ad54c76bc4861f476f3b70978beede9e752015202dd223383602b
+Copying blob sha256:bf36b64666794f28ea5c3d4d75add149c04e849342e3d45ca31aac9cf4715dd1
+Copying blob sha256:9e3ea8720c6de96cc9ad544dddc695a3ab73f5581c5d954e0504cc4f80fb5e5c
+Copying blob sha256:9c2d6be5a61d1ad44be8e5e93a5800572cff95601147c45eaa9ecf0d4cb66f83
+Copying blob sha256:bf36b64666794f28ea5c3d4d75add149c04e849342e3d45ca31aac9cf4715dd1
+Copying blob sha256:6b7e4a5c7c7ad54c76bc4861f476f3b70978beede9e752015202dd223383602b
+Copying blob sha256:9e3ea8720c6de96cc9ad544dddc695a3ab73f5581c5d954e0504cc4f80fb5e5c
+Copying blob sha256:8db4caa19df89c606d39076b27fe163e1f37516f889ff5bfee1fce03056bb6b0
+Copying blob sha256:9c2d6be5a61d1ad44be8e5e93a5800572cff95601147c45eaa9ecf0d4cb66f83
+Copying blob sha256:15a97cf85bb88997d139f86b2be23f99175d51d7e45a4c4b04ec0cbdbb56a63b
+Copying config sha256:448a08f1d2f94e8db6db9286fd77a3a4f3712786583720a12f1648abb8cace25
+Writing manifest to image destination
+Storing signatures
+time="2023-05-04T22:58:55Z" level=warning msg="Path \"/usr/share/rhel/secrets\" from \"/usr/share/containers/mounts.conf\" doesn't exist, skipping"
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ cat logfile
+++ awk -F ' ' '{print $NF}'
++ value='nginx
+/usr/share/nginx/html/index.html
+imageme
+55a97acb0ab
+localhost/imageme:latest
+55a97acb0ab26c2bdb08f474bc5774ccd5270c24b76c7cea0fd466d52696d8ea'
++ podman build --authfile /tmp/auths/myauths.json --cert-dir /root/auth --tls-verify=true --creds=username:password -t imageme -f Dockerfile.simple .
++ grep nginx /usr/share/nginx/html/index.html imageme 55a97acb0ab localhost/imageme:latest 55a97acb0ab26c2bdb08f474bc5774ccd5270c24b76c7cea0fd466d52696d8ea
+grep: /usr/share/nginx/html/index.html: No such file or directory
+grep: imageme: No such file or directory
+grep: 55a97acb0ab: No such file or directory
+grep: localhost/imageme:latest: No such file or directory
+grep: 55a97acb0ab26c2bdb08f474bc5774ccd5270c24b76c7cea0fd466d52696d8ea: No such file or directory
+Error: checking authfile: stat /tmp/auths/myauths.json: no such file or directory
++ CHECK_RESULT 2
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_27.sh line 41'
++ message='oe_test_podman_27.sh line 41'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_27.sh line 41'
+Thu May  4 22:58:58 2023 - ERROR - oe_test_podman_27.sh line 41
++ '[' 0 -eq 1 ']'
++ return 0
++ podman build --runtime-flag log-format=json .
++ grep nginx /usr/share/nginx/html/index.html imageme 55a97acb0ab localhost/imageme:latest 55a97acb0ab26c2bdb08f474bc5774ccd5270c24b76c7cea0fd466d52696d8ea
+grep: /usr/share/nginx/html/index.html: No such file or directory
+grep: imageme: No such file or directory
+grep: 55a97acb0ab: No such file or directory
+grep: localhost/imageme:latest: No such file or directory
+grep: 55a97acb0ab26c2bdb08f474bc5774ccd5270c24b76c7cea0fd466d52696d8ea: No such file or directory
++ CHECK_RESULT 2
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_27.sh line 43'
++ message='oe_test_podman_27.sh line 43'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_27.sh line 43'
+Thu May  4 22:58:59 2023 - ERROR - oe_test_podman_27.sh line 43
++ '[' 0 -eq 1 ']'
++ return 0
++ podman build --tls-verify=false -t imagename .
++ grep nginx /usr/share/nginx/html/index.html imageme 55a97acb0ab localhost/imageme:latest 55a97acb0ab26c2bdb08f474bc5774ccd5270c24b76c7cea0fd466d52696d8ea
+grep: /usr/share/nginx/html/index.html: No such file or directory
+grep: imageme: No such file or directory
+grep: 55a97acb0ab: No such file or directory
+grep: localhost/imageme:latest: No such file or directory
+grep: 55a97acb0ab26c2bdb08f474bc5774ccd5270c24b76c7cea0fd466d52696d8ea: No such file or directory
++ CHECK_RESULT 2
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_27.sh line 45'
++ message='oe_test_podman_27.sh line 45'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_27.sh line 45'
+Thu May  4 22:58:59 2023 - ERROR - oe_test_podman_27.sh line 45
++ '[' 0 -eq 1 ']'
++ return 0
++ podman build --tls-verify=true -t imagename1 -f Dockerfile.simple .
++ grep nginx /usr/share/nginx/html/index.html imageme 55a97acb0ab localhost/imageme:latest 55a97acb0ab26c2bdb08f474bc5774ccd5270c24b76c7cea0fd466d52696d8ea
+grep: /usr/share/nginx/html/index.html: No such file or directory
+grep: imageme: No such file or directory
+grep: 55a97acb0ab: No such file or directory
+grep: localhost/imageme:latest: No such file or directory
+grep: 55a97acb0ab26c2bdb08f474bc5774ccd5270c24b76c7cea0fd466d52696d8ea: No such file or directory
++ CHECK_RESULT 2
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_27.sh line 47'
++ message='oe_test_podman_27.sh line 47'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_27.sh line 47'
+Thu May  4 22:59:00 2023 - ERROR - oe_test_podman_27.sh line 47
++ '[' 0 -eq 1 ']'
++ return 0
++ podman build -t imag .
++ grep nginx /usr/share/nginx/html/index.html imageme 55a97acb0ab localhost/imageme:latest 55a97acb0ab26c2bdb08f474bc5774ccd5270c24b76c7cea0fd466d52696d8ea
+grep: /usr/share/nginx/html/index.html: No such file or directory
+grep: imageme: No such file or directory
+grep: 55a97acb0ab: No such file or directory
+grep: localhost/imageme:latest: No such file or directory
+grep: 55a97acb0ab26c2bdb08f474bc5774ccd5270c24b76c7cea0fd466d52696d8ea: No such file or directory
++ CHECK_RESULT 2
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_27.sh line 49'
++ message='oe_test_podman_27.sh line 49'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_27.sh line 49'
+Thu May  4 22:59:00 2023 - ERROR - oe_test_podman_27.sh line 49
++ '[' 0 -eq 1 ']'
++ return 0
++ podman rmi -force --all
+Error: unknown shorthand flag: 'o' in -orce
++ CHECK_RESULT 125
++ actual_result=125
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 125 ']'
++ '[' 0 -eq 0 ']'
++ test 125x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_27.sh line 51'
++ message='oe_test_podman_27.sh line 51'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_27.sh line 51'
+Thu May  4 22:59:01 2023 - ERROR - oe_test_podman_27.sh line 51
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End executing testcase.'
++ message='End executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End executing testcase.'
+Thu May  4 22:59:01 2023 - INFO  - End executing testcase.
++ CASE_RESULT 0
++ case_re=0
++ test -z 6
++ test 6 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Thu May  4 22:59:01 2023 - ERROR - failed to execute the case.
++ exit 6
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu May  4 22:59:02 2023 - INFO  - start environment cleanup.
++ rm -rf Dockerfile Dockerfile.example Dockerfile.in Dockerfile.simple common3.4.4.2_podman.sh common_podman.sh Containerfile.notsosimple logfile
++ clear_env
++ podman stop postgres
+Error: no container with name or ID "postgres" found: no such container
++ podman rm --all
++ podman rmi -f --all
+Untagged: docker.io/library/nginx:latest
+Untagged: localhost/imageme:latest
+Deleted: 55a97acb0ab26c2bdb08f474bc5774ccd5270c24b76c7cea0fd466d52696d8ea
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpvdh7qyie ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpvdh7qyie
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Thu May  4 22:59:45 2023 - INFO  - Finish environment cleanup.

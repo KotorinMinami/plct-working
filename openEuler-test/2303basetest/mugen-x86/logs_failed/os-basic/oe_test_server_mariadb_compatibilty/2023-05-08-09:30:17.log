@@ -1,0 +1,261 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Mon May  8 09:30:19 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'net-tools mariadb-server'
++ pkgs='net-tools mariadb-server'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'net-tools mariadb-server' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpwxg_n3wh
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpwxg_n3wh
++ rm -rf /var/lib/mysql/aria_log.00000001 /var/lib/mysql/aria_log_control /var/lib/mysql/ib_buffer_pool /var/lib/mysql/ibdata1 /var/lib/mysql/ib_logfile0 /var/lib/mysql/multi-master.info /var/lib/mysql/mysql /var/lib/mysql/mysql_upgrade_info /var/lib/mysql/performance_schema
++ systemctl start mariadb.service
++ systemctl status mariadb.service
++ grep running
+     Active: active (running) since Mon 2023-05-08 09:32:44 CST; 65ms ago
++ mysqladmin -uroot password 'openEuler12#$'
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Mon May  8 09:32:45 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Mon May  8 09:32:45 2023 - INFO  - Start to run test.
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl restart mariadb
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ netstat -anp
++ grep 3306
+tcp6       0      0 :::3306                 :::*                    LISTEN      23380/mariadbd      
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect -c '
+        set timeout 10
+        spawn mysql -u root -p
+        expect {
+            "Enter*" { send "openEuler12#$\r";
+            expect "Maria*" { send "grant all privileges on *.* to '\''root'\''@'\''10.198.114.2'\'' IDENTIFIED BY '\''openEuler12#$'\'' WITH GRANT OPTION;\r"}
+            expect "Maria*" { send "flush privileges;\r"}
+            expect "Maria*" { send "exit\r"}
+    }
+    }
+    expect eof
+    '
+spawn mysql -u root -p
+Enter password: 
+(B[0;1mWelcome to the MariaDB monitor.  Commands end with ; or \g.
+grant all privileges on *.* to 'root'@'10.198.114.2' IDENTIFIED BY 'openEuler12#$' WITH GRANT OPTION;
+(B[m(B[0;1mYour MariaDB connection id is 3
+Server version: 10.5.16-MariaDB MariaDB Server
+
+(B[m(B[0;1mCopyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+flush privileges;
+(B[m(B[0;1mType 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+(B[mMariaDB [(none)]> grant all privileges on *.* to 'root'@'10.198.114.2' IDENTIFIE D BY 'openEuler12#$' WITH GRANT OPTION;
+(B[0;1mQuery OK, 0 rows affected (0.006 sec)
+(B[m(B[0;1m
+(B[mMariaDB [(none)]> flush privileges;
+(B[0;1mQuery OK, 0 rows affected (0.003 sec)
+(B[m(B[0;1m
+(B[mMariaDB [(none)]> exit
+(B[0;1mBye
+(B[m+ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl restart mariadb
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop firewalld
++ SSH_CMD 'dnf -y install mariadb-server expect' 10.198.114.2 'openEuler12#$' root
++ cmd='dnf -y install mariadb-server expect'
++ remoteip=10.198.114.2
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'dnf -y install mariadb-server expect' -i 10.198.114.2 -u root -p 'openEuler12#$' -t 300 -o 22
+1 packets transmitted, 0 received, +1 errors, 100% packet loss, time 0ms
+Mon May  8 09:33:02 2023 - ERROR - connection to 10.198.114.2 failed.
++ ret=101
++ test 101 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:101'
++ message='Failed in remote CMD operation:101'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:101'
+Mon May  8 09:33:02 2023 - ERROR - Failed in remote CMD operation:101
++ return 101
++ SSH_CMD 'systemctl start mariadb;systemctl stop firewalld' 10.198.114.2 'openEuler12#$' root
++ cmd='systemctl start mariadb;systemctl stop firewalld'
++ remoteip=10.198.114.2
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'systemctl start mariadb;systemctl stop firewalld' -i 10.198.114.2 -u root -p 'openEuler12#$' -t 300 -o 22
+1 packets transmitted, 0 received, +1 errors, 100% packet loss, time 0ms
+Mon May  8 09:33:06 2023 - ERROR - connection to 10.198.114.2 failed.
++ ret=101
++ test 101 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:101'
++ message='Failed in remote CMD operation:101'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:101'
+Mon May  8 09:33:06 2023 - ERROR - Failed in remote CMD operation:101
++ return 101
++ cp ../common/mariadb_remote .
++ sed -i s/local_ip/10.198.114.1/g mariadb_remote
++ sed -i 's/local_password/openEuler12#$/g' mariadb_remote
++ SSH_SCP ./mariadb_remote root@10.198.114.2:/opt/mugen 'openEuler12#$'
++ src=./mariadb_remote
++ dest=root@10.198.114.2:/opt/mugen
++ remotepasswd='openEuler12#$'
++ connport=22
++ bash /root/mugen/libs/locallibs/sshscp.sh -p 'openEuler12#$' -o 22 -s ./mariadb_remote -d root@10.198.114.2:/opt/mugen
+Mon May  8 09:33:06 2023 - WARN  - the remote password uses the default configuration.
+Mon May  8 09:33:07 2023 - WARN  - the connect port using the default configuration
+spawn scp -P 22 -r ./mariadb_remote root@10.198.114.2:/opt/mugen
+ssh: connect to host 10.198.114.2 port 22: No route to host
+scp: Connection closed
++ ret=255
++ test 255 -ne 0
++ LOG_ERROR 'Failed in remote SCP operation: 255'
++ message='Failed in remote SCP operation: 255'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote SCP operation: 255'
+Mon May  8 09:33:10 2023 - ERROR - Failed in remote SCP operation: 255
++ return 255
++ SSH_CMD 'expect /opt/mugen/mariadb_remote' 10.198.114.2 'openEuler12#$' root
++ cmd='expect /opt/mugen/mariadb_remote'
++ remoteip=10.198.114.2
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'expect /opt/mugen/mariadb_remote' -i 10.198.114.2 -u root -p 'openEuler12#$' -t 300 -o 22
+1 packets transmitted, 0 received, +1 errors, 100% packet loss, time 0ms
+Mon May  8 09:33:13 2023 - ERROR - connection to 10.198.114.2 failed.
++ ret=101
++ test 101 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:101'
++ message='Failed in remote CMD operation:101'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:101'
+Mon May  8 09:33:13 2023 - ERROR - Failed in remote CMD operation:101
++ return 101
++ CHECK_RESULT 101
++ actual_result=101
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 101 ']'
++ '[' 0 -eq 0 ']'
++ test 101x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_server_mariadb_compatibilty.sh line 60'
++ message='oe_test_server_mariadb_compatibilty.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_server_mariadb_compatibilty.sh line 60'
+Mon May  8 09:33:13 2023 - ERROR - oe_test_server_mariadb_compatibilty.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Mon May  8 09:33:14 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Mon May  8 09:33:14 2023 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Mon May  8 09:33:14 2023 - INFO  - Start to restore the test environment.
++ rm -rf /var/lib/mysql mariadb_remote
++ SSH_CMD 'yum remove mariadb-server expect -y;rm -rf /opt/mugen/mariadb_remote /root/testlog' 10.198.114.2 'openEuler12#$' root
++ cmd='yum remove mariadb-server expect -y;rm -rf /opt/mugen/mariadb_remote /root/testlog'
++ remoteip=10.198.114.2
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'yum remove mariadb-server expect -y;rm -rf /opt/mugen/mariadb_remote /root/testlog' -i 10.198.114.2 -u root -p 'openEuler12#$' -t 300 -o 22
+1 packets transmitted, 0 received, +1 errors, 100% packet loss, time 0ms
+Mon May  8 09:33:17 2023 - ERROR - connection to 10.198.114.2 failed.
++ ret=101
++ test 101 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:101'
++ message='Failed in remote CMD operation:101'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:101'
+Mon May  8 09:33:17 2023 - ERROR - Failed in remote CMD operation:101
++ return 101
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpwxg_n3wh ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpwxg_n3wh
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Mon May  8 09:33:25 2023 - INFO  - End to restore the test environment.

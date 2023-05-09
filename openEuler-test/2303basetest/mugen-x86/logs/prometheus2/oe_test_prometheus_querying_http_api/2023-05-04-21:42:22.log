@@ -1,0 +1,379 @@
++ source ./common_lib.sh
+++ source ../common/common_lib.sh
++++ source /root/mugen/libs/locallibs/common_lib.sh
+++++ python3 --version
+++++ '[' 0 -eq 0 ']'
+++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu May  4 21:42:23 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL prometheus2
++ pkgs=prometheus2
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs prometheus2 --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp695v3_10
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp695v3_10
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu May  4 21:45:20 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Thu May  4 21:45:20 2023 - INFO  - Start testing...
++ wait_for_ready
++ prometheus --config.file=prometheus.yml
++ LOG_INFO 'Waiting for Prometheus to be ready.'
++ message='Waiting for Prometheus to be ready.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Waiting for Prometheus to be ready.'
+Thu May  4 21:45:21 2023 - INFO  - Waiting for Prometheus to be ready.
++ grep 'Server is ready to receive web requests.' ./prometheus.log
++ sleep 1s
++ grep 'Server is ready to receive web requests.' ./prometheus.log
+level=info ts=2023-05-04T21:45:21.645Z caller=main.go:652 msg="Server is ready to receive web requests."
++ LOG_INFO 'Prometheus is ready.'
++ message='Prometheus is ready.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Prometheus is ready.'
+Thu May  4 21:45:22 2023 - INFO  - Prometheus is ready.
++ curl -s 'http://localhost:9090/api/v1/query?query=prometheus_build_info'
++ grep success
+{"status":"success","data":{"resultType":"vector","result":[]}}
++ CHECK_RESULT 0 0 0 'Failed to use expression queries: instant queries.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use expression queries: instant queries.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ date +%s
++ timestamp=1683236722
++ curl -s 'http://localhost:9090/api/v1/query?query=up&time=1683236722'
++ grep success
+{"status":"success","data":{"resultType":"vector","result":[]}}
++ CHECK_RESULT 0 0 0 'Failed to use expression queries: range queries.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use expression queries: range queries.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ curl -s 'http://localhost:9090/api/v1/series?' --data-urlencode 'match[]=up' --data-urlencode 'match[]=process_start_time_seconds'
++ grep success
+{"status":"success","data":[]}
++ CHECK_RESULT 0 0 0 'Failed querying metadata: finding series by label matchers.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed querying metadata: finding series by label matchers.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ curl http://localhost:9090/api/v1/labels
++ grep success
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    32  100    32    0     0   3260      0 --:--:-- --:--:-- --:--:--  4000
+{"status":"success","data":null}
++ CHECK_RESULT 0 0 0 'Failed querying metadata: getting label names.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed querying metadata: getting label names.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ curl -s http://localhost:9090/api/v1/label/job/values
++ grep success
+{"status":"success","data":[]}
++ CHECK_RESULT 0 0 0 'Failed querying metadata: querying label values.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed querying metadata: querying label values.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ curl -s http://localhost:9090/api/v1/targets
++ grep success
+{"status":"success","data":{"activeTargets":[],"droppedTargets":[]}}
++ CHECK_RESULT 0 0 0 'Failed querying targets.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed querying targets.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ curl -s http://localhost:9090/api/v1/rules
++ grep success
+{"status":"success","data":{"groups":[]}}
++ CHECK_RESULT 0 0 0 'Failed querying rules.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed querying rules.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ curl -s http://localhost:9090/api/v1/alerts
++ grep success
+{"status":"success","data":{"alerts":[]}}
++ CHECK_RESULT 0 0 0 'Failed querying alerts.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed querying alerts.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ curl -s http://localhost:9090/api/v1/targets/metadata
++ grep success
+{"status":"success","data":[]}
++ CHECK_RESULT 0 0 0 'Failed querying targets metadata.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed querying targets metadata.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ curl -s http://localhost:9090/api/v1/metadata
++ grep success
+{"status":"success","data":{}}
++ CHECK_RESULT 0 0 0 'Failed querying metric metadata.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed querying metric metadata.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ curl -s http://localhost:9090/api/v1/alertmanagers
++ grep success
+{"status":"success","data":{"activeAlertmanagers":[],"droppedAlertmanagers":[]}}
++ CHECK_RESULT 0 0 0 'Failed querying alertmanagers.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed querying alertmanagers.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ curl -s http://localhost:9090/api/v1/status/config
++ grep success
+{"status":"success","data":{"yaml":"global:\n  scrape_interval: 15s\n  scrape_timeout: 10s\n  evaluation_interval: 15s\nalerting:\n  alertmanagers:\n  - static_configs:\n    - targets: []\n    scheme: http\n    timeout: 10s\n    api_version: v1\nscrape_configs:\n- job_name: test_prometheus_cli\n  honor_timestamps: true\n  scrape_interval: 15s\n  scrape_timeout: 10s\n  metrics_path: /metrics\n  scheme: http\n  static_configs:\n  - targets:\n    - localhost:9090\n"}}
++ CHECK_RESULT 0 0 0 'Failed querying config.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed querying config.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ curl -s http://localhost:9090/api/v1/status/flags
++ grep success
+{"status":"success","data":{"alertmanager.notification-queue-capacity":"10000","alertmanager.timeout":"10s","config.file":"prometheus.yml","log.format":"logfmt","log.level":"info","query.lookback-delta":"5m","query.max-concurrency":"20","query.max-samples":"50000000","query.timeout":"2m","rules.alert.for-grace-period":"10m","rules.alert.for-outage-tolerance":"1h","rules.alert.resend-delay":"1m","storage.remote.flush-deadline":"1m","storage.remote.read-concurrent-limit":"10","storage.remote.read-max-bytes-in-frame":"1048576","storage.remote.read-sample-limit":"50000000","storage.tsdb.allow-overlapping-blocks":"false","storage.tsdb.max-block-duration":"36h","storage.tsdb.min-block-duration":"2h","storage.tsdb.no-lockfile":"false","storage.tsdb.path":"data/","storage.tsdb.retention":"0s","storage.tsdb.retention.size":"0B","storage.tsdb.retention.time":"0s","storage.tsdb.wal-compression":"true","storage.tsdb.wal-segment-size":"0B","web.console.libraries":"console_libraries","web.console.templates":"consoles","web.cors.origin":".*","web.enable-admin-api":"false","web.enable-lifecycle":"false","web.external-url":"","web.listen-address":"0.0.0.0:9090","web.max-connections":"512","web.page-title":"Prometheus Time Series Collection and Processing Server","web.read-timeout":"5m","web.route-prefix":"/","web.user-assets":""}}
++ CHECK_RESULT 0 0 0 'Failed querying flags'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed querying flags'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ curl -s http://localhost:9090/api/v1/status/runtimeinfo
++ grep success
+{"status":"success","data":{"startTime":"2023-05-04T21:45:21.55642636Z","CWD":"/root/mugen/testcases/cli-test/prometheus2","reloadConfigSuccess":true,"lastConfigTime":"2023-05-04T21:45:21Z","chunkCount":0,"timeSeriesCount":0,"corruptionCount":0,"goroutineCount":32,"GOMAXPROCS":4,"GOGC":"","GODEBUG":"","storageRetention":"15d"}}
++ CHECK_RESULT 0 0 0 'Failed querying runtimeinfo'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed querying runtimeinfo'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ curl -s http://localhost:9090/api/v1/status/buildinfo
++ grep success
+{"status":"success","data":{"version":"2.20.0","revision":"e5a06b483527d4fe0704b8fa3a2b475b661c526f","branch":"HEAD","buildUser":"root@ac954b6d5c6e","buildDate":"20200722-18:51:45","goVersion":"go1.14.6"}}
++ CHECK_RESULT 0 0 0 'Failed querying buildinfo'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed querying buildinfo'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ curl -s http://localhost:9090/api/v1/status/tsdb
++ grep success
+{"status":"success","data":{"seriesCountByMetricName":[],"labelValueCountByLabelName":[],"memoryInBytesByLabelName":[],"seriesCountByLabelValuePair":[]}}
++ CHECK_RESULT 0 0 0 'Failed querying tsdb'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed querying tsdb'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 5554
++ pgrep -x prometheus
+./common_lib.sh: line 38:  5554 Killed                  prometheus --config.file="prometheus.yml" > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Thu May  4 21:45:23 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ wait_for_ready
++ prometheus --web.enable-admin-api
++ LOG_INFO 'Waiting for Prometheus to be ready.'
++ message='Waiting for Prometheus to be ready.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Waiting for Prometheus to be ready.'
+Thu May  4 21:45:24 2023 - INFO  - Waiting for Prometheus to be ready.
++ grep 'Server is ready to receive web requests.' ./prometheus.log
++ sleep 1s
++ grep 'Server is ready to receive web requests.' ./prometheus.log
+level=info ts=2023-05-04T21:45:24.097Z caller=main.go:652 msg="Server is ready to receive web requests."
++ LOG_INFO 'Prometheus is ready.'
++ message='Prometheus is ready.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Prometheus is ready.'
+Thu May  4 21:45:25 2023 - INFO  - Prometheus is ready.
++ curl -s -X POST http://localhost:9090/api/v1/admin/tsdb/snapshot
+{"status":"success","data":{"name":"20230504T214525Z-4d65822107fcfd52"}}+ CHECK_RESULT 0 0 0 'Failed querying snapshot'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed querying snapshot'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ curl -sg -XPOST 'http://localhost:9090/api/v1/admin/tsdb/delete_series?match[]=up'
++ CHECK_RESULT 0 0 0 'Failed to delete series.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to delete series.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ curl -sg -X POST http://localhost:9090/api/v1/admin/tsdb/clean_tombstones
++ CHECK_RESULT 0 0 0 'Failed to clean tombstones.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to clean tombstones.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 5609
++ pgrep -x prometheus
+./common_lib.sh: line 38:  5609 Killed                  prometheus --web.enable-admin-api > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Thu May  4 21:45:26 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Thu May  4 21:45:26 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu May  4 21:45:26 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu May  4 21:45:26 2023 - INFO  - start environment cleanup.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp695v3_10 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp695v3_10
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu May  4 21:45:32 2023 - INFO  - Finish environment cleanup!

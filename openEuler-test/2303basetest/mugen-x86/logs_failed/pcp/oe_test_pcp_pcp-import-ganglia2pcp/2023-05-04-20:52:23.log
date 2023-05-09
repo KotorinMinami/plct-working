@@ -1,0 +1,177 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu May  4 20:52:24 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'pcp-import-ganglia2pcp httpd ganglia ganglia-gmetad ganglia-gmond ganglia-web rrdtool'
++ pkgs='pcp-import-ganglia2pcp httpd ganglia ganglia-gmetad ganglia-gmond ganglia-web rrdtool'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'pcp-import-ganglia2pcp httpd ganglia ganglia-gmetad ganglia-gmond ganglia-web rrdtool' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp4nmnbdh2
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp4nmnbdh2
++ DNF_INSTALL ganglia-gmond 2
++ pkgs=ganglia-gmond
++ node=2
++ '[' -z /tmp/tmp4nmnbdh2 ']'
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs ganglia-gmond --node 2 --tempfile /tmp/tmp4nmnbdh2
++ tmpfile2=/tmp/tmp4nmnbdh2
++ '[' -z /tmp/tmp4nmnbdh2 ']'
++ systemctl status firewalld
++ grep running
+Unit firewalld.service could not be found.
++ getenforce
++ grep Enforcing
++ P_SSH_CMD --node 2 --cmd 'systemctl status firewalld | grep running'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --node 2 --cmd 'systemctl status firewalld | grep running'
+Unit firewalld.service could not be found.
++ P_SSH_CMD --node 2 --cmd 'getenforce | grep Enforcing'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --node 2 --cmd 'getenforce | grep Enforcing'
+
++ sed -i 's/data_source "my cluster" localhost/data_source "cluster01" 10.198.114.2/g' /etc/ganglia/gmetad.conf
++ SLEEP_WAIT 10
++ wait_time=10
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 10 --cmd '' --mode 1
++ service gmond restart
+Redirecting to /bin/systemctl restart gmond.service
++ service httpd restart
+Redirecting to /bin/systemctl restart httpd.service
++ service gmetad restart
+Redirecting to /bin/systemctl restart gmetad.service
++ P_SSH_CMD --node 2 --cmd '
+        sed -i '\''/ name / s/unspecified/cluster01/'\'' /etc/ganglia/gmond.conf;
+        service gmond restart;'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --node 2 --cmd '
+        sed -i '\''/ name / s/unspecified/cluster01/'\'' /etc/ganglia/gmond.conf;
+        service gmond restart;'
+
++ SLEEP_WAIT 60
++ wait_time=60
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 60 --cmd '' --mode 1
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu May  4 20:56:15 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu May  4 20:56:15 2023 - INFO  - Start to run test.
++ ganglia2pcp -f gangpcp -d ./ -Z UTC -h localhost /var/lib/ganglia/rrds/unspecified/10.198.114.4/
+Can't open directory: /var/lib/ganglia/rrds/unspecified/10.198.114.4
++ CHECK_RESULT 2
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pcp_pcp-import-ganglia2pcp.sh line 56'
++ message='oe_test_pcp_pcp-import-ganglia2pcp.sh line 56'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pcp_pcp-import-ganglia2pcp.sh line 56'
+Thu May  4 20:56:16 2023 - ERROR - oe_test_pcp_pcp-import-ganglia2pcp.sh line 56
++ '[' 0 -eq 1 ']'
++ return 0
++ grep -aE 'localhost|UTC' gangpcp.index
+grep: gangpcp.index: No such file or directory
++ CHECK_RESULT 2
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pcp_pcp-import-ganglia2pcp.sh line 58'
++ message='oe_test_pcp_pcp-import-ganglia2pcp.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pcp_pcp-import-ganglia2pcp.sh line 58'
+Thu May  4 20:56:17 2023 - ERROR - oe_test_pcp_pcp-import-ganglia2pcp.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ test -f gangpcp.0 -a -f gangpcp.meta
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pcp_pcp-import-ganglia2pcp.sh line 60'
++ message='oe_test_pcp_pcp-import-ganglia2pcp.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pcp_pcp-import-ganglia2pcp.sh line 60'
+Thu May  4 20:56:17 2023 - ERROR - oe_test_pcp_pcp-import-ganglia2pcp.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu May  4 20:56:17 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 3
++ test 3 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Thu May  4 20:56:18 2023 - ERROR - failed to execute the case.
++ exit 3
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu May  4 20:56:18 2023 - INFO  - Start to restore the test environment.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp4nmnbdh2 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp4nmnbdh2
++ '[' 0 -ne 0 ']'
++ rm -rf /var/lib/ganglia
++ '[' -eq 1 ']'
+oe_test_pcp_pcp-import-ganglia2pcp.sh: line 68: [: -eq: unary operator expected
++ '[' -eq 1 ']'
+oe_test_pcp_pcp-import-ganglia2pcp.sh: line 71: [: -eq: unary operator expected
++ '[' -eq 1 ']'
+oe_test_pcp_pcp-import-ganglia2pcp.sh: line 74: [: -eq: unary operator expected
++ '[' -eq 1 ']'
+oe_test_pcp_pcp-import-ganglia2pcp.sh: line 77: [: -eq: unary operator expected
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu May  4 20:56:35 2023 - INFO  - End to restore the test environment.

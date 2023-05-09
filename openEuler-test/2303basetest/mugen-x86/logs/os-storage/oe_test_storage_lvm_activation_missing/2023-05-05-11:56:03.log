@@ -1,0 +1,136 @@
++ source ../common/storage_disk_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Fri May  5 11:56:04 2023 - INFO  - Start environment preparation.
++ check_free_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='sr0 vdb vdc vdd vde'
++ disk_list=($disks)
++ local_disk=sr0
++ local_disk1=vdb
++ local_disk2=vdc
++ local_disk3=vdd
++ pvcreate -y /dev/sr0 /dev/vdb
+oe_test_storage_lvm_activation_missing.sh: line 23: pvcreate: command not found
++ vgcreate openeulertest /dev/sr0
+oe_test_storage_lvm_activation_missing.sh: line 24: vgcreate: command not found
++ vgcreate opentest /dev/vdb
+oe_test_storage_lvm_activation_missing.sh: line 25: vgcreate: command not found
++ lvcreate -y -L 50MB -n test openeulertest /dev/sr0
+oe_test_storage_lvm_activation_missing.sh: line 26: lvcreate: command not found
++ lvcreate -y -L 50MB -n test1 opentest /dev/vdb
+oe_test_storage_lvm_activation_missing.sh: line 27: lvcreate: command not found
++ LOG_INFO 'Loading data is complete!'
++ message='Loading data is complete!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Loading data is complete!'
+Fri May  5 11:56:08 2023 - INFO  - Loading data is complete!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase!'
++ message='Start executing testcase!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase!'
+Fri May  5 11:56:09 2023 - INFO  - Start executing testcase!
++ lvchange -ay openeulertest/test --activationmode degraded openeulertest
+oe_test_storage_lvm_activation_missing.sh: line 33: lvchange: command not found
++ CHECK_RESULT 127
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_lvm_activation_missing.sh line 34'
++ message='oe_test_storage_lvm_activation_missing.sh line 34'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_lvm_activation_missing.sh line 34'
+Fri May  5 11:56:09 2023 - ERROR - oe_test_storage_lvm_activation_missing.sh line 34
++ '[' 0 -eq 1 ']'
++ return 0
++ lvchange -ay openeulertest/test --activationmode degraded
+oe_test_storage_lvm_activation_missing.sh: line 35: lvchange: command not found
++ CHECK_RESULT 127
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_lvm_activation_missing.sh line 36'
++ message='oe_test_storage_lvm_activation_missing.sh line 36'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_lvm_activation_missing.sh line 36'
+Fri May  5 11:56:09 2023 - ERROR - oe_test_storage_lvm_activation_missing.sh line 36
++ '[' 0 -eq 1 ']'
++ return 0
++ lvchange -ay opentest/test1 --activationmode degraded opentest
+oe_test_storage_lvm_activation_missing.sh: line 37: lvchange: command not found
++ CHECK_RESULT 127
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_lvm_activation_missing.sh line 38'
++ message='oe_test_storage_lvm_activation_missing.sh line 38'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_lvm_activation_missing.sh line 38'
+Fri May  5 11:56:10 2023 - ERROR - oe_test_storage_lvm_activation_missing.sh line 38
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End of testcase execution!'
++ message='End of testcase execution!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution!'
+Fri May  5 11:56:10 2023 - INFO  - End of testcase execution!
++ CASE_RESULT 0
++ case_re=0
++ test -z 3
++ test 3 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri May  5 11:56:10 2023 - ERROR - failed to execute the case.
++ exit 3
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri May  5 11:56:11 2023 - INFO  - start environment cleanup.
++ vgremove -y openeulertest
+oe_test_storage_lvm_activation_missing.sh: line 44: vgremove: command not found
++ vgremove -y opentest
+oe_test_storage_lvm_activation_missing.sh: line 45: vgremove: command not found
++ pvremove /dev/sr0 /dev/vdb
+oe_test_storage_lvm_activation_missing.sh: line 46: pvremove: command not found
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Fri May  5 11:56:11 2023 - INFO  - Finish environment cleanup.

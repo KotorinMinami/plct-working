@@ -1,0 +1,96 @@
++ source ../common/storage_disk_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Fri May  5 11:43:07 2023 - INFO  - Start environment preparation.
++ check_free_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='sr0 vdb vdc vdd vde'
++ disk_list=($disks)
++ local_disk=sr0
++ local_disk1=vdb
++ local_disk2=vdc
++ local_disk3=vdd
++ pvcreate -y /dev/sr0 /dev/vdb
+oe_test_storage_lvm_merge_VG.sh: line 24: pvcreate: command not found
++ vgcreate openeuler1 /dev/sr0
+oe_test_storage_lvm_merge_VG.sh: line 25: vgcreate: command not found
++ vgcreate openeulertest /dev/vdb
+oe_test_storage_lvm_merge_VG.sh: line 26: vgcreate: command not found
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Fri May  5 11:43:11 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase!'
++ message='Start executing testcase!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase!'
+Fri May  5 11:43:11 2023 - INFO  - Start executing testcase!
++ vgchange --activate n openeulertest
+oe_test_storage_lvm_merge_VG.sh: line 32: vgchange: command not found
++ vgmerge -v openeuler1 openeulertest
+oe_test_storage_lvm_merge_VG.sh: line 33: vgmerge: command not found
++ CHECK_RESULT 127
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_lvm_merge_VG.sh line 34'
++ message='oe_test_storage_lvm_merge_VG.sh line 34'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_lvm_merge_VG.sh line 34'
+Fri May  5 11:43:11 2023 - ERROR - oe_test_storage_lvm_merge_VG.sh line 34
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End of testcase execution!'
++ message='End of testcase execution!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution!'
+Fri May  5 11:43:12 2023 - INFO  - End of testcase execution!
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri May  5 11:43:12 2023 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri May  5 11:43:12 2023 - INFO  - start environment cleanup.
++ vgremove -y openeulertest
+oe_test_storage_lvm_merge_VG.sh: line 40: vgremove: command not found
++ vgremove -y openeuler1
+oe_test_storage_lvm_merge_VG.sh: line 41: vgremove: command not found
++ pvremove /dev/sr0 /dev/vdb
+oe_test_storage_lvm_merge_VG.sh: line 42: pvremove: command not found
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Fri May  5 11:43:13 2023 - INFO  - Finish environment cleanup.

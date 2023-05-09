@@ -1,0 +1,135 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Fri May  5 09:49:34 2023 - INFO  - Start environmental preparation.
++ cp /etc/pam.d/system-auth /etc/pam.d/system-auth-bak
++ grep '^test:' /etc/passwd
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Fri May  5 09:49:35 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Fri May  5 09:49:35 2023 - INFO  - Start executing testcase.
++ sed -i 's/password    requisite     pam_pwquality.so try_first_pass local_users_only/password    requisite     pam_pwquality.so minlen=8 minclass=3 enforce_for_root try_first_pass local_users_only retry=3 dcredit=0 ucredit=0 lcredit=0 ocredit=0\npassword    required      pam_pwhistory.so use_authtok remember=5 enforce_for_root/g' /etc/pam.d/system-auth
++ useradd test
++ passwd test
+New password: BAD PASSWORD: The password is shorter than 8 characters
+New password: BAD PASSWORD: The password is shorter than 8 characters
+New password: Password change has been aborted.
+passwd: Authentication token manipulation error
+Changing password for user test.
++ CHECK_RESULT 1 0 1 'check passwd(test1) failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='check passwd(test1) failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ passwd test
+New password: BAD PASSWORD: The password contains less than 3 character classes
+New password: BAD PASSWORD: The password contains less than 3 character classes
+New password: Password change has been aborted.
+passwd: Authentication token manipulation error
+Changing password for user test.
++ CHECK_RESULT 1 0 1 'check passwd(openeuler12) failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='check passwd(openeuler12) failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ passwd test
+New password: Retype new password: Changing password for user test.
+passwd: all authentication tokens updated successfully.
++ CHECK_RESULT 0 0 0 'check passwd(Adminstrator12#$) failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='check passwd(Adminstrator12#$) failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ passwd test
+New password: Retype new password: Password has been already used. Choose another.
+passwd: Have exhausted maximum number of retries for service
+Changing password for user test.
++ CHECK_RESULT 1 0 1 'check passwd(Adminstrator12#$) failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='check passwd(Adminstrator12#$) failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ passwd test
+New password: BAD PASSWORD: The password is shorter than 8 characters
+New password: BAD PASSWORD: The password is shorter than 8 characters
+New password: BAD PASSWORD: The password is shorter than 8 characters
+passwd: Have exhausted maximum number of retries for service
+Changing password for user test.
++ CHECK_RESULT 1 0 1 'check passwd(test1) failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='check passwd(test1) failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ LOG_INFO 'Finish testcase execution.'
++ message='Finish testcase execution.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish testcase execution.'
+Fri May  5 09:49:43 2023 - INFO  - Finish testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri May  5 09:49:44 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri May  5 09:49:44 2023 - INFO  - start environment cleanup.
++ mv /etc/pam.d/system-auth-bak /etc/pam.d/system-auth -f
++ userdel -rf test
++ echo
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Fri May  5 09:49:44 2023 - INFO  - Finish environment cleanup!

@@ -1,0 +1,473 @@
++ source ./common/open-iscsi_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed May  3 22:40:10 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'open-iscsi net-tools'
++ pkgs='open-iscsi net-tools'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'open-iscsi net-tools' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpz9kaeshi
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpz9kaeshi
++ DNF_INSTALL 'targetcli net-tools' 2
++ pkgs='targetcli net-tools'
++ node=2
++ '[' -z /tmp/tmpz9kaeshi ']'
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'targetcli net-tools' --node 2 --tempfile /tmp/tmpz9kaeshi
+Traceback (most recent call last):
+  File "/root/mugen/libs/locallibs/rpm_manage.py", line 168, in <module>
+    exitcode, output = rpm_install(args.pkgs, args.node, args.tempfile)
+  File "/root/mugen/libs/locallibs/rpm_manage.py", line 66, in rpm_install
+    conn = ssh_cmd.pssh_conn(
+  File "/root/mugen/libs/locallibs/ssh_cmd.py", line 53, in pssh_conn
+    conn.connect(ip, port, user, password, timeout=timeout)
+  File "/usr/lib/python3.10/site-packages/paramiko/client.py", line 340, in connect
+    to_try = list(self._families_and_addresses(hostname, port))
+  File "/usr/lib/python3.10/site-packages/paramiko/client.py", line 203, in _families_and_addresses
+    addrinfos = socket.getaddrinfo(
+  File "/usr/lib64/python3.10/socket.py", line 955, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
++ tmpfile2=
++ '[' -z /tmp/tmpz9kaeshi ']'
++ TARGET_CONF
+++ TEST_DISK 2
+++ id=2
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 2
+Traceback (most recent call last):
+  File "/root/mugen/libs/locallibs/get_test_device.py", line 127, in <module>
+    print(get_test_disk(args.node))
+  File "/root/mugen/libs/locallibs/get_test_device.py", line 98, in get_test_disk
+    conn = ssh_cmd.pssh_conn(
+  File "/root/mugen/libs/locallibs/ssh_cmd.py", line 53, in pssh_conn
+    conn.connect(ip, port, user, password, timeout=timeout)
+  File "/usr/lib/python3.10/site-packages/paramiko/client.py", line 340, in connect
+    to_try = list(self._families_and_addresses(hostname, port))
+  File "/usr/lib/python3.10/site-packages/paramiko/client.py", line 203, in _families_and_addresses
+    addrinfos = socket.getaddrinfo(
+  File "/usr/lib64/python3.10/socket.py", line 955, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
++ unused_disk=
++ test_disk=/dev/1
+++ ip route
+++ grep 127.0.0.1
+++ awk '{print$3}'
++ LOCAL_NICS=
+++ cat /sys/class/net//address
+cat: /sys/class/net//address: No such file or directory
++ LOCAL_MAC=
++ SSH_CMD '
+    dnf install targetcli net-tools -y;
+    systemctl stop firewalld;
+    systemctl start target;
+    ' '' '' ''
++ cmd='
+    dnf install targetcli net-tools -y;
+    systemctl stop firewalld;
+    systemctl start target;
+    '
++ remoteip=
++ remotepasswd=
++ remoteuser=
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c '
+    dnf install targetcli net-tools -y;
+    systemctl stop firewalld;
+    systemctl start target;
+    ' -i '' -u '' -p '' -t 300 -o 22
+Usage: sshcmd.sh -c "command" -i "remote machinet ip" [-u login_user] [-p login_password] [-o port] [-t timeout]+ ret=1
++ test 1 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:1'
++ message='Failed in remote CMD operation:1'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:1'
+Wed May  3 22:40:31 2023 - ERROR - Failed in remote CMD operation:1
++ return 1
++ SSH_SCP ./common/target_config.json @:/etc/target/saveconfig.json ''
++ src=./common/target_config.json
++ dest=@:/etc/target/saveconfig.json
++ remotepasswd=
++ connport=22
++ bash /root/mugen/libs/locallibs/sshscp.sh -p '' -o 22 -s ./common/target_config.json -d @:/etc/target/saveconfig.json
+Wed May  3 22:40:31 2023 - WARN  - the connect port using the default configuration
+spawn scp -P 22 -r ./common/target_config.json @:/etc/target/saveconfig.json
+ssh: Could not resolve hostname : Name or service not known
+scp: Connection closed
++ ret=255
++ test 255 -ne 0
++ LOG_ERROR 'Failed in remote SCP operation: 255'
++ message='Failed in remote SCP operation: 255'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote SCP operation: 255'
+Wed May  3 22:40:32 2023 - ERROR - Failed in remote SCP operation: 255
++ return 255
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ SSH_CMD '
+    sed -i '\''s|DISK_NAME|/dev/1|g'\'' /etc/target/saveconfig.json;
+    sed -i '\''s/IP_ADDRESS//g'\'' /etc/target/saveconfig.json;
+    systemctl restart target;
+    netstat -tulnp|grep 3260;
+    ' '' '' ''
++ cmd='
+    sed -i '\''s|DISK_NAME|/dev/1|g'\'' /etc/target/saveconfig.json;
+    sed -i '\''s/IP_ADDRESS//g'\'' /etc/target/saveconfig.json;
+    systemctl restart target;
+    netstat -tulnp|grep 3260;
+    '
++ remoteip=
++ remotepasswd=
++ remoteuser=
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c '
+    sed -i '\''s|DISK_NAME|/dev/1|g'\'' /etc/target/saveconfig.json;
+    sed -i '\''s/IP_ADDRESS//g'\'' /etc/target/saveconfig.json;
+    systemctl restart target;
+    netstat -tulnp|grep 3260;
+    ' -i '' -u '' -p '' -t 300 -o 22
+Usage: sshcmd.sh -c "command" -i "remote machinet ip" [-u login_user] [-p login_password] [-o port] [-t timeout]+ ret=1
++ test 1 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:1'
++ message='Failed in remote CMD operation:1'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:1'
+Wed May  3 22:40:34 2023 - ERROR - Failed in remote CMD operation:1
++ return 1
++ sed -i 's/InitiatorName=.*$/InitiatorName=iqn.2020-08.com.example:client/g' /etc/iscsi/initiatorname.iscsi
++ systemctl restart iscsid
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ systemctl status iscsid
++ grep -i running
+     Active: active (running) since Wed 2023-05-03 22:40:34 UTC; 2s ago
++ cp -r /etc/iscsi/ifaces/iface.example /etc/iscsi/ifaces/iface.
++ echo 'iface.transport_name = tcp
+iface.initiatorname = iqn.2020-08.com.example:client
+iface.net_ifacename = 
+iface.hwaddress = 
+iface.ipaddress = 127.0.0.1
+iface.bootproto = static'
++ LOG_INFO 'Finish preparing the test environment.'
++ message='Finish preparing the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish preparing the test environment.'
+Wed May  3 22:40:37 2023 - INFO  - Finish preparing the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed May  3 22:40:37 2023 - INFO  - Start to run test.
++ iscsistart -h
++ grep Usage
+Usage: iscsistart [OPTION]
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ iscsistart -v
+++ grep -Eo '[0-9]*\.[0-9]*\.[0-9]*'
+++ rpm -qi open-iscsi
+++ grep Version
+++ awk '{print$3}'
++ test 2.1.5 == 2.1.5
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ iscsiuio -h
++ grep Usage
+oe_test_open-iscsi_iscsistart_iscsiuio.sh: line 35: iscsiuio: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_open-iscsi_iscsistart_iscsiuio.sh line 36'
++ message='oe_test_open-iscsi_iscsistart_iscsiuio.sh line 36'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_open-iscsi_iscsistart_iscsiuio.sh line 36'
+Wed May  3 22:40:38 2023 - ERROR - oe_test_open-iscsi_iscsistart_iscsiuio.sh line 36
++ '[' 0 -eq 1 ']'
++ return 0
++ iscsiuio -v
++ grep -oE 'Version.*[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
+oe_test_open-iscsi_iscsistart_iscsiuio.sh: line 37: iscsiuio: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_open-iscsi_iscsistart_iscsiuio.sh line 38'
++ message='oe_test_open-iscsi_iscsistart_iscsiuio.sh line 38'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_open-iscsi_iscsistart_iscsiuio.sh line 38'
+Wed May  3 22:40:38 2023 - ERROR - oe_test_open-iscsi_iscsistart_iscsiuio.sh line 38
++ '[' 0 -eq 1 ']'
++ return 0
++ systemctl restart iscsid
++ iscsiuio -f -d 4
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ iscsiadm -m node -T iqn.2020-08.com.example:server -p '' -u
+iscsiadm: No matching sessions found
++ iscsistart -i iqn.2020-08.com.example:client -t iqn.2020-08.com.example:server -g 1 -a '' -p 3260
++ grep 'operational now'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_open-iscsi_iscsistart_iscsiuio.sh line 44'
++ message='oe_test_open-iscsi_iscsistart_iscsiuio.sh line 44'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_open-iscsi_iscsistart_iscsiuio.sh line 44'
+Wed May  3 22:40:41 2023 - ERROR - oe_test_open-iscsi_iscsistart_iscsiuio.sh line 44
++ '[' 0 -eq 1 ']'
++ return 0
++ systemctl restart iscsid
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ iscsiadm -m node -T iqn.2020-08.com.example:server -p '' -u
++ grep successful
+iscsiadm: No matching sessions found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_open-iscsi_iscsistart_iscsiuio.sh line 48'
++ message='oe_test_open-iscsi_iscsistart_iscsiuio.sh line 48'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_open-iscsi_iscsistart_iscsiuio.sh line 48'
+Wed May  3 22:40:44 2023 - ERROR - oe_test_open-iscsi_iscsistart_iscsiuio.sh line 48
++ '[' 0 -eq 1 ']'
++ return 0
++ iscsistart -i iqn.2020-08.com.example:client -t iqn.2020-08.com.example:server -g 1 -a '' -p 3260 -u admin -w 123456 -d 4
++ grep 'operational now'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_open-iscsi_iscsistart_iscsiuio.sh line 50'
++ message='oe_test_open-iscsi_iscsistart_iscsiuio.sh line 50'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_open-iscsi_iscsistart_iscsiuio.sh line 50'
+Wed May  3 22:40:44 2023 - ERROR - oe_test_open-iscsi_iscsistart_iscsiuio.sh line 50
++ '[' 0 -eq 1 ']'
++ return 0
++ systemctl restart iscsid
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ iscsiadm -m node -T iqn.2020-08.com.example:server -p '' -u
++ grep successful
+iscsiadm: No matching sessions found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_open-iscsi_iscsistart_iscsiuio.sh line 54'
++ message='oe_test_open-iscsi_iscsistart_iscsiuio.sh line 54'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_open-iscsi_iscsistart_iscsiuio.sh line 54'
+Wed May  3 22:40:47 2023 - ERROR - oe_test_open-iscsi_iscsistart_iscsiuio.sh line 54
++ '[' 0 -eq 1 ']'
++ return 0
++ iscsistart -i iqn.2020-08.com.example:client -t iqn.2020-08.com.example:server -g 1 -a '' -p 3260 -U admin -W 123456
++ grep 'operational now'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_open-iscsi_iscsistart_iscsiuio.sh line 56'
++ message='oe_test_open-iscsi_iscsistart_iscsiuio.sh line 56'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_open-iscsi_iscsistart_iscsiuio.sh line 56'
+Wed May  3 22:40:47 2023 - ERROR - oe_test_open-iscsi_iscsistart_iscsiuio.sh line 56
++ '[' 0 -eq 1 ']'
++ return 0
++ systemctl restart iscsid
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ iscsiadm -m node -T iqn.2020-08.com.example:server -p '' -u
++ grep successful
+iscsiadm: No matching sessions found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_open-iscsi_iscsistart_iscsiuio.sh line 60'
++ message='oe_test_open-iscsi_iscsistart_iscsiuio.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_open-iscsi_iscsistart_iscsiuio.sh line 60'
+Wed May  3 22:40:50 2023 - ERROR - oe_test_open-iscsi_iscsistart_iscsiuio.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ iscsistart -i iqn.2020-08.com.example:client -t iqn.2020-08.com.example:server -g 1 -a '' -p 3260 -u admin -w 123456 -P node.session.auth.authmethod=CHAP
++ grep 'operational now'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_open-iscsi_iscsistart_iscsiuio.sh line 62'
++ message='oe_test_open-iscsi_iscsistart_iscsiuio.sh line 62'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_open-iscsi_iscsistart_iscsiuio.sh line 62'
+Wed May  3 22:40:50 2023 - ERROR - oe_test_open-iscsi_iscsistart_iscsiuio.sh line 62
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Wed May  3 22:40:50 2023 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 9
++ test 9 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed May  3 22:40:51 2023 - ERROR - failed to execute the case.
++ exit 9
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed May  3 22:40:51 2023 - INFO  - Start to restore the test environment.
++ SSH_CMD '
+    dd if=/dev/zero of=/dev/ bs=2G count=1;
+    rm -rf /tmp/disk_info.sh;
+    ' '' '' ''
++ cmd='
+    dd if=/dev/zero of=/dev/ bs=2G count=1;
+    rm -rf /tmp/disk_info.sh;
+    '
++ remoteip=
++ remotepasswd=
++ remoteuser=
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c '
+    dd if=/dev/zero of=/dev/ bs=2G count=1;
+    rm -rf /tmp/disk_info.sh;
+    ' -i '' -u '' -p '' -t 300 -o 22
+Usage: sshcmd.sh -c "command" -i "remote machinet ip" [-u login_user] [-p login_password] [-o port] [-t timeout]+ ret=1
++ test 1 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:1'
++ message='Failed in remote CMD operation:1'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:1'
+Wed May  3 22:40:51 2023 - ERROR - Failed in remote CMD operation:1
++ return 1
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpz9kaeshi ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpz9kaeshi
++ '[' 0 -ne 0 ']'
++ pkill -9 iscsiuio_log
++ rm -rf ./iscsiuio_log.result
++ LOG_INFO 'Finish restoring the test environment.'
++ message='Finish restoring the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish restoring the test environment.'
+Wed May  3 22:40:57 2023 - INFO  - Finish restoring the test environment.

@@ -1,0 +1,205 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Fri May  5 10:09:59 2023 - INFO  - Start environmental preparation.
++ useradd test1
++ useradd test2
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Fri May  5 10:10:00 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Fri May  5 10:10:00 2023 - INFO  - Start executing testcase.
++ expect -c '
+        set timeout 30
+        spawn passwd test1
+        expect {
+            "*assword*" {
+                send "qqq\r"
+                }
+        }
+        expect {
+            "*assword*" {
+                send "qqq\r"
+                }
+        }     
+    '
+spawn passwd test1
+Changing password for user test1.
+qqq
+New password: + expect -c '
+        set timeout 30
+        spawn passwd test2
+        expect {
+            "*assword*" {
+                send "qqq\r"
+                }
+        }
+        expect {
+            "*assword*" {
+                send "qqq\r"
+                }
+        }     
+    '
+spawn passwd test2
+Changing password for user test2.
+qqq
+New password: + usermod -a -G wheel test1
++ expect -c '
+        set timeout 30
+        log_file testlog1
+        spawn su test2
+        expect {
+            "*assword*" {
+                send "qqq\r"
+                }
+        }
+        expect {
+            "*test2@*" {
+                send "pwd\r"
+                }
+        } 
+        expect {
+            "*test2@*" {
+                send "exit\r"
+                }
+        }             
+    '
+spawn su test2
+
+
+Welcome to 6.1.19-7.0.0.17.oe2303.x86_64
+
+System information as of time: 	Fri May  5 10:10:01 AM UTC 2023
+
+System load: 	[0;33;40m0.43[0m
+Processes: 	115
+Memory used: 	4.0%
+Swap used: 	0.0%
+Usage On: 	10%
+IP address: 	10.198.114.1
+IP address: 	10.0.2.15
+Users online: 	0
+To run a command as administrator(user "root"),use "sudo <command>".
+[test2@localhost oe_test_ssh_su_permission_restrictions]$ pwd
+/root/mugen/testcases/doc-test/security_guide/oe_test_ssh_su_permission_restrictions
+[test2@localhost oe_test_ssh_su_permission_restrictions]$ + grep 'IP address' testlog1
+IP address: 	10.198.114.1
+IP address: 	10.0.2.15
++ CHECK_RESULT 0 0 0 'Login failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Login failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect -c '
+        set timeout 30
+        log_file testlog2
+        spawn su test1
+        expect {
+            "*assword*" {
+                send "qqq\r"
+                }
+        }
+        expect {
+            "*test1@*" {
+                send "su test 2\r"
+                }
+        }   
+        expect {
+            "*test2@*" {
+                send "pwd\r"
+                }
+        }    
+        expect {
+            "*test2@*" {
+                send "exit\r"
+                }
+        } 
+        expect {
+            "*test1@*" {
+                send "exit\r"
+                }
+        }                          
+    '
+spawn su test1
+
+
+Welcome to 6.1.19-7.0.0.17.oe2303.x86_64
+
+System information as of time: 	Fri May  5 10:10:32 AM UTC 2023
+
+System load: 	[0;33;40m0.26[0m
+Processes: 	115
+Memory used: 	4.1%
+Swap used: 	0.0%
+Usage On: 	10%
+IP address: 	10.198.114.1
+IP address: 	10.0.2.15
+Users online: 	0
+To run a command as administrator(user "root"),use "sudo <command>".
+[test1@localhost oe_test_ssh_su_permission_restrictions]$ su test 2
+su: user test does not exist or the user entry does not contain all the required fields
+[test1@localhost oe_test_ssh_su_permission_restrictions]$ + grep 'IP address' testlog2
+IP address: 	10.198.114.1
+IP address: 	10.0.2.15
++ CHECK_RESULT 0 0 0 'Login failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Login failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish testcase execution.'
++ message='Finish testcase execution.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish testcase execution.'
+Fri May  5 10:12:01 2023 - INFO  - Finish testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri May  5 10:12:02 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start cleanning environment.'
++ message='Start cleanning environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start cleanning environment.'
+Fri May  5 10:12:02 2023 - INFO  - Start cleanning environment.
++ rm -rf testlog1 testlog2
++ userdel -rf 'test*'
+userdel: user 'test*' does not exist
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Fri May  5 10:12:02 2023 - INFO  - Finish environment cleanup!

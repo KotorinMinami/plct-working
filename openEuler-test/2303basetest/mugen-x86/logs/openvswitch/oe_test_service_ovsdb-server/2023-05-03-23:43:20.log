@@ -1,0 +1,174 @@
++ source ../common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed May  3 23:43:22 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL openvswitch
++ pkgs=openvswitch
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs openvswitch --node 1 --tempfile ''
++ tmpfile2=/tmp/tmptmb7i2gv
++ '[' -z '' ']'
++ tmpfile=/tmp/tmptmb7i2gv
++ service=ovsdb-server.service
+++ date '+%Y-%m-%d %T'
++ log_time='2023-05-03 23:44:16'
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Wed May  3 23:44:16 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Wed May  3 23:44:17 2023 - INFO  - Start testing...
++ service ovsdb-server.service restart
+Redirecting to /bin/systemctl restart ovsdb-server.service
++ CHECK_RESULT 0 0 0 'ovsdb-server.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='ovsdb-server.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ service ovsdb-server.service stop
+Redirecting to /bin/systemctl stop ovsdb-server.service
++ CHECK_RESULT 0 0 0 'ovsdb-server.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='ovsdb-server.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ service ovsdb-server.service start
+Redirecting to /bin/systemctl start ovsdb-server.service
++ CHECK_RESULT 0 0 0 'ovsdb-server.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='ovsdb-server.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ service ovsdb-server.service status
++ grep 'Active: active (running)'
+Redirecting to /bin/systemctl status ovsdb-server.service
+     Active: active (running) since Wed 2023-05-03 23:44:19 UTC; 126ms ago
++ CHECK_RESULT 0 0 0 'ovsdb-server.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='ovsdb-server.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ journalctl --since '2023-05-03 23:44:16' -u ovsdb-server.service
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 1 0 'There is an error message for the log of ovsdb-server.service'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='There is an error message for the log of ovsdb-server.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ service ovsdb-server.service start
+Redirecting to /bin/systemctl start ovsdb-server.service
++ sed -i 's\ExecStart=/usr/share/openvswitch/scripts/ovs-ctl\ExecStart=/usr/share/openvswitch/scripts/ovs-ctl --no-mlockall\g' /usr/lib/systemd/system/ovsdb-server.service
++ systemctl daemon-reload
++ service ovsdb-server.service reload
+Redirecting to /bin/systemctl reload ovsdb-server.service
++ CHECK_RESULT 0 0 0 'ovsdb-server.service reload failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='ovsdb-server.service reload failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ service ovsdb-server.service status
++ grep 'Active: active'
+Redirecting to /bin/systemctl status ovsdb-server.service
+     Active: active (running) since Wed 2023-05-03 23:44:19 UTC; 1s ago
++ CHECK_RESULT 0 0 0 'ovsdb-server.service reload causes the service status to change'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='ovsdb-server.service reload causes the service status to change'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Wed May  3 23:44:21 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed May  3 23:44:21 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Wed May  3 23:44:21 2023 - INFO  - start environment cleanup.
++ sed -i 's\ExecStart=/usr/share/openvswitch/scripts/ovs-ctl --no-mlockall\ExecStart=/usr/share/openvswitch/scripts/ovs-ctl\g' /usr/lib/systemd/system/ovsdb-server.service
++ systemctl daemon-reload
++ service ovsdb-server.service reload
+Redirecting to /bin/systemctl reload ovsdb-server.service
++ service ovsdb-server.service stop
+Redirecting to /bin/systemctl stop ovsdb-server.service
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmptmb7i2gv ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmptmb7i2gv
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Wed May  3 23:45:00 2023 - INFO  - Finish environment cleanup!

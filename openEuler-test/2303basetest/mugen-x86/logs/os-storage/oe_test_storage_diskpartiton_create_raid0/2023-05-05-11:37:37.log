@@ -1,0 +1,193 @@
++ source ../common/storage_disk_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n function ']'
++ config_params
++ LOG_INFO 'Start loading data!'
++ message='Start loading data!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start loading data!'
+Fri May  5 11:37:38 2023 - INFO  - Start loading data!
++ check_free_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='sr0 vdb vdc vdd vde'
++ disk_list=($disks)
++ local_disk=sr0
++ local_disk1=vdb
++ local_disk2=vdc
++ local_disk3=vdd
++ LOG_INFO 'Loading data is complete!'
++ message='Loading data is complete!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Loading data is complete!'
+Fri May  5 11:37:42 2023 - INFO  - Loading data is complete!
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Fri May  5 11:37:42 2023 - INFO  - Start environment preparation.
++ DNF_INSTALL mdadm
++ pkgs=mdadm
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs mdadm --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpqf6ke2fo
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpqf6ke2fo
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Fri May  5 11:38:00 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase!'
++ message='Start executing testcase!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase!'
+Fri May  5 11:38:01 2023 - INFO  - Start executing testcase!
++ mdadm --create --auto=yes /dev/md0 --level=0 --raid-device=3 /dev/sr0 /dev/vdb /dev/vdc
+mdadm: cannot open /dev/sr0: No medium found
++ CHECK_RESULT 2
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_diskpartiton_create_raid0.sh line 37'
++ message='oe_test_storage_diskpartiton_create_raid0.sh line 37'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_diskpartiton_create_raid0.sh line 37'
+Fri May  5 11:38:01 2023 - ERROR - oe_test_storage_diskpartiton_create_raid0.sh line 37
++ '[' 0 -eq 1 ']'
++ return 0
++ lsblk
++ grep -c md0
++ grep 3
++ mdadm --detail /dev/md0
++ grep 'Raid Device'
++ awk -F : '{print$2}'
++ grep 3
+mdadm: cannot open /dev/md0: No such file or directory
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_diskpartiton_create_raid0.sh line 40'
++ message='oe_test_storage_diskpartiton_create_raid0.sh line 40'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_diskpartiton_create_raid0.sh line 40'
+Fri May  5 11:38:01 2023 - ERROR - oe_test_storage_diskpartiton_create_raid0.sh line 40
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm --stop /dev/md0
+mdadm: error opening /dev/md0: No such file or directory
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_diskpartiton_create_raid0.sh line 42'
++ message='oe_test_storage_diskpartiton_create_raid0.sh line 42'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_diskpartiton_create_raid0.sh line 42'
+Fri May  5 11:38:02 2023 - ERROR - oe_test_storage_diskpartiton_create_raid0.sh line 42
++ '[' 0 -eq 1 ']'
++ return 0
++ mdadm --misc --zero-superblock /dev/sr0 /dev/vdb /dev/vdc
+mdadm: Couldn't open /dev/sr0 for write - not zeroing
+mdadm: Unrecognised md component device - /dev/vdb
+mdadm: Unrecognised md component device - /dev/vdc
++ lsblk
++ grep md0
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ LOG_INFO 'End of testcase execution!'
++ message='End of testcase execution!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution!'
+Fri May  5 11:38:02 2023 - INFO  - End of testcase execution!
++ CASE_RESULT 0
++ case_re=0
++ test -z 3
++ test 3 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri May  5 11:38:02 2023 - ERROR - failed to execute the case.
++ exit 3
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri May  5 11:38:03 2023 - INFO  - start environment cleanup.
++ mkfs.ext4 -F sr0
+mke2fs 1.46.5 (30-Dec-2021)
+The file sr0 does not exist and no size was specified.
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ mkfs.ext4 -F vdb
+mke2fs 1.46.5 (30-Dec-2021)
+The file vdb does not exist and no size was specified.
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ mkfs.ext4 -F vdc
+mke2fs 1.46.5 (30-Dec-2021)
+The file vdc does not exist and no size was specified.
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpqf6ke2fo ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpqf6ke2fo
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Fri May  5 11:38:16 2023 - INFO  - Finish environment cleanup.

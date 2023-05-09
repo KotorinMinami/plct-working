@@ -1,0 +1,370 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Fri May  5 07:03:30 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL wireshark
++ pkgs=wireshark
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs wireshark --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpueyp2cel
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpueyp2cel
+++ rpm -qa wireshark
+++ awk -F - '{print$2}'
++ version=3.6.11
++ LOG_INFO 'Finish preparing the test environment.'
++ message='Finish preparing the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish preparing the test environment.'
+Fri May  5 07:14:28 2023 - INFO  - Finish preparing the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri May  5 07:14:28 2023 - INFO  - Start to run test.
++ dumpcap --help
++ grep 'Usage: dumpcap \[options\]'
+Usage: dumpcap [options] ...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dumpcap --version
++ grep 3.6.11
+Dumpcap (Wireshark) 3.6.11 (Git commit 6529b24d7c78)
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dumpcap -D
++ grep '[0-9]'
+1. ens4
+2. any
+3. lo (Loopback)
+4. bluetooth-monitor
+5. usbmon0
+6. nflog
+7. nfqueue
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ dumpcap -D
+++ awk -F . '{print $2}'
+++ head -1
++ netCard=' ens4'
++ SLEEP_WAIT 10 'dumpcap -i  ens4 -c 20 -w testfile1' 2
++ wait_time=10
++ cmd='dumpcap -i  ens4 -c 20 -w testfile1'
++ mode=2
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 10 --cmd 'dumpcap -i  ens4 -c 20 -w testfile1' --mode 2
+Fri May  5 07:33:29 2023 - ERROR - Timeout : Command 'bash -x oe_test_dumpcap_01.sh' timed out after 1799.9997725200005 seconds
+Capturing on 'ens4'
+File: testfile1
+
+Packets: 3 
+Packets: 5 
+Packets: 6 
+Packets: 8 
+Packets: 9 
+Packets: 13 
+Packets: 15 
+Packets: 19 
+Packets: 20 
+Packets captured: 20
+Packets received/dropped on interface 'ens4': 20/0 (pcap:0/dumpcap:0/flushed:0/ps_ifdrop:0) (100.0%)
+++ post_test
+++ LOG_INFO 'Start to restore the test environment.'
+++ message='Start to restore the test environment.'
+++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri May  5 07:33:32 2023 - INFO  - Start to restore the test environment.
++++ ls
++++ grep -v .sh
+++ rm -rf testfile1
+++ DNF_REMOVE
+++ node=1
+++ pkg_list=
+++ mode=0
+++ [[ -z /tmp/tmpueyp2cel ]]
+++ '[' 0 -ne 0 ']'
+++ '[' 1 == 0 ']'
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpueyp2cel
+++ '[' 0 -ne 0 ']'
+++ LOG_INFO 'Finish restoring the test environment.'
+++ message='Finish restoring the test environment.'
+++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish restoring the test environment.'
+Fri May  5 07:33:55 2023 - INFO  - Finish restoring the test environment.
++ grep -a ens4 testfile1
+grep: testfile1: No such file or directory
++ CHECK_RESULT 2
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dumpcap_01.sh line 39'
++ message='oe_test_dumpcap_01.sh line 39'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_dumpcap_01.sh line 39'
+Fri May  5 07:33:56 2023 - ERROR - oe_test_dumpcap_01.sh line 39
++ '[' 0 -eq 1 ']'
++ return 0
++ SLEEP_WAIT 5 'dumpcap -i  ens4 -f "tcp port 22" -c 20 -w testfile2' 2
++ wait_time=5
++ cmd='dumpcap -i  ens4 -f "tcp port 22" -c 20 -w testfile2'
++ mode=2
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd 'dumpcap -i  ens4 -f "tcp port 22" -c 20 -w testfile2' --mode 2
++ grep -a 'tcp port 22' testfile2
+grep: testfile2: No such file or directory
++ CHECK_RESULT 2
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dumpcap_01.sh line 42'
++ message='oe_test_dumpcap_01.sh line 42'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_dumpcap_01.sh line 42'
+Fri May  5 07:34:02 2023 - ERROR - oe_test_dumpcap_01.sh line 42
++ '[' 0 -eq 1 ']'
++ return 0
++ capinfos testfile2
++ grep 'Filter string = tcp port 22'
+oe_test_dumpcap_01.sh: line 43: capinfos: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dumpcap_01.sh line 44'
++ message='oe_test_dumpcap_01.sh line 44'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_dumpcap_01.sh line 44'
+Fri May  5 07:34:02 2023 - ERROR - oe_test_dumpcap_01.sh line 44
++ '[' 0 -eq 1 ']'
++ return 0
++ SLEEP_WAIT 5 'dumpcap -i  ens4 -s 1 -c 20 -w testfile3' 2
++ wait_time=5
++ cmd='dumpcap -i  ens4 -s 1 -c 20 -w testfile3'
++ mode=2
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd 'dumpcap -i  ens4 -s 1 -c 20 -w testfile3' --mode 2
++ capinfos testfile3
+oe_test_dumpcap_01.sh: line 46: capinfos: command not found
++ grep ' Capture length = 1'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dumpcap_01.sh line 47'
++ message='oe_test_dumpcap_01.sh line 47'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_dumpcap_01.sh line 47'
+Fri May  5 07:34:08 2023 - ERROR - oe_test_dumpcap_01.sh line 47
++ '[' 0 -eq 1 ']'
++ return 0
++ SLEEP_WAIT 5 'dumpcap -i  ens4 -p -c 20 -w testfile4' 2
++ wait_time=5
++ cmd='dumpcap -i  ens4 -p -c 20 -w testfile4'
++ mode=2
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd 'dumpcap -i  ens4 -p -c 20 -w testfile4' --mode 2
++ grep 'Number of packets:.*20'
++ capinfos testfile4
+oe_test_dumpcap_01.sh: line 49: capinfos: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dumpcap_01.sh line 50'
++ message='oe_test_dumpcap_01.sh line 50'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_dumpcap_01.sh line 50'
+Fri May  5 07:34:14 2023 - ERROR - oe_test_dumpcap_01.sh line 50
++ '[' 0 -eq 1 ']'
++ return 0
++ SLEEP_WAIT 5 'dumpcap -i  ens4 -L | grep "Data link types of interface"' 2
++ wait_time=5
++ cmd='dumpcap -i  ens4 -L | grep "Data link types of interface"'
++ mode=2
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd 'dumpcap -i  ens4 -L | grep "Data link types of interface"' --mode 2
+++ dumpcap -i ens4 -L
+oe_test_dumpcap_01.sh: line 52: dumpcap: command not found
+++ sed -n 2p
+++ awk '{print $1}'
++ linkType=
++ SLEEP_WAIT 5 'dumpcap -i  ens4 -y  -c 20 -w testfile5' 2
++ wait_time=5
++ cmd='dumpcap -i  ens4 -y  -c 20 -w testfile5'
++ mode=2
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd 'dumpcap -i  ens4 -y  -c 20 -w testfile5' --mode 2
++ capinfos testfile5
++ grep -E ' ens4|Ethernet'
+oe_test_dumpcap_01.sh: line 54: capinfos: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dumpcap_01.sh line 55'
++ message='oe_test_dumpcap_01.sh line 55'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_dumpcap_01.sh line 55'
+Fri May  5 07:34:25 2023 - ERROR - oe_test_dumpcap_01.sh line 55
++ '[' 0 -eq 1 ']'
++ return 0
++ expect
+spawn dumpcap -S
+couldn't execute "dumpcap": no such file or directory
+    while executing
+"spawn dumpcap -S"
++ grep -E 'Interface|Received|Dropped|[0-9]' log1
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dumpcap_01.sh line 64'
++ message='oe_test_dumpcap_01.sh line 64'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_dumpcap_01.sh line 64'
+Fri May  5 07:34:25 2023 - ERROR - oe_test_dumpcap_01.sh line 64
++ '[' 0 -eq 1 ']'
++ return 0
++ SLEEP_WAIT 5 'dumpcap -M -D | grep -E "[0-9]|network"' 2
++ wait_time=5
++ cmd='dumpcap -M -D | grep -E "[0-9]|network"'
++ mode=2
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd 'dumpcap -M -D | grep -E "[0-9]|network"' --mode 2
++ SLEEP_WAIT 5 'dumpcap -M -L | grep -E "Ethernet|DOCSIS"' 2
++ wait_time=5
++ cmd='dumpcap -M -L | grep -E "Ethernet|DOCSIS"'
++ mode=2
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd 'dumpcap -M -L | grep -E "Ethernet|DOCSIS"' --mode 2
++ expect
+spawn dumpcap -M -S
+couldn't execute "dumpcap": no such file or directory
+    while executing
+"spawn dumpcap -M -S"
++ grep '[0-9]' log2
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_dumpcap_01.sh line 75'
++ message='oe_test_dumpcap_01.sh line 75'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_dumpcap_01.sh line 75'
+Fri May  5 07:34:37 2023 - ERROR - oe_test_dumpcap_01.sh line 75
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Fri May  5 07:34:37 2023 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 8
++ test 8 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri May  5 07:34:38 2023 - ERROR - failed to execute the case.
++ exit 8
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri May  5 07:34:38 2023 - INFO  - Start to restore the test environment.
+++ ls
+++ grep -v .sh
++ rm -rf log1 log2
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpueyp2cel ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpueyp2cel
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish restoring the test environment.'
++ message='Finish restoring the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish restoring the test environment.'
+Fri May  5 07:34:43 2023 - INFO  - Finish restoring the test environment.

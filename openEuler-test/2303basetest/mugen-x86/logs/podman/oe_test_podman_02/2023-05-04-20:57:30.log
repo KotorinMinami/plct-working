@@ -1,0 +1,390 @@
++ source ../common/common_podman.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu May  4 20:57:31 2023 - INFO  - Start to prepare the test environment.
++ deploy_env
++ DNF_INSTALL 'podman podman-docker'
++ pkgs='podman podman-docker'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'podman podman-docker' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpkf7hxxh0
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpkf7hxxh0
++ echo -e '[registries.search]
+registries = ['\''docker.io'\'']
+
+[registries.insecure]
+registries = []
+
+[registries.block]
+registries = []
+'
++ podman pull postgres:alpine
+Resolving "postgres" using unqualified-search registries (/etc/containers/registries.conf)
+Trying to pull docker.io/library/postgres:alpine...
+Getting image source signatures
+Copying blob sha256:f33740282c0040003ee1e3c9ec1a68d5eb873795badbbf6103c79cc588760e4a
+Copying blob sha256:8eff49387ec9a1f26ada557b4e31f86a45f70ef57c1a45345e5bfbe75e53bcfc
+Copying blob sha256:f56be85fc22e46face30e2c3de3f7fe7c15f8fd7c4e5add29d7f64b87abdaa09
+Copying blob sha256:7da7fae4e80a5e292219502d2ce432382a68e8d0fb3841807ad70963ec194e7d
+Copying blob sha256:f71699d7795ac5159478a278ffb6af3fcac0141e6a637d71062a601d7cab30c7
+Copying blob sha256:256414453fba6e3cc9af34383da6e5920f6d4ac3399943b8569b68896c645a0e
+Copying blob sha256:f71699d7795ac5159478a278ffb6af3fcac0141e6a637d71062a601d7cab30c7
+Copying blob sha256:7da7fae4e80a5e292219502d2ce432382a68e8d0fb3841807ad70963ec194e7d
+Copying blob sha256:8eff49387ec9a1f26ada557b4e31f86a45f70ef57c1a45345e5bfbe75e53bcfc
+Copying blob sha256:f56be85fc22e46face30e2c3de3f7fe7c15f8fd7c4e5add29d7f64b87abdaa09
+Copying blob sha256:256414453fba6e3cc9af34383da6e5920f6d4ac3399943b8569b68896c645a0e
+Copying blob sha256:f33740282c0040003ee1e3c9ec1a68d5eb873795badbbf6103c79cc588760e4a
+Copying blob sha256:b49740a115f2f98ff2414fb5272986655b272d739c878477a6ca541430a41637
+Copying blob sha256:c36da779701e31511df27033e2a5e1b1ebdd0b7f4032cfab4a04c82139d7337a
+Copying blob sha256:b49740a115f2f98ff2414fb5272986655b272d739c878477a6ca541430a41637
+Copying blob sha256:c36da779701e31511df27033e2a5e1b1ebdd0b7f4032cfab4a04c82139d7337a
+Copying config sha256:ddc12ac7fa27279bfcc41deaccd1368291ab7d71ca7cee0420b41f9974e9a468
+Writing manifest to image destination
+Storing signatures
+ddc12ac7fa27279bfcc41deaccd1368291ab7d71ca7cee0420b41f9974e9a468
++ podman run --name postgres -e POSTGRES_PASSWORD=secret -d postgres:alpine
+time="2023-05-04T21:01:55Z" level=warning msg="Path \"/usr/share/rhel/secrets\" from \"/usr/share/containers/mounts.conf\" doesn't exist, skipping"
+1396c7adab3c730cc92a084946c73b6a9d8b1e04dc09aaebf7bc123fc923c670
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu May  4 21:01:55 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu May  4 21:01:56 2023 - INFO  - Start to run test.
++ podman pull busybox
+Resolved "busybox" as an alias (/etc/containers/registries.conf.d/000-shortnames.conf)
+Trying to pull docker.io/library/busybox:latest...
+Error: determining manifest MIME type for docker://busybox:latest: Get "https://registry-1.docker.io/v2/library/busybox/manifests/sha256:acaddd9ed544f7baf3373064064a51250b14cfe3ec604d65765a53da5958e5f5": net/http: TLS handshake timeout
+++ podman images -q
+++ podman images -q
++ grep ddc12ac7fa27
++ podman images --filter after=ddc12ac7fa27
++ CHECK_RESULT 1 0 1
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ podman images -sort created
++ grep busybox
+Error: unknown shorthand flag: 's' in -sort
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_02.sh line 35'
++ message='oe_test_podman_02.sh line 35'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_02.sh line 35'
+Thu May  4 21:02:10 2023 - ERROR - oe_test_podman_02.sh line 35
++ '[' 0 -eq 1 ']'
++ return 0
++ podman rmi busybox
+Error: busybox: image not known
++ podman images
++ grep alpine
+docker.io/library/postgres  alpine      ddc12ac7fa27  5 weeks ago  246 MB
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ podman stop postgres
+postgres
++ podman commit postgres images1
+Getting image source signatures
+Copying blob sha256:f1417ff83b319fbdae6dd9cd6d8c9c88002dcd75ecf6ec201c8c6894681cf2b5
+Copying blob sha256:fcf02a753237f1b1b42cc1b01f064e519091b790f0a07c2b93ea57b5738ed0e4
+Copying blob sha256:5a60e9fc7e1e4a0f1964971cc5e4ebfaadd3fe2aaebe7f8b50ba81919abdb322
+Copying blob sha256:00134de398d0f9382cdbd6b9d96d11a345dd8089729daef0719e7b73a4e92318
+Copying blob sha256:5f1c25ebb8aa0c2d09779e91211854612fd996d993c1a9b8fc7cf80a91bcbb1b
+Copying blob sha256:2813163892f150ec0490a9f1f7b3079ce20127ea82159b59ef8c5cb43d747e23
+Copying blob sha256:342ef26a205af001eb88827c2314002e2fd8fb771dcdcfb4a9694083188214b2
+Copying blob sha256:2d4d2a830f34bdd6c688ae0571200b3674a098b3f89f246aadb6f89d6bf0ca3d
+Copying blob sha256:897e145afe052402fd5291aa6a5b6d5de51dc6addcce1c240b5fbe1ced4d63ae
+Copying config sha256:bd5f058d5c73d56a92582458bffffcd2dbc382684fa2e1b3be3e4f06553c39e6
+Writing manifest to image destination
+Storing signatures
+bd5f058d5c73d56a92582458bffffcd2dbc382684fa2e1b3be3e4f06553c39e6
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ podman images
++ grep images1
+localhost/images1           latest      bd5f058d5c73  2 seconds ago  246 MB
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ podman commit --change CMD=/bin/bash --change ENTRYPOINT=/bin/sh postgres images2
+Getting image source signatures
+Copying blob sha256:f1417ff83b319fbdae6dd9cd6d8c9c88002dcd75ecf6ec201c8c6894681cf2b5
+Copying blob sha256:fcf02a753237f1b1b42cc1b01f064e519091b790f0a07c2b93ea57b5738ed0e4
+Copying blob sha256:5a60e9fc7e1e4a0f1964971cc5e4ebfaadd3fe2aaebe7f8b50ba81919abdb322
+Copying blob sha256:00134de398d0f9382cdbd6b9d96d11a345dd8089729daef0719e7b73a4e92318
+Copying blob sha256:5f1c25ebb8aa0c2d09779e91211854612fd996d993c1a9b8fc7cf80a91bcbb1b
+Copying blob sha256:2813163892f150ec0490a9f1f7b3079ce20127ea82159b59ef8c5cb43d747e23
+Copying blob sha256:342ef26a205af001eb88827c2314002e2fd8fb771dcdcfb4a9694083188214b2
+Copying blob sha256:2d4d2a830f34bdd6c688ae0571200b3674a098b3f89f246aadb6f89d6bf0ca3d
+Copying blob sha256:897e145afe052402fd5291aa6a5b6d5de51dc6addcce1c240b5fbe1ced4d63ae
+Copying config sha256:16120a50f625b81146a83f5fa821ee2b1693d4279d940a1223c2fffa5659ecb1
+Writing manifest to image destination
+Storing signatures
+16120a50f625b81146a83f5fa821ee2b1693d4279d940a1223c2fffa5659ecb1
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ podman images
++ grep images2
+localhost/images2           latest      16120a50f625  2 seconds ago  246 MB
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ podman commit -p postgres images3
+Getting image source signatures
+Copying blob sha256:f1417ff83b319fbdae6dd9cd6d8c9c88002dcd75ecf6ec201c8c6894681cf2b5
+Copying blob sha256:fcf02a753237f1b1b42cc1b01f064e519091b790f0a07c2b93ea57b5738ed0e4
+Copying blob sha256:5a60e9fc7e1e4a0f1964971cc5e4ebfaadd3fe2aaebe7f8b50ba81919abdb322
+Copying blob sha256:00134de398d0f9382cdbd6b9d96d11a345dd8089729daef0719e7b73a4e92318
+Copying blob sha256:5f1c25ebb8aa0c2d09779e91211854612fd996d993c1a9b8fc7cf80a91bcbb1b
+Copying blob sha256:2813163892f150ec0490a9f1f7b3079ce20127ea82159b59ef8c5cb43d747e23
+Copying blob sha256:342ef26a205af001eb88827c2314002e2fd8fb771dcdcfb4a9694083188214b2
+Copying blob sha256:2d4d2a830f34bdd6c688ae0571200b3674a098b3f89f246aadb6f89d6bf0ca3d
+Copying blob sha256:897e145afe052402fd5291aa6a5b6d5de51dc6addcce1c240b5fbe1ced4d63ae
+Copying config sha256:350745bc52f8f797ed1e735a00ed62748eec7148de1640e5e7e8c30c3aab3d49
+Writing manifest to image destination
+Storing signatures
+350745bc52f8f797ed1e735a00ed62748eec7148de1640e5e7e8c30c3aab3d49
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ podman images
++ grep images3
+localhost/images3           latest      350745bc52f8  2 seconds ago  246 MB
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ podman commit -q postgres images4
+ad0b4ffadb1ebea89850abe2f6dad5d50fe4e62b27ab3c4760b12d95f7782168
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ podman images
++ grep images4
+localhost/images4           latest      ad0b4ffadb1e  2 seconds ago  246 MB
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ podman commit -f docker -q --message 'committing container to image' postgres images5
+time="2023-05-04T21:02:21Z" level=warning msg="COMMENT is not supported for OCI image format, comment committing container to image will be ignored. Must use `docker` format"
+37d51085f3b7bdcd9ba8f68548f74ab07208f796a051c92c399fbe577d61c7b2
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ podman images
++ grep images5
+localhost/images5           latest      37d51085f3b7  2 seconds ago   246 MB
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ podman image ls --quiet
+++ podman images -aq
++ grep '37d51085f3b7
+ad0b4ffadb1e
+350745bc52f8
+16120a50f625
+bd5f058d5c73
+ddc12ac7fa27'
+37d51085f3b7
+ad0b4ffadb1e
+350745bc52f8
+16120a50f625
+bd5f058d5c73
+ddc12ac7fa27
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ podman image ls --sort size
+REPOSITORY                  TAG         IMAGE ID      CREATED         SIZE
+docker.io/library/postgres  alpine      ddc12ac7fa27  5 weeks ago     246 MB
+localhost/images1           latest      bd5f058d5c73  12 seconds ago  246 MB
+localhost/images3           latest      350745bc52f8  8 seconds ago   246 MB
+localhost/images4           latest      ad0b4ffadb1e  5 seconds ago   246 MB
+localhost/images2           latest      16120a50f625  10 seconds ago  246 MB
+localhost/images5           latest      37d51085f3b7  3 seconds ago   246 MB
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu May  4 21:02:25 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Thu May  4 21:02:25 2023 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu May  4 21:02:25 2023 - INFO  - Start to restore the test environment.
++ clear_env
++ podman stop postgres
+postgres
++ podman rm --all
+1396c7adab3c730cc92a084946c73b6a9d8b1e04dc09aaebf7bc123fc923c670
++ podman rmi -f --all
+Untagged: docker.io/library/postgres:alpine
+Untagged: localhost/images1:latest
+Untagged: localhost/images2:latest
+Untagged: localhost/images3:latest
+Untagged: localhost/images4:latest
+Untagged: localhost/images5:latest
+Deleted: bd5f058d5c73d56a92582458bffffcd2dbc382684fa2e1b3be3e4f06553c39e6
+Deleted: 16120a50f625b81146a83f5fa821ee2b1693d4279d940a1223c2fffa5659ecb1
+Deleted: 350745bc52f8f797ed1e735a00ed62748eec7148de1640e5e7e8c30c3aab3d49
+Deleted: ad0b4ffadb1ebea89850abe2f6dad5d50fe4e62b27ab3c4760b12d95f7782168
+Deleted: 37d51085f3b7bdcd9ba8f68548f74ab07208f796a051c92c399fbe577d61c7b2
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpkf7hxxh0 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpkf7hxxh0
++ '[' 0 -ne 0 ']'
+++ ls
+++ grep -vE .sh
++ rm -rf
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu May  4 21:03:07 2023 - INFO  - End to restore the test environment.

@@ -1,0 +1,268 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu May  4 20:45:26 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL pesign
++ pkgs=pesign
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs pesign --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpagc_cfb2
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpagc_cfb2
++ mkdir pesigntest
++ cd pesigntest
++ cp ../common/baidu.zip ./
++ cp ../common/grubx64.efi ./
++ unzip baidu.zip
+oe_test_pesign_pesigcheck.sh: line 29: unzip: command not found
++ pesign -i grubx64.efi -o grubx64.efi.signed -c 'ALT Linux UEFI SB CA' -s -n ./baidu -t 'NSS Certificate DB' -a -v -p -P -N
+pesign: Could not open NSS database ("security library: bad database."): No such file or directory
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu May  4 20:45:59 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu May  4 20:46:00 2023 - INFO  - Start to run test.
++ pesigcheck '-?'
++ grep 'Usage: pesigcheck'
+Usage: pesigcheck [OPTION...]
++ CHECK_RESULT 0 0 0 'Check pesigcheck -? failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check pesigcheck -? failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pesigcheck --help
++ grep 'Usage: pesigcheck'
+Usage: pesigcheck [OPTION...]
++ CHECK_RESULT 0 0 0 'Check pesigcheck --help failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check pesigcheck --help failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pesigcheck --usage
++ grep 'Usage: pesigcheck'
+Usage: pesigcheck [-?] [-i|--in=<infile>] [-q|--quiet] [-v|--verbose]
++ CHECK_RESULT 0 0 0 'Check pesigcheck --usage failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check pesigcheck --usage failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pesigcheck -i grubx64.efi -q -v -n 1 -D ./baidu/cert9.db
++ grep 'Searching db cert9.db'
+Could not add DB from file "./baidu/cert9.db": No such file or directory
++ CHECK_RESULT 1 0 0 'Check pesigcheck -i -q -v -n -D failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check pesigcheck -i -q -v -n -D failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check pesigcheck -i -q -v -n -D failed'
++ LOG_ERROR 'Check pesigcheck -i -q -v -n -D failed'
++ message='Check pesigcheck -i -q -v -n -D failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check pesigcheck -i -q -v -n -D failed'
+Thu May  4 20:46:00 2023 - ERROR - Check pesigcheck -i -q -v -n -D failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pesign_pesigcheck.sh line 43'
++ message='oe_test_pesign_pesigcheck.sh line 43'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pesign_pesigcheck.sh line 43'
+Thu May  4 20:46:00 2023 - ERROR - oe_test_pesign_pesigcheck.sh line 43
++ '[' 0 -eq 1 ']'
++ return 0
++ pesigcheck --in=grubx64.efi --quiet --verbose --no-system-db=1 --dbfile=./baidu/cert9.db
++ grep 'Searching db cert9.db'
+Could not add DB from file "./baidu/cert9.db": No such file or directory
++ CHECK_RESULT 1 0 0 'Check pesigcheck --in --quiet --verbose --no-system-db --dbfile failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check pesigcheck --in --quiet --verbose --no-system-db --dbfile failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check pesigcheck --in --quiet --verbose --no-system-db --dbfile failed'
++ LOG_ERROR 'Check pesigcheck --in --quiet --verbose --no-system-db --dbfile failed'
++ message='Check pesigcheck --in --quiet --verbose --no-system-db --dbfile failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check pesigcheck --in --quiet --verbose --no-system-db --dbfile failed'
+Thu May  4 20:46:01 2023 - ERROR - Check pesigcheck --in --quiet --verbose --no-system-db --dbfile failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pesign_pesigcheck.sh line 45'
++ message='oe_test_pesign_pesigcheck.sh line 45'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pesign_pesigcheck.sh line 45'
+Thu May  4 20:46:01 2023 - ERROR - oe_test_pesign_pesigcheck.sh line 45
++ '[' 0 -eq 1 ']'
++ return 0
++ pesigcheck -i grubx64.efi -q -v -n 1 -X ./baidu/cert9.db -c grubx64.efi.signed
++ grep 'Searching dbx cert9.db'
+Could not add DBX from file "./baidu/cert9.db": No such file or directory
++ CHECK_RESULT 1 0 0 'Check pesigcheck -i -q -v -n -X -c failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check pesigcheck -i -q -v -n -X -c failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check pesigcheck -i -q -v -n -X -c failed'
++ LOG_ERROR 'Check pesigcheck -i -q -v -n -X -c failed'
++ message='Check pesigcheck -i -q -v -n -X -c failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check pesigcheck -i -q -v -n -X -c failed'
+Thu May  4 20:46:01 2023 - ERROR - Check pesigcheck -i -q -v -n -X -c failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pesign_pesigcheck.sh line 47'
++ message='oe_test_pesign_pesigcheck.sh line 47'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pesign_pesigcheck.sh line 47'
+Thu May  4 20:46:01 2023 - ERROR - oe_test_pesign_pesigcheck.sh line 47
++ '[' 0 -eq 1 ']'
++ return 0
++ pesigcheck --in=grubx64.efi --quiet --verbose --no-system-db=1 --dbxfile=./baidu/cert9.db --certfile=grubx64.efi.signed
++ grep 'Searching dbx cert9.db'
+Could not add DBX from file "./baidu/cert9.db": No such file or directory
++ CHECK_RESULT 1 0 0 'Check pesigcheck --in --quiet --verbose --no-system-db --dbxfile --certfile failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check pesigcheck --in --quiet --verbose --no-system-db --dbxfile --certfile failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check pesigcheck --in --quiet --verbose --no-system-db --dbxfile --certfile failed'
++ LOG_ERROR 'Check pesigcheck --in --quiet --verbose --no-system-db --dbxfile --certfile failed'
++ message='Check pesigcheck --in --quiet --verbose --no-system-db --dbxfile --certfile failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check pesigcheck --in --quiet --verbose --no-system-db --dbxfile --certfile failed'
+Thu May  4 20:46:02 2023 - ERROR - Check pesigcheck --in --quiet --verbose --no-system-db --dbxfile --certfile failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pesign_pesigcheck.sh line 49'
++ message='oe_test_pesign_pesigcheck.sh line 49'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pesign_pesigcheck.sh line 49'
+Thu May  4 20:46:02 2023 - ERROR - oe_test_pesign_pesigcheck.sh line 49
++ '[' 0 -eq 1 ']'
++ return 0
++ authvar -i ./test -d ./baidu
+authvar: invalid flags: import 
++ CHECK_RESULT 1 0 0 'Check authvar -i -d failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check authvar -i -d failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check authvar -i -d failed'
++ LOG_ERROR 'Check authvar -i -d failed'
++ message='Check authvar -i -d failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check authvar -i -d failed'
+Thu May  4 20:46:02 2023 - ERROR - Check authvar -i -d failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pesign_pesigcheck.sh line 51'
++ message='oe_test_pesign_pesigcheck.sh line 51'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pesign_pesigcheck.sh line 51'
+Thu May  4 20:46:03 2023 - ERROR - oe_test_pesign_pesigcheck.sh line 51
++ '[' 0 -eq 1 ']'
++ return 0
++ authvar -l -d ./baidu
+authvar: Could not read "SignatureSupport" variable: Function not implemented
+authvar: could not show support signatures
++ CHECK_RESULT 1 0 0 'Check authvar -l -d failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check authvar -l -d failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check authvar -l -d failed'
++ LOG_ERROR 'Check authvar -l -d failed'
++ message='Check authvar -l -d failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check authvar -l -d failed'
+Thu May  4 20:46:03 2023 - ERROR - Check authvar -l -d failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pesign_pesigcheck.sh line 53'
++ message='oe_test_pesign_pesigcheck.sh line 53'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pesign_pesigcheck.sh line 53'
+Thu May  4 20:46:03 2023 - ERROR - oe_test_pesign_pesigcheck.sh line 53
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu May  4 20:46:03 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 6
++ test 6 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Thu May  4 20:46:04 2023 - ERROR - failed to execute the case.
++ exit 6
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu May  4 20:46:04 2023 - INFO  - Start to restore the test environment.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpagc_cfb2 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpagc_cfb2
++ '[' 0 -ne 0 ']'
++ ps -ef
++ grep grubx64.efi
++ grep -v grep
++ awk '{print $2}'
++ xargs kill -9
+kill: not enough arguments
++ cd ..
++ rm -rf pesigntest
++ LOG_INFO 'Finish restore the test environment.'
++ message='Finish restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish restore the test environment.'
+Thu May  4 20:46:10 2023 - INFO  - Finish restore the test environment.

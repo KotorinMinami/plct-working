@@ -1,0 +1,141 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Fri May  5 09:40:47 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'wsmancli openwsman-server'
++ pkgs='wsmancli openwsman-server'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'wsmancli openwsman-server' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpj142hpab
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpj142hpab
++ cp common/simple_auth.passwd /etc/openwsman/test_simple_auth.passwd
++ openwsmand -c common/openwsman.conf
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Fri May  5 09:41:26 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri May  5 09:41:26 2023 - INFO  - Start to run test.
++ wsman identify -h localhost --port 5985 -u wsman --password wsman -O outfile.out
++ test -f outfile.out
++ CHECK_RESULT 0 0 0 'wamancli: faild to test option -O'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test option -O'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman invoke http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_JobQueue -h localhost --port 5985 -u wsman --password wsman -a service -d 6 -V
++ grep 'cl->authentication.verify_peer: 0'
+May  5 09:41:27  cl->authentication.verify_peer: 0
++ CHECK_RESULT 0 0 0 'wamancli: faild to test option -V'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test option -V'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman identify -h localhost --port 5985 -u wsman --password wsman -v -d 6
++ grep verify
+May  5 09:41:27  cl->authentication.verify_peer: 1
++ CHECK_RESULT 0 0 0 'wamancli: faild to test option -v'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test option -v'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman identify -h www.baidu.com --port 5985 -u wsman --password wsman -I 3 -d 6
++ grep 'Connection timed out'
++ CHECK_RESULT 1 0 0 'wamancli: faild to test option -I'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test option -I'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'wamancli: faild to test option -I'
++ LOG_ERROR 'wamancli: faild to test option -I'
++ message='wamancli: faild to test option -I'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'wamancli: faild to test option -I'
+Fri May  5 09:41:30 2023 - ERROR - wamancli: faild to test option -I
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_wsmancli_wsman_03.sh line 46'
++ message='oe_test_wsmancli_wsman_03.sh line 46'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_wsmancli_wsman_03.sh line 46'
+Fri May  5 09:41:31 2023 - ERROR - oe_test_wsmancli_wsman_03.sh line 46
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Fri May  5 09:41:31 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri May  5 09:41:31 2023 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri May  5 09:41:32 2023 - INFO  - Start to restore the test environment.
++ rm -rf outfile.out /etc/openwsman/test_simple_auth.passwd
+++ pgrep openwsmand
++ kill -9 7369
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpj142hpab ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpj142hpab
++ '[' 0 -ne 0 ']'
++ SLEEP_WAIT 10
++ wait_time=10
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 10 --cmd '' --mode 1
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Fri May  5 09:41:50 2023 - INFO  - End to restore the test environment.

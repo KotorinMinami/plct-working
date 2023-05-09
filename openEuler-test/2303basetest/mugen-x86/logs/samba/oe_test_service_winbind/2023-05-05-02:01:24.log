@@ -1,0 +1,250 @@
++ source ../common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Fri May  5 02:01:25 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL samba-winbind
++ pkgs=samba-winbind
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs samba-winbind --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpvs1gl_gb
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpvs1gl_gb
++ flag=false
+++ getenforce
+++ grep Enforcing
++ '[' ']'
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Fri May  5 02:02:31 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Fri May  5 02:02:31 2023 - INFO  - Start testing...
++ test_execution winbind.service
++ service=winbind.service
+++ date '+%Y-%m-%d %T'
++ log_time='2023-05-05 02:02:31'
++ test_restart winbind.service
++ service=winbind.service
++ systemctl restart winbind.service
++ CHECK_RESULT 0 0 0 'winbind.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='winbind.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status winbind.service
++ grep 'Active: active'
+     Active: active (running) since Fri 2023-05-05 02:02:32 UTC; 5s ago
++ CHECK_RESULT 0 0 0 'winbind.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='winbind.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop winbind.service
++ CHECK_RESULT 0 0 0 'winbind.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='winbind.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status winbind.service
++ grep 'Active: inactive'
+     Active: inactive (dead)
++ CHECK_RESULT 0 0 0 'winbind.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='winbind.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start winbind.service
++ CHECK_RESULT 0 0 0 'winbind.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='winbind.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status winbind.service
++ grep 'Active: active'
+     Active: active (running) since Fri 2023-05-05 02:02:43 UTC; 5s ago
++ CHECK_RESULT 0 0 0 'winbind.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='winbind.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled winbind.service
++ service=winbind.service
+++ systemctl is-enabled winbind.service
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ systemctl enable winbind.service
+++ grep 'Created symlink'
+++ awk '{print $3}'
++ symlink_file=/etc/systemd/system/multi-user.target.wants/winbind.service
++ find /etc/systemd/system/multi-user.target.wants/winbind.service
+/etc/systemd/system/multi-user.target.wants/winbind.service
++ CHECK_RESULT 0 0 0 'winbind.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='winbind.service enable failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable winbind.service
+Removed /etc/systemd/system/multi-user.target.wants/winbind.service.
++ find /etc/systemd/system/multi-user.target.wants/winbind.service
+find: ‘/etc/systemd/system/multi-user.target.wants/winbind.service’: No such file or directory
++ CHECK_RESULT 1 0 1 'winbind.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='winbind.service disable failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ journalctl --since '2023-05-05 02:02:31' -u winbind.service
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of winbind.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of winbind.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ systemctl start winbind.service
++ sed -i 's\ExecStart=/usr/sbin/winbindd\ExecStart=/usr/sbin/winbindd -D\g' /usr/lib/systemd/system/winbind.service
++ systemctl daemon-reload
++ systemctl reload winbind.service
++ CHECK_RESULT 0 0 0 'winbind.service reload failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='winbind.service reload failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status winbind.service
++ grep 'Active: active'
+     Active: active (running) since Fri 2023-05-05 02:02:43 UTC; 8s ago
++ CHECK_RESULT 0 0 0 'winbind.service reload causes the service status to change'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='winbind.service reload causes the service status to change'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Fri May  5 02:02:51 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri May  5 02:02:51 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri May  5 02:02:52 2023 - INFO  - start environment cleanup.
++ sed -i 's\ExecStart=/usr/sbin/winbindd -D\ExecStart=/usr/sbin/winbindd\g' /usr/lib/systemd/system/winbind.service
++ systemctl daemon-reload
++ systemctl reload winbind.service
++ systemctl stop winbind.service
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpvs1gl_gb ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpvs1gl_gb
++ '[' 0 -ne 0 ']'
++ '[' false = true ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Fri May  5 02:03:01 2023 - INFO  - Finish environment cleanup!

@@ -1,0 +1,326 @@
++ source ../common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Fri May  5 04:19:38 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'strongswan podman tar'
++ pkgs='strongswan podman tar'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'strongswan podman tar' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpe8sse4ig
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpe8sse4ig
++ tar -xvf ./common/data.tar.gz
++ podman stop -all
+Error: --all and --latest cannot be used together
+++ podman ps -qa
++ podman rm -f
+Error: you must provide at least one name or id
++ SLEEP_WAIT 5 'podman load < ./test_file/vpn-server.tar'
++ wait_time=5
++ cmd='podman load < ./test_file/vpn-server.tar'
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd 'podman load < ./test_file/vpn-server.tar' --mode 1
+Getting image source signatures
+Copying blob sha256:3fd9c45a9d4f49cf9847101b430ce8abd026b80fe82241809fbb9390efb1b138
+Copying blob sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef
+Copying blob sha256:bf26b7f4efbc07dd458c8b6022e9fd0972c99d40141a3ef33ae3cef70bd63b48
+Copying blob sha256:44fc4957fa0ea999f102fa1bb150d5207482c9f9a79bb3665a50a1f9bf873674
+Copying blob sha256:17bec77d7fdc6988cd96b3051b4ad4d3cd6031b2faf0581468be64aac0acc20b
+Copying blob sha256:765b447667ab2812a696a552fc85a7cf74eb2455d39294e2e618afcdb44a6ffc
+Fri May  5 04:22:30 2023 - ERROR - Timeout : Command 'podman load < ./test_file/vpn-server.tar' timed out after 4.999665370000002 seconds
++ podman run -itd --name vpn --env-file ./test_file/vpn.env -p 700:700/udp -p 4700:4700/udp -d --privileged docker.io/hwdsl2/ipsec-vpn-server:latest
+Copying config sha256:76c644218ebbf3138eed9b6a0064c1550e9c2e1768aa101770197d0bde00e3b6
+Writing manifest to image destination
+Storing signatures
+time="2023-05-05T04:22:30Z" level=warning msg="The input device is not a TTY. The --tty and --interactive flags might not work properly"
+Loaded image(s): docker.io/hwdsl2/ipsec-vpn-server:latest
+time="2023-05-05T04:22:33Z" level=warning msg="Path \"/usr/share/rhel/secrets\" from \"/usr/share/containers/mounts.conf\" doesn't exist, skipping"
+01dc80629d1ae9ce2351e06fa1b09aadec87b925d8d2daf13687ca88df4bbcec
++ pgrep -f strongswan
+5001
+5002
+5004
+5048
+5049
++ strongswan stop
+Stopping strongSwan IPsec failed: starter is not running
++ SLEEP_WAIT 3 'rm -rf strongswan_test*.log'
++ wait_time=3
++ cmd='rm -rf strongswan_test*.log'
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd 'rm -rf strongswan_test*.log' --mode 1
+++ date '+%Y-%m-%d %T'
++ log_time='2023-05-05 04:22:34'
++ grep shared /etc/strongswan/ipsec.conf
++ cat ./test_file/ipsec_add.conf
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Fri May  5 04:22:34 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri May  5 04:22:34 2023 - INFO  - Start to run test.
++ strongswan --help
++ grep 'strongswan command \[arguments\]'
+strongswan command [arguments]
++ CHECK_RESULT 0 0 0 'Failed to check the --help'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the --help'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan start
+Starting strongSwan 5.9.7 IPsec [starter]...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 3
++ wait_time=3
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd '' --mode 1
++ pgrep -f starter
+5689
++ CHECK_RESULT 0 0 0 'Failed to check the start'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the start'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan stop
+Stopping strongSwan IPsec...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pgrep -f starter
++ CHECK_RESULT 1 1 0 'Failed to check the stop'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='Failed to check the stop'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ strongswan start
+Starting strongSwan 5.9.7 IPsec [starter]...
++ strongswan restart
+Stopping strongSwan IPsec...
+Starting strongSwan 5.9.7 IPsec [starter]...
++ pgrep -f starter
+5794
++ CHECK_RESULT 0 0 0 'Failed to check the restart'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the restart'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan update
++ grep 'Updating strongSwan IPsec configuration' strongswan_test_update.log
+Updating strongSwan IPsec configuration...
++ CHECK_RESULT 0 0 0 'Failed to check the update'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the update'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan reload
++ grep 'Reloading strongSwan IPsec configuration' strongswan_test_reload.log
+Reloading strongSwan IPsec configuration...
++ CHECK_RESULT 0 0 0 'Failed to check the reload'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the reload'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 3
++ wait_time=3
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd '' --mode 1
+++ strongswan statusall
+++ grep Connections -A 1
+++ tail -n 1
+++ awk -F: '{print $1}'
++ connectionname='      shared'
++ pgrep -f 'strongswan up'
++ strongswan up shared
+5858
++ CHECK_RESULT 0 0 0 'Failed to check the up'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the up'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 3
++ wait_time=3
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd '' --mode 1
++ strongswan down shared
+destroying IKE_SA in state CONNECTING without notification
+establishing connection 'shared' failed
++ grep 'closed successfully' strongswan_test_down.log
+IKE_SA [1] closed successfully
++ CHECK_RESULT 0 0 0 'Failed to check the down'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the down'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan route shared
++ grep ''\''shared'\'' routed' strongswan_test_route.log
++ CHECK_RESULT 1 0 0 'Failed to check the route'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed to check the route'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed to check the route'
++ LOG_ERROR 'Failed to check the route'
++ message='Failed to check the route'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed to check the route'
+Fri May  5 04:22:50 2023 - ERROR - Failed to check the route
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_service_strongswan_01.sh line 71'
++ message='oe_test_service_strongswan_01.sh line 71'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_service_strongswan_01.sh line 71'
+Fri May  5 04:22:50 2023 - ERROR - oe_test_service_strongswan_01.sh line 71
++ '[' 0 -eq 1 ']'
++ return 0
++ strongswan unroute shared
++ grep 'trap policy '\''shared'\'' unrouted' strongswan_test_unroute.log
++ CHECK_RESULT 1 0 0 'Failed to check the unroute'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed to check the unroute'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed to check the unroute'
++ LOG_ERROR 'Failed to check the unroute'
++ message='Failed to check the unroute'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed to check the unroute'
+Fri May  5 04:22:51 2023 - ERROR - Failed to check the unroute
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_service_strongswan_01.sh line 74'
++ message='oe_test_service_strongswan_01.sh line 74'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_service_strongswan_01.sh line 74'
+Fri May  5 04:22:51 2023 - ERROR - oe_test_service_strongswan_01.sh line 74
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Fri May  5 04:22:52 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 2
++ test 2 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri May  5 04:22:52 2023 - ERROR - failed to execute the case.
++ exit 2
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri May  5 04:22:52 2023 - INFO  - start environment cleanup.
++ rm -rf strongswan_test_down.log strongswan_test_reload.log strongswan_test_route.log strongswan_test_unroute.log strongswan_test_update.log test_file
++ pgrep -f starter
+5794
++ strongswan stop
+Stopping strongSwan IPsec...
++ SLEEP_WAIT 3 'podman stop -all'
++ wait_time=3
++ cmd='podman stop -all'
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd 'podman stop -all' --mode 1
+Error: --all and --latest cannot be used together
+++ podman ps -qa
++ podman rm -f 01dc80629d1a
+01dc80629d1ae9ce2351e06fa1b09aadec87b925d8d2daf13687ca88df4bbcec
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpe8sse4ig ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpe8sse4ig
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Fri May  5 04:24:10 2023 - INFO  - Finish environment cleanup!

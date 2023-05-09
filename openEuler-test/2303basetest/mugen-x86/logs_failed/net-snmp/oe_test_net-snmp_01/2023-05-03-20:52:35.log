@@ -1,0 +1,251 @@
++ source ../common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ dir_conf=/etc/snmp/snmpd.conf
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed May  3 20:52:36 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL net-snmp
++ pkgs=net-snmp
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs net-snmp --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp6uc3qx3o
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp6uc3qx3o
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Wed May  3 20:53:03 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Wed May  3 20:53:03 2023 - INFO  - Start testing...
++ ls -l /etc/snmp/snmpd.conf
+-rw------- 1 root root 18864 Mar 27 16:00 /etc/snmp/snmpd.conf
++ CHECK_RESULT 0 0 0 'snmpd.conf file not exist'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='snmpd.conf file not exist'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cp -ar /etc/snmp/snmpd.conf snmpd.conf
++ echo 'com2sec notConfigUser  default       public
+group   notConfigGroup v1           notConfigUser
+group   notConfigGroup v2c           notConfigUser
+view  all      included        .1
+access notConfigGroup "" any noauth exact systemview systemview none'
++ systemctl restart snmpd.service
++ CHECK_RESULT 0 0 0 'snmpd.service restart fail'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='snmpd.service restart fail'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ snmpwalk -v2c -c public localhost .1
++ grep SNMPv2-MIB
+SNMPv2-MIB::sysDescr.0 = STRING: Linux localhost.localdomain 6.1.19-7.0.0.17.oe2303.x86_64 #1 SMP PREEMPT_DYNAMIC Tue Mar 28 00:01:02 CST 2023 x86_64
+SNMPv2-MIB::sysObjectID.0 = OID: NET-SNMP-MIB::netSnmpAgentOIDs.10
+SNMPv2-MIB::sysContact.0 = STRING: Root <root@localhost> (configure /etc/snmp/snmp.local.conf)
+SNMPv2-MIB::sysName.0 = STRING: localhost.localdomain
+SNMPv2-MIB::sysLocation.0 = STRING: Unknown (edit /etc/snmp/snmpd.conf)
+SNMPv2-MIB::sysORLastChange.0 = Timeticks: (4) 0:00:00.04
+SNMPv2-MIB::sysORID.1 = OID: SNMP-FRAMEWORK-MIB::snmpFrameworkMIBCompliance
+SNMPv2-MIB::sysORID.2 = OID: SNMP-MPD-MIB::snmpMPDCompliance
+SNMPv2-MIB::sysORID.3 = OID: SNMP-USER-BASED-SM-MIB::usmMIBCompliance
+SNMPv2-MIB::sysORID.4 = OID: SNMPv2-MIB::snmpMIB
+SNMPv2-MIB::sysORID.5 = OID: SNMP-VIEW-BASED-ACM-MIB::vacmBasicGroup
+SNMPv2-MIB::sysORID.6 = OID: TCP-MIB::tcpMIB
+SNMPv2-MIB::sysORID.7 = OID: UDP-MIB::udpMIB
+SNMPv2-MIB::sysORID.8 = OID: IP-MIB::ip
+SNMPv2-MIB::sysORID.9 = OID: SNMP-NOTIFICATION-MIB::snmpNotifyFullCompliance
+SNMPv2-MIB::sysORID.10 = OID: NOTIFICATION-LOG-MIB::notificationLogMIB
+SNMPv2-MIB::sysORDescr.1 = STRING: The SNMP Management Architecture MIB.
+SNMPv2-MIB::sysORDescr.2 = STRING: The MIB for Message Processing and Dispatching.
+SNMPv2-MIB::sysORDescr.3 = STRING: The management information definitions for the SNMP User-based Security Model.
+SNMPv2-MIB::sysORDescr.4 = STRING: The MIB module for SNMPv2 entities
+SNMPv2-MIB::sysORDescr.5 = STRING: View-based Access Control Model for SNMP.
+SNMPv2-MIB::sysORDescr.6 = STRING: The MIB module for managing TCP implementations
+SNMPv2-MIB::sysORDescr.7 = STRING: The MIB module for managing UDP implementations
+SNMPv2-MIB::sysORDescr.8 = STRING: The MIB module for managing IP and ICMP implementations
+SNMPv2-MIB::sysORDescr.9 = STRING: The MIB modules for managing SNMP Notification, plus filtering.
+SNMPv2-MIB::sysORDescr.10 = STRING: The MIB module for logging SNMP Notifications.
+SNMPv2-MIB::sysORUpTime.1 = Timeticks: (2) 0:00:00.02
+SNMPv2-MIB::sysORUpTime.2 = Timeticks: (2) 0:00:00.02
+SNMPv2-MIB::sysORUpTime.3 = Timeticks: (2) 0:00:00.02
+SNMPv2-MIB::sysORUpTime.4 = Timeticks: (3) 0:00:00.03
+SNMPv2-MIB::sysORUpTime.5 = Timeticks: (3) 0:00:00.03
+SNMPv2-MIB::sysORUpTime.6 = Timeticks: (3) 0:00:00.03
+SNMPv2-MIB::sysORUpTime.7 = Timeticks: (3) 0:00:00.03
+SNMPv2-MIB::sysORUpTime.8 = Timeticks: (3) 0:00:00.03
+SNMPv2-MIB::sysORUpTime.9 = Timeticks: (4) 0:00:00.04
+SNMPv2-MIB::sysORUpTime.10 = Timeticks: (4) 0:00:00.04
++ CHECK_RESULT 0 0 0 'Check the MIB objects information fail by v2c'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check the MIB objects information fail by v2c'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ snmpwalk -v 1 -c public localhost .1
++ grep SNMPv2-MIB
+SNMPv2-MIB::sysDescr.0 = STRING: Linux localhost.localdomain 6.1.19-7.0.0.17.oe2303.x86_64 #1 SMP PREEMPT_DYNAMIC Tue Mar 28 00:01:02 CST 2023 x86_64
+SNMPv2-MIB::sysObjectID.0 = OID: NET-SNMP-MIB::netSnmpAgentOIDs.10
+SNMPv2-MIB::sysContact.0 = STRING: Root <root@localhost> (configure /etc/snmp/snmp.local.conf)
+SNMPv2-MIB::sysName.0 = STRING: localhost.localdomain
+SNMPv2-MIB::sysLocation.0 = STRING: Unknown (edit /etc/snmp/snmpd.conf)
+SNMPv2-MIB::sysORLastChange.0 = Timeticks: (4) 0:00:00.04
+SNMPv2-MIB::sysORID.1 = OID: SNMP-FRAMEWORK-MIB::snmpFrameworkMIBCompliance
+SNMPv2-MIB::sysORID.2 = OID: SNMP-MPD-MIB::snmpMPDCompliance
+SNMPv2-MIB::sysORID.3 = OID: SNMP-USER-BASED-SM-MIB::usmMIBCompliance
+SNMPv2-MIB::sysORID.4 = OID: SNMPv2-MIB::snmpMIB
+SNMPv2-MIB::sysORID.5 = OID: SNMP-VIEW-BASED-ACM-MIB::vacmBasicGroup
+SNMPv2-MIB::sysORID.6 = OID: TCP-MIB::tcpMIB
+SNMPv2-MIB::sysORID.7 = OID: UDP-MIB::udpMIB
+SNMPv2-MIB::sysORID.8 = OID: IP-MIB::ip
+SNMPv2-MIB::sysORID.9 = OID: SNMP-NOTIFICATION-MIB::snmpNotifyFullCompliance
+SNMPv2-MIB::sysORID.10 = OID: NOTIFICATION-LOG-MIB::notificationLogMIB
+SNMPv2-MIB::sysORDescr.1 = STRING: The SNMP Management Architecture MIB.
+SNMPv2-MIB::sysORDescr.2 = STRING: The MIB for Message Processing and Dispatching.
+SNMPv2-MIB::sysORDescr.3 = STRING: The management information definitions for the SNMP User-based Security Model.
+SNMPv2-MIB::sysORDescr.4 = STRING: The MIB module for SNMPv2 entities
+SNMPv2-MIB::sysORDescr.5 = STRING: View-based Access Control Model for SNMP.
+SNMPv2-MIB::sysORDescr.6 = STRING: The MIB module for managing TCP implementations
+SNMPv2-MIB::sysORDescr.7 = STRING: The MIB module for managing UDP implementations
+SNMPv2-MIB::sysORDescr.8 = STRING: The MIB module for managing IP and ICMP implementations
+SNMPv2-MIB::sysORDescr.9 = STRING: The MIB modules for managing SNMP Notification, plus filtering.
+SNMPv2-MIB::sysORDescr.10 = STRING: The MIB module for logging SNMP Notifications.
+SNMPv2-MIB::sysORUpTime.1 = Timeticks: (2) 0:00:00.02
+SNMPv2-MIB::sysORUpTime.2 = Timeticks: (2) 0:00:00.02
+SNMPv2-MIB::sysORUpTime.3 = Timeticks: (2) 0:00:00.02
+SNMPv2-MIB::sysORUpTime.4 = Timeticks: (3) 0:00:00.03
+SNMPv2-MIB::sysORUpTime.5 = Timeticks: (3) 0:00:00.03
+SNMPv2-MIB::sysORUpTime.6 = Timeticks: (3) 0:00:00.03
+SNMPv2-MIB::sysORUpTime.7 = Timeticks: (3) 0:00:00.03
+SNMPv2-MIB::sysORUpTime.8 = Timeticks: (3) 0:00:00.03
+SNMPv2-MIB::sysORUpTime.9 = Timeticks: (4) 0:00:00.04
+SNMPv2-MIB::sysORUpTime.10 = Timeticks: (4) 0:00:00.04
++ CHECK_RESULT 0 0 0 'Check the MIB objects information fail by v1'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check the MIB objects information fail by v1'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ snmpwalk -v 2c -c public localhost sysName
++ grep SNMPv2-MIB::sysName.0
+SNMPv2-MIB::sysName.0 = STRING: localhost.localdomain
++ CHECK_RESULT 0 0 0 'Get hostname fail'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Get hostname fail'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ snmpget -v 2c -c public localhost SNMPv2-MIB::sysName.0
+SNMPv2-MIB::sysName.0 = STRING: localhost.localdomain
++ CHECK_RESULT 0 0 0 'Check SNMPv2-MIB::sysName.0 information fail'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check SNMPv2-MIB::sysName.0 information fail'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ snmpset -v 2c -c public localhost SNMPv2-MIB::sysName.0 s test
+Error in packet.
+Reason: noAccess
+Failed object: SNMPv2-MIB::sysName.0
+
++ snmpwalk -v 2c -c public localhost sysName
++ grep 'STRING: test'
++ CHECK_RESULT 1 0 0 'Set SNMPv2-MIB::sysName.0 fail'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Set SNMPv2-MIB::sysName.0 fail'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Set SNMPv2-MIB::sysName.0 fail'
++ LOG_ERROR 'Set SNMPv2-MIB::sysName.0 fail'
++ message='Set SNMPv2-MIB::sysName.0 fail'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Set SNMPv2-MIB::sysName.0 fail'
+Wed May  3 20:53:04 2023 - ERROR - Set SNMPv2-MIB::sysName.0 fail
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_net-snmp_01.sh line 51'
++ message='oe_test_net-snmp_01.sh line 51'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_net-snmp_01.sh line 51'
+Wed May  3 20:53:05 2023 - ERROR - oe_test_net-snmp_01.sh line 51
++ '[' 0 -eq 1 ']'
++ return 0
++ mv -f snmpd.conf /etc/snmp/snmpd.conf
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Wed May  3 20:53:05 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed May  3 20:53:05 2023 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Wed May  3 20:53:05 2023 - INFO  - start environment cleanup.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp6uc3qx3o ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp6uc3qx3o
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Wed May  3 20:53:12 2023 - INFO  - Finish environment cleanup!

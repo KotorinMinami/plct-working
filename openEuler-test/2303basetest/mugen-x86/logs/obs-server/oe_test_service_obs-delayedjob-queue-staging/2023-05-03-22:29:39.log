@@ -1,0 +1,343 @@
++ source ./common.sh
+++ source ../common/common_lib.sh
++++ source /root/mugen/libs/locallibs/common_lib.sh
+++++ python3 --version
+++++ '[' 0 -eq 0 ']'
+++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed May  3 22:29:40 2023 - INFO  - Start environmental preparation.
++ env_pre
++ flag=false
+++ getenforce
+++ grep Enforcing
++ '[' ']'
++ DNF_INSTALL 'mariadb-server obs-api obs-server'
++ pkgs='mariadb-server obs-api obs-server'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'mariadb-server obs-api obs-server' --node 1 --tempfile ''
++ tmpfile2='Last metadata expiration check: 0:10:36 ago on Wed 03 May 2023 10:19:15 PM UTC.
+No match for argument: obs-api
+No match for argument: obs-server
+Error: Unable to find a match: obs-api obs-server'
++ '[' -z '' ']'
++ tmpfile='Last metadata expiration check: 0:10:36 ago on Wed 03 May 2023 10:19:15 PM UTC.
+No match for argument: obs-api
+No match for argument: obs-server
+Error: Unable to find a match: obs-api obs-server'
++ mv /etc/my.cnf /etc/my.bak
+mv: cannot stat '/etc/my.cnf': No such file or directory
++ systemctl start mariadb
+Failed to start mariadb.service: Unit mariadb.service not found.
++ echo 'create database api_production;'
++ mysql
+./common.sh: line 31: mysql: command not found
++ systemctl start obssrcserver
+Failed to start obssrcserver.service: Unit obssrcserver.service not found.
++ sed -i 's/OBS_API_AUTOSETUP="no"/OBS_API_AUTOSETUP="yes"/g' /etc/sysconfig/obs-server
+sed: can't read /etc/sysconfig/obs-server: No such file or directory
++ systemctl start obsapisetup
+Failed to start obsapisetup.service: Unit obsapisetup.service not found.
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Wed May  3 22:29:52 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Wed May  3 22:29:52 2023 - INFO  - Start testing...
++ test_execution obs-delayedjob-queue-staging.service
++ service=obs-delayedjob-queue-staging.service
+++ date '+%Y-%m-%d %T'
++ log_time='2023-05-03 22:29:52'
++ test_restart obs-delayedjob-queue-staging.service
++ service=obs-delayedjob-queue-staging.service
++ systemctl restart obs-delayedjob-queue-staging.service
+Failed to restart obs-delayedjob-queue-staging.service: Unit obs-delayedjob-queue-staging.service not found.
++ CHECK_RESULT 5 0 0 'obs-delayedjob-queue-staging.service restart failed'
++ actual_result=5
++ expect_result=0
++ mode=0
++ error_log='obs-delayedjob-queue-staging.service restart failed'
++ exit_mode=0
++ '[' -z 5 ']'
++ '[' 0 -eq 0 ']'
++ test 5x '!=' 0x
++ test -n 'obs-delayedjob-queue-staging.service restart failed'
++ LOG_ERROR 'obs-delayedjob-queue-staging.service restart failed'
++ message='obs-delayedjob-queue-staging.service restart failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'obs-delayedjob-queue-staging.service restart failed'
+Wed May  3 22:29:53 2023 - ERROR - obs-delayedjob-queue-staging.service restart failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 34'
++ message='../common/common_lib.sh line 34'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 34'
+Wed May  3 22:29:53 2023 - ERROR - ../common/common_lib.sh line 34
++ '[' 0 -eq 1 ']'
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status obs-delayedjob-queue-staging.service
++ grep 'Active: active'
+Unit obs-delayedjob-queue-staging.service could not be found.
++ CHECK_RESULT 1 0 0 'obs-delayedjob-queue-staging.service restart failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='obs-delayedjob-queue-staging.service restart failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'obs-delayedjob-queue-staging.service restart failed'
++ LOG_ERROR 'obs-delayedjob-queue-staging.service restart failed'
++ message='obs-delayedjob-queue-staging.service restart failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'obs-delayedjob-queue-staging.service restart failed'
+Wed May  3 22:29:59 2023 - ERROR - obs-delayedjob-queue-staging.service restart failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 37'
++ message='../common/common_lib.sh line 37'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 37'
+Wed May  3 22:29:59 2023 - ERROR - ../common/common_lib.sh line 37
++ '[' 0 -eq 1 ']'
++ return 0
++ systemctl stop obs-delayedjob-queue-staging.service
+Failed to stop obs-delayedjob-queue-staging.service: Unit obs-delayedjob-queue-staging.service not loaded.
++ CHECK_RESULT 5 0 0 'obs-delayedjob-queue-staging.service stop failed'
++ actual_result=5
++ expect_result=0
++ mode=0
++ error_log='obs-delayedjob-queue-staging.service stop failed'
++ exit_mode=0
++ '[' -z 5 ']'
++ '[' 0 -eq 0 ']'
++ test 5x '!=' 0x
++ test -n 'obs-delayedjob-queue-staging.service stop failed'
++ LOG_ERROR 'obs-delayedjob-queue-staging.service stop failed'
++ message='obs-delayedjob-queue-staging.service stop failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'obs-delayedjob-queue-staging.service stop failed'
+Wed May  3 22:29:59 2023 - ERROR - obs-delayedjob-queue-staging.service stop failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 39'
++ message='../common/common_lib.sh line 39'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 39'
+Wed May  3 22:29:59 2023 - ERROR - ../common/common_lib.sh line 39
++ '[' 0 -eq 1 ']'
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status obs-delayedjob-queue-staging.service
++ grep 'Active: inactive'
+Unit obs-delayedjob-queue-staging.service could not be found.
++ CHECK_RESULT 1 0 0 'obs-delayedjob-queue-staging.service stop failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='obs-delayedjob-queue-staging.service stop failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'obs-delayedjob-queue-staging.service stop failed'
++ LOG_ERROR 'obs-delayedjob-queue-staging.service stop failed'
++ message='obs-delayedjob-queue-staging.service stop failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'obs-delayedjob-queue-staging.service stop failed'
+Wed May  3 22:30:05 2023 - ERROR - obs-delayedjob-queue-staging.service stop failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 42'
++ message='../common/common_lib.sh line 42'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 42'
+Wed May  3 22:30:05 2023 - ERROR - ../common/common_lib.sh line 42
++ '[' 0 -eq 1 ']'
++ return 0
++ systemctl start obs-delayedjob-queue-staging.service
+Failed to start obs-delayedjob-queue-staging.service: Unit obs-delayedjob-queue-staging.service not found.
++ CHECK_RESULT 5 0 0 'obs-delayedjob-queue-staging.service start failed'
++ actual_result=5
++ expect_result=0
++ mode=0
++ error_log='obs-delayedjob-queue-staging.service start failed'
++ exit_mode=0
++ '[' -z 5 ']'
++ '[' 0 -eq 0 ']'
++ test 5x '!=' 0x
++ test -n 'obs-delayedjob-queue-staging.service start failed'
++ LOG_ERROR 'obs-delayedjob-queue-staging.service start failed'
++ message='obs-delayedjob-queue-staging.service start failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'obs-delayedjob-queue-staging.service start failed'
+Wed May  3 22:30:06 2023 - ERROR - obs-delayedjob-queue-staging.service start failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 44'
++ message='../common/common_lib.sh line 44'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 44'
+Wed May  3 22:30:06 2023 - ERROR - ../common/common_lib.sh line 44
++ '[' 0 -eq 1 ']'
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status obs-delayedjob-queue-staging.service
++ grep 'Active: active'
+Unit obs-delayedjob-queue-staging.service could not be found.
++ CHECK_RESULT 1 0 0 'obs-delayedjob-queue-staging.service start failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='obs-delayedjob-queue-staging.service start failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'obs-delayedjob-queue-staging.service start failed'
++ LOG_ERROR 'obs-delayedjob-queue-staging.service start failed'
++ message='obs-delayedjob-queue-staging.service start failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'obs-delayedjob-queue-staging.service start failed'
+Wed May  3 22:30:11 2023 - ERROR - obs-delayedjob-queue-staging.service start failed
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 47'
++ message='../common/common_lib.sh line 47'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 47'
+Wed May  3 22:30:12 2023 - ERROR - ../common/common_lib.sh line 47
++ '[' 0 -eq 1 ']'
++ return 0
++ test_enabled obs-delayedjob-queue-staging.service
++ service=obs-delayedjob-queue-staging.service
+++ systemctl is-enabled obs-delayedjob-queue-staging.service
+Failed to get unit file state for obs-delayedjob-queue-staging.service: No such file or directory
++ state=
++ '[' '' == enabled ']'
++ '[' '' == disabled ']'
++ '[' '' == masked ']'
++ '[' '' == static ']'
++ LOG_INFO 'Unit is indirect, ignoring.'
++ message='Unit is indirect, ignoring.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Unit is indirect, ignoring.'
+Wed May  3 22:30:12 2023 - INFO  - Unit is indirect, ignoring.
++ journalctl --since '2023-05-03 22:29:52' -u obs-delayedjob-queue-staging.service
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of obs-delayedjob-queue-staging.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of obs-delayedjob-queue-staging.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_reload obs-delayedjob-queue-staging.service
++ service=obs-delayedjob-queue-staging.service
++ systemctl start obs-delayedjob-queue-staging.service
+Failed to start obs-delayedjob-queue-staging.service: Unit obs-delayedjob-queue-staging.service not found.
++ systemctl reload obs-delayedjob-queue-staging.service
++ grep 'Job type reload is not applicable'
++ CHECK_RESULT 1 0 0 'Job type reload is not applicable for unit obs-delayedjob-queue-staging.service'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit obs-delayedjob-queue-staging.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Job type reload is not applicable for unit obs-delayedjob-queue-staging.service'
++ LOG_ERROR 'Job type reload is not applicable for unit obs-delayedjob-queue-staging.service'
++ message='Job type reload is not applicable for unit obs-delayedjob-queue-staging.service'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Job type reload is not applicable for unit obs-delayedjob-queue-staging.service'
+Wed May  3 22:30:12 2023 - ERROR - Job type reload is not applicable for unit obs-delayedjob-queue-staging.service
++ (( exec_result++ ))
++ LOG_ERROR '../common/common_lib.sh line 91'
++ message='../common/common_lib.sh line 91'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message '../common/common_lib.sh line 91'
+Wed May  3 22:30:13 2023 - ERROR - ../common/common_lib.sh line 91
++ '[' 0 -eq 1 ']'
++ return 0
++ systemctl status obs-delayedjob-queue-staging.service
++ grep 'Active: active'
+Unit obs-delayedjob-queue-staging.service could not be found.
++ systemctl status obs-delayedjob-queue-staging.service
++ grep 'inactive (dead)'
+Unit obs-delayedjob-queue-staging.service could not be found.
++ return 1
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Wed May  3 22:30:13 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z 7
++ test 7 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed May  3 22:30:13 2023 - ERROR - failed to execute the case.
++ exit 7
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Wed May  3 22:30:13 2023 - INFO  - start environment cleanup.
++ systemctl stop obs-delayedjob-queue-staging.service
+Failed to stop obs-delayedjob-queue-staging.service: Unit obs-delayedjob-queue-staging.service not loaded.
++ env_post
++ systemctl stop mariadb obssrcserver obsapisetup
+Failed to stop mariadb.service: Unit mariadb.service not loaded.
+Failed to stop obssrcserver.service: Unit obssrcserver.service not loaded.
+Failed to stop obsapisetup.service: Unit obsapisetup.service not loaded.
++ sed -i 's/OBS_API_AUTOSETUP="yes"/OBS_API_AUTOSETUP="no"/g' /etc/sysconfig/obs-server
+sed: can't read /etc/sysconfig/obs-server: No such file or directory
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z Last metadata expiration check: 0:10:36 ago on Wed 03 May 2023 10:19:15 PM UTC.
+No match for argument: obs-api
+No match for argument: obs-server
+Error: Unable to find a match: obs-api obs-server ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile 'Last metadata expiration check: 0:10:36 ago on Wed 03 May 2023 10:19:15 PM UTC.
+No match for argument: obs-api
+No match for argument: obs-server
+Error: Unable to find a match: obs-api obs-server'
+Traceback (most recent call last):
+  File "/root/mugen/libs/locallibs/rpm_manage.py", line 173, in <module>
+    exitcode = rpm_remove(args.node, args.pkgs, args.tempfile)
+  File "/root/mugen/libs/locallibs/rpm_manage.py", line 144, in rpm_remove
+    with open(tmpfile, "r") as f:
+FileNotFoundError: [Errno 2] No such file or directory: 'Last metadata expiration check: 0:10:36 ago on Wed 03 May 2023 10:19:15 PM UTC.\nNo match for argument: obs-api\nNo match for argument: obs-server\nError: Unable to find a match: obs-api obs-server'
++ '[' 0 -ne 0 ']'
++ mv /etc/my.bak /etc/my.cnf
+mv: cannot stat '/etc/my.bak': No such file or directory
++ rm -rf '/var/lib/mysql/*'
++ '[' false = true ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Wed May  3 22:30:15 2023 - INFO  - Finish environment cleanup!

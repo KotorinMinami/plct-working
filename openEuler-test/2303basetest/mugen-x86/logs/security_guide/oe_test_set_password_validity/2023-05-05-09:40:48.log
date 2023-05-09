@@ -1,0 +1,156 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Fri May  5 09:40:49 2023 - INFO  - Start environmental preparation.
++ cp /etc/login.defs /etc/login.defs-bak
++ grep '^test:' /etc/passwd
++ ls log
+ls: cannot access 'log': No such file or directory
++ ls testlog
+ls: cannot access 'testlog': No such file or directory
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Fri May  5 09:40:49 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Fri May  5 09:40:50 2023 - INFO  - Start executing testcase.
++ sed -i 's/PASS_MAX_DAYS\t99999/PASS_MAX_DAYS   5/g' /etc/login.defs
++ sed -i 's/PASS_WARN_AGE\t7/PASS_WARN_AGE   2/g' /etc/login.defs
++ useradd test
++ passwd test
+New password: Retype new password: Changing password for user test.
+passwd: all authentication tokens updated successfully.
++ date -s '4 day'
+Tue May  9 09:40:50 AM UTC 2023
++ rm -rf /root/.ssh/known_hosts
++ expect
+spawn ssh test@127.0.0.1
+The authenticity of host '127.0.0.1 (127.0.0.1)' can't be established.
+ED25519 key fingerprint is SHA256:M6IZ/zy3MxMo6/o/fy+aY4RQYnH9M5BZVPilD5Busik.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '127.0.0.1' (ED25519) to the list of known hosts.
+
+Authorized users only. All activities may be monitored and reported.
+test@127.0.0.1's password: 
+Warning: your password will expire in 1 day.
+Warning: your password will expire in 1 day.
+
+Authorized users only. All activities may be monitored and reported.
+
+
+Welcome to 6.1.19-7.0.0.17.oe2303.x86_64
+
+System information as of time: 	Tue May  9 09:40:51 AM UTC 2023
+
+System load: 	[0;33;40m0.81[0m
+Processes: 	127
+Memory used: 	4.1%
+Swap used: 	0.0%
+Usage On: 	10%
+IP address: 	10.198.114.1
+IP address: 	10.0.2.15
+Users online: 	1
+To run a command as administrator(user "root"),use "sudo <command>".
+[test@localhost ~]$ exit
+logout
+Connection to 127.0.0.1 closed.
++ grep 'your password will expire in 1 day' testlog
+Warning: your password will expire in 1 day.
+Warning: your password will expire in 1 day.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ date -s '2 day'
+Thu May 11 09:40:51 AM UTC 2023
++ expect
+spawn ssh test@127.0.0.1
+
+Authorized users only. All activities may be monitored and reported.
+test@127.0.0.1's password: 
+You are required to change your password immediately (password expired).
+You are required to change your password immediately (password expired).
+
+Authorized users only. All activities may be monitored and reported.
+Last login: Tue May  9 09:40:51 2023 from 127.0.0.1
+WARNING: Your password has expired.
+You must change your password now and login again!
+Changing password for user test.
+Changing password for test.
+Current password: 
+New password: 
+Retype new password: 
+passwd: all authentication tokens updated successfully.
+Connection to 127.0.0.1 closed.
+expect: spawn id exp4 not open
+    while executing
+"expect eof"
++ grep 'Current password' log
+Current password: 
++ grep 'all authentication tokens updated successfully' log
+passwd: all authentication tokens updated successfully.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish testcase execution.'
++ message='Finish testcase execution.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish testcase execution.'
+Thu May 11 09:41:06 2023 - INFO  - Finish testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu May 11 09:41:07 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu May 11 09:41:07 2023 - INFO  - start environment cleanup.
++ rm -rf log testlog /run/faillock/test
++ userdel -rf test
++ mv /etc/login.defs-bak /etc/login.defs -f
++ date -s '-6 day'
+Fri May  5 09:41:07 AM UTC 2023
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Fri May  5 09:41:07 2023 - INFO  - Finish environment cleanup!

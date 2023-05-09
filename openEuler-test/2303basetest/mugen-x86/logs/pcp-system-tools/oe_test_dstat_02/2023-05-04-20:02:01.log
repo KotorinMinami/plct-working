@@ -1,0 +1,265 @@
++ source common/common_pcp-system-tools.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu May  4 20:02:03 2023 - INFO  - Start to prepare the test environment.
++ deploy_env
++ DNF_INSTALL 'pcp pcp-system-tools'
++ pkgs='pcp pcp-system-tools'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'pcp pcp-system-tools' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpmdxb059z
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpmdxb059z
++ systemctl enable pmcd
++ systemctl start pmcd
++ systemctl enable pmlogger
++ systemctl start pmlogger
++ SLEEP_WAIT 20
++ wait_time=20
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 20 --cmd '' --mode 1
+++ hostname
++ host_name=localhost.localdomain
+++ rpm -qa pcp
+++ awk -F - '{print $2}'
++ pcp_version=5.3.7
+++ lsblk
+++ grep disk
+++ awk '{print $1}'
++ disk_name=vda
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu May  4 20:04:37 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu May  4 20:04:37 2023 - INFO  - Start to run test.
++ SLEEP_WAIT 3 'grep '\''system'\'' /tmp/dstat_noheaders' 2
++ nohup dstat -tprsy --noheaders
++ wait_time=3
++ cmd='grep '\''system'\'' /tmp/dstat_noheaders'
++ mode=2
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd 'grep '\''system'\'' /tmp/dstat_noheaders' --mode 2
+----system---- ---procs--- --io/total- ----swap--- ---system--
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ kill -9 49838
++ SLEEP_WAIT 3 'grep '\''procs'\'' /tmp/dstat_noupdate' 2
++ wait_time=3
++ nohup dstat -tprsy --noupdate
++ cmd='grep '\''procs'\'' /tmp/dstat_noupdate'
++ mode=2
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd 'grep '\''procs'\'' /tmp/dstat_noupdate' --mode 2
+----system---- ---procs--- --io/total- ----swap--- ---system--
+/root/mugen/libs/locallibs/common_lib_python.sh: line 164: 49838 Killed                  nohup dstat -tprsy --noheaders > /tmp/dstat_noheaders 2>&1
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ kill -9 49843
++ SLEEP_WAIT 3 'grep '\''async'\'' /tmp/dstat_aio' 2
++ wait_time=3
++ nohup dstat --aio --fs --ipc --lock --raw --socket --tcp --udp --unix --vm
++ cmd='grep '\''async'\'' /tmp/dstat_aio'
++ mode=2
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd 'grep '\''async'\'' /tmp/dstat_aio' --mode 2
+async --filesystem- --sysv-ipc- ---file-locks-- raw- --------sockets--------- ------tcp-sockets------- ---udp--- --------unix------- -----virtual-memory----
+/root/mugen/libs/locallibs/common_lib_python.sh: line 164: 49843 Killed                  nohup dstat -tprsy --noupdate > /tmp/dstat_noupdate 2>&1
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ kill -9 49848
++ SLEEP_WAIT 3 'grep '\''cpu0-usage'\'' /tmp/dstat_C' 2
++ nohup dstat -C 0,3,total
++ wait_time=3
++ cmd='grep '\''cpu0-usage'\'' /tmp/dstat_C'
++ mode=2
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd 'grep '\''cpu0-usage'\'' /tmp/dstat_C' --mode 2
+-----cpu0-usage---- -----cpu3-usage---- ----total-usage---- -dsk/total- -net/total- ---paging-- ---system--
+/root/mugen/libs/locallibs/common_lib_python.sh: line 164: 49848 Killed                  nohup dstat --aio --fs --ipc --lock --raw --socket --tcp --udp --unix --vm > /tmp/dstat_aio 2>&1
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ kill -9 49853
++ SLEEP_WAIT 3 'grep dsk/vda /tmp/dstat_D' 2
++ nohup dstat -D total,vda
++ wait_time=3
++ cmd='grep dsk/vda /tmp/dstat_D'
++ mode=2
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd 'grep dsk/vda /tmp/dstat_D' --mode 2
+----total-usage---- --dsk/vda-- -dsk/total- -net/total- ---paging-- ---system--
+/root/mugen/libs/locallibs/common_lib_python.sh: line 164: 49853 Killed                  nohup dstat -C 0,3,total > /tmp/dstat_C 2>&1
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ kill -9 49858
++ SLEEP_WAIT 3 'test -f /tmp/dstat_i' 2
++ nohup dstat -i
++ wait_time=3
++ cmd='test -f /tmp/dstat_i'
++ mode=2
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd 'test -f /tmp/dstat_i' --mode 2
+
+/root/mugen/libs/locallibs/common_lib_python.sh: line 164: 49858 Killed                  nohup dstat -D total,${disk_name} > /tmp/dstat_D 2>&1
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ kill -9 49863
++ SLEEP_WAIT 3 'grep '\''total-usage'\'' /tmp/dstat_I' 2
++ nohup dstat -I 9,CAL
++ wait_time=3
++ cmd='grep '\''total-usage'\'' /tmp/dstat_I'
++ mode=2
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd 'grep '\''total-usage'\'' /tmp/dstat_I' --mode 2
+----total-usage---- -dsk/total- -net/total- ---paging-- ---system--
+/root/mugen/libs/locallibs/common_lib_python.sh: line 164: 49863 Killed                  nohup dstat -i > /tmp/dstat_i 2>&1
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ kill -9 49868
++ nohup dstat -N
++ SLEEP_WAIT 3 'grep net/ /tmp/dstat_N' 2
++ wait_time=3
++ cmd='grep net/ /tmp/dstat_N'
++ mode=2
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd 'grep net/ /tmp/dstat_N' --mode 2
+/root/mugen/libs/locallibs/common_lib_python.sh: line 164: 49868 Killed                  nohup dstat -I 9,CAL > /tmp/dstat_I 2>&1
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ kill -9 49873
+oe_test_dstat_02.sh: line 61: kill: (49873) - No such process
++ SLEEP_WAIT 3 'grep '\''paging'\'' /tmp/dstat_S' 2
++ nohup dstat -S swap1,total
++ wait_time=3
++ cmd='grep '\''paging'\'' /tmp/dstat_S'
++ mode=2
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd 'grep '\''paging'\'' /tmp/dstat_S' --mode 2
+----total-usage---- -dsk/total- -net/total- ---paging-- ---system--
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ kill -9 49880
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu May  4 20:04:52 2023 - INFO  - End to run test.
+/root/mugen/libs/locallibs/common_lib_python.sh: line 19: 49880 Killed                  nohup dstat -S swap1,total > /tmp/dstat_S 2>&1
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu May  4 20:04:53 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu May  4 20:04:53 2023 - INFO  - Start to restore the test environment.
++ clear_env
++ systemctl stop pmcd
++ systemctl stop pmlogger
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpmdxb059z ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpmdxb059z
++ '[' 0 -ne 0 ']'
++ rm -f /tmp/dstat_aio /tmp/dstat_C /tmp/dstat_D /tmp/dstat_i /tmp/dstat_I /tmp/dstat_N /tmp/dstat_noheaders /tmp/dstat_noupdate /tmp/dstat_S
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu May  4 20:05:22 2023 - INFO  - End to restore the test environment.

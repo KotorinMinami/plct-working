@@ -1,0 +1,189 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Fri May  5 10:09:40 2023 - INFO  - Start environmental preparation.
++ useradd test1
++ mkdir /tmp/test_dir1
++ touch /tmp/test_file1
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Fri May  5 10:09:41 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Fri May  5 10:09:41 2023 - INFO  - Start executing testcase.
++ umask
++ grep 0022
+0022
++ CHECK_RESULT 0 0 0 'The default value of umask is not 0022.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='The default value of umask is not 0022.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ls -l /tmp
++ grep test_dir1
++ grep -e drwxr-xr-x
+drwxr-xr-x 2 root root  40 May  5 10:09 test_dir1
++ CHECK_RESULT 0 0 0 'The default permission of the folder is not '\''drwxr-xr-x'\''.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='The default permission of the folder is not '\''drwxr-xr-x'\''.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ls -l /tmp
++ grep test_file1
++ grep -e -rw-r--r--
+-rw-r--r-- 1 root root   0 May  5 10:09 test_file1
++ CHECK_RESULT 0 0 0 'The default permission of the file is not '\''-rw-r--r--'\''.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='The default permission of the file is not '\''-rw-r--r--'\''.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect -c '
+        log_file testlog1
+        spawn su test1
+        expect {
+            "*test1@*" {
+                send "umask | grep 0002\r"
+                }
+            eof
+        }
+        expect eof {
+            catch wait result
+            exit [lindex $result 3] 
+        }          
+        expect {
+            "*test1@*" {
+                send "mkdir /tmp/test_dir2;touch /tmp/test_file2\r"
+                }
+        }
+        expect {                              
+            "*test1@*" {
+                send "exit\r"
+                }
+        }   
+                     
+    '
+spawn su test1
+
+
+Welcome to 6.1.19-7.0.0.17.oe2303.x86_64
+
+System information as of time: 	Fri May  5 10:09:42 AM UTC 2023
+
+System load: 	[0;33;40m0.39[0m
+Processes: 	115
+Memory used: 	4.4%
+Swap used: 	0.0%
+Usage On: 	10%
+IP address: 	10.198.114.1
+IP address: 	10.0.2.15
+Users online: 	0
+To run a command as administrator(user "root"),use "sudo <command>".
+[test1@localhost oe_test_umask_default]$ umask | grep 0002
+[test1@localhost oe_test_umask_default]$ <efault]$ mkdir /tmp/test_dir2;touch /tmp/test_file2
+[test1@localhost oe_test_umask_default]$ + ls -l /tmp
++ grep test_dir2
++ grep -e drwxrwxr-x
++ CHECK_RESULT 1 0 0 'The permission of the folder is not '\''drwxrwxr-x'\''.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='The permission of the folder is not '\''drwxrwxr-x'\''.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'The permission of the folder is not '\''drwxrwxr-x'\''.'
++ LOG_ERROR 'The permission of the folder is not '\''drwxrwxr-x'\''.'
++ message='The permission of the folder is not '\''drwxrwxr-x'\''.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'The permission of the folder is not '\''drwxrwxr-x'\''.'
+Fri May  5 10:09:52 2023 - ERROR - The permission of the folder is not 'drwxrwxr-x'.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_umask_default.sh line 63'
++ message='oe_test_umask_default.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_umask_default.sh line 63'
+Fri May  5 10:09:53 2023 - ERROR - oe_test_umask_default.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ ls -l /tmp
++ grep test_file2
++ grep -e -rw-rw-r--
++ CHECK_RESULT 1 0 0 'The permission of the file is not '\''-rw-rw-r--'\''.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='The permission of the file is not '\''-rw-rw-r--'\''.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'The permission of the file is not '\''-rw-rw-r--'\''.'
++ LOG_ERROR 'The permission of the file is not '\''-rw-rw-r--'\''.'
++ message='The permission of the file is not '\''-rw-rw-r--'\''.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'The permission of the file is not '\''-rw-rw-r--'\''.'
+Fri May  5 10:09:53 2023 - ERROR - The permission of the file is not '-rw-rw-r--'.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_umask_default.sh line 65'
++ message='oe_test_umask_default.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_umask_default.sh line 65'
+Fri May  5 10:09:53 2023 - ERROR - oe_test_umask_default.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'Finish testcase execution.'
++ message='Finish testcase execution.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish testcase execution.'
+Fri May  5 10:09:54 2023 - INFO  - Finish testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z 2
++ test 2 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri May  5 10:09:54 2023 - ERROR - failed to execute the case.
++ exit 2
++ post_test
++ LOG_INFO 'Start cleanning environment.'
++ message='Start cleanning environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start cleanning environment.'
+Fri May  5 10:09:54 2023 - INFO  - Start cleanning environment.
++ rm -rf testlog1 /tmp/test_dir1 /tmp/test_dir2 /tmp/test_file1 /tmp/test_file2
++ userdel -rf test1
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Fri May  5 10:09:55 2023 - INFO  - Finish environment cleanup!

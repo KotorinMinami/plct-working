@@ -1,0 +1,455 @@
++ source ../common/storage_disk_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Fri May  5 11:47:08 2023 - INFO  - Start environment preparation.
++ check_free_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='sr0 vdb vdc vdd vde'
++ disk_list=($disks)
++ local_disk=sr0
++ local_disk1=vdb
++ local_disk2=vdc
++ local_disk3=vdd
++ echo -e 'n\np\n1\n\n\nw\n'
++ fdisk /dev/sr0
+fdisk: cannot open /dev/sr0: No medium found
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
++ mkfs.ext2 -F /dev/sr01
+mke2fs 1.46.5 (30-Dec-2021)
+The file /dev/sr01 does not exist and no size was specified.
++ echo -e 'n\np\n1\n\n\nt\n82\nw\n'
++ fdisk /dev/vdc
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+The device contains 'ext4' signature and it may remain on the device. It is recommended to wipe the device with wipefs(8) or fdisk --wipe, in order to avoid possible collisions.
+
+Device does not contain a recognized partition table.
+Created a new DOS disklabel with disk identifier 0x609445b0.
+
+Command (m for help): Partition type
+   p   primary (0 primary, 0 extended, 4 free)
+   e   extended (container for logical partitions)
+Select (default p): Partition number (1-4, default 1): First sector (2048-4194303, default 2048): Last sector, +/-sectors or +/-size{K,M,G,T,P} (2048-4194303, default 4194303): 
+Created a new partition 1 of type 'Linux' and of size 2 GiB.
+
+Command (m for help): Selected partition 1
+Hex code or alias (type L to list all): Changed type of partition 'Linux' to 'Linux swap / Solaris'.
+
+Command (m for help): The partition table has been altered.
+Calling ioctl() to re-read partition table.
+Syncing disks.
+
++ mkswap /dev/vdc1
+Setting up swapspace version 1, size = 2 GiB (2146430976 bytes)
+no label, UUID=1b3311ba-412c-414b-a0d7-4c49bac1fbd2
++ echo -e 'n\np\n1\n\n\nw\n'
++ fdisk /dev/vdd
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+The device contains 'ext4' signature and it may remain on the device. It is recommended to wipe the device with wipefs(8) or fdisk --wipe, in order to avoid possible collisions.
+
+Device does not contain a recognized partition table.
+Created a new DOS disklabel with disk identifier 0x2e2a893b.
+
+Command (m for help): Partition type
+   p   primary (0 primary, 0 extended, 4 free)
+   e   extended (container for logical partitions)
+Select (default p): Partition number (1-4, default 1): First sector (2048-4194303, default 2048): Last sector, +/-sectors or +/-size{K,M,G,T,P} (2048-4194303, default 4194303): 
+Created a new partition 1 of type 'Linux' and of size 2 GiB.
+
+Command (m for help): The partition table has been altered.
+Calling ioctl() to re-read partition table.
+Syncing disks.
+
++ mkfs.xfs -f /dev/vdd1
+oe_test_storage_longname_modify.sh: line 28: mkfs.xfs: command not found
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Fri May  5 11:47:12 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase!'
++ message='Start executing testcase!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase!'
+Fri May  5 11:47:12 2023 - INFO  - Start executing testcase!
++ lsblk --fs /dev/sr01
++ grep sr01
+lsblk: /dev/sr01: not a block device
++ CHECK_RESULT 1 0 0 'Failed to view file system type'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed to view file system type'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed to view file system type'
++ LOG_ERROR 'Failed to view file system type'
++ message='Failed to view file system type'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed to view file system type'
+Fri May  5 11:47:13 2023 - ERROR - Failed to view file system type
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_longname_modify.sh line 35'
++ message='oe_test_storage_longname_modify.sh line 35'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_longname_modify.sh line 35'
+Fri May  5 11:47:13 2023 - ERROR - oe_test_storage_longname_modify.sh line 35
++ '[' 0 -eq 1 ']'
++ return 0
++ tune2fs -U 2222d19b-8674-41ab-9856-ac3d15d1195e -L new-label /dev/sr01
+tune2fs: No such file or directory while trying to open /dev/sr01
+Couldn't find valid filesystem superblock.
+tune2fs 1.46.5 (30-Dec-2021)
++ CHECK_RESULT 1 0 0 'Failed to modify the label and uuid of the file system'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed to modify the label and uuid of the file system'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed to modify the label and uuid of the file system'
++ LOG_ERROR 'Failed to modify the label and uuid of the file system'
++ message='Failed to modify the label and uuid of the file system'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed to modify the label and uuid of the file system'
+Fri May  5 11:47:13 2023 - ERROR - Failed to modify the label and uuid of the file system
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_longname_modify.sh line 37'
++ message='oe_test_storage_longname_modify.sh line 37'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_longname_modify.sh line 37'
+Fri May  5 11:47:13 2023 - ERROR - oe_test_storage_longname_modify.sh line 37
++ '[' 0 -eq 1 ']'
++ return 0
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ lsblk --fs /dev/sr01
++ awk '{if (NR>1){print $5}}'
++ grep 2222d19b-8674-41ab-9856-ac3d15d1195e
+lsblk: /dev/sr01: not a block device
++ CHECK_RESULT 1 0 0 'Failed to view the uuid of the file system'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed to view the uuid of the file system'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed to view the uuid of the file system'
++ LOG_ERROR 'Failed to view the uuid of the file system'
++ message='Failed to view the uuid of the file system'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed to view the uuid of the file system'
+Fri May  5 11:47:16 2023 - ERROR - Failed to view the uuid of the file system
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_longname_modify.sh line 40'
++ message='oe_test_storage_longname_modify.sh line 40'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_longname_modify.sh line 40'
+Fri May  5 11:47:16 2023 - ERROR - oe_test_storage_longname_modify.sh line 40
++ '[' 0 -eq 1 ']'
++ return 0
++ lsblk --fs /dev/sr01
++ awk '{if (NR>1){print $4}}'
++ sed -n '$p'
++ grep new-label
+lsblk: /dev/sr01: not a block device
++ CHECK_RESULT 1 0 0 'Failed to view the label of the file system'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed to view the label of the file system'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed to view the label of the file system'
++ LOG_ERROR 'Failed to view the label of the file system'
++ message='Failed to view the label of the file system'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed to view the label of the file system'
+Fri May  5 11:47:17 2023 - ERROR - Failed to view the label of the file system
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_longname_modify.sh line 42'
++ message='oe_test_storage_longname_modify.sh line 42'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_longname_modify.sh line 42'
+Fri May  5 11:47:17 2023 - ERROR - oe_test_storage_longname_modify.sh line 42
++ '[' 0 -eq 1 ']'
++ return 0
++ lsblk --fs /dev/vdc1
++ grep vdc1
+vdc1 swap   1           1b3311ba-412c-414b-a0d7-4c49bac1fbd2                
++ CHECK_RESULT 0 0 0 'Failed to view file system type'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to view file system type'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ swaplabel --uuid 11114983-9331-4a61-8123-96ac6a817c41 --label new-label /dev/vdc1
++ CHECK_RESULT 0 0 0 'Failed to modify the label and uuid of the file system'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to modify the label and uuid of the file system'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ lsblk --fs /dev/vdc1
++ awk '{if (NR>1){print $4}}'
++ grep new-label
+new-label
++ CHECK_RESULT 0 0 0 'Failed to view the label of the file system'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to view the label of the file system'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ lsblk --fs /dev/vdc1
++ awk '{if (NR>1){print $5}}'
++ grep 11114983-9331-4a61-8123-96ac6a817c41
+11114983-9331-4a61-8123-96ac6a817c41
++ CHECK_RESULT 0 0 0 'Failed to view the uuid of the file system'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to view the uuid of the file system'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ lsblk --fs /dev/vdd1
+NAME FSTYPE FSVER LABEL UUID FSAVAIL FSUSE% MOUNTPOINTS
+vdd1                                        
++ CHECK_RESULT 0 0 0 'Failed to view file system type'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to view file system type'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ xfs_admin -U 8888016f-f432-45d9-933b-66f243174bed -L new-label /dev/vdd1
+oe_test_storage_longname_modify.sh: line 54: xfs_admin: command not found
++ CHECK_RESULT 127 0 0 'Failed to modify the label and uuid of the file system'
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log='Failed to modify the label and uuid of the file system'
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n 'Failed to modify the label and uuid of the file system'
++ LOG_ERROR 'Failed to modify the label and uuid of the file system'
++ message='Failed to modify the label and uuid of the file system'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed to modify the label and uuid of the file system'
+Fri May  5 11:47:20 2023 - ERROR - Failed to modify the label and uuid of the file system
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_longname_modify.sh line 55'
++ message='oe_test_storage_longname_modify.sh line 55'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_longname_modify.sh line 55'
+Fri May  5 11:47:20 2023 - ERROR - oe_test_storage_longname_modify.sh line 55
++ '[' 0 -eq 1 ']'
++ return 0
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ lsblk --fs /dev/vdd1
++ awk '{if (NR>1){print $3}}'
++ grep new-label
++ CHECK_RESULT 1 0 0 'Failed to view the label of the file system'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed to view the label of the file system'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed to view the label of the file system'
++ LOG_ERROR 'Failed to view the label of the file system'
++ message='Failed to view the label of the file system'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed to view the label of the file system'
+Fri May  5 11:47:23 2023 - ERROR - Failed to view the label of the file system
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_longname_modify.sh line 58'
++ message='oe_test_storage_longname_modify.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_longname_modify.sh line 58'
+Fri May  5 11:47:23 2023 - ERROR - oe_test_storage_longname_modify.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ lsblk --fs /dev/vdd1
++ awk '{if (NR>1){print $4}}'
++ grep 8888016f-f432-45d9-933b-66f243174bed
++ CHECK_RESULT 1 0 0 'Failed to view the uuid of the file system'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed to view the uuid of the file system'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed to view the uuid of the file system'
++ LOG_ERROR 'Failed to view the uuid of the file system'
++ message='Failed to view the uuid of the file system'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed to view the uuid of the file system'
+Fri May  5 11:47:23 2023 - ERROR - Failed to view the uuid of the file system
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_longname_modify.sh line 60'
++ message='oe_test_storage_longname_modify.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_longname_modify.sh line 60'
+Fri May  5 11:47:24 2023 - ERROR - oe_test_storage_longname_modify.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End of testcase execution!'
++ message='End of testcase execution!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution!'
+Fri May  5 11:47:24 2023 - INFO  - End of testcase execution!
++ CASE_RESULT 0
++ case_re=0
++ test -z 7
++ test 7 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri May  5 11:47:24 2023 - ERROR - failed to execute the case.
++ exit 7
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri May  5 11:47:25 2023 - INFO  - start environment cleanup.
++ echo -e 'd\n\nd\n\nd\n\np\nw\n'
++ fdisk /dev/sr0
+fdisk: cannot open /dev/sr0: No medium found
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
++ echo -e 'd\n\nd\n\nd\n\np\nw\n'
++ fdisk /dev/vdc
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+The device contains 'ext4' signature and it may remain on the device. It is recommended to wipe the device with wipefs(8) or fdisk --wipe, in order to avoid possible collisions.
+
+Command (m for help): 
+Selected partition 1
+Partition 1 has been deleted.
+
+Command (m for help): 
+
+Command (m for help): No partition is defined yet!
+
+Command (m for help): 
+
+Command (m for help): No partition is defined yet!
+
+Command (m for help): 
+
+Command (m for help): 
+Disk /dev/vdc: 2 GiB, 2147483648 bytes, 4194304 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0x609445b0
+
+Command (m for help): The partition table has been altered.
+Calling ioctl() to re-read partition table.
+Syncing disks.
+
++ echo -e 'd\n\nd\n\nd\n\np\nw\n'
++ fdisk /dev/vdd
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+The device contains 'ext4' signature and it may remain on the device. It is recommended to wipe the device with wipefs(8) or fdisk --wipe, in order to avoid possible collisions.
+
+Command (m for help): 
+Selected partition 1
+Partition 1 has been deleted.
+
+Command (m for help): 
+
+Command (m for help): No partition is defined yet!
+
+Command (m for help): 
+
+Command (m for help): No partition is defined yet!
+
+Command (m for help): 
+
+Command (m for help): 
+Disk /dev/vdd: 2 GiB, 2147483648 bytes, 4194304 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0x2e2a893b
+
+Command (m for help): The partition table has been altered.
+Calling ioctl() to re-read partition table.
+Syncing disks.
+
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Fri May  5 11:47:25 2023 - INFO  - Finish environment cleanup.

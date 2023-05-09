@@ -1,0 +1,237 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Fri May  5 08:56:18 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'wsmancli openwsman-server docker'
++ pkgs='wsmancli openwsman-server docker'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'wsmancli openwsman-server docker' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpjy0q0njn
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpjy0q0njn
++ docker run -d -it --rm -p 0.0.0.0:5988:5988 -p 0.0.0.0:5989:5989 --name openpegasus kschopmeyer/openpegasus-server:0.1.1
+Unable to find image 'kschopmeyer/openpegasus-server:0.1.1' locally
+0.1.1: Pulling from kschopmeyer/openpegasus-server
+d72e567cc804: Pulling fs layer
+0f3630e5ff08: Pulling fs layer
+b6a83d81d1f4: Pulling fs layer
+c3a32b0bd072: Pulling fs layer
+5eae12b812dc: Pulling fs layer
+8566c0c4c7fb: Pulling fs layer
+5eae12b812dc: Waiting
+c3a32b0bd072: Waiting
+8566c0c4c7fb: Waiting
+b6a83d81d1f4: Download complete
+0f3630e5ff08: Verifying Checksum
+0f3630e5ff08: Download complete
+5eae12b812dc: Download complete
+d72e567cc804: Download complete
+d72e567cc804: Pull complete
+0f3630e5ff08: Pull complete
+b6a83d81d1f4: Pull complete
+8566c0c4c7fb: Verifying Checksum
+8566c0c4c7fb: Download complete
+c3a32b0bd072: Download complete
+c3a32b0bd072: Pull complete
+5eae12b812dc: Pull complete
+8566c0c4c7fb: Pull complete
+Digest: sha256:fb5a09fa2e306f3fffbea2207c91430efce608a28f4bc95ce0655bedc47a4fdc
+Status: Downloaded newer image for kschopmeyer/openpegasus-server:0.1.1
+03749e3ee07fe4f3518a9a4d39f46c428245af292c4bb5d0f6e3072486eae130
++ cp common/simple_auth.passwd /etc/openwsman/test_simple_auth.passwd
++ openwsmand -c common/openwsman.conf
++ SLEEP_WAIT 20
++ wait_time=20
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 20 --cmd '' --mode 1
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Fri May  5 09:07:11 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri May  5 09:07:11 2023 - INFO  - Start to run test.
++ wseventmgr subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -h localhost -P 5985 -u wsman -p wsman
++ grep '<wse:SubscribeResponse>'
+    <wse:SubscribeResponse>
++ CHECK_RESULT 0 0 0 'wamancli.wseventmgr: faild to test -h -P -u -p -x -D -Z'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli.wseventmgr: faild to test -h -P -u -p -x -D -Z'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wseventmgr subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -b http://wsman:wsman@localhost:5985/wsman
++ grep '<wse:SubscribeResponse>'
+    <wse:SubscribeResponse>
++ CHECK_RESULT 0 0 0 'wamancli.wseventmgr: faild to test -b'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli.wseventmgr: faild to test -b'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wseventmgr subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -b http://wsman:wsman@localhost:5985/wsman -d 1
++ grep HTTP
++ CHECK_RESULT 1 1 0 'wamancli.wseventmgr: faild to test option -d'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='wamancli.wseventmgr: faild to test option -d'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ wseventmgr subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -b http://wsman:wsman@localhost:5985/wsman -d 4
++ grep HTTP
+> POST /wsman HTTP/1.1
+< HTTP/1.1 401 Unauthorized
+> POST /wsman HTTP/1.1
+> POST /wsman HTTP/1.1
+< HTTP/1.1 200 (null)
++ CHECK_RESULT 0 0 0 'wamancli.wseventmgr: faild to test option -d'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli.wseventmgr: faild to test option -d'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wseventmgr subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -b http://wsman:wsman@localhost:5985/wsman -j GBK
++ grep '<?xml version="1.0" encoding="GBK"?>'
+<?xml version="1.0" encoding="GBK"?>
++ CHECK_RESULT 0 0 0 'wamancli.wseventmgr: faild to test option -j'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli.wseventmgr: faild to test option -j'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wseventmgr subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -b http://wsman:wsman@localhost:5985/wsman -c common/my.cert
++ grep '<wse:Identifier>'
+          <wse:Identifier>uuid:9d5d7edf-faee-1aee-800c-024511005452</wse:Identifier>
++ CHECK_RESULT 0 0 0 'wamancli.wseventmgr: faild to test option -c'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli.wseventmgr: faild to test option -c'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wseventmgr subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -b http://wsman:wsman@localhost:5985/wsman -A common/my.cert
++ grep cert
+Warning: --cacert not set to enable SSL operation
++ CHECK_RESULT 0 0 0 'wamancli.wseventmgr: faild to test option -A'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli.wseventmgr: faild to test option -A'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wseventmgr subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -b http://wsman:wsman@localhost:5985/wsman -K common/my,cert
++ grep cert
+Warning: --cacert not set to enable SSL operation
++ CHECK_RESULT 0 0 0 'wamancli: faild to test option -K'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test option -K'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wseventmgr subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -b http://wsman:wsman@localhost:5985/wsman -g wsman
++ grep '<wsa:Address>http://localhost:5985/wsman</wsa:Address>'
+        <wsa:Address>http://localhost:5985/wsman</wsa:Address>
++ CHECK_RESULT 0 0 0 'wamancli.wseventmgr: faild to test option -g'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli.wseventmgr: faild to test option -g'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Fri May  5 09:07:13 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri May  5 09:07:14 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri May  5 09:07:14 2023 - INFO  - Start to restore the test environment.
++ rm -rf /etc/openwsman/test_simple_auth.passwd
+++ pgrep openwsmand
++ kill -9 4961
++ docker stop openpegasus
+openpegasus
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpjy0q0njn ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpjy0q0njn
++ '[' 0 -ne 0 ']'
++ SLEEP_WAIT 10
++ wait_time=10
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 10 --cmd '' --mode 1
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Fri May  5 09:07:46 2023 - INFO  - End to restore the test environment.

@@ -1,0 +1,127 @@
++ source ../common/storage_disk_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Fri May  5 11:38:31 2023 - INFO  - Start environment preparation.
++ check_free_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='sr0 vdb vdc vdd vde'
++ disk_list=($disks)
++ local_disk=sr0
++ local_disk1=vdb
++ local_disk2=vdc
++ local_disk3=vdd
++ echo -e 'n\np\n1\n\n+100M\np\nw\n'
++ fdisk /dev/sr0
+fdisk: cannot open /dev/sr0: No medium found
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
++ old_lang=en_US.UTF-8
++ export LANG=en_US.utf-8
++ LANG=en_US.utf-8
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Fri May  5 11:38:35 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase!'
++ message='Start executing testcase!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase!'
+Fri May  5 11:38:35 2023 - INFO  - Start executing testcase!
++ mkfs.ext4 -F /dev/sr01
+mke2fs 1.46.5 (30-Dec-2021)
+The file /dev/sr01 does not exist and no size was specified.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_ext4_resize.sh line 32'
++ message='oe_test_storage_ext4_resize.sh line 32'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_ext4_resize.sh line 32'
+Fri May  5 11:38:35 2023 - ERROR - oe_test_storage_ext4_resize.sh line 32
++ '[' 0 -eq 1 ']'
++ return 0
++ e2fsck -y /dev/sr01
+e2fsck 1.46.5 (30-Dec-2021)
+e2fsck: No such file or directory while trying to open /dev/sr01
+Possibly non-existent device?
++ CHECK_RESULT 8
++ actual_result=8
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 8 ']'
++ '[' 0 -eq 0 ']'
++ test 8x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_ext4_resize.sh line 34'
++ message='oe_test_storage_ext4_resize.sh line 34'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_ext4_resize.sh line 34'
+Fri May  5 11:38:36 2023 - ERROR - oe_test_storage_ext4_resize.sh line 34
++ '[' 0 -eq 1 ']'
++ return 0
+++ resize2fs -P /dev/sr01
+++ sed -n p
+++ awk -F ': ' '{if (NR>1) print $NF}'
++ systemsize='No such file or directory while opening /dev/sr01'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+oe_test_storage_ext4_resize.sh: line 37: No such file or directory while opening /dev/sr01+10: syntax error in expression (error token is "such file or directory while opening /dev/sr01+10")
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri May  5 11:38:36 2023 - INFO  - start environment cleanup.
++ echo -e 'd\np\nw\n'
++ fdisk /dev/sr0
+fdisk: cannot open /dev/sr0: No medium found
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
++ export LANG=en_US.UTF-8
++ LANG=en_US.UTF-8
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Fri May  5 11:38:36 2023 - INFO  - Finish environment cleanup.

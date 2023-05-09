@@ -1,0 +1,298 @@
++ source common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed May  3 22:02:20 2023 - INFO  - Start to prepare the test environment.
++ get_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='sr0 vdb vdc'
++ disk_list=($disks)
++ disk1=sr0
++ disk2=vdb
++ DNF_INSTALL ntfs-3g
++ pkgs=ntfs-3g
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs ntfs-3g --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpmp46wibx
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpmp46wibx
++ mkntfs --fast /dev/sr0
+Could not open /dev/sr0: No medium found
++ mkntfs --fast /dev/vdb
+Cluster size has been automatically set to 4096 bytes.
+Creating NTFS volume structures.
+mkntfs completed successfully. Have a nice day.
++ mkdir -p /mnt/windows
++ ntfs-3g /dev/sr0 /mnt/windows
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ touch /mnt/windows/test.txt
++ umount /mnt/windows
+umount: /mnt/windows: not mounted.
++ LOG_INFO 'Finish preparing the test environment.'
++ message='Finish preparing the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish preparing the test environment.'
+Wed May  3 22:02:38 2023 - INFO  - Finish preparing the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed May  3 22:02:39 2023 - INFO  - Start to run test.
++ ntfscluster --help
++ grep 'Usage: ntfscluster \[options\]'
+Usage: ntfscluster [options] device
++ CHECK_RESULT 0 0 0 'Check ntfscluster --help failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfscluster --help failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ntfscluster --version
++ grep 'ntfscluster v'
+ntfscluster v2022.5.17 (libntfs-3g) - Find the owner of any given sector or cluster.
++ CHECK_RESULT 0 0 0 'Check ntfscluster --version failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfscluster --version failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ntfscluster --info /dev/sr0 --force
++ grep 'percentage metadata'
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 1 0 0 'Check ntfscluster --info failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfscluster --info failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfscluster --info failed.'
++ LOG_ERROR 'Check ntfscluster --info failed.'
++ message='Check ntfscluster --info failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfscluster --info failed.'
+Wed May  3 22:02:39 2023 - ERROR - Check ntfscluster --info failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfscluster.sh line 39'
++ message='oe_test_ntfs-3g_ntfscluster.sh line 39'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfscluster.sh line 39'
+Wed May  3 22:02:39 2023 - ERROR - oe_test_ntfs-3g_ntfscluster.sh line 39
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfscluster --cluster 0-500 /dev/sr0 --force
++ grep 'Searching for cluster range 0-500'
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 1 0 0 'Check ntfscluster --cluster failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfscluster --cluster failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfscluster --cluster failed.'
++ LOG_ERROR 'Check ntfscluster --cluster failed.'
++ message='Check ntfscluster --cluster failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfscluster --cluster failed.'
+Wed May  3 22:02:40 2023 - ERROR - Check ntfscluster --cluster failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfscluster.sh line 41'
++ message='oe_test_ntfs-3g_ntfscluster.sh line 41'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfscluster.sh line 41'
+Wed May  3 22:02:40 2023 - ERROR - oe_test_ntfs-3g_ntfscluster.sh line 41
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfscluster --sector 0-500 /dev/sr0 --force
++ grep 'Searching for sector range 0-500'
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 1 0 0 'Check ntfscluster --sector failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfscluster --sector failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfscluster --sector failed.'
++ LOG_ERROR 'Check ntfscluster --sector failed.'
++ message='Check ntfscluster --sector failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfscluster --sector failed.'
+Wed May  3 22:02:40 2023 - ERROR - Check ntfscluster --sector failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfscluster.sh line 43'
++ message='oe_test_ntfs-3g_ntfscluster.sh line 43'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfscluster.sh line 43'
+Wed May  3 22:02:40 2023 - ERROR - oe_test_ntfs-3g_ntfscluster.sh line 43
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfscluster --inode 5 /dev/sr0 --force
++ grep resident
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 1 0 0 'Check ntfscluster --inode failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfscluster --inode failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfscluster --inode failed.'
++ LOG_ERROR 'Check ntfscluster --inode failed.'
++ message='Check ntfscluster --inode failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfscluster --inode failed.'
+Wed May  3 22:02:41 2023 - ERROR - Check ntfscluster --inode failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfscluster.sh line 45'
++ message='oe_test_ntfs-3g_ntfscluster.sh line 45'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfscluster.sh line 45'
+Wed May  3 22:02:41 2023 - ERROR - oe_test_ntfs-3g_ntfscluster.sh line 45
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfscluster --filename test.txt /dev/sr0 --force
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 1 0 0 'Check ntfscluster --filename failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfscluster --filename failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfscluster --filename failed.'
++ LOG_ERROR 'Check ntfscluster --filename failed.'
++ message='Check ntfscluster --filename failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfscluster --filename failed.'
+Wed May  3 22:02:41 2023 - ERROR - Check ntfscluster --filename failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfscluster.sh line 47'
++ message='oe_test_ntfs-3g_ntfscluster.sh line 47'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfscluster.sh line 47'
+Wed May  3 22:02:42 2023 - ERROR - oe_test_ntfs-3g_ntfscluster.sh line 47
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfscluster --info /dev/sr0 --force --quiet
++ grep 'percentage metadata'
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 1 0 0 'Check ntfscluster --quiet failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfscluster --quiet failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfscluster --quiet failed.'
++ LOG_ERROR 'Check ntfscluster --quiet failed.'
++ message='Check ntfscluster --quiet failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfscluster --quiet failed.'
+Wed May  3 22:02:42 2023 - ERROR - Check ntfscluster --quiet failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfscluster.sh line 49'
++ message='oe_test_ntfs-3g_ntfscluster.sh line 49'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfscluster.sh line 49'
+Wed May  3 22:02:42 2023 - ERROR - oe_test_ntfs-3g_ntfscluster.sh line 49
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfscluster --info /dev/sr0 --force --verbose
++ grep 'percentage metadata'
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 1 0 0 'Check ntfscluster --verbose failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfscluster --verbose failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfscluster --verbose failed.'
++ LOG_ERROR 'Check ntfscluster --verbose failed.'
++ message='Check ntfscluster --verbose failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfscluster --verbose failed.'
+Wed May  3 22:02:43 2023 - ERROR - Check ntfscluster --verbose failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfscluster.sh line 51'
++ message='oe_test_ntfs-3g_ntfscluster.sh line 51'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfscluster.sh line 51'
+Wed May  3 22:02:43 2023 - ERROR - oe_test_ntfs-3g_ntfscluster.sh line 51
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Wed May  3 22:02:43 2023 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 7
++ test 7 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed May  3 22:02:43 2023 - ERROR - failed to execute the case.
++ exit 7
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed May  3 22:02:44 2023 - INFO  - Start to restore the test environment.
++ expect
+spawn mkfs.ext4 /dev/sr0
+y
+mke2fs 1.46.5 (30-Dec-2021)
+mkfs.ext4: No medium found while trying to determine filesystem size
++ rm -rf /mnt/windows
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpmp46wibx ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpmp46wibx
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish restoring the test environment.'
++ message='Finish restoring the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish restoring the test environment.'
+Wed May  3 22:02:49 2023 - INFO  - Finish restoring the test environment.

@@ -1,0 +1,334 @@
++ source ../common/common_podman.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu May  4 21:23:25 2023 - INFO  - Start to prepare the test environment.
++ deploy_env
++ DNF_INSTALL 'podman podman-docker'
++ pkgs='podman podman-docker'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'podman podman-docker' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpuxg9ev9w
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpuxg9ev9w
++ echo -e '[registries.search]
+registries = ['\''docker.io'\'']
+
+[registries.insecure]
+registries = []
+
+[registries.block]
+registries = []
+'
++ podman pull postgres:alpine
+Resolving "postgres" using unqualified-search registries (/etc/containers/registries.conf)
+Trying to pull docker.io/library/postgres:alpine...
+Getting image source signatures
+Copying blob sha256:f33740282c0040003ee1e3c9ec1a68d5eb873795badbbf6103c79cc588760e4a
+Copying blob sha256:8eff49387ec9a1f26ada557b4e31f86a45f70ef57c1a45345e5bfbe75e53bcfc
+Copying blob sha256:f56be85fc22e46face30e2c3de3f7fe7c15f8fd7c4e5add29d7f64b87abdaa09
+Copying blob sha256:7da7fae4e80a5e292219502d2ce432382a68e8d0fb3841807ad70963ec194e7d
+Copying blob sha256:f71699d7795ac5159478a278ffb6af3fcac0141e6a637d71062a601d7cab30c7
+Copying blob sha256:256414453fba6e3cc9af34383da6e5920f6d4ac3399943b8569b68896c645a0e
+Copying blob sha256:8eff49387ec9a1f26ada557b4e31f86a45f70ef57c1a45345e5bfbe75e53bcfc
+Copying blob sha256:7da7fae4e80a5e292219502d2ce432382a68e8d0fb3841807ad70963ec194e7d
+Copying blob sha256:f56be85fc22e46face30e2c3de3f7fe7c15f8fd7c4e5add29d7f64b87abdaa09
+Copying blob sha256:f71699d7795ac5159478a278ffb6af3fcac0141e6a637d71062a601d7cab30c7
+Copying blob sha256:256414453fba6e3cc9af34383da6e5920f6d4ac3399943b8569b68896c645a0e
+Copying blob sha256:b49740a115f2f98ff2414fb5272986655b272d739c878477a6ca541430a41637
+Copying blob sha256:c36da779701e31511df27033e2a5e1b1ebdd0b7f4032cfab4a04c82139d7337a
+Copying blob sha256:f33740282c0040003ee1e3c9ec1a68d5eb873795badbbf6103c79cc588760e4a
+Copying blob sha256:c36da779701e31511df27033e2a5e1b1ebdd0b7f4032cfab4a04c82139d7337a
+Copying blob sha256:b49740a115f2f98ff2414fb5272986655b272d739c878477a6ca541430a41637
+Copying config sha256:ddc12ac7fa27279bfcc41deaccd1368291ab7d71ca7cee0420b41f9974e9a468
+Writing manifest to image destination
+Storing signatures
+ddc12ac7fa27279bfcc41deaccd1368291ab7d71ca7cee0420b41f9974e9a468
++ podman run --name postgres -e POSTGRES_PASSWORD=secret -d postgres:alpine
+time="2023-05-04T21:29:20Z" level=warning msg="Path \"/usr/share/rhel/secrets\" from \"/usr/share/containers/mounts.conf\" doesn't exist, skipping"
+8956061a9888fb87e5c5ddac8874b623b1b0abb3bac4414b11edab045a51058b
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu May  4 21:29:20 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu May  4 21:29:20 2023 - INFO  - Start to run test.
++ podman stop postgres
+postgres
++ grep logfile
+++ podman ps -aq
++ podman logs -f 8956061a9888
+performing post-bootstrap initialization ... sh: locale: not found
+2023-05-04 21:29:24.881 UTC [25] WARNING:  no usable system locales were found
+initdb: warning: enabling "trust" authentication for local connections
+initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
+2023-05-04 21:29:30.892 UTC [1] LOG:  starting PostgreSQL 15.2 on x86_64-pc-linux-musl, compiled by gcc (Alpine 12.2.1_git20220924-r4) 12.2.1 20220924, 64-bit
+2023-05-04 21:29:30.893 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2023-05-04 21:29:30.894 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+2023-05-04 21:29:30.903 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2023-05-04 21:29:30.922 UTC [45] LOG:  database system was shut down at 2023-05-04 21:29:30 UTC
+2023-05-04 21:29:30.952 UTC [1] LOG:  database system is ready to accept connections
+    pg_ctl -D /var/lib/postgresql/data -l logfile start
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ podman logs -l
++ grep LOG
+waiting for server to start....2023-05-04 21:29:30.370 UTC [31] LOG:  starting PostgreSQL 15.2 on x86_64-pc-linux-musl, compiled by gcc (Alpine 12.2.1_git20220924-r4) 12.2.1 20220924, 64-bit
+2023-05-04 21:29:30.376 UTC [31] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2023-05-04 21:29:30.403 UTC [34] LOG:  database system was shut down at 2023-05-04 21:29:29 UTC
+2023-05-04 21:29:30.435 UTC [31] LOG:  database system is ready to accept connections
+waiting for server to shut down...2023-05-04 21:29:30.650 UTC [31] LOG:  received fast shutdown request
+.2023-05-04 21:29:30.656 UTC [31] LOG:  aborting any active transactions
+2023-05-04 21:29:30.666 UTC [31] LOG:  background worker "logical replication launcher" (PID 37) exited with exit code 1
+2023-05-04 21:29:30.667 UTC [32] LOG:  shutting down
+2023-05-04 21:29:30.670 UTC [32] LOG:  checkpoint starting: shutdown immediate
+2023-05-04 21:29:30.698 UTC [32] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.010 s, sync=0.003 s, total=0.030 s; sync files=2, longest=0.002 s, average=0.002 s; distance=0 kB, estimate=0 kB
+2023-05-04 21:29:30.732 UTC [31] LOG:  database system is shut down
+2023-05-04 21:29:30.892 UTC [1] LOG:  starting PostgreSQL 15.2 on x86_64-pc-linux-musl, compiled by gcc (Alpine 12.2.1_git20220924-r4) 12.2.1 20220924, 64-bit
+2023-05-04 21:29:30.893 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2023-05-04 21:29:30.894 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+2023-05-04 21:29:30.903 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2023-05-04 21:29:30.922 UTC [45] LOG:  database system was shut down at 2023-05-04 21:29:30 UTC
+2023-05-04 21:29:30.952 UTC [1] LOG:  database system is ready to accept connections
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ podman ps -aq
+++ date +%Y-%m-%d
++ grep 2023-05-04
++ podman logs --since 2020-12-31 8956061a9888
+2023-05-04 21:29:24.881 UTC [25] WARNING:  no usable system locales were found
+waiting for server to start....2023-05-04 21:29:30.370 UTC [31] LOG:  starting PostgreSQL 15.2 on x86_64-pc-linux-musl, compiled by gcc (Alpine 12.2.1_git20220924-r4) 12.2.1 20220924, 64-bit
+2023-05-04 21:29:30.376 UTC [31] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2023-05-04 21:29:30.403 UTC [34] LOG:  database system was shut down at 2023-05-04 21:29:29 UTC
+2023-05-04 21:29:30.435 UTC [31] LOG:  database system is ready to accept connections
+waiting for server to shut down...2023-05-04 21:29:30.650 UTC [31] LOG:  received fast shutdown request
+.2023-05-04 21:29:30.656 UTC [31] LOG:  aborting any active transactions
+2023-05-04 21:29:30.666 UTC [31] LOG:  background worker "logical replication launcher" (PID 37) exited with exit code 1
+2023-05-04 21:29:30.667 UTC [32] LOG:  shutting down
+2023-05-04 21:29:30.670 UTC [32] LOG:  checkpoint starting: shutdown immediate
+2023-05-04 21:29:30.698 UTC [32] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.010 s, sync=0.003 s, total=0.030 s; sync files=2, longest=0.002 s, average=0.002 s; distance=0 kB, estimate=0 kB
+2023-05-04 21:29:30.732 UTC [31] LOG:  database system is shut down
+2023-05-04 21:29:30.892 UTC [1] LOG:  starting PostgreSQL 15.2 on x86_64-pc-linux-musl, compiled by gcc (Alpine 12.2.1_git20220924-r4) 12.2.1 20220924, 64-bit
+2023-05-04 21:29:30.893 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2023-05-04 21:29:30.894 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+2023-05-04 21:29:30.903 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2023-05-04 21:29:30.922 UTC [45] LOG:  database system was shut down at 2023-05-04 21:29:30 UTC
+2023-05-04 21:29:30.952 UTC [1] LOG:  database system is ready to accept connections
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wc -l
++ grep 10
+++ podman ps -aq
++ podman logs --tail 10 8956061a9888
+10
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep +08:00
+++ podman ps -aq
++ podman logs -t 8956061a9888
+2023-05-04T21:29:24.879654100Z performing post-bootstrap initialization ... sh: locale: not found
+2023-05-04T21:29:24.881572430Z 2023-05-04 21:29:24.881 UTC [25] WARNING:  no usable system locales were found
+2023-05-04T21:29:30.115328730Z initdb: warning: enabling "trust" authentication for local connections
+2023-05-04T21:29:30.115328730Z initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
+2023-05-04T21:29:30.892839910Z 2023-05-04 21:29:30.892 UTC [1] LOG:  starting PostgreSQL 15.2 on x86_64-pc-linux-musl, compiled by gcc (Alpine 12.2.1_git20220924-r4) 12.2.1 20220924, 64-bit
+2023-05-04T21:29:30.893966740Z 2023-05-04 21:29:30.893 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2023-05-04T21:29:30.894754920Z 2023-05-04 21:29:30.894 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+2023-05-04T21:29:30.903636910Z 2023-05-04 21:29:30.903 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2023-05-04T21:29:30.922767230Z 2023-05-04 21:29:30.922 UTC [45] LOG:  database system was shut down at 2023-05-04 21:29:30 UTC
+2023-05-04T21:29:30.952938530Z 2023-05-04 21:29:30.952 UTC [1] LOG:  database system is ready to accept connections
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_06.sh line 41'
++ message='oe_test_podman_06.sh line 41'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_06.sh line 41'
+Thu May  4 21:29:35 2023 - ERROR - oe_test_podman_06.sh line 41
++ '[' 0 -eq 1 ']'
++ return 0
++ podman start postgres
+time="2023-05-04T21:29:36Z" level=warning msg="Path \"/usr/share/rhel/secrets\" from \"/usr/share/containers/mounts.conf\" doesn't exist, skipping"
+postgres
++ podman save -q -o alpine.tar postgres:alpine
++ podman import --change CMD=/bin/bash --change ENTRYPOINT=/bin/sh --change LABEL=blue=image alpine.tar image-imported
+Getting image source signatures
+Copying blob sha256:25f466345cc1462c97e73b05c7dfc148fafe08068b16386d0a1b6f1f7e6e9a02
+Copying config sha256:6794ca5d67ac5694c1ff5634c263be40c8423946a94d2637191e7b5fe5b7d579
+Writing manifest to image destination
+Storing signatures
+sha256:6794ca5d67ac5694c1ff5634c263be40c8423946a94d2637191e7b5fe5b7d579
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cat alpine.tar
++ podman import -q --message 'importing the alpine.tar tarball' - image-imported
+sha256:20684e9b93b4f43032cb8ea54d3376c4f18e5ccb2a9272ab5c75ca3b3fb8419c
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ podman ps -aq
++ podman export -o redis-container.tar 8956061a9888
+time="2023-05-04T21:30:17Z" level=error msg="Can't add file /var/lib/containers/storage/overlay/8ce7e17a0f83fff6b1d8acfc52519e65b67daaa87eba391eae0692acf7efe9b1/merged/run/postgresql/.s.PGSQL.5432 to tar: archive/tar: sockets not supported"
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test -f redis-container.tar
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ podman images -q
++ podman tag 20684e9b93b4 6794ca5d67ac ddc12ac7fa27 test
++ podman images
++ grep test
+localhost/image-imported    latest      20684e9b93b4  14 seconds ago  246 MB
+localhost/6794ca5d67ac      latest      20684e9b93b4  14 seconds ago  246 MB
+localhost/ddc12ac7fa27      latest      20684e9b93b4  14 seconds ago  246 MB
+localhost/test              latest      20684e9b93b4  14 seconds ago  246 MB
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu May  4 21:30:23 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Thu May  4 21:30:23 2023 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu May  4 21:30:24 2023 - INFO  - Start to restore the test environment.
++ podman rmi test
+Untagged: localhost/test:latest
++ clear_env
++ podman stop postgres
+postgres
++ podman rm --all
+8956061a9888fb87e5c5ddac8874b623b1b0abb3bac4414b11edab045a51058b
++ podman rmi -f --all
+Untagged: docker.io/library/postgres:alpine
+Untagged: localhost/image-imported:latest
+Untagged: localhost/6794ca5d67ac:latest
+Untagged: localhost/ddc12ac7fa27:latest
+Deleted: ddc12ac7fa27279bfcc41deaccd1368291ab7d71ca7cee0420b41f9974e9a468
+Deleted: 6794ca5d67ac5694c1ff5634c263be40c8423946a94d2637191e7b5fe5b7d579
+Deleted: 20684e9b93b4f43032cb8ea54d3376c4f18e5ccb2a9272ab5c75ca3b3fb8419c
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpuxg9ev9w ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpuxg9ev9w
++ '[' 0 -ne 0 ']'
+++ grep -vE .sh
+++ ls
++ rm -rf alpine.tar redis-container.tar
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu May  4 21:31:11 2023 - INFO  - End to restore the test environment.

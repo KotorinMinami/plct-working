@@ -1,0 +1,990 @@
++ source ./common/common.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed May  3 21:23:55 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL 'nmon gcc ncurses-devel nfs-utils rpmdevtools rpmlint openeuler-lsb'
++ pkgs='nmon gcc ncurses-devel nfs-utils rpmdevtools rpmlint openeuler-lsb'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'nmon gcc ncurses-devel nfs-utils rpmdevtools rpmlint openeuler-lsb' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp611z_9e8
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp611z_9e8
++ env_pre
++ systemctl start nfs-server
++ rpmdev-setuptree
++ cp ./common/libnvidia-ml.spec /root/rpmbuild/SPECS/
++ '[' x86_64 = x86_64 ']'
++ export ARCH=X86
++ ARCH=X86
++ wget -P /root/rpmbuild/SOURCES/ https://cn.download.nvidia.com/XFree86/Linux-x86_64/470.74/NVIDIA-Linux-x86_64-470.74.run
+./common/common.sh: line 28: wget: command not found
++ dd if=/dev/null of=/root/rpmbuild/SOURCES/null
+0+0 records in
+0+0 records out
+0 bytes copied, 0.00054385 s, 0.0 kB/s
++ rpmbuild -ba --nodebuginfo /root/rpmbuild/SPECS/libnvidia-ml.spec
+Executing(%prep): /bin/sh -e /var/tmp/rpm-tmp.MTmw1N
++ umask 022
++ cd /root/rpmbuild/BUILD
++ cd /root/rpmbuild/BUILD
++ rm -rf NVIDIA-Linux-x86_64-470.74-custom
++ /usr/bin/mkdir -p NVIDIA-Linux-x86_64-470.74-custom
++ cd NVIDIA-Linux-x86_64-470.74-custom
++ /usr/bin/chmod -Rf a+rX,u+w,g-w,o-w .
++ rm -rf /root/rpmbuild/BUILD/NVIDIA-Linux-x86_64-470.74-custom
++ cd /root/rpmbuild/BUILD
++ sh /root/rpmbuild/SOURCES/NVIDIA-Linux-x86_64-470.74.run -x --add-this-kernel
+sh: /root/rpmbuild/SOURCES/NVIDIA-Linux-x86_64-470.74.run: No such file or directory
+error: Bad exit status from /var/tmp/rpm-tmp.MTmw1N (%prep)
+
+RPM build errors:
+    Bad exit status from /var/tmp/rpm-tmp.MTmw1N (%prep)
++ rpm -i /root/rpmbuild/RPMS/x86_64/libnvidia-ml-470.74-openEuler.x86_64.rpm
+error: open of /root/rpmbuild/RPMS/x86_64/libnvidia-ml-470.74-openEuler.x86_64.rpm failed: No such file or directory
++ mv /lib64/libnvidia-ml.so.470.74 /lib64/libnvidia-ml.so
+mv: cannot stat '/lib64/libnvidia-ml.so.470.74': No such file or directory
++ ldconfig
++ yumdownloader --source --destdir=./template/ nmon
+Last metadata expiration check: 0:12:36 ago on Wed 03 May 2023 09:17:01 PM UTC.
+nmon-16n-1.oe2303.src.rpm                        17 kB/s |  73 kB     00:04    
++ rpm -i ./template/nmon-16n-1.oe2303.src.rpm
++ gcc -o nmon_openEuler /root/rpmbuild/SOURCES/lmon16n.c -g -Wall -D JFS -D GETUSER -D LARGEMEM -lncurses -lm -g -D X86 -lnvidia-ml -D NVIDIA_GPU
+/usr/bin/ld: cannot find -lnvidia-ml
+collect2: error: ld returned 1 exit status
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Wed May  3 21:29:48 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed May  3 21:29:48 2023 - INFO  - Start to run test.
++ expect
+spawn nmon -b
+qError opening terminal: unknown.
++ CHECK_RESULT 0 0 0 'Failed option: -b'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -b'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect
+spawn nmon -c5
+qError opening terminal: unknown.
++ CHECK_RESULT 0 0 0 'Failed option: -c'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -c'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect
+spawn nmon -s3
+Error opening terminal: unknown.
+send: spawn id exp3 not open
+    while executing
+"send "q""
++ test -f ./template/interactive_-s
++ CHECK_RESULT 1 0 0 'Failed option: -s'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: -s'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: -s'
++ LOG_ERROR 'Failed option: -s'
++ message='Failed option: -s'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed option: -s'
+Wed May  3 21:29:49 2023 - ERROR - Failed option: -s
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmon_02.sh line 51'
++ message='oe_test_nmon_02.sh line 51'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmon_02.sh line 51'
+Wed May  3 21:29:49 2023 - ERROR - oe_test_nmon_02.sh line 51
++ '[' 0 -eq 1 ']'
++ return 0
++ expect
+spawn ./nmon_openEuler
+couldn't execute "./nmon_openEuler": no such file or directory
+    while executing
+"spawn ./nmon_openEuler"
++ test -f ./template/interactive_a
++ CHECK_RESULT 1 0 0 'Failed option: a'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: a'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: a'
++ LOG_ERROR 'Failed option: a'
++ message='Failed option: a'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed option: a'
+Wed May  3 21:29:50 2023 - ERROR - Failed option: a
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmon_02.sh line 62'
++ message='oe_test_nmon_02.sh line 62'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmon_02.sh line 62'
+Wed May  3 21:29:50 2023 - ERROR - oe_test_nmon_02.sh line 62
++ '[' 0 -eq 1 ']'
++ return 0
++ expect
+spawn nmon
+b
+qError opening terminal: unknown.
++ CHECK_RESULT 0 0 0 'Failed option: -b'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -b'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect
+spawn nmon
+c
+Error opening terminal: unknown.
+send: spawn id exp3 not open
+    while executing
+"send "q""
++ test -f ./template/interactive_c
++ CHECK_RESULT 1 0 0 'Failed option: c'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: c'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: c'
++ LOG_ERROR 'Failed option: c'
++ message='Failed option: c'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed option: c'
+Wed May  3 21:29:51 2023 - ERROR - Failed option: c
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmon_02.sh line 80'
++ message='oe_test_nmon_02.sh line 80'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmon_02.sh line 80'
+Wed May  3 21:29:51 2023 - ERROR - oe_test_nmon_02.sh line 80
++ '[' 0 -eq 1 ']'
++ return 0
++ expect
+spawn nmon
+C
+Error opening terminal: unknown.
+send: spawn id exp3 not open
+    while executing
+"send "q""
++ test -f ./template/interactive_C
++ CHECK_RESULT 1 0 0 'Failed option: C'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: C'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: C'
++ LOG_ERROR 'Failed option: C'
++ message='Failed option: C'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed option: C'
+Wed May  3 21:29:51 2023 - ERROR - Failed option: C
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmon_02.sh line 91'
++ message='oe_test_nmon_02.sh line 91'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmon_02.sh line 91'
+Wed May  3 21:29:52 2023 - ERROR - oe_test_nmon_02.sh line 91
++ '[' 0 -eq 1 ']'
++ return 0
++ expect
+spawn nmon
+d
+Error opening terminal: unknown.
+send: spawn id exp3 not open
+    while executing
+"send "q""
++ test -f ./template/interactive_d
++ CHECK_RESULT 1 0 0 'Failed option: d'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: d'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: d'
++ LOG_ERROR 'Failed option: d'
++ message='Failed option: d'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed option: d'
+Wed May  3 21:29:52 2023 - ERROR - Failed option: d
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmon_02.sh line 102'
++ message='oe_test_nmon_02.sh line 102'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmon_02.sh line 102'
+Wed May  3 21:29:52 2023 - ERROR - oe_test_nmon_02.sh line 102
++ '[' 0 -eq 1 ']'
++ return 0
++ expect
+spawn nmon
+D
+Error opening terminal: unknown.
+expect: spawn id exp3 not open
+    while executing
+"expect "Xfers" {
+        exec touch ./template/interactive_D_2
+    }"
++ test -f ./template/interactive_D_1
++ CHECK_RESULT 1 0 0 'Failed option: D'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: D'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: D'
++ LOG_ERROR 'Failed option: D'
++ message='Failed option: D'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed option: D'
+Wed May  3 21:29:53 2023 - ERROR - Failed option: D
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmon_02.sh line 130'
++ message='oe_test_nmon_02.sh line 130'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmon_02.sh line 130'
+Wed May  3 21:29:53 2023 - ERROR - oe_test_nmon_02.sh line 130
++ '[' 0 -eq 1 ']'
++ return 0
+++ lsblk -l
+++ grep disk
+++ awk '{print $1}'
++ echo 'userDefinedDiskGroups vda'
++ expect
+spawn nmon -g ./template/uddg
+g
+Error opening terminal: unknown.
+expect: spawn id exp3 not open
+    while executing
+"expect "userDefinedDiskGroups" {
+        exec touch ./template/interactive_g_2
+    }"
++ test -f ./template/interactive_g_1
++ CHECK_RESULT 1 0 0 'Failed option: g'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: g'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: g'
++ LOG_ERROR 'Failed option: g'
++ message='Failed option: g'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed option: g'
+Wed May  3 21:29:54 2023 - ERROR - Failed option: g
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmon_02.sh line 145'
++ message='oe_test_nmon_02.sh line 145'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmon_02.sh line 145'
+Wed May  3 21:29:54 2023 - ERROR - oe_test_nmon_02.sh line 145
++ '[' 0 -eq 1 ']'
++ return 0
+++ lsblk -l
+++ grep disk
+++ awk '{print $1}'
+++ sed ':t;N;s/\n/\|/;b t'
++ disk=vda
+++ iostat -d
+++ grep -vE vda
+oe_test_nmon_02.sh: line 147: iostat: command not found
+++ grep -vE 'Linux|Device|^$'
+++ awk '{print $1}'
+++ sed ':t;N;s/\n/\|/;b t'
++ notdisk=
++ expect
+spawn nmon -g auto
+dG
+Generating disk group file from lsblk output to file: "auto"
+Error opening terminal: unknown.
++ test -f ./template/interactive_G_1
++ CHECK_RESULT 1 0 0 'Failed option: G'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: G'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: G'
++ LOG_ERROR 'Failed option: G'
++ message='Failed option: G'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed option: G'
+Wed May  3 21:29:55 2023 - ERROR - Failed option: G
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmon_02.sh line 164'
++ message='oe_test_nmon_02.sh line 164'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmon_02.sh line 164'
+Wed May  3 21:29:55 2023 - ERROR - oe_test_nmon_02.sh line 164
++ '[' 0 -eq 1 ']'
++ return 0
++ test -f ./template/interactive_G_2
++ CHECK_RESULT 1 0 1 'Failed option: G'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='Failed option: G'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ expect
+spawn nmon
+h
+Error opening terminal: unknown.
+send: spawn id exp3 not open
+    while executing
+"send "q""
++ test -f ./template/interactive_h
++ CHECK_RESULT 1 0 0 'Failed option: h'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: h'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: h'
++ LOG_ERROR 'Failed option: h'
++ message='Failed option: h'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed option: h'
+Wed May  3 21:29:56 2023 - ERROR - Failed option: h
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmon_02.sh line 177'
++ message='oe_test_nmon_02.sh line 177'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmon_02.sh line 177'
+Wed May  3 21:29:56 2023 - ERROR - oe_test_nmon_02.sh line 177
++ '[' 0 -eq 1 ']'
++ return 0
++ expect
+spawn nmon
+j
+Error opening terminal: unknown.
+expect: spawn id exp3 not open
+    while executing
+"expect "not a real filesystem" {
+        exec touch ./template/interactive_j_2
+    }"
++ test -f ./template/interactive_j_1
++ CHECK_RESULT 1 0 0 'Failed option: j'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: j'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: j'
++ LOG_ERROR 'Failed option: j'
++ message='Failed option: j'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed option: j'
+Wed May  3 21:29:56 2023 - ERROR - Failed option: j
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmon_02.sh line 191'
++ message='oe_test_nmon_02.sh line 191'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmon_02.sh line 191'
+Wed May  3 21:29:57 2023 - ERROR - oe_test_nmon_02.sh line 191
++ '[' 0 -eq 1 ']'
++ return 0
++ expect
+spawn nmon
+jJ
+Error opening terminal: unknown.
+expect: spawn id exp3 not open
+    while executing
+"expect "not a real filesystem" {
+        exec touch ./template/interactive_J_2
+    }"
++ test -f ./template/interactive_J_1
++ CHECK_RESULT 1 0 0 'Failed option: J'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: J'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: J'
++ LOG_ERROR 'Failed option: J'
++ message='Failed option: J'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed option: J'
+Wed May  3 21:29:57 2023 - ERROR - Failed option: J
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmon_02.sh line 205'
++ message='oe_test_nmon_02.sh line 205'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmon_02.sh line 205'
+Wed May  3 21:29:57 2023 - ERROR - oe_test_nmon_02.sh line 205
++ '[' 0 -eq 1 ']'
++ return 0
++ test -f ./template/interactive_J_2
++ CHECK_RESULT 1 0 1 'Failed option: J'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='Failed option: J'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ expect
+spawn nmon
+k
+Error opening terminal: unknown.
+expect: spawn id exp3 not open
+    while executing
+"expect "RunQueue" {
+        exec touch ./template/interactive_k_2
+    }"
++ test -f ./template/interactive_k_1
++ CHECK_RESULT 1 0 0 'Failed option: k'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: k'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: k'
++ LOG_ERROR 'Failed option: k'
++ message='Failed option: k'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed option: k'
+Wed May  3 21:29:58 2023 - ERROR - Failed option: k
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmon_02.sh line 232'
++ message='oe_test_nmon_02.sh line 232'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmon_02.sh line 232'
+Wed May  3 21:29:58 2023 - ERROR - oe_test_nmon_02.sh line 232
++ '[' 0 -eq 1 ']'
++ return 0
++ expect
+spawn nmon
+l
+Error opening terminal: unknown.
+expect: spawn id exp3 not open
+    while executing
+"expect "Long-Term" {
+        exec touch ./template/interactive_l_2
+    }"
++ test -f ./template/interactive_l_1
++ CHECK_RESULT 1 0 0 'Failed option: l'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: l'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: l'
++ LOG_ERROR 'Failed option: l'
++ message='Failed option: l'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed option: l'
+Wed May  3 21:29:59 2023 - ERROR - Failed option: l
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmon_02.sh line 246'
++ message='oe_test_nmon_02.sh line 246'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmon_02.sh line 246'
+Wed May  3 21:29:59 2023 - ERROR - oe_test_nmon_02.sh line 246
++ '[' 0 -eq 1 ']'
++ return 0
++ expect
+spawn nmon
+L
+Error opening terminal: unknown.
+send: spawn id exp3 not open
+    while executing
+"send "q""
++ test -f ./template/interactive_L
++ CHECK_RESULT 1 0 0 'Failed option: L'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: L'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: L'
++ LOG_ERROR 'Failed option: L'
++ message='Failed option: L'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed option: L'
+Wed May  3 21:30:00 2023 - ERROR - Failed option: L
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmon_02.sh line 257'
++ message='oe_test_nmon_02.sh line 257'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmon_02.sh line 257'
+Wed May  3 21:30:00 2023 - ERROR - oe_test_nmon_02.sh line 257
++ '[' 0 -eq 1 ']'
++ return 0
++ expect
+spawn nmon
+m
+Error opening terminal: unknown.
+send: spawn id exp3 not open
+    while executing
+"send "q""
++ test -f ./template/interactive_m
++ CHECK_RESULT 1 0 0 'Failed option: m'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: m'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: m'
++ LOG_ERROR 'Failed option: m'
++ message='Failed option: m'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed option: m'
+Wed May  3 21:30:00 2023 - ERROR - Failed option: m
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmon_02.sh line 268'
++ message='oe_test_nmon_02.sh line 268'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmon_02.sh line 268'
+Wed May  3 21:30:01 2023 - ERROR - oe_test_nmon_02.sh line 268
++ '[' 0 -eq 1 ']'
++ return 0
++ expect
+spawn nmon
+M
+Error opening terminal: unknown.
+send: spawn id exp3 not open
+    while executing
+"send "q""
++ test -f ./template/interactive_M
++ CHECK_RESULT 1 0 0 'Failed option: M'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: M'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: M'
++ LOG_ERROR 'Failed option: M'
++ message='Failed option: M'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed option: M'
+Wed May  3 21:30:01 2023 - ERROR - Failed option: M
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmon_02.sh line 279'
++ message='oe_test_nmon_02.sh line 279'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmon_02.sh line 279'
+Wed May  3 21:30:01 2023 - ERROR - oe_test_nmon_02.sh line 279
++ '[' 0 -eq 1 ']'
++ return 0
++ expect
+spawn nmon
+n
+Error opening terminal: unknown.
+expect: spawn id exp3 not open
+    while executing
+"expect "Network Error Counters" {
+        exec touch ./template/interactive_n_2
+    }"
++ test -f ./template/interactive_n_1
++ CHECK_RESULT 1 0 0 'Failed option: n'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: n'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: n'
++ LOG_ERROR 'Failed option: n'
++ message='Failed option: n'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed option: n'
+Wed May  3 21:30:02 2023 - ERROR - Failed option: n
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmon_02.sh line 293'
++ message='oe_test_nmon_02.sh line 293'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmon_02.sh line 293'
+Wed May  3 21:30:02 2023 - ERROR - oe_test_nmon_02.sh line 293
++ '[' 0 -eq 1 ']'
++ return 0
++ expect
+spawn nmon
+N
+Error opening terminal: unknown.
+send: spawn id exp3 not open
+    while executing
+"send "q""
++ test -f ./template/interactive_N
++ CHECK_RESULT 1 0 0 'Failed option: N'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: N'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: N'
++ LOG_ERROR 'Failed option: N'
++ message='Failed option: N'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed option: N'
+Wed May  3 21:30:03 2023 - ERROR - Failed option: N
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmon_02.sh line 304'
++ message='oe_test_nmon_02.sh line 304'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmon_02.sh line 304'
+Wed May  3 21:30:03 2023 - ERROR - oe_test_nmon_02.sh line 304
++ '[' 0 -eq 1 ']'
++ return 0
++ expect
+spawn nmon
+o
+Error opening terminal: unknown.
+send: spawn id exp3 not open
+    while executing
+"send "q""
++ test -f ./template/interactive_o
++ CHECK_RESULT 1 0 0 'Failed option: o'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: o'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: o'
++ LOG_ERROR 'Failed option: o'
++ message='Failed option: o'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed option: o'
+Wed May  3 21:30:04 2023 - ERROR - Failed option: o
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmon_02.sh line 315'
++ message='oe_test_nmon_02.sh line 315'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmon_02.sh line 315'
+Wed May  3 21:30:04 2023 - ERROR - oe_test_nmon_02.sh line 315
++ '[' 0 -eq 1 ']'
++ return 0
++ expect
+++ ps -e
+++ grep nmon
+spawn nmon
+invalid command name ""
+    while executing
+"[exec sh -c {if ["" = ""]; then
+    touch ./template/interactive_q
+    fi}]"
++ test -f ./template/interactive_q
++ CHECK_RESULT 0 0 0 'Failed option: q'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: q'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect
+++ uname -r
+++ uname -v
+++ uname -m
+++ uname -n
+spawn nmon
+r
+Error opening terminal: unknown.
+expect: spawn id exp3 not open
+    while executing
+"expect "Version  : #1 SMP PREEMPT_DYNAMIC Tue Mar 28 00:01:02 CST 2023" {
+        exec touch ./template/interactive_r_2
+    }"
++ test -f ./template/interactive_r_1
++ CHECK_RESULT 1 0 0 'Failed option: r'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: r'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: r'
++ LOG_ERROR 'Failed option: r'
++ message='Failed option: r'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed option: r'
+Wed May  3 21:30:05 2023 - ERROR - Failed option: r
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmon_02.sh line 382'
++ message='oe_test_nmon_02.sh line 382'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmon_02.sh line 382'
+Wed May  3 21:30:05 2023 - ERROR - oe_test_nmon_02.sh line 382
++ '[' 0 -eq 1 ']'
++ return 0
++ expect
+spawn nmon
+t
+Error opening terminal: unknown.
+send: spawn id exp3 not open
+    while executing
+"send "q""
++ test -f ./template/interactive_t
++ CHECK_RESULT 1 0 0 'Failed option: t'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: t'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: t'
++ LOG_ERROR 'Failed option: t'
++ message='Failed option: t'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed option: t'
+Wed May  3 21:30:06 2023 - ERROR - Failed option: t
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmon_02.sh line 393'
++ message='oe_test_nmon_02.sh line 393'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmon_02.sh line 393'
+Wed May  3 21:30:06 2023 - ERROR - oe_test_nmon_02.sh line 393
++ '[' 0 -eq 1 ']'
++ return 0
++ expect
+spawn nmon
+T
+Error opening terminal: unknown.
+expect: spawn id exp3 not open
+    while executing
+"expect "Pgrp" {
+        exec touch ./template/interactive_T_2
+    }"
++ test -f ./template/interactive_T_1
++ CHECK_RESULT 1 0 0 'Failed option: T'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: T'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: T'
++ LOG_ERROR 'Failed option: T'
++ message='Failed option: T'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed option: T'
+Wed May  3 21:30:06 2023 - ERROR - Failed option: T
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmon_02.sh line 421'
++ message='oe_test_nmon_02.sh line 421'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmon_02.sh line 421'
+Wed May  3 21:30:07 2023 - ERROR - oe_test_nmon_02.sh line 421
++ '[' 0 -eq 1 ']'
++ return 0
++ expect
+spawn nmon
+u
+Error opening terminal: unknown.
+expect: spawn id exp3 not open
+    while executing
+"expect "ResSize" {
+        exec touch ./template/interactive_u_2
+    }"
++ test -f ./template/interactive_u_1
++ CHECK_RESULT 1 0 0 'Failed option: u'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: u'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: u'
++ LOG_ERROR 'Failed option: u'
++ message='Failed option: u'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed option: u'
+Wed May  3 21:30:07 2023 - ERROR - Failed option: u
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmon_02.sh line 435'
++ message='oe_test_nmon_02.sh line 435'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmon_02.sh line 435'
+Wed May  3 21:30:07 2023 - ERROR - oe_test_nmon_02.sh line 435
++ '[' 0 -eq 1 ']'
++ return 0
++ expect
+spawn nmon
+U
+Error opening terminal: unknown.
+send: spawn id exp3 not open
+    while executing
+"send "q""
++ test -f ./template/interactive_U
++ CHECK_RESULT 1 0 0 'Failed option: U'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: U'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: U'
++ LOG_ERROR 'Failed option: U'
++ message='Failed option: U'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed option: U'
+Wed May  3 21:30:08 2023 - ERROR - Failed option: U
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmon_02.sh line 446'
++ message='oe_test_nmon_02.sh line 446'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmon_02.sh line 446'
+Wed May  3 21:30:08 2023 - ERROR - oe_test_nmon_02.sh line 446
++ '[' 0 -eq 1 ']'
++ return 0
++ expect
+spawn nmon
+v
+Error opening terminal: unknown.
+send: spawn id exp3 not open
+    while executing
+"send "q""
++ test -f ./template/interactive_v
++ CHECK_RESULT 1 0 0 'Failed option: v'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: v'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: v'
++ LOG_ERROR 'Failed option: v'
++ message='Failed option: v'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed option: v'
+Wed May  3 21:30:09 2023 - ERROR - Failed option: v
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmon_02.sh line 457'
++ message='oe_test_nmon_02.sh line 457'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmon_02.sh line 457'
+Wed May  3 21:30:09 2023 - ERROR - oe_test_nmon_02.sh line 457
++ '[' 0 -eq 1 ']'
++ return 0
++ expect
+spawn nmon
+V
+Error opening terminal: unknown.
+send: spawn id exp3 not open
+    while executing
+"send "q""
++ test -f ./template/interactive_V
++ CHECK_RESULT 1 0 0 'Failed option: V'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed option: V'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed option: V'
++ LOG_ERROR 'Failed option: V'
++ message='Failed option: V'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed option: V'
+Wed May  3 21:30:10 2023 - ERROR - Failed option: V
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmon_02.sh line 468'
++ message='oe_test_nmon_02.sh line 468'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmon_02.sh line 468'
+Wed May  3 21:30:10 2023 - ERROR - oe_test_nmon_02.sh line 468
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed May  3 21:30:10 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 26
++ test 26 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed May  3 21:30:10 2023 - ERROR - failed to execute the case.
++ exit 26
++ post_test
++ LOG_INFO 'Start restore the test environment.'
++ message='Start restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start restore the test environment.'
+Wed May  3 21:30:11 2023 - INFO  - Start restore the test environment.
++ env_post
++ systemctl stop nfs-server
++ unset ARCH
++ rm -rf ./template /root/rpmbuild nmon_openEuler auto '/lib64/libnvidia-ml*'
++ rpm -e --nodeps libnvidia-ml
+error: package libnvidia-ml is not installed
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp611z_9e8 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp611z_9e8
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed May  3 21:30:21 2023 - INFO  - End to restore the test environment.

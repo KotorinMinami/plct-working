@@ -1,0 +1,393 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Fri May  5 08:05:40 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL wireshark
++ pkgs=wireshark
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs wireshark --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpbizf5_cr
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpbizf5_cr
+++ rpm -qa wireshark
+++ awk -F - '{print$2}'
++ version=3.6.11
++ LOG_INFO 'Finish preparing the test environment.'
++ message='Finish preparing the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish preparing the test environment.'
+Fri May  5 08:18:06 2023 - INFO  - Finish preparing the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri May  5 08:18:06 2023 - INFO  - Start to run test.
++ mergecap --help
++ grep 'Usage: mergecap \[options\]'
+Usage: mergecap [options] -w <outfile>|- <infile> [<infile> ...]
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mergecap --version
++ grep 3.6.11
+Mergecap (Wireshark) 3.6.11 (Git commit 6529b24d7c78)
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ dumpcap -D
+++ awk -F . '{print $2}'
+++ head -1
++ netCard=' ens4'
++ SLEEP_WAIT 10 'dumpcap -i  ens4 -c 20 -w testfile1' 2
++ wait_time=10
++ cmd='dumpcap -i  ens4 -c 20 -w testfile1'
++ mode=2
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 10 --cmd 'dumpcap -i  ens4 -c 20 -w testfile1' --mode 2
+Capturing on 'ens4'
+File: testfile1
+
+Packets: 3 
+Packets: 5 
+Packets: 6 
+Packets: 11 
+Packets: 20 
+Packets captured: 20
+Packets received/dropped on interface 'ens4': 20/0 (pcap:0/dumpcap:0/flushed:0/ps_ifdrop:0) (100.0%)
++ capinfos testfile1
++ grep 'Number of packets:.*20'
+Number of packets:   20
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5 'dumpcap -i  ens4 -f "tcp port 22" -c 20 -w testfile2' 2
++ wait_time=5
++ cmd='dumpcap -i  ens4 -f "tcp port 22" -c 20 -w testfile2'
++ mode=2
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd 'dumpcap -i  ens4 -f "tcp port 22" -c 20 -w testfile2' --mode 2
+Capturing on 'ens4'
+File: testfile2
+
+Packets: 3 
+Packets: 11 
+Packets: 20 
+Packets captured: 20
+Packets received/dropped on interface 'ens4': 20/0 (pcap:0/dumpcap:0/flushed:0/ps_ifdrop:0) (100.0%)
++ capinfos testfile2
++ grep -E 'Number of packets:.*20|Filter string = tcp port 22'
+Number of packets:   20
+                     Filter string = tcp port 22
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mergecap -a -w mergefile1 testfile1 testfile2
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ capinfos mergefile1
++ grep 'Number of packets:.*40'
+Number of packets:   40
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mergecap -a -s 10 -w mergefile2 testfile1 testfile2
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ capinfos mergefile2
++ grep -E 'Number of packets:.*40|Packet size limit:.*inferred: 10 bytes'
+Packet size limit:   inferred: 10 bytes
+Number of packets:   40
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mergecap -a -w mergefile3 testfile1 testfile2
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ capinfos mergefile3
++ grep 'File name:.*mergefile3'
+File name:           mergefile3
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ captype testfile1
++ grep 'testfile1: pcapng'
+testfile1: pcapng
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ captype testfile2
++ grep 'testfile2: pcapng'
+testfile2: pcapng
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mergecap -a -F snoop -w mergefile4 testfile1 testfile2
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ captype mergefile4
++ grep 'mergefile4: snoop'
+mergefile4: snoop
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mergecap -a -I none -w mergefile5 testfile1 testfile2
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ capinfos mergefile5
++ grep -E 'Number of packets = 20|Filter string = tcp port 22|Interface #.* info:'
+Interface #0 info:
+                     Number of packets = 20
+Interface #1 info:
+                     Filter string = tcp port 22
+                     Number of packets = 20
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mergecap -a -v -w mergefile6 testfile1 testfile2
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep -E 'mergecap|Record|merging complete|ready to merge records' runlog
+mergecap: testfile1 is type Wireshark/... - pcapng.
+mergecap: testfile2 is type Wireshark/... - pcapng.
+mergecap: selected frame_type Ethernet (ether)
+mergecap: ready to merge records
+Record: 1
+Record: 2
+Record: 3
+Record: 4
+Record: 5
+Record: 6
+Record: 7
+Record: 8
+Record: 9
+Record: 10
+Record: 11
+Record: 12
+Record: 13
+Record: 14
+Record: 15
+Record: 16
+Record: 17
+Record: 18
+Record: 19
+Record: 20
+Record: 21
+Record: 22
+Record: 23
+Record: 24
+Record: 25
+Record: 26
+Record: 27
+Record: 28
+Record: 29
+Record: 30
+Record: 31
+Record: 32
+Record: 33
+Record: 34
+Record: 35
+Record: 36
+Record: 37
+Record: 38
+Record: 39
+Record: 40
+mergecap: merging complete
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ capinfos mergefile6
++ grep 'Number of packets:.*40'
+Number of packets:   40
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Fri May  5 08:26:09 2023 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri May  5 08:26:09 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri May  5 08:26:10 2023 - INFO  - Start to restore the test environment.
+++ ls
+++ grep -v .sh
++ rm -rf mergefile1 mergefile2 mergefile3 mergefile4 mergefile5 mergefile6 runlog testfile1 testfile2
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpbizf5_cr ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpbizf5_cr
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish restoring the test environment.'
++ message='Finish restoring the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish restoring the test environment.'
+Fri May  5 08:26:28 2023 - INFO  - Finish restoring the test environment.

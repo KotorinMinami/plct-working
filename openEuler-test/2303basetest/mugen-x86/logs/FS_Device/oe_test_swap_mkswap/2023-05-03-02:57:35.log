@@ -1,0 +1,165 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n function ']'
++ config_params
++ LOG_INFO 'Start to prepare the database config.'
++ message='Start to prepare the database config.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the database config.'
+Wed May  3 02:57:36 2023 - INFO  - Start to prepare the database config.
+++ lsblk
+++ grep disk
+++ awk '{print $1}'
+++ tail -n 1
++ free_disk=vdb
++ disk_name=/dev/vdb
+++ free -m
+++ grep -i swap
+++ awk '{print $4}'
++ free_swap=0
++ LOG_INFO 'Finish to prepare the database config.'
++ message='Finish to prepare the database config.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish to prepare the database config.'
+Wed May  3 02:57:36 2023 - INFO  - Finish to prepare the database config.
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the database config.'
++ message='Start to prepare the database config.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the database config.'
+Wed May  3 02:57:36 2023 - INFO  - Start to prepare the database config.
++ fdisk /dev/vdb
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+
+Command (m for help): Partition type
+   p   primary (0 primary, 0 extended, 4 free)
+   e   extended (container for logical partitions)
+Select (default p): Partition number (1-4, default 1): First sector (2048-41943039, default 2048): Last sector, +/-sectors or +/-size{K,M,G,T,P} (2048-41943039, default 41943039): 
+Created a new partition 1 of type 'Linux' and of size 47.8 MiB.
+
+Command (m for help): The partition table has been altered.
+Calling ioctl() to re-read partition table.
+Syncing disks.
+
++ dm_name=/dev/vdb1
++ LOG_INFO 'Finish to prepare the database config.'
++ message='Finish to prepare the database config.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish to prepare the database config.'
+Wed May  3 02:57:37 2023 - INFO  - Finish to prepare the database config.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed May  3 02:57:37 2023 - INFO  - Start to run test.
++ mkswap /dev/vdb1
+Setting up swapspace version 1, size = 47.8 MiB (50147328 bytes)
+no label, UUID=9e808d69-969e-45ac-83ef-33b1e77d5dd1
++ swapon /dev/vdb1
+++ free -m
+++ grep -i swap
+++ awk '{print $4}'
++ cur_free_swap=47
++ [[ 47 -gt 0 ]]
++ CHECK_RESULT 0 0 0 'The new device doesn'\''t add to swap.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='The new device doesn'\''t add to swap.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ swapon -v
++ grep /dev/vdb1
+/dev/vdb1 partition 47.8M   0B   -2
++ CHECK_RESULT 0 0 0 'Check swap device failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check swap device failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ swapoff /dev/vdb1
++ CHECK_RESULT 0 0 0 'Remove swap device failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Remove swap device failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ grep -i swap
+++ awk '{print $4}'
+++ free -m
++ cur_free_swap=0
++ [[ 0 -eq 0 ]]
++ CHECK_RESULT 0 0 0 'The new device doesn'\''t add to swap.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='The new device doesn'\''t add to swap.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed May  3 02:57:38 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed May  3 02:57:38 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed May  3 02:57:38 2023 - INFO  - Start to restore the test environment.
++ fdisk /dev/vdb
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+
+Command (m for help): Selected partition 1
+Partition 1 has been deleted.
+
+Command (m for help): 
+
+Command (m for help): 
+The partition table has been altered.
+Calling ioctl() to re-read partition table.
+Syncing disks.
+
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed May  3 02:57:39 2023 - INFO  - End to restore the test environment.

@@ -1,0 +1,143 @@
++ source ../common/storage_disk_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n function ']'
++ config_params
++ LOG_INFO 'Start loading data!'
++ message='Start loading data!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start loading data!'
+Fri May  5 12:00:14 2023 - INFO  - Start loading data!
++ check_free_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='sr0 vdb vdc vdd vde'
++ disk_list=($disks)
++ local_disk=sr0
++ local_disk1=vdb
++ local_disk2=vdc
++ local_disk3=vdd
++ LOG_INFO 'Loading data is complete!'
++ message='Loading data is complete!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Loading data is complete!'
+Fri May  5 12:00:18 2023 - INFO  - Loading data is complete!
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Fri May  5 12:00:19 2023 - INFO  - Start environment preparation.
++ echo -e 'n\np\n1\n\n+60M\np\nw\n'
++ fdisk /dev/sr0
+fdisk: cannot open /dev/sr0: No medium found
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
++ old_lang=en_US.UTF-8
++ export LANG=en_US.utf-8
++ LANG=en_US.utf-8
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Fri May  5 12:00:19 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase!'
++ message='Start executing testcase!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase!'
+Fri May  5 12:00:19 2023 - INFO  - Start executing testcase!
++ mkfs.ext3 -F /dev/sr01
+mke2fs 1.46.5 (30-Dec-2021)
+mkfs.ext3: Device size reported to be zero.  Invalid partition specified, or
+	partition table wasn't reread after running fdisk, due to
+	a modified partition being busy and in use.  You may need to reboot
+	to re-read your partition table.
+
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_ext3_resize.sh line 37'
++ message='oe_test_storage_ext3_resize.sh line 37'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_ext3_resize.sh line 37'
+Fri May  5 12:00:20 2023 - ERROR - oe_test_storage_ext3_resize.sh line 37
++ '[' 0 -eq 1 ']'
++ return 0
++ e2fsck -y /dev/sr01
+e2fsck 1.46.5 (30-Dec-2021)
+e2fsck: Attempt to read block from filesystem resulted in short read while trying to open /dev/sr01
+Could this be a zero-length partition?
++ CHECK_RESULT 8
++ actual_result=8
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 8 ']'
++ '[' 0 -eq 0 ']'
++ test 8x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_ext3_resize.sh line 39'
++ message='oe_test_storage_ext3_resize.sh line 39'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_ext3_resize.sh line 39'
+Fri May  5 12:00:20 2023 - ERROR - oe_test_storage_ext3_resize.sh line 39
++ '[' 0 -eq 1 ']'
++ return 0
+++ resize2fs -P /dev/sr01
+++ sed -n p
+++ awk -F ': ' '{if (NR>1) print $NF}'
++ systemsize='Attempt to read block from filesystem resulted in short read while trying to open /dev/sr01
+Couldn'\''t find valid filesystem superblock.'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+oe_test_storage_ext3_resize.sh: line 42: Attempt to read block from filesystem resulted in short read while trying to open /dev/sr01
+Couldn't find valid filesystem superblock.+10: syntax error in expression (error token is "to read block from filesystem resulted in short read while trying to open /dev/sr01
+Couldn't find valid filesystem superblock.+10")
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri May  5 12:00:21 2023 - INFO  - start environment cleanup.
++ echo -e 'd\np\nw\n'
++ fdisk /dev/sr0
+fdisk: cannot open /dev/sr0: No medium found
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
++ export LANG=en_US.UTF-8
++ LANG=en_US.UTF-8
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Fri May  5 12:00:21 2023 - INFO  - Finish environment cleanup.

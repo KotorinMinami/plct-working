@@ -1,0 +1,376 @@
++ source common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed May  3 22:00:07 2023 - INFO  - Start to prepare the test environment.
++ get_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='sr0 vdb vdc'
++ disk_list=($disks)
++ disk1=sr0
++ disk2=vdb
++ DNF_INSTALL ntfs-3g
++ pkgs=ntfs-3g
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs ntfs-3g --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp3zkabedv
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp3zkabedv
++ mkntfs --fast /dev/sr0
+Could not open /dev/sr0: No medium found
++ mkntfs --fast /dev/vdb
+Cluster size has been automatically set to 4096 bytes.
+Creating NTFS volume structures.
+mkntfs completed successfully. Have a nice day.
++ mkdir -p /mnt/windows
++ ntfs-3g /dev/sr0 /mnt/windows
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ mkdir /mnt/windows/test
++ touch /mnt/windows/test/test1.txt /mnt/windows/test/test2.py
++ umount /mnt/windows
+umount: /mnt/windows: not mounted.
++ LOG_INFO 'Finish preparing the test environment.'
++ message='Finish preparing the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish preparing the test environment.'
+Wed May  3 22:00:27 2023 - INFO  - Finish preparing the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed May  3 22:00:27 2023 - INFO  - Start to run test.
++ ntfsls --help
++ grep 'Usage: ntfsls \[options\]'
+Usage: ntfsls [options] device
++ CHECK_RESULT 0 0 0 'Check ntfsls --help failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfsls --help failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ntfsls --version
++ grep 'ntfsls v'
+ntfsls v2022.5.17 (libntfs-3g) - Display information about an NTFS Volume.
++ CHECK_RESULT 0 0 0 'Check ntfsls --version failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfsls --version failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ntfsls /dev/sr0 --all
++ grep test
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 1 0 0 'Check ntfsls --all failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsls --all failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsls --all failed.'
++ LOG_ERROR 'Check ntfsls --all failed.'
++ message='Check ntfsls --all failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsls --all failed.'
+Wed May  3 22:00:27 2023 - ERROR - Check ntfsls --all failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsls.sh line 40'
++ message='oe_test_ntfs-3g_ntfsls.sh line 40'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsls.sh line 40'
+Wed May  3 22:00:28 2023 - ERROR - oe_test_ntfs-3g_ntfsls.sh line 40
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsls /dev/sr0 --classify
++ grep 'test\/'
+grep: warning: stray \ before /
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 1 0 0 'Check ntfsls --classify failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsls --classify failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsls --classify failed.'
++ LOG_ERROR 'Check ntfsls --classify failed.'
++ message='Check ntfsls --classify failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsls --classify failed.'
+Wed May  3 22:00:28 2023 - ERROR - Check ntfsls --classify failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsls.sh line 42'
++ message='oe_test_ntfs-3g_ntfsls.sh line 42'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsls.sh line 42'
+Wed May  3 22:00:28 2023 - ERROR - oe_test_ntfs-3g_ntfsls.sh line 42
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsls /dev/sr0 --force
++ grep test
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 1 0 0 'Check ntfsls --force failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsls --force failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsls --force failed.'
++ LOG_ERROR 'Check ntfsls --force failed.'
++ message='Check ntfsls --force failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsls --force failed.'
+Wed May  3 22:00:29 2023 - ERROR - Check ntfsls --force failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsls.sh line 44'
++ message='oe_test_ntfs-3g_ntfsls.sh line 44'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsls.sh line 44'
+Wed May  3 22:00:29 2023 - ERROR - oe_test_ntfs-3g_ntfsls.sh line 44
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsls /dev/sr0 --inode
++ grep test
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 1 0 0 'Check ntfsls --inode failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsls --inode failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsls --inode failed.'
++ LOG_ERROR 'Check ntfsls --inode failed.'
++ message='Check ntfsls --inode failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsls --inode failed.'
+Wed May  3 22:00:29 2023 - ERROR - Check ntfsls --inode failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsls.sh line 46'
++ message='oe_test_ntfs-3g_ntfsls.sh line 46'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsls.sh line 46'
+Wed May  3 22:00:29 2023 - ERROR - oe_test_ntfs-3g_ntfsls.sh line 46
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsls /dev/sr0 --long
++ grep test
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 1 0 0 'Check ntfsls --long failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsls --long failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsls --long failed.'
++ LOG_ERROR 'Check ntfsls --long failed.'
++ message='Check ntfsls --long failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsls --long failed.'
+Wed May  3 22:00:30 2023 - ERROR - Check ntfsls --long failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsls.sh line 48'
++ message='oe_test_ntfs-3g_ntfsls.sh line 48'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsls.sh line 48'
+Wed May  3 22:00:30 2023 - ERROR - oe_test_ntfs-3g_ntfsls.sh line 48
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsls /dev/sr0 --path test
++ grep test
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 1 0 0 'Check ntfsls --path failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsls --path failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsls --path failed.'
++ LOG_ERROR 'Check ntfsls --path failed.'
++ message='Check ntfsls --path failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsls --path failed.'
+Wed May  3 22:00:30 2023 - ERROR - Check ntfsls --path failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsls.sh line 50'
++ message='oe_test_ntfs-3g_ntfsls.sh line 50'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsls.sh line 50'
+Wed May  3 22:00:31 2023 - ERROR - oe_test_ntfs-3g_ntfsls.sh line 50
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsls /dev/sr0 --quiet --path test
++ grep test
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 1 0 0 'Check ntfsls --quiet failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsls --quiet failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsls --quiet failed.'
++ LOG_ERROR 'Check ntfsls --quiet failed.'
++ message='Check ntfsls --quiet failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsls --quiet failed.'
+Wed May  3 22:00:31 2023 - ERROR - Check ntfsls --quiet failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsls.sh line 52'
++ message='oe_test_ntfs-3g_ntfsls.sh line 52'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsls.sh line 52'
+Wed May  3 22:00:31 2023 - ERROR - oe_test_ntfs-3g_ntfsls.sh line 52
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsls /dev/sr0 --recursive
++ grep test
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 1 0 0 'Check ntfsls --recursive failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsls --recursive failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsls --recursive failed.'
++ LOG_ERROR 'Check ntfsls --recursive failed.'
++ message='Check ntfsls --recursive failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsls --recursive failed.'
+Wed May  3 22:00:32 2023 - ERROR - Check ntfsls --recursive failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsls.sh line 54'
++ message='oe_test_ntfs-3g_ntfsls.sh line 54'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsls.sh line 54'
+Wed May  3 22:00:32 2023 - ERROR - oe_test_ntfs-3g_ntfsls.sh line 54
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsls /dev/sr0 --system
++ grep Volume
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 1 0 0 'Check ntfsls --system failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsls --system failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsls --system failed.'
++ LOG_ERROR 'Check ntfsls --system failed.'
++ message='Check ntfsls --system failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsls --system failed.'
+Wed May  3 22:00:32 2023 - ERROR - Check ntfsls --system failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsls.sh line 56'
++ message='oe_test_ntfs-3g_ntfsls.sh line 56'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsls.sh line 56'
+Wed May  3 22:00:33 2023 - ERROR - oe_test_ntfs-3g_ntfsls.sh line 56
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsls /dev/sr0 --dos --path test
++ grep test
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 1 0 0 'Check ntfsls --dos --path failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsls --dos --path failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsls --dos --path failed.'
++ LOG_ERROR 'Check ntfsls --dos --path failed.'
++ message='Check ntfsls --dos --path failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsls --dos --path failed.'
+Wed May  3 22:00:33 2023 - ERROR - Check ntfsls --dos --path failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsls.sh line 58'
++ message='oe_test_ntfs-3g_ntfsls.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsls.sh line 58'
+Wed May  3 22:00:33 2023 - ERROR - oe_test_ntfs-3g_ntfsls.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Wed May  3 22:00:33 2023 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 10
++ test 10 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed May  3 22:00:34 2023 - ERROR - failed to execute the case.
++ exit 10
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed May  3 22:00:34 2023 - INFO  - Start to restore the test environment.
++ expect
+spawn mkfs.ext4 /dev/sr0
+y
+mke2fs 1.46.5 (30-Dec-2021)
+mkfs.ext4: No medium found while trying to determine filesystem size
++ rm -rf /mnt/windows
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp3zkabedv ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp3zkabedv
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish restoring the test environment.'
++ message='Finish restoring the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish restoring the test environment.'
+Wed May  3 22:00:39 2023 - INFO  - Finish restoring the test environment.

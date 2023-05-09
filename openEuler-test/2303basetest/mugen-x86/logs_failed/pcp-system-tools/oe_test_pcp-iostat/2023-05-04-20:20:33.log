@@ -1,0 +1,285 @@
++ source common/common_pcp-system-tools.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu May  4 20:20:34 2023 - INFO  - Start to prepare the test environment.
++ deploy_env
++ DNF_INSTALL 'pcp pcp-system-tools'
++ pkgs='pcp pcp-system-tools'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'pcp pcp-system-tools' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp6do6acqe
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp6do6acqe
++ systemctl enable pmcd
++ systemctl start pmcd
++ systemctl enable pmlogger
++ systemctl start pmlogger
++ SLEEP_WAIT 20
++ wait_time=20
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 20 --cmd '' --mode 1
+++ hostname
++ host_name=localhost.localdomain
+++ awk -F - '{print $2}'
+++ rpm -qa pcp
++ pcp_version=5.3.7
+++ pcp -h localhost.localdomain
+++ grep 'primary logger:'
+++ awk -F: '{print $NF}'
++ archive_data=' /var/log/pcp/pmlogger/localhost.localdomain/20230504.20.22-01'
+++ lsblk
+++ grep disk
+++ awk '{print $1}'
++ disk_name=vda
++ OLD_PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
++ export PATH=/usr/libexec/pcp/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
++ PATH=/usr/libexec/pcp/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu May  4 20:23:02 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu May  4 20:23:02 2023 - INFO  - Start to run test.
++ SLEEP_WAIT 60
++ wait_time=60
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 60 --cmd '' --mode 1
++ pcp-iostat --version
++ grep 5.3.7
+pcp-iostat version 5.3.7
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pcp-iostat -a /var/log/pcp/pmlogger/localhost.localdomain/20230504.20.22-01 -A 10min -s 10
++ grep rrqm/s
+# Device      rrqm/s  wrqm/s     r/s    w/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await r_await w_await   %util
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pcp-iostat -a /var/log/pcp/pmlogger/localhost.localdomain/20230504.20.22-01 -G sum -s 10
++ grep 'sum(.*)'
+sum(.*)         0.00    4.00    0.00   1.00     0.00    17.00   17.000    0.001    1.00    0.00    1.00    0.10
+sum(.*)         0.00    4.00    0.00   0.00     0.00    17.00    0.000    0.000    0.00    0.00    0.00    0.10
+sum(.*)         0.00    4.00    0.00   0.00     0.00    17.00    0.000    0.001    0.00    0.00    0.00    0.20
+sum(.*)         0.00    3.00    0.00   1.00     0.00    17.00   17.000    0.001    1.00    0.00    1.00    0.10
+sum(.*)         0.00    4.00    0.00   0.00     0.00    17.00    0.000    0.001    0.00    0.00    0.00    0.10
+sum(.*)         0.00    4.00    0.00   1.00     0.00    18.00   18.000    0.001    1.00    0.00    1.00    0.10
+sum(.*)         0.00    4.00    0.00   0.00     0.00    17.00    0.000    0.000    0.00    0.00    0.00    0.10
+sum(.*)         0.00    4.00    0.00   1.00     0.00    17.00   17.000    0.001    1.00    0.00    1.00    0.10
+sum(.*)         0.00    4.00    0.00   0.00     0.00    17.00    0.000    0.001    0.00    0.00    0.00    0.10
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pcp-iostat -h localhost.localdomain -s 10
++ grep wrqm/s
+# Device      rrqm/s  wrqm/s     r/s    w/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await r_await w_await   %util
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pcp-iostat -a /var/log/pcp/pmlogger/localhost.localdomain/20230504.20.22-01 -O @08 -s 10 -t 2
++ grep r/s
+# Device      rrqm/s  wrqm/s     r/s    w/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await r_await w_await   %util
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pcp-iostat -a /var/log/pcp/pmlogger/localhost.localdomain/20230504.20.22-01 -P 1 -s 10
++ grep w/s
+# Device     rrqm/s wrqm/s    r/s   w/s   rkB/s   wkB/s avgrq-sz avgqu-sz  await r_await w_await  %util
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pcp-iostat -a /var/log/pcp/pmlogger/localhost.localdomain/20230504.20.22-01 -R vda -s 10
++ grep vda
+vda             0.00    4.00    0.00   1.00     0.00    17.00   17.000    0.001    1.00    0.00    1.00    0.10
+vda             0.00    4.00    0.00   0.00     0.00    17.00    0.000    0.000    0.00    0.00    0.00    0.10
+vda             0.00    4.00    0.00   0.00     0.00    17.00    0.000    0.001    0.00    0.00    0.00    0.20
+vda             0.00    3.00    0.00   1.00     0.00    17.00   17.000    0.001    1.00    0.00    1.00    0.10
+vda             0.00    4.00    0.00   0.00     0.00    17.00    0.000    0.001    0.00    0.00    0.00    0.10
+vda             0.00    4.00    0.00   1.00     0.00    18.00   18.000    0.001    1.00    0.00    1.00    0.10
+vda             0.00    4.00    0.00   0.00     0.00    17.00    0.000    0.000    0.00    0.00    0.00    0.10
+vda             0.00    4.00    0.00   1.00     0.00    17.00   17.000    0.001    1.00    0.00    1.00    0.10
+vda             0.00    4.00    0.00   0.00     0.00    17.00    0.000    0.001    0.00    0.00    0.00    0.10
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pcp-iostat -a /var/log/pcp/pmlogger/localhost.localdomain/20230504.20.22-01 -S @00 -T @23 -s 10
++ grep rkB/s
+# Device      rrqm/s  wrqm/s     r/s    w/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await r_await w_await   %util
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pcp-iostat -a /var/log/pcp/pmlogger/localhost.localdomain/20230504.20.22-01 -u -s 10
++ grep wkB/s
+# Device      rrqm/s  wrqm/s     r/s    w/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await r_await w_await   %util
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pcp-iostat -Z Africa/Lagos -s 10
++ grep Device
+# Device      rrqm/s  wrqm/s     r/s    w/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await r_await w_await   %util
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pcp-iostat -a /var/log/pcp/pmlogger/localhost.localdomain/20230504.20.22-01 -z -s 10
++ grep avgrq-sz
+# Device      rrqm/s  wrqm/s     r/s    w/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await r_await w_await   %util
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pcp-iostat -a /var/log/pcp/pmlogger/localhost.localdomain/20230504.20.22-01 -x dm -s 5
++ grep avgqu-sz
+pcp-iostat: Instance domain identifier not defined in the PCP archive log
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pcp-iostat.sh line 57'
++ message='oe_test_pcp-iostat.sh line 57'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pcp-iostat.sh line 57'
+Thu May  4 20:24:32 2023 - ERROR - oe_test_pcp-iostat.sh line 57
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu May  4 20:24:32 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Thu May  4 20:24:33 2023 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu May  4 20:24:33 2023 - INFO  - Start to restore the test environment.
++ clear_env
++ systemctl stop pmcd
++ systemctl stop pmlogger
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp6do6acqe ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp6do6acqe
++ '[' 0 -ne 0 ']'
++ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu May  4 20:25:02 2023 - INFO  - End to restore the test environment.

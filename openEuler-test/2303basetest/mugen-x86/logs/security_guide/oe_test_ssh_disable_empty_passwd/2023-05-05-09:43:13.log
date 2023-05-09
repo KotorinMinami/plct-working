@@ -1,0 +1,112 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Fri May  5 09:43:15 2023 - INFO  - Start environmental preparation.
++ grep '^testuser:' /etc/passwd
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Fri May  5 09:43:15 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Fri May  5 09:43:15 2023 - INFO  - Start executing testcase.
++ grep '^PermitEmptyPasswords no' /etc/ssh/sshd_config
+PermitEmptyPasswords no
++ CHECK_RESULT 0 0 0 'PermitEmptyPasswords is not no'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='PermitEmptyPasswords is not no'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ useradd testuser
++ CHECK_RESULT 0 0 0 'add testuser failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='add testuser failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ passwd -d testuser
+passwd: Note: deleting a password also unlocks the password.
+Removing password for user testuser.
+passwd: Success
++ passwd -S testuser
++ grep 'Empty password'
+testuser NP 2023-05-05 0 99999 7 -1 (Empty password.)
++ CHECK_RESULT 0 0 0 'testuser password is not empty'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='testuser password is not empty'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect
+spawn ssh testuser@10.198.114.1
+
+Authorized users only. All activities may be monitored and reported.
+testuser@10.198.114.1's password: + grep password: testlog
+testuser@10.198.114.1's password: 
++ CHECK_RESULT 0 0 0 'need password'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='need password'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish testcase execution.'
++ message='Finish testcase execution.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish testcase execution.'
+Fri May  5 09:43:46 2023 - INFO  - Finish testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri May  5 09:43:47 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start cleanning environment.'
++ message='Start cleanning environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start cleanning environment.'
+Fri May  5 09:43:47 2023 - INFO  - Start cleanning environment.
++ userdel -rf testuser
++ rm -rf testlog
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Fri May  5 09:43:47 2023 - INFO  - Finish environment cleanup!

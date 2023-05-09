@@ -1,0 +1,298 @@
++ source ../common/common_podman.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu May  4 21:58:37 2023 - INFO  - Start to prepare the test environment.
++ deploy_env
++ DNF_INSTALL 'podman podman-docker'
++ pkgs='podman podman-docker'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'podman podman-docker' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp0mtuksv9
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp0mtuksv9
++ echo -e '[registries.search]
+registries = ['\''docker.io'\'']
+
+[registries.insecure]
+registries = []
+
+[registries.block]
+registries = []
+'
++ podman pull postgres:alpine
+Resolving "postgres" using unqualified-search registries (/etc/containers/registries.conf)
+Trying to pull docker.io/library/postgres:alpine...
+Getting image source signatures
+Copying blob sha256:f33740282c0040003ee1e3c9ec1a68d5eb873795badbbf6103c79cc588760e4a
+Copying blob sha256:256414453fba6e3cc9af34383da6e5920f6d4ac3399943b8569b68896c645a0e
+Copying blob sha256:f71699d7795ac5159478a278ffb6af3fcac0141e6a637d71062a601d7cab30c7
+Copying blob sha256:8eff49387ec9a1f26ada557b4e31f86a45f70ef57c1a45345e5bfbe75e53bcfc
+Copying blob sha256:f56be85fc22e46face30e2c3de3f7fe7c15f8fd7c4e5add29d7f64b87abdaa09
+Copying blob sha256:7da7fae4e80a5e292219502d2ce432382a68e8d0fb3841807ad70963ec194e7d
+Copying blob sha256:8eff49387ec9a1f26ada557b4e31f86a45f70ef57c1a45345e5bfbe75e53bcfc
+Copying blob sha256:7da7fae4e80a5e292219502d2ce432382a68e8d0fb3841807ad70963ec194e7d
+Copying blob sha256:b49740a115f2f98ff2414fb5272986655b272d739c878477a6ca541430a41637
+Copying blob sha256:f71699d7795ac5159478a278ffb6af3fcac0141e6a637d71062a601d7cab30c7
+Copying blob sha256:f33740282c0040003ee1e3c9ec1a68d5eb873795badbbf6103c79cc588760e4a
+Copying blob sha256:256414453fba6e3cc9af34383da6e5920f6d4ac3399943b8569b68896c645a0e
+Copying blob sha256:f56be85fc22e46face30e2c3de3f7fe7c15f8fd7c4e5add29d7f64b87abdaa09
+Copying blob sha256:c36da779701e31511df27033e2a5e1b1ebdd0b7f4032cfab4a04c82139d7337a
+Copying blob sha256:b49740a115f2f98ff2414fb5272986655b272d739c878477a6ca541430a41637
+Copying blob sha256:c36da779701e31511df27033e2a5e1b1ebdd0b7f4032cfab4a04c82139d7337a
+Copying config sha256:ddc12ac7fa27279bfcc41deaccd1368291ab7d71ca7cee0420b41f9974e9a468
+Writing manifest to image destination
+Storing signatures
+ddc12ac7fa27279bfcc41deaccd1368291ab7d71ca7cee0420b41f9974e9a468
++ podman run --name postgres -e POSTGRES_PASSWORD=secret -d postgres:alpine
+time="2023-05-04T22:01:30Z" level=warning msg="Path \"/usr/share/rhel/secrets\" from \"/usr/share/containers/mounts.conf\" doesn't exist, skipping"
+19d4b2b4d3724dda3ee68dd36c15c2effd13404632b1a035cc69e8fb0bd18f31
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu May  4 22:01:30 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu May  4 22:01:31 2023 - INFO  - Start to run test.
+++ podman create -t -i --name myctr alpine ls
+Resolved "alpine" as an alias (/etc/containers/registries.conf.d/000-shortnames.conf)
+Trying to pull docker.io/library/alpine:latest...
+Getting image source signatures
+Copying blob sha256:f56be85fc22e46face30e2c3de3f7fe7c15f8fd7c4e5add29d7f64b87abdaa09
+Copying config sha256:9ed4aefc74f6792b5a804d1d146fe4b4a2299147b0f50eaf2b08435d7b38c27e
+Writing manifest to image destination
+Storing signatures
++ ID=a51fa683cd5a636a9a0873a0c4961c46482951f8c683181701ce0e605e2a5297
++ podman inspect a51fa683cd5a636a9a0873a0c4961c46482951f8c683181701ce0e605e2a5297
++ grep '"Name": "myctr"'
+        "Name": "myctr",
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ podman create --hostname localhost alpine ls
++ ID=a7b5c83eaff232d01b2c005d71b1febe1f5a82703a86dc8f9568c999d8d236a7
++ podman inspect a7b5c83eaff232d01b2c005d71b1febe1f5a82703a86dc8f9568c999d8d236a7
++ grep '"Hostname": "localhost"'
+            "Hostname": "localhost",
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ podman create --image-volume bind alpine ls
++ ID=86b8750e55be37ec384e3bf7bdfea2eb8051d8b215265dacb69962e2a00a3132
++ podman inspect 86b8750e55be37ec384e3bf7bdfea2eb8051d8b215265dacb69962e2a00a3132
++ grep -i bind
+            "CAP_NET_BIND_SERVICE",
+            "CAP_NET_BIND_SERVICE",
+                "bind",
+            "Binds": [],
+            "PortBindings": {},
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ podman create --builtin-volume tmpfs alpine ls
+Error: unknown flag: --builtin-volume
++ ID=
++ podman inspect
++ grep -i tmpfs
+Error: no names or ids specified
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_12.sh line 42'
++ message='oe_test_podman_12.sh line 42'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_12.sh line 42'
+Thu May  4 22:01:38 2023 - ERROR - oe_test_podman_12.sh line 42
++ '[' 0 -eq 1 ']'
++ return 0
+++ podman create --ip 127.0.0.1 alpine ls
++ ID=b45b28516e9cb14a56abf01a7d0377e4db62c98fd94015dc3c55cc0ccfcd7075
++ podman inspect b45b28516e9cb14a56abf01a7d0377e4db62c98fd94015dc3c55cc0ccfcd7075
++ grep -i ip
+            "IPAddress": "",
+            "IPPrefixLen": 0,
+            "IPv6Gateway": "",
+            "GlobalIPv6Address": "",
+            "GlobalIPv6PrefixLen": 0,
+            "LinkLocalIPv6Address": "",
+            "LinkLocalIPv6PrefixLen": 0,
+                    "IPAddress": "",
+                    "IPPrefixLen": 0,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "IPAMConfig": null,
+                "--ip",
+            "IpcMode": "private",
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ podman create --ipc host alpine ls
++ ID=f0df9d55e8c05539dee5c2f5c3e1de442efd1735549ebae66fcda7416dad644b
++ podman inspect f0df9d55e8c05539dee5c2f5c3e1de442efd1735549ebae66fcda7416dad644b
++ grep '"IpcMode": "host"'
+            "IpcMode": "host",
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ podman create --kernel-memory 1g alpine ls
++ ID=731d1049fd560830df8eda82adb6d70abb97ea19bc588ee38402fe968e3d6472
++ podman inspect 731d1049fd560830df8eda82adb6d70abb97ea19bc588ee38402fe968e3d6472
++ grep '"KernelMemory": 1073741824'
+            "KernelMemory": 1073741824,
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ podman create --label com.example.key=value alpine ls
++ ID=5e273e97db6dd1e11ed6a0090616ca629e6ed9465f4ea338f6ae4ccb3149a86e
++ podman inspect 5e273e97db6dd1e11ed6a0090616ca629e6ed9465f4ea338f6ae4ccb3149a86e
++ grep '"com.example.key": "value"'
+                "com.example.key": "value"
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ echo com.example.key=value
+++ podman create --label-file ./a alpine ls
++ ID=ecdb3942856ed7ca6d21ee4930f79bc447acccb5ab799b5f31b9870ca5117a94
++ podman inspect ecdb3942856ed7ca6d21ee4930f79bc447acccb5ab799b5f31b9870ca5117a94
++ grep '"com.example.key": "value"'
+                "com.example.key": "value"
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu May  4 22:01:43 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Thu May  4 22:01:44 2023 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu May  4 22:01:44 2023 - INFO  - Start to restore the test environment.
++ clear_env
++ podman stop postgres
+postgres
++ podman rm --all
+f0df9d55e8c05539dee5c2f5c3e1de442efd1735549ebae66fcda7416dad644b
+a51fa683cd5a636a9a0873a0c4961c46482951f8c683181701ce0e605e2a5297
+b45b28516e9cb14a56abf01a7d0377e4db62c98fd94015dc3c55cc0ccfcd7075
+a7b5c83eaff232d01b2c005d71b1febe1f5a82703a86dc8f9568c999d8d236a7
+19d4b2b4d3724dda3ee68dd36c15c2effd13404632b1a035cc69e8fb0bd18f31
+731d1049fd560830df8eda82adb6d70abb97ea19bc588ee38402fe968e3d6472
+86b8750e55be37ec384e3bf7bdfea2eb8051d8b215265dacb69962e2a00a3132
+ecdb3942856ed7ca6d21ee4930f79bc447acccb5ab799b5f31b9870ca5117a94
+5e273e97db6dd1e11ed6a0090616ca629e6ed9465f4ea338f6ae4ccb3149a86e
++ podman rmi -f --all
+Untagged: docker.io/library/postgres:alpine
+Untagged: docker.io/library/alpine:latest
+Deleted: ddc12ac7fa27279bfcc41deaccd1368291ab7d71ca7cee0420b41f9974e9a468
+Deleted: 9ed4aefc74f6792b5a804d1d146fe4b4a2299147b0f50eaf2b08435d7b38c27e
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp0mtuksv9 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp0mtuksv9
++ '[' 0 -ne 0 ']'
+++ ls
+++ grep -vE .sh
++ rm -rf a
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu May  4 22:02:27 2023 - INFO  - End to restore the test environment.

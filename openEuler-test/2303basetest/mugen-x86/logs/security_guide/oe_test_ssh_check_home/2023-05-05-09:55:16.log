@@ -1,0 +1,195 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Fri May  5 09:55:17 2023 - INFO  - Start environmental preparation.
++ grep '^testuser:' /etc/passwd
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Fri May  5 09:55:18 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Fri May  5 09:55:18 2023 - INFO  - Start executing testcase.
++ grep '^StrictModes yes' /etc/ssh/sshd_config
+StrictModes yes
++ CHECK_RESULT 0 0 0 'StrictModes is not yes'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='StrictModes is not yes'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ useradd testuser
++ CHECK_RESULT 0 0 0 'add testuser failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='add testuser failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ passwd testuser
+New password: Retype new password: Changing password for user testuser.
+passwd: all authentication tokens updated successfully.
++ chown root:root /home/testuser
++ ls -l /home
++ grep testuser
++ grep root
+drwx------ 2 root root 4096 May  5 09:55 testuser
++ CHECK_RESULT 0 0 0 'chown /home/testuser to root failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='chown /home/testuser to root failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect
+spawn ssh testuser@10.198.114.1
+
+Authorized users only. All activities may be monitored and reported.
+testuser@10.198.114.1's password: 
+
+Authorized users only. All activities may be monitored and reported.
+Last failed login: Fri May  5 09:45:14 UTC 2023 from 10.198.114.1 on ssh:notty
+There were 3 failed login attempts since the last successful login.
+Could not chdir to home directory /home/testuser: Permission denied
+
+
+Welcome to 6.1.19-7.0.0.17.oe2303.x86_64
+
+System information as of time: 	Fri May  5 09:55:34 AM UTC 2023
+
+System load: 	[0;33;40m0.85[0m
+Processes: 	120
+Memory used: 	4.7%
+Swap used: 	0.0%
+Usage On: 	10%
+IP address: 	10.198.114.1
+IP address: 	10.0.2.15
+Users online: 	1
+To run a command as administrator(user "root"),use "sudo <command>".
+-bash: /home/testuser/.bash_profile: Permission denied
+[testuser@localhost /]$ + grep 'Could not chdir to home directory /home/testuser: Permission denied' testlog
+Could not chdir to home directory /home/testuser: Permission denied
++ CHECK_RESULT 0 0 0 'check the permissions and ownership of the user home directory failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='check the permissions and ownership of the user home directory failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ chmod 200 /home/testuser
++ ls -l /home
++ grep testuser
++ grep 'd\-w\-\-\-\-\-\-\-'
+grep: warning: stray \ before -
+grep: warning: stray \ before -
+grep: warning: stray \ before -
+grep: warning: stray \ before -
+grep: warning: stray \ before -
+grep: warning: stray \ before -
+grep: warning: stray \ before -
+grep: warning: stray \ before -
+d-w------- 2 root root 4096 May  5 09:55 testuser
++ CHECK_RESULT 0 0 0 'check the permission of the user home directory failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='check the permission of the user home directory failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect
+spawn ssh testuser@10.198.114.1
+
+Authorized users only. All activities may be monitored and reported.
+testuser@10.198.114.1's password: 
+
+Authorized users only. All activities may be monitored and reported.
+Last login: Fri May  5 09:55:33 2023 from 10.198.114.1
+Could not chdir to home directory /home/testuser: Permission denied
+
+
+Welcome to 6.1.19-7.0.0.17.oe2303.x86_64
+
+System information as of time: 	Fri May  5 09:56:03 AM UTC 2023
+
+System load: 	[0;33;40m0.64[0m
+Processes: 	119
+Memory used: 	4.7%
+Swap used: 	0.0%
+Usage On: 	10%
+IP address: 	10.198.114.1
+IP address: 	10.0.2.15
+Users online: 	1
+To run a command as administrator(user "root"),use "sudo <command>".
+-bash: /home/testuser/.bash_profile: Permission denied
+[testuser@localhost /]$ + grep 'Could not chdir to home directory /home/testuser: Permission denied' testlog1
+Could not chdir to home directory /home/testuser: Permission denied
++ CHECK_RESULT 0 0 0 'check Permission failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='check Permission failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish testcase execution.'
++ message='Finish testcase execution.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish testcase execution.'
+Fri May  5 09:56:19 2023 - INFO  - Finish testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri May  5 09:56:19 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start cleanning environment.'
++ message='Start cleanning environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start cleanning environment.'
+Fri May  5 09:56:19 2023 - INFO  - Start cleanning environment.
++ userdel -rf testuser
++ rm -rf testlog testlog1 /run/faillock/testuser
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Fri May  5 09:56:20 2023 - INFO  - Finish environment cleanup!

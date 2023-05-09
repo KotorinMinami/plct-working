@@ -1,0 +1,263 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Fri May  5 09:58:56 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'wsmancli openwsman-server docker'
++ pkgs='wsmancli openwsman-server docker'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'wsmancli openwsman-server docker' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpyuqeyg8p
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpyuqeyg8p
++ docker run -d -it --rm -p 0.0.0.0:5988:5988 -p 0.0.0.0:5989:5989 --name openpegasus kschopmeyer/openpegasus-server:0.1.1
+6374c76daf7bf08fd5ab050b230bab652fb849710b8164f4ae7fba58487b71ab
++ cp common/simple_auth.passwd /etc/openwsman/test_simple_auth.passwd
++ openwsmand -c common/openwsman.conf
++ SLEEP_WAIT 20
++ wait_time=20
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 20 --cmd '' --mode 1
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Fri May  5 10:03:32 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri May  5 10:03:32 2023 - INFO  - Start to run test.
++ wsman enumerate http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ComputerSystem -h localhost --port 5985 -u wsman --password wsman -R -m 1000
++ grep '<wsen:MaxElements>1000</wsen:MaxElements>'
+      <wsen:MaxElements>1000</wsen:MaxElements>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test -m'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test -m'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman enumerate http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ComputerSystem -h localhost --port 5985 -u wsman --password wsman -R -o
++ grep '<wsman:OptimizeEnumeration/>'
+      <wsman:OptimizeEnumeration/>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test -o'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test -o'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman enumerate http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ComputerSystem -h localhost --port 5985 -u wsman --password wsman -R -E
++ grep '<wsman:TotalItemsCountEstimate>1</wsman:TotalItemsCountEstimate>'
+    <wsman:TotalItemsCountEstimate>1</wsman:TotalItemsCountEstimate>
+    <wsman:TotalItemsCountEstimate>1</wsman:TotalItemsCountEstimate>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test -E'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test -E'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman enumerate http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ComputerSystem -h localhost --port 5985 -u wsman --password wsman -R -M epr
++ grep '<wsman:EnumerationMode>EnumerateEPR</wsman:EnumerationMode>'
+      <wsman:EnumerationMode>EnumerateEPR</wsman:EnumerationMode>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test -M'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test -M'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman pull http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_Process -h localhost --port 5985 -u wsman --password wsman -R -U 12345
++ grep '<wsen:EnumerationContext>12345</wsen:EnumerationContext>'
+      <wsen:EnumerationContext>12345</wsen:EnumerationContext>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test -M'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test -M'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman enumerate http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_OperatingSystem -h localhost --port 5985 -u wsman --password wsman -R -T
++ grep '<wsman:Option Name="ShowExtensions"/>'
+      <wsman:Option Name="ShowExtensions"/>
+      <wsman:Option Name="ShowExtensions"/>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test -T'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test -T'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman unsubscribe -i 123123 -u wsman -p wsman -R
++ grep '<wse:Identifier>123123</wse:Identifier>'
+    <wse:Identifier>123123</wse:Identifier>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test option -i'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test option -i'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman enumerate http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ComputerSystem -h localhost --port 5985 -u wsman --password wsman -g aaa -R
++ grep '<wsa:To s:mustUnderstand="true">http://localhost:5985/aaa</wsa:To>'
+Connection failed. response code = 403
+    <wsa:To s:mustUnderstand="true">http://localhost:5985/aaa</wsa:To>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test -g'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test -g'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman create http://schema.openpegasus.org/wbem/wscim/1/cim-schema/2/PG_TestPropertyTypes -h localhost --port 5985 -u wsman --password wsman -R -N test/static -k PG_TestPropertyTypes.CreationClassName=qwe -J common/Create_Success01.xml
+<?xml version="1.0"?>
+<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsman="http://schemas.dmtf.org/wbem/wsman/1/wsman.xsd" xmlns:n1="http://schema.openpegasus.org/wbem/wscim/1/cim-schema/2/PG_TestPropertyTypes">
+  <s:Header>
+    <wsa:Action s:mustUnderstand="true">http://schemas.xmlsoap.org/ws/2004/09/transfer/Create</wsa:Action>
+    <wsa:To s:mustUnderstand="true">http://localhost:5985/wsman</wsa:To>
+    <wsman:ResourceURI s:mustUnderstand="true">http://schema.openpegasus.org/wbem/wscim/1/cim-schema/2/PG_TestPropertyTypes</wsman:ResourceURI>
+    <wsa:MessageID s:mustUnderstand="true">uuid:66edd3b3-faef-1aef-8002-024511005452</wsa:MessageID>
+    <wsa:ReplyTo>
+      <wsa:Address>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</wsa:Address>
+    </wsa:ReplyTo>
+    <wsman:SelectorSet>
+      <wsman:Selector Name="__cimnamespace">test/static</wsman:Selector>
+    </wsman:SelectorSet>
+  </s:Header>
+  <s:Body>
+    <n1:PG_TestPropertyTypes>
+      <n1:CreationClassName>PG_TestPropertyTypes</n1:CreationClassName>
+      <n1:InstanceId>1</n1:InstanceId>
+      <n1:PropertyString>created_instance1</n1:PropertyString>
+      <n1:PropertyUint8>180</n1:PropertyUint8>
+      <n1:PropertyUint16>1600</n1:PropertyUint16>
+      <n1:PropertyUint32>13200</n1:PropertyUint32>
+      <n1:PropertyUint64>16400</n1:PropertyUint64>
+      <n1:PropertySint8>-110</n1:PropertySint8>
+      <n1:PropertySint16>-1600</n1:PropertySint16>
+      <n1:PropertySint32>-13200</n1:PropertySint32>
+      <n1:PropertySint64>-16400</n1:PropertySint64>
+      <n1:PropertyReal32>1.3245</n1:PropertyReal32>
+      <n1:PropertyReal64>1.6445</n1:PropertyReal64>
+      <n1:PropertyDateTime>20010515104354.000000:000</n1:PropertyDateTime>
+    </n1:PG_TestPropertyTypes>
+  </s:Body>
+</s:Envelope>
+<?xml version="1.0" encoding="UTF-8"?>
+<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wxf="http://schemas.xmlsoap.org/ws/2004/09/transfer" xmlns:wsman="http://schemas.dmtf.org/wbem/wsman/1/wsman.xsd">
+  <s:Header>
+    <wsa:To>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</wsa:To>
+    <wsa:Action>http://schemas.xmlsoap.org/ws/2004/09/transfer/CreateResponse</wsa:Action>
+    <wsa:RelatesTo>uuid:66edd3b3-faef-1aef-8002-024511005452</wsa:RelatesTo>
+    <wsa:MessageID>uuid:66fa6797-faef-1aef-8012-024511005452</wsa:MessageID>
+  </s:Header>
+  <s:Body>
+    <wxf:ResourceCreated>
+      <wsa:Address>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</wsa:Address>
+      <wsa:ReferenceParameters>
+        <wsman:ResourceURI>http://schema.openpegasus.org/wbem/wscim/1/cim-schema/2/PG_TestPropertyTypes</wsman:ResourceURI>
+        <wsman:SelectorSet>
+          <wsman:Selector Name="__cimnamespace">test/static</wsman:Selector>
+          <wsman:Selector Name="CreationClassName">PG_TestPropertyTypes</wsman:Selector>
+          <wsman:Selector Name="InstanceId">1</wsman:Selector>
+        </wsman:SelectorSet>
+      </wsa:ReferenceParameters>
+    </wxf:ResourceCreated>
+  </s:Body>
+</s:Envelope>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test -k'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test -k'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Fri May  5 10:03:35 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri May  5 10:03:35 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri May  5 10:03:36 2023 - INFO  - Start to restore the test environment.
++ rm -rf /etc/openwsman/test_simple_auth.passwd
+++ pgrep openwsmand
++ kill -9 9026
++ docker stop openpegasus
+openpegasus
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpyuqeyg8p ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpyuqeyg8p
++ '[' 0 -ne 0 ']'
++ SLEEP_WAIT 10
++ wait_time=10
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 10 --cmd '' --mode 1
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Fri May  5 10:04:06 2023 - INFO  - End to restore the test environment.

@@ -1,0 +1,98 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n function ']'
++ config_params
++ LOG_INFO 'Start loading data!'
++ message='Start loading data!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start loading data!'
+Fri May  5 16:07:12 2023 - INFO  - Start loading data!
++ host_name=
++ LOG_INFO 'Loading data is complete!'
++ message='Loading data is complete!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Loading data is complete!'
+Fri May  5 16:07:13 2023 - INFO  - Loading data is complete!
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Fri May  5 16:07:13 2023 - INFO  - Start environment preparation.
++ DNF_INSTALL nfs-utils
++ pkgs=nfs-utils
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs nfs-utils --node 1 --tempfile ''
+Fri May  5 16:07:19 2023 - INFO  - pkgs:(nfs-utils) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ systemctl stop firewalld
+Failed to stop firewalld.service: Unit firewalld.service not loaded.
++ iptables -F
+oe_test_storage_nfs_restrict_hostname.sh: line 31: iptables: command not found
++ SSH_CMD 'systemctl stop firewalld;iptables -F;yum install nfs-utils -y;mkdir /home/nfs;chmod 777 /home/nfs;
+    mv /etc/exports /etc/exports.bak;echo \"10.198.114.1 \" >/etc/hosts;
+    echo '\''/home/nfs (rw,sync,all_squash)'\'' >/etc/exports' 10.198.114.3 'openEuler12#$' root
++ cmd='systemctl stop firewalld;iptables -F;yum install nfs-utils -y;mkdir /home/nfs;chmod 777 /home/nfs;
+    mv /etc/exports /etc/exports.bak;echo \"10.198.114.1 \" >/etc/hosts;
+    echo '\''/home/nfs (rw,sync,all_squash)'\'' >/etc/exports'
++ remoteip=10.198.114.3
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'systemctl stop firewalld;iptables -F;yum install nfs-utils -y;mkdir /home/nfs;chmod 777 /home/nfs;
+    mv /etc/exports /etc/exports.bak;echo \"10.198.114.1 \" >/etc/hosts;
+    echo '\''/home/nfs (rw,sync,all_squash)'\'' >/etc/exports' -i 10.198.114.3 -u root -p 'openEuler12#$' -t 300 -o 22
+1 packets transmitted, 0 received, +1 errors, 100% packet loss, time 0ms
+Fri May  5 16:07:22 2023 - ERROR - connection to 10.198.114.3 failed.
++ ret=101
++ test 101 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:101'
++ message='Failed in remote CMD operation:101'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:101'
+Fri May  5 16:07:22 2023 - ERROR - Failed in remote CMD operation:101
++ return 101
++ SSH_CMD 'exportfs -avr; systemctl restart nfs-server rpcbind' 10.198.114.3 'openEuler12#$' root
++ cmd='exportfs -avr; systemctl restart nfs-server rpcbind'
++ remoteip=10.198.114.3
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'exportfs -avr; systemctl restart nfs-server rpcbind' -i 10.198.114.3 -u root -p 'openEuler12#$' -t 300 -o 22
+1 packets transmitted, 0 received, +1 errors, 100% packet loss, time 0ms
+Fri May  5 16:07:25 2023 - ERROR - connection to 10.198.114.3 failed.
++ ret=101
++ test 101 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:101'
++ message='Failed in remote CMD operation:101'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:101'
+Fri May  5 16:07:25 2023 - ERROR - Failed in remote CMD operation:101
++ return 101
++ mkdir -p /home/client
++ systemctl restart nfs-server rpcbind
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Fri May  5 16:07:27 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Fri May  5 16:07:27 2023 - INFO  - Start executing testcase.
++ mount -t nfs 10.198.114.3:/home/nfs /home/client
+Fri May  5 16:37:11 2023 - ERROR - Timeout : Command 'bash -x oe_test_storage_nfs_restrict_hostname.sh' timed out after 1799.9996487699973 seconds

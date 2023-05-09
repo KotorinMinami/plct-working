@@ -1,0 +1,233 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Sat May  6 01:15:13 2023 - INFO  - Start environment preparation.
++ SSH_CMD 'yum install -y samba; sed -i '\''/testsamba/d'\'' /etc/security/opasswd;useradd testsamba;
+    (echo openEuler12#$;echo openEuler12#$) | smbpasswd -a testsamba -s' 10.198.114.3 'openEuler12#$' root
++ cmd='yum install -y samba; sed -i '\''/testsamba/d'\'' /etc/security/opasswd;useradd testsamba;
+    (echo openEuler12#$;echo openEuler12#$) | smbpasswd -a testsamba -s'
++ remoteip=10.198.114.3
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'yum install -y samba; sed -i '\''/testsamba/d'\'' /etc/security/opasswd;useradd testsamba;
+    (echo openEuler12#$;echo openEuler12#$) | smbpasswd -a testsamba -s' -i 10.198.114.3 -u root -p 'openEuler12#$' -t 300 -o 22
+1 packets transmitted, 0 received, +1 errors, 100% packet loss, time 0ms
+Sat May  6 01:15:16 2023 - ERROR - connection to 10.198.114.3 failed.
++ ret=101
++ test 101 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:101'
++ message='Failed in remote CMD operation:101'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:101'
+Sat May  6 01:15:16 2023 - ERROR - Failed in remote CMD operation:101
++ return 101
++ SSH_CMD 'cp -a /etc/samba/smb.conf /etc/samba/smb.conf.bak;echo  \" \" >> /etc/samba/smb.conf;
+    echo  \"\[testsamba\]\" >> /etc/samba/smb.conf;echo  \"\tcomment = public stuff\" >> /etc/samba/smb.conf;
+    echo  \"\tpath = /home/testsamba\" >> /etc/samba/smb.conf' 10.198.114.3 'openEuler12#$' root
++ cmd='cp -a /etc/samba/smb.conf /etc/samba/smb.conf.bak;echo  \" \" >> /etc/samba/smb.conf;
+    echo  \"\[testsamba\]\" >> /etc/samba/smb.conf;echo  \"\tcomment = public stuff\" >> /etc/samba/smb.conf;
+    echo  \"\tpath = /home/testsamba\" >> /etc/samba/smb.conf'
++ remoteip=10.198.114.3
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'cp -a /etc/samba/smb.conf /etc/samba/smb.conf.bak;echo  \" \" >> /etc/samba/smb.conf;
+    echo  \"\[testsamba\]\" >> /etc/samba/smb.conf;echo  \"\tcomment = public stuff\" >> /etc/samba/smb.conf;
+    echo  \"\tpath = /home/testsamba\" >> /etc/samba/smb.conf' -i 10.198.114.3 -u root -p 'openEuler12#$' -t 300 -o 22
+1 packets transmitted, 0 received, +1 errors, 100% packet loss, time 0ms
+Sat May  6 01:15:19 2023 - ERROR - connection to 10.198.114.3 failed.
++ ret=101
++ test 101 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:101'
++ message='Failed in remote CMD operation:101'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:101'
+Sat May  6 01:15:19 2023 - ERROR - Failed in remote CMD operation:101
++ return 101
++ SSH_CMD 'systemctl start smb;systemctl enable smb;systemctl stop firewalld;
+	setsebool samba_export_all_ro on;setsebool samba_export_all_rw on;chmod 755 /home/testsamba' 10.198.114.3 'openEuler12#$' root
++ cmd='systemctl start smb;systemctl enable smb;systemctl stop firewalld;
+	setsebool samba_export_all_ro on;setsebool samba_export_all_rw on;chmod 755 /home/testsamba'
++ remoteip=10.198.114.3
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'systemctl start smb;systemctl enable smb;systemctl stop firewalld;
+	setsebool samba_export_all_ro on;setsebool samba_export_all_rw on;chmod 755 /home/testsamba' -i 10.198.114.3 -u root -p 'openEuler12#$' -t 300 -o 22
+1 packets transmitted, 0 received, +1 errors, 100% packet loss, time 0ms
+Sat May  6 01:15:22 2023 - ERROR - connection to 10.198.114.3 failed.
++ ret=101
++ test 101 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:101'
++ message='Failed in remote CMD operation:101'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:101'
+Sat May  6 01:15:22 2023 - ERROR - Failed in remote CMD operation:101
++ return 101
++ DNF_INSTALL cifs-utils
++ pkgs=cifs-utils
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs cifs-utils --node 1 --tempfile ''
+Sat May  6 01:15:27 2023 - INFO  - pkgs:(cifs-utils) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ systemctl stop firewalld
+Failed to stop firewalld.service: Unit firewalld.service not loaded.
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Sat May  6 01:15:27 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Sat May  6 01:15:27 2023 - INFO  - Start executing testcase.
++ expect -c '
+        set timeout 30
+        log_file testlog
+        spawn smbclient -U testsamba //10.198.114.3/testsamba
+		expect "*assword*" {send "openEuler12#$\r";
+		expect "smb*>" {send "ls\r";
+		expect "smb*>" {send "exit\r"}}}
+        expect eof
+	'
+spawn smbclient -U testsamba //10.198.114.3/testsamba
+Password for [SAMBA\testsamba]:
+do_connect: Connection to 10.198.114.3 failed (Error NT_STATUS_HOST_UNREACHABLE)
+expect: spawn id exp4 not open
+    while executing
+"expect eof"
++ grep -iE 'error|fail' testlog
+do_connect: Connection to 10.198.114.3 failed (Error NT_STATUS_HOST_UNREACHABLE)
++ CHECK_RESULT 0 1
++ actual_result=0
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 1x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_smb_cmd_smbclient.sh line 49'
++ message='oe_test_storage_smb_cmd_smbclient.sh line 49'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_smb_cmd_smbclient.sh line 49'
+Sat May  6 01:15:28 2023 - ERROR - oe_test_storage_smb_cmd_smbclient.sh line 49
++ '[' 0 -eq 1 ']'
++ return 0
++ smbclient -L 10.198.114.3 -U 'testsamba%openEuler12#$'
+do_connect: Connection to 10.198.114.3 failed (Error NT_STATUS_HOST_UNREACHABLE)
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_smb_cmd_smbclient.sh line 51'
++ message='oe_test_storage_smb_cmd_smbclient.sh line 51'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_smb_cmd_smbclient.sh line 51'
+Sat May  6 01:15:31 2023 - ERROR - oe_test_storage_smb_cmd_smbclient.sh line 51
++ '[' 0 -eq 1 ']'
++ return 0
++ smbclient -c ls //10.198.114.3/testsamba -U 'testsamba%openEuler12#$'
+do_connect: Connection to 10.198.114.3 failed (Error NT_STATUS_HOST_UNREACHABLE)
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_smb_cmd_smbclient.sh line 53'
++ message='oe_test_storage_smb_cmd_smbclient.sh line 53'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_smb_cmd_smbclient.sh line 53'
+Sat May  6 01:15:34 2023 - ERROR - oe_test_storage_smb_cmd_smbclient.sh line 53
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End of testcase execution.'
++ message='End of testcase execution.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution.'
+Sat May  6 01:15:35 2023 - INFO  - End of testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z 3
++ test 3 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Sat May  6 01:15:35 2023 - ERROR - failed to execute the case.
++ exit 3
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Sat May  6 01:15:35 2023 - INFO  - start environment cleanup.
++ SSH_CMD 'systemctl stop smb; rm -f /etc/samba/smb.conf;mv /etc/samba/smb.conf.bak /etc/samba/smb.conf;
+    yum remove samba -y; userdel -r testsamba; systemctl stop firewalld' 10.198.114.3 'openEuler12#$' root
++ cmd='systemctl stop smb; rm -f /etc/samba/smb.conf;mv /etc/samba/smb.conf.bak /etc/samba/smb.conf;
+    yum remove samba -y; userdel -r testsamba; systemctl stop firewalld'
++ remoteip=10.198.114.3
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'systemctl stop smb; rm -f /etc/samba/smb.conf;mv /etc/samba/smb.conf.bak /etc/samba/smb.conf;
+    yum remove samba -y; userdel -r testsamba; systemctl stop firewalld' -i 10.198.114.3 -u root -p 'openEuler12#$' -t 300 -o 22
+1 packets transmitted, 0 received, +1 errors, 100% packet loss, time 0ms
+Sat May  6 01:15:37 2023 - ERROR - connection to 10.198.114.3 failed.
++ ret=101
++ test 101 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:101'
++ message='Failed in remote CMD operation:101'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:101'
+Sat May  6 01:15:38 2023 - ERROR - Failed in remote CMD operation:101
++ return 101
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Sat May  6 01:15:38 2023 - WARN  - no thing to do.
++ return 0
++ rm -rf testlog
++ systemctl start firewalld
+Failed to start firewalld.service: Unit firewalld.service not found.
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Sat May  6 01:15:38 2023 - INFO  - Finish environment cleanup.

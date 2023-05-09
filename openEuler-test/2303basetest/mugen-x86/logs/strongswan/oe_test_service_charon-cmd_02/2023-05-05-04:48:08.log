@@ -1,0 +1,298 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Fri May  5 04:48:09 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'strongswan podman tar'
++ pkgs='strongswan podman tar'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'strongswan podman tar' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpjsz3z92n
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpjsz3z92n
++ tar -xvf ./common/data.tar.gz
++ podman stop -all
+Error: --all and --latest cannot be used together
+++ podman ps -qa
++ podman rm -f
+Error: you must provide at least one name or id
++ podman load
+Getting image source signatures
+Copying blob sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef
+Copying blob sha256:3fd9c45a9d4f49cf9847101b430ce8abd026b80fe82241809fbb9390efb1b138
+Copying blob sha256:bf26b7f4efbc07dd458c8b6022e9fd0972c99d40141a3ef33ae3cef70bd63b48
+Copying blob sha256:44fc4957fa0ea999f102fa1bb150d5207482c9f9a79bb3665a50a1f9bf873674
+Copying blob sha256:765b447667ab2812a696a552fc85a7cf74eb2455d39294e2e618afcdb44a6ffc
+Copying blob sha256:17bec77d7fdc6988cd96b3051b4ad4d3cd6031b2faf0581468be64aac0acc20b
+Copying config sha256:76c644218ebbf3138eed9b6a0064c1550e9c2e1768aa101770197d0bde00e3b6
+Writing manifest to image destination
+Storing signatures
+Loaded image(s): docker.io/hwdsl2/ipsec-vpn-server:latest
++ podman run -itd --name vpn --env-file ./test_file/vpn.env -p 700:700/udp -p 4700:4700/udp -d --privileged docker.io/hwdsl2/ipsec-vpn-server:latest
+time="2023-05-05T04:51:08Z" level=warning msg="The input device is not a TTY. The --tty and --interactive flags might not work properly"
+time="2023-05-05T04:51:10Z" level=warning msg="Path \"/usr/share/rhel/secrets\" from \"/usr/share/containers/mounts.conf\" doesn't exist, skipping"
+8df0a9c46064c968421bbb09c5990ccddb07695a836d7af7d5e5b70e9bd0d4b7
++ SLEEP_WAIT 5 'strongswan stop'
++ wait_time=5
++ cmd='strongswan stop'
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd 'strongswan stop' --mode 1
+Stopping strongSwan IPsec failed: starter is not running
++ SLEEP_WAIT 3 'rm -rf strongswan_test*.log'
++ wait_time=3
++ cmd='rm -rf strongswan_test*.log'
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd 'rm -rf strongswan_test*.log' --mode 1
+++ date '+%Y-%m-%d %T'
++ log_time='2023-05-05 04:51:11'
++ grep shared /etc/strongswan/ipsec.conf
++ cat ./test_file/ipsec_add.conf
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Fri May  5 04:51:11 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri May  5 04:51:12 2023 - INFO  - Start to run test.
++ strongswan start
+Starting strongSwan 5.9.7 IPsec [starter]...
++ SLEEP_WAIT 3
++ wait_time=3
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd '' --mode 1
++ pgrep -f ike-proposal
++ charon-cmd --host 114.114.114.114 --identity shared --ike-proposal aes128-sha1-modp768
+11710
++ CHECK_RESULT 0 0 0 'Failed to check the --ike-proposal'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the --ike-proposal'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ pgrep -f ike-proposal
++ kill -9 11710
++ pgrep -f esp-proposal
++ charon-cmd --host 114.114.114.114 --identity shared --esp-proposal aes128-sha1-modp768
+11714
+oe_test_service_charon-cmd_02.sh: line 37: 11710 Killed                  charon-cmd --host 114.114.114.114 --identity shared --ike-proposal aes128-sha1-modp768 > strongswan_test_charon-cmd-ike-proposal.log 2>&1
++ CHECK_RESULT 0 0 0 'Start testing charon-cmd value --esp-proposal'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Start testing charon-cmd value --esp-proposal'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ pgrep -f esp-proposal
++ kill -9 11714
++ pgrep -f ah-proposal
++ charon-cmd --host 114.114.114.114 --identity shared --ah-proposal aes128-sha1-modp768
+11734
+oe_test_service_charon-cmd_02.sh: line 37: 11714 Killed                  charon-cmd --host 114.114.114.114 --identity shared --esp-proposal aes128-sha1-modp768 > strongswan_test_charon-cmd-esp-proposal.log 2>&1
++ CHECK_RESULT 0 0 0 'Failed to check the --ah-proposal'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the --ah-proposal'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ pgrep -f ah-proposal
++ kill -9 11734
++ pgrep -f local-ts
++ charon-cmd --host 114.114.114.114 --identity shared --local-ts 127.0.0.1
+11740
+oe_test_service_charon-cmd_02.sh: line 37: 11734 Killed                  charon-cmd --host 114.114.114.114 --identity shared --ah-proposal aes128-sha1-modp768 > strongswan_test_charon-cmd-ike-proposal.log 2>&1
++ CHECK_RESULT 0 0 0 'Failed to check the --local-ts'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the --local-ts'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ pgrep -f local-ts
++ kill -9 11740
++ pgrep -f remote-ts
++ charon-cmd --host 114.114.114.114 --identity shared --remote-ts 127.0.0.1
+11758
+oe_test_service_charon-cmd_02.sh: line 37: 11740 Killed                  charon-cmd --host 114.114.114.114 --identity shared --local-ts 127.0.0.1 > strongswan_test_charon-cmd-local-ts.log 2>&1
++ CHECK_RESULT 0 0 0 'Failed to check the --remote-ts'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the --remote-ts'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ pgrep -f remote-ts
++ kill -9 11758
++ charon-cmd --host 114.114.114.114 --identity shared --profile IKEv2-EAP
++ pgrep -f IKEv2-EAP
+11778
+oe_test_service_charon-cmd_02.sh: line 37: 11758 Killed                  charon-cmd --host 114.114.114.114 --identity shared --remote-ts 127.0.0.1 > strongswan_test_charon-cmd-remote-ts.log 2>&1
++ CHECK_RESULT 0 0 0 'Failed to check the --profile'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the --profile'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ pgrep -f IKEv2-EAP
++ kill -9 11778
++ pgrep -f '\/test_file\/test_strongswan.p12'
++ charon-cmd --host 114.114.114.114 --identity shared --p12 ./test_file/test_strongswan.p12
+11798
+oe_test_service_charon-cmd_02.sh: line 37: 11778 Killed                  charon-cmd --host 114.114.114.114 --identity shared --profile IKEv2-EAP > strongswan_test_charon-cmd-profile.log 2>&1
++ CHECK_RESULT 0 0 0 'Failed to check the --p12'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the --p12'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ pgrep -f 'test_file\/test_strongswan.p12'
++ kill -9 11798
++ ssh-agent
+oe_test_service_charon-cmd_02.sh: line 37: 11798 Killed                  charon-cmd --host 114.114.114.114 --identity shared --p12 ./test_file/test_strongswan.p12
+++ cat strongswan_test_charon-cmd-ssh-agent.log
+++ grep SSH_AUTH_SOCK=
+++ awk -F= '{print $2}'
+++ awk '-F;' '{print $1}'
++ agent_file=/tmp/ssh-XXXXXX5qISYC/agent.11802
++ charon-cmd --host 114.114.114.114 --identity shared --agent=/tmp/ssh-XXXXXX5qISYC/agent.11802
++ grep 'Starting charon-cmd IKE client' strongswan_test_charon-cmd-agent.log
+00[DMN] Starting charon-cmd IKE client (strongSwan 5.9.7, Linux 6.1.19-7.0.0.17.oe2303.x86_64, x86_64)
++ CHECK_RESULT 0 0 0 'Failed to check the --agent'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the --agent'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ CHECK_RESULT 0 0 0 'Failed to check the --rsa'
++ charon-cmd --host 114.114.114.114 --identity shared --rsa ./test_file/test_strongswan.key.pem
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the --rsa'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pgrep -f 'charon-cmd --host'
+11812
++ CHECK_RESULT 0 0 0 'Failed to check the --rsa process'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the --rsa process'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ pgrep -f 'charon-cmd --host'
+00[LIB] unable to set OpenSSL FIPS mode(2) from (0)
+00[LIB] plugin 'openssl': failed to load - openssl_plugin_create returned NULL
+00[LIB] created TUN device: ipsec1
+00[DMN] Starting charon-cmd IKE client (strongSwan 5.9.7, Linux 6.1.19-7.0.0.17.oe2303.x86_64, x86_64)
+00[LIB] loaded plugins: charon-cmd pkcs11 tpm aes des rc2 sha2 sha1 md4 md5 mgf1 random nonce x509 revocation constraints pubkey pkcs1 pkcs7 pkcs12 sshkey pem gcrypt pkcs8 fips-prf gmp curve25519 chapoly xcbc cmac hmac kdf ctr ccm gcm drbg curl kernel-libipsec kernel-netlink resolve socket-default bypass-lan eap-identity eap-md5 eap-gtc eap-mschapv2 eap-tls eap-ttls eap-peap xauth-generic
+00[LIB]   opening './test_file/test_strongswan.key.pem' failed: No such file or directory
+00[LIB] building CRED_PRIVATE_KEY - RSA failed, tried 7 builders
+00[CFG] loading RSA private key from './test_file/test_strongswan.key.pem' failed
++ kill -9
+kill: usage: kill [-s sigspec | -n signum | -sigspec] pid | jobspec ... or kill -l [sigspec]
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Fri May  5 04:51:18 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri May  5 04:51:18 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri May  5 04:51:18 2023 - INFO  - Start to restore the test environment.
++ rm -rf strongswan_test_charon-cmd-agent.log strongswan_test_charon-cmd-esp-proposal.log strongswan_test_charon-cmd-ike-proposal.log strongswan_test_charon-cmd-local-ts.log strongswan_test_charon-cmd-profile.log strongswan_test_charon-cmd-remote-ts.log strongswan_test_charon-cmd-ssh-agent.log tmp.txt test_file
++ pgrep -f strongswan
+11113
+11114
+11116
+11690
+11691
++ strongswan stop
+Stopping strongSwan IPsec...
++ SLEEP_WAIT 3 'podman stop -all'
++ wait_time=3
++ cmd='podman stop -all'
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd 'podman stop -all' --mode 1
+Error: --all and --latest cannot be used together
+++ podman ps -qa
++ podman rm -f 8df0a9c46064
+8df0a9c46064c968421bbb09c5990ccddb07695a836d7af7d5e5b70e9bd0d4b7
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpjsz3z92n ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpjsz3z92n
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Fri May  5 04:52:34 2023 - INFO  - End to restore the test environment.

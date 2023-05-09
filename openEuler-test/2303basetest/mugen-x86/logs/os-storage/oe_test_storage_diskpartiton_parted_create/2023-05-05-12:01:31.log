@@ -1,0 +1,151 @@
++ source ../common/storage_disk_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n function ']'
++ config_params
++ LOG_INFO 'Start loading data!'
++ message='Start loading data!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start loading data!'
+Fri May  5 12:01:33 2023 - INFO  - Start loading data!
++ check_free_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='sr0 vdb vdc vdd vde'
++ disk_list=($disks)
++ local_disk=sr0
++ local_disk1=vdb
++ local_disk2=vdc
++ local_disk3=vdd
++ LOG_INFO 'Loading data is complete!'
++ message='Loading data is complete!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Loading data is complete!'
+Fri May  5 12:01:38 2023 - INFO  - Loading data is complete!
+++ type -t pre_test
++ '[' -n '' ']'
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase!'
++ message='Start executing testcase!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase!'
+Fri May  5 12:01:38 2023 - INFO  - Start executing testcase!
++ expect -c '
+spawn parted /dev/sr0 mklabel gpt
+expect "Yes\/No*" 
+send "yes\r"
+expect eof
+'
+spawn parted /dev/sr0 mklabel gpt
+couldn't execute "parted": no such file or directory
+    while executing
+"spawn parted /dev/sr0 mklabel gpt"
++ parted /dev/sr0 mkpart primary 200MiB 400MiB
+oe_test_storage_diskpartiton_parted_create.sh: line 34: parted: command not found
++ CHECK_RESULT 127
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_diskpartiton_parted_create.sh line 35'
++ message='oe_test_storage_diskpartiton_parted_create.sh line 35'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_diskpartiton_parted_create.sh line 35'
+Fri May  5 12:01:39 2023 - ERROR - oe_test_storage_diskpartiton_parted_create.sh line 35
++ '[' 0 -eq 1 ']'
++ return 0
++ lsblk
++ grep sr01
++ grep 200M
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_diskpartiton_parted_create.sh line 37'
++ message='oe_test_storage_diskpartiton_parted_create.sh line 37'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_diskpartiton_parted_create.sh line 37'
+Fri May  5 12:01:39 2023 - ERROR - oe_test_storage_diskpartiton_parted_create.sh line 37
++ '[' 0 -eq 1 ']'
++ return 0
++ udevadm settle
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep sr01 /proc/partitions
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_diskpartiton_parted_create.sh line 41'
++ message='oe_test_storage_diskpartiton_parted_create.sh line 41'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_diskpartiton_parted_create.sh line 41'
+Fri May  5 12:01:39 2023 - ERROR - oe_test_storage_diskpartiton_parted_create.sh line 41
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End of testcase execution!'
++ message='End of testcase execution!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution!'
+Fri May  5 12:01:40 2023 - INFO  - End of testcase execution!
++ CASE_RESULT 0
++ case_re=0
++ test -z 3
++ test 3 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri May  5 12:01:40 2023 - ERROR - failed to execute the case.
++ exit 3
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri May  5 12:01:40 2023 - INFO  - start environment cleanup.
++ echo -e 'd\nw\n'
++ fdisk /dev/sr0
+fdisk: cannot open /dev/sr0: No medium found
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
++ dd if=/dev/zero of=/dev/sr0 bs=1M count=1
+dd: failed to open '/dev/sr0': No medium found
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Fri May  5 12:01:41 2023 - INFO  - Finish environment cleanup.

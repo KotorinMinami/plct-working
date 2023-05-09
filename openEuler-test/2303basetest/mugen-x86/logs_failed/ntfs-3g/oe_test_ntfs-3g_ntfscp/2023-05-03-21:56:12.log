@@ -1,0 +1,431 @@
++ source common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed May  3 21:56:14 2023 - INFO  - Start to prepare the test environment.
++ get_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='sr0 vdb vdc'
++ disk_list=($disks)
++ disk1=sr0
++ disk2=vdb
++ DNF_INSTALL ntfs-3g
++ pkgs=ntfs-3g
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs ntfs-3g --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpo3__dy7s
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpo3__dy7s
++ mkntfs --fast /dev/sr0
+Could not open /dev/sr0: No medium found
++ mkntfs --fast /dev/vdb
+Cluster size has been automatically set to 4096 bytes.
+Creating NTFS volume structures.
+mkntfs completed successfully. Have a nice day.
++ dir=/mnt/windows
++ file=test.txt
++ mkdir -p /mnt/windows
++ touch test.txt
++ LOG_INFO 'Finish preparing the test environment.'
++ message='Finish preparing the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish preparing the test environment.'
+Wed May  3 21:56:32 2023 - INFO  - Finish preparing the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed May  3 21:56:32 2023 - INFO  - Start to run test.
++ ntfscp --help
++ grep 'Usage: ntfscp \[options\]'
+Usage: ntfscp [options] device src_file dest_file
++ CHECK_RESULT 0 0 0 'Check ntfscp --help failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfscp --help failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ntfscp --version
++ grep 'ntfscp v'
+ntfscp v2022.5.17 (libntfs-3g) - Copy file to an NTFS volume.
++ CHECK_RESULT 0 0 0 'Check ntfscp --version failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfscp --version failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ntfscp /dev/sr0 test.txt test.txt --attribute 256
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
+ERROR: couldn't mount volume: No medium found
++ CHECK_RESULT 1 0 0 'Check ntfscp --attribute failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfscp --attribute failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfscp --attribute failed.'
++ LOG_ERROR 'Check ntfscp --attribute failed.'
++ message='Check ntfscp --attribute failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfscp --attribute failed.'
+Wed May  3 21:56:33 2023 - ERROR - Check ntfscp --attribute failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfscp.sh line 39'
++ message='oe_test_ntfs-3g_ntfscp.sh line 39'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfscp.sh line 39'
+Wed May  3 21:56:33 2023 - ERROR - oe_test_ntfs-3g_ntfscp.sh line 39
++ '[' 0 -eq 1 ']'
++ return 0
++ check_file_and_umount_disk sr0 /mnt/windows test.txt
++ disk=sr0
++ dir=/mnt/windows
++ file=test.txt
++ ntfs-3g /dev/sr0 /mnt/windows
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ test -f /mnt/windows/test.txt
++ CHECK_RESULT 1 0 0 'Check file failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check file failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check file failed.'
++ LOG_ERROR 'Check file failed.'
++ message='Check file failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check file failed.'
+Wed May  3 21:56:33 2023 - ERROR - Check file failed.
++ (( exec_result++ ))
++ LOG_ERROR 'common/common_lib.sh line 38'
++ message='common/common_lib.sh line 38'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'common/common_lib.sh line 38'
+Wed May  3 21:56:34 2023 - ERROR - common/common_lib.sh line 38
++ '[' 0 -eq 1 ']'
++ return 0
++ rm -rf /mnt/windows/test.txt
++ umount /mnt/windows
+umount: /mnt/windows: not mounted.
++ ntfscp /dev/sr0 test.txt test.txt --attr-name stream
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
+ERROR: couldn't mount volume: No medium found
++ CHECK_RESULT 1 0 0 'Check ntfscp --attr-name failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfscp --attr-name failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfscp --attr-name failed.'
++ LOG_ERROR 'Check ntfscp --attr-name failed.'
++ message='Check ntfscp --attr-name failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfscp --attr-name failed.'
+Wed May  3 21:56:34 2023 - ERROR - Check ntfscp --attr-name failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfscp.sh line 42'
++ message='oe_test_ntfs-3g_ntfscp.sh line 42'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfscp.sh line 42'
+Wed May  3 21:56:34 2023 - ERROR - oe_test_ntfs-3g_ntfscp.sh line 42
++ '[' 0 -eq 1 ']'
++ return 0
++ check_file_and_umount_disk sr0 /mnt/windows test.txt
++ disk=sr0
++ dir=/mnt/windows
++ file=test.txt
++ ntfs-3g /dev/sr0 /mnt/windows
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ test -f /mnt/windows/test.txt
++ CHECK_RESULT 1 0 0 'Check file failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check file failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check file failed.'
++ LOG_ERROR 'Check file failed.'
++ message='Check file failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check file failed.'
+Wed May  3 21:56:35 2023 - ERROR - Check file failed.
++ (( exec_result++ ))
++ LOG_ERROR 'common/common_lib.sh line 38'
++ message='common/common_lib.sh line 38'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'common/common_lib.sh line 38'
+Wed May  3 21:56:35 2023 - ERROR - common/common_lib.sh line 38
++ '[' 0 -eq 1 ']'
++ return 0
++ rm -rf /mnt/windows/test.txt
++ umount /mnt/windows
+umount: /mnt/windows: not mounted.
++ ntfscp /dev/sr0 test.txt test.txt --no-action
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
+ERROR: couldn't mount volume: No medium found
++ CHECK_RESULT 1 0 0 'Check ntfscp --no-action failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfscp --no-action failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfscp --no-action failed.'
++ LOG_ERROR 'Check ntfscp --no-action failed.'
++ message='Check ntfscp --no-action failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfscp --no-action failed.'
+Wed May  3 21:56:35 2023 - ERROR - Check ntfscp --no-action failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfscp.sh line 45'
++ message='oe_test_ntfs-3g_ntfscp.sh line 45'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfscp.sh line 45'
+Wed May  3 21:56:36 2023 - ERROR - oe_test_ntfs-3g_ntfscp.sh line 45
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfscp /dev/sr0 test.txt test.txt --force
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
+ERROR: couldn't mount volume: No medium found
++ CHECK_RESULT 1 0 0 'Check ntfscp --force failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfscp --force failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfscp --force failed.'
++ LOG_ERROR 'Check ntfscp --force failed.'
++ message='Check ntfscp --force failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfscp --force failed.'
+Wed May  3 21:56:36 2023 - ERROR - Check ntfscp --force failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfscp.sh line 47'
++ message='oe_test_ntfs-3g_ntfscp.sh line 47'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfscp.sh line 47'
+Wed May  3 21:56:36 2023 - ERROR - oe_test_ntfs-3g_ntfscp.sh line 47
++ '[' 0 -eq 1 ']'
++ return 0
++ check_file_and_umount_disk sr0 /mnt/windows test.txt
++ disk=sr0
++ dir=/mnt/windows
++ file=test.txt
++ ntfs-3g /dev/sr0 /mnt/windows
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ test -f /mnt/windows/test.txt
++ CHECK_RESULT 1 0 0 'Check file failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check file failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check file failed.'
++ LOG_ERROR 'Check file failed.'
++ message='Check file failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check file failed.'
+Wed May  3 21:56:37 2023 - ERROR - Check file failed.
++ (( exec_result++ ))
++ LOG_ERROR 'common/common_lib.sh line 38'
++ message='common/common_lib.sh line 38'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'common/common_lib.sh line 38'
+Wed May  3 21:56:37 2023 - ERROR - common/common_lib.sh line 38
++ '[' 0 -eq 1 ']'
++ return 0
++ rm -rf /mnt/windows/test.txt
++ umount /mnt/windows
+umount: /mnt/windows: not mounted.
++ ntfscp /dev/sr0 test.txt test.txt --quiet
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
+ERROR: couldn't mount volume: No medium found
++ CHECK_RESULT 1 0 0 'Check ntfscp --quiet failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfscp --quiet failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfscp --quiet failed.'
++ LOG_ERROR 'Check ntfscp --quiet failed.'
++ message='Check ntfscp --quiet failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfscp --quiet failed.'
+Wed May  3 21:56:37 2023 - ERROR - Check ntfscp --quiet failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfscp.sh line 50'
++ message='oe_test_ntfs-3g_ntfscp.sh line 50'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfscp.sh line 50'
+Wed May  3 21:56:37 2023 - ERROR - oe_test_ntfs-3g_ntfscp.sh line 50
++ '[' 0 -eq 1 ']'
++ return 0
++ check_file_and_umount_disk sr0 /mnt/windows test.txt
++ disk=sr0
++ dir=/mnt/windows
++ file=test.txt
++ ntfs-3g /dev/sr0 /mnt/windows
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ test -f /mnt/windows/test.txt
++ CHECK_RESULT 1 0 0 'Check file failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check file failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check file failed.'
++ LOG_ERROR 'Check file failed.'
++ message='Check file failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check file failed.'
+Wed May  3 21:56:38 2023 - ERROR - Check file failed.
++ (( exec_result++ ))
++ LOG_ERROR 'common/common_lib.sh line 38'
++ message='common/common_lib.sh line 38'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'common/common_lib.sh line 38'
+Wed May  3 21:56:38 2023 - ERROR - common/common_lib.sh line 38
++ '[' 0 -eq 1 ']'
++ return 0
++ rm -rf /mnt/windows/test.txt
++ umount /mnt/windows
+umount: /mnt/windows: not mounted.
++ ntfscp /dev/sr0 test.txt test.txt --verbose
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
+ERROR: couldn't mount volume: No medium found
++ CHECK_RESULT 1 0 0 'Check ntfscp --verbose failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfscp --verbose failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfscp --verbose failed.'
++ LOG_ERROR 'Check ntfscp --verbose failed.'
++ message='Check ntfscp --verbose failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfscp --verbose failed.'
+Wed May  3 21:56:38 2023 - ERROR - Check ntfscp --verbose failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfscp.sh line 53'
++ message='oe_test_ntfs-3g_ntfscp.sh line 53'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfscp.sh line 53'
+Wed May  3 21:56:39 2023 - ERROR - oe_test_ntfs-3g_ntfscp.sh line 53
++ '[' 0 -eq 1 ']'
++ return 0
++ check_file_and_umount_disk sr0 /mnt/windows test.txt
++ disk=sr0
++ dir=/mnt/windows
++ file=test.txt
++ ntfs-3g /dev/sr0 /mnt/windows
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ test -f /mnt/windows/test.txt
++ CHECK_RESULT 1 0 0 'Check file failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check file failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check file failed.'
++ LOG_ERROR 'Check file failed.'
++ message='Check file failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check file failed.'
+Wed May  3 21:56:39 2023 - ERROR - Check file failed.
++ (( exec_result++ ))
++ LOG_ERROR 'common/common_lib.sh line 38'
++ message='common/common_lib.sh line 38'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'common/common_lib.sh line 38'
+Wed May  3 21:56:39 2023 - ERROR - common/common_lib.sh line 38
++ '[' 0 -eq 1 ']'
++ return 0
++ rm -rf /mnt/windows/test.txt
++ umount /mnt/windows
+umount: /mnt/windows: not mounted.
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Wed May  3 21:56:40 2023 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 11
++ test 11 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed May  3 21:56:40 2023 - ERROR - failed to execute the case.
++ exit 11
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed May  3 21:56:40 2023 - INFO  - Start to restore the test environment.
++ expect
+spawn mkfs.ext4 /dev/sr0
+y
+mke2fs 1.46.5 (30-Dec-2021)
+mkfs.ext4: No medium found while trying to determine filesystem size
++ rm -rf /mnt/windows test.txt
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpo3__dy7s ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpo3__dy7s
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish restoring the test environment.'
++ message='Finish restoring the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish restoring the test environment.'
+Wed May  3 21:56:45 2023 - INFO  - Finish restoring the test environment.

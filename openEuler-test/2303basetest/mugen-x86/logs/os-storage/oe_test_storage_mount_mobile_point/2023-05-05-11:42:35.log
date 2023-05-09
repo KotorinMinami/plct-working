@@ -1,0 +1,190 @@
++ source ../common/storage_disk_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Fri May  5 11:42:37 2023 - INFO  - Start environment preparation.
++ check_free_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='sr0 vdb vdc vdd vde'
++ disk_list=($disks)
++ local_disk=sr0
++ local_disk1=vdb
++ local_disk2=vdc
++ local_disk3=vdd
++ mkfs.xfs -f /dev/vdc
+oe_test_storage_mount_mobile_point.sh: line 23: mkfs.xfs: command not found
++ sleep 2
++ mkfs.xfs -f /dev/vdd
+oe_test_storage_mount_mobile_point.sh: line 25: mkfs.xfs: command not found
++ sleep 2
++ udevadm settle
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Fri May  5 11:42:44 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Fri May  5 11:42:45 2023 - INFO  - Start executing testcase.
++ mount /dev/vdd /mnt
+mount: /mnt: wrong fs type, bad option, bad superblock on /dev/vdd, missing codepage or helper program, or other error.
++ CHECL_RESULT 32
+oe_test_storage_mount_mobile_point.sh: line 34: CHECL_RESULT: command not found
++ mount --make-private /mnt
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mkdir /mnt/data /mnt/boot
++ mount /dev/vdc /mnt/data
+mount: /mnt/data: wrong fs type, bad option, bad superblock on /dev/vdc, missing codepage or helper program, or other error.
++ CHECK_RESULT 32
++ actual_result=32
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 32 ']'
++ '[' 0 -eq 0 ']'
++ test 32x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_mount_mobile_point.sh line 39'
++ message='oe_test_storage_mount_mobile_point.sh line 39'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_mount_mobile_point.sh line 39'
+Fri May  5 11:42:45 2023 - ERROR - oe_test_storage_mount_mobile_point.sh line 39
++ '[' 0 -eq 1 ']'
++ return 0
++ findmnt -o TARGET,PROPAGATION /mnt
++ grep private
+/mnt   private
++ CHECK_RESULT 0 0 0 private
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=private
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mount --move /mnt/data /mnt/boot
+mount: /mnt/boot: wrong fs type, bad option, bad superblock on /mnt/data, missing codepage or helper program, or other error.
++ CHECK_RESULT 32 0 0 'mount move'
++ actual_result=32
++ expect_result=0
++ mode=0
++ error_log='mount move'
++ exit_mode=0
++ '[' -z 32 ']'
++ '[' 0 -eq 0 ']'
++ test 32x '!=' 0x
++ test -n 'mount move'
++ LOG_ERROR 'mount move'
++ message='mount move'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'mount move'
+Fri May  5 11:42:46 2023 - ERROR - mount move
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_mount_mobile_point.sh line 43'
++ message='oe_test_storage_mount_mobile_point.sh line 43'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_mount_mobile_point.sh line 43'
+Fri May  5 11:42:46 2023 - ERROR - oe_test_storage_mount_mobile_point.sh line 43
++ '[' 0 -eq 1 ']'
++ return 0
++ findmnt
++ grep /dev/vdc
++ grep /mnt/boot
++ CHECK_RESULT 1 0 0 local_disk
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=local_disk
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n local_disk
++ LOG_ERROR local_disk
++ message=local_disk
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message local_disk
+Fri May  5 11:42:46 2023 - ERROR - local_disk
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_mount_mobile_point.sh line 46'
++ message='oe_test_storage_mount_mobile_point.sh line 46'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_mount_mobile_point.sh line 46'
+Fri May  5 11:42:47 2023 - ERROR - oe_test_storage_mount_mobile_point.sh line 46
++ '[' 0 -eq 1 ']'
++ return 0
++ test -f /root/mugen/libs/locallibs/mugen_log.py
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End of testcase execution.'
++ message='End of testcase execution.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution.'
+Fri May  5 11:42:47 2023 - INFO  - End of testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z 3
++ test 3 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri May  5 11:42:47 2023 - ERROR - failed to execute the case.
++ exit 3
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri May  5 11:42:47 2023 - INFO  - start environment cleanup.
++ mount --move /mnt/boot /mnt/data
+mount: /mnt/data: wrong fs type, bad option, bad superblock on /mnt/boot, missing codepage or helper program, or other error.
++ umount /mnt/boot
+umount: /mnt/boot: not mounted.
++ umount /mnt/data
+umount: /mnt/data: not mounted.
++ mount --make-share /mnt
++ umount /mnt
++ SLEEP_WAIT 3
++ wait_time=3
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd '' --mode 1
++ rm -rf /mnt/data /mnt/boot
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Fri May  5 11:42:51 2023 - INFO  - Finish environment cleanup.

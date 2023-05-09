@@ -1,0 +1,194 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Fri May  5 09:42:22 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'wsmancli openwsman-server docker'
++ pkgs='wsmancli openwsman-server docker'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'wsmancli openwsman-server docker' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp44u4mb7g
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp44u4mb7g
++ docker run -d -it --rm -p 0.0.0.0:5988:5988 -p 0.0.0.0:5989:5989 --name openpegasus kschopmeyer/openpegasus-server:0.1.1
+3a65e7d4e33f9b8f543b4425ed9e4c1c30ef1ed737d80a8441df1cc46b25c9c2
++ cp common/simple_auth.passwd /etc/openwsman/test_simple_auth.passwd
++ openwsmand -c common/openwsman.conf
++ SLEEP_WAIT 20
++ wait_time=20
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 20 --cmd '' --mode 1
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Fri May  5 09:50:33 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri May  5 09:50:33 2023 - INFO  - Start to run test.
++ wsman subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -h localhost -u wsman -p wsman
++ grep '<wse:SubscribeResponse>'
+    <wse:SubscribeResponse>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test -x -D -Z'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test -x -D -Z'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -h localhost -u wsman -p wsman -R -G pull
++ grep '<wse:Delivery Mode="http://schemas.dmtf.org/wbem/wsman/1/wsman/Pull">'
+      <wse:Delivery Mode="http://schemas.dmtf.org/wbem/wsman/1/wsman/Pull">
++ CHECK_RESULT 0 0 0 'wamancli: faild to test -G '
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test -G '
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -h localhost -u wsman -p wsman -R -s httpbasic
++ grep '<wsman:Auth Profile="http://schemas.dmtf.org/wbem/wsman/1/wsman/secprofile/http/basic"/>'
+        <wsman:Auth Profile="http://schemas.dmtf.org/wbem/wsman/1/wsman/secprofile/http/basic"/>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test -s '
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test -s '
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -h localhost -u wsman -p wsman -R -s httpbasic -n testname -z testpass
++ grep '<n2:UsernameToken>'
+          <n2:UsernameToken>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test -n -z '
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test -n -z '
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -h localhost -u wsman -p wsman -R --delivery-thumbprint AAA
++ grep '<wsman:CertificateThumbprint>AAA</wsman:CertificateThumbprint>'
+          <wsman:CertificateThumbprint>AAA</wsman:CertificateThumbprint>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test --delivery-thumbprint'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test --delivery-thumbprint'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -h localhost -u wsman -p wsman -r 600
++ grep '<wse:Expires>PT600.000000S</wse:Expires>'
+      <wse:Expires>PT600.000000S</wse:Expires>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test -r'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test -r'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -h localhost -u wsman -p wsman -R -H 10
++ grep '<wsman:Heartbeats>PT10.000000S</wsman:Heartbeats>'
+        <wsman:Heartbeats>PT10.000000S</wsman:Heartbeats>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test -H -R'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test -H -R'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -h localhost -u wsman -p wsman -R -l
++ grep '<wsman:SendBookmarks/>'
+      <wsman:SendBookmarks/>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test -l '
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test -l '
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Fri May  5 09:50:35 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri May  5 09:50:35 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri May  5 09:50:36 2023 - INFO  - Start to restore the test environment.
++ rm -rf /etc/openwsman/test_simple_auth.passwd
+++ pgrep openwsmand
++ kill -9 7930
++ docker stop openpegasus
+openpegasus
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp44u4mb7g ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp44u4mb7g
++ '[' 0 -ne 0 ']'
++ SLEEP_WAIT 10
++ wait_time=10
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 10 --cmd '' --mode 1
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Fri May  5 09:51:06 2023 - INFO  - End to restore the test environment.

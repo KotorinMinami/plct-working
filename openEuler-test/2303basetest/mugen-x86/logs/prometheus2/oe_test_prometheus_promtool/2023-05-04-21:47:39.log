@@ -1,0 +1,449 @@
++ source ./common_lib.sh
+++ source ../common/common_lib.sh
++++ source /root/mugen/libs/locallibs/common_lib.sh
+++++ python3 --version
+++++ '[' 0 -eq 0 ']'
+++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Thu May  4 21:47:41 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL prometheus2
++ pkgs=prometheus2
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs prometheus2 --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp861s9us4
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp861s9us4
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Thu May  4 21:49:10 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Thu May  4 21:49:11 2023 - INFO  - Start testing...
++ promtool --version
++ grep 'promtool, version'
+promtool, version 2.20.0 (branch: HEAD, revision: e5a06b483527d4fe0704b8fa3a2b475b661c526f)
++ CHECK_RESULT 0 0 0 'Failed to check flag: --version.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check flag: --version.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ promtool --help
++ grep 'usage: promtool'
+usage: promtool [<flags>] <command> [<args> ...]
++ CHECK_RESULT 0 0 0 'Failed to check flag: --help.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check flag: --help.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ promtool --help-man
++ grep 'promtool, version'
+.TH promtool 1 promtool, version 2.20.0 (branch: HEAD, revision: e5a06b483527d4fe0704b8fa3a2b475b661c526f)
++ CHECK_RESULT 0 0 0 'Failed to check flag: --help-man.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check flag: --help-man.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wait_for_ready
++ prometheus
++ LOG_INFO 'Waiting for Prometheus to be ready.'
++ message='Waiting for Prometheus to be ready.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Waiting for Prometheus to be ready.'
+Thu May  4 21:49:12 2023 - INFO  - Waiting for Prometheus to be ready.
++ grep 'Server is ready to receive web requests.' ./prometheus.log
++ sleep 1s
++ grep 'Server is ready to receive web requests.' ./prometheus.log
+level=info ts=2023-05-04T21:49:12.759Z caller=main.go:652 msg="Server is ready to receive web requests."
++ LOG_INFO 'Prometheus is ready.'
++ message='Prometheus is ready.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Prometheus is ready.'
+Thu May  4 21:49:13 2023 - INFO  - Prometheus is ready.
++ curl -s http://localhost:9090/metrics
++ promtool check metrics
++ CHECK_RESULT 0 0 0 'Failed to check metrics.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check metrics.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 5974
++ pgrep -x prometheus
+./common_lib.sh: line 38:  5974 Killed                  prometheus > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Thu May  4 21:49:14 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ echo '# HELP go_memstats_frees_total Total number of frees.
+    # TYPE go_memstats_frees_total counter
+    go_memstats_frees_total wrong'
++ promtool check metrics
+error while linting: text format parsing error in line 3: expected float as value, got "wrong"
++ CHECK_RESULT 1 1 0 'Failed to check metrics, type: counter.'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='Failed to check metrics, type: counter.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ echo '# HELP go_memstats_frees_total Total number of frees.
+    # TYPE go_memstats_frees_total counter
+    go_memstats_frees_total 100'
++ promtool check metrics
++ CHECK_RESULT 0 0 0 'Failed to check metrics, type: counter.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check metrics, type: counter.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ echo '# HELP process_max_fds Maximum number of open file descriptors.
+    # TYPE process_max_fds gauge
+    process_max_fds wrong'
++ promtool check metrics
+error while linting: text format parsing error in line 3: expected float as value, got "wrong"
++ CHECK_RESULT 1 1 0 'Failed to check metrics, type: gauge.'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='Failed to check metrics, type: gauge.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ echo '# HELP process_max_fds Maximum number of open file descriptors.
+    # TYPE process_max_fds gauge
+    process_max_fds 1024'
++ promtool check metrics
++ CHECK_RESULT 0 0 0 'Failed to check metrics, type: gauge.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check metrics, type: gauge.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ echo '# HELP prometheus_tsdb_tombstone_cleanup_seconds The time taken to recompact blocks to remove tombstones.
+    # TYPE prometheus_tsdb_tombstone_cleanup_seconds histogram
+    prometheus_tsdb_tombstone_cleanup_seconds_bucket{le="1.005"} wrong'
++ promtool check metrics
+error while linting: text format parsing error in line 3: expected float as value, got "wrong"
++ CHECK_RESULT 1 1 0 'Failed to check metrics, type: histogram.'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='Failed to check metrics, type: histogram.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ echo '# HELP prometheus_tsdb_tombstone_cleanup_seconds The time taken to recompact blocks to remove tombstones.
+    # TYPE prometheus_tsdb_tombstone_cleanup_seconds histogram
+    prometheus_tsdb_tombstone_cleanup_seconds_bucket{le="1.005"} 0'
++ promtool check metrics
++ CHECK_RESULT 0 0 0 'Failed to check metrics, type: histogram.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check metrics, type: histogram.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ echo '# HELP prometheus_tsdb_wal_truncate_duration_seconds Duration of WAL truncation.
+    # TYPE prometheus_tsdb_wal_truncate_duration_seconds summary
+    prometheus_tsdb_wal_truncate_duration_seconds_sum wrong'
++ promtool check metrics
+error while linting: text format parsing error in line 3: expected float as value, got "wrong"
++ CHECK_RESULT 1 1 0 'Failed to check metrics, type: summary.'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='Failed to check metrics, type: summary.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ promtool check metrics
++ echo '# HELP prometheus_tsdb_wal_truncate_duration_seconds Duration of WAL truncation.
+    # TYPE prometheus_tsdb_wal_truncate_duration_seconds summary
+    prometheus_tsdb_wal_truncate_duration_seconds_sum 1'
++ CHECK_RESULT 0 0 0 'Failed to check metrics, type: summary.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check metrics, type: summary.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wait_for_ready
++ prometheus
++ LOG_INFO 'Waiting for Prometheus to be ready.'
++ message='Waiting for Prometheus to be ready.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Waiting for Prometheus to be ready.'
+Thu May  4 21:49:15 2023 - INFO  - Waiting for Prometheus to be ready.
++ grep 'Server is ready to receive web requests.' ./prometheus.log
++ sleep 1s
++ grep 'Server is ready to receive web requests.' ./prometheus.log
+level=info ts=2023-05-04T21:49:15.806Z caller=main.go:652 msg="Server is ready to receive web requests."
++ LOG_INFO 'Prometheus is ready.'
++ message='Prometheus is ready.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Prometheus is ready.'
+Thu May  4 21:49:16 2023 - INFO  - Prometheus is ready.
++ (( i = 0 ))
++ (( i < 10 ))
++ promtool query instant http://localhost:9090 prometheus_build_info
++ grep prometheus_build_info
++ '[' 1 -eq 0 ']'
++ sleep 5s
++ (( i++ ))
++ (( i < 10 ))
++ promtool query instant http://localhost:9090 prometheus_build_info
++ grep prometheus_build_info
++ '[' 1 -eq 0 ']'
++ sleep 5s
++ (( i++ ))
++ (( i < 10 ))
++ promtool query instant http://localhost:9090 prometheus_build_info
++ grep prometheus_build_info
++ '[' 1 -eq 0 ']'
++ sleep 5s
++ (( i++ ))
++ (( i < 10 ))
++ promtool query instant http://localhost:9090 prometheus_build_info
++ grep prometheus_build_info
+prometheus_build_info{branch="HEAD", goversion="go1.14.6", instance="localhost:9090", job="test_prometheus_cli", revision="e5a06b483527d4fe0704b8fa3a2b475b661c526f", version="2.20.0"} => 1 @[1683236972.676]
++ '[' 0 -eq 0 ']'
++ break
++ test 3 -ne 10
++ CHECK_RESULT 0 0 0 'Failed to use: query instant.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use: query instant.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ (( i = 0 ))
++ (( i < 10 ))
++ grep process_cpu_seconds_total
+++ date -d '5minutes ago' +%s
+++ date -d now +%s
++ promtool query range --start=1683236672 --end=1683236972 --step=1m http://localhost:9090 process_cpu_seconds_total
+process_cpu_seconds_total{instance="localhost:9090", job="test_prometheus_cli"} =>
++ '[' 0 -eq 0 ']'
++ break
++ test 0 -ne 10
++ CHECK_RESULT 0 0 0 'Failed to use: query range.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use: query range.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ (( i = 0 ))
++ (( i < 10 ))
++ promtool query series --match=up '--match=go_info{job="prometheus"}' http://localhost:9090
++ grep '{__name__="up", instance="localhost:9090", job="test_prometheus_cli"}'
+{__name__="up", instance="localhost:9090", job="test_prometheus_cli"}
++ '[' 0 -eq 0 ']'
++ break
++ test 0 -ne 10
++ CHECK_RESULT 0 0 0 'Failed to use: query series.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use: query series.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ (( i = 0 ))
++ (( i < 10 ))
++ promtool query labels http://localhost:9090 event
++ grep 'add
+delete
+update'
+add
+delete
+update
++ '[' 0 -eq 0 ']'
++ break
++ test 0 -ne 10
++ CHECK_RESULT 0 0 0 'Failed to use: query labels.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use: query labels.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ promtool debug pprof http://localhost:9090
++ grep 'collecting: http://localhost:9090/debug/pprof/goroutine'
+collecting: http://localhost:9090/debug/pprof/goroutine
++ CHECK_RESULT 0 0 0 'Failed to use: debug pprof.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use: debug pprof.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ promtool debug metrics http://localhost:9090
++ grep 'collecting: http://localhost:9090/metrics'
+collecting: http://localhost:9090/metrics
++ CHECK_RESULT 0 0 0 'Failed to use: debug metrics.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use: debug metrics.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ promtool debug all http://localhost:9090
++ grep 'collecting: http://localhost:9090/debug/pprof/mutex'
+collecting: http://localhost:9090/debug/pprof/mutex
++ CHECK_RESULT 0 0 0 'Failed to use: debug all.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use: debug all.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ promtool test rules test.yml
+Unit Testing:  test.yml
+  SUCCESS
+
++ CHECK_RESULT 0 0 0 'Failed to use: test rules.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use: test rules.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 6065
++ pgrep -x prometheus
+./common_lib.sh: line 38:  6065 Killed                  prometheus > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Thu May  4 21:51:34 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Thu May  4 21:51:35 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Thu May  4 21:51:35 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Thu May  4 21:51:35 2023 - INFO  - start environment cleanup.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp861s9us4 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp861s9us4
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Thu May  4 21:51:41 2023 - INFO  - Finish environment cleanup!

@@ -1,0 +1,329 @@
++ source ../common/common_podman.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu May  4 23:55:50 2023 - INFO  - Start to prepare the test environment.
++ deploy_env
++ DNF_INSTALL 'podman podman-docker'
++ pkgs='podman podman-docker'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'podman podman-docker' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpd2qknnul
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpd2qknnul
++ echo -e '[registries.search]
+registries = ['\''docker.io'\'']
+
+[registries.insecure]
+registries = []
+
+[registries.block]
+registries = []
+'
++ podman pull postgres:alpine
+Resolving "postgres" using unqualified-search registries (/etc/containers/registries.conf)
+Trying to pull docker.io/library/postgres:alpine...
+Getting image source signatures
+Copying blob sha256:f33740282c0040003ee1e3c9ec1a68d5eb873795badbbf6103c79cc588760e4a
+Copying blob sha256:8eff49387ec9a1f26ada557b4e31f86a45f70ef57c1a45345e5bfbe75e53bcfc
+Copying blob sha256:256414453fba6e3cc9af34383da6e5920f6d4ac3399943b8569b68896c645a0e
+Copying blob sha256:f71699d7795ac5159478a278ffb6af3fcac0141e6a637d71062a601d7cab30c7
+Copying blob sha256:f56be85fc22e46face30e2c3de3f7fe7c15f8fd7c4e5add29d7f64b87abdaa09
+Copying blob sha256:7da7fae4e80a5e292219502d2ce432382a68e8d0fb3841807ad70963ec194e7d
+Copying blob sha256:8eff49387ec9a1f26ada557b4e31f86a45f70ef57c1a45345e5bfbe75e53bcfc
+Copying blob sha256:f56be85fc22e46face30e2c3de3f7fe7c15f8fd7c4e5add29d7f64b87abdaa09
+Copying blob sha256:7da7fae4e80a5e292219502d2ce432382a68e8d0fb3841807ad70963ec194e7d
+Copying blob sha256:256414453fba6e3cc9af34383da6e5920f6d4ac3399943b8569b68896c645a0e
+Copying blob sha256:f33740282c0040003ee1e3c9ec1a68d5eb873795badbbf6103c79cc588760e4a
+Copying blob sha256:f71699d7795ac5159478a278ffb6af3fcac0141e6a637d71062a601d7cab30c7
+Copying blob sha256:b49740a115f2f98ff2414fb5272986655b272d739c878477a6ca541430a41637
+Copying blob sha256:c36da779701e31511df27033e2a5e1b1ebdd0b7f4032cfab4a04c82139d7337a
+Copying blob sha256:b49740a115f2f98ff2414fb5272986655b272d739c878477a6ca541430a41637
+Copying blob sha256:c36da779701e31511df27033e2a5e1b1ebdd0b7f4032cfab4a04c82139d7337a
+Copying config sha256:ddc12ac7fa27279bfcc41deaccd1368291ab7d71ca7cee0420b41f9974e9a468
+Writing manifest to image destination
+Storing signatures
+ddc12ac7fa27279bfcc41deaccd1368291ab7d71ca7cee0420b41f9974e9a468
++ podman run --name postgres -e POSTGRES_PASSWORD=secret -d postgres:alpine
+time="2023-05-04T23:58:36Z" level=warning msg="Path \"/usr/share/rhel/secrets\" from \"/usr/share/containers/mounts.conf\" doesn't exist, skipping"
+205f5d97f61e7111909589bca499a20e40e000c1789325738ff5ce7ba189a74c
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu May  4 23:58:37 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu May  4 23:58:37 2023 - INFO  - Start to run test.
+++ docker create --oom-kill-disable alpine ls
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+Resolved "alpine" as an alias (/etc/containers/registries.conf.d/000-shortnames.conf)
+Trying to pull docker.io/library/alpine:latest...
+Error: initializing source docker://alpine:latest: pinging container registry registry-1.docker.io: Get "https://registry-1.docker.io/v2/": net/http: TLS handshake timeout
++ ID=
++ docker inspect
++ grep '"OomKillDisable": true'
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+Error: no names or ids specified
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_DK_14.sh line 33'
++ message='oe_test_podman_DK_14.sh line 33'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_DK_14.sh line 33'
+Thu May  4 23:58:58 2023 - ERROR - oe_test_podman_DK_14.sh line 33
++ '[' 0 -eq 1 ']'
++ return 0
+++ docker create --oom-score-adj 100 alpine ls
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+Resolved "alpine" as an alias (/etc/containers/registries.conf.d/000-shortnames.conf)
+Trying to pull docker.io/library/alpine:latest...
+Getting image source signatures
+Copying blob sha256:f56be85fc22e46face30e2c3de3f7fe7c15f8fd7c4e5add29d7f64b87abdaa09
+Copying config sha256:9ed4aefc74f6792b5a804d1d146fe4b4a2299147b0f50eaf2b08435d7b38c27e
+Writing manifest to image destination
+Storing signatures
++ ID=9d26e0321d792e40d4d086fe2f0a538609964af71f99fc09a9371b2a023f07fb
++ docker inspect 9d26e0321d792e40d4d086fe2f0a538609964af71f99fc09a9371b2a023f07fb
++ grep '"OomScoreAdj": 100'
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+            "OomScoreAdj": 100,
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ docker create --pid host alpine ls
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
++ ID=706d392b173363de069881e0e9750cae9ac588722a0f61458f4b29552efbbcd4
++ docker inspect 706d392b173363de069881e0e9750cae9ac588722a0f61458f4b29552efbbcd4
++ grep '"PidMode": "host"'
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+            "PidMode": "host",
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ docker create --pids-limit 3 alpine ls
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
++ ID=0863fcf754c3b148237d8da93587ab38018ee64d3f2f49e96989798590d82c4e
++ docker inspect 0863fcf754c3b148237d8da93587ab38018ee64d3f2f49e96989798590d82c4e
++ grep '"PidsLimit": 3'
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+            "PidsLimit": 3,
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ docker pod create --infra=false
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+86da29ca4ed31e6d511ef3644eba09324a48eb72e4ea5256cf3ed3ea723f76a9
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++++ docker pod list -lq
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+++ docker create --pod 86da29ca4ed31e6d511ef3644eba09324a48eb72e4ea5256cf3ed3ea723f76a9 alpine ls
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
++ ID=c790b59b0ed39f59758d175fba3de9ea391bae7e61b57c272d2a9f71e782bcf6
++ docker rm c790b59b0ed39f59758d175fba3de9ea391bae7e61b57c272d2a9f71e782bcf6
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+c790b59b0ed39f59758d175fba3de9ea391bae7e61b57c272d2a9f71e782bcf6
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ docker pod list -q
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
++ docker pod rm 86da29ca4ed31e6d511ef3644eba09324a48eb72e4ea5256cf3ed3ea723f76a9
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+86da29ca4ed31e6d511ef3644eba09324a48eb72e4ea5256cf3ed3ea723f76a9
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ docker create --privileged alpine ls
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
++ ID=e3c7c00a24509198cfd896feef5a1edfa4d544ed503eaa79674b6b7bfc4c69bd
++ docker inspect e3c7c00a24509198cfd896feef5a1edfa4d544ed503eaa79674b6b7bfc4c69bd
++ grep '"Privileged": true'
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+            "Privileged": true,
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ docker create --publish 23 alpine ls
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
++ ID=4f87b1f41d8beb5e369369cc7648a445c84348a0104fa471aedbac9fb0a368e9
++ docker inspect 4f87b1f41d8beb5e369369cc7648a445c84348a0104fa471aedbac9fb0a368e9
++ grep '"containerPort": 23'
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_DK_14.sh line 55'
++ message='oe_test_podman_DK_14.sh line 55'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_DK_14.sh line 55'
+Thu May  4 23:59:10 2023 - ERROR - oe_test_podman_DK_14.sh line 55
++ '[' 0 -eq 1 ']'
++ return 0
+++ docker create --publish-all alpine ls
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
++ ID=0d4f1b6fe25dcfa8db1032940253cf722e5659df5812abfcbbe2561accd5a2e7
++ docker inspect 0d4f1b6fe25dcfa8db1032940253cf722e5659df5812abfcbbe2561accd5a2e7
++ grep '"PublishAllPorts": false'
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+            "PublishAllPorts": false,
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ docker create -q alpine ls
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+c799fdbb288dcb9872edc357bb020852bfc8391e7e715850618a3e1bf618eb0f
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu May  4 23:59:12 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 2
++ test 2 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Thu May  4 23:59:12 2023 - ERROR - failed to execute the case.
++ exit 2
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu May  4 23:59:12 2023 - INFO  - Start to restore the test environment.
++ clear_env
++ podman stop postgres
+postgres
++ podman rm --all
+706d392b173363de069881e0e9750cae9ac588722a0f61458f4b29552efbbcd4
+9d26e0321d792e40d4d086fe2f0a538609964af71f99fc09a9371b2a023f07fb
+c799fdbb288dcb9872edc357bb020852bfc8391e7e715850618a3e1bf618eb0f
+e3c7c00a24509198cfd896feef5a1edfa4d544ed503eaa79674b6b7bfc4c69bd
+0863fcf754c3b148237d8da93587ab38018ee64d3f2f49e96989798590d82c4e
+0d4f1b6fe25dcfa8db1032940253cf722e5659df5812abfcbbe2561accd5a2e7
+205f5d97f61e7111909589bca499a20e40e000c1789325738ff5ce7ba189a74c
+4f87b1f41d8beb5e369369cc7648a445c84348a0104fa471aedbac9fb0a368e9
++ podman rmi -f --all
+Untagged: docker.io/library/postgres:alpine
+Untagged: docker.io/library/alpine:latest
+Deleted: ddc12ac7fa27279bfcc41deaccd1368291ab7d71ca7cee0420b41f9974e9a468
+Deleted: 9ed4aefc74f6792b5a804d1d146fe4b4a2299147b0f50eaf2b08435d7b38c27e
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpd2qknnul ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpd2qknnul
++ '[' 0 -ne 0 ']'
+++ ls
+++ grep -vE .sh
++ rm -rf
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu May  4 23:59:56 2023 - INFO  - End to restore the test environment.

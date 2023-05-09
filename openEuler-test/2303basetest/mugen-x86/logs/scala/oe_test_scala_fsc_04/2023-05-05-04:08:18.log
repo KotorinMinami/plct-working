@@ -1,0 +1,321 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment!'
++ message='Start to prepare the test environment!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment!'
+Fri May  5 04:08:20 2023 - INFO  - Start to prepare the test environment!
++ DNF_INSTALL scala
++ pkgs=scala
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs scala --node 1 --tempfile ''
+Fri May  5 04:08:26 2023 - INFO  - pkgs:(scala) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ mkdir classes
+mkdir: cannot create directory ‘classes’: File exists
++ LOG_INFO 'End to prepare the test environment!'
++ message='End to prepare the test environment!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment!'
+Fri May  5 04:08:27 2023 - INFO  - End to prepare the test environment!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri May  5 04:08:27 2023 - INFO  - Start to run test.
++ fsc -verbose ./common/HelloWorld.scala
++ grep 'Fast Scala compiler'
+Fri May  5 04:38:18 2023 - ERROR - Timeout : Command 'bash -x oe_test_scala_fsc_04.sh' timed out after 1799.9998078299996 seconds
+Fast Scala compiler version 2.10.6 -- Copyright 2002-2013, LAMP/EPFL
+++ post_test
+++ LOG_INFO 'Start to restore the test environment.'
+++ message='Start to restore the test environment.'
+++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri May  5 08:11:48 2023 - INFO  - Start to restore the test environment.
+++ rm -rf silly.jar classes 'Hello*' 'index*' 'package*'
+++ DNF_REMOVE
+++ node=1
+++ pkg_list=
+++ mode=0
+++ [[ -z '' ]]
+++ [[ -z '' ]]
+++ LOG_WARN 'no thing to do.'
+++ message='no thing to do.'
+++ python3 /root/mugen/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Fri May  5 08:11:51 2023 - WARN  - no thing to do.
+++ return 0
+++ LOG_INFO 'End to restore the test environment.'
+++ message='End to restore the test environment.'
+++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Fri May  5 08:11:53 2023 - INFO  - End to restore the test environment.
++ CHECK_RESULT 0 0 0 'Check fsc -verbose failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check fsc -verbose failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ fsc -version fsc -version
+++ rpm -q scala --queryformat '%{version}\n'
++ grep 2.10.6
+Fast Scala compiler version 2.10.6 -- Copyright 2002-2013, LAMP/EPFL
++ CHECK_RESULT 0 0 0 'Check fsc -version failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check fsc -version failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ fsc -port 18888 ./common/HelloWorld.scala
+Could not connect to compilation daemon after 300 attempts. To run without it, use `-nocompdaemon` or `-nc`.
++ CHECK_RESULT 1 0 0 'Check fsc -port failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check fsc -port failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check fsc -port failed'
++ LOG_ERROR 'Check fsc -port failed'
++ message='Check fsc -port failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check fsc -port failed'
+Fri May  5 08:12:29 2023 - ERROR - Check fsc -port failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_scala_fsc_04.sh line 35'
++ message='oe_test_scala_fsc_04.sh line 35'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_scala_fsc_04.sh line 35'
+Fri May  5 08:12:31 2023 - ERROR - oe_test_scala_fsc_04.sh line 35
++ '[' 0 -eq 1 ']'
++ return 0
++ grep 'Dscala.usejavacp=true scala.tools.nsc.MainGenericRunner scala.tools.nsc.CompileServer -p 18888'
++ grep -v grep
++ ps -ef
++ awk '{print $2}'
+7623
++ CHECK_RESULT 0 0 0 'Check fsc -port failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check fsc -port failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ fsc -server 127.0.0.1:18888 ./common/HelloWorld.scala
+oe_test_scala_fsc_04.sh: line 38: /usr/bin/fsc: No such file or directory
++ CHECK_RESULT 127 0 0 'Check fsc -server failed'
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log='Check fsc -server failed'
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n 'Check fsc -server failed'
++ LOG_ERROR 'Check fsc -server failed'
++ message='Check fsc -server failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check fsc -server failed'
+Fri May  5 08:12:36 2023 - ERROR - Check fsc -server failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_scala_fsc_04.sh line 39'
++ message='oe_test_scala_fsc_04.sh line 39'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_scala_fsc_04.sh line 39'
+Fri May  5 08:12:38 2023 - ERROR - oe_test_scala_fsc_04.sh line 39
++ '[' 0 -eq 1 ']'
++ return 0
++ fsc @./common/argumentFile ./common/HelloWorld.scala
+oe_test_scala_fsc_04.sh: line 40: /usr/bin/fsc: No such file or directory
++ CHECK_RESULT 127 0 0 'Check fsc @ failed'
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log='Check fsc @ failed'
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n 'Check fsc @ failed'
++ LOG_ERROR 'Check fsc @ failed'
++ message='Check fsc @ failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check fsc @ failed'
+Fri May  5 08:12:39 2023 - ERROR - Check fsc @ failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_scala_fsc_04.sh line 41'
++ message='oe_test_scala_fsc_04.sh line 41'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_scala_fsc_04.sh line 41'
+Fri May  5 08:12:41 2023 - ERROR - oe_test_scala_fsc_04.sh line 41
++ '[' 0 -eq 1 ']'
++ return 0
+++ find /usr/share/java/ -name scala-library.jar
+++ awk NR==1
++ fsc -toolcp ./common/HelloWorld.scala
+oe_test_scala_fsc_04.sh: line 42: /usr/bin/fsc: No such file or directory
++ CHECK_RESULT 127 0 0 'Check fsc -toolcp failed'
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log='Check fsc -toolcp failed'
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n 'Check fsc -toolcp failed'
++ LOG_ERROR 'Check fsc -toolcp failed'
++ message='Check fsc -toolcp failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check fsc -toolcp failed'
+Fri May  5 08:12:43 2023 - ERROR - Check fsc -toolcp failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_scala_fsc_04.sh line 43'
++ message='oe_test_scala_fsc_04.sh line 43'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_scala_fsc_04.sh line 43'
+Fri May  5 08:12:44 2023 - ERROR - oe_test_scala_fsc_04.sh line 43
++ '[' 0 -eq 1 ']'
++ return 0
++ fsc -J-Xmx512m ./common/HelloWorld.scala
+oe_test_scala_fsc_04.sh: line 44: /usr/bin/fsc: No such file or directory
++ rm -rf ./Hello.class
++ CHECK_RESULT 0 0 0 'Check fsc -toolcp failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check fsc -toolcp failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ awk NR==1
+++ find /usr/lib/jvm -name rt.jar
+++ awk NR==1
+++ find /usr/share/java/ -name scala-library.jar
++ fsc -javabootclasspath .:/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.362.b09-3.oe2303.x86_64/jre/lib/rt.jar: ./common/HelloWorld.scala
+oe_test_scala_fsc_04.sh: line 47: /usr/bin/fsc: No such file or directory
++ CHECK_RESULT 127 0 0 'Check fsc -javabootclasspath failed'
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log='Check fsc -javabootclasspath failed'
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n 'Check fsc -javabootclasspath failed'
++ LOG_ERROR 'Check fsc -javabootclasspath failed'
++ message='Check fsc -javabootclasspath failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check fsc -javabootclasspath failed'
+Fri May  5 08:12:46 2023 - ERROR - Check fsc -javabootclasspath failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_scala_fsc_04.sh line 48'
++ message='oe_test_scala_fsc_04.sh line 48'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_scala_fsc_04.sh line 48'
+Fri May  5 08:12:48 2023 - ERROR - oe_test_scala_fsc_04.sh line 48
++ '[' 0 -eq 1 ']'
++ return 0
++ fsc -P:silly:level:12 ./common/HelloWorld.scala
+oe_test_scala_fsc_04.sh: line 49: /usr/bin/fsc: No such file or directory
++ rm -rf ./Hello.class
++ CHECK_RESULT 0 0 0 'Delete test file failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Delete test file failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ fsc -P:silly:level:12 ./common/HelloWorld.scala
+oe_test_scala_fsc_04.sh: line 52: /usr/bin/fsc: No such file or directory
++ CHECK_RESULT 127 0 0 'Check fsc -P failed'
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log='Check fsc -P failed'
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n 'Check fsc -P failed'
++ LOG_ERROR 'Check fsc -P failed'
++ message='Check fsc -P failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check fsc -P failed'
+Fri May  5 08:12:49 2023 - ERROR - Check fsc -P failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_scala_fsc_04.sh line 53'
++ message='oe_test_scala_fsc_04.sh line 53'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_scala_fsc_04.sh line 53'
+Fri May  5 08:12:50 2023 - ERROR - oe_test_scala_fsc_04.sh line 53
++ '[' 0 -eq 1 ']'
++ return 0
++ rm -rf ./Hello.class
++ CHECK_RESULT 0 0 0 'Delete test file failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Delete test file failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Fri May  5 08:12:52 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 6
++ test 6 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri May  5 08:12:54 2023 - ERROR - failed to execute the case.
++ exit 6
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri May  5 08:12:56 2023 - INFO  - Start to restore the test environment.
++ rm -rf silly.jar classes 'Hello$.html' 'index*' package.html
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Fri May  5 08:12:58 2023 - WARN  - no thing to do.
++ return 0
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Fri May  5 08:12:59 2023 - INFO  - End to restore the test environment.

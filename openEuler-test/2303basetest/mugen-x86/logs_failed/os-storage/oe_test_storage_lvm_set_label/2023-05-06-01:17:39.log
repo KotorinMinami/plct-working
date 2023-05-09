@@ -1,0 +1,131 @@
++ source ../common/storage_disk_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Sat May  6 01:17:41 2023 - INFO  - Start environment preparation.
++ check_free_disk 2
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='sr0 vdb vdc vdd vde'
++ disk_list=($disks)
++ local_disk=sr0
++ local_disk1=vdb
++ local_disk2=vdc
++ local_disk3=vdd
++ mkfs.ext4 -F /dev/sr0
+mke2fs 1.46.5 (30-Dec-2021)
+mkfs.ext4: No medium found while trying to determine filesystem size
++ mkfs.ext4 -F /dev/vdb
+mke2fs 1.46.5 (30-Dec-2021)
+Discarding device blocks:      0/524288             done                            
+Creating filesystem with 524288 4k blocks and 131072 inodes
+Filesystem UUID: b616f19b-e960-440d-abeb-ae4bd1d367a1
+Superblock backups stored on blocks: 
+	32768, 98304, 163840, 229376, 294912
+
+Allocating group tables:  0/16     done                            
+Writing inode tables:  0/16     done                            
+Creating journal (16384 blocks): done
+Writing superblocks and filesystem accounting information:  0/16     done
+
++ pvcreate -y /dev/sr0 /dev/vdb
+oe_test_storage_lvm_set_label.sh: line 25: pvcreate: command not found
++ vgcreate openeulertest /dev/sr0 /dev/vdb
+oe_test_storage_lvm_set_label.sh: line 26: vgcreate: command not found
++ lvcreate -L 200M -n test openeulertest --persistent y --major 253 --minor 7788 -y
+oe_test_storage_lvm_set_label.sh: line 27: lvcreate: command not found
+++ pvs -o+pv_used
+++ wc -l
++ number=1
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Sat May  6 01:17:44 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase!'
++ message='Start executing testcase!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase!'
+Sat May  6 01:17:45 2023 - INFO  - Start executing testcase!
++ test 1 -gt 3
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_lvm_set_label.sh line 35'
++ message='oe_test_storage_lvm_set_label.sh line 35'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_lvm_set_label.sh line 35'
+Sat May  6 01:17:45 2023 - ERROR - oe_test_storage_lvm_set_label.sh line 35
++ '[' 0 -eq 1 ']'
++ return 0
++ lvchange --persistent y --major 253 --minor 7788 openeulertest/test -y
+oe_test_storage_lvm_set_label.sh: line 36: lvchange: command not found
++ CHECK_RESULT 127
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_lvm_set_label.sh line 37'
++ message='oe_test_storage_lvm_set_label.sh line 37'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_lvm_set_label.sh line 37'
+Sat May  6 01:17:45 2023 - ERROR - oe_test_storage_lvm_set_label.sh line 37
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End of testcase execution!'
++ message='End of testcase execution!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution!'
+Sat May  6 01:17:46 2023 - INFO  - End of testcase execution!
++ CASE_RESULT 0
++ case_re=0
++ test -z 2
++ test 2 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Sat May  6 01:17:46 2023 - ERROR - failed to execute the case.
++ exit 2
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Sat May  6 01:17:46 2023 - INFO  - start environment cleanup.
++ lvremove openeulertest/test -y
+oe_test_storage_lvm_set_label.sh: line 43: lvremove: command not found
++ vgremove openeulertest -y
+oe_test_storage_lvm_set_label.sh: line 44: vgremove: command not found
++ pvremove /dev/sr0 /dev/vdb -y
+oe_test_storage_lvm_set_label.sh: line 45: pvremove: command not found
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Sat May  6 01:17:46 2023 - INFO  - Finish environment cleanup.

@@ -1,0 +1,313 @@
++ source ../common/common_podman.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu May  4 23:24:00 2023 - INFO  - Start to prepare the test environment.
++ deploy_env
++ DNF_INSTALL 'podman podman-docker'
++ pkgs='podman podman-docker'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'podman podman-docker' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpi7c10k44
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpi7c10k44
++ echo -e '[registries.search]
+registries = ['\''docker.io'\'']
+
+[registries.insecure]
+registries = []
+
+[registries.block]
+registries = []
+'
++ podman pull postgres:alpine
+Resolving "postgres" using unqualified-search registries (/etc/containers/registries.conf)
+Trying to pull docker.io/library/postgres:alpine...
+Getting image source signatures
+Copying blob sha256:f33740282c0040003ee1e3c9ec1a68d5eb873795badbbf6103c79cc588760e4a
+Copying blob sha256:256414453fba6e3cc9af34383da6e5920f6d4ac3399943b8569b68896c645a0e
+Copying blob sha256:8eff49387ec9a1f26ada557b4e31f86a45f70ef57c1a45345e5bfbe75e53bcfc
+Copying blob sha256:f56be85fc22e46face30e2c3de3f7fe7c15f8fd7c4e5add29d7f64b87abdaa09
+Copying blob sha256:7da7fae4e80a5e292219502d2ce432382a68e8d0fb3841807ad70963ec194e7d
+Copying blob sha256:f71699d7795ac5159478a278ffb6af3fcac0141e6a637d71062a601d7cab30c7
+Copying blob sha256:7da7fae4e80a5e292219502d2ce432382a68e8d0fb3841807ad70963ec194e7d
+Copying blob sha256:f33740282c0040003ee1e3c9ec1a68d5eb873795badbbf6103c79cc588760e4a
+Copying blob sha256:b49740a115f2f98ff2414fb5272986655b272d739c878477a6ca541430a41637
+Copying blob sha256:256414453fba6e3cc9af34383da6e5920f6d4ac3399943b8569b68896c645a0e
+Copying blob sha256:8eff49387ec9a1f26ada557b4e31f86a45f70ef57c1a45345e5bfbe75e53bcfc
+Copying blob sha256:f56be85fc22e46face30e2c3de3f7fe7c15f8fd7c4e5add29d7f64b87abdaa09
+Copying blob sha256:f71699d7795ac5159478a278ffb6af3fcac0141e6a637d71062a601d7cab30c7
+Copying blob sha256:c36da779701e31511df27033e2a5e1b1ebdd0b7f4032cfab4a04c82139d7337a
+Copying blob sha256:b49740a115f2f98ff2414fb5272986655b272d739c878477a6ca541430a41637
+Copying blob sha256:c36da779701e31511df27033e2a5e1b1ebdd0b7f4032cfab4a04c82139d7337a
+Copying config sha256:ddc12ac7fa27279bfcc41deaccd1368291ab7d71ca7cee0420b41f9974e9a468
+Writing manifest to image destination
+Storing signatures
+ddc12ac7fa27279bfcc41deaccd1368291ab7d71ca7cee0420b41f9974e9a468
++ podman run --name postgres -e POSTGRES_PASSWORD=secret -d postgres:alpine
+time="2023-05-04T23:26:36Z" level=warning msg="Path \"/usr/share/rhel/secrets\" from \"/usr/share/containers/mounts.conf\" doesn't exist, skipping"
+b164f7c7ea0f38cd1510415d396adb688871c0d181a3e6a0da430406c7484789
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu May  4 23:26:37 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu May  4 23:26:38 2023 - INFO  - Start to run test.
++ docker stop postgres
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+postgres
++ grep logfile
+++ docker ps -aq
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
++ docker logs -f b164f7c7ea0f
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+performing post-bootstrap initialization ... sh: locale: not found
+2023-05-04 23:26:42.906 UTC [25] WARNING:  no usable system locales were found
+initdb: warning: enabling "trust" authentication for local connections
+initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
+    pg_ctl -D /var/lib/postgresql/data -l logfile start
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ docker logs -l
++ grep LOG
+waiting for server to start....2023-05-04 23:26:48.507 UTC [31] LOG:  starting PostgreSQL 15.2 on x86_64-pc-linux-musl, compiled by gcc (Alpine 12.2.1_git20220924-r4) 12.2.1 20220924, 64-bit
+2023-05-04 23:26:48.512 UTC [31] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2023-05-04 23:26:48.537 UTC [34] LOG:  database system was shut down at 2023-05-04 23:26:47 UTC
+2023-05-04 23:26:48.568 UTC [31] LOG:  database system is ready to accept connections
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ date +%Y-%m-%d
+++ docker ps -aq
++ grep 2023-05-04
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
++ docker logs --since 2020-12-31 b164f7c7ea0f
+2023-05-04 23:26:42.906 UTC [25] WARNING:  no usable system locales were found
+waiting for server to start....2023-05-04 23:26:48.507 UTC [31] LOG:  starting PostgreSQL 15.2 on x86_64-pc-linux-musl, compiled by gcc (Alpine 12.2.1_git20220924-r4) 12.2.1 20220924, 64-bit
+2023-05-04 23:26:48.512 UTC [31] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2023-05-04 23:26:48.537 UTC [34] LOG:  database system was shut down at 2023-05-04 23:26:47 UTC
+2023-05-04 23:26:48.568 UTC [31] LOG:  database system is ready to accept connections
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep -v 'Docker CLI using podman'
+++ podman ps -aq
++ wc -l
++ grep 10
++ docker logs --tail 10 b164f7c7ea0f
+10
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep +08:00
+++ docker ps -aq
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
++ docker logs -t b164f7c7ea0f
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+2023-05-04T23:26:42.904440330Z performing post-bootstrap initialization ... sh: locale: not found
+2023-05-04T23:26:42.906318010Z 2023-05-04 23:26:42.906 UTC [25] WARNING:  no usable system locales were found
+2023-05-04T23:26:48.231352100Z initdb: warning: enabling "trust" authentication for local connections
+2023-05-04T23:26:48.231352100Z initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_DK_06.sh line 41'
++ message='oe_test_podman_DK_06.sh line 41'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_DK_06.sh line 41'
+Thu May  4 23:26:54 2023 - ERROR - oe_test_podman_DK_06.sh line 41
++ '[' 0 -eq 1 ']'
++ return 0
++ docker start postgres
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+time="2023-05-04T23:26:55Z" level=warning msg="Path \"/usr/share/rhel/secrets\" from \"/usr/share/containers/mounts.conf\" doesn't exist, skipping"
+postgres
++ docker save -q -o alpine.tar postgres:alpine
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
++ docker import --change CMD=/bin/bash --change ENTRYPOINT=/bin/sh --change LABEL=blue=image alpine.tar image-imported
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+Getting image source signatures
+Copying blob sha256:25f466345cc1462c97e73b05c7dfc148fafe08068b16386d0a1b6f1f7e6e9a02
+Copying config sha256:2faca728765b4e183a2522c377b6ab285775b2bb73921136aa60ce6a45f9635c
+Writing manifest to image destination
+Storing signatures
+sha256:2faca728765b4e183a2522c377b6ab285775b2bb73921136aa60ce6a45f9635c
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cat alpine.tar
++ docker import -q --message 'importing the alpine.tar tarball' - image-imported
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+sha256:3dd97108a220184fdf797f22e07ed26d28cf7b56f6f58c64a049c1164911a140
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ docker ps -aq
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
++ docker export -o redis-container.tar b164f7c7ea0f
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+time="2023-05-04T23:27:40Z" level=error msg="Can't add file /var/lib/containers/storage/overlay/15d23159c9a5f04f3ce9f1b42c9682dc85c50cccfdd6564f743e1cf75d65416f/merged/run/postgresql/.s.PGSQL.5432 to tar: archive/tar: sockets not supported"
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test -f redis-container.tar
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ docker images -q
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
++ docker tag 3dd97108a220 2faca728765b ddc12ac7fa27 test
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
++ docker images
++ grep test
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+localhost/image-imported    latest      3dd97108a220  14 seconds ago  246 MB
+localhost/2faca728765b      latest      3dd97108a220  14 seconds ago  246 MB
+localhost/ddc12ac7fa27      latest      3dd97108a220  14 seconds ago  246 MB
+localhost/test              latest      3dd97108a220  14 seconds ago  246 MB
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu May  4 23:27:47 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Thu May  4 23:27:47 2023 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu May  4 23:27:47 2023 - INFO  - Start to restore the test environment.
++ docker rmi test
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+Untagged: localhost/test:latest
++ clear_env
++ podman stop postgres
+postgres
++ podman rm --all
+b164f7c7ea0f38cd1510415d396adb688871c0d181a3e6a0da430406c7484789
++ podman rmi -f --all
+Untagged: docker.io/library/postgres:alpine
+Untagged: localhost/image-imported:latest
+Untagged: localhost/2faca728765b:latest
+Untagged: localhost/ddc12ac7fa27:latest
+Deleted: ddc12ac7fa27279bfcc41deaccd1368291ab7d71ca7cee0420b41f9974e9a468
+Deleted: 2faca728765b4e183a2522c377b6ab285775b2bb73921136aa60ce6a45f9635c
+Deleted: 3dd97108a220184fdf797f22e07ed26d28cf7b56f6f58c64a049c1164911a140
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpi7c10k44 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpi7c10k44
++ '[' 0 -ne 0 ']'
+++ ls
+++ grep -vE .sh
++ rm -rf alpine.tar redis-container.tar
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu May  4 23:28:32 2023 - INFO  - End to restore the test environment.

@@ -1,0 +1,151 @@
++ source ../common/storage_disk_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Fri May  5 12:01:20 2023 - INFO  - Start environment preparation.
++ check_free_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='sr0 vdb vdc vdd vde'
++ disk_list=($disks)
++ local_disk=sr0
++ local_disk1=vdb
++ local_disk2=vdc
++ local_disk3=vdd
++ pvcreate -y /dev/sr0
+oe_test_storage_lvm_create_thinSnapshot.sh: line 23: pvcreate: command not found
++ vgcreate openeulertest /dev/sr0
+oe_test_storage_lvm_create_thinSnapshot.sh: line 24: vgcreate: command not found
++ lvcreate -y -L 100M -T openeulertest/mythinpool
+oe_test_storage_lvm_create_thinSnapshot.sh: line 25: lvcreate: command not found
++ lvcreate -y -V 1G -T openeulertest/mythinpool -n thinvolume
+oe_test_storage_lvm_create_thinSnapshot.sh: line 26: lvcreate: command not found
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Fri May  5 12:01:25 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase!'
++ message='Start executing testcase!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase!'
+Fri May  5 12:01:25 2023 - INFO  - Start executing testcase!
++ lvcreate -y -s --name mysnapshot1 openeulertest/thinvolume
+oe_test_storage_lvm_create_thinSnapshot.sh: line 32: lvcreate: command not found
++ CHECK_RESULT 127
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_lvm_create_thinSnapshot.sh line 33'
++ message='oe_test_storage_lvm_create_thinSnapshot.sh line 33'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_lvm_create_thinSnapshot.sh line 33'
+Fri May  5 12:01:25 2023 - ERROR - oe_test_storage_lvm_create_thinSnapshot.sh line 33
++ '[' 0 -eq 1 ']'
++ return 0
++ lvcreate -y -s --thinpool openeulertest/mythinpool thinvolume --name mythinsnap
+oe_test_storage_lvm_create_thinSnapshot.sh: line 34: lvcreate: command not found
++ CHECK_RESULT 127
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_lvm_create_thinSnapshot.sh line 35'
++ message='oe_test_storage_lvm_create_thinSnapshot.sh line 35'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_lvm_create_thinSnapshot.sh line 35'
+Fri May  5 12:01:26 2023 - ERROR - oe_test_storage_lvm_create_thinSnapshot.sh line 35
++ '[' 0 -eq 1 ']'
++ return 0
++ lvcreate -y -s openeulertest/mythinsnap --name my2ndthinsnap
+oe_test_storage_lvm_create_thinSnapshot.sh: line 36: lvcreate: command not found
++ CHECK_RESULT 127
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_lvm_create_thinSnapshot.sh line 37'
++ message='oe_test_storage_lvm_create_thinSnapshot.sh line 37'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_lvm_create_thinSnapshot.sh line 37'
+Fri May  5 12:01:26 2023 - ERROR - oe_test_storage_lvm_create_thinSnapshot.sh line 37
++ '[' 0 -eq 1 ']'
++ return 0
++ lvs -o name,lv_ancestors,lv_descendants openeulertest
+oe_test_storage_lvm_create_thinSnapshot.sh: line 38: lvs: command not found
++ CHECK_RESULT 127
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_lvm_create_thinSnapshot.sh line 39'
++ message='oe_test_storage_lvm_create_thinSnapshot.sh line 39'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_lvm_create_thinSnapshot.sh line 39'
+Fri May  5 12:01:26 2023 - ERROR - oe_test_storage_lvm_create_thinSnapshot.sh line 39
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End of testcase execution!'
++ message='End of testcase execution!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution!'
+Fri May  5 12:01:27 2023 - INFO  - End of testcase execution!
++ CASE_RESULT 0
++ case_re=0
++ test -z 4
++ test 4 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri May  5 12:01:27 2023 - ERROR - failed to execute the case.
++ exit 4
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri May  5 12:01:28 2023 - INFO  - start environment cleanup.
++ vgremove -y openeulertest
+oe_test_storage_lvm_create_thinSnapshot.sh: line 45: vgremove: command not found
++ pvremove -y /dev/sr0
+oe_test_storage_lvm_create_thinSnapshot.sh: line 46: pvremove: command not found
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Fri May  5 12:01:28 2023 - INFO  - Finish environment cleanup.

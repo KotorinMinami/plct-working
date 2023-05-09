@@ -1,0 +1,279 @@
++ source common/common_pcp-system-tools.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu May  4 19:51:23 2023 - INFO  - Start to prepare the test environment.
++ deploy_env
++ DNF_INSTALL 'pcp pcp-system-tools'
++ pkgs='pcp pcp-system-tools'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'pcp pcp-system-tools' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmptt0kfhy9
++ '[' -z '' ']'
++ tmpfile=/tmp/tmptt0kfhy9
++ systemctl enable pmcd
++ systemctl start pmcd
++ systemctl enable pmlogger
++ systemctl start pmlogger
++ SLEEP_WAIT 20
++ wait_time=20
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 20 --cmd '' --mode 1
+++ hostname
++ host_name=localhost.localdomain
+++ rpm -qa pcp
+++ awk -F - '{print $2}'
++ pcp_version=5.3.7
+++ pcp -h localhost.localdomain
+++ grep 'primary logger:'
+++ awk -F: '{print $NF}'
++ archive_data=' /var/log/pcp/pmlogger/localhost.localdomain/20230504.19.53-00'
++ OLD_PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
++ export PATH=/usr/libexec/pcp/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
++ PATH=/usr/libexec/pcp/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+++ grep VERSION_ID /etc/os-release
+++ awk -F '"' '{print $2}'
++ VERSION_ID=23.03
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu May  4 19:54:29 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu May  4 19:54:30 2023 - INFO  - Start to run test.
++ '[' 23.03 '!=' 22.03 ']'
++ pcp-collectl --version
++ grep 5.3.7
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pcp_collectl.sh line 35'
++ message='oe_test_pcp_collectl.sh line 35'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pcp_collectl.sh line 35'
+Thu May  4 19:54:30 2023 - ERROR - oe_test_pcp_collectl.sh line 35
++ '[' 0 -eq 1 ']'
++ return 0
++ pcp-collectl -a /var/log/pcp/pmlogger/localhost.localdomain/20230504.19.53-00 -c 10 -i 2
++ grep CPU
+oe_test_pcp_collectl.sh: line 36: pcp-collectl: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pcp_collectl.sh line 37'
++ message='oe_test_pcp_collectl.sh line 37'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pcp_collectl.sh line 37'
+Thu May  4 19:54:30 2023 - ERROR - oe_test_pcp_collectl.sh line 37
++ '[' 0 -eq 1 ']'
++ return 0
++ pmcollectl -a /var/log/pcp/pmlogger/localhost.localdomain/20230504.19.53-00 -c 10 -i 2
++ grep CPU
+oe_test_pcp_collectl.sh: line 38: pmcollectl: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pcp_collectl.sh line 39'
++ message='oe_test_pcp_collectl.sh line 39'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pcp_collectl.sh line 39'
+Thu May  4 19:54:30 2023 - ERROR - oe_test_pcp_collectl.sh line 39
++ '[' 0 -eq 1 ']'
++ return 0
++ pcp-collectl -h localhost.localdomain -c 10
+oe_test_pcp_collectl.sh: line 40: pcp-collectl: command not found
++ grep CPU
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pcp_collectl.sh line 41'
++ message='oe_test_pcp_collectl.sh line 41'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pcp_collectl.sh line 41'
+Thu May  4 19:54:31 2023 - ERROR - oe_test_pcp_collectl.sh line 41
++ '[' 0 -eq 1 ']'
++ return 0
++ pcp-collectl -v -c 10
+oe_test_pcp_collectl.sh: line 42: pcp-collectl: command not found
++ grep RECORD
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pcp_collectl.sh line 43'
++ message='oe_test_pcp_collectl.sh line 43'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pcp_collectl.sh line 43'
+Thu May  4 19:54:31 2023 - ERROR - oe_test_pcp_collectl.sh line 43
++ '[' 0 -eq 1 ']'
++ return 0
++ pcp-collectl -f FOLIO
+oe_test_pcp_collectl.sh: line 44: pcp-collectl: command not found
++ CHECK_RESULT 127
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pcp_collectl.sh line 45'
++ message='oe_test_pcp_collectl.sh line 45'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pcp_collectl.sh line 45'
+Thu May  4 19:54:31 2023 - ERROR - oe_test_pcp_collectl.sh line 45
++ '[' 0 -eq 1 ']'
++ return 0
++ grep PCPFolio FOLIO
+grep: FOLIO: No such file or directory
++ CHECK_RESULT 2
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pcp_collectl.sh line 47'
++ message='oe_test_pcp_collectl.sh line 47'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pcp_collectl.sh line 47'
+Thu May  4 19:54:32 2023 - ERROR - oe_test_pcp_collectl.sh line 47
++ '[' 0 -eq 1 ']'
++ return 0
++ pcp-collectl -p FOLIO -c 10
+oe_test_pcp_collectl.sh: line 48: pcp-collectl: command not found
++ grep CPU
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pcp_collectl.sh line 49'
++ message='oe_test_pcp_collectl.sh line 49'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pcp_collectl.sh line 49'
+Thu May  4 19:54:32 2023 - ERROR - oe_test_pcp_collectl.sh line 49
++ '[' 0 -eq 1 ']'
++ return 0
++ pcp-collectl -R 10
+oe_test_pcp_collectl.sh: line 50: pcp-collectl: command not found
++ grep CPU
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_pcp_collectl.sh line 51'
++ message='oe_test_pcp_collectl.sh line 51'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_pcp_collectl.sh line 51'
+Thu May  4 19:54:32 2023 - ERROR - oe_test_pcp_collectl.sh line 51
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu May  4 19:54:32 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 9
++ test 9 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Thu May  4 19:54:33 2023 - ERROR - failed to execute the case.
++ exit 9
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu May  4 19:54:33 2023 - INFO  - Start to restore the test environment.
++ rm -f FOLIO
++ clear_env
++ systemctl stop pmcd
++ systemctl stop pmlogger
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmptt0kfhy9 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmptt0kfhy9
++ '[' 0 -ne 0 ']'
++ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu May  4 19:55:01 2023 - INFO  - End to restore the test environment.

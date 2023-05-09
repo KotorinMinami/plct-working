@@ -1,0 +1,331 @@
++ source ../common/common_podman.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu May  4 23:10:51 2023 - INFO  - Start to prepare the test environment.
++ deploy_env
++ DNF_INSTALL 'podman podman-docker'
++ pkgs='podman podman-docker'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'podman podman-docker' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpld0m5s86
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpld0m5s86
++ echo -e '[registries.search]
+registries = ['\''docker.io'\'']
+
+[registries.insecure]
+registries = []
+
+[registries.block]
+registries = []
+'
++ podman pull postgres:alpine
+Resolving "postgres" using unqualified-search registries (/etc/containers/registries.conf)
+Trying to pull docker.io/library/postgres:alpine...
+Getting image source signatures
+Copying blob sha256:f33740282c0040003ee1e3c9ec1a68d5eb873795badbbf6103c79cc588760e4a
+Copying blob sha256:8eff49387ec9a1f26ada557b4e31f86a45f70ef57c1a45345e5bfbe75e53bcfc
+Copying blob sha256:256414453fba6e3cc9af34383da6e5920f6d4ac3399943b8569b68896c645a0e
+Copying blob sha256:f71699d7795ac5159478a278ffb6af3fcac0141e6a637d71062a601d7cab30c7
+Copying blob sha256:f56be85fc22e46face30e2c3de3f7fe7c15f8fd7c4e5add29d7f64b87abdaa09
+Copying blob sha256:7da7fae4e80a5e292219502d2ce432382a68e8d0fb3841807ad70963ec194e7d
+Copying blob sha256:f33740282c0040003ee1e3c9ec1a68d5eb873795badbbf6103c79cc588760e4a
+Copying blob sha256:7da7fae4e80a5e292219502d2ce432382a68e8d0fb3841807ad70963ec194e7d
+Copying blob sha256:f71699d7795ac5159478a278ffb6af3fcac0141e6a637d71062a601d7cab30c7
+Copying blob sha256:256414453fba6e3cc9af34383da6e5920f6d4ac3399943b8569b68896c645a0e
+Copying blob sha256:f56be85fc22e46face30e2c3de3f7fe7c15f8fd7c4e5add29d7f64b87abdaa09
+Copying blob sha256:8eff49387ec9a1f26ada557b4e31f86a45f70ef57c1a45345e5bfbe75e53bcfc
+Copying blob sha256:b49740a115f2f98ff2414fb5272986655b272d739c878477a6ca541430a41637
+Copying blob sha256:c36da779701e31511df27033e2a5e1b1ebdd0b7f4032cfab4a04c82139d7337a
+Copying blob sha256:b49740a115f2f98ff2414fb5272986655b272d739c878477a6ca541430a41637
+Copying blob sha256:c36da779701e31511df27033e2a5e1b1ebdd0b7f4032cfab4a04c82139d7337a
+Copying config sha256:ddc12ac7fa27279bfcc41deaccd1368291ab7d71ca7cee0420b41f9974e9a468
+Writing manifest to image destination
+Storing signatures
+ddc12ac7fa27279bfcc41deaccd1368291ab7d71ca7cee0420b41f9974e9a468
++ podman run --name postgres -e POSTGRES_PASSWORD=secret -d postgres:alpine
+time="2023-05-04T23:13:33Z" level=warning msg="Path \"/usr/share/rhel/secrets\" from \"/usr/share/containers/mounts.conf\" doesn't exist, skipping"
+e9c24928869f5976ee40e0b6f7d4660c0688ef946d6992adf6f4248b57560c84
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu May  4 23:13:33 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu May  4 23:13:34 2023 - INFO  - Start to run test.
++ docker push postgres:alpine dir:/tmp/myimage
++ grep 'Storing signatures'
+Storing signatures
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ docker push --authfile temp-auths/myauths.json postgres:alpine dir:/tmp/myimage
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+Error: stat temp-auths/myauths.json: no such file or directory
++ CHECK_RESULT 125
++ actual_result=125
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 125 ']'
++ '[' 0 -eq 0 ']'
++ test 125x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_DK_03.sh line 34'
++ message='oe_test_podman_DK_03.sh line 34'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_DK_03.sh line 34'
+Thu May  4 23:13:45 2023 - ERROR - oe_test_podman_DK_03.sh line 34
++ '[' 0 -eq 1 ']'
++ return 0
++ test -f /tmp/myimage/manifest.json
++ rm -rf /tmp/myimage/manifest.json
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ docker push --format oci postgres:alpine dir:/tmp/myimage
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+Getting image source signatures
+Copying blob sha256:f1417ff83b319fbdae6dd9cd6d8c9c88002dcd75ecf6ec201c8c6894681cf2b5
+Copying blob sha256:fcf02a753237f1b1b42cc1b01f064e519091b790f0a07c2b93ea57b5738ed0e4
+Copying blob sha256:5a60e9fc7e1e4a0f1964971cc5e4ebfaadd3fe2aaebe7f8b50ba81919abdb322
+Copying blob sha256:00134de398d0f9382cdbd6b9d96d11a345dd8089729daef0719e7b73a4e92318
+Copying blob sha256:5f1c25ebb8aa0c2d09779e91211854612fd996d993c1a9b8fc7cf80a91bcbb1b
+Copying blob sha256:2813163892f150ec0490a9f1f7b3079ce20127ea82159b59ef8c5cb43d747e23
+Copying blob sha256:342ef26a205af001eb88827c2314002e2fd8fb771dcdcfb4a9694083188214b2
+Copying blob sha256:2d4d2a830f34bdd6c688ae0571200b3674a098b3f89f246aadb6f89d6bf0ca3d
+Copying config sha256:080ca965e4057502ca2d87642023966e7dfd889a07f6fa2316c094ab690c7ab2
+Writing manifest to image destination
+Storing signatures
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep oci /tmp/myimage/manifest.json
+{"schemaVersion":2,"config":{"mediaType":"application/vnd.oci.image.config.v1+json","digest":"sha256:080ca965e4057502ca2d87642023966e7dfd889a07f6fa2316c094ab690c7ab2","size":6859},"layers":[{"mediaType":"application/vnd.oci.image.layer.v1.tar+gzip","digest":"sha256:f1417ff83b319fbdae6dd9cd6d8c9c88002dcd75ecf6ec201c8c6894681cf2b5","size":7337984},{"mediaType":"application/vnd.oci.image.layer.v1.tar+gzip","digest":"sha256:fcf02a753237f1b1b42cc1b01f064e519091b790f0a07c2b93ea57b5738ed0e4","size":12800},{"mediaType":"application/vnd.oci.image.layer.v1.tar+gzip","digest":"sha256:5a60e9fc7e1e4a0f1964971cc5e4ebfaadd3fe2aaebe7f8b50ba81919abdb322","size":2048},{"mediaType":"application/vnd.oci.image.layer.v1.tar+gzip","digest":"sha256:00134de398d0f9382cdbd6b9d96d11a345dd8089729daef0719e7b73a4e92318","size":238856704},{"mediaType":"application/vnd.oci.image.layer.v1.tar+gzip","digest":"sha256:5f1c25ebb8aa0c2d09779e91211854612fd996d993c1a9b8fc7cf80a91bcbb1b","size":63488},{"mediaType":"application/vnd.oci.image.layer.v1.tar+gzip","digest":"sha256:2813163892f150ec0490a9f1f7b3079ce20127ea82159b59ef8c5cb43d747e23","size":2560},{"mediaType":"application/vnd.oci.image.layer.v1.tar+gzip","digest":"sha256:342ef26a205af001eb88827c2314002e2fd8fb771dcdcfb4a9694083188214b2","size":3584},{"mediaType":"application/vnd.oci.image.layer.v1.tar+gzip","digest":"sha256:2d4d2a830f34bdd6c688ae0571200b3674a098b3f89f246aadb6f89d6bf0ca3d","size":15872}]}
++ rm -rf /tmp/myimage/manifest.json
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ docker push --compress postgres:alpine dir:/tmp/myimage
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+Getting image source signatures
+Copying blob sha256:f1417ff83b319fbdae6dd9cd6d8c9c88002dcd75ecf6ec201c8c6894681cf2b5
+Copying blob sha256:fcf02a753237f1b1b42cc1b01f064e519091b790f0a07c2b93ea57b5738ed0e4
+Copying blob sha256:5a60e9fc7e1e4a0f1964971cc5e4ebfaadd3fe2aaebe7f8b50ba81919abdb322
+Copying blob sha256:00134de398d0f9382cdbd6b9d96d11a345dd8089729daef0719e7b73a4e92318
+Copying blob sha256:5f1c25ebb8aa0c2d09779e91211854612fd996d993c1a9b8fc7cf80a91bcbb1b
+Copying blob sha256:2813163892f150ec0490a9f1f7b3079ce20127ea82159b59ef8c5cb43d747e23
+Copying blob sha256:342ef26a205af001eb88827c2314002e2fd8fb771dcdcfb4a9694083188214b2
+Copying blob sha256:2d4d2a830f34bdd6c688ae0571200b3674a098b3f89f246aadb6f89d6bf0ca3d
+Copying config sha256:ddc12ac7fa27279bfcc41deaccd1368291ab7d71ca7cee0420b41f9974e9a468
+Writing manifest to image destination
+Storing signatures
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep image.rootfs.diff.tar.gzip /tmp/myimage/manifest.json
+{"schemaVersion":2,"mediaType":"application/vnd.docker.distribution.manifest.v2+json","config":{"mediaType":"application/vnd.docker.container.image.v1+json","size":7975,"digest":"sha256:ddc12ac7fa27279bfcc41deaccd1368291ab7d71ca7cee0420b41f9974e9a468"},"layers":[{"mediaType":"application/vnd.docker.image.rootfs.diff.tar.gzip","size":3498402,"digest":"sha256:e6420e4d186b4978aa53df48259818078a7dccbcf240fa96f3bf7a6ebecf09ed"},{"mediaType":"application/vnd.docker.image.rootfs.diff.tar.gzip","size":1338,"digest":"sha256:b23760bdb8ac6645ecfcadfac8ce96ee09e841a4115175080b75b7de6677700c"},{"mediaType":"application/vnd.docker.image.rootfs.diff.tar.gzip","size":157,"digest":"sha256:8ac3b0c49da16fccd572c143096956c99388410410c1e770aa7561a799ba4ac6"},{"mediaType":"application/vnd.docker.image.rootfs.diff.tar.gzip","size":93567429,"digest":"sha256:00ce5223e927b1a12ac450081bf516237708f9370ffa9c13c2bd120671c525e6"},{"mediaType":"application/vnd.docker.image.rootfs.diff.tar.gzip","size":9744,"digest":"sha256:12aced170f83c20c5902dd6c11f8d51ef39e5913a4dfdbe248e6c592bd2d6dcd"},{"mediaType":"application/vnd.docker.image.rootfs.diff.tar.gzip","size":170,"digest":"sha256:572abbfb45f4d6f053ad311e1ceff8a76953b1469e9647f18913499cd83eaa63"},{"mediaType":"application/vnd.docker.image.rootfs.diff.tar.gzip","size":203,"digest":"sha256:697bb5678caf43d7c137d6ad8f14ccdcb37287019d84799a369a3aea1e71c12c"},{"mediaType":"application/vnd.docker.image.rootfs.diff.tar.gzip","size":4908,"digest":"sha256:1f9d1fcacf68e3fa11d46ae5d0196d2a396f48e6756e199e970790ba4acc74cb"}]}
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ docker push -q postgres:alpine dir:/tmp/myimage
++ grep 'Storing signatures'
++ CHECK_RESULT 1 0 1
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ docker push --remove-signatures postgres:alpine dir:/tmp/myimage
++ grep 'Writing manifest'
+Writing manifest to image destination
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ docker push --tls-verify postgres:alpine dir:/tmp/myimage
++ grep 'Copying blob'
+Copying blob sha256:f1417ff83b319fbdae6dd9cd6d8c9c88002dcd75ecf6ec201c8c6894681cf2b5
+Copying blob sha256:fcf02a753237f1b1b42cc1b01f064e519091b790f0a07c2b93ea57b5738ed0e4
+Copying blob sha256:5a60e9fc7e1e4a0f1964971cc5e4ebfaadd3fe2aaebe7f8b50ba81919abdb322
+Copying blob sha256:00134de398d0f9382cdbd6b9d96d11a345dd8089729daef0719e7b73a4e92318
+Copying blob sha256:5f1c25ebb8aa0c2d09779e91211854612fd996d993c1a9b8fc7cf80a91bcbb1b
+Copying blob sha256:2813163892f150ec0490a9f1f7b3079ce20127ea82159b59ef8c5cb43d747e23
+Copying blob sha256:342ef26a205af001eb88827c2314002e2fd8fb771dcdcfb4a9694083188214b2
+Copying blob sha256:2d4d2a830f34bdd6c688ae0571200b3674a098b3f89f246aadb6f89d6bf0ca3d
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ docker push --creds postgres:screte postgres:alpine dir:/tmp/myimage
++ grep 'Writing manifest'
+Writing manifest to image destination
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf /tmp/myimage
++ docker push --cert-dir /tmp postgres:alpine dir:/tmp/myimage
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+Getting image source signatures
+Copying blob sha256:f1417ff83b319fbdae6dd9cd6d8c9c88002dcd75ecf6ec201c8c6894681cf2b5
+Copying blob sha256:fcf02a753237f1b1b42cc1b01f064e519091b790f0a07c2b93ea57b5738ed0e4
+Copying blob sha256:5a60e9fc7e1e4a0f1964971cc5e4ebfaadd3fe2aaebe7f8b50ba81919abdb322
+Copying blob sha256:00134de398d0f9382cdbd6b9d96d11a345dd8089729daef0719e7b73a4e92318
+Copying blob sha256:5f1c25ebb8aa0c2d09779e91211854612fd996d993c1a9b8fc7cf80a91bcbb1b
+Copying blob sha256:2813163892f150ec0490a9f1f7b3079ce20127ea82159b59ef8c5cb43d747e23
+Copying blob sha256:342ef26a205af001eb88827c2314002e2fd8fb771dcdcfb4a9694083188214b2
+Copying blob sha256:2d4d2a830f34bdd6c688ae0571200b3674a098b3f89f246aadb6f89d6bf0ca3d
+Copying config sha256:ddc12ac7fa27279bfcc41deaccd1368291ab7d71ca7cee0420b41f9974e9a468
+Writing manifest to image destination
+Storing signatures
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test -d /tmp/myimage
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu May  4 23:15:03 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Thu May  4 23:15:04 2023 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu May  4 23:15:04 2023 - INFO  - Start to restore the test environment.
++ clear_env
++ podman stop postgres
+postgres
++ podman rm --all
+e9c24928869f5976ee40e0b6f7d4660c0688ef946d6992adf6f4248b57560c84
++ podman rmi -f --all
+Untagged: docker.io/library/postgres:alpine
+Deleted: ddc12ac7fa27279bfcc41deaccd1368291ab7d71ca7cee0420b41f9974e9a468
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpld0m5s86 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpld0m5s86
++ '[' 0 -ne 0 ']'
+++ ls
+++ grep -vE .sh
++ rm -rf /tmp/myimage
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu May  4 23:15:50 2023 - INFO  - End to restore the test environment.

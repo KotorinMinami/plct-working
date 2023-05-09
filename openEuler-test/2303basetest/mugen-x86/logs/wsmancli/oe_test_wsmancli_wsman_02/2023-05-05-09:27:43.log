@@ -1,0 +1,190 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Fri May  5 09:27:44 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'wsmancli openwsman-server docker'
++ pkgs='wsmancli openwsman-server docker'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'wsmancli openwsman-server docker' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpxw8tdckb
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpxw8tdckb
++ cp common/simple_auth.passwd /etc/openwsman/test_simple_auth.passwd
++ openwsmand -c common/openwsman.conf
++ docker run --name=ss5 --hostname=ss5 --network=host --env=user=wsman --env=passwd=wsman --env=port=1080 --volume=/etc/resolv.conf:/etc/resolv.conf --restart=always --detach=true -t registry.cn-hangzhou.aliyuncs.com/dengdai/ss5:3.8.9
+c2f8daae63017e60cff8e841ff0efdacf200878254a4e6c1e421dd12d74b7170
++ SLEEP_WAIT 20
++ wait_time=20
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 20 --cmd '' --mode 1
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Fri May  5 09:40:09 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri May  5 09:40:09 2023 - INFO  - Start to run test.
++ wsman identify -b http://wsman:wsman@localhost:5985/wsman
++ grep wsmid:IdentifyResponse
+    <wsmid:IdentifyResponse>
+    </wsmid:IdentifyResponse>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test option -b'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test option -b'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman identify -h localhost -P 5985 -u wsman -p wsman
+<?xml version="1.0" encoding="UTF-8"?>
+<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:wsmid="http://schemas.dmtf.org/wbem/wsman/identity/1/wsmanidentity.xsd">
+  <s:Header/>
+  <s:Body>
+    <wsmid:IdentifyResponse>
+      <wsmid:ProtocolVersion>http://schemas.dmtf.org/wbem/wsman/1/wsman.xsd</wsmid:ProtocolVersion>
+      <wsmid:ProductVendor>Openwsman Project</wsmid:ProductVendor>
+      <wsmid:ProductVersion>2.6</wsmid:ProductVersion>
+    </wsmid:IdentifyResponse>
+  </s:Body>
+</s:Envelope>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test option -P'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test option -P'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman identify -h 127.0.0.1 --port 5985 -u wsman --password wsman -X socks5://127.0.0.1:1080 -d 6 -v -Y wsman:wsman
++ grep 'SOCKS5 request granted.'
+* SOCKS5 request granted.
+* SOCKS5 request granted.
++ CHECK_RESULT 0 0 0 'wamancli: faild to test option -X -Y'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test option -X -Y'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman identify -h localhost --port 5985 -u wsman --password wsman -y basic
++ grep '<wsmid:ProductVendor>Openwsman Project</wsmid:ProductVendor>'
+      <wsmid:ProductVendor>Openwsman Project</wsmid:ProductVendor>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test option -y'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test option -y'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep '<wsa:Action>'
++ wsman invoke 'http://schema.omc-project.org/wbem/wscim/1/cim-schema/2/OMC_InitdService?SystemCreationClassName=OMC_UnitaryComputerSystem' -h localhost --port 5985 -u wsman --password wsman -a ServiceStatus
+    <wsa:Action>http://schemas.dmtf.org/wbem/wsman/1/wsman/fault</wsa:Action>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test option -a'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test option -a'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman identify -h localhost --port 5985 -u wsman --password wsman -C common/openwsman_client.conf
+<?xml version="1.0" encoding="UTF-8"?>
+<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:wsmid="http://schemas.dmtf.org/wbem/wsman/identity/1/wsmanidentity.xsd">
+  <s:Header/>
+  <s:Body>
+    <wsmid:IdentifyResponse>
+      <wsmid:ProtocolVersion>http://schemas.dmtf.org/wbem/wsman/1/wsman.xsd</wsmid:ProtocolVersion>
+      <wsmid:ProductVendor>Openwsman Project</wsmid:ProductVendor>
+      <wsmid:ProductVersion>2.6</wsmid:ProductVersion>
+    </wsmid:IdentifyResponse>
+  </s:Body>
+</s:Envelope>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test option -C'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test option -C'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Fri May  5 09:40:10 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri May  5 09:40:10 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri May  5 09:40:11 2023 - INFO  - Start to restore the test environment.
++ rm -rf /etc/openwsman/test_simple_auth.passwd
+++ pgrep openwsmand
++ kill -9 7015
++ docker stop ss5
+ss5
++ docker rm -f ss5
+ss5
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpxw8tdckb ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpxw8tdckb
++ '[' 0 -ne 0 ']'
++ SLEEP_WAIT 10
++ wait_time=10
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 10 --cmd '' --mode 1
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Fri May  5 09:40:43 2023 - INFO  - End to restore the test environment.

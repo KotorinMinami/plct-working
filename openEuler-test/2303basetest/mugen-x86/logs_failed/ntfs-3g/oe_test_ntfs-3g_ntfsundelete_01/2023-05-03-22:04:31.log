@@ -1,0 +1,325 @@
++ source common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed May  3 22:04:32 2023 - INFO  - Start to prepare the test environment.
++ get_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='sr0 vdb vdc'
++ disk_list=($disks)
++ disk1=sr0
++ disk2=vdb
++ DNF_INSTALL ntfs-3g
++ pkgs=ntfs-3g
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs ntfs-3g --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpqearqiip
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpqearqiip
++ mkntfs --fast /dev/sr0
+Could not open /dev/sr0: No medium found
++ mkntfs --fast /dev/vdb
+Cluster size has been automatically set to 4096 bytes.
+Creating NTFS volume structures.
+mkntfs completed successfully. Have a nice day.
++ mkdir -p /mnt/windows
++ ntfs-3g /dev/sr0 /mnt/windows
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ touch /mnt/windows/test.txt
++ rm -rf /mnt/windows/test.txt
++ umount /mnt/windows
+umount: /mnt/windows: not mounted.
++ LOG_INFO 'Finish preparing the test environment.'
++ message='Finish preparing the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish preparing the test environment.'
+Wed May  3 22:04:50 2023 - INFO  - Finish preparing the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed May  3 22:04:51 2023 - INFO  - Start to run test.
++ ntfsundelete --help
++ grep 'Usage: ntfsundelete \[options\]'
+Usage: ntfsundelete [options] device
++ CHECK_RESULT 0 0 0 'Check ntfsundelete --help failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfsundelete --help failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ntfsundelete --version
++ grep 'ntfsundelete v'
+ntfsundelete v2022.5.17 (libntfs-3g) - Recover deleted files from an NTFS Volume.
++ CHECK_RESULT 0 0 0 'Check ntfsundelete --version failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfsundelete --version failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ntfsundelete --scan /dev/sr0 --force
++ grep test.txt
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 1 0 0 'Check ntfsundelete --scan failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsundelete --scan failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsundelete --scan failed.'
++ LOG_ERROR 'Check ntfsundelete --scan failed.'
++ message='Check ntfsundelete --scan failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsundelete --scan failed.'
+Wed May  3 22:04:51 2023 - ERROR - Check ntfsundelete --scan failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsundelete_01.sh line 40'
++ message='oe_test_ntfs-3g_ntfsundelete_01.sh line 40'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsundelete_01.sh line 40'
+Wed May  3 22:04:51 2023 - ERROR - oe_test_ntfs-3g_ntfsundelete_01.sh line 40
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsundelete --percentage 10 /dev/sr0 --force
++ grep test.txt
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 1 0 0 'Check ntfsundelete --percentage failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsundelete --percentage failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsundelete --percentage failed.'
++ LOG_ERROR 'Check ntfsundelete --percentage failed.'
++ message='Check ntfsundelete --percentage failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsundelete --percentage failed.'
+Wed May  3 22:04:52 2023 - ERROR - Check ntfsundelete --percentage failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsundelete_01.sh line 42'
++ message='oe_test_ntfs-3g_ntfsundelete_01.sh line 42'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsundelete_01.sh line 42'
+Wed May  3 22:04:52 2023 - ERROR - oe_test_ntfs-3g_ntfsundelete_01.sh line 42
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsundelete --match test.txt /dev/sr0 --force
++ grep test.txt
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 1 0 0 'Check ntfsundelete --match failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsundelete --match failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsundelete --match failed.'
++ LOG_ERROR 'Check ntfsundelete --match failed.'
++ message='Check ntfsundelete --match failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsundelete --match failed.'
+Wed May  3 22:04:52 2023 - ERROR - Check ntfsundelete --match failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsundelete_01.sh line 44'
++ message='oe_test_ntfs-3g_ntfsundelete_01.sh line 44'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsundelete_01.sh line 44'
+Wed May  3 22:04:53 2023 - ERROR - oe_test_ntfs-3g_ntfsundelete_01.sh line 44
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsundelete --case --match test.txt /dev/sr0 --force
++ grep test.txt
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 1 0 0 'Check ntfsundelete --case failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsundelete --case failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsundelete --case failed.'
++ LOG_ERROR 'Check ntfsundelete --case failed.'
++ message='Check ntfsundelete --case failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsundelete --case failed.'
+Wed May  3 22:04:53 2023 - ERROR - Check ntfsundelete --case failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsundelete_01.sh line 46'
++ message='oe_test_ntfs-3g_ntfsundelete_01.sh line 46'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsundelete_01.sh line 46'
+Wed May  3 22:04:53 2023 - ERROR - oe_test_ntfs-3g_ntfsundelete_01.sh line 46
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsundelete --size 0 /dev/sr0 --force
++ grep test.txt
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 1 0 0 'Check ntfsundelete --size failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsundelete --size failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsundelete --size failed.'
++ LOG_ERROR 'Check ntfsundelete --size failed.'
++ message='Check ntfsundelete --size failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsundelete --size failed.'
+Wed May  3 22:04:54 2023 - ERROR - Check ntfsundelete --size failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsundelete_01.sh line 48'
++ message='oe_test_ntfs-3g_ntfsundelete_01.sh line 48'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsundelete_01.sh line 48'
+Wed May  3 22:04:54 2023 - ERROR - oe_test_ntfs-3g_ntfsundelete_01.sh line 48
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsundelete --time 2021y /dev/sr0 --force
++ grep test.txt
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 1 0 0 'Check ntfsundelete --time failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsundelete --time failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsundelete --time failed.'
++ LOG_ERROR 'Check ntfsundelete --time failed.'
++ message='Check ntfsundelete --time failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsundelete --time failed.'
+Wed May  3 22:04:54 2023 - ERROR - Check ntfsundelete --time failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsundelete_01.sh line 50'
++ message='oe_test_ntfs-3g_ntfsundelete_01.sh line 50'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsundelete_01.sh line 50'
+Wed May  3 22:04:55 2023 - ERROR - oe_test_ntfs-3g_ntfsundelete_01.sh line 50
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsundelete --undelete --match test.txt /dev/sr0 --force
++ grep 'Undeleted '\''test.txt'\'' successfully to test.txt'
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 1 0 0 'Check ntfsundelete --undelete failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsundelete --undelete failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsundelete --undelete failed.'
++ LOG_ERROR 'Check ntfsundelete --undelete failed.'
++ message='Check ntfsundelete --undelete failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsundelete --undelete failed.'
+Wed May  3 22:04:55 2023 - ERROR - Check ntfsundelete --undelete failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsundelete_01.sh line 52'
++ message='oe_test_ntfs-3g_ntfsundelete_01.sh line 52'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsundelete_01.sh line 52'
+Wed May  3 22:04:55 2023 - ERROR - oe_test_ntfs-3g_ntfsundelete_01.sh line 52
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsundelete --inode 7 /dev/sr0 --force
++ grep test.txt
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 1 0 0 'Check ntfsundelete --inode failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsundelete --inode failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsundelete --inode failed.'
++ LOG_ERROR 'Check ntfsundelete --inode failed.'
++ message='Check ntfsundelete --inode failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsundelete --inode failed.'
+Wed May  3 22:04:56 2023 - ERROR - Check ntfsundelete --inode failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsundelete_01.sh line 54'
++ message='oe_test_ntfs-3g_ntfsundelete_01.sh line 54'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsundelete_01.sh line 54'
+Wed May  3 22:04:56 2023 - ERROR - oe_test_ntfs-3g_ntfsundelete_01.sh line 54
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Wed May  3 22:04:56 2023 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 8
++ test 8 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed May  3 22:04:56 2023 - ERROR - failed to execute the case.
++ exit 8
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed May  3 22:04:57 2023 - INFO  - Start to restore the test environment.
++ expect
+spawn mkfs.ext4 /dev/sr0
+y
+mke2fs 1.46.5 (30-Dec-2021)
+mkfs.ext4: No medium found while trying to determine filesystem size
++ rm -rf /mnt/windows 'test.txt*'
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpqearqiip ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpqearqiip
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish restoring the test environment.'
++ message='Finish restoring the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish restoring the test environment.'
+Wed May  3 22:05:02 2023 - INFO  - Finish restoring the test environment.

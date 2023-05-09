@@ -1,0 +1,232 @@
++ source ../common/storage_disk_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Fri May  5 11:44:09 2023 - INFO  - Start environment preparation.
++ check_free_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='sr0 vdb vdc vdd vde'
++ disk_list=($disks)
++ local_disk=sr0
++ local_disk1=vdb
++ local_disk2=vdc
++ local_disk3=vdd
++ mkfs.ext4 -F /dev/sr0
+mke2fs 1.46.5 (30-Dec-2021)
+mkfs.ext4: No medium found while trying to determine filesystem size
++ mkfs.ext4 -F /dev/vdb
+mke2fs 1.46.5 (30-Dec-2021)
+Discarding device blocks:      0/524288             done                            
+Creating filesystem with 524288 4k blocks and 131072 inodes
+Filesystem UUID: 1b4e6d34-bd02-4943-a688-6075cd600e9a
+Superblock backups stored on blocks: 
+	32768, 98304, 163840, 229376, 294912
+
+Allocating group tables:  0/16     done                            
+Writing inode tables:  0/16     done                            
+Creating journal (16384 blocks): done
+Writing superblocks and filesystem accounting information:  0/16     done
+
++ mkfs.ext4 -F /dev/vdc
+mke2fs 1.46.5 (30-Dec-2021)
+Discarding device blocks:      0/524288             done                            
+Creating filesystem with 524288 4k blocks and 131072 inodes
+Filesystem UUID: b3fa5bfd-364e-4163-b738-8e39c529c7d1
+Superblock backups stored on blocks: 
+	32768, 98304, 163840, 229376, 294912
+
+Allocating group tables:  0/16     done                            
+Writing inode tables:  0/16     done                            
+Creating journal (16384 blocks): done
+Writing superblocks and filesystem accounting information:  0/16     done
+
++ mkfs.ext4 -F /dev/vdd
+mke2fs 1.46.5 (30-Dec-2021)
+Discarding device blocks:      0/524288             done                            
+Creating filesystem with 524288 4k blocks and 131072 inodes
+Filesystem UUID: 21a5a8a1-046e-4cad-9c00-25a642ca4f64
+Superblock backups stored on blocks: 
+	32768, 98304, 163840, 229376, 294912
+
+Allocating group tables:  0/16     done                            
+Writing inode tables:  0/16     done                            
+Creating journal (16384 blocks): done
+Writing superblocks and filesystem accounting information:  0/16     done
+
++ pvcreate /dev/vdb -y
+oe_test_storage_lvm_create_raid.sh: line 28: pvcreate: command not found
++ vgcreate openeulertest /dev/vdb -y
+oe_test_storage_lvm_create_raid.sh: line 29: vgcreate: command not found
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Fri May  5 11:44:13 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase!'
++ message='Start executing testcase!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase!'
+Fri May  5 11:44:13 2023 - INFO  - Start executing testcase!
++ vgextend openeulertest /dev/sr0 -y
+oe_test_storage_lvm_create_raid.sh: line 35: vgextend: command not found
++ vgextend openeulertest /dev/vdd -y
+oe_test_storage_lvm_create_raid.sh: line 36: vgextend: command not found
++ vgextend openeulertest /dev/vdc -y
+oe_test_storage_lvm_create_raid.sh: line 37: vgextend: command not found
++ expect -c '
+    set timeout 30
+    log_file testlog
+    spawn lvcreate --type raid1 -m 1 -L 50MB -n test openeulertest -y
+    expect "*\[y/n\]*" {send "y\r"}
+    expect eof
+'
+spawn lvcreate --type raid1 -m 1 -L 50MB -n test openeulertest -y
+couldn't execute "lvcreate": no such file or directory
+    while executing
+"spawn lvcreate --type raid1 -m 1 -L 50MB -n test openeulertest -y"
++ grep -iE 'while executing|error|fail' testlog
+    while executing
++ CHECK_RESULT 0 1
++ actual_result=0
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 1x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_lvm_create_raid.sh line 46'
++ message='oe_test_storage_lvm_create_raid.sh line 46'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_lvm_create_raid.sh line 46'
+Fri May  5 11:44:14 2023 - ERROR - oe_test_storage_lvm_create_raid.sh line 46
++ '[' 0 -eq 1 ']'
++ return 0
++ expect -c '
+    set timeout 30
+    log_file testlog1
+    spawn lvcreate --type raid5 -i 3 -L 50MB -n test1 openeulertest -y
+    expect "*\[y/n\]*" {send "y\r"}
+    expect eof
+'
+spawn lvcreate --type raid5 -i 3 -L 50MB -n test1 openeulertest -y
+couldn't execute "lvcreate": no such file or directory
+    while executing
+"spawn lvcreate --type raid5 -i 3 -L 50MB -n test1 openeulertest -y"
++ grep -iE 'while executing|error|fail' testlog1
+    while executing
++ CHECK_RESULT 0 1
++ actual_result=0
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 1x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_lvm_create_raid.sh line 55'
++ message='oe_test_storage_lvm_create_raid.sh line 55'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_lvm_create_raid.sh line 55'
+Fri May  5 11:44:14 2023 - ERROR - oe_test_storage_lvm_create_raid.sh line 55
++ '[' 0 -eq 1 ']'
++ return 0
++ expect -c '
+    set timeout 30
+    log_file testlog2
+    spawn lvcreate -y --type raid5 -i 3 -L 50MB -n test2 openeulertest
+    expect "*\[y/n\]*" {send "y\r"}
+    expect eof
+'
+spawn lvcreate -y --type raid5 -i 3 -L 50MB -n test2 openeulertest
+couldn't execute "lvcreate": no such file or directory
+    while executing
+"spawn lvcreate -y --type raid5 -i 3 -L 50MB -n test2 openeulertest"
++ grep -iE 'while executing|error|fail' testlog2
+    while executing
++ CHECK_RESULT 0 1
++ actual_result=0
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 1x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_lvm_create_raid.sh line 64'
++ message='oe_test_storage_lvm_create_raid.sh line 64'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_lvm_create_raid.sh line 64'
+Fri May  5 11:44:15 2023 - ERROR - oe_test_storage_lvm_create_raid.sh line 64
++ '[' 0 -eq 1 ']'
++ return 0
++ lvscan
+oe_test_storage_lvm_create_raid.sh: line 65: lvscan: command not found
++ grep /dev/openeulertest/test
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_lvm_create_raid.sh line 66'
++ message='oe_test_storage_lvm_create_raid.sh line 66'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_lvm_create_raid.sh line 66'
+Fri May  5 11:44:15 2023 - ERROR - oe_test_storage_lvm_create_raid.sh line 66
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End of testcase execution!'
++ message='End of testcase execution!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution!'
+Fri May  5 11:44:15 2023 - INFO  - End of testcase execution!
++ CASE_RESULT 0
++ case_re=0
++ test -z 4
++ test 4 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri May  5 11:44:15 2023 - ERROR - failed to execute the case.
++ exit 4
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri May  5 11:44:16 2023 - INFO  - start environment cleanup.
++ lvremove openeulertest/test openeulertest/test1 openeulertest/test2 -y
+oe_test_storage_lvm_create_raid.sh: line 72: lvremove: command not found
++ vgremove openeulertest -y
+oe_test_storage_lvm_create_raid.sh: line 73: vgremove: command not found
++ pvremove /dev/vdb /dev/vdc /dev/sr0 /dev/vdd
+oe_test_storage_lvm_create_raid.sh: line 74: pvremove: command not found
++ rm -rf testlog testlog1 testlog2
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Fri May  5 11:44:16 2023 - INFO  - Finish environment cleanup.

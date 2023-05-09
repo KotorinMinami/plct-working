@@ -1,0 +1,261 @@
++ source ../common_lib/fsio_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
+++ export 'FS_TYPE=ext3 ext4 xfs'
+++ FS_TYPE='ext3 ext4 xfs'
+++ export LANG=en_US.UTF-8
+++ LANG=en_US.UTF-8
+++ REMOVE_VG
+++ vggroup=
+++ [[ '' != '' ]]
++++ df -T
++++ grep test_vggroup
++++ awk '{print $7}'
+++ mounted=
+++ [[ '' != '' ]]
+++ lsblk
+++ grep test_vggroup
+++ [[ 1 -eq 0 ]]
+++ rm -rf /tmp/point120230509120551 /tmp/point220230509120551 /tmp/point320230509120551
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the database config.'
++ message='Start to prepare the database config.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the database config.'
+Tue May  9 12:07:03 2023 - INFO  - Start to prepare the database config.
++ point_list=($(CREATE_FS))
+++ CREATE_FS
+++ fs_type='ext3 ext4 xfs'
++++ date +%Y%m%d%H%M%S
+++ cur_date=20230509120703
++++ CREATE_VG
+++++ date +%Y%m%d%H%M%S
++++ cur_date=20230509120703
+++++ lsblk
+++++ grep disk
+++++ awk '{print $1}'
+++++ tail -n 1
++++ free_disk=vda
++++ disk_name=/dev/vda
++++ pvcreate /dev/vda -f
++++ [[ 127 -eq 0 ]]
+++++ pvcreate /dev/vda
+++++ grep test_vggroup
+++++ cut -d '"' -f 4
++++ vggroup=
++++ printf
+printf: usage: printf [-v var] format [arguments]
+++ vggroup=
+++ count=1
+++ msg=' '
+++ for fs in ${fs_type[@]}
+++ lvname=test_lv120230509120703
+++ point=/tmp/point120230509120703
+++ lvcreate -n test_lv120230509120703 -L 512M -y
+../common_lib/fsio_lib.sh: line 107: lvcreate: command not found
+++ mkfs -t ext3 /dev//test_lv120230509120703
+mke2fs 1.46.5 (30-Dec-2021)
+The file /dev//test_lv120230509120703 does not exist and no size was specified.
+++ mkdir /tmp/point120230509120703
+++ mount /dev//test_lv120230509120703 /tmp/point120230509120703
+mount: /tmp/point120230509120703: special device /dev//test_lv120230509120703 does not exist.
+++ msg=' /tmp/point120230509120703 '
+++ count=2
+++ for fs in ${fs_type[@]}
+++ lvname=test_lv220230509120703
+++ point=/tmp/point220230509120703
+++ lvcreate -n test_lv220230509120703 -L 512M -y
+../common_lib/fsio_lib.sh: line 107: lvcreate: command not found
+++ mkfs -t ext4 /dev//test_lv220230509120703
+mke2fs 1.46.5 (30-Dec-2021)
+The file /dev//test_lv220230509120703 does not exist and no size was specified.
+++ mkdir /tmp/point220230509120703
+++ mount /dev//test_lv220230509120703 /tmp/point220230509120703
+mount: /tmp/point220230509120703: special device /dev//test_lv220230509120703 does not exist.
+++ msg=' /tmp/point120230509120703 /tmp/point220230509120703 '
+++ count=3
+++ for fs in ${fs_type[@]}
+++ lvname=test_lv320230509120703
+++ point=/tmp/point320230509120703
+++ lvcreate -n test_lv320230509120703 -L 512M -y
+../common_lib/fsio_lib.sh: line 107: lvcreate: command not found
+++ mkfs -t xfs /dev//test_lv320230509120703
+mkfs: failed to execute mkfs.xfs: No such file or directory
+++ mkdir /tmp/point320230509120703
+++ mount /dev//test_lv320230509120703 /tmp/point320230509120703
+mount: /tmp/point320230509120703: special device /dev//test_lv320230509120703 does not exist.
+++ msg=' /tmp/point120230509120703 /tmp/point220230509120703 /tmp/point320230509120703 '
+++ count=4
+++ echo /tmp/point120230509120703 /tmp/point220230509120703 /tmp/point320230509120703
++ LOG_INFO 'End to prepare the database config.'
++ message='End to prepare the database config.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the database config.'
+Tue May  9 12:07:04 2023 - INFO  - End to prepare the database config.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue May  9 12:07:04 2023 - INFO  - Start to run test.
+++ seq 1 2
++ for i in $(seq 1 $((${#point_list[@]} - 1)))
++ mnt_point=/tmp/point220230509120703
++ echo 'test file'
+++ df -T
+++ grep /tmp/point220230509120703
+++ awk '{print $1}'
++ lv=
++ dd if=/dev/zero of= bs=1 count=4096
+dd: failed to open '': No such file or directory
++ tune2fs -l
++ grep 'Bad magic number in super-block while trying to open '
++ CHECK_RESULT 1 0 0 'Destory the fs super block failed on /tmp/point220230509120703.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Destory the fs super block failed on /tmp/point220230509120703.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Destory the fs super block failed on /tmp/point220230509120703.'
++ LOG_ERROR 'Destory the fs super block failed on /tmp/point220230509120703.'
++ message='Destory the fs super block failed on /tmp/point220230509120703.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Destory the fs super block failed on /tmp/point220230509120703.'
+Tue May  9 12:07:04 2023 - ERROR - Destory the fs super block failed on /tmp/point220230509120703.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_FSIO_destory_block.sh line 35'
++ message='oe_test_FSIO_destory_block.sh line 35'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_FSIO_destory_block.sh line 35'
+Tue May  9 12:07:05 2023 - ERROR - oe_test_FSIO_destory_block.sh line 35
++ '[' 0 -eq 1 ']'
++ return 0
++ grep 'test file' /tmp/point220230509120703/testFile
+test file
++ CHECK_RESULT 0 0 0 'Read file on fs failed when destory the super block on /tmp/point220230509120703.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file on fs failed when destory the super block on /tmp/point220230509120703.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ df -T
+++ grep /tmp/point220230509120703
+++ awk '{print $2}'
++ type=
++ [[ '' -ne xfs ]]
++ for i in $(seq 1 $((${#point_list[@]} - 1)))
++ mnt_point=/tmp/point320230509120703
++ echo 'test file'
+++ df -T
+++ grep /tmp/point320230509120703
+++ awk '{print $1}'
++ lv=
++ dd if=/dev/zero of= bs=1 count=4096
+dd: failed to open '': No such file or directory
++ tune2fs -l
++ grep 'Bad magic number in super-block while trying to open '
++ CHECK_RESULT 1 0 0 'Destory the fs super block failed on /tmp/point320230509120703.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Destory the fs super block failed on /tmp/point320230509120703.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Destory the fs super block failed on /tmp/point320230509120703.'
++ LOG_ERROR 'Destory the fs super block failed on /tmp/point320230509120703.'
++ message='Destory the fs super block failed on /tmp/point320230509120703.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Destory the fs super block failed on /tmp/point320230509120703.'
+Tue May  9 12:07:05 2023 - ERROR - Destory the fs super block failed on /tmp/point320230509120703.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_FSIO_destory_block.sh line 35'
++ message='oe_test_FSIO_destory_block.sh line 35'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_FSIO_destory_block.sh line 35'
+Tue May  9 12:07:05 2023 - ERROR - oe_test_FSIO_destory_block.sh line 35
++ '[' 0 -eq 1 ']'
++ return 0
++ grep 'test file' /tmp/point320230509120703/testFile
+test file
++ CHECK_RESULT 0 0 0 'Read file on fs failed when destory the super block on /tmp/point320230509120703.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Read file on fs failed when destory the super block on /tmp/point320230509120703.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ df -T
+++ grep /tmp/point320230509120703
+++ awk '{print $2}'
++ type=
++ [[ '' -ne xfs ]]
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue May  9 12:07:05 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 2
++ test 2 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Tue May  9 12:07:06 2023 - ERROR - failed to execute the case.
++ exit 2
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue May  9 12:07:06 2023 - INFO  - Start to restore the test environment.
+++ echo /tmp/point120230509120703 /tmp/point220230509120703 /tmp/point320230509120703
++ list='/tmp/point120230509120703 /tmp/point220230509120703 /tmp/point320230509120703'
++ REMOVE_FS '/tmp/point120230509120703 /tmp/point220230509120703 /tmp/point320230509120703'
++ point_list=($1)
+++ seq 0 2
++ for i in $(seq 0 $((${#point_list[@]} - 1)))
++ tmp=/tmp/point120230509120703
+++ df -T
+++ grep /tmp/point120230509120703
+++ awk '{print $1}'
++ lv=
++ [[ '' == '' ]]
++ continue
++ for i in $(seq 0 $((${#point_list[@]} - 1)))
++ tmp=/tmp/point220230509120703
+++ df -T
+++ grep /tmp/point220230509120703
+++ awk '{print $1}'
++ lv=
++ [[ '' == '' ]]
++ continue
++ for i in $(seq 0 $((${#point_list[@]} - 1)))
++ tmp=/tmp/point320230509120703
+++ df -T
+++ grep /tmp/point320230509120703
+++ awk '{print $1}'
++ lv=
++ [[ '' == '' ]]
++ continue
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue May  9 12:07:06 2023 - INFO  - End to restore the test environment.

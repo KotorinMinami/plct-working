@@ -1,0 +1,182 @@
++ source ../common/storage_disk_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Fri May  5 11:45:44 2023 - INFO  - Start environment preparation.
++ check_free_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='sr0 vdb vdc vdd vde'
++ disk_list=($disks)
++ local_disk=sr0
++ local_disk1=vdb
++ local_disk2=vdc
++ local_disk3=vdd
++ echo 'n
+
+p
+
+
++200M
+n
+
+p
+
+
++200M
+w'
++ fdisk /dev/sr0
+fdisk: cannot open /dev/sr0: No medium found
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
++ mkfs.xfs -f /dev/sr01
+oe_test_storage_mount_findmnt.sh: line 36: mkfs.xfs: command not found
++ sleep 1
++ mkfs.ext2 -F /dev/sr02
+mke2fs 1.46.5 (30-Dec-2021)
+The file /dev/sr02 does not exist and no size was specified.
++ sleep 1
++ udevadm settle
++ mkdir /tmp/data_xfs /tmp/data_ext
++ mount /dev/sr01 /tmp/data_xfs
+mount: /tmp/data_xfs: special device /dev/sr01 does not exist.
++ mount /dev/sr02 /tmp/data_ext
+mount: /tmp/data_ext: special device /dev/sr02 does not exist.
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Fri May  5 11:45:50 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Fri May  5 11:45:50 2023 - INFO  - Start executing testcase.
++ findmnt
++ grep /tmp/data_xfs
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_mount_findmnt.sh line 50'
++ message='oe_test_storage_mount_findmnt.sh line 50'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_mount_findmnt.sh line 50'
+Fri May  5 11:45:51 2023 - ERROR - oe_test_storage_mount_findmnt.sh line 50
++ '[' 0 -eq 1 ']'
++ return 0
++ findmnt
++ grep /tmp/data_ext
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_mount_findmnt.sh line 52'
++ message='oe_test_storage_mount_findmnt.sh line 52'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_mount_findmnt.sh line 52'
+Fri May  5 11:45:51 2023 - ERROR - oe_test_storage_mount_findmnt.sh line 52
++ '[' 0 -eq 1 ']'
++ return 0
++ findmnt --types xfs
++ grep /tmp/data_ext
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ findmnt --types xfs
++ grep /tmp/data_xfs
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_storage_mount_findmnt.sh line 56'
++ message='oe_test_storage_mount_findmnt.sh line 56'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_storage_mount_findmnt.sh line 56'
+Fri May  5 11:45:51 2023 - ERROR - oe_test_storage_mount_findmnt.sh line 56
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End of testcase execution.'
++ message='End of testcase execution.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution.'
+Fri May  5 11:45:52 2023 - INFO  - End of testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z 3
++ test 3 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri May  5 11:45:52 2023 - ERROR - failed to execute the case.
++ exit 3
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri May  5 11:45:52 2023 - INFO  - start environment cleanup.
++ umount /tmp/data_xfs
+umount: /tmp/data_xfs: not mounted.
++ umount /tmp/data_ext
+umount: /tmp/data_ext: not mounted.
++ rm -rf /tmp/data_xfs /tmp/data_ext
++ echo 'd
+
+d
+
+w'
++ fdisk /dev/sr0
+fdisk: cannot open /dev/sr0: No medium found
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Fri May  5 11:45:53 2023 - INFO  - Finish environment cleanup.

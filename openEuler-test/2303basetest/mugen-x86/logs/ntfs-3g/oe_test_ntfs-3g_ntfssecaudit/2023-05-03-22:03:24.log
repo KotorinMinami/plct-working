@@ -1,0 +1,471 @@
++ source common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed May  3 22:03:25 2023 - INFO  - Start to prepare the test environment.
++ get_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='sr0 vdb vdc'
++ disk_list=($disks)
++ disk1=sr0
++ disk2=vdb
++ DNF_INSTALL ntfs-3g
++ pkgs=ntfs-3g
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs ntfs-3g --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpm74nx4gi
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpm74nx4gi
++ mkntfs --fast /dev/sr0
+Could not open /dev/sr0: No medium found
++ mkntfs --fast /dev/vdb
+Cluster size has been automatically set to 4096 bytes.
+Creating NTFS volume structures.
+mkntfs completed successfully. Have a nice day.
++ mkdir -p /mnt/windows
++ ntfs-3g /dev/sr0 /mnt/windows
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ mkdir /mnt/windows/test
++ touch test.txt /mnt/windows/test.txt /mnt/windows/test/a.txt
++ umount /mnt/windows
+umount: /mnt/windows: not mounted.
++ LOG_INFO 'Finish preparing the test environment.'
++ message='Finish preparing the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish preparing the test environment.'
+Wed May  3 22:03:43 2023 - INFO  - Finish preparing the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed May  3 22:03:43 2023 - INFO  - Start to run test.
++ ntfssecaudit --help
++ grep Usage:
+Usage:
++ CHECK_RESULT 0 0 0 'Check ntfssecaudit --help failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfssecaudit --help failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ntfssecaudit --version
++ grep 'ntfssecaudit v'
+ntfssecaudit v2022.5.17 (libntfs-3g) - Audit security data on a NTFS Volume.
++ CHECK_RESULT 0 0 0 'Check ntfssecaudit --version failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfssecaudit --version failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ntfssecaudit -t
++ grep 'No errors were found'
+No errors were found
+No errors were found
++ CHECK_RESULT 0 0 0 'Check ntfssecaudit -t failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfssecaudit -t failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ntfssecaudit -h test.txt
++ grep 'No errors were found'
+No errors were found
+No errors were found
++ CHECK_RESULT 0 0 0 'Check ntfssecaudit -h failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfssecaudit -h failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ntfssecaudit -arv /dev/sr0
++ grep 'No errors were found'
+Could not open "/dev/sr0"
+Make sure "/dev/sr0" is not mounted
+Could not open volume /dev/sr0
+No errors were found
++ CHECK_RESULT 1 0 0 'Check ntfssecaudit -arv failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfssecaudit -arv failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfssecaudit -arv failed.'
++ LOG_ERROR 'Check ntfssecaudit -arv failed.'
++ message='Check ntfssecaudit -arv failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfssecaudit -arv failed.'
+Wed May  3 22:03:49 2023 - ERROR - Check ntfssecaudit -arv failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfssecaudit.sh line 44'
++ message='oe_test_ntfs-3g_ntfssecaudit.sh line 44'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfssecaudit.sh line 44'
+Wed May  3 22:03:49 2023 - ERROR - oe_test_ntfs-3g_ntfssecaudit.sh line 44
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfssecaudit -v /dev/sr0 test.txt
++ grep 'No errors were found'
+Could not open "/dev/sr0"
+Make sure "/dev/sr0" is not mounted
+No errors were found
++ CHECK_RESULT 1 0 0 'Check ntfssecaudit -v failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfssecaudit -v failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfssecaudit -v failed.'
++ LOG_ERROR 'Check ntfssecaudit -v failed.'
++ message='Check ntfssecaudit -v failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfssecaudit -v failed.'
+Wed May  3 22:03:50 2023 - ERROR - Check ntfssecaudit -v failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfssecaudit.sh line 46'
++ message='oe_test_ntfs-3g_ntfssecaudit.sh line 46'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfssecaudit.sh line 46'
+Wed May  3 22:03:50 2023 - ERROR - oe_test_ntfs-3g_ntfssecaudit.sh line 46
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfssecaudit -rv /dev/sr0 test
++ grep 'No errors were found'
+Could not open "/dev/sr0"
+Make sure "/dev/sr0" is not mounted
+No errors were found
++ CHECK_RESULT 1 0 0 'Check ntfssecaudit -rv failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfssecaudit -rv failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfssecaudit -rv failed.'
++ LOG_ERROR 'Check ntfssecaudit -rv failed.'
++ message='Check ntfssecaudit -rv failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfssecaudit -rv failed.'
+Wed May  3 22:03:51 2023 - ERROR - Check ntfssecaudit -rv failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfssecaudit.sh line 48'
++ message='oe_test_ntfs-3g_ntfssecaudit.sh line 48'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfssecaudit.sh line 48'
+Wed May  3 22:03:51 2023 - ERROR - oe_test_ntfs-3g_ntfssecaudit.sh line 48
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfssecaudit -bv /dev/sr0 test
++ grep 'No errors were found'
+Could not open "/dev/sr0"
+Make sure "/dev/sr0" is not mounted
+Could not open volume /dev/sr0
+Usage:
+   ntfssecaudit -t
+	run self-tests
+   ntfssecaudit -h [file]
+	display security descriptors within file
+   ntfssecaudit -a[rv] volume
+	audit the volume
+   ntfssecaudit [-v] volume file
+	display the security parameters of file
+   ntfssecaudit -r[v] volume directory
+	display the security parameters of files in directory
+   ntfssecaudit -b[v] volume directory
+        backup the security parameters of files in directory
+   ntfssecaudit -s[ev] volume [backupfile]
+        set the security parameters as indicated in backup file
+        with -e also set extra parameters (Windows attrib)
+   ntfssecaudit volume perms file
+	set the security parameters of file to perms
+   ntfssecaudit -r[v] volume perms directory
+	set the security parameters of files in directory to perms
+   ntfssecaudit -V
+        display version
+   ntfssecaudit -H
+        display usage
+ special cases, do not require being root :
+   ntfssecaudit -u mounted-file
+	get a user mapping proposal applicable to mounted file
+   ntfssecaudit [-v] mounted-file
+	display the security parameters of a mounted file
+   Notes: perms can be an octal mode or a Posix ACL description
+          volume is a partition designator (eg. /dev/sdb2)
+          -v is for verbose, -vv for very verbose
+No errors were found
++ CHECK_RESULT 1 0 0 'Check ntfssecaudit -bv failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfssecaudit -bv failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfssecaudit -bv failed.'
++ LOG_ERROR 'Check ntfssecaudit -bv failed.'
++ message='Check ntfssecaudit -bv failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfssecaudit -bv failed.'
+Wed May  3 22:03:51 2023 - ERROR - Check ntfssecaudit -bv failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfssecaudit.sh line 50'
++ message='oe_test_ntfs-3g_ntfssecaudit.sh line 50'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfssecaudit.sh line 50'
+Wed May  3 22:03:51 2023 - ERROR - oe_test_ntfs-3g_ntfssecaudit.sh line 50
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfssecaudit -sev /dev/sr0 test.txt
++ grep 'No errors were found'
+Could not open "/dev/sr0"
+Make sure "/dev/sr0" is not mounted
+Could not open volume /dev/sr0
+Error code 123 : No medium found
+Usage:
+   ntfssecaudit -t
+	run self-tests
+   ntfssecaudit -h [file]
+	display security descriptors within file
+   ntfssecaudit -a[rv] volume
+	audit the volume
+   ntfssecaudit [-v] volume file
+	display the security parameters of file
+   ntfssecaudit -r[v] volume directory
+	display the security parameters of files in directory
+   ntfssecaudit -b[v] volume directory
+        backup the security parameters of files in directory
+   ntfssecaudit -s[ev] volume [backupfile]
+        set the security parameters as indicated in backup file
+        with -e also set extra parameters (Windows attrib)
+   ntfssecaudit volume perms file
+	set the security parameters of file to perms
+   ntfssecaudit -r[v] volume perms directory
+	set the security parameters of files in directory to perms
+   ntfssecaudit -V
+        display version
+   ntfssecaudit -H
+        display usage
+ special cases, do not require being root :
+   ntfssecaudit -u mounted-file
+	get a user mapping proposal applicable to mounted file
+   ntfssecaudit [-v] mounted-file
+	display the security parameters of a mounted file
+   Notes: perms can be an octal mode or a Posix ACL description
+          volume is a partition designator (eg. /dev/sdb2)
+          -v is for verbose, -vv for very verbose
+No errors were found
++ CHECK_RESULT 1 0 0 'Check ntfssecaudit -sev failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfssecaudit -sev failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfssecaudit -sev failed.'
++ LOG_ERROR 'Check ntfssecaudit -sev failed.'
++ message='Check ntfssecaudit -sev failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfssecaudit -sev failed.'
+Wed May  3 22:03:52 2023 - ERROR - Check ntfssecaudit -sev failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfssecaudit.sh line 52'
++ message='oe_test_ntfs-3g_ntfssecaudit.sh line 52'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfssecaudit.sh line 52'
+Wed May  3 22:03:52 2023 - ERROR - oe_test_ntfs-3g_ntfssecaudit.sh line 52
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfssecaudit /dev/sr0 777 test.txt
++ grep 'No errors were found'
+Could not open "/dev/sr0"
+Make sure "/dev/sr0" is not mounted
+Could not open volume /dev/sr0
+Error code 123 : No medium found
+Usage:
+   ntfssecaudit -t
+	run self-tests
+   ntfssecaudit -h [file]
+	display security descriptors within file
+   ntfssecaudit -a[rv] volume
+	audit the volume
+   ntfssecaudit [-v] volume file
+	display the security parameters of file
+   ntfssecaudit -r[v] volume directory
+	display the security parameters of files in directory
+   ntfssecaudit -b[v] volume directory
+        backup the security parameters of files in directory
+   ntfssecaudit -s[ev] volume [backupfile]
+        set the security parameters as indicated in backup file
+        with -e also set extra parameters (Windows attrib)
+   ntfssecaudit volume perms file
+	set the security parameters of file to perms
+   ntfssecaudit -r[v] volume perms directory
+	set the security parameters of files in directory to perms
+   ntfssecaudit -V
+        display version
+   ntfssecaudit -H
+        display usage
+ special cases, do not require being root :
+   ntfssecaudit -u mounted-file
+	get a user mapping proposal applicable to mounted file
+   ntfssecaudit [-v] mounted-file
+	display the security parameters of a mounted file
+   Notes: perms can be an octal mode or a Posix ACL description
+          volume is a partition designator (eg. /dev/sdb2)
+          -v is for verbose, -vv for very verbose
+No errors were found
++ CHECK_RESULT 1 0 0 'Check ntfssecaudit perms file failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfssecaudit perms file failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfssecaudit perms file failed.'
++ LOG_ERROR 'Check ntfssecaudit perms file failed.'
++ message='Check ntfssecaudit perms file failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfssecaudit perms file failed.'
+Wed May  3 22:03:52 2023 - ERROR - Check ntfssecaudit perms file failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfssecaudit.sh line 54'
++ message='oe_test_ntfs-3g_ntfssecaudit.sh line 54'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfssecaudit.sh line 54'
+Wed May  3 22:03:53 2023 - ERROR - oe_test_ntfs-3g_ntfssecaudit.sh line 54
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfssecaudit -rv /dev/sr0 777 test
++ grep 'No errors were found'
+Could not open "/dev/sr0"
+Make sure "/dev/sr0" is not mounted
+Could not open volume /dev/sr0
+Error code 123 : No medium found
+Usage:
+   ntfssecaudit -t
+	run self-tests
+   ntfssecaudit -h [file]
+	display security descriptors within file
+   ntfssecaudit -a[rv] volume
+	audit the volume
+   ntfssecaudit [-v] volume file
+	display the security parameters of file
+   ntfssecaudit -r[v] volume directory
+	display the security parameters of files in directory
+   ntfssecaudit -b[v] volume directory
+        backup the security parameters of files in directory
+   ntfssecaudit -s[ev] volume [backupfile]
+        set the security parameters as indicated in backup file
+        with -e also set extra parameters (Windows attrib)
+   ntfssecaudit volume perms file
+	set the security parameters of file to perms
+   ntfssecaudit -r[v] volume perms directory
+	set the security parameters of files in directory to perms
+   ntfssecaudit -V
+        display version
+   ntfssecaudit -H
+        display usage
+ special cases, do not require being root :
+   ntfssecaudit -u mounted-file
+	get a user mapping proposal applicable to mounted file
+   ntfssecaudit [-v] mounted-file
+	display the security parameters of a mounted file
+   Notes: perms can be an octal mode or a Posix ACL description
+          volume is a partition designator (eg. /dev/sdb2)
+          -v is for verbose, -vv for very verbose
+No errors were found
++ CHECK_RESULT 1 0 0 'Check ntfssecaudit perms directory failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfssecaudit perms directory failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfssecaudit perms directory failed.'
++ LOG_ERROR 'Check ntfssecaudit perms directory failed.'
++ message='Check ntfssecaudit perms directory failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfssecaudit perms directory failed.'
+Wed May  3 22:03:53 2023 - ERROR - Check ntfssecaudit perms directory failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfssecaudit.sh line 56'
++ message='oe_test_ntfs-3g_ntfssecaudit.sh line 56'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfssecaudit.sh line 56'
+Wed May  3 22:03:53 2023 - ERROR - oe_test_ntfs-3g_ntfssecaudit.sh line 56
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Wed May  3 22:03:54 2023 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 7
++ test 7 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed May  3 22:03:54 2023 - ERROR - failed to execute the case.
++ exit 7
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed May  3 22:03:54 2023 - INFO  - Start to restore the test environment.
++ expect
+spawn mkfs.ext4 /dev/sr0
+y
+mke2fs 1.46.5 (30-Dec-2021)
+mkfs.ext4: No medium found while trying to determine filesystem size
++ rm -rf /mnt/windows test.txt
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpm74nx4gi ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpm74nx4gi
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish restoring the test environment.'
++ message='Finish restoring the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish restoring the test environment.'
+Wed May  3 22:03:59 2023 - INFO  - Finish restoring the test environment.

@@ -1,0 +1,211 @@
++ source ../common/common_ndisc6.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed May  3 20:39:26 2023 - INFO  - Start to prepare the test environment.
++ deploy_env
++ DNF_INSTALL 'ndisc6 xinetd time'
++ pkgs='ndisc6 xinetd time'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'ndisc6 xinetd time' --node 1 --tempfile ''
+Wed May  3 20:39:30 2023 - INFO  - pkgs:(ndisc6 xinetd time) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
+++ hostname
+../common/common_ndisc6.sh: line 21: hostname: command not found
++ hostname_init=
++ hostname newlocalhost
+../common/common_ndisc6.sh: line 22: hostname: command not found
+++ ip addr show 10.198.114.191
+++ grep -w inet6
+++ awk '{print $2}'
+++ awk 'NR==1{print $1}'
+++ awk -F / '{print $1}'
+Device "10.198.114.191" does not exist.
++ NODE1_IPV6=
+++ P_SSH_CMD --node 2 --cmd 'ip addr show ens4'
+++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --node 2 --cmd 'ip addr show ens4'
+++ grep -w inet6
+++ awk '{print $2}'
+++ awk 'NR==1{print $1}'
+++ awk -F / '{print $1}'
++ NODE2_IPV6=fe80::3afe:c976:9125:1e46
++ cp /etc/resolv.conf /etc/resolv.conf-bak
++ sed -i 's/name/#&/' /etc/resolv.conf
++ sed -i 6s/yes/no/g /etc/xinetd.d/echo-stream
++ systemctl restart xinetd
++ DNF_INSTALL xinetd 2
++ pkgs=xinetd
++ node=2
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs xinetd --node 2 --tempfile ''
+Wed May  3 20:39:38 2023 - INFO  - pkgs:(xinetd) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ P_SSH_CMD --node 2 --cmd 'sed -i '\''6s/yes/no/g'\'' /etc/xinetd.d/echo-stream;systemctl restart xinetd;'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --node 2 --cmd 'sed -i '\''6s/yes/no/g'\'' /etc/xinetd.d/echo-stream;systemctl restart xinetd;'
+
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Wed May  3 20:39:41 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed May  3 20:39:41 2023 - INFO  - Start to run test.
++ ndisc6 -1 -r 3 -w 1000 fe80::3afe:c976:9125:1e46 ens4
++ grep -i 52:54:00:11:45:03
+Target link-layer address: 52:54:00:11:45:03
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ndisc6 -m -r 3 -w 1000 fe80::3afe:c976:9125:1e46 ens4
++ grep -i 52:54:00:11:45:03
+Target link-layer address: 52:54:00:11:45:03
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ndisc6 -n -r 3 -w 1000 fe80::3afe:c976:9125:1e46 ens4
++ grep -i 52:54:00:11:45:03
+Target link-layer address: 52:54:00:11:45:03
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ndisc6 -q -r 3 -w 1000 fe80::3afe:c976:9125:1e46 ens4
++ grep -i 52:54:00:11:45:03
+52:54:00:11:45:03
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ rpm -qa ndisc6
+++ awk -F - '{print $2}'
++ ndisc6_version=1.0.4
++ ndisc6 -V
++ grep 1.0.4
+ndisc6: IPv6 Neighbor/Router Discovery userland tool 1.0.4 ($Rev$)
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ndisc6 -v -r 3 -w 1000 fe80::3afe:c976:9125:1e46 ens4
++ grep -i 52:54:00:11:45:03
+Target link-layer address: 52:54:00:11:45:03
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ndisc6 -h
++ grep ndisc6
+Usage: ndisc6 [options] <IPv6 address> <interface>
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed May  3 20:39:43 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed May  3 20:39:43 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed May  3 20:39:44 2023 - INFO  - Start to restore the test environment.
++ clear_env
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Wed May  3 20:39:44 2023 - WARN  - no thing to do.
++ return 0
++ hostname
+../common/common_ndisc6.sh: line 35: hostname: command not found
++ cp -rf /etc/resolv.conf-bak /etc/resolv.conf
++ rm -rf file runtime /etc/resolv.conf-bak
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed May  3 20:39:44 2023 - INFO  - End to restore the test environment.

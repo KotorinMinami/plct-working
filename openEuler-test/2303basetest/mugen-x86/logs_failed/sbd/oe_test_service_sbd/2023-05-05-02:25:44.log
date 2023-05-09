@@ -1,0 +1,177 @@
++ source ../common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Fri May  5 02:25:45 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL sbd
++ pkgs=sbd
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs sbd --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp62j6mxi8
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp62j6mxi8
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Fri May  5 02:26:26 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri May  5 02:26:26 2023 - INFO  - Start to run test.
++ systemctl status sbd.service
++ grep 'Active: inactive'
+     Active: inactive (dead)
++ CHECK_RESULT 0 0 0 'There is an error for the status of sbd.service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='There is an error for the status of sbd.service'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl restart sbd.service
++ grep 'it is configured to refuse manual start/stop'
+Failed to restart sbd.service: Operation refused, unit sbd.service may be requested by dependency only (it is configured to refuse manual start/stop).
++ CHECK_RESULT 0 0 0 'Check sbd.service failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check sbd.service failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop sbd.service
++ grep 'it is configured to refuse manual start/stop'
++ CHECK_RESULT 1 0 0 'Check sbd.service failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check sbd.service failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check sbd.service failed'
++ LOG_ERROR 'Check sbd.service failed'
++ message='Check sbd.service failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check sbd.service failed'
+Fri May  5 02:26:26 2023 - ERROR - Check sbd.service failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_service_sbd.sh line 35'
++ message='oe_test_service_sbd.sh line 35'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_service_sbd.sh line 35'
+Fri May  5 02:26:27 2023 - ERROR - oe_test_service_sbd.sh line 35
++ '[' 0 -eq 1 ']'
++ return 0
++ systemctl start sbd.service
++ grep 'it is configured to refuse manual start/stop'
+Failed to start sbd.service: Operation refused, unit sbd.service may be requested by dependency only (it is configured to refuse manual start/stop).
++ CHECK_RESULT 0 0 0 'Check sbd.service failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check sbd.service failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled sbd.service
++ service=sbd.service
+++ systemctl is-enabled sbd.service
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ systemctl enable sbd.service
+++ grep 'Created symlink'
+++ awk '{print $3}'
++ symlink_file='/etc/systemd/system/corosync.service.requires/sbd.service
+/etc/systemd/system/pacemaker.service.requires/sbd.service
+/etc/systemd/system/dlm.service.requires/sbd.service'
++ find /etc/systemd/system/corosync.service.requires/sbd.service /etc/systemd/system/pacemaker.service.requires/sbd.service /etc/systemd/system/dlm.service.requires/sbd.service
+/etc/systemd/system/corosync.service.requires/sbd.service
+/etc/systemd/system/pacemaker.service.requires/sbd.service
+/etc/systemd/system/dlm.service.requires/sbd.service
++ CHECK_RESULT 0 0 0 'sbd.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='sbd.service enable failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable sbd.service
+Removed /etc/systemd/system/pacemaker.service.requires/sbd.service.
+Removed /etc/systemd/system/dlm.service.requires/sbd.service.
+Removed /etc/systemd/system/corosync.service.requires/sbd.service.
++ find /etc/systemd/system/corosync.service.requires/sbd.service /etc/systemd/system/pacemaker.service.requires/sbd.service /etc/systemd/system/dlm.service.requires/sbd.service
+find: ‘/etc/systemd/system/corosync.service.requires/sbd.service’: No such file or directory
+find: ‘/etc/systemd/system/pacemaker.service.requires/sbd.service’: No such file or directory
+find: ‘/etc/systemd/system/dlm.service.requires/sbd.service’: No such file or directory
++ CHECK_RESULT 1 0 1 'sbd.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='sbd.service disable failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Fri May  5 02:26:29 2023 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri May  5 02:26:29 2023 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri May  5 02:26:29 2023 - INFO  - start environment cleanup.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp62j6mxi8 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp62j6mxi8
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Fri May  5 02:26:36 2023 - INFO  - Finish environment cleanup!

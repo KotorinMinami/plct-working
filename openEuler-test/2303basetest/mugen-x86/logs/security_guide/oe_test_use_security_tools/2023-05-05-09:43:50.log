@@ -1,0 +1,166 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Fri May  5 09:43:51 2023 - INFO  - Start environmental preparation.
++ cp /etc/sudoers /etc/sudoers-bak
++ echo size
++ echo 'size '
++ echo 'key key2'
++ touch /tmp/rm_test
++ DNF_INSTALL httpd
++ pkgs=httpd
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs httpd --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp_f1van5_
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp_f1van5_
++ cp /etc/openEuler_security/usr-security.conf /etc/openEuler_security/usr-security.conf-bak
++ systemctl stop httpd
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Fri May  5 09:44:20 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Fri May  5 09:44:21 2023 - INFO  - Start executing testcase.
++ echo '801@d@/etc/sudoers@%wheel
+802@m@/tmp/m_test@size @2
+803@sm@/tmp/sm_test@size @2048
+804@M@/tmp/M_test@key@key2@value2
+805@systemctl@httpd.service@start
+806@rm -f@/tmp/rm_test
+807@touch @/tmp/touch_test'
++ systemctl restart openEuler-security.service
++ SLEEP_WAIT 10
++ wait_time=10
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 10 --cmd '' --mode 1
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'size 2' /tmp/m_test
+size 2
++ grep 'size 2048' /tmp/sm_test
+size 2048
++ grep 'key key2value2' /tmp/M_test
+key key2value2
++ grep 'key key2value2' /tmp/M_test
+key key2value2
++ ls /tmp/touch_test
+/tmp/touch_test
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ls /tmp/rm_test
+ls: cannot access '/tmp/rm_test': No such file or directory
++ CHECK_RESULT 2 0 1
++ actual_result=2
++ expect_result=0
++ mode=1
++ error_log=
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 1 -eq 0 ']'
++ test 2x == 0x
++ return 0
++ grep '807@touch @/tmp/touch_test' /var/log/openEuler-security.log
+2023-05-05 09:44:23 [security-tool.sh:908] [info] -harden [807@touch @/tmp/touch_test]: success
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ systemctl status httpd
++ grep running
+     Active: active (running) since Fri 2023-05-05 09:44:23 UTC; 13s ago
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish testcase execution.'
++ message='Finish testcase execution.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish testcase execution.'
+Fri May  5 09:44:36 2023 - INFO  - Finish testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri May  5 09:44:37 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri May  5 09:44:37 2023 - INFO  - start environment cleanup.
++ mv /etc/sudoers-bak /etc/sudoers -f
++ mv /etc/openEuler_security/usr-security.conf-bak /etc/openEuler_security/usr-security.conf -f
++ rm -rf /tmp/M_test /tmp/m_test /tmp/sm_test /tmp/touch_test
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp_f1van5_ ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp_f1van5_
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Fri May  5 09:44:45 2023 - INFO  - Finish environment cleanup!

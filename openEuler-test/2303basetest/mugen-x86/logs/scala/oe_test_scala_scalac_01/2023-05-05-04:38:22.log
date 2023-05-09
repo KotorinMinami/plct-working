@@ -1,0 +1,518 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ grep expect
++ rpm -qa
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment!'
++ message='Start to prepare the test environment!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment!'
+Fri May  5 04:38:24 2023 - INFO  - Start to prepare the test environment!
++ DNF_INSTALL scala
++ pkgs=scala
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs scala --node 1 --tempfile ''
+Fri May  5 04:38:31 2023 - INFO  - pkgs:(scala) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ LOG_INFO 'End to prepare the test environment!'
++ message='End to prepare the test environment!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment!'
+Fri May  5 04:38:31 2023 - INFO  - End to prepare the test environment!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri May  5 04:38:32 2023 - INFO  - Start to run test.
++ scalac -Dproperty=value ./common/HelloWorld.scala
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007f4789172f20, pid=5682, tid=0x00007f479f8196c0
+#
+# JRE version: OpenJDK Runtime Environment (8.0_362-b09) (build 1.8.0_362-b09)
+# Java VM: OpenJDK 64-Bit Server VM (25.362-b09 mixed mode linux-amd64 compressed oops)
+# Problematic frame:
+# J 284 C1 scala.collection.mutable.HashTable$class.index(Lscala/collection/mutable/HashTable;I)I (40 bytes) @ 0x00007f4789172f20 [0x00007f4789172f20+0x0]
+#
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# An error report file with more information is saved as:
+# /root/mugen/testcases/cli-test/scala/hs_err_pid5682.log
+#
+# If you would like to submit a bug report, please visit:
+#   https://gitee.com/src-openeuler/openjdk-1.8.0/issues/
+#
+/usr/bin/scalac: line 21:  5682 Aborted                 (core dumped) "$@"
++ CHECK_RESULT 134 0 0 'Check scalac -Dproperty failed'
++ actual_result=134
++ expect_result=0
++ mode=0
++ error_log='Check scalac -Dproperty failed'
++ exit_mode=0
++ '[' -z 134 ']'
++ '[' 0 -eq 0 ']'
++ test 134x '!=' 0x
++ test -n 'Check scalac -Dproperty failed'
++ LOG_ERROR 'Check scalac -Dproperty failed'
++ message='Check scalac -Dproperty failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check scalac -Dproperty failed'
+Fri May  5 04:38:37 2023 - ERROR - Check scalac -Dproperty failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_scala_scalac_01.sh line 30'
++ message='oe_test_scala_scalac_01.sh line 30'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_scala_scalac_01.sh line 30'
+Fri May  5 04:38:37 2023 - ERROR - oe_test_scala_scalac_01.sh line 30
++ '[' 0 -eq 1 ']'
++ return 0
++ rm -rf ./Hello.class
++ CHECK_RESULT 0 0 0 'Delete test file failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Delete test file failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ scalac -X ./common/HelloWorld.scala
+Usage: scalac <options> <source files>
+
+-- Notes on option parsing --
+Boolean settings are always false unless set.
+Where multiple values are accepted, they should be comma-separated.
+  example: -Xplugin:plugin1,plugin2
+<phases> means one or a comma-separated list of:
+  (partial) phase names, phase ids, phase id ranges, or the string "all".
+  example: -Xprint:all prints all phases.
+  example: -Xprint:expl,24-26 prints phases explicitouter, closelim, dce, jvm.
+  example: -Xprint:-4 prints only the phases up to typer.
+
+Possible advanced options include:
+  -Xassem-extdirs <dirs>         (Requires -target:msil) List of directories containing assemblies.  default:lib
+  -Xassem-name <file>            (Requires -target:msil) Name of the output assembly.
+  -Xassem-path <path>            (Requires -target:msil) List of assemblies referenced by the program.
+  -Xcheck-null                   Warn upon selection of nullable reference.
+  -Xcheckinit                    Wrap field accessors to throw an exception on uninitialized access.
+  -Xdisable-assertions           Generate no assertions or assumptions.
+  -Xdivergence211                Turn on the 2.11 behavior of implicit divergence not terminating recursive implicit searches (SI-7291).
+  -Xelide-below <n>              Calls to @elidable methods are omitted if method priority is lower than argument
+  -Xexperimental                 Enable experimental extensions.
+  -Xfatal-warnings               Fail the compilation if there are any warnings.
+  -Xfull-lubs                    Retains pre 2.10 behavior of less aggressive truncation of least upper bounds.
+  -Xfuture                       Turn on future language features.
+  -Xgenerate-phase-graph <file>  Generate the phase graphs (outputs .dot files) to fileX.dot.
+  -Xlint                         Enable recommended additional warnings.
+  -Xlog-free-terms               Print a message when reification creates a free term.
+  -Xlog-free-types               Print a message when reification resorts to generating a free type.
+  -Xlog-implicit-conversions     Print a message whenever an implicit conversion is inserted.
+  -Xlog-implicits                Show more detail on why some implicits are not applicable.
+  -Xlog-reflective-calls         Print a message when a reflective method call is generated
+  -Xmacro-settings:<option>      Custom settings for macros.
+  -Xmain-class <path>            Class for manifest's Main-Class entry (only useful with -d <jar>)
+  -Xmax-classfile-name <n>       Maximum filename length for generated classes
+  -Xmigration:<version>          Warn about constructs whose behavior may have changed since version.
+  -Xno-forwarders                Do not generate static forwarders in mirror classes.
+  -Xno-patmat-analysis           Don't perform exhaustivity/unreachability analysis. Also, ignore @switch annotation.
+  -Xno-uescape                   Disable handling of \u unicode escapes.
+  -Xnojline                      Do not use JLine for editing.
+  -Xoldpatmat                    Use the pre-2.10 pattern matcher. Otherwise, the 'virtualizing' pattern matcher is used in 2.10.
+  -Xplugin:<file>                Load one or more plugins from files.
+  -Xplugin-disable:<plugin>      Disable the given plugin(s).
+  -Xplugin-list                  Print a synopsis of loaded plugins.
+  -Xplugin-require:<plugin>      Abort unless the given plugin(s) are available.
+  -Xpluginsdir <path>            Path to search compiler plugins.
+  -Xprint:<phases>               Print out program after <phases>
+  -Xprint-icode[:phases]         Log internal icode to *.icode files after <phases> (default: icode)
+  -Xprint-pos                    Print tree positions, as offsets.
+  -Xprint-types                  Print tree types (debugging option).
+  -Xprompt                       Display a prompt after each error (debugging option).
+  -Xresident                     Compiler stays resident: read source filenames from standard input.
+  -Xscript <object>              Treat the source file as a script and wrap it in a main method.
+  -Xshow-class <class>           Show internal representation of class.
+  -Xshow-object <object>         Show internal representation of object.
+  -Xshow-phases                  Print a synopsis of compiler phases.
+  -Xsource-reader <classname>    Specify a custom method for reading source files.
+  -Xsourcedir <directory>        (Requires -target:msil) Mirror source folder structure in output directory.
+  -Xverify                       Verify generic signatures in generated bytecode (asm backend only.)
+  -Y                             Print a synopsis of private options.
++ CHECK_RESULT 0 0 0 'Check scalac -X failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check scalac -X failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ scalac -bootclasspath ./ ./common/HelloWorld.scala
+Fri May  5 05:08:23 2023 - ERROR - Timeout : Command 'bash -x oe_test_scala_scalac_01.sh' timed out after 1799.99980796 seconds
+++ post_test
+++ LOG_INFO 'Start to restore the test environment.'
+++ message='Start to restore the test environment.'
+++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri May  5 08:11:54 2023 - INFO  - Start to restore the test environment.
+++ rm -rf 'Hello$.class' Hello.class 'index*' 'package.*' classes
+++ DNF_REMOVE
+++ node=1
+++ pkg_list=
+++ mode=0
+++ [[ -z '' ]]
+++ [[ -z '' ]]
+++ LOG_WARN 'no thing to do.'
+++ message='no thing to do.'
+++ python3 /root/mugen/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Fri May  5 08:11:55 2023 - WARN  - no thing to do.
+++ return 0
+++ LOG_INFO 'End to restore the test environment.'
+++ message='End to restore the test environment.'
+++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Fri May  5 08:11:57 2023 - INFO  - End to restore the test environment.
++ test -f ./Hello.class
++ CHECK_RESULT 1 0 0 'Check scalac -bootclasspath failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check scalac -bootclasspath failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check scalac -bootclasspath failed'
++ LOG_ERROR 'Check scalac -bootclasspath failed'
++ message='Check scalac -bootclasspath failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check scalac -bootclasspath failed'
+Fri May  5 08:11:58 2023 - ERROR - Check scalac -bootclasspath failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_scala_scalac_01.sh line 36'
++ message='oe_test_scala_scalac_01.sh line 36'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_scala_scalac_01.sh line 36'
+Fri May  5 08:12:00 2023 - ERROR - oe_test_scala_scalac_01.sh line 36
++ '[' 0 -eq 1 ']'
++ return 0
++ rm -rf ./Hello.class
++ CHECK_RESULT 0 0 0 'Delete test file failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Delete test file failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ scalac -classpath ./ ./common/HelloWorld.scala
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007f146930aee2, pid=7465, tid=0x00007f147d8196c0
+#
+# JRE version: OpenJDK Runtime Environment (8.0_362-b09) (build 1.8.0_362-b09)
+# Java VM: OpenJDK 64-Bit Server VM (25.362-b09 mixed mode linux-amd64 compressed oops)
+# Problematic frame:
+# J 1188 C1 scala.reflect.internal.SymbolTable.definitions()Lscala/reflect/internal/Definitions$definitions$; (19 bytes) @ 0x00007f146930aee2 [0x00007f146930aec0+0x22]
+#
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# An error report file with more information is saved as:
+# /root/mugen/testcases/cli-test/scala/hs_err_pid7465.log
+Compiled method (c1)   65072 1188       3       scala.reflect.internal.SymbolTable::definitions (19 bytes)
+ total in heap  [0x00007f146930ad50,0x00007f146930b110] = 960
+ relocation     [0x00007f146930ae78,0x00007f146930aeb8] = 64
+ main code      [0x00007f146930aec0,0x00007f146930b000] = 320
+ stub code      [0x00007f146930b000,0x00007f146930b0a8] = 168
+ metadata       [0x00007f146930b0a8,0x00007f146930b0b0] = 8
+ scopes data    [0x00007f146930b0b0,0x00007f146930b0c8] = 24
+ scopes pcs     [0x00007f146930b0c8,0x00007f146930b108] = 64
+ dependencies   [0x00007f146930b108,0x00007f146930b110] = 8
+#
+# If you would like to submit a bug report, please visit:
+#   https://gitee.com/src-openeuler/openjdk-1.8.0/issues/
+#
+/usr/bin/scalac: line 21:  7465 Aborted                 (core dumped) "$@"
++ CHECK_RESULT 134 0 0 'Check scalac -classpath failed'
++ actual_result=134
++ expect_result=0
++ mode=0
++ error_log='Check scalac -classpath failed'
++ exit_mode=0
++ '[' -z 134 ']'
++ '[' 0 -eq 0 ']'
++ test 134x '!=' 0x
++ test -n 'Check scalac -classpath failed'
++ LOG_ERROR 'Check scalac -classpath failed'
++ message='Check scalac -classpath failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check scalac -classpath failed'
+Fri May  5 08:13:07 2023 - ERROR - Check scalac -classpath failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_scala_scalac_01.sh line 40'
++ message='oe_test_scala_scalac_01.sh line 40'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_scala_scalac_01.sh line 40'
+Fri May  5 08:13:08 2023 - ERROR - oe_test_scala_scalac_01.sh line 40
++ '[' 0 -eq 1 ']'
++ return 0
++ rm -rf ./Hello.class
++ CHECK_RESULT 0 0 0 'Delete test file failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Delete test file failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ scalac -d ./ ./common/HelloWorld.scala
+oe_test_scala_scalac_01.sh: line 43: /usr/bin/scalac: No such file or directory
++ CHECK_RESULT 127 0 0 'Check scalac -d failed'
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log='Check scalac -d failed'
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n 'Check scalac -d failed'
++ LOG_ERROR 'Check scalac -d failed'
++ message='Check scalac -d failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check scalac -d failed'
+Fri May  5 08:13:09 2023 - ERROR - Check scalac -d failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_scala_scalac_01.sh line 44'
++ message='oe_test_scala_scalac_01.sh line 44'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_scala_scalac_01.sh line 44'
+Fri May  5 08:13:09 2023 - ERROR - oe_test_scala_scalac_01.sh line 44
++ '[' 0 -eq 1 ']'
++ return 0
++ rm -rf ./Hello.class
++ CHECK_RESULT 0 0 0 'Delete test file failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Delete test file failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ scalac -dependencyfile ./common/test.scala ./common/HelloWorld.scala
+oe_test_scala_scalac_01.sh: line 47: /usr/bin/scalac: No such file or directory
++ CHECK_RESULT 127 0 0 'Check scalac -dependencyfile failed'
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log='Check scalac -dependencyfile failed'
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n 'Check scalac -dependencyfile failed'
++ LOG_ERROR 'Check scalac -dependencyfile failed'
++ message='Check scalac -dependencyfile failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check scalac -dependencyfile failed'
+Fri May  5 08:13:10 2023 - ERROR - Check scalac -dependencyfile failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_scala_scalac_01.sh line 48'
++ message='oe_test_scala_scalac_01.sh line 48'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_scala_scalac_01.sh line 48'
+Fri May  5 08:13:10 2023 - ERROR - oe_test_scala_scalac_01.sh line 48
++ '[' 0 -eq 1 ']'
++ return 0
++ rm -rf ./Hello.class
++ CHECK_RESULT 0 0 0 'Delete test file failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Delete test file failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ scalac -deprecation ./common/HelloWorld.scala
+oe_test_scala_scalac_01.sh: line 51: /usr/bin/scalac: No such file or directory
++ CHECK_RESULT 127 0 0 'Check scalac -deprecation failed'
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log='Check scalac -deprecation failed'
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n 'Check scalac -deprecation failed'
++ LOG_ERROR 'Check scalac -deprecation failed'
++ message='Check scalac -deprecation failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check scalac -deprecation failed'
+Fri May  5 08:13:10 2023 - ERROR - Check scalac -deprecation failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_scala_scalac_01.sh line 52'
++ message='oe_test_scala_scalac_01.sh line 52'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_scala_scalac_01.sh line 52'
+Fri May  5 08:13:11 2023 - ERROR - oe_test_scala_scalac_01.sh line 52
++ '[' 0 -eq 1 ']'
++ return 0
++ rm -rf ./Hello.class
++ CHECK_RESULT 0 0 0 'Delete test file failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Delete test file failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ scalac -encoding UTF-8 ./common/HelloWorld.scala
+oe_test_scala_scalac_01.sh: line 55: /usr/bin/scalac: No such file or directory
++ CHECK_RESULT 127 0 0 'Check scalac -encoding failed'
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log='Check scalac -encoding failed'
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n 'Check scalac -encoding failed'
++ LOG_ERROR 'Check scalac -encoding failed'
++ message='Check scalac -encoding failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check scalac -encoding failed'
+Fri May  5 08:13:11 2023 - ERROR - Check scalac -encoding failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_scala_scalac_01.sh line 56'
++ message='oe_test_scala_scalac_01.sh line 56'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_scala_scalac_01.sh line 56'
+Fri May  5 08:13:11 2023 - ERROR - oe_test_scala_scalac_01.sh line 56
++ '[' 0 -eq 1 ']'
++ return 0
++ rm -rf ./Hello.class
++ CHECK_RESULT 0 0 0 'Delete test file failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Delete test file failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ scalac -explaintypes ./common/HelloWorld.scala
+oe_test_scala_scalac_01.sh: line 59: /usr/bin/scalac: No such file or directory
++ CHECK_RESULT 127 0 0 'Check scalac -explaintypes failed'
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log='Check scalac -explaintypes failed'
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n 'Check scalac -explaintypes failed'
++ LOG_ERROR 'Check scalac -explaintypes failed'
++ message='Check scalac -explaintypes failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check scalac -explaintypes failed'
+Fri May  5 08:13:12 2023 - ERROR - Check scalac -explaintypes failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_scala_scalac_01.sh line 60'
++ message='oe_test_scala_scalac_01.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_scala_scalac_01.sh line 60'
+Fri May  5 08:13:12 2023 - ERROR - oe_test_scala_scalac_01.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ rm -rf ./Hello.class
++ CHECK_RESULT 0 0 0 'Delete test file failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Delete test file failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ scalac -extdirs ./ ./common/HelloWorld.scala
+oe_test_scala_scalac_01.sh: line 63: /usr/bin/scalac: No such file or directory
++ CHECK_RESULT 127 0 0 'Check scalac -extdirs failed'
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log='Check scalac -extdirs failed'
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n 'Check scalac -extdirs failed'
++ LOG_ERROR 'Check scalac -extdirs failed'
++ message='Check scalac -extdirs failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check scalac -extdirs failed'
+Fri May  5 08:13:12 2023 - ERROR - Check scalac -extdirs failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_scala_scalac_01.sh line 64'
++ message='oe_test_scala_scalac_01.sh line 64'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_scala_scalac_01.sh line 64'
+Fri May  5 08:13:13 2023 - ERROR - oe_test_scala_scalac_01.sh line 64
++ '[' 0 -eq 1 ']'
++ return 0
++ rm -rf ./Hello.class
++ CHECK_RESULT 0 0 0 'Delete test file failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Delete test file failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Fri May  5 08:13:13 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 9
++ test 9 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri May  5 08:13:13 2023 - ERROR - failed to execute the case.
++ exit 9
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri May  5 08:13:14 2023 - INFO  - Start to restore the test environment.
++ rm -rf 'Hello*' 'index*' 'package.*' classes
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Fri May  5 08:13:14 2023 - WARN  - no thing to do.
++ return 0
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Fri May  5 08:13:14 2023 - INFO  - End to restore the test environment.

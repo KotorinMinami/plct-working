@@ -1,0 +1,359 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ grep expect
++ rpm -qa
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment!'
++ message='Start to prepare the test environment!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment!'
+Fri May  5 05:38:44 2023 - INFO  - Start to prepare the test environment!
++ DNF_INSTALL scala
++ pkgs=scala
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs scala --node 1 --tempfile ''
+Fri May  5 05:39:00 2023 - INFO  - pkgs:(scala) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ mkdir classes
+mkdir: cannot create directory ‘classes’: File exists
++ LOG_INFO 'End to prepare the test environment!'
++ message='End to prepare the test environment!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment!'
+Fri May  5 05:39:02 2023 - INFO  - End to prepare the test environment!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri May  5 05:39:03 2023 - INFO  - Start to run test.
++ scalac -target:jvm-1.6 ./common/HelloWorld.scala
++ test -f ./Hello.class
++ CHECK_RESULT 0 0 0 'Check scalac -target:jvm-1.6 failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check scalac -target:jvm-1.6 failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf ./Hello.class
++ CHECK_RESULT 0 0 0 'Delete test file failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Delete test file failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ scalac -toolcp ./ ./common/HelloWorld.scala
+Fri May  5 06:08:39 2023 - ERROR - Timeout : Command 'bash -x oe_test_scala_scalac_03.sh' timed out after 1799.9997972399997 seconds
+++ post_test
+++ LOG_INFO 'Start to restore the test environment.'
+++ message='Start to restore the test environment.'
+++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri May  5 08:11:56 2023 - INFO  - Start to restore the test environment.
+++ rm -rf classes scala-library.jar 'Hello*' 'index*' 'package*'
+++ DNF_REMOVE
+++ node=1
+++ pkg_list=
+++ mode=0
+++ [[ -z '' ]]
+++ [[ -z '' ]]
+++ LOG_WARN 'no thing to do.'
+++ message='no thing to do.'
+++ python3 /root/mugen/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Fri May  5 08:11:57 2023 - WARN  - no thing to do.
+++ return 0
+++ LOG_INFO 'End to restore the test environment.'
+++ message='End to restore the test environment.'
+++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Fri May  5 08:11:59 2023 - INFO  - End to restore the test environment.
++ test -f ./Hello.class
++ CHECK_RESULT 1 0 0 'Check scalac -toolcp failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check scalac -toolcp failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check scalac -toolcp failed'
++ LOG_ERROR 'Check scalac -toolcp failed'
++ message='Check scalac -toolcp failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check scalac -toolcp failed'
+Fri May  5 08:12:01 2023 - ERROR - Check scalac -toolcp failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_scala_scalac_03.sh line 35'
++ message='oe_test_scala_scalac_03.sh line 35'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_scala_scalac_03.sh line 35'
+Fri May  5 08:12:03 2023 - ERROR - oe_test_scala_scalac_03.sh line 35
++ '[' 0 -eq 1 ']'
++ return 0
++ rm -rf ./Hello.class
++ CHECK_RESULT 0 0 0 'Delete test file failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Delete test file failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ scalac -usejavacp ./common/HelloWorld.scala
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGILL (0x4) at pc=0x00007fc7f519dcb2, pid=7528, tid=0x00007fc8082196c0
+#
+# JRE version: OpenJDK Runtime Environment (8.0_362-b09) (build 1.8.0_362-b09)
+# Java VM: OpenJDK 64-Bit Server VM (25.362-b09 mixed mode linux-amd64 compressed oops)
+# Problematic frame:
+# J 365 C1 scala.reflect.io.FileZipArchive$FileEntry$1.<init>(Lscala/reflect/io/FileZipArchive;Ljava/util/zip/ZipFile;Ljava/util/zip/ZipEntry;)V (37 bytes) @ 0x00007fc7f519dcb2 [0x00007fc7f519dca0+0x12]
+#
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# An error report file with more information is saved as:
+# /root/mugen/testcases/cli-test/scala/hs_err_pid7528.log
+Compiled method (c1)   21687  365       3       scala.reflect.io.FileZipArchive$FileEntry$1::<init> (37 bytes)
+ total in heap  [0x00007fc7f519dad0,0x00007fc7f519e738] = 3176
+ relocation     [0x00007fc7f519dbf8,0x00007fc7f519dc98] = 160
+ main code      [0x00007fc7f519dca0,0x00007fc7f519e320] = 1664
+ stub code      [0x00007fc7f519e320,0x00007fc7f519e3f8] = 216
+ metadata       [0x00007fc7f519e3f8,0x00007fc7f519e428] = 48
+ scopes data    [0x00007fc7f519e428,0x00007fc7f519e600] = 472
+ scopes pcs     [0x00007fc7f519e600,0x00007fc7f519e710] = 272
+ dependencies   [0x00007fc7f519e710,0x00007fc7f519e718] = 8
+ nul chk table  [0x00007fc7f519e718,0x00007fc7f519e738] = 32
+#
+# If you would like to submit a bug report, please visit:
+#   https://gitee.com/src-openeuler/openjdk-1.8.0/issues/
+#
+/usr/bin/scalac: line 21:  7528 Aborted                 (core dumped) "$@"
++ CHECK_RESULT 134 0 0 'Check scalac -usejavacp failed'
++ actual_result=134
++ expect_result=0
++ mode=0
++ error_log='Check scalac -usejavacp failed'
++ exit_mode=0
++ '[' -z 134 ']'
++ '[' 0 -eq 0 ']'
++ test 134x '!=' 0x
++ test -n 'Check scalac -usejavacp failed'
++ LOG_ERROR 'Check scalac -usejavacp failed'
++ message='Check scalac -usejavacp failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check scalac -usejavacp failed'
+Fri May  5 08:12:28 2023 - ERROR - Check scalac -usejavacp failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_scala_scalac_03.sh line 39'
++ message='oe_test_scala_scalac_03.sh line 39'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_scala_scalac_03.sh line 39'
+Fri May  5 08:12:31 2023 - ERROR - oe_test_scala_scalac_03.sh line 39
++ '[' 0 -eq 1 ']'
++ return 0
++ rm -rf ./Hello.class
++ CHECK_RESULT 0 0 0 'Delete test file failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Delete test file failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'Generating icode'
++ scalac -verbose ./common/HelloWorld.scala
++ CHECK_RESULT 1 0 0 'Check scalac -verbose failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check scalac -verbose failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check scalac -verbose failed'
++ LOG_ERROR 'Check scalac -verbose failed'
++ message='Check scalac -verbose failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check scalac -verbose failed'
+Fri May  5 08:12:32 2023 - ERROR - Check scalac -verbose failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_scala_scalac_03.sh line 43'
++ message='oe_test_scala_scalac_03.sh line 43'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_scala_scalac_03.sh line 43'
+Fri May  5 08:12:35 2023 - ERROR - oe_test_scala_scalac_03.sh line 43
++ '[' 0 -eq 1 ']'
++ return 0
++ scalac -version
+++ rpm -q scala --queryformat '%{version}\n'
++ grep 2.10.6
++ CHECK_RESULT 1 0 0 'Check scalac -version failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check scalac -version failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check scalac -version failed'
++ LOG_ERROR 'Check scalac -version failed'
++ message='Check scalac -version failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check scalac -version failed'
+Fri May  5 08:12:37 2023 - ERROR - Check scalac -version failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_scala_scalac_03.sh line 45'
++ message='oe_test_scala_scalac_03.sh line 45'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_scala_scalac_03.sh line 45'
+Fri May  5 08:12:40 2023 - ERROR - oe_test_scala_scalac_03.sh line 45
++ '[' 0 -eq 1 ']'
++ return 0
+++ awk NR==1
+++ find /usr/lib/jvm -name rt.jar
+++ find /usr/share/java/ -name scala-library.jar
+++ awk NR==1
++ scalac -javabootclasspath .:/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.362.b09-3.oe2303.x86_64/jre/lib/rt.jar: ./common/HelloWorld.scala
+oe_test_scala_scalac_03.sh: line 46: /usr/bin/scalac: No such file or directory
++ CHECK_RESULT 127 0 0 'Check scalac -save failed'
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log='Check scalac -save failed'
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n 'Check scalac -save failed'
++ LOG_ERROR 'Check scalac -save failed'
++ message='Check scalac -save failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check scalac -save failed'
+Fri May  5 08:12:42 2023 - ERROR - Check scalac -save failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_scala_scalac_03.sh line 47'
++ message='oe_test_scala_scalac_03.sh line 47'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_scala_scalac_03.sh line 47'
+Fri May  5 08:12:44 2023 - ERROR - oe_test_scala_scalac_03.sh line 47
++ '[' 0 -eq 1 ']'
++ return 0
++ scalac -J-Xmx512m ./common/HelloWorld.scala
+oe_test_scala_scalac_03.sh: line 48: /usr/bin/scalac: No such file or directory
++ CHECK_RESULT 127 0 0 'Check scalac -J-Xmx512m failed'
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log='Check scalac -J-Xmx512m failed'
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n 'Check scalac -J-Xmx512m failed'
++ LOG_ERROR 'Check scalac -J-Xmx512m failed'
++ message='Check scalac -J-Xmx512m failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check scalac -J-Xmx512m failed'
+Fri May  5 08:12:47 2023 - ERROR - Check scalac -J-Xmx512m failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_scala_scalac_03.sh line 49'
++ message='oe_test_scala_scalac_03.sh line 49'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_scala_scalac_03.sh line 49'
+Fri May  5 08:12:49 2023 - ERROR - oe_test_scala_scalac_03.sh line 49
++ '[' 0 -eq 1 ']'
++ return 0
++ rm -rf ./Hello.class
++ CHECK_RESULT 0 0 0 'Delete test file failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Delete test file failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ scalac @./common/argumentFile ./common/HelloWorld.scala
+oe_test_scala_scalac_03.sh: line 52: /usr/bin/scalac: No such file or directory
++ CHECK_RESULT 127 0 0 'Check scalac @ failed'
++ actual_result=127
++ expect_result=0
++ mode=0
++ error_log='Check scalac @ failed'
++ exit_mode=0
++ '[' -z 127 ']'
++ '[' 0 -eq 0 ']'
++ test 127x '!=' 0x
++ test -n 'Check scalac @ failed'
++ LOG_ERROR 'Check scalac @ failed'
++ message='Check scalac @ failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check scalac @ failed'
+Fri May  5 08:12:51 2023 - ERROR - Check scalac @ failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_scala_scalac_03.sh line 53'
++ message='oe_test_scala_scalac_03.sh line 53'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_scala_scalac_03.sh line 53'
+Fri May  5 08:12:53 2023 - ERROR - oe_test_scala_scalac_03.sh line 53
++ '[' 0 -eq 1 ']'
++ return 0
++ rm -rf ./classes/Hello.class
++ CHECK_RESULT 0 0 0 'Delete test file failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Delete test file failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Fri May  5 08:12:55 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 7
++ test 7 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri May  5 08:12:57 2023 - ERROR - failed to execute the case.
++ exit 7
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri May  5 08:12:58 2023 - INFO  - Start to restore the test environment.
++ rm -rf classes scala-library.jar 'Hello*' index.html index.js 'package*'
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Fri May  5 08:13:00 2023 - WARN  - no thing to do.
++ return 0
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Fri May  5 08:13:01 2023 - INFO  - End to restore the test environment.

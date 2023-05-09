@@ -1,0 +1,119 @@
++ source ../common/storage_disk_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Sat May  6 01:16:26 2023 - INFO  - Start environment preparation.
++ check_free_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='sr0 vdb vdc vdd vde'
++ disk_list=($disks)
++ local_disk=sr0
++ local_disk1=vdb
++ local_disk2=vdc
++ local_disk3=vdd
++ pvcreate -y /dev/sr0
+oe_test_storage_lvm_set_regionsize.sh: line 23: pvcreate: command not found
++ vgcreate openeulertest /dev/sr0 /dev/vdb
+oe_test_storage_lvm_set_regionsize.sh: line 24: vgcreate: command not found
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Sat May  6 01:16:29 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase!'
++ message='Start executing testcase!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase!'
+Sat May  6 01:16:30 2023 - INFO  - Start executing testcase!
++ expect -c '
+    set timeout 30
+    log_file testlog
+    spawn lvcreate --type raid1 -m 1 -L 50MB -n test openeulertest
+    expect "*\[y/n\]*" {send "y\r"}
+    expect eof
+'
+spawn lvcreate --type raid1 -m 1 -L 50MB -n test openeulertest
+couldn't execute "lvcreate": no such file or directory
+    while executing
+"spawn lvcreate --type raid1 -m 1 -L 50MB -n test openeulertest"
++ grep -iE 'fail|error' testlog
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ expect -c '
+    set timeout 30
+    log_file testlog1
+    spawn lvconvert -R 4096K openeulertest/test
+    expect "*\[y/n\]*" {send "y\r"}
+    expect eof
+'
+spawn lvconvert -R 4096K openeulertest/test
+couldn't execute "lvconvert": no such file or directory
+    while executing
+"spawn lvconvert -R 4096K openeulertest/test"
++ grep -iE 'fail|error' testlog1
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ LOG_INFO 'End of testcase execution!'
++ message='End of testcase execution!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution!'
+Sat May  6 01:16:30 2023 - INFO  - End of testcase execution!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Sat May  6 01:16:30 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Sat May  6 01:16:31 2023 - INFO  - start environment cleanup.
++ lvremove -y openeulertest/test
+oe_test_storage_lvm_set_regionsize.sh: line 53: lvremove: command not found
++ vgremove -y openeulertest
+oe_test_storage_lvm_set_regionsize.sh: line 54: vgremove: command not found
++ pvremove -y /dev/sr0 /dev/vdb
+oe_test_storage_lvm_set_regionsize.sh: line 55: pvremove: command not found
++ rm -rf testlog testlog1
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Sat May  6 01:16:31 2023 - INFO  - Finish environment cleanup.

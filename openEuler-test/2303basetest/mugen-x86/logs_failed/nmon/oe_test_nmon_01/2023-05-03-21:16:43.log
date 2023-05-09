@@ -1,0 +1,563 @@
++ source ./common/common.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed May  3 21:16:45 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL 'nmon gcc ncurses-devel nfs-utils rpmdevtools rpmlint openeuler-lsb'
++ pkgs='nmon gcc ncurses-devel nfs-utils rpmdevtools rpmlint openeuler-lsb'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'nmon gcc ncurses-devel nfs-utils rpmdevtools rpmlint openeuler-lsb' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpoasa50ui
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpoasa50ui
++ env_pre
++ systemctl start nfs-server
++ rpmdev-setuptree
++ cp ./common/libnvidia-ml.spec /root/rpmbuild/SPECS/
++ '[' x86_64 = x86_64 ']'
++ export ARCH=X86
++ ARCH=X86
++ wget -P /root/rpmbuild/SOURCES/ https://cn.download.nvidia.com/XFree86/Linux-x86_64/470.74/NVIDIA-Linux-x86_64-470.74.run
+./common/common.sh: line 28: wget: command not found
++ dd if=/dev/null of=/root/rpmbuild/SOURCES/null
+0+0 records in
+0+0 records out
+0 bytes copied, 0.00102599 s, 0.0 kB/s
++ rpmbuild -ba --nodebuginfo /root/rpmbuild/SPECS/libnvidia-ml.spec
+Executing(%prep): /bin/sh -e /var/tmp/rpm-tmp.MzRoOJ
++ umask 022
++ cd /root/rpmbuild/BUILD
++ cd /root/rpmbuild/BUILD
++ rm -rf NVIDIA-Linux-x86_64-470.74-custom
++ /usr/bin/mkdir -p NVIDIA-Linux-x86_64-470.74-custom
++ cd NVIDIA-Linux-x86_64-470.74-custom
++ /usr/bin/chmod -Rf a+rX,u+w,g-w,o-w .
++ rm -rf /root/rpmbuild/BUILD/NVIDIA-Linux-x86_64-470.74-custom
++ cd /root/rpmbuild/BUILD
++ sh /root/rpmbuild/SOURCES/NVIDIA-Linux-x86_64-470.74.run -x --add-this-kernel
+sh: /root/rpmbuild/SOURCES/NVIDIA-Linux-x86_64-470.74.run: No such file or directory
+error: Bad exit status from /var/tmp/rpm-tmp.MzRoOJ (%prep)
+
+RPM build errors:
+    Bad exit status from /var/tmp/rpm-tmp.MzRoOJ (%prep)
++ rpm -i /root/rpmbuild/RPMS/x86_64/libnvidia-ml-470.74-openEuler.x86_64.rpm
+error: open of /root/rpmbuild/RPMS/x86_64/libnvidia-ml-470.74-openEuler.x86_64.rpm failed: No such file or directory
++ mv /lib64/libnvidia-ml.so.470.74 /lib64/libnvidia-ml.so
+mv: cannot stat '/lib64/libnvidia-ml.so.470.74': No such file or directory
++ ldconfig
++ yumdownloader --source --destdir=./template/ nmon
+Last metadata expiration check: 0:05:30 ago on Wed 03 May 2023 09:17:01 PM UTC.
+nmon-16n-1.oe2303.src.rpm                        34 kB/s |  73 kB     00:02    
++ rpm -i ./template/nmon-16n-1.oe2303.src.rpm
++ gcc -o nmon_openEuler /root/rpmbuild/SOURCES/lmon16n.c -g -Wall -D JFS -D GETUSER -D LARGEMEM -lncurses -lm -g -D X86 -lnvidia-ml -D NVIDIA_GPU
+/usr/bin/ld: cannot find -lnvidia-ml
+collect2: error: ld returned 1 exit status
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Wed May  3 21:22:40 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed May  3 21:22:41 2023 - INFO  - Start to run test.
++ nmon -f
++ test -f localhost_230503_2122.nmon
++ CHECK_RESULT 0 0 0 'Failed option: -f'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -f'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf localhost_230503_2122.nmon
++ nmon -F example.nmon
++ test -f example.nmon
++ CHECK_RESULT 0 0 0 'Failed option: -F'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -F'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf example.nmon
++ ./nmon_openEuler -fa
+oe_test_nmon_01.sh: line 36: ./nmon_openEuler: No such file or directory
++ SLEEP_WAIT 10
++ wait_time=10
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 10 --cmd '' --mode 1
++ grep GPU '*.nmon'
+grep: *.nmon: No such file or directory
++ CHECK_RESULT 2 0 0 'Failed option: -a'
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log='Failed option: -a'
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n 'Failed option: -a'
++ LOG_ERROR 'Failed option: -a'
++ message='Failed option: -a'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed option: -a'
+Wed May  3 21:22:52 2023 - ERROR - Failed option: -a
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmon_01.sh line 39'
++ message='oe_test_nmon_01.sh line 39'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmon_01.sh line 39'
+Wed May  3 21:22:52 2023 - ERROR - oe_test_nmon_01.sh line 39
++ '[' 0 -eq 1 ']'
++ return 0
++ rm -rf '*.nmon'
++ nmon -f -c 1
++ grep snapshots,1 localhost_230503_2122.nmon
+AAA,snapshots,1
++ CHECK_RESULT 0 0 0 'Failed option: -c'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -c'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf localhost_230503_2122.nmon
++ nmon -f -d 512
++ grep max_disks,512 localhost_230503_2122.nmon
+AAA,max_disks,512,set by -d option
++ CHECK_RESULT 0 0 0 'Failed option: -d'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -d'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf localhost_230503_2122.nmon
++ nmon -f -g auto -D
+Generating disk group file from lsblk output to file: "auto"
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ grep -E 'SERV|WAIT|DGINFLIGHT' localhost_230503_2122.nmon
+DGREADSERV,Disk Group read service time (SUM ms) localhost,vda
+DGWRITESERV,Disk Group write service time (SUM ms) localhost,vda
+DGINFLIGHT,Disk Group in flight IO localhost,vda
+DGREADSERV,T0001,0.0
+DGWRITESERV,T0001,0.0
+DGINFLIGHT,T0001,0.0
++ CHECK_RESULT 0 0 0 'Failed option: -D'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -D'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf localhost_230503_2122.nmon
++ nmon -f -g auto
+Generating disk group file from lsblk output to file: "auto"
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ grep -E 'DG|BBBG' localhost_230503_2122.nmon
+BBBG,000,User Defined Disk Groups Name,Disks
+BBBG,001,vda,vda
+DGBUSY,Disk Group Busy localhost,vda
+DGREAD,Disk Group Read KB/s localhost,vda
+DGWRITE,Disk Group Write KB/s localhost,vda
+DGSIZE,Disk Group Block Size KB localhost,vda
+DGXFER,Disk Group Transfers/s localhost,vda
++ CHECK_RESULT 0 0 0 'Failed option: -g auto'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -g auto'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf localhost_230503_2122.nmon auto
+++ lsblk -l
+++ grep disk
+++ awk '{print $1}'
++ echo 'userDefineDisk vda'
++ nmon -f -g ./template/uddg
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ grep -E 'DG|BBBG|userDefineDisk' localhost_230503_2122.nmon
+BBBG,000,User Defined Disk Groups Name,Disks
+BBBG,001,userDefineDisk,vda
+DGBUSY,Disk Group Busy localhost,userDefineDisk
+DGREAD,Disk Group Read KB/s localhost,userDefineDisk
+DGWRITE,Disk Group Write KB/s localhost,userDefineDisk
+DGSIZE,Disk Group Block Size KB localhost,userDefineDisk
+DGXFER,Disk Group Transfers/s localhost,userDefineDisk
++ CHECK_RESULT 0 0 0 'Failed option: -g'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -g'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf localhost_230503_2122.nmon
++ nmon -h
++ grep Options
+	Further Data Collection Options:
+For Data-Collect-Mode Options
++ CHECK_RESULT 0 0 0 'Failed option: -h'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -h'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ nmon -fJ
++ grep JFS localhost_230503_2122.nmon
++ CHECK_RESULT 1 0 1 'Failed option: -J'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='Failed option: -J'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ rm -rf localhost_230503_2122.nmon
++ nmon -f -l 200
++ grep disks_per_line,200 localhost_230503_2122.nmon
+AAA,disks_per_line,200
++ CHECK_RESULT 0 0 0 'Failed option: -l'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -l'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf localhost_230503_2122.nmon
++ nmon -f -m ./template/
++ test -f ./template/localhost_230503_2122.nmon
++ CHECK_RESULT 0 0 0 'Failed option: -m'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -m'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf ./template/localhost_230503_2122.nmon
++ nmon -fM
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ grep MHZ localhost_230503_2122.nmon
+MHZ,Clock Speed (MHz) localhost,CPU001,CPU002,CPU003,CPU004
+MHZ,T0001,3194,3194,3194,3194
++ CHECK_RESULT 0 0 0 'Failed option: -M'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -M'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf localhost_230503_2122.nmon
++ nmon -fN
++ SLEEP_WAIT 7
++ wait_time=7
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 7 --cmd '' --mode 1
++ grep -E 'NFSSVRV2|NFSSVRV3|NFSSVRV4' localhost_230503_2123.nmon
+NFSSVRV2,NFS Server v2,null,getattr,setattr,root,lookup,readlink,read,wrcache,write,create,remove,rename,link,symlink,mkdir,rmdir,readdir,fsstat
+NFSSVRV3,NFS Server v3,null,getattr,setattr,lookup,access,readlink,read,write,create,mkdir,symlink,mknod,remove,rmdir,rename,link,readdir,readdirplus,fsstat,fsinfo,pathconf,commit
+NFSSVRV4,NFS Server v4,op0-unused,op1-unused,op2-future,access,close,commit,create,delegpurge,delegreturn,getattr,getfh,link,lock,lockt,locku,lookup,lookup_root,nverify,open,openattr,open_conf,open_dgrd,putfh,putpubfh,putrootfh,read,readdir,readlink,remove,rename,renew,restorefh,savefh,secinfo,setattr,setcltid,setcltidconf,verify,write,rellockowner,bc_ctl,blind_conn,exchange_id,create_ses,destroy_ses,free_statid,getdirdelag,getdevinfo,getdevlist,layoutcommit,layoutget,layoutreturn,secunfononam,sequence,set_ssv,test_stateid,want_deleg,destory_clid,reclaim_comp,stat60,stat61,stat62,stat63,stat64,stat65,stat66,stat67,stat68,stat69,stat70,stat71,stat72,null,getattr,setattr,lookup
+NFSSVRV2,T0001,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+NFSSVRV3,T0001,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+NFSSVRV4,T0001,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
++ CHECK_RESULT 0 0 0 'Failed option: -N'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -N'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf localhost_230503_2123.nmon
++ nmon -fp
+++ cat ./template/nmonPID
+++ pgrep -f 'nmon -fp'
++ '[' 6288 -eq 6288 ']'
++ touch ./template/equal
++ test -f ./template/equal
++ CHECK_RESULT 0 0 0 'Failed option: -p'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -p'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf ./template/nmonPID ./template/equal localhost_230503_2123.nmon
++ nmon -f -r exampleRunname
++ grep runname,exampleRunname localhost_230503_2123.nmon
+AAA,runname,exampleRunname
++ CHECK_RESULT 0 0 0 'Failed option: -r'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -r'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf localhost_230503_2123.nmon
++ nmon -fR
++ SLEEP_WAIT 10
++ wait_time=10
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 10 --cmd '' --mode 1
++ grep rrdtool localhost_230503_2123.nmon
+rrdtool update cpu00.rrd 1683148992:5.4:18.3:2.2:74.2
+rrdtool update cpu01.rrd 1683148992:6.4:21.8:0.0:71.8
+rrdtool update cpu02.rrd 1683148992:5.3:19.6:3.2:72.0
+rrdtool update cpu03.rrd 1683148992:17.9:13.7:0.0:68.4
+rrdtool update cpu.rrd 1683148992:8.9:18.2:1.2:71.70.0
+rrdtool update mem.rrd 1683148992:2840.5:-0.0:-0.0:0.0:2193.1:-0.0:-0.0:0.0:51.0:440.3:131.3:-1.0:20.8:0.0:381.1
+rrdtool update vm.rrd 1683148992:53:0:0:571:9159:12128:0:0:0:0:16113:4:0:26163:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0
+rrdtool update proc.rrd 1683148992:1:0:0.0:-1.0:-1.0:-1.0:0.0:-1.0:-1.0:-1.0
+rrdtool update net.rrd 1683148992:0.0:0.2:0.0:0.1
+rrdtool update netpacket.rrd 1683148992:0.0:1.4:0.0:1.4
+rrdtool update jfsfile.rrd 1683148992:0.0:9.0:9.6:0.0:4.6
+rrdtool update diskbusy.rrd 1683148992:0.0:0.0:0.0
+rrdtool update diskread.rrd 1683148992:0.0:0.0:0.0
+rrdtool update diskwrite.rrd 1683148992:0.0:0.0:0.0
+rrdtool update diskxfer.rrd 1683148992:0.0:0.0:0.0
+rrdtool update diskbsize.rrd 1683148992:0.0:0.0:0.0
++ CHECK_RESULT 0 0 0 'Failed option: -R'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -R'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf localhost_230503_2123.nmon
++ nmon -f -s 5
++ grep interval,5 localhost_230503_2123.nmon
+AAA,interval,5
++ CHECK_RESULT 0 0 0 'Failed option: -s'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -s'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf localhost_230503_2123.nmon
++ nmon -ft
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ grep TOP localhost_230503_2123.nmon
+TOP,%CPU Utilisation
+TOP,+PID,Time,%CPU,%Usr,%Sys,Size,ResSet,ResText,ResData,ShdLib,MinorFault,MajorFault,Command,Threads,IOwaitTime
++ CHECK_RESULT 0 0 0 'Failed option: -t'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -t'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf localhost_230503_2123.nmon
++ nmon -fT -c 5 -s 1
++ SLEEP_WAIT 8
++ wait_time=8
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 8 --cmd '' --mode 1
++ grep UARG localhost_230503_2123.nmon
+UARG,+Time,PID,ProgName,FullCommand
+UARG,T0002,0006862,nmon,nmon -fT -c 5 -s 1
+UARG,T0002,0001019,jbd2/vda2-8,[jbd2/vda2-8]
+UARG,T0002,0001408,rsyslogd,/usr/sbin/rsyslogd -n -i/var/run/rsyslogd.pid
+UARG,T0002,0002654,python3,python3 /root/mugen/libs/locallibs/sleep_wait.py --time 30m --cmd bash -x oe_test_nmon_01.sh --mode 1
+UARG,T0003,0000015,rcu_preempt,[rcu_preempt]
+UARG,T0004,0006633,nmon,nmon -f -s 5
++ CHECK_RESULT 0 0 0 'Failed option: -T'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -T'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf localhost_230503_2123.nmon
++ nmon -fU
++ SLEEP_WAIT 8
++ wait_time=8
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 8 --cmd '' --mode 1
++ grep CPUUTIL localhost_230503_2123.nmon
+CPUUTIL_ALL,CPU Util Stats localhost,User%,Nice%,Sys%,Idle%,Wait%,Irq%,Softirq%,Steal%,Guest%,Guest_nice%
+CPUUTIL001,CPU Util Stats CPU1 localhost,User%,Nice%,Sys%,Idle%,Wait%,Irq%,Softirq%,Steal%,Guest%,Guest_nice%
+CPUUTIL002,CPU Util Stats CPU2 localhost,User%,Nice%,Sys%,Idle%,Wait%,Irq%,Softirq%,Steal%,Guest%,Guest_nice%
+CPUUTIL003,CPU Util Stats CPU3 localhost,User%,Nice%,Sys%,Idle%,Wait%,Irq%,Softirq%,Steal%,Guest%,Guest_nice%
+CPUUTIL004,CPU Util Stats CPU4 localhost,User%,Nice%,Sys%,Idle%,Wait%,Irq%,Softirq%,Steal%,Guest%,Guest_nice%
+CPUUTIL_ALL,T0001,22.10,0.00,32.44,295.29,7.05,0.00,0.00,0.00,0.00,0.00
+CPUUTIL000,T0001,3.76,0.00,12.70,65.83,7.05,0.00,0.00,0.00,0.00,0.00
+CPUUTIL001,T0001,1.88,0.00,6.11,80.87,0.00,0.00,0.00,0.00,0.00,0.00
+CPUUTIL002,T0001,2.35,0.00,9.87,76.17,0.00,0.00,0.00,0.00,0.00,0.00
+CPUUTIL003,T0001,13.64,0.00,3.29,72.88,0.00,0.00,0.00,0.00,0.00,0.00
++ CHECK_RESULT 0 0 0 'Failed option: -U'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -U'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf localhost_230503_2123.nmon
++ nmon -V
++ grep version
+nmon version 16n
++ CHECK_RESULT 0 0 0 'Failed option: -V'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -V'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ nmon '-?'
++ grep Options
+	Further Data Collection Options:
++ CHECK_RESULT 0 0 0 'Failed option: -?'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed option: -?'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed May  3 21:23:40 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed May  3 21:23:40 2023 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'Start restore the test environment.'
++ message='Start restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start restore the test environment.'
+Wed May  3 21:23:40 2023 - INFO  - Start restore the test environment.
++ env_post
++ systemctl stop nfs-server
++ unset ARCH
++ rm -rf ./template /root/rpmbuild nmon_openEuler auto '/lib64/libnvidia-ml*'
++ rpm -e --nodeps libnvidia-ml
+error: package libnvidia-ml is not installed
+++ pgrep -w nmon
+++ pgrep nmon_openEuler
++ kill -USR2 4893 4946 5130 5188 5254 5481 5600 5717 5775 5837 5920 6173 6288 6348 6425 6633 6691 6989
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpoasa50ui ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpoasa50ui
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed May  3 21:23:51 2023 - INFO  - End to restore the test environment.

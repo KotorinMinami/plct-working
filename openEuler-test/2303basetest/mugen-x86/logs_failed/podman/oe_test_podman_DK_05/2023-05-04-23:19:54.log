@@ -1,0 +1,312 @@
++ source ../common/common_podman.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Thu May  4 23:19:56 2023 - INFO  - Start to prepare the test environment.
++ deploy_env
++ DNF_INSTALL 'podman podman-docker'
++ pkgs='podman podman-docker'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'podman podman-docker' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpqtiu5s22
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpqtiu5s22
++ echo -e '[registries.search]
+registries = ['\''docker.io'\'']
+
+[registries.insecure]
+registries = []
+
+[registries.block]
+registries = []
+'
++ podman pull postgres:alpine
+Resolving "postgres" using unqualified-search registries (/etc/containers/registries.conf)
+Trying to pull docker.io/library/postgres:alpine...
+Getting image source signatures
+Copying blob sha256:f33740282c0040003ee1e3c9ec1a68d5eb873795badbbf6103c79cc588760e4a
+Copying blob sha256:f56be85fc22e46face30e2c3de3f7fe7c15f8fd7c4e5add29d7f64b87abdaa09
+Copying blob sha256:8eff49387ec9a1f26ada557b4e31f86a45f70ef57c1a45345e5bfbe75e53bcfc
+Copying blob sha256:f71699d7795ac5159478a278ffb6af3fcac0141e6a637d71062a601d7cab30c7
+Copying blob sha256:7da7fae4e80a5e292219502d2ce432382a68e8d0fb3841807ad70963ec194e7d
+Copying blob sha256:256414453fba6e3cc9af34383da6e5920f6d4ac3399943b8569b68896c645a0e
+Copying blob sha256:7da7fae4e80a5e292219502d2ce432382a68e8d0fb3841807ad70963ec194e7d
+Copying blob sha256:b49740a115f2f98ff2414fb5272986655b272d739c878477a6ca541430a41637
+Copying blob sha256:f71699d7795ac5159478a278ffb6af3fcac0141e6a637d71062a601d7cab30c7
+Copying blob sha256:256414453fba6e3cc9af34383da6e5920f6d4ac3399943b8569b68896c645a0e
+Copying blob sha256:f56be85fc22e46face30e2c3de3f7fe7c15f8fd7c4e5add29d7f64b87abdaa09
+Copying blob sha256:c36da779701e31511df27033e2a5e1b1ebdd0b7f4032cfab4a04c82139d7337a
+Copying blob sha256:8eff49387ec9a1f26ada557b4e31f86a45f70ef57c1a45345e5bfbe75e53bcfc
+Copying blob sha256:f33740282c0040003ee1e3c9ec1a68d5eb873795badbbf6103c79cc588760e4a
+Copying blob sha256:b49740a115f2f98ff2414fb5272986655b272d739c878477a6ca541430a41637
+Copying blob sha256:c36da779701e31511df27033e2a5e1b1ebdd0b7f4032cfab4a04c82139d7337a
+Copying config sha256:ddc12ac7fa27279bfcc41deaccd1368291ab7d71ca7cee0420b41f9974e9a468
+Writing manifest to image destination
+Storing signatures
+ddc12ac7fa27279bfcc41deaccd1368291ab7d71ca7cee0420b41f9974e9a468
++ podman run --name postgres -e POSTGRES_PASSWORD=secret -d postgres:alpine
+time="2023-05-04T23:22:36Z" level=warning msg="Path \"/usr/share/rhel/secrets\" from \"/usr/share/containers/mounts.conf\" doesn't exist, skipping"
+d88618e9872cffdad403b30e413f819a8845c8b851feadb1203f8cf177550b4e
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Thu May  4 23:22:37 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Thu May  4 23:22:37 2023 - INFO  - Start to run test.
++ docker save --compress --format oci-dir -o alp-dir postgres:alpine
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+Copying blob sha256:f1417ff83b319fbdae6dd9cd6d8c9c88002dcd75ecf6ec201c8c6894681cf2b5
+Copying blob sha256:fcf02a753237f1b1b42cc1b01f064e519091b790f0a07c2b93ea57b5738ed0e4
+Copying blob sha256:5a60e9fc7e1e4a0f1964971cc5e4ebfaadd3fe2aaebe7f8b50ba81919abdb322
+Copying blob sha256:00134de398d0f9382cdbd6b9d96d11a345dd8089729daef0719e7b73a4e92318
+Copying blob sha256:5f1c25ebb8aa0c2d09779e91211854612fd996d993c1a9b8fc7cf80a91bcbb1b
+Copying blob sha256:2813163892f150ec0490a9f1f7b3079ce20127ea82159b59ef8c5cb43d747e23
+Copying blob sha256:342ef26a205af001eb88827c2314002e2fd8fb771dcdcfb4a9694083188214b2
+Copying blob sha256:2d4d2a830f34bdd6c688ae0571200b3674a098b3f89f246aadb6f89d6bf0ca3d
+Copying config sha256:080ca965e4057502ca2d87642023966e7dfd889a07f6fa2316c094ab690c7ab2
+Writing manifest to image destination
+Storing signatures
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test -d alp-dir
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ docker save -q -o alpine.tar postgres:alpine
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test -f alpine.tar
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ docker info
++ grep -E 'host|insecure registries|registries|store'
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+host:
+  hostname: localhost.localdomain
+registries:
+store:
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ docker info --debug
++ grep debug
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_DK_05.sh line 42'
++ message='oe_test_podman_DK_05.sh line 42'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_DK_05.sh line 42'
+Thu May  4 23:23:06 2023 - ERROR - oe_test_podman_DK_05.sh line 42
++ '[' 0 -eq 1 ']'
++ return 0
++ docker info --format json
++ grep '"host":'
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+  "host": {
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep '#(nop)'
+++ docker images -q
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
++ docker history --format=json ddc12ac7fa27
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+[{"id":"ddc12ac7fa27279bfcc41deaccd1368291ab7d71ca7cee0420b41f9974e9a468","created":"2023-03-30T01:50:00.819118944Z","CreatedBy":"/bin/sh -c #(nop)  CMD [\"postgres\"]","size":0,"Created":"2023-03-30T01:50:00Z"},{"id":"\u003cmissing\u003e","created":"2023-03-30T01:50:00.729311415Z","CreatedBy":"/bin/sh -c #(nop)  EXPOSE 5432","size":0,"Created":"2023-03-30T01:50:00Z"},{"id":"\u003cmissing\u003e","created":"2023-03-30T01:50:00.63384956Z","CreatedBy":"/bin/sh -c #(nop)  STOPSIGNAL SIGINT","size":0,"Created":"2023-03-30T01:50:00Z"},{"id":"\u003cmissing\u003e","created":"2023-03-30T01:50:00.538825958Z","CreatedBy":"/bin/sh -c #(nop)  ENTRYPOINT [\"docker-entrypoint.sh\"]","size":0,"Created":"2023-03-30T01:50:00Z"},{"id":"\u003cmissing\u003e","created":"2023-03-30T01:50:00.452726174Z","CreatedBy":"/bin/sh -c #(nop) COPY file:e635913e9467265f505455bc3f08bed37d67ce6597a1f10365f8faf79f09b654 in /usr/local/bin/ ","size":15872,"Created":"2023-03-30T01:50:00Z"},{"id":"\u003cmissing\u003e","created":"2023-03-30T01:50:00.354258261Z","CreatedBy":"/bin/sh -c #(nop)  VOLUME [/var/lib/postgresql/data]","size":0,"Created":"2023-03-30T01:50:00Z"},{"id":"\u003cmissing\u003e","created":"2023-03-30T01:50:00.262835673Z","CreatedBy":"/bin/sh -c mkdir -p \"$PGDATA\" \u0026\u0026 chown -R postgres:postgres \"$PGDATA\" \u0026\u0026 chmod 1777 \"$PGDATA\"","size":3584,"Created":"2023-03-30T01:50:00Z"},{"id":"\u003cmissing\u003e","created":"2023-03-30T01:49:59.717060626Z","CreatedBy":"/bin/sh -c #(nop)  ENV PGDATA=/var/lib/postgresql/data","size":0,"Created":"2023-03-30T01:49:59Z"},{"id":"\u003cmissing\u003e","created":"2023-03-30T01:49:59.630655358Z","CreatedBy":"/bin/sh -c mkdir -p /var/run/postgresql \u0026\u0026 chown -R postgres:postgres /var/run/postgresql \u0026\u0026 chmod 3777 /var/run/postgresql","size":2560,"Created":"2023-03-30T01:49:59Z"},{"id":"\u003cmissing\u003e","created":"2023-03-30T01:49:59.10104822Z","CreatedBy":"/bin/sh -c set -eux; \tcp -v /usr/local/share/postgresql/postgresql.conf.sample /usr/local/share/postgresql/postgresql.conf.sample.orig; \tsed -ri \"s!^#?(listen_addresses)\\s*=\\s*\\S+.*!\\1 = '*'!\" /usr/local/share/postgresql/postgresql.conf.sample; \tgrep -F \"listen_addresses = '*'\" /usr/local/share/postgresql/postgresql.conf.sample","size":63488,"Created":"2023-03-30T01:49:59Z"},{"id":"\u003cmissing\u003e","created":"2023-03-30T01:49:58.142879059Z","CreatedBy":"/bin/sh -c set -eux; \t\twget -O postgresql.tar.bz2 \"https://ftp.postgresql.org/pub/source/v$PG_VERSION/postgresql-$PG_VERSION.tar.bz2\"; \techo \"$PG_SHA256 *postgresql.tar.bz2\" | sha256sum -c -; \tmkdir -p /usr/src/postgresql; \ttar \t\t--extract \t\t--file postgresql.tar.bz2 \t\t--directory /usr/src/postgresql \t\t--strip-components 1 \t; \trm postgresql.tar.bz2; \t\tapk add --no-cache --virtual .build-deps \t\tbison \t\tcoreutils \t\tdpkg-dev dpkg \t\tflex \t\tgcc \t\tkrb5-dev \t\tlibc-dev \t\tlibedit-dev \t\tlibxml2-dev \t\tlibxslt-dev \t\tlinux-headers \t\tllvm-dev clang g++ \t\tmake \t\topenldap-dev \t\topenssl-dev \t\tperl-dev \t\tperl-ipc-run \t\tperl-utils \t\tpython3-dev \t\ttcl-dev \t\tutil-linux-dev \t\tzlib-dev \t\ticu-dev \t\tlz4-dev \t\tzstd-dev \t; \t\tcd /usr/src/postgresql; \tawk '$1 == \"#define\" \u0026\u0026 $2 == \"DEFAULT_PGSOCKET_DIR\" \u0026\u0026 $3 == \"\\\"/tmp\\\"\" { $3 = \"\\\"/var/run/postgresql\\\"\"; print; next } { print }' src/include/pg_config_manual.h \u003e src/include/pg_config_manual.h.new; \tgrep '/var/run/postgresql' src/include/pg_config_manual.h.new; \tmv src/include/pg_config_manual.h.new src/include/pg_config_manual.h; \tgnuArch=\"$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)\"; \twget -O config/config.guess 'https://git.savannah.gnu.org/cgit/config.git/plain/config.guess?id=7d3d27baf8107b630586c962c057e22149653deb'; \twget -O config/config.sub 'https://git.savannah.gnu.org/cgit/config.git/plain/config.sub?id=7d3d27baf8107b630586c962c057e22149653deb'; \t./configure \t\t--build=\"$gnuArch\" \t\t--enable-integer-datetimes \t\t--enable-thread-safety \t\t--enable-tap-tests \t\t--disable-rpath \t\t--with-uuid=e2fs \t\t--with-gnu-ld \t\t--with-pgport=5432 \t\t--with-system-tzdata=/usr/share/zoneinfo \t\t--prefix=/usr/local \t\t--with-includes=/usr/local/include \t\t--with-libraries=/usr/local/lib \t\t--with-krb5 \t\t--with-gssapi \t\t--with-ldap \t\t--with-tcl \t\t--with-perl \t\t--with-python \t\t--with-openssl \t\t--with-libxml \t\t--with-libxslt \t\t--with-icu \t\t--with-llvm \t\t--with-lz4 \t\t--with-zstd \t; \tmake -j \"$(nproc)\" world; \tmake install-world; \tmake -C contrib install; \t\trunDeps=\"$( \t\tscanelf --needed --nobanner --format '%n#p' --recursive /usr/local \t\t\t| tr ',' '\\n' \t\t\t| sort -u \t\t\t| awk 'system(\"[ -e /usr/local/lib/\" $1 \" ]\") == 0 { next } { print \"so:\" $1 }' \t\t\t| grep -v -e perl -e python -e tcl \t)\"; \tapk add --no-cache --virtual .postgresql-rundeps \t\t$runDeps \t\tbash \t\tsu-exec \t\ttzdata \t\tzstd \t\ticu-data-full \t\t$([ \"$(apk --print-arch)\" != 'ppc64le' ] \u0026\u0026 echo 'nss_wrapper') \t; \tapk del --no-network .build-deps; \tcd /; \trm -rf \t\t/usr/src/postgresql \t\t/usr/local/share/doc \t\t/usr/local/share/man \t; \t\tpostgres --version","size":238856704,"Created":"2023-03-30T01:49:58Z"},{"id":"\u003cmissing\u003e","created":"2023-03-30T01:47:14.156933812Z","CreatedBy":"/bin/sh -c #(nop)  ENV PG_SHA256=99a2171fc3d6b5b5f56b757a7a3cb85d509a38e4273805def23941ed2b8468c7","size":0,"Created":"2023-03-30T01:47:14Z"},{"id":"\u003cmissing\u003e","created":"2023-03-30T01:47:14.0724351Z","CreatedBy":"/bin/sh -c #(nop)  ENV PG_VERSION=15.2","size":0,"Created":"2023-03-30T01:47:14Z"},{"id":"\u003cmissing\u003e","created":"2023-03-30T01:47:13.98998449Z","CreatedBy":"/bin/sh -c #(nop)  ENV PG_MAJOR=15","size":0,"Created":"2023-03-30T01:47:13Z"},{"id":"\u003cmissing\u003e","created":"2023-03-30T01:47:13.906724125Z","CreatedBy":"/bin/sh -c mkdir /docker-entrypoint-initdb.d","size":2048,"Created":"2023-03-30T01:47:13Z"},{"id":"\u003cmissing\u003e","created":"2023-03-30T01:47:13.372717614Z","CreatedBy":"/bin/sh -c #(nop)  ENV LANG=en_US.utf8","size":0,"Created":"2023-03-30T01:47:13Z"},{"id":"\u003cmissing\u003e","created":"2023-03-30T01:47:13.29062733Z","CreatedBy":"/bin/sh -c set -eux; \taddgroup -g 70 -S postgres; \tadduser -u 70 -S -D -G postgres -H -h /var/lib/postgresql -s /bin/sh postgres; \tmkdir -p /var/lib/postgresql; \tchown -R postgres:postgres /var/lib/postgresql","size":12800,"Created":"2023-03-30T01:47:13Z"},{"id":"\u003cmissing\u003e","created":"2023-03-29T18:19:24.45578926Z","CreatedBy":"/bin/sh -c #(nop)  CMD [\"/bin/sh\"]","size":0,"Created":"2023-03-29T18:19:24Z"},{"id":"\u003cmissing\u003e","created":"2023-03-29T18:19:24.348438709Z","CreatedBy":"/bin/sh -c #(nop) ADD file:9a4f77dfaba7fd2aa78186e4ef0e7486ad55101cefc1fabbc1b385601bb38920 in / ","size":7337984,"Created":"2023-03-29T18:19:24Z"}]
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep B
+++ docker images -q
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
++ docker history --human ddc12ac7fa27
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+ID            CREATED      CREATED BY                                     SIZE                     COMMENT
+ddc12ac7fa27  5 weeks ago  /bin/sh -c #(nop)  CMD ["postgres"]            0 B                      
+<missing>     5 weeks ago  /bin/sh -c #(nop)  EXPOSE 5432                 0 B                      
+<missing>     5 weeks ago  /bin/sh -c #(nop)  STOPSIGNAL SIGINT           0 B                      
+<missing>     5 weeks ago  /bin/sh -c #(nop)  ENTRYPOINT ["docker-ent...  0 B                      
+<missing>     5 weeks ago  /bin/sh -c #(nop) COPY file:e635913e946726...  15.9 kB                  
+<missing>     5 weeks ago  /bin/sh -c #(nop)  VOLUME [/var/lib/postgr...  0 B                      
+<missing>     5 weeks ago  /bin/sh -c mkdir -p "$PGDATA" && chown -R ...  3.58 kB                  
+<missing>     5 weeks ago  /bin/sh -c #(nop)  ENV PGDATA=/var/lib/pos...  0 B                      
+<missing>     5 weeks ago  /bin/sh -c mkdir -p /var/run/postgresql &&...  2.56 kB                  
+<missing>     5 weeks ago  /bin/sh -c set -eux;                           cp -v /usr/local/sha...  63.5 kB                 
+<missing>     5 weeks ago  /bin/sh -c set -eux;                                                    wget -O postgresql....  239 MB      
+<missing>     5 weeks ago  /bin/sh -c #(nop)  ENV PG_SHA256=99a2171fc...  0 B                      
+<missing>     5 weeks ago  /bin/sh -c #(nop)  ENV PG_VERSION=15.2         0 B                      
+<missing>     5 weeks ago  /bin/sh -c #(nop)  ENV PG_MAJOR=15             0 B                      
+<missing>     5 weeks ago  /bin/sh -c mkdir /docker-entrypoint-initdb.d   2.05 kB                  
+<missing>     5 weeks ago  /bin/sh -c #(nop)  ENV LANG=en_US.utf8         0 B                      
+<missing>     5 weeks ago  /bin/sh -c set -eux;                           addgroup -g 70 -S po...  12.8 kB     
+<missing>     5 weeks ago  /bin/sh -c #(nop)  CMD ["/bin/sh"]             0 B                      
+<missing>     5 weeks ago  /bin/sh -c #(nop) ADD file:9a4f77dfaba7fd2...  7.34 MB                  
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ docker images -q
+++ ls /var/lib/containers/storage/overlay-images/
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
++ grep 'ddc12ac7fa27279bfcc41deaccd1368291ab7d71ca7cee0420b41f9974e9a468
+images.json
+images.lock'
++ docker history --no-trunc ddc12ac7fa27
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+ddc12ac7fa27279bfcc41deaccd1368291ab7d71ca7cee0420b41f9974e9a468  5 weeks ago  /bin/sh -c #(nop)  CMD ["postgres"]                                                                                          0 B                                                                                                                 
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep nop
+++ docker images -q
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
++ docker history -q ddc12ac7fa27
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Thu May  4 23:23:10 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Thu May  4 23:23:11 2023 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Thu May  4 23:23:11 2023 - INFO  - Start to restore the test environment.
++ clear_env
++ podman stop postgres
+postgres
++ podman rm --all
+d88618e9872cffdad403b30e413f819a8845c8b851feadb1203f8cf177550b4e
++ podman rmi -f --all
+Untagged: docker.io/library/postgres:alpine
+Deleted: ddc12ac7fa27279bfcc41deaccd1368291ab7d71ca7cee0420b41f9974e9a468
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpqtiu5s22 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpqtiu5s22
++ '[' 0 -ne 0 ']'
+++ ls
+++ grep -vE .sh
++ rm -rf alp-dir alpine.tar
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Thu May  4 23:23:56 2023 - INFO  - End to restore the test environment.

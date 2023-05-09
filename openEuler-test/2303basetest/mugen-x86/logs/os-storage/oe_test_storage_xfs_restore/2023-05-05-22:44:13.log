@@ -1,0 +1,235 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ source ../common/storage_disk_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Fri May  5 22:44:15 2023 - INFO  - Start environment preparation.
++ check_free_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='sr0 vdb vdc vdd vde'
++ disk_list=($disks)
++ local_disk=sr0
++ local_disk1=vdb
++ local_disk2=vdc
++ local_disk3=vdd
++ DNF_INSTALL xfsdump
++ pkgs=xfsdump
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs xfsdump --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpa5vvpg08
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpa5vvpg08
++ fdisk /dev/sr0
++ echo 'n
+
+p
+
+
++20M
+w'
+fdisk: cannot open /dev/sr0: No medium found
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
++ mkfs.xfs -f /dev/vdb
+meta-data=/dev/vdb               isize=512    agcount=4, agsize=131072 blks
+         =                       sectsz=512   attr=2, projid32bit=1
+         =                       crc=1        finobt=1, sparse=1, rmapbt=0
+         =                       reflink=1    bigtime=1 inobtcount=1 nrext64=0
+data     =                       bsize=4096   blocks=524288, imaxpct=25
+         =                       sunit=0      swidth=0 blks
+naming   =version 2              bsize=4096   ascii-ci=0, ftype=1
+log      =internal log           bsize=4096   blocks=16384, version=2
+         =                       sectsz=512   sunit=0 blks, lazy-count=1
+realtime =none                   extsz=4096   blocks=0, rtextents=0
+Discarding blocks...Done.
++ udevadm settle
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Fri May  5 22:44:36 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Fri May  5 22:44:36 2023 - INFO  - Start executing testcase.
++ mkdir /home/data /home/backup /opt/data
++ mount /dev/vdb /home/data
++ echo test
++ echo 'backup_data
+1
+'
++ xfsdump -l 0 -f /home/backup/data.xfsdump /home/data
+xfsdump: using file dump (drive_simple) strategy
+xfsdump: version 3.1.12 (dump format 3.0)
+
+ ============================= dump label dialog ==============================
+
+please enter label for this dump session (timeout in 300 sec)
+ -> session label entered: "backup_data
+1
+"
+
+ --------------------------------- end dialog ---------------------------------
+
+xfsdump: level 0 dump of localhost.localdomain:/home/data
+xfsdump: dump date: Fri May  5 22:44:37 2023
+xfsdump: session id: 9e2c8320-d6b9-4477-b8e2-a9a753f75e2f
+xfsdump: session label: "backup_data
+1
+"
+xfsdump: ino map phase 1: constructing initial dump list
+xfsdump: ino map phase 2: skipping (no pruning necessary)
+xfsdump: ino map phase 3: skipping (only one dump stream)
+xfsdump: ino map construction complete
+xfsdump: estimated dump size: 25216 bytes
+
+ ============================= media label dialog =============================
+
+please enter label for media in drive 0 (timeout in 300 sec)
+ -> 
+media label entered: ""
+
+ --------------------------------- end dialog ---------------------------------
+
+xfsdump: WARNING: no media label specified
+xfsdump: creating dump session media file 0 (media 0, file 0)
+xfsdump: dumping ino map
+xfsdump: dumping directories
+xfsdump: dumping non-directory files
+xfsdump: ending media file
+xfsdump: media file size 21872 bytes
+xfsdump: dump size (non-dir files) : 544 bytes
+xfsdump: dump complete: 0 seconds elapsed
+xfsdump: Dump Summary:
+xfsdump:   stream 0 /home/backup/data.xfsdump OK (success)
+xfsdump: Dump Status: SUCCESS
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ xfsrestore -f /home/backup/data.xfsdump /opt/data
+xfsrestore: using file dump (drive_simple) strategy
+xfsrestore: version 3.1.12 (dump format 3.0)
+xfsrestore: searching media for dump
+xfsrestore: examining media file 0
+xfsrestore: dump description: 
+xfsrestore: hostname: localhost.localdomain
+xfsrestore: mount point: /home/data
+xfsrestore: volume: /dev/vdb
+xfsrestore: session time: Fri May  5 22:44:37 2023
+xfsrestore: level: 0
+xfsrestore: session label: "backup_data
+1
+"
+xfsrestore: media label: ""
+xfsrestore: file system id: 55771025-e4a4-4988-b799-32b62b0a0ccb
+xfsrestore: session id: 9e2c8320-d6b9-4477-b8e2-a9a753f75e2f
+xfsrestore: media id: 3de262da-61ac-4f5c-a6b3-eec99eed8b94
+xfsrestore: using online session inventory
+xfsrestore: searching media for directory dump
+xfsrestore: reading directories
+xfsrestore: 1 directories and 1 entries processed
+xfsrestore: directory post-processing
+xfsrestore: restoring non-directory files
+xfsrestore: restore complete: 0 seconds elapsed
+xfsrestore: Restore Summary:
+xfsrestore:   stream 0 /home/backup/data.xfsdump OK (success)
+xfsrestore: Restore Status: SUCCESS
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test -f /opt/data/test
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End of testcase execution.'
++ message='End of testcase execution.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution.'
+Fri May  5 22:44:37 2023 - INFO  - End of testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri May  5 22:44:37 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Fri May  5 22:44:37 2023 - INFO  - start environment cleanup.
++ umount /home/data
++ rm -rf /home/data /home/backup /opt/data
++ echo 'd
+
+w'
++ fdisk /dev/sr0
+fdisk: cannot open /dev/sr0: No medium found
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpa5vvpg08 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpa5vvpg08
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Fri May  5 22:44:44 2023 - INFO  - Finish environment cleanup.

@@ -1,0 +1,265 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Fri May  5 04:24:14 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'strongswan podman tar'
++ pkgs='strongswan podman tar'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'strongswan podman tar' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmplgygagml
++ '[' -z '' ']'
++ tmpfile=/tmp/tmplgygagml
++ tar -xvf ./common/data.tar.gz
++ podman stop -all
+Error: --all and --latest cannot be used together
+++ podman ps -qa
++ podman rm -f
+Error: you must provide at least one name or id
++ SLEEP_WAIT 5 'podman load < ./test_file/vpn-server.tar'
++ wait_time=5
++ cmd='podman load < ./test_file/vpn-server.tar'
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd 'podman load < ./test_file/vpn-server.tar' --mode 1
+Getting image source signatures
+Copying blob sha256:bf26b7f4efbc07dd458c8b6022e9fd0972c99d40141a3ef33ae3cef70bd63b48
+Copying blob sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef
+Copying blob sha256:3fd9c45a9d4f49cf9847101b430ce8abd026b80fe82241809fbb9390efb1b138
+Copying blob sha256:17bec77d7fdc6988cd96b3051b4ad4d3cd6031b2faf0581468be64aac0acc20b
+Copying blob sha256:765b447667ab2812a696a552fc85a7cf74eb2455d39294e2e618afcdb44a6ffc
+Copying blob sha256:44fc4957fa0ea999f102fa1bb150d5207482c9f9a79bb3665a50a1f9bf873674
+Copying config sha256:76c644218ebbf3138eed9b6a0064c1550e9c2e1768aa101770197d0bde00e3b6
+Writing manifest to image destination
+Storing signatures
+Loaded image(s): docker.io/hwdsl2/ipsec-vpn-server:latest
++ podman run -itd --name vpn --env-file ./test_file/vpn.env -p 700:700/udp -p 4700:4700/udp -d --privileged docker.io/hwdsl2/ipsec-vpn-server:latest
+time="2023-05-05T04:27:46Z" level=warning msg="The input device is not a TTY. The --tty and --interactive flags might not work properly"
+time="2023-05-05T04:27:47Z" level=warning msg="Path \"/usr/share/rhel/secrets\" from \"/usr/share/containers/mounts.conf\" doesn't exist, skipping"
+546e80dc60ca3c66b20ad734a6836b001732fb9f91cd2d423c8440d4a025d534
++ SLEEP_WAIT 5 'strongswan stop'
++ wait_time=5
++ cmd='strongswan stop'
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd 'strongswan stop' --mode 1
+Stopping strongSwan IPsec failed: starter is not running
++ SLEEP_WAIT 3
++ wait_time=3
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd '' --mode 1
++ grep shared /etc/strongswan/ipsec.conf
++ cat ./test_file/ipsec_add.conf
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Fri May  5 04:27:52 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri May  5 04:27:52 2023 - INFO  - Start to run test.
++ strongswan start
+Starting strongSwan 5.9.7 IPsec [starter]...
++ SLEEP_WAIT 3
++ wait_time=3
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd '' --mode 1
++ strongswan down-srcip end
++ CHECK_RESULT 0 0 0 'Failed to check the down-srcip end'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the down-srcip end'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan down-srcip start
++ CHECK_RESULT 0 0 0 'Failed to check the down-srcip start'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the down-srcip start'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan status
++ grep 'Security Associations' strongswan_test_status.log
+Security Associations (0 up, 1 connecting):
++ CHECK_RESULT 0 0 0 'Failed to check status'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check status'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan statusall
++ grep 'Status of IKE charon daemon' strongswan_test_statusall.log
+Status of IKE charon daemon (strongSwan 5.9.7, Linux 6.1.19-7.0.0.17.oe2303.x86_64, x86_64):
++ CHECK_RESULT 0 0 0 'Failed to check the statusall'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the statusall'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan listalgs
++ grep 'List of registered IKE algorithms:' strongswan_test_listalgs.log
+List of registered IKE algorithms:
++ CHECK_RESULT 0 0 0 'Failed to check the listalgs'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the listalgs'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan listpubkeys
++ CHECK_RESULT 0 0 0 'Failed to check the listpubkeys'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the listpubkeys'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan listcacerts
++ CHECK_RESULT 0 0 0 'Failed to check the listcacerts'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the listcacerts'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan listocspcerts
++ CHECK_RESULT 0 0 0 'Failed to check the listocspcerts'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the listocspcerts'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan listacerts
++ CHECK_RESULT 0 0 0 'Failed to check the listacerts'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the listacerts'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ strongswan listgroups
++ grep 'stroke \[OPTIONS\] command' strongswan_test_listgroups.log
+stroke [OPTIONS] command [ARGUMENTS]
++ CHECK_RESULT 0 0 0 'Failed to check the listgroups'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the listgroups'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ strongswan statusall
+++ grep Connections -A 1
+++ awk -F: '{print $1}'
+++ tail -n 1
++ connectionname='      shared'
++ strongswan listcainfos shared
++ CHECK_RESULT 0 0 0 'Failed to check the listcainfos'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to check the listcainfos'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Fri May  5 04:27:58 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri May  5 04:27:59 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri May  5 04:27:59 2023 - INFO  - Start to restore the test environment.
++ rm -rf strongswan_test_listalgs.log strongswan_test_listgroups.log strongswan_test_statusall.log strongswan_test_status.log test_file
++ pgrep -f starter
+6706
++ strongswan stop
+Stopping strongSwan IPsec...
++ SLEEP_WAIT 3 'podman stop -all'
++ wait_time=3
++ cmd='podman stop -all'
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd 'podman stop -all' --mode 1
+Error: --all and --latest cannot be used together
+++ podman ps -qa
++ podman rm -f 546e80dc60ca
+546e80dc60ca3c66b20ad734a6836b001732fb9f91cd2d423c8440d4a025d534
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmplgygagml ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmplgygagml
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Fri May  5 04:29:17 2023 - INFO  - End to restore the test environment.

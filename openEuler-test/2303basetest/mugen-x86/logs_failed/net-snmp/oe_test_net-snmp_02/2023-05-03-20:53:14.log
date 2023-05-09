@@ -1,0 +1,222 @@
++ source ../common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ dir_conf=/etc/snmp/snmpd.conf
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed May  3 20:53:15 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL net-snmp
++ pkgs=net-snmp
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs net-snmp --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpd7uidr_k
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpd7uidr_k
++ DNF_INSTALL net-snmp 2
++ pkgs=net-snmp
++ node=2
++ '[' -z /tmp/tmpd7uidr_k ']'
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs net-snmp --node 2 --tempfile /tmp/tmpd7uidr_k
+Traceback (most recent call last):
+  File "/root/mugen/libs/locallibs/rpm_manage.py", line 168, in <module>
+    exitcode, output = rpm_install(args.pkgs, args.node, args.tempfile)
+  File "/root/mugen/libs/locallibs/rpm_manage.py", line 66, in rpm_install
+    conn = ssh_cmd.pssh_conn(
+  File "/root/mugen/libs/locallibs/ssh_cmd.py", line 53, in pssh_conn
+    conn.connect(ip, port, user, password, timeout=timeout)
+  File "/usr/lib/python3.10/site-packages/paramiko/client.py", line 340, in connect
+    to_try = list(self._families_and_addresses(hostname, port))
+  File "/usr/lib/python3.10/site-packages/paramiko/client.py", line 203, in _families_and_addresses
+    addrinfos = socket.getaddrinfo(
+  File "/usr/lib64/python3.10/socket.py", line 955, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
++ tmpfile2=
++ '[' -z /tmp/tmpd7uidr_k ']'
++ which firewalld
+which: no firewalld in (/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin)
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Wed May  3 20:53:40 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Wed May  3 20:53:40 2023 - INFO  - Start testing...
++ ls -l /etc/snmp/snmpd.conf
+-rw------- 1 root root 18864 Mar 27 16:00 /etc/snmp/snmpd.conf
++ CHECK_RESULT 0 0 0 'snmpd.conf file not exist'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='snmpd.conf file not exist'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cp -ar /etc/snmp/snmpd.conf snmpd.conf
++ echo 'com2sec notConfigUser  default       public
+group   notConfigGroup v1           notConfigUser
+group   notConfigGroup v2c           notConfigUser
+view  all      included        .1
+access notConfigGroup "" any noauth exact systemview systemview none'
++ systemctl restart snmpd.service
++ CHECK_RESULT 0 0 0 'snmpd.service restart fail'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='snmpd.service restart fail'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SSH_CMD 'snmpwalk -v2c -c public 127.0.0.1 .1 | grep SNMPv2-MIB'
++ cmd='snmpwalk -v2c -c public 127.0.0.1 .1 | grep SNMPv2-MIB'
++ remoteip=
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'snmpwalk -v2c -c public 127.0.0.1 .1 | grep SNMPv2-MIB' -i '' -u root -p 'openEuler12#$' -t 300 -o 22
+Usage: sshcmd.sh -c "command" -i "remote machinet ip" [-u login_user] [-p login_password] [-o port] [-t timeout]+ ret=1
++ test 1 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:1'
++ message='Failed in remote CMD operation:1'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:1'
+Wed May  3 20:53:41 2023 - ERROR - Failed in remote CMD operation:1
++ return 1
++ CHECK_RESULT 1 0 0 'Check the MIB objects information fail by v2c'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check the MIB objects information fail by v2c'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check the MIB objects information fail by v2c'
++ LOG_ERROR 'Check the MIB objects information fail by v2c'
++ message='Check the MIB objects information fail by v2c'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check the MIB objects information fail by v2c'
+Wed May  3 20:53:41 2023 - ERROR - Check the MIB objects information fail by v2c
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_net-snmp_02.sh line 44'
++ message='oe_test_net-snmp_02.sh line 44'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_net-snmp_02.sh line 44'
+Wed May  3 20:53:42 2023 - ERROR - oe_test_net-snmp_02.sh line 44
++ '[' 0 -eq 1 ']'
++ return 0
++ SSH_CMD 'snmpwalk -v 1 -c public 127.0.0.1 .1 | grep SNMPv2-MIB'
++ cmd='snmpwalk -v 1 -c public 127.0.0.1 .1 | grep SNMPv2-MIB'
++ remoteip=
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'snmpwalk -v 1 -c public 127.0.0.1 .1 | grep SNMPv2-MIB' -i '' -u root -p 'openEuler12#$' -t 300 -o 22
+Usage: sshcmd.sh -c "command" -i "remote machinet ip" [-u login_user] [-p login_password] [-o port] [-t timeout]+ ret=1
++ test 1 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:1'
++ message='Failed in remote CMD operation:1'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:1'
+Wed May  3 20:53:42 2023 - ERROR - Failed in remote CMD operation:1
++ return 1
++ CHECK_RESULT 1 0 0 'Check the MIB objects information fail by v1'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check the MIB objects information fail by v1'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check the MIB objects information fail by v1'
++ LOG_ERROR 'Check the MIB objects information fail by v1'
++ message='Check the MIB objects information fail by v1'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check the MIB objects information fail by v1'
+Wed May  3 20:53:42 2023 - ERROR - Check the MIB objects information fail by v1
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_net-snmp_02.sh line 46'
++ message='oe_test_net-snmp_02.sh line 46'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_net-snmp_02.sh line 46'
+Wed May  3 20:53:42 2023 - ERROR - oe_test_net-snmp_02.sh line 46
++ '[' 0 -eq 1 ']'
++ return 0
++ mv -f snmpd.conf /etc/snmp/snmpd.conf
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Wed May  3 20:53:43 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z 2
++ test 2 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed May  3 20:53:43 2023 - ERROR - failed to execute the case.
++ exit 2
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Wed May  3 20:53:43 2023 - INFO  - start environment cleanup.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpd7uidr_k ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpd7uidr_k
++ '[' 0 -ne 0 ']'
++ DNF_REMOVE 2
++ node=2
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpd7uidr_k ]]
++ '[' 0 -ne 0 ']'
++ '[' 2 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 2 --pkgs '' --tempfile /tmp/tmpd7uidr_k
+Traceback (most recent call last):
+  File "/root/mugen/libs/locallibs/rpm_manage.py", line 173, in <module>
+    exitcode = rpm_remove(args.node, args.pkgs, args.tempfile)
+  File "/root/mugen/libs/locallibs/rpm_manage.py", line 134, in rpm_remove
+    conn = ssh_cmd.pssh_conn(
+  File "/root/mugen/libs/locallibs/ssh_cmd.py", line 53, in pssh_conn
+    conn.connect(ip, port, user, password, timeout=timeout)
+  File "/usr/lib/python3.10/site-packages/paramiko/client.py", line 340, in connect
+    to_try = list(self._families_and_addresses(hostname, port))
+  File "/usr/lib/python3.10/site-packages/paramiko/client.py", line 203, in _families_and_addresses
+    addrinfos = socket.getaddrinfo(
+  File "/usr/lib64/python3.10/socket.py", line 955, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
++ '[' 0 -ne 0 ']'
++ which firewalld
+which: no firewalld in (/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin)
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Wed May  3 20:53:51 2023 - INFO  - Finish environment cleanup!

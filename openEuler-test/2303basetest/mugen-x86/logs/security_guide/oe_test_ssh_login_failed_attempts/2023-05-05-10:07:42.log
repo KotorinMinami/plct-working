@@ -1,0 +1,239 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Fri May  5 10:07:43 2023 - INFO  - Start environmental preparation.
++ systemctl restart sshd.service
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Fri May  5 10:07:45 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Fri May  5 10:07:46 2023 - INFO  - Start executing testcase.
++ expect -c '
+        set timeout 30
+        log_file testlog1
+        spawn ssh root@10.198.114.3
+        expect {
+            "*assword*" {
+                send "error_pwd\r"
+                }
+        }
+        expect {
+            "*assword*" {
+                send "error_pwd\r"
+                }
+        }
+        expect {
+            "*assword*" {
+                send "error_pwd\r"
+                }
+        }        
+        expect eof {
+            catch wait result
+            exit [lindex $result 3] 
+        }
+    '
+spawn ssh root@10.198.114.3
+
+Authorized users only. All activities may be monitored and reported.
+root@10.198.114.3's password: 
+Permission denied, please try again.
+root@10.198.114.3's password: 
+Permission denied, please try again.
+root@10.198.114.3's password: 
+root@10.198.114.3: Permission denied (publickey,gssapi-with-mic,password).
++ CHECK_RESULT 255 0 1 'Login succeeded, but the login should fail here.'
++ actual_result=255
++ expect_result=0
++ mode=1
++ error_log='Login succeeded, but the login should fail here.'
++ exit_mode=0
++ '[' -z 255 ']'
++ '[' 1 -eq 0 ']'
++ test 255x == 0x
++ return 0
++ grep 'please try again' testlog1
+Permission denied, please try again.
+Permission denied, please try again.
++ CHECK_RESULT 0 0 0 'Retry prompt not found.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Retry prompt not found.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect -c '
+        set timeout 30
+        log_file testlog2
+        spawn ssh root@10.198.114.3
+        expect {
+            "*assword*" {
+                send "openEuler12#$\r"
+                }
+        }   
+         expect {
+            "*assword*" {
+                send "openEuler12#$\r"
+                }
+        }  
+        expect {
+            "*assword*" {
+                send "openEuler12#$\r"
+                }
+        }                    
+        expect eof {
+            catch wait result
+            exit [lindex $result 3] 
+        }
+    '
+spawn ssh root@10.198.114.3
+
+Authorized users only. All activities may be monitored and reported.
+root@10.198.114.3's password: 
+Permission denied, please try again.
+root@10.198.114.3's password: 
+Permission denied, please try again.
+root@10.198.114.3's password: 
+root@10.198.114.3: Permission denied (publickey,gssapi-with-mic,password).
++ CHECK_RESULT 255 0 1 'It should be locked for 1 minute after entering the wrong password for three times, but it is not locked here.'
++ actual_result=255
++ expect_result=0
++ mode=1
++ error_log='It should be locked for 1 minute after entering the wrong password for three times, but it is not locked here.'
++ exit_mode=0
++ '[' -z 255 ']'
++ '[' 1 -eq 0 ']'
++ test 255x == 0x
++ return 0
++ grep 'please try again' testlog2
+Permission denied, please try again.
+Permission denied, please try again.
++ CHECK_RESULT 0 0 0 'Retry prompt not found.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Retry prompt not found.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 60
++ wait_time=60
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 60 --cmd '' --mode 1
++ expect -c '
+        set timeout 30
+        log_file testlog3
+        spawn ssh root@10.198.114.3
+        expect {
+            "*assword*" {
+                send "openEuler12#$\r"
+                }
+        }      
+        expect eof {
+            catch wait result
+            exit [lindex $result 3] 
+        }
+    '
+spawn ssh root@10.198.114.3
+
+Authorized users only. All activities may be monitored and reported.
+root@10.198.114.3's password: 
+
+Authorized users only. All activities may be monitored and reported.
+Last failed login: Fri May  5 10:08:03 UTC 2023 from 10.198.114.1 on ssh:notty
+There were 6 failed login attempts since the last successful login.
+Last login: Fri May  5 10:01:03 2023 from 10.198.114.1
+
+
+Welcome to 6.1.19-7.0.0.17.oe2303.x86_64
+
+System information as of time: 	Fri May  5 10:09:06 AM UTC 2023
+
+System load: 	[0;33;40m0.00[0m
+Processes: 	105
+Memory used: 	3.6%
+Swap used: 	0.0%
+Usage On: 	10%
+IP address: 	10.198.114.3
+IP address: 	10.0.2.15
+Users online: 	1
+
+
+[root@localhost ~]# + CHECK_RESULT 0 0 0 'Login failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Login failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'IP address' testlog3
+IP address: 	10.198.114.3
+IP address: 	10.0.2.15
++ CHECK_RESULT 0 0 0 'Login failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Login failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish testcase execution.'
++ message='Finish testcase execution.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish testcase execution.'
+Fri May  5 10:09:35 2023 - INFO  - Finish testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri May  5 10:09:35 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start cleanning environment.'
++ message='Start cleanning environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start cleanning environment.'
+Fri May  5 10:09:36 2023 - INFO  - Start cleanning environment.
++ rm -rf testlog1 testlog2 testlog3
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Fri May  5 10:09:36 2023 - INFO  - Finish environment cleanup!

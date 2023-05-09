@@ -1,0 +1,315 @@
++ source common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed May  3 22:01:48 2023 - INFO  - Start to prepare the test environment.
++ get_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='sr0 vdb vdc'
++ disk_list=($disks)
++ disk1=sr0
++ disk2=vdb
++ DNF_INSTALL ntfs-3g
++ pkgs=ntfs-3g
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs ntfs-3g --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpft0djm0o
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpft0djm0o
++ mkntfs --fast /dev/sr0
+Could not open /dev/sr0: No medium found
++ mkntfs --fast /dev/vdb
+Cluster size has been automatically set to 4096 bytes.
+Creating NTFS volume structures.
+mkntfs completed successfully. Have a nice day.
++ LOG_INFO 'Finish preparing the test environment.'
++ message='Finish preparing the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish preparing the test environment.'
+Wed May  3 22:02:06 2023 - INFO  - Finish preparing the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed May  3 22:02:06 2023 - INFO  - Start to run test.
++ ntfsresize --help
++ grep 'Usage: ntfsresize \[OPTIONS\]'
+Usage: ntfsresize [OPTIONS] DEVICE
++ CHECK_RESULT 0 0 0 'Check ntfsresize --help failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfsresize --help failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ntfsresize --version
++ grep 'ntfsresize v'
+ntfsresize v2022.5.17 (libntfs-3g)
++ CHECK_RESULT 0 0 0 'Check ntfsresize --version failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfsresize --version failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ntfsresize --check /dev/sr0
++ grep ntfsresize
+ntfsresize v2022.5.17 (libntfs-3g)
++ CHECK_RESULT 0 0 0 'Check ntfsresize --check failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfsresize --check failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ntfsresize --info /dev/sr0
++ grep 'Device name'
++ CHECK_RESULT 1 0 0 'Check ntfsresize --info failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsresize --info failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsresize --info failed.'
++ LOG_ERROR 'Check ntfsresize --info failed.'
++ message='Check ntfsresize --info failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsresize --info failed.'
+Wed May  3 22:02:07 2023 - ERROR - Check ntfsresize --info failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsresize.sh line 37'
++ message='oe_test_ntfs-3g_ntfsresize.sh line 37'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsresize.sh line 37'
+Wed May  3 22:02:07 2023 - ERROR - oe_test_ntfs-3g_ntfsresize.sh line 37
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsresize --info-mb-only /dev/sr0
++ grep Minsize
++ CHECK_RESULT 1 0 0 'Check ntfsresize --info-mb-only failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsresize --info-mb-only failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsresize --info-mb-only failed.'
++ LOG_ERROR 'Check ntfsresize --info-mb-only failed.'
++ message='Check ntfsresize --info-mb-only failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsresize --info-mb-only failed.'
+Wed May  3 22:02:08 2023 - ERROR - Check ntfsresize --info-mb-only failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsresize.sh line 39'
++ message='oe_test_ntfs-3g_ntfsresize.sh line 39'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsresize.sh line 39'
+Wed May  3 22:02:08 2023 - ERROR - oe_test_ntfs-3g_ntfsresize.sh line 39
++ '[' 0 -eq 1 ']'
++ return 0
++ expect
+spawn ntfsresize --size 5G /dev/sr0
+ntfsresize v2022.5.17 (libntfs-3g)
+Error opening '/dev/sr0': No medium found
+ERROR(123): Opening '/dev/sr0' as NTFS failed: No medium found
+send: spawn id exp3 not open
+    while executing
+"send "y\n""
++ CHECK_RESULT 1 0 0 'Check ntfsresize --size failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsresize --size failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsresize --size failed.'
++ LOG_ERROR 'Check ntfsresize --size failed.'
++ message='Check ntfsresize --size failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsresize --size failed.'
+Wed May  3 22:02:08 2023 - ERROR - Check ntfsresize --size failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsresize.sh line 46'
++ message='oe_test_ntfs-3g_ntfsresize.sh line 46'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsresize.sh line 46'
+Wed May  3 22:02:08 2023 - ERROR - oe_test_ntfs-3g_ntfsresize.sh line 46
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsresize --expand /dev/sr0
++ grep ntfsresize
+ntfsresize v2022.5.17 (libntfs-3g)
++ CHECK_RESULT 0 0 0 'Check ntfsresize --expand failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfsresize --expand failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ntfsresize --no-action /dev/sr0 --force
++ grep 'Device name'
++ CHECK_RESULT 1 0 0 'Check ntfsresize --no-action failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsresize --no-action failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsresize --no-action failed.'
++ LOG_ERROR 'Check ntfsresize --no-action failed.'
++ message='Check ntfsresize --no-action failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsresize --no-action failed.'
+Wed May  3 22:02:09 2023 - ERROR - Check ntfsresize --no-action failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsresize.sh line 50'
++ message='oe_test_ntfs-3g_ntfsresize.sh line 50'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsresize.sh line 50'
+Wed May  3 22:02:09 2023 - ERROR - oe_test_ntfs-3g_ntfsresize.sh line 50
++ '[' 0 -eq 1 ']'
++ return 0
++ expect
+spawn ntfsresize --bad-sectors /dev/sr0 --force
+ntfsresize v2022.5.17 (libntfs-3g)
+Error opening '/dev/sr0': No medium found
+ERROR(123): Opening '/dev/sr0' as NTFS failed: No medium found
+send: spawn id exp3 not open
+    while executing
+"send "y\n""
++ CHECK_RESULT 1 0 0 'Check ntfsresize --bad-sectors failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsresize --bad-sectors failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsresize --bad-sectors failed.'
++ LOG_ERROR 'Check ntfsresize --bad-sectors failed.'
++ message='Check ntfsresize --bad-sectors failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsresize --bad-sectors failed.'
+Wed May  3 22:02:10 2023 - ERROR - Check ntfsresize --bad-sectors failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsresize.sh line 57'
++ message='oe_test_ntfs-3g_ntfsresize.sh line 57'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsresize.sh line 57'
+Wed May  3 22:02:10 2023 - ERROR - oe_test_ntfs-3g_ntfsresize.sh line 57
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsresize --no-progress-bar /dev/sr0 --force
++ grep 'Device name'
++ CHECK_RESULT 1 0 0 'Check ntfsresize --no-progress-bar failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsresize --no-progress-bar failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsresize --no-progress-bar failed.'
++ LOG_ERROR 'Check ntfsresize --no-progress-bar failed.'
++ message='Check ntfsresize --no-progress-bar failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsresize --no-progress-bar failed.'
+Wed May  3 22:02:10 2023 - ERROR - Check ntfsresize --no-progress-bar failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsresize.sh line 59'
++ message='oe_test_ntfs-3g_ntfsresize.sh line 59'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsresize.sh line 59'
+Wed May  3 22:02:11 2023 - ERROR - oe_test_ntfs-3g_ntfsresize.sh line 59
++ '[' 0 -eq 1 ']'
++ return 0
++ ntfsresize --verbose /dev/sr0 --force
++ grep 'Device name'
++ CHECK_RESULT 1 0 0 'Check ntfsresize --verbose failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check ntfsresize --verbose failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check ntfsresize --verbose failed.'
++ LOG_ERROR 'Check ntfsresize --verbose failed.'
++ message='Check ntfsresize --verbose failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfsresize --verbose failed.'
+Wed May  3 22:02:11 2023 - ERROR - Check ntfsresize --verbose failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfsresize.sh line 61'
++ message='oe_test_ntfs-3g_ntfsresize.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfsresize.sh line 61'
+Wed May  3 22:02:11 2023 - ERROR - oe_test_ntfs-3g_ntfsresize.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Wed May  3 22:02:11 2023 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 7
++ test 7 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed May  3 22:02:12 2023 - ERROR - failed to execute the case.
++ exit 7
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed May  3 22:02:12 2023 - INFO  - Start to restore the test environment.
++ expect
+spawn mkfs.ext4 /dev/sr0
+y
+mke2fs 1.46.5 (30-Dec-2021)
+mkfs.ext4: No medium found while trying to determine filesystem size
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpft0djm0o ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpft0djm0o
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish restoring the test environment.'
++ message='Finish restoring the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish restoring the test environment.'
+Wed May  3 22:02:17 2023 - INFO  - Finish restoring the test environment.

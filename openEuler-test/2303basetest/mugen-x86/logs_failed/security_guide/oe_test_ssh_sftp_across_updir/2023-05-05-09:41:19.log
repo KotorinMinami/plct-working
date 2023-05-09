@@ -1,0 +1,187 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Fri May  5 09:41:21 2023 - INFO  - Start environmental preparation.
++ cp /etc/ssh/sshd_config /etc/ssh/sshd_config-bak
++ grep '^sftpgroup:' /etc/group
++ grep '^sftpuser:' /etc/passwd
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Fri May  5 09:41:21 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Fri May  5 09:41:22 2023 - INFO  - Start executing testcase.
++ groupadd sftpgroup
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mkdir /sftp
++ chown root:root /sftp
++ chmod 755 /sftp
++ ls -l /
++ grep sftp
++ grep drwxr-xr-x
++ grep 'root root'
+drwxr-xr-x   2 root root 4096 May  5 09:41 sftp
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ useradd -g sftpgroup -s /sbin/nologin sftpuser
++ grep '^sftpuser' /etc/passwd
++ grep /sbin/nologin
+sftpuser:x:1000:1000::/home/sftpuser:/sbin/nologin
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ passwd sftpuser
+New password: Retype new password: Changing password for user sftpuser.
+passwd: all authentication tokens updated successfully.
++ mkdir /sftp/sftpuser
++ chown root:root /sftp/sftpuser
++ chmod 755 /sftp/sftpuser
++ ls -l /sftp
++ grep sftpuser
++ grep 'root root'
++ grep drwxr-xr-x
+drwxr-xr-x 2 root root 4096 May  5 09:41 sftpuser
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ sed -i 's/Subsystem sftp \/usr\/libexec\/openssh\/sftp-server -l INFO -f AUTH/Subsystem sftp internal-sftp -l INFO -f AUTH/g' /etc/ssh/sshd_config
++ echo -e 'Match Group sftpgroup\n    ChrootDirectory /sftp/%u\n    ForceCommand internal-sftp'
++ systemctl restart sshd
++ expect
+spawn ssh sftpuser@10.198.114.1
+The authenticity of host '10.198.114.1 (10.198.114.1)' can't be established.
+ED25519 key fingerprint is SHA256:M6IZ/zy3MxMo6/o/fy+aY4RQYnH9M5BZVPilD5Busik.
+This host key is known by the following other names/addresses:
+    ~/.ssh/known_hosts:1: 127.0.0.1
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '10.198.114.1' (ED25519) to the list of known hosts.
+
+Authorized users only. All activities may be monitored and reported.
+sftpuser@10.198.114.1's password: 
+This service allows sftp connections only.
+Connection to 10.198.114.1 closed.
++ grep 'This service allows sftp connections only' testlog
+This service allows sftp connections only.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect
+spawn sftp sftpuser@10.198.114.1
+
+Authorized users only. All activities may be monitored and reported.
+sftpuser@10.198.114.1's password: 
+Connected to 10.198.114.1.
+No entry for terminal type "unknown";
+using dumb terminal settings.
+No entry for terminal type "unknown";
+using dumb terminal settings.
+sftp> cd /sftp
+stat remote: No such file or directory
+sftp> + grep 'stat remote file: No such file or directory' /home/sftpuser/testlog1
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ssh_sftp_across_updir.sh line 93'
++ message='oe_test_ssh_sftp_across_updir.sh line 93'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ssh_sftp_across_updir.sh line 93'
+Fri May  5 09:41:53 2023 - ERROR - oe_test_ssh_sftp_across_updir.sh line 93
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'Finish testcase execution.'
++ message='Finish testcase execution.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish testcase execution.'
+Fri May  5 09:41:53 2023 - INFO  - Finish testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Fri May  5 09:41:54 2023 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'Start cleanning environment.'
++ message='Start cleanning environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start cleanning environment.'
+Fri May  5 09:41:54 2023 - INFO  - Start cleanning environment.
++ userdel -rf sftpuser
++ groupdel sftpgroup
++ rm -rf testlog /sftp /run/faillock/sftpuser
++ mv -f /etc/ssh/sshd_config-bak /etc/ssh/sshd_config
++ systemctl restart sshd
++ SLEEP_WAIT 10
++ wait_time=10
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 10 --cmd '' --mode 1
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Fri May  5 09:42:05 2023 - INFO  - Finish environment cleanup!

@@ -1,0 +1,510 @@
++ source common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed May  3 22:05:40 2023 - INFO  - Start to prepare the test environment.
++ get_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='sr0 vdb vdc'
++ disk_list=($disks)
++ disk1=sr0
++ disk2=vdb
++ DNF_INSTALL ntfs-3g
++ pkgs=ntfs-3g
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs ntfs-3g --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpoprbxg5_
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpoprbxg5_
++ mkntfs --fast /dev/sr0
+Could not open /dev/sr0: No medium found
++ mkntfs --fast /dev/vdb
+Cluster size has been automatically set to 4096 bytes.
+Creating NTFS volume structures.
+mkntfs completed successfully. Have a nice day.
++ mkdir -p /mnt/windows
++ LOG_INFO 'Finish preparing the test environment.'
++ message='Finish preparing the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish preparing the test environment.'
+Wed May  3 22:05:58 2023 - INFO  - Finish preparing the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed May  3 22:05:58 2023 - INFO  - Start to run test.
++ ntfs-3g --help
++ grep 'Usage:.*ntfs-3g'
+Usage:    ntfs-3g [-o option[,...]] <device|image_file> <mount_point>
++ CHECK_RESULT 0 0 0 'Check ntfs-3g --help failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfs-3g --help failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ntfs-3g --version
++ grep ntfs-3g
+ntfs-3g 2022.5.17 integrated FUSE 28
++ CHECK_RESULT 0 0 0 'Check ntfs-3g --version failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check ntfs-3g --version failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ntfs-3g /dev/sr0 /mnt/windows -o uid=1000,gid=1000
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 18 0 0 'Check ntfs-3g -o uid gid failed.'
++ actual_result=18
++ expect_result=0
++ mode=0
++ error_log='Check ntfs-3g -o uid gid failed.'
++ exit_mode=0
++ '[' -z 18 ']'
++ '[' 0 -eq 0 ']'
++ test 18x '!=' 0x
++ test -n 'Check ntfs-3g -o uid gid failed.'
++ LOG_ERROR 'Check ntfs-3g -o uid gid failed.'
++ message='Check ntfs-3g -o uid gid failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfs-3g -o uid gid failed.'
+Wed May  3 22:05:59 2023 - ERROR - Check ntfs-3g -o uid gid failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfs-3g_01.sh line 36'
++ message='oe_test_ntfs-3g_ntfs-3g_01.sh line 36'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfs-3g_01.sh line 36'
+Wed May  3 22:05:59 2023 - ERROR - oe_test_ntfs-3g_ntfs-3g_01.sh line 36
++ '[' 0 -eq 1 ']'
++ return 0
++ df -h
++ grep /dev/sr0
++ CHECK_RESULT 1 0 0 'Check disk mount failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check disk mount failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check disk mount failed.'
++ LOG_ERROR 'Check disk mount failed.'
++ message='Check disk mount failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check disk mount failed.'
+Wed May  3 22:05:59 2023 - ERROR - Check disk mount failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfs-3g_01.sh line 38'
++ message='oe_test_ntfs-3g_ntfs-3g_01.sh line 38'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfs-3g_01.sh line 38'
+Wed May  3 22:06:00 2023 - ERROR - oe_test_ntfs-3g_ntfs-3g_01.sh line 38
++ '[' 0 -eq 1 ']'
++ return 0
++ umount /mnt/windows
+umount: /mnt/windows: not mounted.
++ ntfs-3g /dev/sr0 /mnt/windows -o umask=0777
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 18 0 0 'Check ntfs-3g -o umask failed.'
++ actual_result=18
++ expect_result=0
++ mode=0
++ error_log='Check ntfs-3g -o umask failed.'
++ exit_mode=0
++ '[' -z 18 ']'
++ '[' 0 -eq 0 ']'
++ test 18x '!=' 0x
++ test -n 'Check ntfs-3g -o umask failed.'
++ LOG_ERROR 'Check ntfs-3g -o umask failed.'
++ message='Check ntfs-3g -o umask failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfs-3g -o umask failed.'
+Wed May  3 22:06:00 2023 - ERROR - Check ntfs-3g -o umask failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfs-3g_01.sh line 41'
++ message='oe_test_ntfs-3g_ntfs-3g_01.sh line 41'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfs-3g_01.sh line 41'
+Wed May  3 22:06:00 2023 - ERROR - oe_test_ntfs-3g_ntfs-3g_01.sh line 41
++ '[' 0 -eq 1 ']'
++ return 0
++ df -h
++ grep /dev/sr0
++ CHECK_RESULT 1 0 0 'Check disk mount failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check disk mount failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check disk mount failed.'
++ LOG_ERROR 'Check disk mount failed.'
++ message='Check disk mount failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check disk mount failed.'
+Wed May  3 22:06:01 2023 - ERROR - Check disk mount failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfs-3g_01.sh line 43'
++ message='oe_test_ntfs-3g_ntfs-3g_01.sh line 43'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfs-3g_01.sh line 43'
+Wed May  3 22:06:01 2023 - ERROR - oe_test_ntfs-3g_ntfs-3g_01.sh line 43
++ '[' 0 -eq 1 ']'
++ return 0
++ umount /mnt/windows
+umount: /mnt/windows: not mounted.
++ ntfs-3g /dev/sr0 /mnt/windows -o dmask=0777
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 18 0 0 'Check ntfs-3g -o dmask failed.'
++ actual_result=18
++ expect_result=0
++ mode=0
++ error_log='Check ntfs-3g -o dmask failed.'
++ exit_mode=0
++ '[' -z 18 ']'
++ '[' 0 -eq 0 ']'
++ test 18x '!=' 0x
++ test -n 'Check ntfs-3g -o dmask failed.'
++ LOG_ERROR 'Check ntfs-3g -o dmask failed.'
++ message='Check ntfs-3g -o dmask failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfs-3g -o dmask failed.'
+Wed May  3 22:06:01 2023 - ERROR - Check ntfs-3g -o dmask failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfs-3g_01.sh line 46'
++ message='oe_test_ntfs-3g_ntfs-3g_01.sh line 46'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfs-3g_01.sh line 46'
+Wed May  3 22:06:01 2023 - ERROR - oe_test_ntfs-3g_ntfs-3g_01.sh line 46
++ '[' 0 -eq 1 ']'
++ return 0
++ df -h
++ grep /dev/sr0
++ CHECK_RESULT 1 0 0 'Check disk mount failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check disk mount failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check disk mount failed.'
++ LOG_ERROR 'Check disk mount failed.'
++ message='Check disk mount failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check disk mount failed.'
+Wed May  3 22:06:02 2023 - ERROR - Check disk mount failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfs-3g_01.sh line 48'
++ message='oe_test_ntfs-3g_ntfs-3g_01.sh line 48'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfs-3g_01.sh line 48'
+Wed May  3 22:06:02 2023 - ERROR - oe_test_ntfs-3g_ntfs-3g_01.sh line 48
++ '[' 0 -eq 1 ']'
++ return 0
++ umount /mnt/windows
+umount: /mnt/windows: not mounted.
++ ntfs-3g /dev/sr0 /mnt/windows -o usermapping=test.txt
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 18 0 0 'Check ntfs-3g -o usermapping failed.'
++ actual_result=18
++ expect_result=0
++ mode=0
++ error_log='Check ntfs-3g -o usermapping failed.'
++ exit_mode=0
++ '[' -z 18 ']'
++ '[' 0 -eq 0 ']'
++ test 18x '!=' 0x
++ test -n 'Check ntfs-3g -o usermapping failed.'
++ LOG_ERROR 'Check ntfs-3g -o usermapping failed.'
++ message='Check ntfs-3g -o usermapping failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfs-3g -o usermapping failed.'
+Wed May  3 22:06:02 2023 - ERROR - Check ntfs-3g -o usermapping failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfs-3g_01.sh line 51'
++ message='oe_test_ntfs-3g_ntfs-3g_01.sh line 51'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfs-3g_01.sh line 51'
+Wed May  3 22:06:03 2023 - ERROR - oe_test_ntfs-3g_ntfs-3g_01.sh line 51
++ '[' 0 -eq 1 ']'
++ return 0
++ df -h
++ grep /dev/sr0
++ CHECK_RESULT 1 0 0 'Check disk mount failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check disk mount failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check disk mount failed.'
++ LOG_ERROR 'Check disk mount failed.'
++ message='Check disk mount failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check disk mount failed.'
+Wed May  3 22:06:03 2023 - ERROR - Check disk mount failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfs-3g_01.sh line 53'
++ message='oe_test_ntfs-3g_ntfs-3g_01.sh line 53'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfs-3g_01.sh line 53'
+Wed May  3 22:06:03 2023 - ERROR - oe_test_ntfs-3g_ntfs-3g_01.sh line 53
++ '[' 0 -eq 1 ']'
++ return 0
++ umount /mnt/windows
+umount: /mnt/windows: not mounted.
++ ntfs-3g /dev/sr0 /mnt/windows -o permissions
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 18 0 0 'Check ntfs-3g -o permissions failed.'
++ actual_result=18
++ expect_result=0
++ mode=0
++ error_log='Check ntfs-3g -o permissions failed.'
++ exit_mode=0
++ '[' -z 18 ']'
++ '[' 0 -eq 0 ']'
++ test 18x '!=' 0x
++ test -n 'Check ntfs-3g -o permissions failed.'
++ LOG_ERROR 'Check ntfs-3g -o permissions failed.'
++ message='Check ntfs-3g -o permissions failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfs-3g -o permissions failed.'
+Wed May  3 22:06:03 2023 - ERROR - Check ntfs-3g -o permissions failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfs-3g_01.sh line 56'
++ message='oe_test_ntfs-3g_ntfs-3g_01.sh line 56'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfs-3g_01.sh line 56'
+Wed May  3 22:06:04 2023 - ERROR - oe_test_ntfs-3g_ntfs-3g_01.sh line 56
++ '[' 0 -eq 1 ']'
++ return 0
++ df -h
++ grep /dev/sr0
++ CHECK_RESULT 1 0 0 'Check disk mount failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check disk mount failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check disk mount failed.'
++ LOG_ERROR 'Check disk mount failed.'
++ message='Check disk mount failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check disk mount failed.'
+Wed May  3 22:06:04 2023 - ERROR - Check disk mount failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfs-3g_01.sh line 58'
++ message='oe_test_ntfs-3g_ntfs-3g_01.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfs-3g_01.sh line 58'
+Wed May  3 22:06:04 2023 - ERROR - oe_test_ntfs-3g_ntfs-3g_01.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ umount /mnt/windows
+umount: /mnt/windows: not mounted.
++ ntfs-3g /dev/sr0 /mnt/windows -o ro
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 18 0 0 'Check ntfs-3g -o ro failed.'
++ actual_result=18
++ expect_result=0
++ mode=0
++ error_log='Check ntfs-3g -o ro failed.'
++ exit_mode=0
++ '[' -z 18 ']'
++ '[' 0 -eq 0 ']'
++ test 18x '!=' 0x
++ test -n 'Check ntfs-3g -o ro failed.'
++ LOG_ERROR 'Check ntfs-3g -o ro failed.'
++ message='Check ntfs-3g -o ro failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfs-3g -o ro failed.'
+Wed May  3 22:06:05 2023 - ERROR - Check ntfs-3g -o ro failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfs-3g_01.sh line 61'
++ message='oe_test_ntfs-3g_ntfs-3g_01.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfs-3g_01.sh line 61'
+Wed May  3 22:06:05 2023 - ERROR - oe_test_ntfs-3g_ntfs-3g_01.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ df -h
++ grep /dev/sr0
++ CHECK_RESULT 1 0 0 'Check disk mount failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check disk mount failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check disk mount failed.'
++ LOG_ERROR 'Check disk mount failed.'
++ message='Check disk mount failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check disk mount failed.'
+Wed May  3 22:06:05 2023 - ERROR - Check disk mount failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfs-3g_01.sh line 63'
++ message='oe_test_ntfs-3g_ntfs-3g_01.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfs-3g_01.sh line 63'
+Wed May  3 22:06:05 2023 - ERROR - oe_test_ntfs-3g_ntfs-3g_01.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ umount /mnt/windows
+umount: /mnt/windows: not mounted.
++ ntfs-3g /dev/sr0 /mnt/windows -o acl
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 18 0 0 'Check ntfs-3g -o acl failed.'
++ actual_result=18
++ expect_result=0
++ mode=0
++ error_log='Check ntfs-3g -o acl failed.'
++ exit_mode=0
++ '[' -z 18 ']'
++ '[' 0 -eq 0 ']'
++ test 18x '!=' 0x
++ test -n 'Check ntfs-3g -o acl failed.'
++ LOG_ERROR 'Check ntfs-3g -o acl failed.'
++ message='Check ntfs-3g -o acl failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfs-3g -o acl failed.'
+Wed May  3 22:06:06 2023 - ERROR - Check ntfs-3g -o acl failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfs-3g_01.sh line 66'
++ message='oe_test_ntfs-3g_ntfs-3g_01.sh line 66'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfs-3g_01.sh line 66'
+Wed May  3 22:06:06 2023 - ERROR - oe_test_ntfs-3g_ntfs-3g_01.sh line 66
++ '[' 0 -eq 1 ']'
++ return 0
++ df -h
++ grep /dev/sr0
++ CHECK_RESULT 1 0 0 'Check disk mount failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check disk mount failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check disk mount failed.'
++ LOG_ERROR 'Check disk mount failed.'
++ message='Check disk mount failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check disk mount failed.'
+Wed May  3 22:06:06 2023 - ERROR - Check disk mount failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfs-3g_01.sh line 68'
++ message='oe_test_ntfs-3g_ntfs-3g_01.sh line 68'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfs-3g_01.sh line 68'
+Wed May  3 22:06:06 2023 - ERROR - oe_test_ntfs-3g_ntfs-3g_01.sh line 68
++ '[' 0 -eq 1 ']'
++ return 0
++ umount /mnt/windows
+umount: /mnt/windows: not mounted.
++ ntfs-3g /dev/sr0 /mnt/windows -o inherit
+Error opening '/dev/sr0': No medium found
+Failed to mount '/dev/sr0': No medium found
++ CHECK_RESULT 18 0 0 'Check ntfs-3g -o inherit failed.'
++ actual_result=18
++ expect_result=0
++ mode=0
++ error_log='Check ntfs-3g -o inherit failed.'
++ exit_mode=0
++ '[' -z 18 ']'
++ '[' 0 -eq 0 ']'
++ test 18x '!=' 0x
++ test -n 'Check ntfs-3g -o inherit failed.'
++ LOG_ERROR 'Check ntfs-3g -o inherit failed.'
++ message='Check ntfs-3g -o inherit failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check ntfs-3g -o inherit failed.'
+Wed May  3 22:06:07 2023 - ERROR - Check ntfs-3g -o inherit failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfs-3g_01.sh line 71'
++ message='oe_test_ntfs-3g_ntfs-3g_01.sh line 71'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfs-3g_01.sh line 71'
+Wed May  3 22:06:07 2023 - ERROR - oe_test_ntfs-3g_ntfs-3g_01.sh line 71
++ '[' 0 -eq 1 ']'
++ return 0
++ df -h
++ grep /dev/sr0
++ CHECK_RESULT 1 0 0 'Check disk mount failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check disk mount failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check disk mount failed.'
++ LOG_ERROR 'Check disk mount failed.'
++ message='Check disk mount failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check disk mount failed.'
+Wed May  3 22:06:07 2023 - ERROR - Check disk mount failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_ntfs-3g_ntfs-3g_01.sh line 73'
++ message='oe_test_ntfs-3g_ntfs-3g_01.sh line 73'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_ntfs-3g_ntfs-3g_01.sh line 73'
+Wed May  3 22:06:08 2023 - ERROR - oe_test_ntfs-3g_ntfs-3g_01.sh line 73
++ '[' 0 -eq 1 ']'
++ return 0
++ umount /mnt/windows
+umount: /mnt/windows: not mounted.
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Wed May  3 22:06:08 2023 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 16
++ test 16 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed May  3 22:06:08 2023 - ERROR - failed to execute the case.
++ exit 16
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed May  3 22:06:08 2023 - INFO  - Start to restore the test environment.
++ expect
+spawn mkfs.ext4 /dev/sr0
+y
+mke2fs 1.46.5 (30-Dec-2021)
+mkfs.ext4: No medium found while trying to determine filesystem size
++ rm -rf /mnt/windows
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpoprbxg5_ ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpoprbxg5_
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish restoring the test environment.'
++ message='Finish restoring the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish restoring the test environment.'
+Wed May  3 22:06:13 2023 - INFO  - Finish restoring the test environment.

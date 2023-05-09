@@ -1,0 +1,452 @@
++ source ../common_lib/fsio_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
+++ export 'FS_TYPE=ext3 ext4 xfs'
+++ FS_TYPE='ext3 ext4 xfs'
+++ export LANG=en_US.UTF-8
+++ LANG=en_US.UTF-8
+++ REMOVE_VG
+++ vggroup=
+++ [[ '' != '' ]]
++++ df -T
++++ grep test_vggroup
++++ awk '{print $7}'
+++ mounted=
+++ [[ '' != '' ]]
+++ lsblk
+++ grep test_vggroup
+++ [[ 1 -eq 0 ]]
+++ rm -rf /tmp/point120230503004743 /tmp/point220230503004743 /tmp/point320230503004743
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the database config.'
++ message='Start to prepare the database config.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the database config.'
+Wed May  3 01:17:53 2023 - INFO  - Start to prepare the database config.
++ DNF_INSTALL mdadm 2
++ pkgs=mdadm
++ node=2
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs mdadm --node 2 --tempfile ''
++ tmpfile2=/tmp/tmp8vycbya5
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp8vycbya5
+++ TEST_DISK 2
+++ id=2
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 2
++ test_disk='/dev/sr0 vdb'
++ ssh_cmd_node 'mkdir /mnt/test_md'
++ cmd='mkdir /mnt/test_md'
++ SSH_CMD 'mkdir /mnt/test_md' 10.198.114.4 'openEuler12#$' root
++ cmd='mkdir /mnt/test_md'
++ remoteip=10.198.114.4
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'mkdir /mnt/test_md' -i 10.198.114.4 -u root -p 'openEuler12#$' -t 300 -o 22
+Wed May  3 01:18:16 2023 - WARN  - the remote user uses the default configuration.
+Wed May  3 01:18:16 2023 - WARN  - the remote password uses the default configuration.
+Wed May  3 01:18:17 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@10.198.114.4 mkdir /mnt/test_md
+The authenticity of host '10.198.114.4 (10.198.114.4)' can't be established.
+ED25519 key fingerprint is SHA256:M6IZ/zy3MxMo6/o/fy+aY4RQYnH9M5BZVPilD5Busik.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '10.198.114.4' (ED25519) to the list of known hosts.
+
+Authorized users only. All activities may be monitored and reported.
+root@10.198.114.4's password: 
++ ret=0
++ test 0 -ne 0
++ return 0
++ LOG_INFO 'Finish to prepare the database config.'
++ message='Finish to prepare the database config.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish to prepare the database config.'
+Wed May  3 01:18:18 2023 - INFO  - Finish to prepare the database config.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed May  3 01:18:18 2023 - INFO  - Start to run test.
++ for fs in ${FS_TYPE[@]}
++ ssh_cmd_node 'cp /etc/fstab /etc/fstab.bak'
++ cmd='cp /etc/fstab /etc/fstab.bak'
++ SSH_CMD 'cp /etc/fstab /etc/fstab.bak' 10.198.114.4 'openEuler12#$' root
++ cmd='cp /etc/fstab /etc/fstab.bak'
++ remoteip=10.198.114.4
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'cp /etc/fstab /etc/fstab.bak' -i 10.198.114.4 -u root -p 'openEuler12#$' -t 300 -o 22
+Wed May  3 01:18:19 2023 - WARN  - the remote user uses the default configuration.
+Wed May  3 01:18:19 2023 - WARN  - the remote password uses the default configuration.
+Wed May  3 01:18:19 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@10.198.114.4 cp /etc/fstab /etc/fstab.bak
+
+Authorized users only. All activities may be monitored and reported.
+root@10.198.114.4's password: 
++ ret=0
++ test 0 -ne 0
++ return 0
++ ssh_cmd_node 'fdisk /dev/sr0 vdb << diskEof
+n
+p
+1
+
++100M
+Y
+n
+p
+2
+
++100M
+Y
+w
+diskEof'
++ cmd='fdisk /dev/sr0 vdb << diskEof
+n
+p
+1
+
++100M
+Y
+n
+p
+2
+
++100M
+Y
+w
+diskEof'
++ SSH_CMD 'fdisk /dev/sr0 vdb << diskEof
+n
+p
+1
+
++100M
+Y
+n
+p
+2
+
++100M
+Y
+w
+diskEof' 10.198.114.4 'openEuler12#$' root
++ cmd='fdisk /dev/sr0 vdb << diskEof
+n
+p
+1
+
++100M
+Y
+n
+p
+2
+
++100M
+Y
+w
+diskEof'
++ remoteip=10.198.114.4
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'fdisk /dev/sr0 vdb << diskEof
+n
+p
+1
+
++100M
+Y
+n
+p
+2
+
++100M
+Y
+w
+diskEof' -i 10.198.114.4 -u root -p 'openEuler12#$' -t 300 -o 22
+Wed May  3 01:18:21 2023 - WARN  - the remote user uses the default configuration.
+Wed May  3 01:18:21 2023 - WARN  - the remote password uses the default configuration.
+Wed May  3 01:18:21 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@10.198.114.4 fdisk /dev/sr0 vdb << diskEof
+n
+p
+1
+
++100M
+Y
+n
+p
+2
+
++100M
+Y
+w
+diskEof
+
+Authorized users only. All activities may be monitored and reported.
+root@10.198.114.4's password: 
+fdisk: bad usage
+Try 'fdisk --help' for more information.
++ ret=1
++ test 1 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:1'
++ message='Failed in remote CMD operation:1'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:1'
+Wed May  3 01:18:23 2023 - ERROR - Failed in remote CMD operation:1
++ return 1
++ ssh_cmd_node 'mdadm --stop /dev/md0'
++ cmd='mdadm --stop /dev/md0'
++ SSH_CMD 'mdadm --stop /dev/md0' 10.198.114.4 'openEuler12#$' root
++ cmd='mdadm --stop /dev/md0'
++ remoteip=10.198.114.4
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'mdadm --stop /dev/md0' -i 10.198.114.4 -u root -p 'openEuler12#$' -t 300 -o 22
+Wed May  3 01:18:23 2023 - WARN  - the remote user uses the default configuration.
+Wed May  3 01:18:23 2023 - WARN  - the remote password uses the default configuration.
+Wed May  3 01:18:24 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@10.198.114.4 mdadm --stop /dev/md0
+
+Authorized users only. All activities may be monitored and reported.
+root@10.198.114.4's password: 
+mdadm: error opening /dev/md0: No such file or directory
++ ret=1
++ test 1 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:1'
++ message='Failed in remote CMD operation:1'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:1'
+Wed May  3 01:18:25 2023 - ERROR - Failed in remote CMD operation:1
++ return 1
++ ssh_cmd_node 'echo y | mdadm -C -v /dev/md0 -l 1 -n 2 /dev/sr0 vdb1 /dev/sr0 vdb2'
++ cmd='echo y | mdadm -C -v /dev/md0 -l 1 -n 2 /dev/sr0 vdb1 /dev/sr0 vdb2'
++ SSH_CMD 'echo y | mdadm -C -v /dev/md0 -l 1 -n 2 /dev/sr0 vdb1 /dev/sr0 vdb2' 10.198.114.4 'openEuler12#$' root
++ cmd='echo y | mdadm -C -v /dev/md0 -l 1 -n 2 /dev/sr0 vdb1 /dev/sr0 vdb2'
++ remoteip=10.198.114.4
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'echo y | mdadm -C -v /dev/md0 -l 1 -n 2 /dev/sr0 vdb1 /dev/sr0 vdb2' -i 10.198.114.4 -u root -p 'openEuler12#$' -t 300 -o 22
+Wed May  3 01:18:25 2023 - WARN  - the remote user uses the default configuration.
+Wed May  3 01:18:25 2023 - WARN  - the remote password uses the default configuration.
+Wed May  3 01:18:26 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@10.198.114.4 echo y | mdadm -C -v /dev/md0 -l 1 -n 2 /dev/sr0 vdb1 /dev/sr0 vdb2
+
+Authorized users only. All activities may be monitored and reported.
+root@10.198.114.4's password: 
+mdadm: You have listed more devices (4) than are in the array(2)!
++ ret=1
++ test 1 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:1'
++ message='Failed in remote CMD operation:1'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:1'
+Wed May  3 01:18:27 2023 - ERROR - Failed in remote CMD operation:1
++ return 1
++ CHECK_RESULT 1 0 0 'Create md failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Create md failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Create md failed.'
++ LOG_ERROR 'Create md failed.'
++ message='Create md failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Create md failed.'
+Wed May  3 01:18:27 2023 - ERROR - Create md failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_auto_mount.sh line 50'
++ message='oe_test_raid_auto_mount.sh line 50'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_auto_mount.sh line 50'
+Wed May  3 01:18:28 2023 - ERROR - oe_test_raid_auto_mount.sh line 50
++ '[' 0 -eq 1 ']'
++ return 0
++ ssh_cmd_node 'mdadm -Ds | grep /dev/md0'
++ cmd='mdadm -Ds | grep /dev/md0'
++ SSH_CMD 'mdadm -Ds | grep /dev/md0' 10.198.114.4 'openEuler12#$' root
++ cmd='mdadm -Ds | grep /dev/md0'
++ remoteip=10.198.114.4
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'mdadm -Ds | grep /dev/md0' -i 10.198.114.4 -u root -p 'openEuler12#$' -t 300 -o 22
+Wed May  3 01:18:28 2023 - WARN  - the remote user uses the default configuration.
+Wed May  3 01:18:28 2023 - WARN  - the remote password uses the default configuration.
+Wed May  3 01:18:28 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@10.198.114.4 mdadm -Ds | grep /dev/md0
+
+Authorized users only. All activities may be monitored and reported.
+root@10.198.114.4's password: 
++ ret=1
++ test 1 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:1'
++ message='Failed in remote CMD operation:1'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:1'
+Wed May  3 01:18:30 2023 - ERROR - Failed in remote CMD operation:1
++ return 1
++ CHECK_RESULT 1 0 0 'Check md failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check md failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check md failed.'
++ LOG_ERROR 'Check md failed.'
++ message='Check md failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check md failed.'
+Wed May  3 01:18:30 2023 - ERROR - Check md failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_auto_mount.sh line 52'
++ message='oe_test_raid_auto_mount.sh line 52'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_auto_mount.sh line 52'
+Wed May  3 01:18:30 2023 - ERROR - oe_test_raid_auto_mount.sh line 52
++ '[' 0 -eq 1 ']'
++ return 0
++ [[ ext3 == \x\f\s ]]
++ ssh_cmd_node 'echo y | mkfs -t ext3 /dev/md0'
++ cmd='echo y | mkfs -t ext3 /dev/md0'
++ SSH_CMD 'echo y | mkfs -t ext3 /dev/md0' 10.198.114.4 'openEuler12#$' root
++ cmd='echo y | mkfs -t ext3 /dev/md0'
++ remoteip=10.198.114.4
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'echo y | mkfs -t ext3 /dev/md0' -i 10.198.114.4 -u root -p 'openEuler12#$' -t 300 -o 22
+Wed May  3 01:18:31 2023 - WARN  - the remote user uses the default configuration.
+Wed May  3 01:18:31 2023 - WARN  - the remote password uses the default configuration.
+Wed May  3 01:18:31 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@10.198.114.4 echo y | mkfs -t ext3 /dev/md0
+
+Authorized users only. All activities may be monitored and reported.
+root@10.198.114.4's password: 
+mke2fs 1.46.5 (30-Dec-2021)
+The file /dev/md0 does not exist and no size was specified.
++ ret=1
++ test 1 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:1'
++ message='Failed in remote CMD operation:1'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:1'
+Wed May  3 01:18:32 2023 - ERROR - Failed in remote CMD operation:1
++ return 1
++ CHECK_RESULT 1 0 0 'mkfs failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='mkfs failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'mkfs failed.'
++ LOG_ERROR 'mkfs failed.'
++ message='mkfs failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'mkfs failed.'
+Wed May  3 01:18:33 2023 - ERROR - mkfs failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_auto_mount.sh line 58'
++ message='oe_test_raid_auto_mount.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_auto_mount.sh line 58'
+Wed May  3 01:18:33 2023 - ERROR - oe_test_raid_auto_mount.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ ssh_cmd_node 'mount /dev/md0 /mnt/test_md'
++ cmd='mount /dev/md0 /mnt/test_md'
++ SSH_CMD 'mount /dev/md0 /mnt/test_md' 10.198.114.4 'openEuler12#$' root
++ cmd='mount /dev/md0 /mnt/test_md'
++ remoteip=10.198.114.4
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'mount /dev/md0 /mnt/test_md' -i 10.198.114.4 -u root -p 'openEuler12#$' -t 300 -o 22
+Wed May  3 01:18:33 2023 - WARN  - the remote user uses the default configuration.
+Wed May  3 01:18:34 2023 - WARN  - the remote password uses the default configuration.
+Wed May  3 01:18:34 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@10.198.114.4 mount /dev/md0 /mnt/test_md
+
+Authorized users only. All activities may be monitored and reported.
+root@10.198.114.4's password: 
+mount: /mnt/test_md: special device /dev/md0 does not exist.
++ ret=32
++ test 32 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:32'
++ message='Failed in remote CMD operation:32'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:32'
+Wed May  3 01:18:36 2023 - ERROR - Failed in remote CMD operation:32
++ return 32
++ CHECK_RESULT 32 0 0 'Mount md failed.'
++ actual_result=32
++ expect_result=0
++ mode=0
++ error_log='Mount md failed.'
++ exit_mode=0
++ '[' -z 32 ']'
++ '[' 0 -eq 0 ']'
++ test 32x '!=' 0x
++ test -n 'Mount md failed.'
++ LOG_ERROR 'Mount md failed.'
++ message='Mount md failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Mount md failed.'
+Wed May  3 01:18:36 2023 - ERROR - Mount md failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_raid_auto_mount.sh line 60'
++ message='oe_test_raid_auto_mount.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_raid_auto_mount.sh line 60'
+Wed May  3 01:18:37 2023 - ERROR - oe_test_raid_auto_mount.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ ssh_cmd_node 'echo '\''/dev/md0 /mnt/test_md ext3 defaults 0 0'\'' >> /etc/fstab'
++ cmd='echo '\''/dev/md0 /mnt/test_md ext3 defaults 0 0'\'' >> /etc/fstab'
++ SSH_CMD 'echo '\''/dev/md0 /mnt/test_md ext3 defaults 0 0'\'' >> /etc/fstab' 10.198.114.4 'openEuler12#$' root
++ cmd='echo '\''/dev/md0 /mnt/test_md ext3 defaults 0 0'\'' >> /etc/fstab'
++ remoteip=10.198.114.4
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'echo '\''/dev/md0 /mnt/test_md ext3 defaults 0 0'\'' >> /etc/fstab' -i 10.198.114.4 -u root -p 'openEuler12#$' -t 300 -o 22
+Wed May  3 01:18:37 2023 - WARN  - the remote user uses the default configuration.
+Wed May  3 01:18:37 2023 - WARN  - the remote password uses the default configuration.
+Wed May  3 01:18:38 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@10.198.114.4 echo '/dev/md0 /mnt/test_md ext3 defaults 0 0' >> /etc/fstab
+
+Authorized users only. All activities may be monitored and reported.
+root@10.198.114.4's password: 
++ ret=0
++ test 0 -ne 0
++ return 0
++ REMOTE_REBOOT 2 60
++ node=2
++ waittime=60
++ '[' 60x '!=' x ']'
++ python3 /root/mugen/libs/locallibs/remote_reboot.py reboot --node 2 --waittime 60
+Wed May  3 01:47:51 2023 - ERROR - Timeout : Command 'bash -x oe_test_raid_auto_mount.sh' timed out after 1799.9998295499997 seconds

@@ -1,0 +1,202 @@
++ source ../common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n '' ']'
++ trap POST_TEST_DEFAULT EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n '' ']'
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Fri May  5 01:49:39 2023 - INFO  - Start testing...
++ test_execution rsyslog.service
++ service=rsyslog.service
+++ date '+%Y-%m-%d %T'
++ log_time='2023-05-05 01:49:39'
++ test_restart rsyslog.service
++ service=rsyslog.service
++ systemctl restart rsyslog.service
++ CHECK_RESULT 0 0 0 'rsyslog.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rsyslog.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status rsyslog.service
++ grep 'Active: active'
+     Active: active (running) since Fri 2023-05-05 01:49:40 UTC; 5s ago
++ CHECK_RESULT 0 0 0 'rsyslog.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rsyslog.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop rsyslog.service
++ CHECK_RESULT 0 0 0 'rsyslog.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rsyslog.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status rsyslog.service
++ grep 'Active: inactive'
+     Active: inactive (dead) since Fri 2023-05-05 01:49:46 UTC; 5s ago
++ CHECK_RESULT 0 0 0 'rsyslog.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rsyslog.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start rsyslog.service
++ CHECK_RESULT 0 0 0 'rsyslog.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rsyslog.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status rsyslog.service
++ grep 'Active: active'
+     Active: active (running) since Fri 2023-05-05 01:49:51 UTC; 5s ago
++ CHECK_RESULT 0 0 0 'rsyslog.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rsyslog.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled rsyslog.service
++ service=rsyslog.service
+++ systemctl is-enabled rsyslog.service
++ state=enabled
++ '[' enabled == enabled ']'
+++ systemctl disable rsyslog.service
+++ grep Removed
+++ awk '{print $2}'
+++ awk '{print substr($0,1,length($0)-1)}'
++ symlink_file=/etc/systemd/system/multi-user.target.wants/rsyslog.service
++ find /etc/systemd/system/multi-user.target.wants/rsyslog.service
+find: ‘/etc/systemd/system/multi-user.target.wants/rsyslog.service’: No such file or directory
++ CHECK_RESULT 1 0 1 'rsyslog.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='rsyslog.service disable failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ systemctl enable rsyslog.service
+Created symlink /etc/systemd/system/multi-user.target.wants/rsyslog.service → /usr/lib/systemd/system/rsyslog.service.
++ find /etc/systemd/system/multi-user.target.wants/rsyslog.service
+/etc/systemd/system/multi-user.target.wants/rsyslog.service
++ CHECK_RESULT 0 0 0 'rsyslog.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='rsyslog.service enable failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ journalctl --since '2023-05-05 01:49:39' -u rsyslog.service
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of rsyslog.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of rsyslog.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_reload rsyslog.service
++ service=rsyslog.service
++ systemctl start rsyslog.service
++ systemctl reload rsyslog.service
++ grep 'Job type reload is not applicable'
+Failed to reload rsyslog.service: Job type reload is not applicable for unit rsyslog.service.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit rsyslog.service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit rsyslog.service'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status rsyslog.service
++ grep 'Active: active'
+     Active: active (running) since Fri 2023-05-05 01:49:51 UTC; 7s ago
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Fri May  5 01:49:59 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri May  5 01:49:59 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ POST_TEST_DEFAULT
++ LOG_INFO 'oe_test_service_rsyslog.sh post_test'
++ message='oe_test_service_rsyslog.sh post_test'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'oe_test_service_rsyslog.sh post_test'
+Fri May  5 01:49:59 2023 - INFO  - oe_test_service_rsyslog.sh post_test
