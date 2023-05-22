@@ -1,0 +1,250 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Mon May 22 03:35:37 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'wsmancli openwsman-server docker'
++ pkgs='wsmancli openwsman-server docker'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'wsmancli openwsman-server docker' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpd19po39e
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpd19po39e
++ docker run -d -it --rm -p 0.0.0.0:5988:5988 -p 0.0.0.0:5989:5989 --name openpegasus kschopmeyer/openpegasus-server:0.1.1
+Unable to find image 'kschopmeyer/openpegasus-server:0.1.1' locally
+0.1.1: Pulling from kschopmeyer/openpegasus-server
+d72e567cc804: Pulling fs layer
+0f3630e5ff08: Pulling fs layer
+b6a83d81d1f4: Pulling fs layer
+c3a32b0bd072: Pulling fs layer
+5eae12b812dc: Pulling fs layer
+8566c0c4c7fb: Pulling fs layer
+c3a32b0bd072: Waiting
+5eae12b812dc: Waiting
+8566c0c4c7fb: Waiting
+b6a83d81d1f4: Verifying Checksum
+b6a83d81d1f4: Download complete
+0f3630e5ff08: Verifying Checksum
+0f3630e5ff08: Download complete
+5eae12b812dc: Verifying Checksum
+5eae12b812dc: Download complete
+d72e567cc804: Verifying Checksum
+d72e567cc804: Download complete
+8566c0c4c7fb: Verifying Checksum
+8566c0c4c7fb: Download complete
+c3a32b0bd072: Verifying Checksum
+c3a32b0bd072: Download complete
+d72e567cc804: Pull complete
+0f3630e5ff08: Pull complete
+b6a83d81d1f4: Pull complete
+c3a32b0bd072: Pull complete
+5eae12b812dc: Pull complete
+8566c0c4c7fb: Pull complete
+Digest: sha256:fb5a09fa2e306f3fffbea2207c91430efce608a28f4bc95ce0655bedc47a4fdc
+Status: Downloaded newer image for kschopmeyer/openpegasus-server:0.1.1
+b411160f109141dbbe1857f174840b999ec271d119c47ab878dfd0784e78c5e3
++ cp common/simple_auth.passwd /etc/openwsman/test_simple_auth.passwd
++ openwsmand -c common/openwsman.conf
++ SLEEP_WAIT 20
++ wait_time=20
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 20 --cmd '' --mode 1
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Mon May 22 03:38:58 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Mon May 22 03:38:59 2023 - INFO  - Start to run test.
++ wsman enumerate http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ComputerSystem -h localhost --port 5985 -u wsman --password wsman -R
++ grep '<wsen:Pull>'
+Connection failed. response code = 500
++ CHECK_RESULT 1 0 0 'wamancli: faild to test -R'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test -R'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'wamancli: faild to test -R'
++ LOG_ERROR 'wamancli: faild to test -R'
++ message='wamancli: faild to test -R'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'wamancli: faild to test -R'
+Mon May 22 03:39:00 2023 - ERROR - wamancli: faild to test -R
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_wsmancli_wsman_06.sh line 37'
++ message='oe_test_wsmancli_wsman_06.sh line 37'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_wsmancli_wsman_06.sh line 37'
+Mon May 22 03:39:00 2023 - ERROR - oe_test_wsmancli_wsman_06.sh line 37
++ '[' 0 -eq 1 ']'
++ return 0
++ wsman enumerate http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ComputerSystem -h localhost --port 5985 -u wsman --password wsman -S
++ grep '<n1:CreationClassName>PG_ComputerSystem</n1:CreationClassName>'
+Connection failed. response code = 500
++ CHECK_RESULT 1 1 0 'wamancli: faild to test -S'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='wamancli: faild to test -S'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ wsman enumerate http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ComputerSystem -h localhost --port 5985 -u wsman --password wsman -N smash/ipmi
++ grep 'CIM_ERR_INVALID_NAMESPACE: smash/ipmi'
++ CHECK_RESULT 1 0 0 'wamancli: faild to test -N'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test -N'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'wamancli: faild to test -N'
++ LOG_ERROR 'wamancli: faild to test -N'
++ message='wamancli: faild to test -N'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'wamancli: faild to test -N'
+Mon May 22 03:39:01 2023 - ERROR - wamancli: faild to test -N
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_wsmancli_wsman_06.sh line 43'
++ message='oe_test_wsmancli_wsman_06.sh line 43'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_wsmancli_wsman_06.sh line 43'
+Mon May 22 03:39:02 2023 - ERROR - oe_test_wsmancli_wsman_06.sh line 43
++ '[' 0 -eq 1 ']'
++ return 0
++ wsman enumerate http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ComputerSystem -h localhost --port 5985 -u wsman --password wsman -R -B exclude
++ grep '<wsmb:PolymorphismMode>ExcludeSubClassProperties</wsmb:PolymorphismMode>'
+Connection failed. response code = 500
+      <wsmb:PolymorphismMode>ExcludeSubClassProperties</wsmb:PolymorphismMode>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test -B'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test -B'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman enumerate http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ComputerSystem -h localhost --port 5985 -u wsman --password wsman -R -t 5000
++ grep '<wsman:OperationTimeout>PT5.0S</wsman:OperationTimeout>'
+Connection failed. response code = 500
+    <wsman:OperationTimeout>PT5.0S</wsman:OperationTimeout>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test -t'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test -t'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman enumerate http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ComputerSystem -h localhost --port 5985 -u wsman --password wsman -R -e 4
++ grep '<wsman:MaxEnvelopeSize>4</wsman:MaxEnvelopeSize>'
+Connection failed. response code = 500
+    <wsman:MaxEnvelopeSize>4</wsman:MaxEnvelopeSize>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test -e'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test -e'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman enumerate http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ComputerSystem -h localhost --port 5985 -u wsman --password wsman -R -F TEST_F
++ grep '<wsman:FragmentTransfer s:mustUnderstand="true">TEST_F</wsman:FragmentTransfer>'
+Connection failed. response code = 500
+    <wsman:FragmentTransfer s:mustUnderstand="true">TEST_F</wsman:FragmentTransfer>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test -F'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test -F'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman enumerate http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ComputerSystem -h localhost --port 5985 -u wsman --password wsman -R -L TEST_L
++ grep '<wsman:Locale xml:lang="TEST_L" s:mustUnderstand="false"/>'
+Connection failed. response code = 500
+    <wsman:Locale xml:lang="TEST_L" s:mustUnderstand="false"/>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test -L'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test -L'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Mon May 22 03:39:04 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 2
++ test 2 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Mon May 22 03:39:04 2023 - ERROR - failed to execute the case.
++ exit 2
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Mon May 22 03:39:05 2023 - INFO  - Start to restore the test environment.
++ rm -rf /etc/openwsman/test_simple_auth.passwd
+++ pgrep openwsmand
++ kill -9 817
++ docker stop openpegasus
+Error response from daemon: No such container: openpegasus
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpd19po39e ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpd19po39e
++ '[' 0 -ne 0 ']'
++ SLEEP_WAIT 10
++ wait_time=10
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 10 --cmd '' --mode 1
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Mon May 22 03:39:39 2023 - INFO  - End to restore the test environment.

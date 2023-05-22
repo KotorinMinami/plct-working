@@ -1,0 +1,244 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Mon May 22 22:37:02 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL net-tools
++ pkgs=net-tools
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs net-tools --node 1 --tempfile ''
+Mon May 22 22:37:10 2023 - INFO  - pkgs:(net-tools) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ systemctl stop iptables
+Failed to stop iptables.service: Unit iptables.service not loaded.
++ cat
++ systemctl restart rsyslog
++ netstat -anpt
++ grep 514
++ grep rsyslogd
+tcp        0      0 0.0.0.0:514             0.0.0.0:*               LISTEN      3490/rsyslogd       
+tcp6       0      0 :::514                  :::*                    LISTEN      3490/rsyslogd       
+++ date +%s%N
+++ cut -c 9-13
++ time=31732
++ SSH_CMD '
+    systemctl stop iptables
+    echo  '\''local6.* @@10.198.114.1'\'' > /etc/rsyslog.d/client.conf
+    systemctl restart rsyslog
+    logger -t tcp -p local6.err tcptest31732
+    ' 10.198.114.2 'openEuler12#$' root
++ cmd='
+    systemctl stop iptables
+    echo  '\''local6.* @@10.198.114.1'\'' > /etc/rsyslog.d/client.conf
+    systemctl restart rsyslog
+    logger -t tcp -p local6.err tcptest31732
+    '
++ remoteip=10.198.114.2
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c '
+    systemctl stop iptables
+    echo  '\''local6.* @@10.198.114.1'\'' > /etc/rsyslog.d/client.conf
+    systemctl restart rsyslog
+    logger -t tcp -p local6.err tcptest31732
+    ' -i 10.198.114.2 -u root -p 'openEuler12#$' -t 300 -o 22
+Mon May 22 22:37:12 2023 - WARN  - the remote user uses the default configuration.
+Mon May 22 22:37:13 2023 - WARN  - the remote password uses the default configuration.
+Mon May 22 22:37:13 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@10.198.114.2 
+    systemctl stop iptables
+    echo  'local6.* @@10.198.114.1' > /etc/rsyslog.d/client.conf
+    systemctl restart rsyslog
+    logger -t tcp -p local6.err tcptest31732
+    
+root@10.198.114.2's password: 
+Failed to stop iptables.service: Unit iptables.service not loaded.
+bash: line 3: /etc/rsyslog.d/client.conf: No such file or directory
+Failed to restart rsyslog.service: Unit rsyslog.service not found.
++ ret=0
++ test 0 -ne 0
++ return 0
++ SLEEP_WAIT 20
++ wait_time=20
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 20 --cmd '' --mode 1
++ grep -a tcptest31732 /var/log/messages
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Mon May 22 22:37:38 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Mon May 22 22:37:39 2023 - INFO  - Start to run test.
++ systemctl start iptables
+Failed to start iptables.service: Unit iptables.service not found.
+++ date +%s%N
+++ cut -c 9-13
++ time=59893
++ SSH_CMD 'logger -t tcp -p local6.err tcptest59893' 10.198.114.2 'openEuler12#$' root
++ cmd='logger -t tcp -p local6.err tcptest59893'
++ remoteip=10.198.114.2
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'logger -t tcp -p local6.err tcptest59893' -i 10.198.114.2 -u root -p 'openEuler12#$' -t 300 -o 22
+Mon May 22 22:37:40 2023 - WARN  - the remote user uses the default configuration.
+Mon May 22 22:37:41 2023 - WARN  - the remote password uses the default configuration.
+Mon May 22 22:37:42 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@10.198.114.2 logger -t tcp -p local6.err tcptest59893
+root@10.198.114.2's password: 
++ ret=0
++ test 0 -ne 0
++ return 0
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 20
++ wait_time=20
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 20 --cmd '' --mode 1
++ grep tcptest59893 /var/log/messages
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ systemctl stop iptables
+Failed to stop iptables.service: Unit iptables.service not loaded.
++ SLEEP_WAIT 20
++ wait_time=20
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 20 --cmd '' --mode 1
++ grep tcptest59893 /var/log/messages
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_rsyslog_reliability_tcp.sh line 55'
++ message='oe_test_rsyslog_reliability_tcp.sh line 55'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_rsyslog_reliability_tcp.sh line 55'
+Mon May 22 22:38:27 2023 - ERROR - oe_test_rsyslog_reliability_tcp.sh line 55
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Mon May 22 22:38:28 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Mon May 22 22:38:29 2023 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Mon May 22 22:38:29 2023 - INFO  - Start to restore the test environment.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Mon May 22 22:38:30 2023 - WARN  - no thing to do.
++ return 0
++ SSH_CMD '
+    rm -rf /etc/rsyslog.d/client.conf
+    systemctl restart rsyslog
+    systemctl start iptables
+    ' 10.198.114.2 'openEuler12#$' root
++ cmd='
+    rm -rf /etc/rsyslog.d/client.conf
+    systemctl restart rsyslog
+    systemctl start iptables
+    '
++ remoteip=10.198.114.2
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c '
+    rm -rf /etc/rsyslog.d/client.conf
+    systemctl restart rsyslog
+    systemctl start iptables
+    ' -i 10.198.114.2 -u root -p 'openEuler12#$' -t 300 -o 22
+Mon May 22 22:38:31 2023 - WARN  - the remote user uses the default configuration.
+Mon May 22 22:38:32 2023 - WARN  - the remote password uses the default configuration.
+Mon May 22 22:38:32 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@10.198.114.2 
+    rm -rf /etc/rsyslog.d/client.conf
+    systemctl restart rsyslog
+    systemctl start iptables
+    
+root@10.198.114.2's password: 
+Failed to restart rsyslog.service: Unit rsyslog.service not found.
+Failed to start iptables.service: Unit iptables.service not found.
++ ret=5
++ test 5 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:5'
++ message='Failed in remote CMD operation:5'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:5'
+Mon May 22 22:38:36 2023 - ERROR - Failed in remote CMD operation:5
++ return 5
++ rm -rf /etc/rsyslog.d/server.conf
++ systemctl restart rsyslog
++ systemctl start iptables
+Failed to start iptables.service: Unit iptables.service not found.
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Mon May 22 22:38:38 2023 - INFO  - End to restore the test environment.
