@@ -1,0 +1,143 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Fri May 26 00:04:32 2023 - INFO  - Start to prepare the test environment.
++ cp -f /run/log/imjournal.state /run/log/imjournal.state.bak
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Fri May 26 00:04:33 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Fri May 26 00:04:34 2023 - INFO  - Start to run test.
++ systemctl stop rsyslog
++ CHECK_RESULT 0 0 0 'Failed to stop service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to stop service'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 3
++ wait_time=3
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd '' --mode 1
++ echo ''
++ systemctl start rsyslog
++ CHECK_RESULT 0 0 0 'Failed to start service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to start service'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 8
++ wait_time=8
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 8 --cmd '' --mode 1
+++ systemctl status rsyslog
+++ awk '{print $3}'
+++ grep 'Main PID'
++ main_pid=1932
++ grep rsyslog /var/log/messages
++ grep 1932
+May 26 00:04:38 openeuler-riscv64 rsyslogd[1932]: [origin software="rsyslogd" swVersion="8.2210.0" x-pid="1932" x-info="https://www.rsyslog.com"] start
+May 26 00:04:38 openeuler-riscv64 rsyslogd[1932]: imjournal: fscanf on state file `/run/log/imjournal.state' failed  [v8.2210.0 try https://www.rsyslog.com/e/2027 ]
+May 26 00:04:38 openeuler-riscv64 rsyslogd[1932]: imjournal: ignoring invalid state file /run/log/imjournal.state [v8.2210.0]
+May 26 00:04:39 openeuler-riscv64 rsyslogd[1932]: imjournal: journal files changed, reloading...  [v8.2210.0 try https://www.rsyslog.com/e/0 ]
++ CHECK_RESULT 0 0 0 'Log not recorded'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Log not recorded'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf /run/log/imjournal.state
++ systemctl restart rsyslog
++ CHECK_RESULT 0 0 0 'Failed to restart service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to restart service'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 3
++ wait_time=3
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 3 --cmd '' --mode 1
+++ systemctl status rsyslog
+++ grep 'Main PID'
+++ awk '{print $3}'
++ main_pid=1949
++ grep 1949
++ grep rsyslog /var/log/messages
+May 26 00:04:48 openeuler-riscv64 rsyslogd[1949]: [origin software="rsyslogd" swVersion="8.2210.0" x-pid="1949" x-info="https://www.rsyslog.com"] start
+May 26 00:04:48 openeuler-riscv64 rsyslogd[1949]: imjournal: journal files changed, reloading...  [v8.2210.0 try https://www.rsyslog.com/e/0 ]
++ CHECK_RESULT 0 0 0 'The pid not recorded'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='The pid not recorded'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Fri May 26 00:04:53 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Fri May 26 00:04:54 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Fri May 26 00:04:54 2023 - INFO  - Start to restore the test environment.
++ mv -f /run/log/imjournal.state.bak /run/log/imjournal.state
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Fri May 26 00:04:55 2023 - INFO  - End to restore the test environment.
