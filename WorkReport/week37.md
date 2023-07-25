@@ -18,6 +18,9 @@
 - - oe_test_service_plymouth-switch-root-initramfs:systemd单元启动失败，Condition check resulted in Tell Plymouth To Jump To initramfs being skipped.
 - sendmail
 - - oe_test_sendmail_func_001:软件lsof未安装
+- smoke-basic-os
+- - oe_test_dumpe2fs:将硬盘格式化时出现问题，无法在上面创建文件inode
+- - oe_test_mkdosfs:将硬盘格式化时出现问题，无法在上面创建文件inode
 #### 根本失败原因一致，但存在其他因素
 - libtiff
 - - oe_test_libtiff:没有安装libtiff-devel软件包，tiffio.h文件缺失
@@ -26,6 +29,11 @@
 - - oe_test_audit_02:mugen脚本使用的比较过时的service管理体系
 - - - riscv：没适配service xxx start的指令
 - - - x86：报错无对应的service unit
+#### 失败原因不一致
+- strongswan
+- - oe_test_service_strongswan-starter:
+- - - riscv:内核tun,kernel-libipsec未编译，启动失败
+- - - x86：内核openssl未编译，启动失败
 
 ### failed
 #### 缺陷
