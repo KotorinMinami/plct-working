@@ -1,0 +1,402 @@
++ source ../common/lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Nov 21 10:48:22 2023 - INFO  - Start to prepare the test environment.
++ postgresql_install
++ DNF_INSTALL 'postgresql postgresql-server postgresql-devel postgresql-contrib'
++ pkgs='postgresql postgresql-server postgresql-devel postgresql-contrib'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'postgresql postgresql-server postgresql-devel postgresql-contrib' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpulg7ez5p
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpulg7ez5p
++ rm -rf '/tmp/.s.PGSQL*'
++ /usr/bin/postgresql-setup --initdb
+ * Initializing database in '/var/lib/pgsql/data'
+ * Initialized, logs are in /var/lib/pgsql/initdb_postgresql.log
++ sed -i s/ident/trust/g /var/lib/pgsql/data/pg_hba.conf
++ systemctl start postgresql
++ expect
+spawn su - postgres
+Last login: Tue Nov 21 10:47:07 CST 2023
+
+
+Welcome to 6.1.19-2.oe2303.riscv64
+
+System information as of time: 	Tue Nov 21 10:49:25 AM CST 2023
+
+System load: 	[0;33;40m3.48[0m
+Processes: 	117
+Memory used: 	2.4%
+Swap used: 	0.0%
+Usage On: 	21%
+IP address: 	10.0.2.15
+Users online: 	0
+To run a command as administrator(user "root"),use "sudo <command>".
+
+
+Welcome to 6.1.19-2.oe2303.riscv64
+
+System information as of time: 	Tue Nov 21 10:49:26 AM CST 2023
+
+System load: 	[0;33;40m3.48[0m
+Processes: 	117
+Memory used: 	2.4%
+Swap used: 	0.0%
+Usage On: 	21%
+IP address: 	10.0.2.15
+Users online: 	0
+To run a command as administrator(user "root"),use "sudo <command>".
+[postgres@openeuler-riscv64 ~]$ createdb testdb
+[postgres@openeuler-riscv64 ~]$ psql testdb
+psql (13.3)
+Type "help" for help.
+
+testdb=# create table test (id int, val numeric);
+CREATE TABLE
+create index on test(id);
+testdb=# create index on test(id);
+CREATE INDEX
+create index on test(val);
+testdb=# create index on test(val);
+CREATE INDEX
+testdb=# insert into test select generate_series(1,10000),random();
+INSERT 0 10000
+testdb=# create table tab_big(vname text,souroid oid);
+CREATE TABLE
+testdb=# insert into tab_big values('passwd list',lo_import('/etc/passwd'));
+INSERT 0 1
+testdb=# CREATE SCHEMA myschema;
+create table myschema.test (id int, val numeric) with oids;
+CREATE SCHEMA
+testdb=# create table myschema.test (id int, val numeric) with oids;
+ERROR:  syntax error at or near "oids"
+LINE 1: create table myschema.test (id int, val numeric) with oids;
+                                                              ^
+testdb=# insert into myschema.test select generate_series(1,100),random();
+ERROR:  relation "myschema.test" does not exist
+LINE 1: insert into myschema.test select generate_series(1,100),rand...
+                    ^
+testdb=# create user testuder;
+CREATE ROLE
+testdb=# GRANT ALL ON test TO testuder;
+\q
+GRANT
+testdb=# \q
+[postgres@openeuler-riscv64 ~]$ + export LANG=en_US.UTF-8
++ LANG=en_US.UTF-8
++ su - postgres -c 'pg_ctl stop -D data'
+waiting for server to shut down.... done
+server stopped
++ su - postgres -c 'rm -rf /var/lib/pgsql/data1 && mkdir -p /var/lib/pgsql/data1'
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Nov 21 10:50:15 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 10:50:15 2023 - INFO  - Start to run test.
++ su - postgres -c 'pg_ctl init -D data1 -s'
+initdb: warning: enabling "trust" authentication for local connections
+You can change this by editing pg_hba.conf or using the option -A, or
+--auth-local and --auth-host, the next time you run initdb.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'pg_ctl start -D data1 -l /tmp/pglog -t 5 -o "-p 5433" -p /usr/bin/postgres'
+waiting for server to start.... done
+server started
++ grep 'running (PID'
++ su - postgres -c 'pg_ctl -D data1 status'
+pg_ctl: server is running (PID: 22006)
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'pg_ctl stop -D data1'
+waiting for server to shut down.... done
+server stopped
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'pg_ctl start -D data1 -W'
+server starting
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'pg_ctl stop -D data1'
+2023-11-21 10:50:36.712 CST [22353] LOG:  redirecting log output to logging collector process
+2023-11-21 10:50:36.712 CST [22353] HINT:  Future log output will appear in directory "log".
+waiting for server to shut down.... done
+server stopped
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'pg_ctl start -D data1 -s '
+2023-11-21 10:50:41.346 CST [22587] LOG:  redirecting log output to logging collector process
+2023-11-21 10:50:41.346 CST [22587] HINT:  Future log output will appear in directory "log".
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'pg_ctl stop -D data1 -m smart'
+waiting for server to shut down.... done
+server stopped
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'pg_ctl start -D data1'
+waiting for server to start....2023-11-21 10:50:46.355 CST [22821] LOG:  redirecting log output to logging collector process
+2023-11-21 10:50:46.355 CST [22821] HINT:  Future log output will appear in directory "log".
+ done
+server started
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'pg_ctl stop -D data1 -s -t 5'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'pg_ctl start -D data1'
+waiting for server to start....2023-11-21 10:50:51.478 CST [23055] LOG:  redirecting log output to logging collector process
+2023-11-21 10:50:51.478 CST [23055] HINT:  Future log output will appear in directory "log".
+ done
+server started
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'pg_ctl stop -D data1 -W'
+server shutting down
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'pg_ctl restart -D data1 -m smart -t 5 -o "-p 5435"'
+pg_ctl: PID file "data1/postmaster.pid" does not exist
+Is server running?
+trying to start server anyway
+waiting for server to start....2023-11-21 10:50:56.257 CST [23289] LOG:  redirecting log output to logging collector process
+2023-11-21 10:50:56.257 CST [23289] HINT:  Future log output will appear in directory "log".
+ done
+server started
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'pg_ctl restart -D data1 -s'
+2023-11-21 10:50:58.875 CST [23410] LOG:  redirecting log output to logging collector process
+2023-11-21 10:50:58.875 CST [23410] HINT:  Future log output will appear in directory "log".
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'pg_ctl restart -D data1 -W'
+waiting for server to shut down.... done
+server stopped
+server starting
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'pg_ctl reload -D data1 -s'
+2023-11-21 10:51:01.484 CST [23531] LOG:  redirecting log output to logging collector process
+2023-11-21 10:51:01.484 CST [23531] HINT:  Future log output will appear in directory "log".
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ su - postgres -c 'pg_ctl -D data1 status'
+++ tr -cd '[0-9]'
+++ grep PID
++ PID=23531
++ su - postgres -c 'pg_ctl kill INT 23531'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pg_ctl -V
++ grep '(PostgreSQL)'
+pg_ctl (PostgreSQL) 13.3
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pg_ctl '-?'
++ grep Usage:
+Usage:
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Nov 21 10:51:08 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Nov 21 10:51:08 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Nov 21 10:51:09 2023 - INFO  - Start to restore the test environment.
++ systemctl stop postgresql
++ DNF_REMOVE 1 'postgresql postgresql-server postgresql-devel postgresql-contrib'
++ node=1
++ pkg_list='postgresql postgresql-server postgresql-devel postgresql-contrib'
++ mode=0
++ [[ -z /tmp/tmpulg7ez5p ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs 'postgresql postgresql-server postgresql-devel postgresql-contrib' --tempfile /tmp/tmpulg7ez5p
++ '[' 0 -ne 0 ']'
++ rm -rf /var/lib/pgsql/data /var/lib/pgsql/data1 /var/lib/pgsql/initdb_postgresql.log
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue Nov 21 10:51:23 2023 - INFO  - End to restore the test environment.

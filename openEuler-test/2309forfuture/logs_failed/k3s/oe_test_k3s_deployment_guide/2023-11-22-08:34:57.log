@@ -1,0 +1,467 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n function ']'
++ config_params
++ LOG_INFO 'Start to config params of the case.'
++ message='Start to config params of the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to config params of the case.'
+Wed Nov 22 08:34:59 2023 - INFO  - Start to config params of the case.
++ firewall-cmd --add-port=6443/tcp --zone=public --permanent
+oe_test_k3s_deployment_guide.sh: line 24: firewall-cmd: command not found
++ firewall-cmd --add-port=8472/udp --zone=public --permanent
+oe_test_k3s_deployment_guide.sh: line 25: firewall-cmd: command not found
++ firewall-cmd --reload
+oe_test_k3s_deployment_guide.sh: line 26: firewall-cmd: command not found
++ P_SSH_CMD --cmd 'firewall-cmd --add-port=6443/tcp --zone=public --permanent' --node 2
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'firewall-cmd --add-port=6443/tcp --zone=public --permanent' --node 2
+bash: line 1: firewall-cmd: command not found
++ P_SSH_CMD --cmd 'firewall-cmd --add-port=8472/udp --zone=public --permanent' --node 2
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'firewall-cmd --add-port=8472/udp --zone=public --permanent' --node 2
+bash: line 1: firewall-cmd: command not found
++ P_SSH_CMD --cmd 'firewall-cmd --reload' --node 2
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'firewall-cmd --reload' --node 2
+bash: line 1: firewall-cmd: command not found
++ P_SSH_CMD --cmd 'systemctl stop firewalld' --node 2
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'systemctl stop firewalld' --node 2
+Failed to stop firewalld.service: Unit firewalld.service not loaded.
++ LOG_INFO 'End to config params of the case.'
++ message='End to config params of the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to config params of the case.'
+Wed Nov 22 08:35:14 2023 - INFO  - End to config params of the case.
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Nov 22 08:35:14 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL k3s
++ pkgs=k3s
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs k3s --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp43l_980s
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp43l_980s
+++ hostname
++ hostName_bak=openeuler-riscv64
++ hostnamectl set-hostname server
++ P_SSH_CMD --cmd 'yum install -y k3s' --node 2
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'yum install -y k3s' --node 2
+Last metadata expiration check: 1 day, 6:49:11 ago on Tue 21 Nov 2023 01:49:15 AM CST.
+Dependencies resolved.
+================================================================================
+ Package                  Arch     Version                      Repo       Size
+================================================================================
+Installing:
+ k3s                      riscv64  1.24.2+rc1+k3s2-3.oe2303     epol       59 M
+Installing dependencies:
+ container-selinux        noarch   2:2.163-1.oe2303             mainline   39 k
+ iptables                 riscv64  1.8.9-2.oe2303               mainline   73 k
+ k3s-selinux              noarch   1.1.stable.1-1.oe2303        epol       20 k
+ policycoreutils          riscv64  3.4-1.oe2303                 mainline  156 k
+ selinux-policy           noarch   38.6-4.oe2303                mainline   24 k
+ selinux-policy-targeted  noarch   38.6-4.oe2303                mainline  6.8 M
+
+Transaction Summary
+================================================================================
+Install  7 Packages
+
+Total download size: 67 M
+Installed size: 87 M
+Downloading Packages:
+(1/7): container-selinux-2.163-1.oe2303.noarch.  28 kB/s |  39 kB     00:01    
+(2/7): iptables-1.8.9-2.oe2303.riscv64.rpm       52 kB/s |  73 kB     00:01    
+(3/7): policycoreutils-3.4-1.oe2303.riscv64.rpm 109 kB/s | 156 kB     00:01    
+(4/7): selinux-policy-38.6-4.oe2303.noarch.rpm  536 kB/s |  24 kB     00:00    
+(5/7): k3s-selinux-1.1.stable.1-1.oe2303.noarch 123 kB/s |  20 kB     00:00    
+(6/7): selinux-policy-targeted-38.6-4.oe2303.no 7.1 MB/s | 6.8 MB     00:00    
+(7/7): k3s-1.24.2+rc1+k3s2-3.oe2303.riscv64.rpm 7.7 MB/s |  59 MB     00:07    
+--------------------------------------------------------------------------------
+Total                                           7.2 MB/s |  67 MB     00:09     
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Running scriptlet: selinux-policy-targeted-38.6-4.oe2303.noarch           1/1 
+  Preparing        :                                                        1/1 
+  Installing       : policycoreutils-3.4-1.oe2303.riscv64                   1/7 
+  Running scriptlet: policycoreutils-3.4-1.oe2303.riscv64                   1/7 
+Created symlink /etc/systemd/system/multi-user.target.wants/restorecond.service → /usr/lib/systemd/system/restorecond.service.
+
+  Installing       : selinux-policy-38.6-4.oe2303.noarch                    2/7 
+  Running scriptlet: selinux-policy-38.6-4.oe2303.noarch                    2/7 
+  Running scriptlet: selinux-policy-targeted-38.6-4.oe2303.noarch           3/7 
+  Installing       : selinux-policy-targeted-38.6-4.oe2303.noarch           3/7 
+  Running scriptlet: selinux-policy-targeted-38.6-4.oe2303.noarch           3/7 
+  Running scriptlet: container-selinux-2:2.163-1.oe2303.noarch              4/7 
+  Installing       : container-selinux-2:2.163-1.oe2303.noarch              4/7 
+  Running scriptlet: container-selinux-2:2.163-1.oe2303.noarch              4/7 
+  Running scriptlet: k3s-selinux-1.1.stable.1-1.oe2303.noarch               5/7 
+  Installing       : k3s-selinux-1.1.stable.1-1.oe2303.noarch               5/7 
+  Running scriptlet: k3s-selinux-1.1.stable.1-1.oe2303.noarch               5/7 
+  Installing       : iptables-1.8.9-2.oe2303.riscv64                        6/7 
+  Running scriptlet: iptables-1.8.9-2.oe2303.riscv64                        6/7 
+  Installing       : k3s-1.24.2+rc1+k3s2-3.oe2303.riscv64                   7/7 
+  Running scriptlet: selinux-policy-targeted-38.6-4.oe2303.noarch           7/7 
+  Running scriptlet: container-selinux-2:2.163-1.oe2303.noarch              7/7 
+  Running scriptlet: k3s-selinux-1.1.stable.1-1.oe2303.noarch               7/7 
+  Running scriptlet: k3s-1.24.2+rc1+k3s2-3.oe2303.riscv64                   7/7 
+/usr/lib/tmpfiles.d/dbus.conf:13: Line references path below legacy directory /var/run/, updating /var/run/dbus/containers → /run/dbus/containers; please update the tmpfiles.d/ drop-in file accordingly.
+
+  Verifying        : container-selinux-2:2.163-1.oe2303.noarch              1/7 
+  Verifying        : iptables-1.8.9-2.oe2303.riscv64                        2/7 
+  Verifying        : policycoreutils-3.4-1.oe2303.riscv64                   3/7 
+  Verifying        : selinux-policy-38.6-4.oe2303.noarch                    4/7 
+  Verifying        : selinux-policy-targeted-38.6-4.oe2303.noarch           5/7 
+  Verifying        : k3s-1.24.2+rc1+k3s2-3.oe2303.riscv64                   6/7 
+  Verifying        : k3s-selinux-1.1.stable.1-1.oe2303.noarch               7/7 
+
+Installed:
+  container-selinux-2:2.163-1.oe2303.noarch                                     
+  iptables-1.8.9-2.oe2303.riscv64                                               
+  k3s-1.24.2+rc1+k3s2-3.oe2303.riscv64                                          
+  k3s-selinux-1.1.stable.1-1.oe2303.noarch                                      
+  policycoreutils-3.4-1.oe2303.riscv64                                          
+  selinux-policy-38.6-4.oe2303.noarch                                           
+  selinux-policy-targeted-38.6-4.oe2303.noarch                                  
+
+Complete!
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Wed Nov 22 08:41:06 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Nov 22 08:41:07 2023 - INFO  - Start to run test.
++ INSTALL_K3S_SKIP_DOWNLOAD=true
++ k3s-install.sh
++ grep 'Starting k3s'
+[ERROR]  Failed to apply container_runtime_exec_t to /usr/local/bin/k3s, please install:
+    dnf install -y container-selinux
+    dnf install -y https://rpm.rancher.io/k3s/stable/common/centos/8/noarch/k3s-selinux-0.4-1.el8.noarch.rpm
+
++ CHECK_RESULT 1 0 0 'Failed to start the k3s-server'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed to start the k3s-server'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed to start the k3s-server'
++ LOG_ERROR 'Failed to start the k3s-server'
++ message='Failed to start the k3s-server'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed to start the k3s-server'
+Wed Nov 22 08:41:09 2023 - ERROR - Failed to start the k3s-server
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_k3s_deployment_guide.sh line 46'
++ message='oe_test_k3s_deployment_guide.sh line 46'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_k3s_deployment_guide.sh line 46'
+Wed Nov 22 08:41:10 2023 - ERROR - oe_test_k3s_deployment_guide.sh line 46
++ '[' 0 -eq 1 ']'
++ return 0
++ SLEEP_WAIT 30
++ wait_time=30
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 30 --cmd '' --mode 1
++ kubectl get nodes
++ grep Ready
+oe_test_k3s_deployment_guide.sh: line 48: kubectl: command not found
++ CHECK_RESULT 1 0 0 'Failed to deploy the k3s-server'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed to deploy the k3s-server'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed to deploy the k3s-server'
++ LOG_ERROR 'Failed to deploy the k3s-server'
++ message='Failed to deploy the k3s-server'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed to deploy the k3s-server'
+Wed Nov 22 08:41:41 2023 - ERROR - Failed to deploy the k3s-server
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_k3s_deployment_guide.sh line 49'
++ message='oe_test_k3s_deployment_guide.sh line 49'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_k3s_deployment_guide.sh line 49'
+Wed Nov 22 08:41:41 2023 - ERROR - oe_test_k3s_deployment_guide.sh line 49
++ '[' 0 -eq 1 ']'
++ return 0
+++ awk -F : '{print $NF}' /var/lib/rancher/k3s/server/node-token
+awk: fatal: cannot open file `/var/lib/rancher/k3s/server/node-token' for reading: No such file or directory
++ server_k3s_token=
++ P_SSH_CMD --cmd 'INSTALL_K3S_SKIP_DOWNLOAD=true K3S_URL=https://192.168.114.1:6443 K3S_TOKEN= k3s-install.sh | grep '\''Starting k3s-agent'\''' --node 2
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'INSTALL_K3S_SKIP_DOWNLOAD=true K3S_URL=https://192.168.114.1:6443 K3S_TOKEN= k3s-install.sh | grep '\''Starting k3s-agent'\''' --node 2
+[ERROR]  Defaulted k3s exec command to 'agent' because K3S_URL is defined, but K3S_TOKEN, K3S_TOKEN_FILE or K3S_CLUSTER_SECRET is not defined.
++ CHECK_RESULT 1 0 0 'Failed to start the k3s-agent'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed to start the k3s-agent'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed to start the k3s-agent'
++ LOG_ERROR 'Failed to start the k3s-agent'
++ message='Failed to start the k3s-agent'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed to start the k3s-agent'
+Wed Nov 22 08:41:45 2023 - ERROR - Failed to start the k3s-agent
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_k3s_deployment_guide.sh line 52'
++ message='oe_test_k3s_deployment_guide.sh line 52'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_k3s_deployment_guide.sh line 52'
+Wed Nov 22 08:41:45 2023 - ERROR - oe_test_k3s_deployment_guide.sh line 52
++ '[' 0 -eq 1 ']'
++ return 0
++ systemctl restart k3s.service
+Failed to restart k3s.service: Unit k3s.service not found.
++ systemctl status k3s.service
++ grep 'active (running)'
+Unit k3s.service could not be found.
++ CHECK_RESULT 1 0 0 'Failed to restart the k3s-server'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed to restart the k3s-server'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed to restart the k3s-server'
++ LOG_ERROR 'Failed to restart the k3s-server'
++ message='Failed to restart the k3s-server'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed to restart the k3s-server'
+Wed Nov 22 08:41:46 2023 - ERROR - Failed to restart the k3s-server
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_k3s_deployment_guide.sh line 55'
++ message='oe_test_k3s_deployment_guide.sh line 55'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_k3s_deployment_guide.sh line 55'
+Wed Nov 22 08:41:46 2023 - ERROR - oe_test_k3s_deployment_guide.sh line 55
++ '[' 0 -eq 1 ']'
++ return 0
++ SLEEP_WAIT 30
++ wait_time=30
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 30 --cmd '' --mode 1
++ kubectl get nodes
++ grep openeuler
+oe_test_k3s_deployment_guide.sh: line 57: kubectl: command not found
++ CHECK_RESULT 1 0 0 'Failed to deploy the k3s-agent'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed to deploy the k3s-agent'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed to deploy the k3s-agent'
++ LOG_ERROR 'Failed to deploy the k3s-agent'
++ message='Failed to deploy the k3s-agent'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed to deploy the k3s-agent'
+Wed Nov 22 08:42:17 2023 - ERROR - Failed to deploy the k3s-agent
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_k3s_deployment_guide.sh line 58'
++ message='oe_test_k3s_deployment_guide.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_k3s_deployment_guide.sh line 58'
+Wed Nov 22 08:42:18 2023 - ERROR - oe_test_k3s_deployment_guide.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ kubectl apply -f deployment.yml
++ grep 'deployment.apps/nginx-deployment created'
+oe_test_k3s_deployment_guide.sh: line 59: kubectl: command not found
++ CHECK_RESULT 1 0 0 'Failed to create the k3s-server nginx-deployment'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed to create the k3s-server nginx-deployment'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed to create the k3s-server nginx-deployment'
++ LOG_ERROR 'Failed to create the k3s-server nginx-deployment'
++ message='Failed to create the k3s-server nginx-deployment'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed to create the k3s-server nginx-deployment'
+Wed Nov 22 08:42:18 2023 - ERROR - Failed to create the k3s-server nginx-deployment
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_k3s_deployment_guide.sh line 60'
++ message='oe_test_k3s_deployment_guide.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_k3s_deployment_guide.sh line 60'
+Wed Nov 22 08:42:19 2023 - ERROR - oe_test_k3s_deployment_guide.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ SLEEP_WAIT 30
++ wait_time=30
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 30 --cmd '' --mode 1
++ kubectl get pods
++ grep Running
+oe_test_k3s_deployment_guide.sh: line 62: kubectl: command not found
++ CHECK_RESULT 1 0 0 'The status of the pods is not running'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='The status of the pods is not running'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'The status of the pods is not running'
++ LOG_ERROR 'The status of the pods is not running'
++ message='The status of the pods is not running'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'The status of the pods is not running'
+Wed Nov 22 08:42:50 2023 - ERROR - The status of the pods is not running
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_k3s_deployment_guide.sh line 63'
++ message='oe_test_k3s_deployment_guide.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_k3s_deployment_guide.sh line 63'
+Wed Nov 22 08:42:50 2023 - ERROR - oe_test_k3s_deployment_guide.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ kubectl apply -f service.yml
++ grep 'service/nginx-service created'
+oe_test_k3s_deployment_guide.sh: line 64: kubectl: command not found
++ CHECK_RESULT 1 0 0 'Failed to create the k3s-server nginx-service'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed to create the k3s-server nginx-service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed to create the k3s-server nginx-service'
++ LOG_ERROR 'Failed to create the k3s-server nginx-service'
++ message='Failed to create the k3s-server nginx-service'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed to create the k3s-server nginx-service'
+Wed Nov 22 08:42:50 2023 - ERROR - Failed to create the k3s-server nginx-service
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_k3s_deployment_guide.sh line 65'
++ message='oe_test_k3s_deployment_guide.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_k3s_deployment_guide.sh line 65'
+Wed Nov 22 08:42:51 2023 - ERROR - oe_test_k3s_deployment_guide.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ kubectl describe service nginx-service
++ grep nginx-service
+oe_test_k3s_deployment_guide.sh: line 66: kubectl: command not found
++ CHECK_RESULT 1 0 0 'The nginx-service information does not exist'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='The nginx-service information does not exist'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'The nginx-service information does not exist'
++ LOG_ERROR 'The nginx-service information does not exist'
++ message='The nginx-service information does not exist'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'The nginx-service information does not exist'
+Wed Nov 22 08:42:51 2023 - ERROR - The nginx-service information does not exist
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_k3s_deployment_guide.sh line 67'
++ message='oe_test_k3s_deployment_guide.sh line 67'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_k3s_deployment_guide.sh line 67'
+Wed Nov 22 08:42:52 2023 - ERROR - oe_test_k3s_deployment_guide.sh line 67
++ '[' 0 -eq 1 ']'
++ return 0
+++ kubectl describe service nginx-service
+++ grep Endpoints
+oe_test_k3s_deployment_guide.sh: line 68: kubectl: command not found
+++ awk -F : '{print $2}'
+++ sed 's/[[:space:]]//g'
++ nginx_ip=
++ P_SSH_CMD --cmd 'curl http:// | grep '\''Welcome to nginx'\''' --node 2
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'curl http:// | grep '\''Welcome to nginx'\''' --node 2
+curl: (3) URL using bad/illegal format or missing URL
++ CHECK_RESULT 1 0 0 'Failed to access nginx-service'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed to access nginx-service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed to access nginx-service'
++ LOG_ERROR 'Failed to access nginx-service'
++ message='Failed to access nginx-service'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed to access nginx-service'
+Wed Nov 22 08:42:56 2023 - ERROR - Failed to access nginx-service
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_k3s_deployment_guide.sh line 70'
++ message='oe_test_k3s_deployment_guide.sh line 70'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_k3s_deployment_guide.sh line 70'
+Wed Nov 22 08:42:56 2023 - ERROR - oe_test_k3s_deployment_guide.sh line 70
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed Nov 22 08:42:56 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 10
++ test 10 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed Nov 22 08:42:57 2023 - ERROR - failed to execute the case.
++ exit 10
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Nov 22 08:42:57 2023 - INFO  - Start to restore the test environment.
++ firewall-cmd --remove-port=6443/tcp --zone=public --permanent
+oe_test_k3s_deployment_guide.sh: line 76: firewall-cmd: command not found
++ firewall-cmd --remove-port=8472/udp --zone=public --permanent
+oe_test_k3s_deployment_guide.sh: line 77: firewall-cmd: command not found
++ firewall-cmd --reload
+oe_test_k3s_deployment_guide.sh: line 78: firewall-cmd: command not found
++ P_SSH_CMD --cmd 'firewall-cmd --remove-port=6443/tcp --zone=public --permanent' --node 2
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'firewall-cmd --remove-port=6443/tcp --zone=public --permanent' --node 2
+bash: line 1: firewall-cmd: command not found
++ P_SSH_CMD --cmd 'firewall-cmd --remove-port=8472/udp --zone=public --permanent' --node 2
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'firewall-cmd --remove-port=8472/udp --zone=public --permanent' --node 2
+bash: line 1: firewall-cmd: command not found
++ P_SSH_CMD --cmd 'firewall-cmd --reload' --node 2
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'firewall-cmd --reload' --node 2
+bash: line 1: firewall-cmd: command not found
++ P_SSH_CMD --cmd 'systemctl restart firewalld' --node 2
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'systemctl restart firewalld' --node 2
+Failed to restart firewalld.service: Unit firewalld.service not found.
++ hostnamectl set-hostname openeuler-riscv64
++ bash -x /usr/local/bin/k3s-uninstall.sh
+bash: /usr/local/bin/k3s-uninstall.sh: No such file or directory
++ P_SSH_CMD --cmd 'bash -x /usr/local/bin/k3s-agent-uninstall.sh' --node 2
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'bash -x /usr/local/bin/k3s-agent-uninstall.sh' --node 2
+bash: /usr/local/bin/k3s-agent-uninstall.sh: No such file or directory
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed Nov 22 08:43:16 2023 - INFO  - End to restore the test environment.

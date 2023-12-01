@@ -1,0 +1,235 @@
++ source ../common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed Nov 22 01:45:53 2023 - INFO  - Start environmental preparation.
++ P_SSH_CMD --cmd 'dnf install -y network-scripts' --node 2
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'dnf install -y network-scripts' --node 2
+Last metadata expiration check: 23:56:47 ago on Tue 21 Nov 2023 01:49:15 AM CST.
+Dependencies resolved.
+================================================================================
+ Package                   Arch        Version               Repository    Size
+================================================================================
+Installing:
+ network-scripts           riscv64     10.17-3.oe2303        mainline      59 k
+Installing dependencies:
+ initscripts               riscv64     10.17-3.oe2303        mainline     210 k
+ initscripts-service       noarch      10.17-3.oe2303        mainline      13 k
+ ipcalc                    riscv64     1.0.2-1.oe2303        mainline      33 k
+Installing weak dependencies:
+ network-scripts-teamd     riscv64     1.31-2.oe2303         mainline     9.6 k
+ ppp                       riscv64     2.4.9-5.oe2303        mainline     309 k
+
+Transaction Summary
+================================================================================
+Install  6 Packages
+
+Total download size: 634 k
+Installed size: 2.2 M
+Downloading Packages:
+(1/6): initscripts-service-10.17-3.oe2303.noarc 7.5 kB/s |  13 kB     00:01    
+(2/6): ipcalc-1.0.2-1.oe2303.riscv64.rpm         18 kB/s |  33 kB     00:01    
+(3/6): initscripts-10.17-3.oe2303.riscv64.rpm   113 kB/s | 210 kB     00:01    
+(4/6): network-scripts-10.17-3.oe2303.riscv64.r 613 kB/s |  59 kB     00:00    
+(5/6): network-scripts-teamd-1.31-2.oe2303.risc 130 kB/s | 9.6 kB     00:00    
+(6/6): ppp-2.4.9-5.oe2303.riscv64.rpm           2.1 MB/s | 309 kB     00:00    
+--------------------------------------------------------------------------------
+Total                                           305 kB/s | 634 kB     00:02     
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Preparing        :                                                        1/1 
+  Installing       : ipcalc-1.0.2-1.oe2303.riscv64                          1/6 
+  Installing       : initscripts-service-10.17-3.oe2303.noarch              2/6 
+  Installing       : initscripts-10.17-3.oe2303.riscv64                     3/6 
+  Running scriptlet: initscripts-10.17-3.oe2303.riscv64                     3/6 
+  Installing       : network-scripts-10.17-3.oe2303.riscv64                 4/6 
+  Running scriptlet: network-scripts-10.17-3.oe2303.riscv64                 4/6 
+  Installing       : network-scripts-teamd-1.31-2.oe2303.riscv64            5/6 
+  Running scriptlet: ppp-2.4.9-5.oe2303.riscv64                             6/6 
+  Installing       : ppp-2.4.9-5.oe2303.riscv64                             6/6 
+  Running scriptlet: ppp-2.4.9-5.oe2303.riscv64                             6/6 
+/usr/lib/tmpfiles.d/dbus.conf:13: Line references path below legacy directory /var/run/, updating /var/run/dbus/containers → /run/dbus/containers; please update the tmpfiles.d/ drop-in file accordingly.
+
+  Verifying        : initscripts-10.17-3.oe2303.riscv64                     1/6 
+  Verifying        : initscripts-service-10.17-3.oe2303.noarch              2/6 
+  Verifying        : ipcalc-1.0.2-1.oe2303.riscv64                          3/6 
+  Verifying        : network-scripts-10.17-3.oe2303.riscv64                 4/6 
+  Verifying        : network-scripts-teamd-1.31-2.oe2303.riscv64            5/6 
+  Verifying        : ppp-2.4.9-5.oe2303.riscv64                             6/6 
+
+Installed:
+  initscripts-10.17-3.oe2303.riscv64                                            
+  initscripts-service-10.17-3.oe2303.noarch                                     
+  ipcalc-1.0.2-1.oe2303.riscv64                                                 
+  network-scripts-10.17-3.oe2303.riscv64                                        
+  network-scripts-teamd-1.31-2.oe2303.riscv64                                   
+  ppp-2.4.9-5.oe2303.riscv64                                                    
+
+Complete!
++ service=network.service
+++ date '+%Y-%m-%d %T'
++ log_time='2023-11-22 01:46:23'
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Wed Nov 22 01:46:24 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Wed Nov 22 01:46:24 2023 - INFO  - Start testing...
++ P_SSH_CMD --cmd 'systemctl restart network.service' --node 2
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'systemctl restart network.service' --node 2
+
++ CHECK_RESULT 0 0 0 'network.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='network.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ P_SSH_CMD --cmd 'systemctl status network.service | grep '\''Active: active'\''' --node 2
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'systemctl status network.service | grep '\''Active: active'\''' --node 2
+     Active: active (exited) since Wed 2023-11-22 01:46:29 CST; 10s ago
++ CHECK_RESULT 0 0 0 'network.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='network.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ P_SSH_CMD --cmd 'journalct --since '\''2023-11-22 01:46:23'\'' -u network.service | grep -i '\''fail\|error'\'' | grep -v -i '\''DEBUG\|INFO\|WARNING'\''' --node 2
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'journalct --since '\''2023-11-22 01:46:23'\'' -u network.service | grep -i '\''fail\|error'\'' | grep -v -i '\''DEBUG\|INFO\|WARNING'\''' --node 2
+bash: line 1: journalct: command not found
++ CHECK_RESULT 1 0 1 'There is an error message for the log of network.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of network.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ P_SSH_CMD --cmd 'systemctl start network.service
+    systemctl reload network.service 2>&1 | grep '\''Job type reload is not applicable'\''' --node 2
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'systemctl start network.service
+    systemctl reload network.service 2>&1 | grep '\''Job type reload is not applicable'\''' --node 2
+Failed to reload network.service: Job type reload is not applicable for unit network.service.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit network.service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit network.service'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Wed Nov 22 01:46:49 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Nov 22 01:46:49 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Wed Nov 22 01:46:50 2023 - INFO  - start environment cleanup.
++ P_SSH_CMD --cmd 'dnf remove -y network-scripts' --node 2
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --cmd 'dnf remove -y network-scripts' --node 2
+Dependencies resolved.
+================================================================================
+ Package                   Arch        Version              Repository     Size
+================================================================================
+Removing:
+ network-scripts           riscv64     10.17-3.oe2303       @mainline     173 k
+Removing unused dependencies:
+ initscripts               riscv64     10.17-3.oe2303       @mainline     1.1 M
+ initscripts-service       noarch      10.17-3.oe2303       @mainline     5.7 k
+ ipcalc                    riscv64     1.0.2-1.oe2303       @mainline      68 k
+ network-scripts-teamd     riscv64     1.31-2.oe2303        @mainline     6.6 k
+ ppp                       riscv64     2.4.9-5.oe2303       @mainline     866 k
+
+Transaction Summary
+================================================================================
+Remove  6 Packages
+
+Freed space: 2.2 M
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Preparing        :                                                        1/1 
+  Running scriptlet: network-scripts-teamd-1.31-2.oe2303.riscv64            1/1 
+  Erasing          : network-scripts-teamd-1.31-2.oe2303.riscv64            1/6 
+  Erasing          : ppp-2.4.9-5.oe2303.riscv64                             2/6 
+  Running scriptlet: network-scripts-10.17-3.oe2303.riscv64                 3/6 
+  Erasing          : network-scripts-10.17-3.oe2303.riscv64                 3/6 
+  Running scriptlet: initscripts-10.17-3.oe2303.riscv64                     4/6 
+  Erasing          : initscripts-10.17-3.oe2303.riscv64                     4/6 
+  Running scriptlet: initscripts-10.17-3.oe2303.riscv64                     4/6 
+  Erasing          : initscripts-service-10.17-3.oe2303.noarch              5/6 
+  Erasing          : ipcalc-1.0.2-1.oe2303.riscv64                          6/6 
+  Running scriptlet: ipcalc-1.0.2-1.oe2303.riscv64                          6/6 
+  Verifying        : initscripts-10.17-3.oe2303.riscv64                     1/6 
+  Verifying        : initscripts-service-10.17-3.oe2303.noarch              2/6 
+  Verifying        : ipcalc-1.0.2-1.oe2303.riscv64                          3/6 
+  Verifying        : network-scripts-10.17-3.oe2303.riscv64                 4/6 
+  Verifying        : network-scripts-teamd-1.31-2.oe2303.riscv64            5/6 
+  Verifying        : ppp-2.4.9-5.oe2303.riscv64                             6/6 
+
+Removed:
+  initscripts-10.17-3.oe2303.riscv64                                            
+  initscripts-service-10.17-3.oe2303.noarch                                     
+  ipcalc-1.0.2-1.oe2303.riscv64                                                 
+  network-scripts-10.17-3.oe2303.riscv64                                        
+  network-scripts-teamd-1.31-2.oe2303.riscv64                                   
+  ppp-2.4.9-5.oe2303.riscv64                                                    
+
+Complete!
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Wed Nov 22 01:47:10 2023 - INFO  - Finish environment cleanup!

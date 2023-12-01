@@ -1,0 +1,183 @@
++ source ../common/disk_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Tue Nov 21 06:14:28 2023 - INFO  - Start environment preparation.
++ check_free_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='vdb vdc vdd vde'
++ disk_list=($disks)
++ local_disk=vdb
++ local_disk1=vdc
++ local_disk2=vdd
++ local_disk3=vde
++ pvcreate -y /dev/vdb
+  Physical volume "/dev/vdb" successfully created.
++ vgcreate openeulertest /dev/vdb -y
+  Volume group "openeulertest" successfully created
++ lvcreate -L 1G -n test openeulertest -y
+  Logical volume "test" created.
++ mkfs.ext4 /dev/openeulertest/test
+mke2fs 1.46.5 (30-Dec-2021)
+Discarding device blocks:      0/262144             done                            
+Creating filesystem with 262144 4k blocks and 65536 inodes
+Filesystem UUID: 4a5a4db6-4d2f-429e-bccc-909e55658693
+Superblock backups stored on blocks: 
+	32768, 98304, 163840, 229376
+
+Allocating group tables: 0/8   done                            
+Writing inode tables: 0/8   done                            
+Creating journal (8192 blocks): done
+Writing superblocks and filesystem accounting information: 0/8   done
+
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Tue Nov 21 06:14:35 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase!'
++ message='Start executing testcase!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase!'
+Tue Nov 21 06:14:36 2023 - INFO  - Start executing testcase!
++ pvdisplay
++ grep 'PV Name'
++ grep /dev/vdb
+  PV Name               /dev/vdb
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgdisplay
++ grep 'VG Name'
++ grep openeulertest
+  VG Name               openeulertest
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ lvdisplay
++ grep 'LV Name'
++ grep test
+  LV Name                test
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ lvreduce --resizefs -L 500MB openeulertest/test -y
+fsck from util-linux 2.37.2
+/dev/mapper/openeulertest-test: clean, 11/65536 files, 12955/262144 blocks
+resize2fs 1.46.5 (30-Dec-2021)
+Resizing the filesystem on /dev/mapper/openeulertest-test to 128000 (4k) blocks.
+The filesystem on /dev/mapper/openeulertest-test is now 128000 (4k) blocks long.
+
+  Size of logical volume openeulertest/test changed from 1.00 GiB (256 extents) to 500.00 MiB (125 extents).
+  Logical volume openeulertest/test successfully resized.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ lvreduce --resizefs -L 64MB openeulertest/test -y
+fsck from util-linux 2.37.2
+/dev/mapper/openeulertest-test: clean, 11/32768 files, 10641/128000 blocks
+resize2fs 1.46.5 (30-Dec-2021)
+Resizing the filesystem on /dev/mapper/openeulertest-test to 16384 (4k) blocks.
+The filesystem on /dev/mapper/openeulertest-test is now 16384 (4k) blocks long.
+
+  Size of logical volume openeulertest/test changed from 500.00 MiB (125 extents) to 64.00 MiB (16 extents).
+  Logical volume openeulertest/test successfully resized.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End of testcase execution!'
++ message='End of testcase execution!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution!'
+Tue Nov 21 06:14:41 2023 - INFO  - End of testcase execution!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Nov 21 06:14:41 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Tue Nov 21 06:14:41 2023 - INFO  - start environment cleanup.
++ lvremove -y openeulertest/duan
+  Failed to find logical volume "openeulertest/duan"
++ vgremove -y openeulertest
+  Logical volume "test" successfully removed.
+  Volume group "openeulertest" successfully removed
++ pvremove /dev/vdb
+  Labels on physical volume "/dev/vdb" successfully wiped.
++ mkfs.ext4 /dev/vdb
+mke2fs 1.46.5 (30-Dec-2021)
+Discarding device blocks:      0/524288             done                            
+Creating filesystem with 524288 4k blocks and 131072 inodes
+Filesystem UUID: 474950d7-b75b-4718-a55d-d1552bb4acb5
+Superblock backups stored on blocks: 
+	32768, 98304, 163840, 229376, 294912
+
+Allocating group tables:  0/16     done                            
+Writing inode tables:  0/16     done                            
+Creating journal (16384 blocks): done
+Writing superblocks and filesystem accounting information:  0/16     done
+
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Tue Nov 21 06:14:43 2023 - INFO  - Finish environment cleanup.

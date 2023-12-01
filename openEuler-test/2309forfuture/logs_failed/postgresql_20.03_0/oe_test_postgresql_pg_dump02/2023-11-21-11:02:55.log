@@ -1,0 +1,377 @@
++ source ../common/lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Nov 21 11:02:57 2023 - INFO  - Start to prepare the test environment.
++ postgresql_install
++ DNF_INSTALL 'postgresql postgresql-server postgresql-devel postgresql-contrib'
++ pkgs='postgresql postgresql-server postgresql-devel postgresql-contrib'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'postgresql postgresql-server postgresql-devel postgresql-contrib' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp_qu9_4k1
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp_qu9_4k1
++ rm -rf '/tmp/.s.PGSQL*'
++ /usr/bin/postgresql-setup --initdb
+ * Initializing database in '/var/lib/pgsql/data'
+ * Initialized, logs are in /var/lib/pgsql/initdb_postgresql.log
++ sed -i s/ident/trust/g /var/lib/pgsql/data/pg_hba.conf
++ systemctl start postgresql
++ expect
+spawn su - postgres
+Last login: Tue Nov 21 11:01:42 CST 2023
+
+
+Welcome to 6.1.19-2.oe2303.riscv64
+
+System information as of time: 	Tue Nov 21 11:03:57 AM CST 2023
+
+System load: 	[0;33;40m1.41[0m
+Processes: 	112
+Memory used: 	2.4%
+Swap used: 	0.0%
+Usage On: 	21%
+IP address: 	10.0.2.15
+Users online: 	0
+To run a command as administrator(user "root"),use "sudo <command>".
+
+
+Welcome to 6.1.19-2.oe2303.riscv64
+
+System information as of time: 	Tue Nov 21 11:03:59 AM CST 2023
+
+System load: 	[0;33;40m1.46[0m
+Processes: 	112
+Memory used: 	2.5%
+Swap used: 	0.0%
+Usage On: 	21%
+IP address: 	10.0.2.15
+Users online: 	0
+To run a command as administrator(user "root"),use "sudo <command>".
+[postgres@openeuler-riscv64 ~]$ createdb testdb
+[postgres@openeuler-riscv64 ~]$ psql testdb
+psql (13.3)
+Type "help" for help.
+
+testdb=# create table test (id int, val numeric);
+CREATE TABLE
+create index on test(id);
+testdb=# create index on test(id);
+CREATE INDEX
+testdb=# create index on test(val);
+CREATE INDEX
+testdb=# insert into test select generate_series(1,10000),random();
+INSERT 0 10000
+testdb=# create table tab_big(vname text,souroid oid);
+CREATE TABLE
+testdb=# insert into tab_big values('passwd list',lo_import('/etc/passwd'));
+INSERT 0 1
+testdb=# CREATE SCHEMA myschema;
+create table myschema.test (id int, val numeric) with oids;
+CREATE SCHEMA
+testdb=# create table myschema.test (id int, val numeric) with oids;
+ERROR:  syntax error at or near "oids"
+LINE 1: create table myschema.test (id int, val numeric) with oids;
+                                                              ^
+testdb=# insert into myschema.test select generate_series(1,100),random();
+ERROR:  relation "myschema.test" does not exist
+LINE 1: insert into myschema.test select generate_series(1,100),rand...
+                    ^
+testdb=# create user testuder;
+CREATE ROLE
+testdb=# GRANT ALL ON test TO testuder;
+\q
+GRANT
+testdb=# \q
+[postgres@openeuler-riscv64 ~]$ + export LANG=en_US.UTF-8
++ LANG=en_US.UTF-8
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Nov 21 11:04:40 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 11:04:41 2023 - INFO  - Start to run test.
++ su - postgres -c 'pg_dump -n '\''my*'\'' testdb >testfile'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep myschema /var/lib/pgsql/testfile
+-- Name: myschema; Type: SCHEMA; Schema: -; Owner: postgres
+CREATE SCHEMA myschema;
+ALTER SCHEMA myschema OWNER TO postgres;
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'pg_dump -N '\''my*'\'' testdb >testfile'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep myschema /var/lib/pgsql/testfile
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ su - postgres -c 'pg_dump -o testdb >testfile'
+pg_dump: invalid option -- 'o'
+Try "pg_dump --help" for more information.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_postgresql_pg_dump02.sh line 38'
++ message='oe_test_postgresql_pg_dump02.sh line 38'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_postgresql_pg_dump02.sh line 38'
+Tue Nov 21 11:04:51 2023 - ERROR - oe_test_postgresql_pg_dump02.sh line 38
++ '[' 0 -eq 1 ']'
++ return 0
++ grep 'COPY myschema.test (id, val) WITH OIDS FROM stdin;' /var/lib/pgsql/testfile
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_postgresql_pg_dump02.sh line 40'
++ message='oe_test_postgresql_pg_dump02.sh line 40'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_postgresql_pg_dump02.sh line 40'
+Tue Nov 21 11:04:52 2023 - ERROR - oe_test_postgresql_pg_dump02.sh line 40
++ '[' 0 -eq 1 ']'
++ return 0
++ su - postgres -c 'pg_dump -O testdb >testfile'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'Owner: -' /var/lib/pgsql/testfile
+-- Name: myschema; Type: SCHEMA; Schema: -; Owner: -
+-- Name: tab_big; Type: TABLE; Schema: public; Owner: -
+-- Name: test; Type: TABLE; Schema: public; Owner: -
+-- Name: 16399; Type: BLOB; Schema: -; Owner: -
+-- Data for Name: tab_big; Type: TABLE DATA; Schema: public; Owner: -
+-- Data for Name: test; Type: TABLE DATA; Schema: public; Owner: -
+-- Data for Name: BLOBS; Type: BLOBS; Schema: -; Owner: -
+-- Name: test_id_idx; Type: INDEX; Schema: public; Owner: -
+-- Name: test_val_idx; Type: INDEX; Schema: public; Owner: -
+-- Name: TABLE test; Type: ACL; Schema: public; Owner: -
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'pg_dump -s testdb >testfile'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'COPY myschema.test (id, val) FROM stdin;' /var/lib/pgsql/testfile
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ su - postgres -c 'pg_dump -t myschema.test testdb >testfile'
+pg_dump: error: no matching tables were found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_postgresql_pg_dump02.sh line 50'
++ message='oe_test_postgresql_pg_dump02.sh line 50'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_postgresql_pg_dump02.sh line 50'
+Tue Nov 21 11:05:02 2023 - ERROR - oe_test_postgresql_pg_dump02.sh line 50
++ '[' 0 -eq 1 ']'
++ return 0
++ grep myschema.test /var/lib/pgsql/testfile
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_postgresql_pg_dump02.sh line 52'
++ message='oe_test_postgresql_pg_dump02.sh line 52'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_postgresql_pg_dump02.sh line 52'
+Tue Nov 21 11:05:02 2023 - ERROR - oe_test_postgresql_pg_dump02.sh line 52
++ '[' 0 -eq 1 ']'
++ return 0
++ su - postgres -c 'pg_dump -T myschema.test >testfile'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep myschema.test /var/lib/pgsql/testfile
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ su - postgres -c 'pg_dump -v testdb -f tempv'
++ grep 'pg_dump: creating'
+pg_dump: creating SCHEMA "myschema"
+pg_dump: creating TABLE "public.tab_big"
+pg_dump: creating TABLE "public.test"
+pg_dump: creating INDEX "public.test_id_idx"
+pg_dump: creating INDEX "public.test_val_idx"
+pg_dump: creating ACL "public.TABLE test"
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pg_dump -V
++ grep '(PostgreSQL)'
+pg_dump (PostgreSQL) 13.3
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Nov 21 11:05:09 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 4
++ test 4 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Tue Nov 21 11:05:10 2023 - ERROR - failed to execute the case.
++ exit 4
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Nov 21 11:05:10 2023 - INFO  - Start to restore the test environment.
++ systemctl stop postgresql
++ DNF_REMOVE 1 'postgresql postgresql-server postgresql-devel postgresql-contrib'
++ node=1
++ pkg_list='postgresql postgresql-server postgresql-devel postgresql-contrib'
++ mode=0
++ [[ -z /tmp/tmp_qu9_4k1 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs 'postgresql postgresql-server postgresql-devel postgresql-contrib' --tempfile /tmp/tmp_qu9_4k1
++ '[' 0 -ne 0 ']'
++ rm -rf /var/lib/pgsql/data /var/lib/pgsql/initdb_postgresql.log /var/lib/pgsql/tempv /var/lib/pgsql/testfile
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue Nov 21 11:05:25 2023 - INFO  - End to restore the test environment.

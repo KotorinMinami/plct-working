@@ -1,0 +1,217 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment'
++ message='Start to prepare the test environment'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment'
+Tue Nov 21 23:19:49 2023 - INFO  - Start to prepare the test environment
++ DNF_INSTALL texi2html
++ pkgs=texi2html
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs texi2html --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpz3qeuu9l
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpz3qeuu9l
++ mkdir result
++ touch result/warn.texi
++ cat
++ cat
++ LOG_INFO 'End to prepare the test environment'
++ message='End to prepare the test environment'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment'
+Tue Nov 21 23:20:20 2023 - INFO  - End to prepare the test environment
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 23:20:21 2023 - INFO  - Start to run test.
++ texi2html -iftex -o=result/iftex.html common/test
++ grep iftex_example result/iftex.html
+iftex_example
++ CHECK_RESULT 0 0 0 'L45: -iftex No Pass'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='L45: -iftex No Pass'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ texi2html -ifxml -o=result/ifxml.html common/test
+common/test.texi:21: warning: Raw format xml is not converted
++ grep ifxml_example result/ifxml.html
+<p>ifxml_example
++ CHECK_RESULT 0 0 0 'L48: -ifxml No Pass'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='L48: -ifxml No Pass'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ texi2html -force -o=result/force.html result/error
+warning: Must specify a title with a title command or @top
+result/error.texi:2: @math expected braces
+result/error.texi:2: Misplaced {
+result/error.texi:2: Misplaced }
++ find . -name force.html
++ grep force.html
+./result/force.html
++ CHECK_RESULT 0 0 0 'L51: -force No Pass'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='L51: -force No Pass'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ texi2html -headers -o=result/headers.html common/test
++ find . -name headers.html
++ grep headers.html
+./result/headers.html
++ CHECK_RESULT 0 0 0 'L54: -headers No Pass'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='L54: -headers No Pass'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ texi2html -css-include=result/default.css -o=result/cssinclude.html common/test
++ grep banner result/cssinclude.html
+#banner {
++ CHECK_RESULT 0 0 0 'L57: -css-include No Pass'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='L57: -css-include No Pass'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ texi2html -disable-encoding -o=result/dsencoding.html common/test
++ grep -E 'this is &eacute; example' result/dsencoding.html
+<pre class="example">this is &eacute; example
++ CHECK_RESULT 0 0 0 'L60: -disable-encoding No Pass'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='L60: -disable-encoding No Pass'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ texi2html -enable-encoding -o=result/encoding.html common/test
++ grep -E 'this is é example' result/encoding.html
+<pre class="example">this is é example
++ CHECK_RESULT 0 0 0 'L63: -enable-encoding No Pass'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='L63: -enable-encoding No Pass'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ texi2html -no-warn -o=result/ result/warn
++ texi2html -o=result/ result/warn
++ grep warning
++ diff result/warn.txt result/nowarn.txt
+< warning: Must specify a title with a title command or @top
++ CHECK_RESULT 0 0 0 'L66: -no-warn No Pass'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='L66: -no-warn No Pass'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ texi2html -o=result/changeOp.html common/test
++ find . -name changeOp.html
++ grep changeOp.html
+./result/changeOp.html
++ CHECK_RESULT 0 0 0 'L69: -output|out|o=s No Pass'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='L69: -output|out|o=s No Pass'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ texi2html -prefix=prefixC -o=result/ common/test
++ find . -name prefixC.html
++ grep prefixC.html
+./result/prefixC.html
++ CHECK_RESULT 0 0 0 'L72: -prefix=s No Pass'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='L72: -prefix=s No Pass'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Nov 21 23:21:02 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Nov 21 23:21:02 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Nov 21 23:21:03 2023 - INFO  - Start to restore the test environment.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpz3qeuu9l ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpz3qeuu9l
++ '[' 0 -ne 0 ']'
++ rm -rf result
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue Nov 21 23:21:12 2023 - INFO  - End to restore the test environment.

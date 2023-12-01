@@ -1,0 +1,198 @@
++ source common/common_stratovirt.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Nov 22 05:19:07 2023 - INFO  - Start to prepare the test environment.
++ pre_env
++ DNF_INSTALL 'stratovirt nmap'
++ pkgs='stratovirt nmap'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'stratovirt nmap' --node 1 --tempfile ''
++ tmpfile2='Last metadata expiration check: 1 day, 3:30:17 ago on Tue 21 Nov 2023 01:49:15 AM CST.
+No match for argument: stratovirt
+Package nmap-2:7.92-3.oe2303.riscv64 is already installed.
+Error: Unable to find a match: stratovirt'
++ '[' -z '' ']'
++ tmpfile='Last metadata expiration check: 1 day, 3:30:17 ago on Tue 21 Nov 2023 01:49:15 AM CST.
+No match for argument: stratovirt
+Package nmap-2:7.92-3.oe2303.riscv64 is already installed.
+Error: Unable to find a match: stratovirt'
++ source /etc/openEuler-latest
+common/common_stratovirt.sh: line 24: /etc/openEuler-latest: No such file or directory
++ wget https://repo.openeuler.org//stratovirt_img/riscv64/vmlinux.bin
+--2023-11-22 05:19:33--  https://repo.openeuler.org//stratovirt_img/riscv64/vmlinux.bin
+Resolving repo.openeuler.org (repo.openeuler.org)... 49.0.230.196
+Connecting to repo.openeuler.org (repo.openeuler.org)|49.0.230.196|:443... connected.
+HTTP request sent, awaiting response... Read error (The TLS connection was non-properly terminated.) in headers.
+Retrying.
+
+--2023-11-22 05:20:34--  (try: 2)  https://repo.openeuler.org//stratovirt_img/riscv64/vmlinux.bin
+Connecting to repo.openeuler.org (repo.openeuler.org)|49.0.230.196|:443... failed: Connection refused.
+Resolving repo.openeuler.org (repo.openeuler.org)... 49.0.230.196
+Connecting to repo.openeuler.org (repo.openeuler.org)|49.0.230.196|:443... connected.
+HTTP request sent, awaiting response... Read error (The TLS connection was non-properly terminated.) in headers.
+Retrying.
+
+--2023-11-22 05:23:30--  (try: 3)  https://repo.openeuler.org//stratovirt_img/riscv64/vmlinux.bin
+Connecting to repo.openeuler.org (repo.openeuler.org)|49.0.230.196|:443... connected.
+HTTP request sent, awaiting response... Read error (The TLS connection was non-properly terminated.) in headers.
+Retrying.
+
+--2023-11-22 05:24:33--  (try: 4)  https://repo.openeuler.org//stratovirt_img/riscv64/vmlinux.bin
+Connecting to repo.openeuler.org (repo.openeuler.org)|49.0.230.196|:443... connected.
+HTTP request sent, awaiting response... Read error (The TLS connection was non-properly terminated.) in headers.
+Retrying.
+
+--2023-11-22 05:26:46--  (try: 5)  https://repo.openeuler.org//stratovirt_img/riscv64/vmlinux.bin
+Connecting to repo.openeuler.org (repo.openeuler.org)|49.0.230.196|:443... failed: Connection refused.
+Resolving repo.openeuler.org (repo.openeuler.org)... 49.0.230.196
+Connecting to repo.openeuler.org (repo.openeuler.org)|49.0.230.196|:443... connected.
+HTTP request sent, awaiting response... 404 Not Found
+2023-11-22 05:29:12 ERROR 404: Not Found.
+
++ wget https://repo.openeuler.org//stratovirt_img/riscv64/-stratovirt-riscv64.img.xz
+--2023-11-22 05:29:12--  https://repo.openeuler.org//stratovirt_img/riscv64/-stratovirt-riscv64.img.xz
+Resolving repo.openeuler.org (repo.openeuler.org)... 49.0.230.196
+Connecting to repo.openeuler.org (repo.openeuler.org)|49.0.230.196|:443... connected.
+HTTP request sent, awaiting response... 404 Not Found
+2023-11-22 05:29:13 ERROR 404: Not Found.
+
++ xz -d -stratovirt-riscv64.img.xz
+xz: invalid option -- 's'
+xz: Try `xz --help' for more information.
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Wed Nov 22 05:29:13 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Nov 22 05:29:14 2023 - INFO  - Start to run test.
++ SLEEP_WAIT 20
++ wait_time=20
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 20 --cmd '' --mode 1
++ create_stratovirt_vm
++ rm -f /tmp/stratovirt.socket
++ expect
+spawn stratovirt -kernel vmlinux.bin -append console=ttyS0 root=/dev/vda rw reboot=k panic=1 -drive file=-stratovirt-riscv64.img,id=rootfs,readonly=false -device virtio-blk-device,drive=rootfs,id=blk1 -qmp unix:/tmp/stratovirt.socket,server,nowait -serial stdio
+couldn't execute "stratovirt": no such file or directory
+    while executing
+"spawn stratovirt     -kernel vmlinux.bin     -append console=ttyS0 root=/dev/vda rw reboot=k panic=1     -drive file=-stratovirt-riscv64.img,id=rootfs..."
++ grep -iE root@StratoVirt testlog
++ CHECK_RESULT 1 0 0 'Failed to create and start a stratovirt VM'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed to create and start a stratovirt VM'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed to create and start a stratovirt VM'
++ LOG_ERROR 'Failed to create and start a stratovirt VM'
++ message='Failed to create and start a stratovirt VM'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed to create and start a stratovirt VM'
+Wed Nov 22 05:29:35 2023 - ERROR - Failed to create and start a stratovirt VM
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_manage_stratovirt_vm.sh line 33'
++ message='oe_test_manage_stratovirt_vm.sh line 33'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_manage_stratovirt_vm.sh line 33'
+Wed Nov 22 05:29:36 2023 - ERROR - oe_test_manage_stratovirt_vm.sh line 33
++ '[' 0 -eq 1 ']'
++ return 0
++ expect
+spawn ncat -U /tmp/stratovirt.socket
+Ncat: No such file or directory.
+send: spawn id exp4 not open
+    while executing
+"send "{ \"execute\": \"query-status\" }\n""
++ grep SHUTDOWN testlog1
++ CHECK_RESULT 1 0 0 'Failed to quit the stratovirt VM'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Failed to quit the stratovirt VM'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Failed to quit the stratovirt VM'
++ LOG_ERROR 'Failed to quit the stratovirt VM'
++ message='Failed to quit the stratovirt VM'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed to quit the stratovirt VM'
+Wed Nov 22 05:29:37 2023 - ERROR - Failed to quit the stratovirt VM
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_manage_stratovirt_vm.sh line 52'
++ message='oe_test_manage_stratovirt_vm.sh line 52'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_manage_stratovirt_vm.sh line 52'
+Wed Nov 22 05:29:37 2023 - ERROR - oe_test_manage_stratovirt_vm.sh line 52
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed Nov 22 05:29:38 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 2
++ test 2 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed Nov 22 05:29:38 2023 - ERROR - failed to execute the case.
++ exit 2
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Nov 22 05:29:39 2023 - INFO  - Start to restore the test environment.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z Last metadata expiration check: 1 day, 3:30:17 ago on Tue 21 Nov 2023 01:49:15 AM CST.
+No match for argument: stratovirt
+Package nmap-2:7.92-3.oe2303.riscv64 is already installed.
+Error: Unable to find a match: stratovirt ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile 'Last metadata expiration check: 1 day, 3:30:17 ago on Tue 21 Nov 2023 01:49:15 AM CST.
+No match for argument: stratovirt
+Package nmap-2:7.92-3.oe2303.riscv64 is already installed.
+Error: Unable to find a match: stratovirt'
+Traceback (most recent call last):
+  File "/root/mugen/libs/locallibs/rpm_manage.py", line 192, in <module>
+    exitcode = rpm_remove(args.node, args.pkgs, args.tempfile)
+  File "/root/mugen/libs/locallibs/rpm_manage.py", line 163, in rpm_remove
+    with open(tmpfile, "r") as f:
+FileNotFoundError: [Errno 2] No such file or directory: 'Last metadata expiration check: 1 day, 3:30:17 ago on Tue 21 Nov 2023 01:49:15 AM CST.\nNo match for argument: stratovirt\nPackage nmap-2:7.92-3.oe2303.riscv64 is already installed.\nError: Unable to find a match: stratovirt'
++ '[' 0 -ne 0 ']'
++ rm -f vmlinux.bin -stratovirt-riscv64.img testlog testlog1 /tmp/stratovirt.socket /tmp/tmp38hnfwmt /tmp/tmpqh42vhyy /tmp/tmprprn571u /tmp/tmpwajj2nho
+rm: invalid option -- 's'
+Try 'rm --help' for more information.
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed Nov 22 05:29:42 2023 - INFO  - End to restore the test environment.

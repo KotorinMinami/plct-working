@@ -1,0 +1,167 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Nov 22 01:43:54 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL etcd
++ pkgs=etcd
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs etcd --node 1 --tempfile ''
+Wed Nov 22 01:44:03 2023 - INFO  - pkgs:(etcd) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ systemctl start etcd
+Job for etcd.service failed because the control process exited with error code.
+See "systemctl status etcd.service" and "journalctl -xeu etcd.service" for details.
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Wed Nov 22 01:44:04 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Nov 22 01:44:05 2023 - INFO  - Start to run test.
++ systemctl status etcd
++ grep 'active (running)'
++ CHECK_RESULT 1 0 0 'Check etcd.service start failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check etcd.service start failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check etcd.service start failed'
++ LOG_ERROR 'Check etcd.service start failed'
++ message='Check etcd.service start failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check etcd.service start failed'
+Wed Nov 22 01:44:06 2023 - ERROR - Check etcd.service start failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_etcd_05.sh line 29'
++ message='oe_test_etcd_05.sh line 29'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_etcd_05.sh line 29'
+Wed Nov 22 01:44:06 2023 - ERROR - oe_test_etcd_05.sh line 29
++ '[' 0 -eq 1 ']'
++ return 0
++ etcdctl defrag
++ grep defragmenting
+{"level":"warn","ts":"2023-11-22T01:44:12.120+0800","caller":"clientv3/retry_interceptor.go:62","msg":"retrying of unary invoker failed","target":"passthrough:///127.0.0.1:2379","attempt":0,"error":"rpc error: code = DeadlineExceeded desc = latest balancer error: connection error: desc = \"transport: Error while dialing dial tcp 127.0.0.1:2379: connect: connection refused\""}
+Failed to defragment etcd member[127.0.0.1:2379] (context deadline exceeded)
++ CHECK_RESULT 1 0 0 'Check etcdctl defrag failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check etcdctl defrag failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check etcdctl defrag failed.'
++ LOG_ERROR 'Check etcdctl defrag failed.'
++ message='Check etcdctl defrag failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check etcdctl defrag failed.'
+Wed Nov 22 01:44:12 2023 - ERROR - Check etcdctl defrag failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_etcd_05.sh line 31'
++ message='oe_test_etcd_05.sh line 31'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_etcd_05.sh line 31'
+Wed Nov 22 01:44:13 2023 - ERROR - oe_test_etcd_05.sh line 31
++ '[' 0 -eq 1 ']'
++ return 0
++ etcdctl --endpoints=:2379 endpoint status
++ grep true
+{"level":"warn","ts":"2023-11-22T01:44:18.620+0800","caller":"clientv3/retry_interceptor.go:62","msg":"retrying of unary invoker failed","target":"passthrough:///:2379","attempt":0,"error":"rpc error: code = DeadlineExceeded desc = latest balancer error: connection error: desc = \"transport: Error while dialing dial tcp :2379: connect: connection refused\""}
+Failed to get the status of endpoint :2379 (context deadline exceeded)
++ CHECK_RESULT 1 0 0 'Check etcdctl --endpoints failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check etcdctl --endpoints failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check etcdctl --endpoints failed.'
++ LOG_ERROR 'Check etcdctl --endpoints failed.'
++ message='Check etcdctl --endpoints failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check etcdctl --endpoints failed.'
+Wed Nov 22 01:44:19 2023 - ERROR - Check etcdctl --endpoints failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_etcd_05.sh line 33'
++ message='oe_test_etcd_05.sh line 33'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_etcd_05.sh line 33'
+Wed Nov 22 01:44:19 2023 - ERROR - oe_test_etcd_05.sh line 33
++ '[' 0 -eq 1 ']'
++ return 0
++ etcdctl alarm disarm
+{"level":"warn","ts":"2023-11-22T01:44:24.912+0800","caller":"clientv3/retry_interceptor.go:62","msg":"retrying of unary invoker failed","target":"endpoint://client-7689d2f5-5ffa-4475-8612-0dc4c12feeb3/127.0.0.1:2379","attempt":0,"error":"rpc error: code = DeadlineExceeded desc = latest balancer error: all SubConns are in TransientFailure, latest connection error: connection error: desc = \"transport: Error while dialing dial tcp 127.0.0.1:2379: connect: connection refused\""}
+Error: context deadline exceeded
++ CHECK_RESULT 1 0 0 'Check etcdctl alarm disarm failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check etcdctl alarm disarm failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check etcdctl alarm disarm failed.'
++ LOG_ERROR 'Check etcdctl alarm disarm failed.'
++ message='Check etcdctl alarm disarm failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check etcdctl alarm disarm failed.'
+Wed Nov 22 01:44:25 2023 - ERROR - Check etcdctl alarm disarm failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_etcd_05.sh line 35'
++ message='oe_test_etcd_05.sh line 35'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_etcd_05.sh line 35'
+Wed Nov 22 01:44:25 2023 - ERROR - oe_test_etcd_05.sh line 35
++ '[' 0 -eq 1 ']'
++ return 0
++ etcdctl alarm list
+{"level":"warn","ts":"2023-11-22T01:44:31.168+0800","caller":"clientv3/retry_interceptor.go:62","msg":"retrying of unary invoker failed","target":"endpoint://client-13ae2c43-5a51-4763-a01d-e8d4f1e7bd18/127.0.0.1:2379","attempt":0,"error":"rpc error: code = DeadlineExceeded desc = latest balancer error: all SubConns are in TransientFailure, latest connection error: connection error: desc = \"transport: Error while dialing dial tcp 127.0.0.1:2379: connect: connection refused\""}
+Error: context deadline exceeded
++ CHECK_RESULT 1 0 0 'Check etcdctl alarm listfailed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check etcdctl alarm listfailed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check etcdctl alarm listfailed.'
++ LOG_ERROR 'Check etcdctl alarm listfailed.'
++ message='Check etcdctl alarm listfailed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check etcdctl alarm listfailed.'
+Wed Nov 22 01:44:31 2023 - ERROR - Check etcdctl alarm listfailed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_etcd_05.sh line 37'
++ message='oe_test_etcd_05.sh line 37'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_etcd_05.sh line 37'
+Wed Nov 22 01:44:32 2023 - ERROR - oe_test_etcd_05.sh line 37
++ '[' 0 -eq 1 ']'
++ return 0
++ etcdctl check datascale
++ grep PASS:
+Wed Nov 22 02:13:52 2023 - ERROR - Timeout : Command 'bash -x oe_test_etcd_05.sh' timed out after 1799.9992487979998 seconds

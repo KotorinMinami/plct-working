@@ -1,0 +1,437 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Nov 21 03:41:37 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'net-tools mariadb-server'
++ pkgs='net-tools mariadb-server'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'net-tools mariadb-server' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp9ldatw2s
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp9ldatw2s
++ rm -rf /var/lib/mysql/aria_log.00000001 /var/lib/mysql/aria_log_control /var/lib/mysql/ib_buffer_pool /var/lib/mysql/ibdata1 /var/lib/mysql/ib_logfile0 /var/lib/mysql/multi-master.info /var/lib/mysql/mysql /var/lib/mysql/mysql_upgrade_info /var/lib/mysql/performance_schema
++ systemctl start mariadb.service
++ systemctl status mariadb.service
++ grep running
+     Active: active (running) since Tue 2023-11-21 03:43:03 CST; 98ms ago
++ mysqladmin -uroot password 'openEuler12#$'
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Nov 21 03:43:03 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 03:43:04 2023 - INFO  - Start to run test.
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl restart mariadb
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ netstat -anp
++ grep 3306
+tcp6       0      0 :::3306                 :::*                    LISTEN      9265/mariadbd       
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect -c '
+        set timeout 10
+        spawn mysql -u root -p
+        expect {
+            "Enter*" { send "openEuler12#$\r";
+            expect "Maria*" { send "grant all privileges on *.* to '\''root'\''@'\''192.168.114.8'\'' IDENTIFIED BY '\''openEuler12#$'\'' WITH GRANT OPTION;\r"}
+            expect "Maria*" { send "flush privileges;\r"}
+            expect "Maria*" { send "exit\r"}
+    }
+    }
+    expect eof
+    '
+spawn mysql -u root -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+grant all privileges on *.* to 'root'@'192.168.114.8' IDENTIFIED BY 'openEuler12#$' WITH GRANT OPTION;
+Your MariaDB connection id is 3
+Server version: 10.5.16-MariaDB MariaDB Server
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+flush privileges;
+No entry for terminal type "unknown";
+using dumb terminal settings.
+No entry for terminal type "unknown";
+using dumb terminal settings.
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> grant all privileges on *.* to 'root'@'192.168.114.8' IDENTIFI
+ED BY 'openEuler12#$' WITH GRANT OPTION;
+exit
+Query OK, 0 rows affected (0.012 sec)
+
+MariaDB [(none)]> flush privileges;
+Query OK, 0 rows affected (0.005 sec)
+
+MariaDB [(none)]> exit
+Bye
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl restart mariadb
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop firewalld
+Failed to stop firewalld.service: Unit firewalld.service not loaded.
++ SSH_CMD 'dnf -y install mariadb-server expect' 192.168.114.8 'openEuler12#$' root
++ cmd='dnf -y install mariadb-server expect'
++ remoteip=192.168.114.8
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'dnf -y install mariadb-server expect' -i 192.168.114.8 -u root -p 'openEuler12#$' -t 300 -o 22
+Tue Nov 21 03:43:21 2023 - WARN  - the remote user uses the default configuration.
+Tue Nov 21 03:43:21 2023 - WARN  - the remote password uses the default configuration.
+Tue Nov 21 03:43:22 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@192.168.114.8 dnf -y install mariadb-server expect
+root@192.168.114.8's password: 
+Last metadata expiration check: 1:54:13 ago on Tue 21 Nov 2023 01:49:15 AM CST.
+Package expect-1:5.45.4-7.oe2303.riscv64 is already installed.
+Dependencies resolved.
+================================================================================
+ Package                 Arch      Version                     Repository  Size
+================================================================================
+Installing:
+ mariadb-server          riscv64   4:10.5.16-3.oe2303          mainline    18 M
+Installing dependencies:
+ greatsql-mysql-config   riscv64   8.0.25-16.7.oe2303.oe2303   mainline   9.4 k
+ mariadb                 riscv64   4:10.5.16-3.oe2303          mainline   6.0 M
+ mariadb-common          riscv64   4:10.5.16-3.oe2303          mainline    28 k
+ mariadb-connector-c     riscv64   3.1.13-7.oe2303             mainline   178 k
+ mariadb-errmsg          riscv64   4:10.5.16-3.oe2303          mainline   231 k
+ perl-DBD-MariaDB        riscv64   1.22-1.oe2303               mainline   118 k
+ perl-DBI                riscv64   1.643-3.oe2303              mainline   453 k
+Installing weak dependencies:
+ mariadb-backup          riscv64   4:10.5.16-3.oe2303          mainline   6.5 M
+ mariadb-gssapi-server   riscv64   4:10.5.16-3.oe2303          mainline    13 k
+ mariadb-server-utils    riscv64   4:10.5.16-3.oe2303          mainline   1.1 M
+
+Transaction Summary
+================================================================================
+Install  11 Packages
+
+Total download size: 33 M
+Installed size: 174 M
+Downloading Packages:
+(1/11): greatsql-mysql-config-8.0.25-16.7.oe230 6.4 kB/s | 9.4 kB     00:01    
+(2/11): mariadb-common-10.5.16-3.oe2303.riscv64 451 kB/s |  28 kB     00:00    
+(3/11): mariadb-connector-c-3.1.13-7.oe2303.ris 1.1 MB/s | 178 kB     00:00    
+(4/11): mariadb-errmsg-10.5.16-3.oe2303.riscv64 1.3 MB/s | 231 kB     00:00    
+(5/11): mariadb-gssapi-server-10.5.16-3.oe2303. 183 kB/s |  13 kB     00:00    
+(6/11): mariadb-backup-10.5.16-3.oe2303.riscv64 651 kB/s | 6.5 MB     00:10    
+(7/11): mariadb-10.5.16-3.oe2303.riscv64.rpm    578 kB/s | 6.0 MB     00:10    
+(8/11): perl-DBD-MariaDB-1.22-1.oe2303.riscv64. 248 kB/s | 118 kB     00:00    
+(9/11): mariadb-server-10.5.16-3.oe2303.riscv64 1.6 MB/s |  18 MB     00:11    
+(10/11): mariadb-server-utils-10.5.16-3.oe2303. 368 kB/s | 1.1 MB     00:03    
+(11/11): perl-DBI-1.643-3.oe2303.riscv64.rpm    194 kB/s | 453 kB     00:02    
+--------------------------------------------------------------------------------
+Total                                           2.4 MB/s |  33 MB     00:13     
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Running scriptlet: mariadb-connector-c-3.1.13-7.oe2303.riscv64            1/1 
+  Preparing        :                                                        1/1 
+  Installing       : mariadb-connector-c-3.1.13-7.oe2303.riscv64           1/11 
+  Running scriptlet: perl-DBI-1.643-3.oe2303.riscv64                       2/11 
+  Installing       : perl-DBI-1.643-3.oe2303.riscv64                       2/11 
+  Running scriptlet: perl-DBI-1.643-3.oe2303.riscv64                       2/11 
+  Installing       : greatsql-mysql-config-8.0.25-16.7.oe2303.oe2303.ri    3/11 
+  Installing       : mariadb-common-4:10.5.16-3.oe2303.riscv64             4/11 
+  Installing       : mariadb-errmsg-4:10.5.16-3.oe2303.riscv64             5/11 
+  Installing       : perl-DBD-MariaDB-1.22-1.oe2303.riscv64                6/11 
+  Installing       : mariadb-4:10.5.16-3.oe2303.riscv64                    7/11 
+  Installing       : mariadb-backup-4:10.5.16-3.oe2303.riscv64             8/11 
+  Installing       : mariadb-gssapi-server-4:10.5.16-3.oe2303.riscv64      9/11 
+  Installing       : mariadb-server-utils-4:10.5.16-3.oe2303.riscv64      10/11 
+  Running scriptlet: mariadb-server-4:10.5.16-3.oe2303.riscv64            11/11 
+  Installing       : mariadb-server-4:10.5.16-3.oe2303.riscv64            11/11 
+  Running scriptlet: mariadb-server-4:10.5.16-3.oe2303.riscv64            11/11 
+/usr/lib/tmpfiles.d/dbus.conf:13: Line references path below legacy directory /var/run/, updating /var/run/dbus/containers → /run/dbus/containers; please update the tmpfiles.d/ drop-in file accordingly.
+
+  Verifying        : greatsql-mysql-config-8.0.25-16.7.oe2303.oe2303.ri    1/11 
+  Verifying        : mariadb-4:10.5.16-3.oe2303.riscv64                    2/11 
+  Verifying        : mariadb-backup-4:10.5.16-3.oe2303.riscv64             3/11 
+  Verifying        : mariadb-common-4:10.5.16-3.oe2303.riscv64             4/11 
+  Verifying        : mariadb-connector-c-3.1.13-7.oe2303.riscv64           5/11 
+  Verifying        : mariadb-errmsg-4:10.5.16-3.oe2303.riscv64             6/11 
+  Verifying        : mariadb-gssapi-server-4:10.5.16-3.oe2303.riscv64      7/11 
+  Verifying        : mariadb-server-4:10.5.16-3.oe2303.riscv64             8/11 
+  Verifying        : mariadb-server-utils-4:10.5.16-3.oe2303.riscv64       9/11 
+  Verifying        : perl-DBD-MariaDB-1.22-1.oe2303.riscv64               10/11 
+  Verifying        : perl-DBI-1.643-3.oe2303.riscv64                      11/11 
+
+Installed:
+  greatsql-mysql-config-8.0.25-16.7.oe2303.oe2303.riscv64                       
+  mariadb-4:10.5.16-3.oe2303.riscv64                                            
+  mariadb-backup-4:10.5.16-3.oe2303.riscv64                                     
+  mariadb-common-4:10.5.16-3.oe2303.riscv64                                     
+  mariadb-connector-c-3.1.13-7.oe2303.riscv64                                   
+  mariadb-errmsg-4:10.5.16-3.oe2303.riscv64                                     
+  mariadb-gssapi-server-4:10.5.16-3.oe2303.riscv64                              
+  mariadb-server-4:10.5.16-3.oe2303.riscv64                                     
+  mariadb-server-utils-4:10.5.16-3.oe2303.riscv64                               
+  perl-DBD-MariaDB-1.22-1.oe2303.riscv64                                        
+  perl-DBI-1.643-3.oe2303.riscv64                                               
+
+Complete!
++ ret=0
++ test 0 -ne 0
++ return 0
++ SSH_CMD 'systemctl start mariadb;systemctl stop firewalld' 192.168.114.8 'openEuler12#$' root
++ cmd='systemctl start mariadb;systemctl stop firewalld'
++ remoteip=192.168.114.8
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'systemctl start mariadb;systemctl stop firewalld' -i 192.168.114.8 -u root -p 'openEuler12#$' -t 300 -o 22
+Tue Nov 21 03:44:28 2023 - WARN  - the remote user uses the default configuration.
+Tue Nov 21 03:44:28 2023 - WARN  - the remote password uses the default configuration.
+Tue Nov 21 03:44:29 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@192.168.114.8 systemctl start mariadb;systemctl stop firewalld
+root@192.168.114.8's password: 
+Failed to stop firewalld.service: Unit firewalld.service not loaded.
++ ret=5
++ test 5 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:5'
++ message='Failed in remote CMD operation:5'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:5'
+Tue Nov 21 03:44:39 2023 - ERROR - Failed in remote CMD operation:5
++ return 5
++ cp ../common/mariadb_remote .
++ sed -i s/local_ip/192.168.114.4/g mariadb_remote
++ sed -i 's/local_password/openEuler12#$/g' mariadb_remote
++ SSH_SCP ./mariadb_remote root@192.168.114.8:/opt/mugen 'openEuler12#$'
++ src=./mariadb_remote
++ dest=root@192.168.114.8:/opt/mugen
++ remotepasswd='openEuler12#$'
++ connport=22
++ bash /root/mugen/libs/locallibs/sshscp.sh -p 'openEuler12#$' -o 22 -s ./mariadb_remote -d root@192.168.114.8:/opt/mugen
+Tue Nov 21 03:44:40 2023 - WARN  - the remote password uses the default configuration.
+Tue Nov 21 03:44:40 2023 - WARN  - the connect port using the default configuration
+spawn scp -P 22 -r ./mariadb_remote root@192.168.114.8:/opt/mugen
+root@192.168.114.8's password: 
+mariadb_remote                                  0%    0     0.0KB/s   --:-- ETAmariadb_remote                                100% 1556   222.3KB/s   00:00    
++ ret=0
++ test 0 -ne 0
++ return 0
++ SSH_CMD 'expect /opt/mugen/mariadb_remote' 192.168.114.8 'openEuler12#$' root
++ cmd='expect /opt/mugen/mariadb_remote'
++ remoteip=192.168.114.8
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'expect /opt/mugen/mariadb_remote' -i 192.168.114.8 -u root -p 'openEuler12#$' -t 300 -o 22
+Tue Nov 21 03:44:43 2023 - WARN  - the remote user uses the default configuration.
+Tue Nov 21 03:44:43 2023 - WARN  - the remote password uses the default configuration.
+Tue Nov 21 03:44:44 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@192.168.114.8 expect /opt/mugen/mariadb_remote
+root@192.168.114.8's password: 
+couldn't read file "/opt/mugen/mariadb_remote": not a directory
++ ret=1
++ test 1 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:1'
++ message='Failed in remote CMD operation:1'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:1'
+Tue Nov 21 03:44:46 2023 - ERROR - Failed in remote CMD operation:1
++ return 1
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_server_mariadb_compatibilty.sh line 60'
++ message='oe_test_server_mariadb_compatibilty.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_server_mariadb_compatibilty.sh line 60'
+Tue Nov 21 03:44:46 2023 - ERROR - oe_test_server_mariadb_compatibilty.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Nov 21 03:44:47 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Tue Nov 21 03:44:47 2023 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Nov 21 03:44:48 2023 - INFO  - Start to restore the test environment.
++ rm -rf /var/lib/mysql mariadb_remote
++ SSH_CMD 'yum remove mariadb-server expect -y;rm -rf /opt/mugen/mariadb_remote /root/testlog' 192.168.114.8 'openEuler12#$' root
++ cmd='yum remove mariadb-server expect -y;rm -rf /opt/mugen/mariadb_remote /root/testlog'
++ remoteip=192.168.114.8
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'yum remove mariadb-server expect -y;rm -rf /opt/mugen/mariadb_remote /root/testlog' -i 192.168.114.8 -u root -p 'openEuler12#$' -t 300 -o 22
+Tue Nov 21 03:44:49 2023 - WARN  - the remote user uses the default configuration.
+Tue Nov 21 03:44:49 2023 - WARN  - the remote password uses the default configuration.
+Tue Nov 21 03:44:50 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@192.168.114.8 yum remove mariadb-server expect -y;rm -rf /opt/mugen/mariadb_remote /root/testlog
+root@192.168.114.8's password: 
+Dependencies resolved.
+================================================================================
+ Package                Arch     Version                       Repository  Size
+================================================================================
+Removing:
+ expect                 riscv64  1:5.45.4-7.oe2303             @mainline  642 k
+ mariadb-server         riscv64  4:10.5.16-3.oe2303            @mainline   94 M
+Removing unused dependencies:
+ greatsql-mysql-config  riscv64  8.0.25-16.7.oe2303.oe2303     @mainline  1.4 k
+ mariadb                riscv64  4:10.5.16-3.oe2303            @mainline   38 M
+ mariadb-backup         riscv64  4:10.5.16-3.oe2303            @mainline   28 M
+ mariadb-common         riscv64  4:10.5.16-3.oe2303            @mainline  179 k
+ mariadb-connector-c    riscv64  3.1.13-7.oe2303               @mainline  483 k
+ mariadb-errmsg         riscv64  4:10.5.16-3.oe2303            @mainline  2.6 M
+ mariadb-gssapi-server  riscv64  4:10.5.16-3.oe2303            @mainline   15 k
+ mariadb-server-utils   riscv64  4:10.5.16-3.oe2303            @mainline  7.4 M
+ perl-DBD-MariaDB       riscv64  1.22-1.oe2303                 @mainline  350 k
+ perl-DBI               riscv64  1.643-3.oe2303                @mainline  1.6 M
+
+Transaction Summary
+================================================================================
+Remove  12 Packages
+
+Freed space: 174 M
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Preparing        :                                                        1/1 
+  Running scriptlet: mariadb-gssapi-server-4:10.5.16-3.oe2303.riscv64       1/1 
+  Erasing          : mariadb-gssapi-server-4:10.5.16-3.oe2303.riscv64      1/12 
+  Erasing          : mariadb-backup-4:10.5.16-3.oe2303.riscv64             2/12 
+  Running scriptlet: mariadb-server-4:10.5.16-3.oe2303.riscv64             3/12 
+  Erasing          : mariadb-server-4:10.5.16-3.oe2303.riscv64             3/12 
+  Running scriptlet: mariadb-server-4:10.5.16-3.oe2303.riscv64             3/12 
+  Erasing          : mariadb-4:10.5.16-3.oe2303.riscv64                    4/12 
+  Erasing          : mariadb-server-utils-4:10.5.16-3.oe2303.riscv64       5/12 
+  Erasing          : mariadb-errmsg-4:10.5.16-3.oe2303.riscv64             6/12 
+  Erasing          : perl-DBD-MariaDB-1.22-1.oe2303.riscv64                7/12 
+  Erasing          : mariadb-common-4:10.5.16-3.oe2303.riscv64             8/12 
+  Erasing          : greatsql-mysql-config-8.0.25-16.7.oe2303.oe2303.ri    9/12 
+  Erasing          : mariadb-connector-c-3.1.13-7.oe2303.riscv64          10/12 
+  Running scriptlet: perl-DBI-1.643-3.oe2303.riscv64                      11/12 
+  Erasing          : perl-DBI-1.643-3.oe2303.riscv64                      11/12 
+  Running scriptlet: perl-DBI-1.643-3.oe2303.riscv64                      11/12 
+  Erasing          : expect-1:5.45.4-7.oe2303.riscv64                     12/12 
+  Running scriptlet: expect-1:5.45.4-7.oe2303.riscv64                     12/12 
+  Verifying        : expect-1:5.45.4-7.oe2303.riscv64                      1/12 
+  Verifying        : greatsql-mysql-config-8.0.25-16.7.oe2303.oe2303.ri    2/12 
+  Verifying        : mariadb-4:10.5.16-3.oe2303.riscv64                    3/12 
+  Verifying        : mariadb-backup-4:10.5.16-3.oe2303.riscv64             4/12 
+  Verifying        : mariadb-common-4:10.5.16-3.oe2303.riscv64             5/12 
+  Verifying        : mariadb-connector-c-3.1.13-7.oe2303.riscv64           6/12 
+  Verifying        : mariadb-errmsg-4:10.5.16-3.oe2303.riscv64             7/12 
+  Verifying        : mariadb-gssapi-server-4:10.5.16-3.oe2303.riscv64      8/12 
+  Verifying        : mariadb-server-4:10.5.16-3.oe2303.riscv64             9/12 
+  Verifying        : mariadb-server-utils-4:10.5.16-3.oe2303.riscv64      10/12 
+  Verifying        : perl-DBD-MariaDB-1.22-1.oe2303.riscv64               11/12 
+  Verifying        : perl-DBI-1.643-3.oe2303.riscv64                      12/12 
+
+Removed:
+  expect-1:5.45.4-7.oe2303.riscv64                                              
+  greatsql-mysql-config-8.0.25-16.7.oe2303.oe2303.riscv64                       
+  mariadb-4:10.5.16-3.oe2303.riscv64                                            
+  mariadb-backup-4:10.5.16-3.oe2303.riscv64                                     
+  mariadb-common-4:10.5.16-3.oe2303.riscv64                                     
+  mariadb-connector-c-3.1.13-7.oe2303.riscv64                                   
+  mariadb-errmsg-4:10.5.16-3.oe2303.riscv64                                     
+  mariadb-gssapi-server-4:10.5.16-3.oe2303.riscv64                              
+  mariadb-server-4:10.5.16-3.oe2303.riscv64                                     
+  mariadb-server-utils-4:10.5.16-3.oe2303.riscv64                               
+  perl-DBD-MariaDB-1.22-1.oe2303.riscv64                                        
+  perl-DBI-1.643-3.oe2303.riscv64                                               
+
+Complete!
++ ret=0
++ test 0 -ne 0
++ return 0
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp9ldatw2s ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp9ldatw2s
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue Nov 21 03:45:16 2023 - INFO  - End to restore the test environment.

@@ -1,0 +1,338 @@
++ source ../common/common_podman.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Nov 21 08:13:40 2023 - INFO  - Start to prepare the test environment.
++ deploy_env
++ DNF_INSTALL 'podman podman-docker'
++ pkgs='podman podman-docker'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'podman podman-docker' --node 1 --tempfile ''
+Tue Nov 21 08:13:47 2023 - INFO  - pkgs:(podman podman-docker) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ echo -e '[registries.search]
+registries = ['\''docker.io'\'']
+
+[registries.insecure]
+registries = []
+
+[registries.block]
+registries = []
+'
++ podman pull postgres:alpine
+Resolving "postgres" using unqualified-search registries (/etc/containers/registries.conf)
+Trying to pull docker.io/library/postgres:alpine...
+Error: choosing an image from manifest list docker://postgres:alpine: no image found in image index for architecture riscv64, variant "", OS linux
++ podman run --name postgres -e POSTGRES_PASSWORD=secret -d postgres:alpine
+Resolving "postgres" using unqualified-search registries (/etc/containers/registries.conf)
+Trying to pull docker.io/library/postgres:alpine...
+Error: choosing an image from manifest list docker://postgres:alpine: no image found in image index for architecture riscv64, variant "", OS linux
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Nov 21 08:13:54 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 08:13:55 2023 - INFO  - Start to run test.
+++ podman create --log-driver=k8s-file alpine ls
+Resolved "alpine" as an alias (/etc/containers/registries.conf.d/000-shortnames.conf)
+Trying to pull docker.io/library/alpine:latest...
+Error: choosing an image from manifest list docker://alpine:latest: no image found in manifest list for architecture riscv64, variant "", OS linux
++ ID=
++ podman inspect
++ grep -i driver
+Error: no names or ids specified
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_13.sh line 33'
++ message='oe_test_podman_13.sh line 33'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_13.sh line 33'
+Tue Nov 21 08:13:59 2023 - ERROR - oe_test_podman_13.sh line 33
++ '[' 0 -eq 1 ']'
++ return 0
+++ podman create --log-opt max-size=10mb alpine ls
+Resolved "alpine" as an alias (/etc/containers/registries.conf.d/000-shortnames.conf)
+Trying to pull docker.io/library/alpine:latest...
+Error: choosing an image from manifest list docker://alpine:latest: no image found in manifest list for architecture riscv64, variant "", OS linux
++ ID=
++ podman inspect
++ grep -i log
+Error: no names or ids specified
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_13.sh line 36'
++ message='oe_test_podman_13.sh line 36'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_13.sh line 36'
+Tue Nov 21 08:14:02 2023 - ERROR - oe_test_podman_13.sh line 36
++ '[' 0 -eq 1 ']'
++ return 0
+++ podman create --memory 5MB alpine ls
+Resolved "alpine" as an alias (/etc/containers/registries.conf.d/000-shortnames.conf)
+Trying to pull docker.io/library/alpine:latest...
+Error: choosing an image from manifest list docker://alpine:latest: no image found in manifest list for architecture riscv64, variant "", OS linux
++ ID=
++ podman inspect
++ grep '"Memory": 5242880'
+Error: no names or ids specified
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_13.sh line 39'
++ message='oe_test_podman_13.sh line 39'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_13.sh line 39'
+Tue Nov 21 08:14:06 2023 - ERROR - oe_test_podman_13.sh line 39
++ '[' 0 -eq 1 ']'
++ return 0
+++ podman create --memory-reservation 5g alpine ls
+Resolved "alpine" as an alias (/etc/containers/registries.conf.d/000-shortnames.conf)
+Trying to pull docker.io/library/alpine:latest...
+Error: choosing an image from manifest list docker://alpine:latest: no image found in manifest list for architecture riscv64, variant "", OS linux
++ ID=
++ podman inspect
++ grep '"MemoryReservation": 5368709120'
+Error: no names or ids specified
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_13.sh line 42'
++ message='oe_test_podman_13.sh line 42'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_13.sh line 42'
+Tue Nov 21 08:14:10 2023 - ERROR - oe_test_podman_13.sh line 42
++ '[' 0 -eq 1 ']'
++ return 0
+++ podman create --memory 2g --memory-swap 4g alpine ls
+Resolved "alpine" as an alias (/etc/containers/registries.conf.d/000-shortnames.conf)
+Trying to pull docker.io/library/alpine:latest...
+time="2023-11-21T08:14:46+08:00" level=warning msg="failed, retrying in 1s ... (1/3). Error: initializing source docker://alpine:latest: reading manifest latest in docker.io/library/alpine: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limit"
+Error: choosing an image from manifest list docker://alpine:latest: no image found in manifest list for architecture riscv64, variant "", OS linux
++ ID=
++ podman inspect
++ grep '"MemorySwap": 4294967296'
+Error: no names or ids specified
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_13.sh line 45'
++ message='oe_test_podman_13.sh line 45'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_13.sh line 45'
+Tue Nov 21 08:15:54 2023 - ERROR - oe_test_podman_13.sh line 45
++ '[' 0 -eq 1 ']'
++ return 0
+++ podman create --memory-swappiness 4 alpine ls
+Resolved "alpine" as an alias (/etc/containers/registries.conf.d/000-shortnames.conf)
+Trying to pull docker.io/library/alpine:latest...
+time="2023-11-21T08:16:50+08:00" level=warning msg="failed, retrying in 1s ... (1/3). Error: initializing source docker://alpine:latest: reading manifest latest in docker.io/library/alpine: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limit"
+time="2023-11-21T08:17:26+08:00" level=warning msg="failed, retrying in 1s ... (2/3). Error: initializing source docker://alpine:latest: reading manifest latest in docker.io/library/alpine: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limit"
+time="2023-11-21T08:18:02+08:00" level=warning msg="failed, retrying in 1s ... (3/3). Error: initializing source docker://alpine:latest: reading manifest latest in docker.io/library/alpine: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limit"
+Error: initializing source docker://alpine:latest: reading manifest latest in docker.io/library/alpine: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limit
++ ID=
++ podman inspect
++ grep '"MemorySwappiness": 4'
+Error: no names or ids specified
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_13.sh line 48'
++ message='oe_test_podman_13.sh line 48'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_13.sh line 48'
+Tue Nov 21 08:18:39 2023 - ERROR - oe_test_podman_13.sh line 48
++ '[' 0 -eq 1 ']'
++ return 0
++ touch /tmp/host
+++ podman create --mount type=bind,source=/tmp/host,destination=/tmp/container alpine ls
+Resolved "alpine" as an alias (/etc/containers/registries.conf.d/000-shortnames.conf)
+Trying to pull docker.io/library/alpine:latest...
+time="2023-11-21T08:19:15+08:00" level=warning msg="failed, retrying in 1s ... (1/3). Error: initializing source docker://alpine:latest: reading manifest latest in docker.io/library/alpine: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limit"
+time="2023-11-21T08:19:51+08:00" level=warning msg="failed, retrying in 1s ... (2/3). Error: initializing source docker://alpine:latest: reading manifest latest in docker.io/library/alpine: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limit"
+time="2023-11-21T08:20:28+08:00" level=warning msg="failed, retrying in 1s ... (3/3). Error: initializing source docker://alpine:latest: reading manifest latest in docker.io/library/alpine: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limit"
+Error: initializing source docker://alpine:latest: reading manifest latest in docker.io/library/alpine: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limit
++ ID=
++ podman inspect
++ grep '"source": "/tmp/host"'
+Error: no names or ids specified
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_13.sh line 52'
++ message='oe_test_podman_13.sh line 52'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_13.sh line 52'
+Tue Nov 21 08:21:05 2023 - ERROR - oe_test_podman_13.sh line 52
++ '[' 0 -eq 1 ']'
++ return 0
+++ podman create --name example alpine ls
+Resolved "alpine" as an alias (/etc/containers/registries.conf.d/000-shortnames.conf)
+Trying to pull docker.io/library/alpine:latest...
+time="2023-11-21T08:21:41+08:00" level=warning msg="failed, retrying in 1s ... (1/3). Error: initializing source docker://alpine:latest: reading manifest latest in docker.io/library/alpine: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limit"
+time="2023-11-21T08:22:17+08:00" level=warning msg="failed, retrying in 1s ... (2/3). Error: initializing source docker://alpine:latest: reading manifest latest in docker.io/library/alpine: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limit"
+time="2023-11-21T08:22:53+08:00" level=warning msg="failed, retrying in 1s ... (3/3). Error: initializing source docker://alpine:latest: reading manifest latest in docker.io/library/alpine: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limit"
+Error: initializing source docker://alpine:latest: reading manifest latest in docker.io/library/alpine: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limit
++ ID=
++ podman inspect
++ grep '"Name": "example"'
+Error: no names or ids specified
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_13.sh line 55'
++ message='oe_test_podman_13.sh line 55'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_13.sh line 55'
+Tue Nov 21 08:23:30 2023 - ERROR - oe_test_podman_13.sh line 55
++ '[' 0 -eq 1 ']'
++ return 0
+++ podman create --net bridge alpine ls
+Resolved "alpine" as an alias (/etc/containers/registries.conf.d/000-shortnames.conf)
+Trying to pull docker.io/library/alpine:latest...
+time="2023-11-21T08:24:06+08:00" level=warning msg="failed, retrying in 1s ... (1/3). Error: initializing source docker://alpine:latest: reading manifest latest in docker.io/library/alpine: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limit"
+time="2023-11-21T08:24:42+08:00" level=warning msg="failed, retrying in 1s ... (2/3). Error: initializing source docker://alpine:latest: reading manifest latest in docker.io/library/alpine: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limit"
+Error: choosing an image from manifest list docker://alpine:latest: no image found in manifest list for architecture riscv64, variant "", OS linux
++ ID=
++ podman inspect
++ grep '"NetworkMode": "bridge"'
+Error: no names or ids specified
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_13.sh line 58'
++ message='oe_test_podman_13.sh line 58'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_13.sh line 58'
+Tue Nov 21 08:24:54 2023 - ERROR - oe_test_podman_13.sh line 58
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Nov 21 08:24:54 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 9
++ test 9 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Tue Nov 21 08:24:55 2023 - ERROR - failed to execute the case.
++ exit 9
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Nov 21 08:24:55 2023 - INFO  - Start to restore the test environment.
++ clear_env
++ podman stop postgres
+Error: no container with name or ID "postgres" found: no such container
++ podman rm --all
++ podman rmi -f --all
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Tue Nov 21 08:24:57 2023 - WARN  - no thing to do.
++ return 0
+++ ls
+++ grep -vE .sh
++ rm -rf /tmp/host
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue Nov 21 08:24:58 2023 - INFO  - End to restore the test environment.

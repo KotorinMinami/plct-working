@@ -1,0 +1,251 @@
++ source ../common/lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Nov 21 11:10:37 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'postgresql postgresql-server'
++ pkgs='postgresql postgresql-server'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'postgresql postgresql-server' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp4cqci6og
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp4cqci6og
++ export LANG=en_US.UTF-8
++ LANG=en_US.UTF-8
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Nov 21 11:11:22 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 11:11:23 2023 - INFO  - Start to run test.
++ su - postgres -c 'postgresql-setup --initdb'
+ * Initializing database in '/var/lib/pgsql/data'
+ * Initialized, logs are in /var/lib/pgsql/initdb_postgresql.log
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ postgresql-setup --help
++ grep Usage:
+Usage: /usr/bin/postgresql-setup MODE_OPTION [--unit=UNIT_NAME] [OPTION...]
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ postgresql-setup --version
++ grep postgresql-setup
+postgresql-setup 8.5
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf /var/lib/pgsql/data
++ su - postgres -c 'postgresql-setup --debug  --initdb'
+DEBUG: using 'upgrade' confdir /etc/postgresql-setup/upgrade
+DEBUG: reading config /etc/postgresql-setup/upgrade/postgresql.conf
+DEBUG: mode used: initdb
+DEBUG: service name: postgresql
+DEBUG: running service_configuration() for postgresql, mode: initdb
+DEBUG: unit's datadir: '/var/lib/pgsql/data'
+DEBUG: Using the default port '5432'
+DEBUG: final pgdata: /var/lib/pgsql/data
+DEBUG: final pgport: 5432
+ * Initializing database in '/var/lib/pgsql/data'
+ * Initialized, logs are in /var/lib/pgsql/initdb_postgresql.log
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pg_rewind -V
++ grep '(PostgreSQL)'
+pg_rewind (PostgreSQL) 13.3
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pg_rewind --help
++ grep Usage:
+Usage:
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'pg_controldata -D /var/lib/pgsql/data'
+pg_control version number:            1300
+Catalog version number:               202007201
+Database system identifier:           7303747809702735942
+Database cluster state:               shut down
+pg_control last modified:             Tue 21 Nov 2023 11:11:51 AM CST
+Latest checkpoint location:           0/15DC4D8
+Latest checkpoint's REDO location:    0/15DC4D8
+Latest checkpoint's REDO WAL file:    000000010000000000000001
+Latest checkpoint's TimeLineID:       1
+Latest checkpoint's PrevTimeLineID:   1
+Latest checkpoint's full_page_writes: on
+Latest checkpoint's NextXID:          0:485
+Latest checkpoint's NextOID:          13547
+Latest checkpoint's NextMultiXactId:  1
+Latest checkpoint's NextMultiOffset:  0
+Latest checkpoint's oldestXID:        478
+Latest checkpoint's oldestXID's DB:   1
+Latest checkpoint's oldestActiveXID:  0
+Latest checkpoint's oldestMultiXid:   1
+Latest checkpoint's oldestMulti's DB: 1
+Latest checkpoint's oldestCommitTsXid:0
+Latest checkpoint's newestCommitTsXid:0
+Time of latest checkpoint:            Tue 21 Nov 2023 11:11:51 AM CST
+Fake LSN counter for unlogged rels:   0/3E8
+Minimum recovery ending location:     0/0
+Min recovery ending loc's timeline:   0
+Backup start location:                0/0
+Backup end location:                  0/0
+End-of-backup record required:        no
+wal_level setting:                    replica
+wal_log_hints setting:                off
+max_connections setting:              100
+max_worker_processes setting:         8
+max_wal_senders setting:              10
+max_prepared_xacts setting:           0
+max_locks_per_xact setting:           64
+track_commit_timestamp setting:       off
+Maximum data alignment:               8
+Database block size:                  8192
+Blocks per segment of large relation: 131072
+WAL block size:                       8192
+Bytes per WAL segment:                16777216
+Maximum length of identifiers:        64
+Maximum columns in an index:          32
+Maximum size of a TOAST chunk:        1996
+Size of a large-object chunk:         2048
+Date/time type storage:               64-bit integers
+Float8 argument passing:              by value
+Data page checksum version:           0
+Mock authentication nonce:            b23c57ccaf69c9aa80acb6eb0a2788d053c13bac52866b278518501862b50d2d
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pg_controldata -V
++ grep '(PostgreSQL)'
+pg_controldata (PostgreSQL) 13.3
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pg_controldata --help
++ grep Usage:
+Usage:
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Nov 21 11:11:54 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Nov 21 11:11:54 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Nov 21 11:11:55 2023 - INFO  - Start to restore the test environment.
++ systemctl stop postgresql
++ DNF_REMOVE 1 'postgresql postgresql-server'
++ node=1
++ pkg_list='postgresql postgresql-server'
++ mode=0
++ [[ -z /tmp/tmp4cqci6og ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs 'postgresql postgresql-server' --tempfile /tmp/tmp4cqci6og
++ '[' 0 -ne 0 ']'
++ rm -rf /var/lib/pgsql/data /var/lib/pgsql/initdb_postgresql.log
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue Nov 21 11:12:09 2023 - INFO  - End to restore the test environment.

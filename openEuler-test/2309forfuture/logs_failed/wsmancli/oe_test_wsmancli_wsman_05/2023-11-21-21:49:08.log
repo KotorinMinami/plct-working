@@ -1,0 +1,221 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Nov 21 21:49:10 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'wsmancli openwsman-server docker'
++ pkgs='wsmancli openwsman-server docker'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'wsmancli openwsman-server docker' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpc8uger0_
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpc8uger0_
++ docker run -d -it --rm -p 0.0.0.0:5988:5988 -p 0.0.0.0:5989:5989 --name openpegasus kschopmeyer/openpegasus-server:0.1.1
+38bb0fe44e7dbe1076715b4b55491d56d4f18f94f4acc02d1bd90f7a3c280012
++ cp common/simple_auth.passwd /etc/openwsman/test_simple_auth.passwd
++ openwsmand -c common/openwsman.conf
++ SLEEP_WAIT 20
++ wait_time=20
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 20 --cmd '' --mode 1
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Nov 21 21:51:19 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 21:51:19 2023 - INFO  - Start to run test.
++ wsman subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -h localhost -u wsman -p wsman
++ grep '<wse:SubscribeResponse>'
+Connection failed. response code = 400
++ CHECK_RESULT 1 0 0 'wamancli: faild to test -x -D -Z'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test -x -D -Z'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'wamancli: faild to test -x -D -Z'
++ LOG_ERROR 'wamancli: faild to test -x -D -Z'
++ message='wamancli: faild to test -x -D -Z'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'wamancli: faild to test -x -D -Z'
+Tue Nov 21 21:51:20 2023 - ERROR - wamancli: faild to test -x -D -Z
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_wsmancli_wsman_05.sh line 36'
++ message='oe_test_wsmancli_wsman_05.sh line 36'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_wsmancli_wsman_05.sh line 36'
+Tue Nov 21 21:51:21 2023 - ERROR - oe_test_wsmancli_wsman_05.sh line 36
++ '[' 0 -eq 1 ']'
++ return 0
++ wsman subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -h localhost -u wsman -p wsman -R -G pull
++ grep '<wse:Delivery Mode="http://schemas.dmtf.org/wbem/wsman/1/wsman/Pull">'
+Connection failed. response code = 400
+      <wse:Delivery Mode="http://schemas.dmtf.org/wbem/wsman/1/wsman/Pull">
++ CHECK_RESULT 0 0 0 'wamancli: faild to test -G '
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test -G '
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -h localhost -u wsman -p wsman -R -s httpbasic
++ grep '<wsman:Auth Profile="http://schemas.dmtf.org/wbem/wsman/1/wsman/secprofile/http/basic"/>'
+Connection failed. response code = 400
+        <wsman:Auth Profile="http://schemas.dmtf.org/wbem/wsman/1/wsman/secprofile/http/basic"/>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test -s '
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test -s '
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -h localhost -u wsman -p wsman -R -s httpbasic -n testname -z testpass
++ grep '<n2:UsernameToken>'
+Connection failed. response code = 400
+          <n2:UsernameToken>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test -n -z '
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test -n -z '
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -h localhost -u wsman -p wsman -R --delivery-thumbprint AAA
++ grep '<wsman:CertificateThumbprint>AAA</wsman:CertificateThumbprint>'
+Connection failed. response code = 400
+          <wsman:CertificateThumbprint>AAA</wsman:CertificateThumbprint>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test --delivery-thumbprint'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test --delivery-thumbprint'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -h localhost -u wsman -p wsman -r 600
++ grep '<wse:Expires>PT600.000000S</wse:Expires>'
+Connection failed. response code = 400
++ CHECK_RESULT 1 0 0 'wamancli: faild to test -r'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test -r'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'wamancli: faild to test -r'
++ LOG_ERROR 'wamancli: faild to test -r'
++ message='wamancli: faild to test -r'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'wamancli: faild to test -r'
+Tue Nov 21 21:51:22 2023 - ERROR - wamancli: faild to test -r
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_wsmancli_wsman_05.sh line 51'
++ message='oe_test_wsmancli_wsman_05.sh line 51'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_wsmancli_wsman_05.sh line 51'
+Tue Nov 21 21:51:22 2023 - ERROR - oe_test_wsmancli_wsman_05.sh line 51
++ '[' 0 -eq 1 ']'
++ return 0
++ wsman subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -h localhost -u wsman -p wsman -R -H 10
++ grep '<wsman:Heartbeats>PT10.000000S</wsman:Heartbeats>'
+Connection failed. response code = 400
+        <wsman:Heartbeats>PT10.000000S</wsman:Heartbeats>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test -H -R'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test -H -R'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wsman subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -h localhost -u wsman -p wsman -R -l
++ grep '<wsman:SendBookmarks/>'
+Connection failed. response code = 400
+      <wsman:SendBookmarks/>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test -l '
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test -l '
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Nov 21 21:51:23 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 2
++ test 2 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Tue Nov 21 21:51:23 2023 - ERROR - failed to execute the case.
++ exit 2
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Nov 21 21:51:24 2023 - INFO  - Start to restore the test environment.
++ rm -rf /etc/openwsman/test_simple_auth.passwd
+++ pgrep openwsmand
++ kill -9 5571
++ docker stop openpegasus
+Error response from daemon: No such container: openpegasus
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpc8uger0_ ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpc8uger0_
++ '[' 0 -ne 0 ']'
++ SLEEP_WAIT 10
++ wait_time=10
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 10 --cmd '' --mode 1
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue Nov 21 21:51:59 2023 - INFO  - End to restore the test environment.

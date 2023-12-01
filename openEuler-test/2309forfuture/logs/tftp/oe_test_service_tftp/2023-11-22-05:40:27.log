@@ -1,0 +1,211 @@
++ source ../common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ grep expect
++ rpm -qa
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed Nov 22 05:40:30 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL tftp-server
++ pkgs=tftp-server
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs tftp-server --node 1 --tempfile ''
++ tmpfile2=/tmp/tmprymlqv78
++ '[' -z '' ']'
++ tmpfile=/tmp/tmprymlqv78
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Wed Nov 22 05:41:02 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Wed Nov 22 05:41:02 2023 - INFO  - Start testing...
++ test_execution tftp.service
++ service=tftp.service
+++ date '+%Y-%m-%d %T'
++ log_time='2023-11-22 05:41:02'
++ test_restart tftp.service
++ service=tftp.service
++ systemctl restart tftp.service
++ CHECK_RESULT 0 0 0 'tftp.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='tftp.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status tftp.service
++ grep 'Active: active'
+     Active: active (running) since Wed 2023-11-22 05:41:02 CST; 5s ago
++ CHECK_RESULT 0 0 0 'tftp.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='tftp.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop tftp.service
+Warning: Stopping tftp.service, but it can still be activated by:
+  tftp.socket
++ CHECK_RESULT 0 0 0 'tftp.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='tftp.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status tftp.service
++ grep 'Active: inactive'
+     Active: inactive (dead) since Wed 2023-11-22 05:41:08 CST; 5s ago
++ CHECK_RESULT 0 0 0 'tftp.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='tftp.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start tftp.service
++ CHECK_RESULT 0 0 0 'tftp.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='tftp.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status tftp.service
++ grep 'Active: active'
+     Active: active (running) since Wed 2023-11-22 05:41:14 CST; 5s ago
++ CHECK_RESULT 0 0 0 'tftp.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='tftp.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled tftp.service
++ service=tftp.service
+++ systemctl is-enabled tftp.service
++ state=indirect
++ '[' indirect == enabled ']'
++ '[' indirect == disabled ']'
++ '[' indirect == masked ']'
++ '[' indirect == static ']'
++ LOG_INFO 'Unit is indirect, ignoring.'
++ message='Unit is indirect, ignoring.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Unit is indirect, ignoring.'
+Wed Nov 22 05:41:21 2023 - INFO  - Unit is indirect, ignoring.
++ journalctl --since '2023-11-22 05:41:02' -u tftp.service
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of tftp.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of tftp.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_reload tftp.service
++ service=tftp.service
++ systemctl start tftp.service
++ grep 'Job type reload is not applicable'
++ systemctl reload tftp.service
+Failed to reload tftp.service: Job type reload is not applicable for unit tftp.service.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit tftp.service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit tftp.service'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'Active: active'
++ systemctl status tftp.service
+     Active: active (running) since Wed 2023-11-22 05:41:14 CST; 6s ago
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Wed Nov 22 05:41:21 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Nov 22 05:41:22 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Wed Nov 22 05:41:22 2023 - INFO  - start environment cleanup.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmprymlqv78 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmprymlqv78
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Wed Nov 22 05:41:34 2023 - INFO  - Finish environment cleanup!

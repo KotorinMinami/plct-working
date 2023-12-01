@@ -1,0 +1,155 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Nov 22 07:54:04 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL dosfstools
++ pkgs=dosfstools
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs dosfstools --node 1 --tempfile ''
+Wed Nov 22 07:54:10 2023 - INFO  - pkgs:(dosfstools) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Wed Nov 22 07:54:11 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Wed Nov 22 07:54:11 2023 - INFO  - Start testing...
++ dd if=/dev/zero of=/tmp/300k bs=1k count=100
+100+0 records in
+100+0 records out
+102400 bytes (102 kB, 100 KiB) copied, 0.00373992 s, 27.4 MB/s
++ CHECK_RESULT 0 0 0 'dd command execution failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='dd command execution failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ echo y
++ mke2fs /tmp/300k
+mke2fs 1.46.5 (30-Dec-2021)
+Discarding device blocks:   0/100       done                            
+Creating filesystem with 100 1k blocks and 8 inodes
+
+Allocating group tables: 0/1   done                            
+Writing inode tables: 0/1   done                            
+ext2fs_mkdir: Could not allocate inode in ext2 filesystem while creating /lost+found
++ mkdosfs -n test /tmp/300k
+mkfs.fat: Warning: lowercase labels might not work properly on some systems
+mkfs.fat 4.2 (2021-01-31)
++ CHECK_RESULT 0 0 0 'mkdosfs command execution failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='mkdosfs command execution failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ file /tmp/300k
++ grep mkfs.fat
+/tmp/300k: DOS/MBR boot sector, code offset 0x3c+2, OEM-ID "mkfs.fat", sectors/cluster 4, root entries 512, sectors 192 (volumes <=32 MB), Media descriptor 0xf8, sectors/FAT 1, sectors/track 16, serial number 0x32405736, label: "test       ", FAT (12 bit)
++ CHECK_RESULT 0 0 0 'not display mkfs.fat'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='not display mkfs.fat'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dosfsck -v -a /tmp/300k
+fsck.fat 4.2 (2021-01-31)
+Checking we can access the last sector of the filesystem
+Boot sector contents:
+System ID "mkfs.fat"
+Media byte 0xf8 (hard disk)
+       512 bytes per logical sector
+      2048 bytes per cluster
+         1 reserved sector
+First FAT starts at byte 512 (sector 1)
+         2 FATs, 12 bit entries
+       512 bytes per FAT (= 1 sectors)
+Root directory starts at byte 1536 (sector 3)
+       512 root directory entries
+Data area starts at byte 17920 (sector 35)
+        39 data clusters (79872 bytes)
+16 sectors/track, 2 heads
+         0 hidden sectors
+       192 sectors total
+Reclaiming unconnected clusters.
+/tmp/300k: 1 files, 0/39 clusters
++ CHECK_RESULT 0 0 0 'dosfsck command execution failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='dosfsck command execution failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Wed Nov 22 07:54:12 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Nov 22 07:54:12 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Nov 22 07:54:13 2023 - INFO  - Start to restore the test environment.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Wed Nov 22 07:54:13 2023 - WARN  - no thing to do.
++ return 0
++ rm -rf /tmp/300k
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed Nov 22 07:54:14 2023 - INFO  - End to restore the test environment.

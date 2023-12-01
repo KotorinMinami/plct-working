@@ -1,0 +1,674 @@
++ source ../common/common.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ grep expect
++ rpm -qa
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Nov 21 16:52:42 2023 - INFO  - Start to prepare the test environment.
++ common_pre
++ pip install -r ../common/requirements.txt
++ DNF_INSTALL 'nototools harfbuzz-devel cpio pango python3-gobject python3-cairo'
++ pkgs='nototools harfbuzz-devel cpio pango python3-gobject python3-cairo'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'nototools harfbuzz-devel cpio pango python3-gobject python3-cairo' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpgx622qz1
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpgx622qz1
++ notoconfig_pre
+++ mktemp -d -t nototools.SRC.XXXXXXXXXXXX
++ TMP_SRCDIR=/tmp/nototools.SRC.0aslIOp1YO4O
++ yumdownloader --source nototools --destdir /tmp/nototools.SRC.0aslIOp1YO4O
+No package nototools-0.2.17-1.oe2303.src available.
+Exiting due to strict setting.
+Error: No package nototools-0.2.17-1.oe2303.src available.
++ rpm2cpio '/tmp/nototools.SRC.0aslIOp1YO4O/*.rpm'
++ cpio -div -D /tmp/nototools.SRC.0aslIOp1YO4O
+rpm2cpio: /tmp/nototools.SRC.0aslIOp1YO4O/*.rpm: No such file or directory
++ tar -zxf '/tmp/nototools.SRC.0aslIOp1YO4O/*.tar.gz' --strip-components 1 --directory /tmp/nototools.SRC.0aslIOp1YO4O
+tar (child): /tmp/nototools.SRC.0aslIOp1YO4O/*.tar.gz: Cannot open: No such file or directory
+tar (child): Error is not recoverable: exiting now
+tar: Child returned status 2
+tar: Error is not recoverable: exiting now
++ echo noto_tools=/tmp/nototools.SRC.0aslIOp1YO4O
++ for src in "fonts" "cjk" "emoji"
++ echo noto_fonts=/tmp/nototools.SRC.0aslIOp1YO4O/noto-fonts
++ for src in "fonts" "cjk" "emoji"
++ echo noto_cjk=/tmp/nototools.SRC.0aslIOp1YO4O/noto-cjk
++ for src in "fonts" "cjk" "emoji"
++ echo noto_emoji=/tmp/nototools.SRC.0aslIOp1YO4O/noto-emoji
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Nov 21 16:59:26 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 16:59:26 2023 - INFO  - Start to run test.
++ grep -q usage
++ noto_lint.py -h
++ CHECK_RESULT 0 0 0 'option: -h error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: -h error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ noto_lint.py --help
++ grep -q usage
++ CHECK_RESULT 0 0 0 'option: --help error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --help error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ noto_lint.py ./NotoSansLao-Regular.ttf --csv
++ grep -q Lao,Sans
+Traceback (most recent call last):
+  File "/usr/bin/noto_lint.py", line 2582, in <module>
+    main()
+  File "/usr/bin/noto_lint.py", line 2508, in main
+    lint_spec = get_lint_spec(config_file, arguments.config)
+  File "/usr/bin/noto_lint.py", line 2395, in get_lint_spec
+    spec = lint_config.parse_spec_file(spec_file)
+  File "/usr/lib/python3.10/site-packages/nototools/lint_config.py", line 818, in parse_spec_file
+    with open(filename) as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/nototools.SRC.0aslIOp1YO4O/nototools/data/lint_config.txt'
++ CHECK_RESULT 1 0 0 'option: --csv error'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='option: --csv error'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'option: --csv error'
++ LOG_ERROR 'option: --csv error'
++ message='option: --csv error'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'option: --csv error'
+Tue Nov 21 17:00:41 2023 - ERROR - option: --csv error
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nototools_base_noto_lint.sh line 44'
++ message='oe_test_nototools_base_noto_lint.sh line 44'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nototools_base_noto_lint.sh line 44'
+Tue Nov 21 17:00:42 2023 - ERROR - oe_test_nototools_base_noto_lint.sh line 44
++ '[' 0 -eq 1 ']'
++ return 0
++ noto_lint.py ./NotoSansLao-Regular.ttf --info
++ grep -q '<info>'
+Traceback (most recent call last):
+  File "/usr/bin/noto_lint.py", line 2582, in <module>
+    main()
+  File "/usr/bin/noto_lint.py", line 2508, in main
+    lint_spec = get_lint_spec(config_file, arguments.config)
+  File "/usr/bin/noto_lint.py", line 2395, in get_lint_spec
+    spec = lint_config.parse_spec_file(spec_file)
+  File "/usr/lib/python3.10/site-packages/nototools/lint_config.py", line 818, in parse_spec_file
+    with open(filename) as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/nototools.SRC.0aslIOp1YO4O/nototools/data/lint_config.txt'
++ CHECK_RESULT 1 0 0 'option: --info error'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='option: --info error'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'option: --info error'
++ LOG_ERROR 'option: --info error'
++ message='option: --info error'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'option: --info error'
+Tue Nov 21 17:01:07 2023 - ERROR - option: --info error
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nototools_base_noto_lint.sh line 48'
++ message='oe_test_nototools_base_noto_lint.sh line 48'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nototools_base_noto_lint.sh line 48'
+Tue Nov 21 17:01:08 2023 - ERROR - oe_test_nototools_base_noto_lint.sh line 48
++ '[' 0 -eq 1 ']'
++ return 0
++ noto_lint.py ./NotoSansLao-Regular.ttf --suppress_extrema_details
++ grep -qE 'Finished linting [[:digit:]]+ file'
+Traceback (most recent call last):
+  File "/usr/bin/noto_lint.py", line 2582, in <module>
+    main()
+  File "/usr/bin/noto_lint.py", line 2508, in main
+    lint_spec = get_lint_spec(config_file, arguments.config)
+  File "/usr/bin/noto_lint.py", line 2395, in get_lint_spec
+    spec = lint_config.parse_spec_file(spec_file)
+  File "/usr/lib/python3.10/site-packages/nototools/lint_config.py", line 818, in parse_spec_file
+    with open(filename) as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/nototools.SRC.0aslIOp1YO4O/nototools/data/lint_config.txt'
++ CHECK_RESULT 1 0 0 'option: --suppress_extrema_details error'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='option: --suppress_extrema_details error'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'option: --suppress_extrema_details error'
++ LOG_ERROR 'option: --suppress_extrema_details error'
++ message='option: --suppress_extrema_details error'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'option: --suppress_extrema_details error'
+Tue Nov 21 17:01:32 2023 - ERROR - option: --suppress_extrema_details error
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nototools_base_noto_lint.sh line 52'
++ message='oe_test_nototools_base_noto_lint.sh line 52'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nototools_base_noto_lint.sh line 52'
+Tue Nov 21 17:01:32 2023 - ERROR - oe_test_nototools_base_noto_lint.sh line 52
++ '[' 0 -eq 1 ']'
++ return 0
++ noto_lint.py ./NotoSansLao-Regular.ttf --csv_header
++ grep -qE 'Finished linting [[:digit:]]+ file'
+Traceback (most recent call last):
+  File "/usr/bin/noto_lint.py", line 2582, in <module>
+    main()
+  File "/usr/bin/noto_lint.py", line 2508, in main
+    lint_spec = get_lint_spec(config_file, arguments.config)
+  File "/usr/bin/noto_lint.py", line 2395, in get_lint_spec
+    spec = lint_config.parse_spec_file(spec_file)
+  File "/usr/lib/python3.10/site-packages/nototools/lint_config.py", line 818, in parse_spec_file
+    with open(filename) as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/nototools.SRC.0aslIOp1YO4O/nototools/data/lint_config.txt'
++ CHECK_RESULT 1 0 0 'option: --csv_header error'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='option: --csv_header error'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'option: --csv_header error'
++ LOG_ERROR 'option: --csv_header error'
++ message='option: --csv_header error'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'option: --csv_header error'
+Tue Nov 21 17:01:58 2023 - ERROR - option: --csv_header error
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nototools_base_noto_lint.sh line 56'
++ message='oe_test_nototools_base_noto_lint.sh line 56'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nototools_base_noto_lint.sh line 56'
+Tue Nov 21 17:01:59 2023 - ERROR - oe_test_nototools_base_noto_lint.sh line 56
++ '[' 0 -eq 1 ']'
++ return 0
++ echo heloo
+heloo
++ noto_lint.py --font_props_file ./font1.json
+Traceback (most recent call last):
+  File "/usr/bin/noto_lint.py", line 2582, in <module>
+    main()
+  File "/usr/bin/noto_lint.py", line 2508, in main
+    lint_spec = get_lint_spec(config_file, arguments.config)
+  File "/usr/bin/noto_lint.py", line 2395, in get_lint_spec
+    spec = lint_config.parse_spec_file(spec_file)
+  File "/usr/lib/python3.10/site-packages/nototools/lint_config.py", line 818, in parse_spec_file
+    with open(filename) as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/nototools.SRC.0aslIOp1YO4O/nototools/data/lint_config.txt'
++ CHECK_RESULT 1 0 0 'option: --font_props_file error'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='option: --font_props_file error'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'option: --font_props_file error'
++ LOG_ERROR 'option: --font_props_file error'
++ message='option: --font_props_file error'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'option: --font_props_file error'
+Tue Nov 21 17:02:24 2023 - ERROR - option: --font_props_file error
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nototools_base_noto_lint.sh line 61'
++ message='oe_test_nototools_base_noto_lint.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nototools_base_noto_lint.sh line 61'
+Tue Nov 21 17:02:24 2023 - ERROR - oe_test_nototools_base_noto_lint.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ noto_lint.py --config_file ./lint_config.txt
+------
+Finished linting 0 files.
++ CHECK_RESULT 0 0 0 'option: --config_file error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --config_file error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ noto_lint.py --config lint_spec ./lint_config.spec
+Traceback (most recent call last):
+  File "/usr/bin/noto_lint.py", line 2582, in <module>
+    main()
+  File "/usr/bin/noto_lint.py", line 2508, in main
+    lint_spec = get_lint_spec(config_file, arguments.config)
+  File "/usr/bin/noto_lint.py", line 2395, in get_lint_spec
+    spec = lint_config.parse_spec_file(spec_file)
+  File "/usr/lib/python3.10/site-packages/nototools/lint_config.py", line 818, in parse_spec_file
+    with open(filename) as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/nototools.SRC.0aslIOp1YO4O/nototools/data/lint_config.txt'
++ CHECK_RESULT 1 0 0 'option: ---config lint_spec'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='option: ---config lint_spec'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'option: ---config lint_spec'
++ LOG_ERROR 'option: ---config lint_spec'
++ message='option: ---config lint_spec'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'option: ---config lint_spec'
+Tue Nov 21 17:03:16 2023 - ERROR - option: ---config lint_spec
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nototools_base_noto_lint.sh line 69'
++ message='oe_test_nototools_base_noto_lint.sh line 69'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nototools_base_noto_lint.sh line 69'
+Tue Nov 21 17:03:17 2023 - ERROR - oe_test_nototools_base_noto_lint.sh line 69
++ '[' 0 -eq 1 ']'
++ return 0
++ noto_lint.py ./NotoSansLao-Regular.ttf --runlog
++ grep -qE 'Ran [[:digit:]]+ tests'
+Traceback (most recent call last):
+  File "/usr/bin/noto_lint.py", line 2582, in <module>
+    main()
+  File "/usr/bin/noto_lint.py", line 2508, in main
+    lint_spec = get_lint_spec(config_file, arguments.config)
+  File "/usr/bin/noto_lint.py", line 2395, in get_lint_spec
+    spec = lint_config.parse_spec_file(spec_file)
+  File "/usr/lib/python3.10/site-packages/nototools/lint_config.py", line 818, in parse_spec_file
+    with open(filename) as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/nototools.SRC.0aslIOp1YO4O/nototools/data/lint_config.txt'
++ CHECK_RESULT 1 0 0 'option: --runlog error'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='option: --runlog error'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'option: --runlog error'
++ LOG_ERROR 'option: --runlog error'
++ message='option: --runlog error'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'option: --runlog error'
+Tue Nov 21 17:03:42 2023 - ERROR - option: --runlog error
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nototools_base_noto_lint.sh line 73'
++ message='oe_test_nototools_base_noto_lint.sh line 73'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nototools_base_noto_lint.sh line 73'
+Tue Nov 21 17:03:43 2023 - ERROR - oe_test_nototools_base_noto_lint.sh line 73
++ '[' 0 -eq 1 ']'
++ return 0
++ noto_lint.py ./NotoSansLao-Regular.ttf --skiplog
++ grep -qE 'Skipped [[:digit:]]+ test/groups'
+Traceback (most recent call last):
+  File "/usr/bin/noto_lint.py", line 2582, in <module>
+    main()
+  File "/usr/bin/noto_lint.py", line 2508, in main
+    lint_spec = get_lint_spec(config_file, arguments.config)
+  File "/usr/bin/noto_lint.py", line 2395, in get_lint_spec
+    spec = lint_config.parse_spec_file(spec_file)
+  File "/usr/lib/python3.10/site-packages/nototools/lint_config.py", line 818, in parse_spec_file
+    with open(filename) as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/nototools.SRC.0aslIOp1YO4O/nototools/data/lint_config.txt'
++ CHECK_RESULT 1 0 0 'option: --skiplog error'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='option: --skiplog error'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'option: --skiplog error'
++ LOG_ERROR 'option: --skiplog error'
++ message='option: --skiplog error'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'option: --skiplog error'
+Tue Nov 21 17:04:08 2023 - ERROR - option: --skiplog error
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nototools_base_noto_lint.sh line 77'
++ message='oe_test_nototools_base_noto_lint.sh line 77'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nototools_base_noto_lint.sh line 77'
+Tue Nov 21 17:04:09 2023 - ERROR - oe_test_nototools_base_noto_lint.sh line 77
++ '[' 0 -eq 1 ']'
++ return 0
++ noto_lint.py ./NotoSansLao-Regular.ttf --dump_font_props
++ grep -q NotoSansLao-Regular.ttf
++ CHECK_RESULT 0 0 0 'option: --dump_font_props error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --dump_font_props error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ noto_lint.py ./NotoSansLao-Regular.ttf -nw
++ grep -qE 'Finished linting [[:digit:]]+ file'
+Traceback (most recent call last):
+  File "/usr/bin/noto_lint.py", line 2582, in <module>
+    main()
+  File "/usr/bin/noto_lint.py", line 2508, in main
+    lint_spec = get_lint_spec(config_file, arguments.config)
+  File "/usr/bin/noto_lint.py", line 2395, in get_lint_spec
+    spec = lint_config.parse_spec_file(spec_file)
+  File "/usr/lib/python3.10/site-packages/nototools/lint_config.py", line 818, in parse_spec_file
+    with open(filename) as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/nototools.SRC.0aslIOp1YO4O/nototools/data/lint_config.txt'
++ CHECK_RESULT 1 0 0 'option: -nw error'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='option: -nw error'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'option: -nw error'
++ LOG_ERROR 'option: -nw error'
++ message='option: -nw error'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'option: -nw error'
+Tue Nov 21 17:04:59 2023 - ERROR - option: -nw error
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nototools_base_noto_lint.sh line 85'
++ message='oe_test_nototools_base_noto_lint.sh line 85'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nototools_base_noto_lint.sh line 85'
+Tue Nov 21 17:05:00 2023 - ERROR - oe_test_nototools_base_noto_lint.sh line 85
++ '[' 0 -eq 1 ']'
++ return 0
++ grep -qE 'Finished linting [[:digit:]]+ file'
++ noto_lint.py ./NotoSansLao-Regular.ttf --nowarn
+Traceback (most recent call last):
+  File "/usr/bin/noto_lint.py", line 2582, in <module>
+    main()
+  File "/usr/bin/noto_lint.py", line 2508, in main
+    lint_spec = get_lint_spec(config_file, arguments.config)
+  File "/usr/bin/noto_lint.py", line 2395, in get_lint_spec
+    spec = lint_config.parse_spec_file(spec_file)
+  File "/usr/lib/python3.10/site-packages/nototools/lint_config.py", line 818, in parse_spec_file
+    with open(filename) as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/nototools.SRC.0aslIOp1YO4O/nototools/data/lint_config.txt'
++ CHECK_RESULT 1 0 0 'option: -nowarn error'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='option: -nowarn error'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'option: -nowarn error'
++ LOG_ERROR 'option: -nowarn error'
++ message='option: -nowarn error'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'option: -nowarn error'
+Tue Nov 21 17:05:26 2023 - ERROR - option: -nowarn error
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nototools_base_noto_lint.sh line 87'
++ message='oe_test_nototools_base_noto_lint.sh line 87'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nototools_base_noto_lint.sh line 87'
+Tue Nov 21 17:05:26 2023 - ERROR - oe_test_nototools_base_noto_lint.sh line 87
++ '[' 0 -eq 1 ']'
++ return 0
++ noto_lint.py ./NotoSansLao-Regular.ttf -q
++ grep -qE 'Finished linting [[:digit:]]+ file'
+Traceback (most recent call last):
+  File "/usr/bin/noto_lint.py", line 2582, in <module>
+    main()
+  File "/usr/bin/noto_lint.py", line 2508, in main
+    lint_spec = get_lint_spec(config_file, arguments.config)
+  File "/usr/bin/noto_lint.py", line 2395, in get_lint_spec
+    spec = lint_config.parse_spec_file(spec_file)
+  File "/usr/lib/python3.10/site-packages/nototools/lint_config.py", line 818, in parse_spec_file
+    with open(filename) as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/nototools.SRC.0aslIOp1YO4O/nototools/data/lint_config.txt'
++ CHECK_RESULT 1 0 0 'option: -q error'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='option: -q error'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'option: -q error'
++ LOG_ERROR 'option: -q error'
++ message='option: -q error'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'option: -q error'
+Tue Nov 21 17:05:52 2023 - ERROR - option: -q error
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nototools_base_noto_lint.sh line 91'
++ message='oe_test_nototools_base_noto_lint.sh line 91'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nototools_base_noto_lint.sh line 91'
+Tue Nov 21 17:05:52 2023 - ERROR - oe_test_nototools_base_noto_lint.sh line 91
++ '[' 0 -eq 1 ']'
++ return 0
++ noto_lint.py ./NotoSansLao-Regular.ttf --quiet
++ grep -qE 'Finished linting [[:digit:]]+ file'
+Traceback (most recent call last):
+  File "/usr/bin/noto_lint.py", line 2582, in <module>
+    main()
+  File "/usr/bin/noto_lint.py", line 2508, in main
+    lint_spec = get_lint_spec(config_file, arguments.config)
+  File "/usr/bin/noto_lint.py", line 2395, in get_lint_spec
+    spec = lint_config.parse_spec_file(spec_file)
+  File "/usr/lib/python3.10/site-packages/nototools/lint_config.py", line 818, in parse_spec_file
+    with open(filename) as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/nototools.SRC.0aslIOp1YO4O/nototools/data/lint_config.txt'
++ CHECK_RESULT 1 0 0 'option: --quiet error'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='option: --quiet error'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'option: --quiet error'
++ LOG_ERROR 'option: --quiet error'
++ message='option: --quiet error'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'option: --quiet error'
+Tue Nov 21 17:06:17 2023 - ERROR - option: --quiet error
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nototools_base_noto_lint.sh line 93'
++ message='oe_test_nototools_base_noto_lint.sh line 93'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nototools_base_noto_lint.sh line 93'
+Tue Nov 21 17:06:18 2023 - ERROR - oe_test_nototools_base_noto_lint.sh line 93
++ '[' 0 -eq 1 ']'
++ return 0
++ noto_lint.py ./NotoSansLao-Regular.ttf -p 2
++ grep -qE 'Finished linting [[:digit:]]+ file'
+Traceback (most recent call last):
+  File "/usr/bin/noto_lint.py", line 2582, in <module>
+    main()
+  File "/usr/bin/noto_lint.py", line 2508, in main
+    lint_spec = get_lint_spec(config_file, arguments.config)
+  File "/usr/bin/noto_lint.py", line 2395, in get_lint_spec
+    spec = lint_config.parse_spec_file(spec_file)
+  File "/usr/lib/python3.10/site-packages/nototools/lint_config.py", line 818, in parse_spec_file
+    with open(filename) as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/nototools.SRC.0aslIOp1YO4O/nototools/data/lint_config.txt'
++ CHECK_RESULT 1 0 0 'option: -p error'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='option: -p error'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'option: -p error'
++ LOG_ERROR 'option: -p error'
++ message='option: -p error'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'option: -p error'
+Tue Nov 21 17:06:42 2023 - ERROR - option: -p error
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nototools_base_noto_lint.sh line 97'
++ message='oe_test_nototools_base_noto_lint.sh line 97'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nototools_base_noto_lint.sh line 97'
+Tue Nov 21 17:06:43 2023 - ERROR - oe_test_nototools_base_noto_lint.sh line 97
++ '[' 0 -eq 1 ']'
++ return 0
++ noto_lint.py ./NotoSansLao-Regular.ttf --phase 2
++ grep -qE 'Finished linting [[:digit:]]+ file'
+Traceback (most recent call last):
+  File "/usr/bin/noto_lint.py", line 2582, in <module>
+    main()
+  File "/usr/bin/noto_lint.py", line 2508, in main
+    lint_spec = get_lint_spec(config_file, arguments.config)
+  File "/usr/bin/noto_lint.py", line 2395, in get_lint_spec
+    spec = lint_config.parse_spec_file(spec_file)
+  File "/usr/lib/python3.10/site-packages/nototools/lint_config.py", line 818, in parse_spec_file
+    with open(filename) as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/nototools.SRC.0aslIOp1YO4O/nototools/data/lint_config.txt'
++ CHECK_RESULT 1 0 0 'option: --phase error'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='option: --phase error'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'option: --phase error'
++ LOG_ERROR 'option: --phase error'
++ message='option: --phase error'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'option: --phase error'
+Tue Nov 21 17:07:09 2023 - ERROR - option: --phase error
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nototools_base_noto_lint.sh line 99'
++ message='oe_test_nototools_base_noto_lint.sh line 99'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nototools_base_noto_lint.sh line 99'
+Tue Nov 21 17:07:10 2023 - ERROR - oe_test_nototools_base_noto_lint.sh line 99
++ '[' 0 -eq 1 ']'
++ return 0
++ noto_lint.py ./NotoSansLao-Regular.ttf -v
++ grep -qE 'Finished linting [[:digit:]]+ file'
+Traceback (most recent call last):
+  File "/usr/bin/noto_lint.py", line 2582, in <module>
+    main()
+  File "/usr/bin/noto_lint.py", line 2508, in main
+    lint_spec = get_lint_spec(config_file, arguments.config)
+  File "/usr/bin/noto_lint.py", line 2395, in get_lint_spec
+    spec = lint_config.parse_spec_file(spec_file)
+  File "/usr/lib/python3.10/site-packages/nototools/lint_config.py", line 818, in parse_spec_file
+    with open(filename) as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/nototools.SRC.0aslIOp1YO4O/nototools/data/lint_config.txt'
++ CHECK_RESULT 1 0 0 'option: -v error'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='option: -v error'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'option: -v error'
++ LOG_ERROR 'option: -v error'
++ message='option: -v error'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'option: -v error'
+Tue Nov 21 17:07:40 2023 - ERROR - option: -v error
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nototools_base_noto_lint.sh line 103'
++ message='oe_test_nototools_base_noto_lint.sh line 103'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nototools_base_noto_lint.sh line 103'
+Tue Nov 21 17:07:40 2023 - ERROR - oe_test_nototools_base_noto_lint.sh line 103
++ '[' 0 -eq 1 ']'
++ return 0
++ noto_lint.py ./NotoSansLao-Regular.ttf --variable
++ grep -qE 'Finished linting [[:digit:]]+ file'
+Traceback (most recent call last):
+  File "/usr/bin/noto_lint.py", line 2582, in <module>
+    main()
+  File "/usr/bin/noto_lint.py", line 2508, in main
+    lint_spec = get_lint_spec(config_file, arguments.config)
+  File "/usr/bin/noto_lint.py", line 2395, in get_lint_spec
+    spec = lint_config.parse_spec_file(spec_file)
+  File "/usr/lib/python3.10/site-packages/nototools/lint_config.py", line 818, in parse_spec_file
+    with open(filename) as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/nototools.SRC.0aslIOp1YO4O/nototools/data/lint_config.txt'
++ CHECK_RESULT 1 0 0 'option: --variable error'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='option: --variable error'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'option: --variable error'
++ LOG_ERROR 'option: --variable error'
++ message='option: --variable error'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'option: --variable error'
+Tue Nov 21 17:08:09 2023 - ERROR - option: --variable error
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nototools_base_noto_lint.sh line 105'
++ message='oe_test_nototools_base_noto_lint.sh line 105'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nototools_base_noto_lint.sh line 105'
+Tue Nov 21 17:08:10 2023 - ERROR - oe_test_nototools_base_noto_lint.sh line 105
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Nov 21 17:08:10 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 16
++ test 16 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Tue Nov 21 17:08:11 2023 - ERROR - failed to execute the case.
++ exit 16
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Nov 21 17:08:11 2023 - INFO  - Start to restore the test environment.
++ common_post
++ rm -rf /tmp/nototools.SRC.0aslIOp1YO4O /root/.notoconfig
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpgx622qz1 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpgx622qz1
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue Nov 21 17:09:39 2023 - INFO  - End to restore the test environment.

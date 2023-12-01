@@ -1,0 +1,387 @@
++ source ../common/common_podman.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Nov 21 07:00:44 2023 - INFO  - Start to prepare the test environment.
++ deploy_env
++ DNF_INSTALL 'podman podman-docker'
++ pkgs='podman podman-docker'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'podman podman-docker' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpqz98fj2c
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpqz98fj2c
++ echo -e '[registries.search]
+registries = ['\''docker.io'\'']
+
+[registries.insecure]
+registries = []
+
+[registries.block]
+registries = []
+'
++ podman pull postgres:alpine
+Resolving "postgres" using unqualified-search registries (/etc/containers/registries.conf)
+Trying to pull docker.io/library/postgres:alpine...
+Error: choosing an image from manifest list docker://postgres:alpine: no image found in image index for architecture riscv64, variant "", OS linux
++ podman run --name postgres -e POSTGRES_PASSWORD=secret -d postgres:alpine
+Resolving "postgres" using unqualified-search registries (/etc/containers/registries.conf)
+Trying to pull docker.io/library/postgres:alpine...
+Error: choosing an image from manifest list docker://postgres:alpine: no image found in image index for architecture riscv64, variant "", OS linux
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Nov 21 07:03:37 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 07:03:37 2023 - INFO  - Start to run test.
++ podman pull busybox
+Resolved "busybox" as an alias (/etc/containers/registries.conf.d/000-shortnames.conf)
+Trying to pull docker.io/library/busybox:latest...
+Getting image source signatures
+Copying blob sha256:72ed4adcd9404b88ec314167db591da57059bedf2e5f601303b0eb4a9ab30b9c
+Copying blob sha256:72ed4adcd9404b88ec314167db591da57059bedf2e5f601303b0eb4a9ab30b9c
+Copying config sha256:a58323eebc13bd1a9d3ca1dd0840d04a45ef0fc58e2c9516d533672f42fa36e1
+Writing manifest to image destination
+Storing signatures
+a58323eebc13bd1a9d3ca1dd0840d04a45ef0fc58e2c9516d533672f42fa36e1
+++ podman images -q
+++ podman images -q
++ podman images --filter after=a58323eebc13
++ grep a58323eebc13
++ CHECK_RESULT 1 0 1
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ podman images -sort created
++ grep busybox
+Error: unknown shorthand flag: 's' in -sort
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_02.sh line 35'
++ message='oe_test_podman_02.sh line 35'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_02.sh line 35'
+Tue Nov 21 07:03:48 2023 - ERROR - oe_test_podman_02.sh line 35
++ '[' 0 -eq 1 ']'
++ return 0
++ podman rmi busybox
+Untagged: docker.io/library/busybox:latest
+Deleted: a58323eebc13bd1a9d3ca1dd0840d04a45ef0fc58e2c9516d533672f42fa36e1
++ grep alpine
++ podman images
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_02.sh line 38'
++ message='oe_test_podman_02.sh line 38'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_02.sh line 38'
+Tue Nov 21 07:03:50 2023 - ERROR - oe_test_podman_02.sh line 38
++ '[' 0 -eq 1 ']'
++ return 0
++ podman stop postgres
+Error: no container with name or ID "postgres" found: no such container
++ podman commit postgres images1
+Error: no container with name or ID "postgres" found: no such container
++ CHECK_RESULT 125
++ actual_result=125
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 125 ']'
++ '[' 0 -eq 0 ']'
++ test 125x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_02.sh line 41'
++ message='oe_test_podman_02.sh line 41'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_02.sh line 41'
+Tue Nov 21 07:03:52 2023 - ERROR - oe_test_podman_02.sh line 41
++ '[' 0 -eq 1 ']'
++ return 0
++ podman images
++ grep images1
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_02.sh line 43'
++ message='oe_test_podman_02.sh line 43'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_02.sh line 43'
+Tue Nov 21 07:03:53 2023 - ERROR - oe_test_podman_02.sh line 43
++ '[' 0 -eq 1 ']'
++ return 0
++ podman commit --change CMD=/bin/bash --change ENTRYPOINT=/bin/sh postgres images2
+Error: no container with name or ID "postgres" found: no such container
++ CHECK_RESULT 125
++ actual_result=125
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 125 ']'
++ '[' 0 -eq 0 ']'
++ test 125x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_02.sh line 45'
++ message='oe_test_podman_02.sh line 45'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_02.sh line 45'
+Tue Nov 21 07:03:54 2023 - ERROR - oe_test_podman_02.sh line 45
++ '[' 0 -eq 1 ']'
++ return 0
++ podman images
++ grep images2
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_02.sh line 47'
++ message='oe_test_podman_02.sh line 47'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_02.sh line 47'
+Tue Nov 21 07:03:55 2023 - ERROR - oe_test_podman_02.sh line 47
++ '[' 0 -eq 1 ']'
++ return 0
++ podman commit -p postgres images3
+Error: no container with name or ID "postgres" found: no such container
++ CHECK_RESULT 125
++ actual_result=125
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 125 ']'
++ '[' 0 -eq 0 ']'
++ test 125x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_02.sh line 49'
++ message='oe_test_podman_02.sh line 49'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_02.sh line 49'
+Tue Nov 21 07:03:56 2023 - ERROR - oe_test_podman_02.sh line 49
++ '[' 0 -eq 1 ']'
++ return 0
++ podman images
++ grep images3
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_02.sh line 51'
++ message='oe_test_podman_02.sh line 51'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_02.sh line 51'
+Tue Nov 21 07:03:58 2023 - ERROR - oe_test_podman_02.sh line 51
++ '[' 0 -eq 1 ']'
++ return 0
++ podman commit -q postgres images4
+Error: no container with name or ID "postgres" found: no such container
++ CHECK_RESULT 125
++ actual_result=125
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 125 ']'
++ '[' 0 -eq 0 ']'
++ test 125x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_02.sh line 53'
++ message='oe_test_podman_02.sh line 53'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_02.sh line 53'
+Tue Nov 21 07:03:59 2023 - ERROR - oe_test_podman_02.sh line 53
++ '[' 0 -eq 1 ']'
++ return 0
++ podman images
++ grep images4
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_02.sh line 55'
++ message='oe_test_podman_02.sh line 55'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_02.sh line 55'
+Tue Nov 21 07:04:00 2023 - ERROR - oe_test_podman_02.sh line 55
++ '[' 0 -eq 1 ']'
++ return 0
++ podman commit -f docker -q --message 'committing container to image' postgres images5
+Error: no container with name or ID "postgres" found: no such container
++ CHECK_RESULT 125
++ actual_result=125
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 125 ']'
++ '[' 0 -eq 0 ']'
++ test 125x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_02.sh line 57'
++ message='oe_test_podman_02.sh line 57'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_02.sh line 57'
+Tue Nov 21 07:04:01 2023 - ERROR - oe_test_podman_02.sh line 57
++ '[' 0 -eq 1 ']'
++ return 0
++ grep images5
++ podman images
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_02.sh line 59'
++ message='oe_test_podman_02.sh line 59'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_02.sh line 59'
+Tue Nov 21 07:04:02 2023 - ERROR - oe_test_podman_02.sh line 59
++ '[' 0 -eq 1 ']'
++ return 0
++ podman image ls --quiet
+++ podman images -aq
++ grep ''
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_02.sh line 61'
++ message='oe_test_podman_02.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_02.sh line 61'
+Tue Nov 21 07:04:03 2023 - ERROR - oe_test_podman_02.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ podman image ls --sort size
+REPOSITORY  TAG         IMAGE ID    CREATED     SIZE
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Nov 21 07:04:04 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 13
++ test 13 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Tue Nov 21 07:04:05 2023 - ERROR - failed to execute the case.
++ exit 13
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Nov 21 07:04:05 2023 - INFO  - Start to restore the test environment.
++ clear_env
++ podman stop postgres
+Error: no container with name or ID "postgres" found: no such container
++ podman rm --all
++ podman rmi -f --all
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpqz98fj2c ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpqz98fj2c
++ '[' 0 -ne 0 ']'
+++ ls
+++ grep -vE .sh
++ rm -rf
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue Nov 21 07:05:08 2023 - INFO  - End to restore the test environment.

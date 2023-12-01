@@ -1,0 +1,352 @@
++ source ../common/lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Nov 21 10:10:45 2023 - INFO  - Start to prepare the test environment.
++ postgresql_install
++ DNF_INSTALL 'postgresql postgresql-server postgresql-devel postgresql-contrib'
++ pkgs='postgresql postgresql-server postgresql-devel postgresql-contrib'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'postgresql postgresql-server postgresql-devel postgresql-contrib' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp2mf38sb5
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp2mf38sb5
++ rm -rf '/tmp/.s.PGSQL*'
++ /usr/bin/postgresql-setup --initdb
+ * Initializing database in '/var/lib/pgsql/data'
+ * Initialized, logs are in /var/lib/pgsql/initdb_postgresql.log
++ sed -i s/ident/trust/g /var/lib/pgsql/data/pg_hba.conf
++ systemctl start postgresql
++ expect
+spawn su - postgres
+Last login: Tue Nov 21 10:09:32 CST 2023
+
+
+Welcome to 6.1.19-2.oe2303.riscv64
+
+System information as of time: 	Tue Nov 21 10:11:46 AM CST 2023
+
+System load: 	[0;33;40m1.48[0m
+Processes: 	115
+Memory used: 	2.3%
+Swap used: 	0.0%
+Usage On: 	21%
+IP address: 	10.0.2.15
+Users online: 	0
+To run a command as administrator(user "root"),use "sudo <command>".
+
+
+Welcome to 6.1.19-2.oe2303.riscv64
+
+System information as of time: 	Tue Nov 21 10:11:47 AM CST 2023
+
+System load: 	[0;33;40m1.45[0m
+Processes: 	115
+Memory used: 	2.4%
+Swap used: 	0.0%
+Usage On: 	21%
+IP address: 	10.0.2.15
+Users online: 	0
+To run a command as administrator(user "root"),use "sudo <command>".
+[postgres@openeuler-riscv64 ~]$ createdb testdb
+[postgres@openeuler-riscv64 ~]$ psql testdb
+psql (13.3)
+Type "help" for help.
+
+testdb=# create table test (id int, val numeric);
+CREATE TABLE
+create index on test(id);
+testdb=# create index on test(id);
+CREATE INDEX
+testdb=# create index on test(val);
+CREATE INDEX
+testdb=# insert into test select generate_series(1,10000),random();
+INSERT 0 10000
+testdb=# create table tab_big(vname text,souroid oid);
+CREATE TABLE
+testdb=# insert into tab_big values('passwd list',lo_import('/etc/passwd'));
+INSERT 0 1
+testdb=# CREATE SCHEMA myschema;
+create table myschema.test (id int, val numeric) with oids;
+CREATE SCHEMA
+testdb=# create table myschema.test (id int, val numeric) with oids;
+ERROR:  syntax error at or near "oids"
+LINE 1: create table myschema.test (id int, val numeric) with oids;
+                                                              ^
+testdb=# insert into myschema.test select generate_series(1,100),random();
+ERROR:  relation "myschema.test" does not exist
+LINE 1: insert into myschema.test select generate_series(1,100),rand...
+                    ^
+testdb=# create user testuder;
+CREATE ROLE
+testdb=# GRANT ALL ON test TO testuder;
+\q
+GRANT
+testdb=# \q
+[postgres@openeuler-riscv64 ~]$ + export LANG=en_US.UTF-8
++ LANG=en_US.UTF-8
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Nov 21 10:12:30 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 10:12:31 2023 - INFO  - Start to run test.
++ su - postgres -c 'pg_dumpall -a > /var/lib/pgsql/test.sql'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'CREATE ROLE postgres;' /var/lib/pgsql/test.sql
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ su - postgres -c 'pg_dumpall -c > /var/lib/pgsql/test.sql'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'Drop databases' /var/lib/pgsql/test.sql
+-- Drop databases (except postgres and template1)
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'pg_dumpall -g >/var/lib/pgsql/test.sql'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cat /var/lib/pgsql/test.sql
++ grep Roles
++ grep 'connect testdb'
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ su - postgres -c 'pg_dumpall -o > /var/lib/pgsql/test.sql'
+pg_dumpall: invalid option -- 'o'
+Try "pg_dumpall --help" for more information.
++ grep OID /var/lib/pgsql/test.sql
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_postgresql_pg_dumpall01.sh line 43'
++ message='oe_test_postgresql_pg_dumpall01.sh line 43'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_postgresql_pg_dumpall01.sh line 43'
+Tue Nov 21 10:12:48 2023 - ERROR - oe_test_postgresql_pg_dumpall01.sh line 43
++ '[' 0 -eq 1 ']'
++ return 0
++ su - postgres -c 'pg_dumpall -O >/var/lib/pgsql/test.sql'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'Owner: -' /var/lib/pgsql/test.sql
+-- Name: testdb; Type: DATABASE; Schema: -; Owner: -
+-- Name: myschema; Type: SCHEMA; Schema: -; Owner: -
+-- Name: tab_big; Type: TABLE; Schema: public; Owner: -
+-- Name: test; Type: TABLE; Schema: public; Owner: -
+-- Name: 16399; Type: BLOB; Schema: -; Owner: -
+-- Data for Name: tab_big; Type: TABLE DATA; Schema: public; Owner: -
+-- Data for Name: test; Type: TABLE DATA; Schema: public; Owner: -
+-- Data for Name: BLOBS; Type: BLOBS; Schema: -; Owner: -
+-- Name: test_id_idx; Type: INDEX; Schema: public; Owner: -
+-- Name: test_val_idx; Type: INDEX; Schema: public; Owner: -
+-- Name: TABLE test; Type: ACL; Schema: public; Owner: -
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'pg_dumpall -r > /var/lib/pgsql/test.sql'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cat /var/lib/pgsql/test.sql
++ grep Roles
++ grep Tablespaces
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ su - postgres -c 'pg_dumpall -s >/var/lib/pgsql/test.sql'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 'Data for Name: test;' /var/lib/pgsql/test.sql
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ su - postgres -c 'pg_dumpall -S testuser > /var/lib/pgsql/test.sql'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'pg_dumpall -t >/var/lib/pgsql/test.sql'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cat /var/lib/pgsql/test.sql
++ grep Roles
++ grep Tablespaces
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Nov 21 10:13:12 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Tue Nov 21 10:13:13 2023 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Nov 21 10:13:13 2023 - INFO  - Start to restore the test environment.
++ systemctl stop postgresql
++ DNF_REMOVE 1 'postgresql postgresql-server postgresql-devel postgresql-contrib'
++ node=1
++ pkg_list='postgresql postgresql-server postgresql-devel postgresql-contrib'
++ mode=0
++ [[ -z /tmp/tmp2mf38sb5 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs 'postgresql postgresql-server postgresql-devel postgresql-contrib' --tempfile /tmp/tmp2mf38sb5
++ '[' 0 -ne 0 ']'
++ rm -rf /var/lib/pgsql/data /var/lib/pgsql/initdb_postgresql.log /var/lib/pgsql/test.sql
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue Nov 21 10:13:27 2023 - INFO  - End to restore the test environment.

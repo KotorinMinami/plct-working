@@ -1,0 +1,191 @@
++ source ../common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Nov 22 08:02:19 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL nispor
++ pkgs=nispor
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs nispor --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpg4j4mx3v
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpg4j4mx3v
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Wed Nov 22 08:02:48 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Nov 22 08:02:49 2023 - INFO  - Start to run test.
++ test_execution nispor.service
++ service=nispor.service
+++ date '+%Y-%m-%d %T'
++ log_time='2023-11-22 08:02:49'
++ test_restart nispor.service
++ service=nispor.service
++ systemctl restart nispor.service
++ CHECK_RESULT 0 0 0 'nispor.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nispor.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ grep 'Active: active'
++ systemctl status nispor.service
+     Active: active (running) since Wed 2023-11-22 08:02:49 CST; 5s ago
++ CHECK_RESULT 0 0 0 'nispor.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nispor.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop nispor.service
++ CHECK_RESULT 0 0 0 'nispor.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nispor.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status nispor.service
++ grep 'Active: inactive'
+     Active: inactive (dead)
++ CHECK_RESULT 0 0 0 'nispor.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nispor.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start nispor.service
++ CHECK_RESULT 0 0 0 'nispor.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nispor.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status nispor.service
++ grep 'Active: active'
+     Active: active (running) since Wed 2023-11-22 08:03:01 CST; 5s ago
++ CHECK_RESULT 0 0 0 'nispor.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='nispor.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled nispor.service
++ service=nispor.service
+++ systemctl is-enabled nispor.service
++ state=indirect
++ '[' indirect == enabled ']'
++ '[' indirect == disabled ']'
++ '[' indirect == masked ']'
++ '[' indirect == static ']'
++ LOG_INFO 'Unit is indirect, ignoring.'
++ message='Unit is indirect, ignoring.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Unit is indirect, ignoring.'
+Wed Nov 22 08:03:07 2023 - INFO  - Unit is indirect, ignoring.
++ journalctl --since '2023-11-22 08:02:49' -u nispor.service
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of nispor.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of nispor.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed Nov 22 08:03:07 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Nov 22 08:03:08 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Nov 22 08:03:08 2023 - INFO  - Start to restore the test environment.
++ systemctl stop nispor.service
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpg4j4mx3v ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpg4j4mx3v
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed Nov 22 08:03:19 2023 - INFO  - End to restore the test environment.

@@ -1,0 +1,281 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Nov 22 05:25:33 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'nodejs-clean-css tar'
++ pkgs='nodejs-clean-css tar'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'nodejs-clean-css tar' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpfdcj1pq3
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpfdcj1pq3
++ tar -xvf ./common/data.tar.gz
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Wed Nov 22 05:26:43 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Nov 22 05:26:43 2023 - INFO  - Start to run test.
++ cleancss -t 2 ./data/one.css
++ grep '.one{color:red}'
+.one{color:red}
++ CHECK_RESULT 0 0 0 'Check cleancss -t failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check cleancss -t failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cleancss --timeout 2 ./data/one.css
++ grep '.one{color:red}'
+.one{color:red}
++ CHECK_RESULT 0 0 0 'Check cleancss --timeout failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check cleancss --timeout failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cleancss --rounding-precision 2 ./data/six.css
++ grep '.six{height:20.25px;width:14.24px}'
+.six{height:20.25px;width:14.24px}
++ CHECK_RESULT 0 0 0 'Check cleancss --rounding-precision failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check cleancss --rounding-precision failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cleancss ./data/comment.css --s0
++ grep '.six{height:20.25px;width:14.24px}'
+.six{height:20.25px;width:14.24px}
++ CHECK_RESULT 0 0 0 'Check cleancss --s0 failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check cleancss --s0 failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cleancss ./data/comment.css --s1
++ grep '\/\*! this comment1 \*\/.six{height:20.25px;width:14.24px}'
+grep: warning: stray \ before /
+grep: warning: stray \ before /
+/*! this comment1 */.six{height:20.25px;width:14.24px}
++ CHECK_RESULT 0 0 0 'Check cleancss --s1 failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check cleancss --s1 failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cleancss --semantic-merging
++ echo '.a{margin:0}.b{margin:10px;padding:0}.c{margin:0}'
++ grep '.a,.c{margin:0}.b{margin:10px;padding:0}'
+.a,.c{margin:0}.b{margin:10px;padding:0}
++ CHECK_RESULT 0 0 0 'Check cleancss --semantic-merging failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check cleancss --semantic-merging failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ echo '.a{margin:0}.b{margin:10px;padding:0}.c{margin:0}'
++ cleancss --skip-advanced --semantic-merging
++ grep '.a{margin:0}.b{margin:10px;padding:0}.c{margin:0}'
+.a{margin:0}.b{margin:10px;padding:0}.c{margin:0}
++ CHECK_RESULT 0 0 0 'Check cleancss --skip-advanced failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check cleancss --skip-advanced failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cleancss --skip-aggressive-merging --semantic-merging
++ echo '.a{margin:0}.b{margin:10px;padding:0}.c{margin:0}'
++ grep '.a,.c{margin:0}.b{margin:10px;padding:0}'
+.a,.c{margin:0}.b{margin:10px;padding:0}
++ CHECK_RESULT 0 0 0 'Check cleancss --skip-aggressive-merging failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check cleancss --skip-aggressive-merging failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cleancss ./data/two.css --skip-import-from one.css
++ grep 'Ignoring local @import of "one.css"'
+WARNING: Ignoring local @import of "one.css" as after other inlined content.
++ CHECK_RESULT 0 0 0 'Check cleancss --skip-aggressive-merging failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check cleancss --skip-aggressive-merging failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cat ./data/mediatmp1.css ./data/mediatmp2.css
++ cleancss --skip-media-merging
++ grep '.mediatmp1{color:#fff}@media screen and (min-width:900px){article{padding:1rem 3rem}}.mediatmp{color:#ffa}@media screen and (min-width:900px){article{padding:1rem 3rem}}'
+.mediatmp1{color:#fff}@media screen and (min-width:900px){article{padding:1rem 3rem}}.mediatmp{color:#ffa}@media screen and (min-width:900px){article{padding:1rem 3rem}}
++ CHECK_RESULT 0 0 0 'Check cleancss --skip-media-merging failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check cleancss --skip-media-merging failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cat ./data/five.css ./data/five.css
++ cleancss --skip-rebase
++ grep '.five{background:url(data:image/jpeg;base64,/9j/)}'
+.five{background:url(data:image/jpeg;base64,/9j/)}
++ CHECK_RESULT 0 0 0 'Check cleancss --skip-rebase failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check cleancss --skip-rebase failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cleancss --skip-restructuring ./data/one.css
++ grep '.one{color:red}'
+.one{color:red}
++ CHECK_RESULT 0 0 0 'Check cleancss --skip-restructuring failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check cleancss --skip-restructuring failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cleancss --skip-shorthand-compacting ./data/one.css
++ grep '.one{color:red}'
+.one{color:red}
++ CHECK_RESULT 0 0 0 'Check cleancss --skip-shorthand-compacting failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check cleancss --skip-shorthand-compacting failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cleancss --source-map --output one.min.css ./data/one.css
++ grep '.one{color:red}\/\*# sourceMappingURL=one.min.css.map \*\/' one.min.css
+grep: warning: stray \ before /
+grep: warning: stray \ before /
+.one{color:red}/*# sourceMappingURL=one.min.css.map */
++ CHECK_RESULT 0 0 0 'Check cleancss --source-map failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check cleancss --source-map failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -f one.min.css
++ cleancss --source-map --source-map-inline-sources --output one.min.css ./data/one.css
++ grep '.one{color:red}\/\*# sourceMappingURL=one.min.css.map \*\/' one.min.css
+grep: warning: stray \ before /
+grep: warning: stray \ before /
+.one{color:red}/*# sourceMappingURL=one.min.css.map */
++ CHECK_RESULT 0 0 0 'Check cleancss --source-map-inline-sources failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check cleancss --source-map-inline-sources failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -f one.min.css
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed Nov 22 05:27:28 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Nov 22 05:27:28 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Nov 22 05:27:28 2023 - INFO  - Start to restore the test environment.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpfdcj1pq3 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpfdcj1pq3
++ '[' 0 -ne 0 ']'
++ rm -rf ./data one.min.css.map
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed Nov 22 05:27:40 2023 - INFO  - End to restore the test environment.

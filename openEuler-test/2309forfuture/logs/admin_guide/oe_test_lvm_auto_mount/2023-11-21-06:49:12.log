@@ -1,0 +1,127 @@
++ source ../common/disk_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Tue Nov 21 06:49:14 2023 - INFO  - Start environment preparation.
++ check_free_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='vdb vdc vdd vde'
++ disk_list=($disks)
++ local_disk=vdb
++ local_disk1=vdc
++ local_disk2=vdd
++ local_disk3=vde
++ pvcreate -y /dev/vdb /dev/vdc
+  Physical volume "/dev/vdb" successfully created.
+  Physical volume "/dev/vdc" successfully created.
++ vgcreate -y vg1 /dev/vdb /dev/vdc
+  Volume group "vg1" successfully created
++ lvcreate -y -L 2G -n lv1 vg1
+  Logical volume "lv1" created.
++ mkfs.ext4 /dev/vg1/lv1
+mke2fs 1.46.5 (30-Dec-2021)
+Discarding device blocks:      0/524288             done                            
+Creating filesystem with 524288 4k blocks and 131072 inodes
+Filesystem UUID: 37d8b8c4-c4eb-456e-aaf4-d9b51919e6ca
+Superblock backups stored on blocks: 
+	32768, 98304, 163840, 229376, 294912
+
+Allocating group tables:  0/16     done                            
+Writing inode tables:  0/16     done                            
+Creating journal (16384 blocks): done
+Writing superblocks and filesystem accounting information:  0/16     done
+
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Tue Nov 21 06:49:21 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase!'
++ message='Start executing testcase!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase!'
+Tue Nov 21 06:49:21 2023 - INFO  - Start executing testcase!
++ mkdir /tmp/test
++ blkid /dev/vg1/lv1
+/dev/vg1/lv1: UUID="37d8b8c4-c4eb-456e-aaf4-d9b51919e6ca" BLOCK_SIZE="4096" TYPE="ext4"
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ blkid /dev/vg1/lv1
+++ awk -F '"' '{print$2}'
++ lv_uuid=37d8b8c4-c4eb-456e-aaf4-d9b51919e6ca
++ echo 'UUID=37d8b8c4-c4eb-456e-aaf4-d9b51919e6ca /tmp/test ext4 defaults 0 0'
++ mount -a
++ grep vg1-lv1
++ lsblk
++ grep /tmp/test
+└─vg1-lv1 253:0    0    2G  0 lvm  /tmp/test
+└─vg1-lv1 253:0    0    2G  0 lvm  /tmp/test
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End of testcase execution!'
++ message='End of testcase execution!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution!'
+Tue Nov 21 06:49:22 2023 - INFO  - End of testcase execution!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Nov 21 06:49:23 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Tue Nov 21 06:49:23 2023 - INFO  - start environment cleanup.
++ umount /tmp/test
++ rm -rf /tmp/test
++ lvremove /dev/vg1/lv1 -y
+  Logical volume "lv1" successfully removed.
++ vgremove /dev/vg1
+  Volume group "vg1" successfully removed
++ pvremove /dev/vdb /dev/vdc
+  Labels on physical volume "/dev/vdb" successfully wiped.
+  Labels on physical volume "/dev/vdc" successfully wiped.
++ sed -i /37d8b8c4-c4eb-456e-aaf4-d9b51919e6ca/d /etc/fstab
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Tue Nov 21 06:49:24 2023 - INFO  - Finish environment cleanup.

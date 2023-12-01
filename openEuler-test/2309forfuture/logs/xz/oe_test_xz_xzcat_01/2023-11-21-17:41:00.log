@@ -1,0 +1,217 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Nov 21 17:41:02 2023 - INFO  - Start to prepare the test environment.
++ OLD_LANG=en_US.UTF-8
++ export LANG=en_US.UTF-8
++ LANG=en_US.UTF-8
++ DNF_INSTALL xz
++ pkgs=xz
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs xz --node 1 --tempfile ''
+Tue Nov 21 17:41:09 2023 - INFO  - pkgs:(xz) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ echo 'hello world'
++ xz -z testxz
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Nov 21 17:41:10 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 17:41:10 2023 - INFO  - Start to run test.
++ xzcat -t -vv testxz.xz
++ grep '68 B / 12 B = 5.667'
+testxz.xz: 68 B / 12 B = 5.667
++ CHECK_RESULT 0 0 0 'Test failed with option -t'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Test failed with option -t'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ xzcat -l -vv testxz.xz
++ grep Stream
+  Streams:            1
+  Stream padding:     0 B
+  Streams:
+    Stream    Blocks      CompOffset    UncompOffset        CompSize      UncompSize  Ratio  Check      Padding
+    Stream     Block      CompOffset    UncompOffset       TotalSize      UncompSize  Ratio  Check      CheckVal          Header  Flags        CompSize    MemUsage  Filters
++ CHECK_RESULT 0 0 0 'Test failed with option -l'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Test failed with option -l'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ xzcat -k -f -c -d testxz.xz
++ grep 'hello world'
+hello world
++ CHECK_RESULT 0 0 0 'Test failed with option -c'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Test failed with option -c'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ xzcat -z -k -f -e -vv testxz
++ grep depth=512
+xzcat: Filter chain: --lzma2=dict=8MiB,lc=3,lp=0,pb=2,mode=normal,nice=273,mf=bt4,depth=512
++ CHECK_RESULT 0 0 0 'Test failed with option -e'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Test failed with option -e'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ xzcat -z -k -f -T 0 -vv textxz
++ grep nice=64
+xzcat: Filter chain: --lzma2=dict=8MiB,lc=3,lp=0,pb=2,mode=normal,nice=64,mf=bt4,depth=0
++ CHECK_RESULT 0 0 0 'Test failed with option -T'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Test failed with option -T'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ xzcat -z -k -f -vv testxz
++ grep -a 'Filter chain'
+xzcat: Filter chain: --lzma2=dict=8MiB,lc=3,lp=0,pb=2,mode=normal,nice=64,mf=bt4,depth=0
++ CHECK_RESULT 0 0 0 'Test failed with option -vv'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Test failed with option -vv'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ xzcat -z -k -f -v testxz
++ grep -a 'Filter chain'
++ CHECK_RESULT 1 1 0 'Test failed with option -v'
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log='Test failed with option -v'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ xzcat -k -f --info-memory testxz
++ grep -a 'Memory usage limit'
+Memory usage limit for compression:     Disabled
+Memory usage limit for decompression:   Disabled
++ CHECK_RESULT 0 0 0 'Test failed with option --info-memory'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Test failed with option --info-memory'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ xzcat -h
++ grep -a -i 'Usage: xzcat'
+Usage: xzcat [OPTION]... [FILE]...
++ CHECK_RESULT 0 0 0 'Test failed with option -h'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Test failed with option -h'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ xzcat -H
++ grep -a -i -A 10 'Usage: xzcat'
++ grep -a 'long options '
+Mandatory arguments to long options are mandatory for short options too.
++ CHECK_RESULT 0 0 0 'Test failed with option -H'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Test failed with option -H'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Nov 21 17:41:11 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Nov 21 17:41:11 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Nov 21 17:41:12 2023 - INFO  - Start to restore the test environment.
++ export LANG=en_US.UTF-8
++ LANG=en_US.UTF-8
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Tue Nov 21 17:41:12 2023 - WARN  - no thing to do.
++ return 0
++ rm -rf testxz testxz.xz testlog
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue Nov 21 17:41:13 2023 - INFO  - End to restore the test environment.

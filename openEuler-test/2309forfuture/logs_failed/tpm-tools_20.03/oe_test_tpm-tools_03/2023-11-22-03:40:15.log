@@ -1,0 +1,832 @@
++ source ../common/common_tpm-tools.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Nov 22 03:40:17 2023 - INFO  - Start to prepare the test environment.
++ deploy_env
++ DNF_INSTALL 'tpm-tools trousers cmake make gcc-c++ gmp-devel'
++ pkgs='tpm-tools trousers cmake make gcc-c++ gmp-devel'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'tpm-tools trousers cmake make gcc-c++ gmp-devel' --node 1 --tempfile ''
+Wed Nov 22 03:40:23 2023 - INFO  - pkgs:(tpm-tools trousers cmake make gcc-c++ gmp-devel) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ wget https://github.com/PeterHuewe/tpm-emulator/archive/v0.7.5.zip
+--2023-11-22 03:40:23--  https://github.com/PeterHuewe/tpm-emulator/archive/v0.7.5.zip
+Resolving github.com (github.com)... 20.205.243.166
+Connecting to github.com (github.com)|20.205.243.166|:443... connected.
+HTTP request sent, awaiting response... Read error (The TLS connection was non-properly terminated.) in headers.
+Retrying.
+
+--2023-11-22 03:42:25--  (try: 2)  https://github.com/PeterHuewe/tpm-emulator/archive/v0.7.5.zip
+Connecting to github.com (github.com)|20.205.243.166|:443... connected.
+HTTP request sent, awaiting response... Read error (The TLS connection was non-properly terminated.) in headers.
+Retrying.
+
+--2023-11-22 03:45:03--  (try: 3)  https://github.com/PeterHuewe/tpm-emulator/archive/v0.7.5.zip
+Connecting to github.com (github.com)|20.205.243.166|:443... connected.
+HTTP request sent, awaiting response... Read error (The TLS connection was non-properly terminated.) in headers.
+Retrying.
+
+--2023-11-22 03:48:15--  (try: 4)  https://github.com/PeterHuewe/tpm-emulator/archive/v0.7.5.zip
+Connecting to github.com (github.com)|20.205.243.166|:443... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: https://codeload.github.com/PeterHuewe/tpm-emulator/zip/refs/tags/v0.7.5 [following]
+--2023-11-22 03:48:16--  https://codeload.github.com/PeterHuewe/tpm-emulator/zip/refs/tags/v0.7.5
+Resolving codeload.github.com (codeload.github.com)... 20.205.243.165
+Connecting to codeload.github.com (codeload.github.com)|20.205.243.165|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [application/zip]
+Saving to: ‘v0.7.5.zip’
+
+     0K .......... .......... .......... .......... ..........  253K
+    50K .......... .......... .......... .......... ..........  519K
+   100K .......... .......... .......... .......... .......... 4.86M
+   150K .......... .......... .......... .......... ..........  549K
+   200K .......... .......... .......... .......... .......... 6.32M
+   250K .......... .......... .......... .                     6.50M=0.4s
+
+2023-11-22 03:48:17 (690 KB/s) - ‘v0.7.5.zip’ saved [288132]
+
++ unzip v0.7.5.zip
+Archive:  v0.7.5.zip
+ff993d1f3c1435f7306eb759e6ff176f72da2b21
+   creating: tpm-emulator-0.7.5/
+ extracting: tpm-emulator-0.7.5/.gitignore  
+  inflating: tpm-emulator-0.7.5/.travis.yml  
+  inflating: tpm-emulator-0.7.5/AUTHORS  
+  inflating: tpm-emulator-0.7.5/CMakeLists.txt  
+  inflating: tpm-emulator-0.7.5/ChangeLog  
+  inflating: tpm-emulator-0.7.5/LICENSE  
+  inflating: tpm-emulator-0.7.5/README  
+  inflating: tpm-emulator-0.7.5/build.bat  
+  inflating: tpm-emulator-0.7.5/build.sh  
+  inflating: tpm-emulator-0.7.5/config.h.in  
+   creating: tpm-emulator-0.7.5/crypto/
+  inflating: tpm-emulator-0.7.5/crypto/CMakeLists.txt  
+  inflating: tpm-emulator-0.7.5/crypto/bn.h  
+  inflating: tpm-emulator-0.7.5/crypto/bn_gmp.c  
+  inflating: tpm-emulator-0.7.5/crypto/bn_openssl.c  
+  inflating: tpm-emulator-0.7.5/crypto/hmac.c  
+  inflating: tpm-emulator-0.7.5/crypto/hmac.h  
+  inflating: tpm-emulator-0.7.5/crypto/rc4.c  
+  inflating: tpm-emulator-0.7.5/crypto/rc4.h  
+  inflating: tpm-emulator-0.7.5/crypto/rsa.c  
+  inflating: tpm-emulator-0.7.5/crypto/rsa.h  
+  inflating: tpm-emulator-0.7.5/crypto/sha1.c  
+  inflating: tpm-emulator-0.7.5/crypto/sha1.h  
+   creating: tpm-emulator-0.7.5/mtm/
+  inflating: tpm-emulator-0.7.5/mtm/CMakeLists.txt  
+  inflating: tpm-emulator-0.7.5/mtm/mtm_capability.c  
+  inflating: tpm-emulator-0.7.5/mtm/mtm_cmd_handler.c  
+  inflating: tpm-emulator-0.7.5/mtm/mtm_commands.h  
+  inflating: tpm-emulator-0.7.5/mtm/mtm_counter.c  
+  inflating: tpm-emulator-0.7.5/mtm/mtm_data.c  
+  inflating: tpm-emulator-0.7.5/mtm/mtm_data.h  
+  inflating: tpm-emulator-0.7.5/mtm/mtm_eviction.c  
+  inflating: tpm-emulator-0.7.5/mtm/mtm_handles.c  
+  inflating: tpm-emulator-0.7.5/mtm/mtm_handles.h  
+  inflating: tpm-emulator-0.7.5/mtm/mtm_integrity.c  
+  inflating: tpm-emulator-0.7.5/mtm/mtm_marshalling.c  
+  inflating: tpm-emulator-0.7.5/mtm/mtm_marshalling.h  
+  inflating: tpm-emulator-0.7.5/mtm/mtm_structures.h  
+  inflating: tpm-emulator-0.7.5/mtm/mtm_verification.c  
+   creating: tpm-emulator-0.7.5/tddl/
+  inflating: tpm-emulator-0.7.5/tddl/CMakeLists.txt  
+  inflating: tpm-emulator-0.7.5/tddl/tddl-tpm-emulator.h  
+  inflating: tpm-emulator-0.7.5/tddl/tddl.c  
+  inflating: tpm-emulator-0.7.5/tddl/tddl_unix.h  
+  inflating: tpm-emulator-0.7.5/tddl/tddl_windows.h  
+  inflating: tpm-emulator-0.7.5/tddl/test_tddl.c  
+   creating: tpm-emulator-0.7.5/tpm/
+  inflating: tpm-emulator-0.7.5/tpm/CMakeLists.txt  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_audit.c  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_authorization.c  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_capability.c  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_cmd_handler.c  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_commands.h  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_context.c  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_counter.c  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_credentials.c  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_crypto.c  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_daa.c  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_data.c  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_data.h  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_delegation.c  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_deprecated.c  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_emulator.h  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_emulator_extern.c  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_emulator_extern.h  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_error.c  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_eviction.c  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_handles.c  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_handles.h  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_identity.c  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_integrity.c  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_maintenance.c  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_management.c  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_marshalling.c  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_marshalling.h  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_migration.c  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_nv_storage.c  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_owner.c  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_startup.c  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_storage.c  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_structures.h  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_testing.c  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_ticks.c  
+  inflating: tpm-emulator-0.7.5/tpm/tpm_transport.c  
+   creating: tpm-emulator-0.7.5/tpmd/
+  inflating: tpm-emulator-0.7.5/tpmd/CMakeLists.txt  
+   creating: tpm-emulator-0.7.5/tpmd/unix/
+  inflating: tpm-emulator-0.7.5/tpmd/unix/CMakeLists.txt  
+  inflating: tpm-emulator-0.7.5/tpmd/unix/tpmd.c  
+   creating: tpm-emulator-0.7.5/tpmd/windows/
+  inflating: tpm-emulator-0.7.5/tpmd/windows/CMakeLists.txt  
+  inflating: tpm-emulator-0.7.5/tpmd/windows/control_tpmd.bat  
+  inflating: tpm-emulator-0.7.5/tpmd/windows/tpmd.c  
+   creating: tpm-emulator-0.7.5/tpmd_dev/
+  inflating: tpm-emulator-0.7.5/tpmd_dev/CMakeLists.txt  
+   creating: tpm-emulator-0.7.5/tpmd_dev/darwin/
+   creating: tpm-emulator-0.7.5/tpmd_dev/darwin/English.lproj/
+  inflating: tpm-emulator-0.7.5/tpmd_dev/darwin/English.lproj/InfoPlist.strings  
+  inflating: tpm-emulator-0.7.5/tpmd_dev/darwin/Info.plist  
+  inflating: tpm-emulator-0.7.5/tpmd_dev/darwin/Makefile  
+  inflating: tpm-emulator-0.7.5/tpmd_dev/darwin/tpm_bridge.c  
+   creating: tpm-emulator-0.7.5/tpmd_dev/darwin/tpm_bridge.xcodeproj/
+  inflating: tpm-emulator-0.7.5/tpmd_dev/darwin/tpm_bridge.xcodeproj/TemplateIcon.tiff  
+  inflating: tpm-emulator-0.7.5/tpmd_dev/darwin/tpm_bridge.xcodeproj/project.pbxproj  
+   creating: tpm-emulator-0.7.5/tpmd_dev/darwin/tpm_bridge.xcodeproj/project.xcworkspace/
+  inflating: tpm-emulator-0.7.5/tpmd_dev/darwin/tpm_bridge.xcodeproj/project.xcworkspace/contents.xcworkspacedata  
+   creating: tpm-emulator-0.7.5/tpmd_dev/darwin/tpm_bridge.xcodeproj/project.xcworkspace/xcuserdata/
+   creating: tpm-emulator-0.7.5/tpmd_dev/darwin/tpm_bridge.xcodeproj/project.xcworkspace/xcuserdata/admin.xcuserdatad/
+  inflating: tpm-emulator-0.7.5/tpmd_dev/darwin/tpm_bridge.xcodeproj/project.xcworkspace/xcuserdata/admin.xcuserdatad/UserInterfaceState.xcuserstate  
+  inflating: tpm-emulator-0.7.5/tpmd_dev/darwin/tpm_bridge.xcodeproj/project.xcworkspace/xcuserdata/admin.xcuserdatad/WorkspaceSettings.xcsettings  
+   creating: tpm-emulator-0.7.5/tpmd_dev/darwin/tpm_bridge.xcodeproj/xcuserdata/
+   creating: tpm-emulator-0.7.5/tpmd_dev/darwin/tpm_bridge.xcodeproj/xcuserdata/admin.xcuserdatad/
+   creating: tpm-emulator-0.7.5/tpmd_dev/darwin/tpm_bridge.xcodeproj/xcuserdata/admin.xcuserdatad/xcschemes/
+  inflating: tpm-emulator-0.7.5/tpmd_dev/darwin/tpm_bridge.xcodeproj/xcuserdata/admin.xcuserdatad/xcschemes/tpm_bridge.xcscheme  
+  inflating: tpm-emulator-0.7.5/tpmd_dev/darwin/tpm_bridge.xcodeproj/xcuserdata/admin.xcuserdatad/xcschemes/xcschememanagement.plist  
+   creating: tpm-emulator-0.7.5/tpmd_dev/linux/
+  inflating: tpm-emulator-0.7.5/tpmd_dev/linux/Makefile  
+  inflating: tpm-emulator-0.7.5/tpmd_dev/linux/tpmd_dev.c  
+  inflating: tpm-emulator-0.7.5/tpmd_dev/linux/tpmd_dev.rules.in  
+   creating: tpm-emulator-0.7.5/tpmd_dev/openbsd/
+  inflating: tpm-emulator-0.7.5/tpmd_dev/openbsd/Makefile  
+  inflating: tpm-emulator-0.7.5/tpmd_dev/openbsd/tpmd_dev.c  
+  inflating: tpm-emulator-0.7.5/tpmd_dev/openbsd/tpmd_dev.h  
++ test -d tpm-emulator-0.7.5
++ cd tpm-emulator-0.7.5
++ '[' riscv64x == aarch64x ']'
++ sed -i 's/$(shell uname -m)/x86/g' tpmd_dev/linux/Makefile
++ sed -i 's/-Wall -Werror/-Wall -Wno-error/g' tpmd_dev/linux/Makefile
++ mkdir build
++ cd build
++ cmake ..
+-- The C compiler identification is GNU 10.3.1
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+CMake Deprecation Warning at CMakeLists.txt:8 (cmake_minimum_required):
+  Compatibility with CMake < 2.8.12 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value or use a ...<max> suffix to tell
+  CMake that the project does not need compatibility with older versions.
+
+
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /root/mugen/testcases/cli-test/tpm-tools/oe_test_tpm-tools_03/tpm-emulator-0.7.5/build
++ make
+[  2%] Building C object tpm/CMakeFiles/tpm.dir/tpm_audit.o
+[  4%] Building C object tpm/CMakeFiles/tpm.dir/tpm_authorization.o
+[  6%] Building C object tpm/CMakeFiles/tpm.dir/tpm_capability.o
+[  8%] Building C object tpm/CMakeFiles/tpm.dir/tpm_cmd_handler.o
+[ 11%] Building C object tpm/CMakeFiles/tpm.dir/tpm_context.o
+[ 13%] Building C object tpm/CMakeFiles/tpm.dir/tpm_counter.o
+[ 15%] Building C object tpm/CMakeFiles/tpm.dir/tpm_credentials.o
+[ 17%] Building C object tpm/CMakeFiles/tpm.dir/tpm_crypto.o
+[ 20%] Building C object tpm/CMakeFiles/tpm.dir/tpm_daa.o
+[ 22%] Building C object tpm/CMakeFiles/tpm.dir/tpm_data.o
+[ 24%] Building C object tpm/CMakeFiles/tpm.dir/tpm_delegation.o
+[ 26%] Building C object tpm/CMakeFiles/tpm.dir/tpm_deprecated.o
+[ 28%] Building C object tpm/CMakeFiles/tpm.dir/tpm_emulator_extern.o
+[ 31%] Building C object tpm/CMakeFiles/tpm.dir/tpm_error.o
+[ 33%] Building C object tpm/CMakeFiles/tpm.dir/tpm_eviction.o
+[ 35%] Building C object tpm/CMakeFiles/tpm.dir/tpm_handles.o
+[ 37%] Building C object tpm/CMakeFiles/tpm.dir/tpm_identity.o
+[ 40%] Building C object tpm/CMakeFiles/tpm.dir/tpm_integrity.o
+[ 42%] Building C object tpm/CMakeFiles/tpm.dir/tpm_maintenance.o
+[ 44%] Building C object tpm/CMakeFiles/tpm.dir/tpm_management.o
+[ 46%] Building C object tpm/CMakeFiles/tpm.dir/tpm_marshalling.o
+[ 48%] Building C object tpm/CMakeFiles/tpm.dir/tpm_migration.o
+[ 51%] Building C object tpm/CMakeFiles/tpm.dir/tpm_nv_storage.o
+[ 53%] Building C object tpm/CMakeFiles/tpm.dir/tpm_owner.o
+[ 55%] Building C object tpm/CMakeFiles/tpm.dir/tpm_startup.o
+[ 57%] Building C object tpm/CMakeFiles/tpm.dir/tpm_storage.o
+[ 60%] Building C object tpm/CMakeFiles/tpm.dir/tpm_testing.o
+[ 62%] Building C object tpm/CMakeFiles/tpm.dir/tpm_ticks.o
+[ 64%] Building C object tpm/CMakeFiles/tpm.dir/tpm_transport.o
+[ 66%] Linking C static library libtpm.a
+[ 66%] Built target tpm
+[ 68%] Building C object crypto/CMakeFiles/tpm_crypto.dir/hmac.o
+[ 71%] Building C object crypto/CMakeFiles/tpm_crypto.dir/rc4.o
+[ 73%] Building C object crypto/CMakeFiles/tpm_crypto.dir/rsa.o
+[ 75%] Building C object crypto/CMakeFiles/tpm_crypto.dir/sha1.o
+[ 77%] Building C object crypto/CMakeFiles/tpm_crypto.dir/bn_gmp.o
+[ 80%] Linking C static library libtpm_crypto.a
+[ 80%] Built target tpm_crypto
+[ 82%] Building C object tddl/CMakeFiles/tddl-tpm-emulator.dir/tddl.o
+[ 84%] Linking C shared library libtddl-tpm-emulator.so
+[ 84%] Built target tddl-tpm-emulator
+[ 86%] Building C object tddl/CMakeFiles/tddl-tpm-emulator_static.dir/tddl.o
+[ 88%] Linking C static library libtddl-tpm-emulator.a
+[ 88%] Built target tddl-tpm-emulator_static
+[ 91%] Building C object tddl/CMakeFiles/test_tddl.dir/test_tddl.o
+[ 93%] Linking C executable test_tddl
+[ 93%] Built target test_tddl
+[ 95%] Generating linux/tpmd_dev.ko
+make[4]: *** /lib/modules/6.1.19-2.oe2303.riscv64/build: No such file or directory.  Stop.
+make[3]: *** [Makefile:22: all] Error 2
+make[2]: *** [tpmd_dev/CMakeFiles/tpmd_dev.dir/build.make:77: tpmd_dev/linux/tpmd_dev.ko] Error 2
+make[1]: *** [CMakeFiles/Makefile2:319: tpmd_dev/CMakeFiles/tpmd_dev.dir/all] Error 2
+make: *** [Makefile:156: all] Error 2
++ tpmd deactivated
+../common/common_tpm-tools.sh: line 35: tpmd: command not found
++ tpmd clear
+../common/common_tpm-tools.sh: line 36: tpmd: command not found
++ modprobe tpmd_dev
+modprobe: FATAL: Module tpmd_dev not found in directory /lib/modules/6.1.19-2.oe2303.riscv64
++ SLEEP_WAIT 10
++ wait_time=10
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 10 --cmd '' --mode 1
++ nohup tpmd -d -f clear
+++ pgrep -f 'tpmd -d'
++ '[' -z '' ']'
++ rm -rf /var/run/tpm/tpmd_socket:0
++ SLEEP_WAIT 10
++ wait_time=10
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 10 --cmd '' --mode 1
++ nohup tpmd -d -f clear
++ pgrep -f 'tpmd -d'
+++ pgrep -f 'tcsd -e'
++ '[' -n '' ']'
++ SLEEP_WAIT 10
++ wait_time=10
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 10 --cmd '' --mode 1
++ nohup tcsd -e -f
++ pgrep -f 'tcsd -e'
++ tpm_version
++ grep -i '[0-9a-z]'
+Tspi_Context_Connect failed: 0x00003011 - layer=tsp, code=0011 (17), Communication failure
++ tpm_getpubek
++ grep -i '[0-9a-z\!():,_]'
+Tspi_Context_Connect failed: 0x00003011 - layer=tsp, code=0011 (17), Communication failure
++ LOG_INFO 'Finish preparing the test environment.'
++ message='Finish preparing the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish preparing the test environment.'
+Wed Nov 22 03:49:33 2023 - INFO  - Finish preparing the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Nov 22 03:49:34 2023 - INFO  - Start to run test.
++ expect
+spawn tpm_takeownership
+Enter owner password: 
+Confirm password: 
+Enter SRK password: 
+Confirm password: 
+Tspi_Context_Connect failed: 0x00003011 - layer=tsp, code=0011 (17), Communication failure
++ tpm_restrictsrk --help
++ grep -E 'Usage: tpm_restrictsrk|-'
+Usage: tpm_restrictsrk [options]
+	-h, --help
+	-v, --version
+	-l, --log [none|error|info|debug]
+	-u, --unicode
+	-a, --allow
+	-s, --status
+	-r, --restrict
+	-z, --well-known
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ tpm_restrictsrk --version
++ grep -E 'tpm_restrictsrk version:|[0-9]'
+tpm_restrictsrk version: 1.3.9
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect
+spawn tpm_restrictsrk --log debug
+Tspi_Context_Create success
+Tspi_Context_Connect failed: 0x00003011 - layer=tsp, code=0011 (17), Communication failure
+Tspi_Context_FreeMemory success
+Tspi_Context_Close success
+expect: spawn id exp4 not open
+    while executing
+"expect eof"
++ grep -E 'success|tpm_restrictsrk succeeded' log_restrictsrk1
+Tspi_Context_Create success
+Tspi_Context_FreeMemory success
+Tspi_Context_Close success
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect
+spawn tpm_restrictsrk --log debug -a
+Changing mode to allow SRK access using SRK auth
+Tspi_Context_Create success
+Tspi_Context_Connect failed: 0x00003011 - layer=tsp, code=0011 (17), Communication failure
+Tspi_Context_FreeMemory success
+Tspi_Context_Close success
+expect: spawn id exp4 not open
+    while executing
+"expect eof"
++ grep -E 'success|tpm_restrictsrk succeeded' log_restrictsrk2
+Tspi_Context_Create success
+Tspi_Context_FreeMemory success
+Tspi_Context_Close success
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect
+spawn tpm_restrictsrk -s
+Tspi_Context_Connect failed: 0x00003011 - layer=tsp, code=0011 (17), Communication failure
+expect: spawn id exp4 not open
+    while executing
+"expect eof"
++ grep -E 'Storage Root Key readable with: SRK auth' log_restrictsrk3
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_tpm-tools_03.sh line 65'
++ message='oe_test_tpm-tools_03.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_tpm-tools_03.sh line 65'
+Wed Nov 22 03:49:35 2023 - ERROR - oe_test_tpm-tools_03.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ expect
+spawn tpm_restrictsrk --log debug -r
+Changing mode to restrist SRK access
+Tspi_Context_Create success
+Tspi_Context_Connect failed: 0x00003011 - layer=tsp, code=0011 (17), Communication failure
+Tspi_Context_FreeMemory success
+Tspi_Context_Close success
+expect: spawn id exp4 not open
+    while executing
+"expect eof"
++ grep -E 'success|tpm_restrictsrk succeeded' log_restrictsrk4
+Tspi_Context_Create success
+Tspi_Context_FreeMemory success
+Tspi_Context_Close success
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ tpm_revokeek --help
++ grep -E 'Usage: tpm_revokeek|-'
+Usage: tpm_revokeek [options]
+	-h, --help
+	-v, --version
+	-l, --log [none|error|info|debug]
+	-i, --infile FILE
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ tpm_revokeek --version
++ grep -E 'tpm_revokeek version:|[0-9]'
+tpm_revokeek version: 1.3.9
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ tpm_selftest --help
++ grep -E 'Usage: tpm_selftest|-'
+Usage: tpm_selftest [options]
+	-h, --help
+	-v, --version
+	-l, --log [none|error|info|debug]
+	-r, --results
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ tpm_selftest --version
++ grep -E 'tpm_selftest version:|[0-9]'
+tpm_selftest version: 1.3.9
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ tpm_selftest -l debug
++ grep -E 'success|tpm_selftest succeeded'
+Tspi_Context_Connect failed: 0x00003011 - layer=tsp, code=0011 (17), Communication failure
+Tspi_Context_Create success
+Tspi_Context_FreeMemory success
+Tspi_Context_Close success
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ tpm_selftest -r
++ grep 'TPM Test Results:'
+Tspi_Context_Connect failed: 0x00003011 - layer=tsp, code=0011 (17), Communication failure
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_tpm-tools_03.sh line 87'
++ message='oe_test_tpm-tools_03.sh line 87'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_tpm-tools_03.sh line 87'
+Wed Nov 22 03:49:36 2023 - ERROR - oe_test_tpm-tools_03.sh line 87
++ '[' 0 -eq 1 ']'
++ return 0
++ tpm_setpresence --help
++ grep -E 'Usage: tpm_setpresence|-'
+Usage: tpm_setpresence [options]
+	-h, --help
+	-v, --version
+	-l, --log [none|error|info|debug]
+	-u, --unicode
+	-s, --status
+	-a, --assert
+	-c, --clear
+	--lock
+	--enable-cmd
+	--disable-cmd
+	--enable-hw
+	--disable-hw
+	--set-lifetime-lock
+	-y, --yes
+	-z, --well-known
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ tpm_setpresence --version
++ grep -E 'tpm_setpresence version:|[0-9]'
+tpm_setpresence version: 1.3.9
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect
+spawn tpm_setpresence --log debug
+Tspi_Context_Create success
+Tspi_Context_Connect failed: 0x00003011 - layer=tsp, code=0011 (17), Communication failure
+Tspi_Context_FreeMemory success
+Tspi_Context_Close success
+expect: spawn id exp4 not open
+    while executing
+"expect eof"
++ grep -E 'success|tpm_setpresence succeeded' log_setpresence1
+Tspi_Context_Create success
+Tspi_Context_FreeMemory success
+Tspi_Context_Close success
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect
+spawn tpm_setpresence -s
+Tspi_Context_Connect failed: 0x00003011 - layer=tsp, code=0011 (17), Communication failure
+expect: spawn id exp4 not open
+    while executing
+"expect eof"
++ grep -E 'Physical Presence Status|:' log_setpresence2
+Tspi_Context_Connect failed: 0x00003011 - layer=tsp, code=0011 (17), Communication failure
+expect: spawn id exp4 not open
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ tpm_setoperatorauth --help
++ grep -E 'Usage: tpm_setoperatorauth|-'
+Usage: tpm_setoperatorauth [options]
+	-h, --help
+	-v, --version
+	-l, --log [none|error|info|debug]
+	-u, --unicode
+	-z, --well-known
+	-p, --op_password_unicode
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ tpm_setoperatorauth --version
++ grep -E 'tpm_setoperatorauth version:|[0-9]'
+tpm_setoperatorauth version: 1.3.9
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect
+spawn tpm_setoperatorauth -l debug
+Tspi_Context_Create success
+Tspi_Context_Connect failed: 0x00003011 - layer=tsp, code=0011 (17), Communication failure
+Tspi_Context_FreeMemory success
+Tspi_Context_Close success
+expect: spawn id exp4 not open
+    while executing
+"expect "Confirm password:" {send "123456\r"}"
++ grep success log_setoperatorauth1
+Tspi_Context_Create success
+Tspi_Context_FreeMemory success
+Tspi_Context_Close success
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect
+spawn tpm_setoperatorauth -u
+Tspi_Context_Connect failed: 0x00003011 - layer=tsp, code=0011 (17), Communication failure
+expect: spawn id exp4 not open
+    while executing
+"expect "Confirm password:" {send "123456\r"}"
++ grep -E 'Enter operator password|Confirm password' log_setoperatorauth2
+"expect "Confirm password:" {send "123456\r"}"
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ tpm_setoperatorauth -z
+Tspi_Context_Connect failed: 0x00003011 - layer=tsp, code=0011 (17), Communication failure
++ CHECK_RESULT 255
++ actual_result=255
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 255 ']'
++ '[' 0 -eq 0 ']'
++ test 255x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_tpm-tools_03.sh line 133'
++ message='oe_test_tpm-tools_03.sh line 133'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_tpm-tools_03.sh line 133'
+Wed Nov 22 03:49:37 2023 - ERROR - oe_test_tpm-tools_03.sh line 133
++ '[' 0 -eq 1 ']'
++ return 0
++ tpm_setoperatorauth -l debug -z
+Tspi_Context_Connect failed: 0x00003011 - layer=tsp, code=0011 (17), Communication failure
++ CHECK_RESULT 255
++ actual_result=255
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 255 ']'
++ '[' 0 -eq 0 ']'
++ test 255x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_tpm-tools_03.sh line 135'
++ message='oe_test_tpm-tools_03.sh line 135'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_tpm-tools_03.sh line 135'
+Wed Nov 22 03:49:38 2023 - ERROR - oe_test_tpm-tools_03.sh line 135
++ '[' 0 -eq 1 ']'
++ return 0
++ grep success runlog
+Tspi_Context_Create success
+Tspi_Context_FreeMemory success
+Tspi_Context_Close success
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect
+spawn tpm_setoperatorauth -p
+Tspi_Context_Connect failed: 0x00003011 - layer=tsp, code=0011 (17), Communication failure
+expect: spawn id exp4 not open
+    while executing
+"expect "Confirm password:" {send "123456\r"}"
++ grep -E 'Enter operator password|Confirm password' log_setoperatorauth3
+"expect "Confirm password:" {send "123456\r"}"
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Wed Nov 22 03:49:38 2023 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 4
++ test 4 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Wed Nov 22 03:49:39 2023 - ERROR - failed to execute the case.
++ exit 4
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Nov 22 03:49:39 2023 - INFO  - Start to restore the test environment.
++ clear_env
+++ pgrep -f 'tpmd -d'
++ kill -9
+kill: usage: kill [-s sigspec | -n signum | -sigspec] pid | jobspec ... or kill -l [sigspec]
+++ pgrep -f 'tcsd -e'
++ kill -9
+kill: usage: kill [-s sigspec | -n signum | -sigspec] pid | jobspec ... or kill -l [sigspec]
++++ dirname oe_test_tpm-tools_03.sh
+++ cd .
+++ pwd
++ currentDir=/root/mugen/testcases/cli-test/tpm-tools/oe_test_tpm-tools_03/tpm-emulator-0.7.5/build
+++ echo /root/mugen/testcases/cli-test/tpm-tools/oe_test_tpm-tools_03/tpm-emulator-0.7.5/build
+++ awk -F / '{print $NF}'
++ currentName=build
++ test buildx = buildx
++ cd ../../
+++ ls
+++ grep -v .sh
++ rm -rf tpm-emulator-0.7.5 v0.7.5.zip
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Wed Nov 22 03:49:40 2023 - WARN  - no thing to do.
++ return 0
++ LOG_INFO 'Finish restoring the test environment.'
++ message='Finish restoring the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish restoring the test environment.'
+Wed Nov 22 03:49:41 2023 - INFO  - Finish restoring the test environment.

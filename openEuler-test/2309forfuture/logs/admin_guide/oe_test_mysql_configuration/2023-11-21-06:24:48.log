@@ -1,0 +1,151 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ source ../common/mysql_pre.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Tue Nov 21 06:24:50 2023 - INFO  - Start environment preparation.
++ yum list
++ grep 'mysql.*-server'
+mysql-server.riscv64                                    8.0.30-2.oe2303                                   mainline     
++ '[' 0 -eq 0 ']'
++ rm -rf '/var/lib/mysql/*'
+++ yum list
+++ grep 'mysql.*-server'
+++ awk -F ' ' '{print $1}'
++ pkgs=mysql-server.riscv64
++ DNF_INSTALL mysql-server.riscv64
++ pkgs=mysql-server.riscv64
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs mysql-server.riscv64 --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp8a_b7nwz
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp8a_b7nwz
++ systemctl start mysqld
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Tue Nov 21 06:27:53 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Tue Nov 21 06:27:54 2023 - INFO  - Start executing testcase.
++ expect -c '
+    set timeout 10
+    log_file testlog
+    spawn mysql -u root -p
+    expect {
+        "Enter*" { send "\r";
+        expect "mysql>" { send "alter user '\''root'\''@'\''localhost'\'' identified by '\''openEuler12#$'\'';\r"}
+        expect "mysql>" { send "create user '\''root'\''@'\''%'\'' identified by '\''123456'\'';\r"}
+        expect "mysql>" { send "grant all privileges on *.* to '\''root'\''@'\''%'\'';\r"}
+        expect "mysql>" { send "flush privileges;\r"}
+        expect "mysql>" { send "exit\r"}
+}
+}
+expect eof
+'
+spawn mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.30 Source distribution
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+No entry for terminal type "unknown";
+using dumb terminal settings.
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> alter user 'root'@'localhost' identified by 'openEuler12#$';
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> create user 'root'@'%' identified by '123456';
+Query OK, 0 rows affected (0.13 sec)
+
+mysql> grant all privileges on *.* to 'root'@'%';
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> flush privileges;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> exit
+Bye
++ grep -iE 'error|fail|while executing' testlog
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
+++ grep -ic 'Query OK' testlog
++ CHECK_RESULT 4 4
++ actual_result=4
++ expect_result=4
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 4 ']'
++ '[' 0 -eq 0 ']'
++ test 4x '!=' 4x
++ return 0
++ LOG_INFO 'End of testcase execution.'
++ message='End of testcase execution.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution.'
+Tue Nov 21 06:27:55 2023 - INFO  - End of testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Nov 21 06:27:55 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Tue Nov 21 06:27:56 2023 - INFO  - start environment cleanup.
++ rm -rf testlog
++ test -z
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp8a_b7nwz ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp8a_b7nwz
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Tue Nov 21 06:28:12 2023 - INFO  - Finish environment cleanup.

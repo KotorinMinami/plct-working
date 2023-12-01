@@ -1,0 +1,141 @@
++ source ../common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ source ./common/common.sh
+++ $'\r'
+./common/common.sh: line 2: $'\r': command not found
+++ $'\r'
+./common/common.sh: line 11: $'\r': command not found
+++ source $'/root/mugen/libs/locallibs/common_lib.sh\r'
+./common/common.sh: line 19: /root/mugen/libs/locallibs/common_lib.sh: No such file or directory
+++ $'\r'
+./common/common.sh: line 20: $'\r': command not found
+./common/common.sh: line 21: syntax error near unexpected token `$'{\r''
+./common/common.sh: line 21: `function check_free_disk() {'
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Nov 22 03:57:21 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL mdadm
++ pkgs=mdadm
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs mdadm --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpl7tbkil7
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpl7tbkil7
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='vdb vdc'
++ disk_list='vdb vdc'
++ disk1='vdb vdc'
++ disk2=
++ echo y
++ mdadm -C /dev/md0 -l1 -n2 '/dev/vdb vdc' /dev/
+mdadm: cannot open /dev/vdb vdc: No such file or directory
++ systemctl enable mdmonitor-oneshot.timer
+Created symlink /etc/systemd/system/mdmonitor.service.wants/mdmonitor-oneshot.timer → /usr/lib/systemd/system/mdmonitor-oneshot.timer.
++ systemctl start mdmonitor-oneshot.timer
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Wed Nov 22 03:58:02 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Nov 22 03:58:03 2023 - INFO  - Start to run test.
++ test_oneshot mdmonitor-oneshot.service
++ service=mdmonitor-oneshot.service
++ status=
++ systemctl status mdmonitor-oneshot.service
++ grep Active
++ grep -v ''
++ CHECK_RESULT 1 0 1 'There is an error for the status of mdmonitor-oneshot.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error for the status of mdmonitor-oneshot.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_enabled mdmonitor-oneshot.service
++ service=mdmonitor-oneshot.service
+++ systemctl is-enabled mdmonitor-oneshot.service
++ state=static
++ '[' static == enabled ']'
++ '[' static == disabled ']'
++ '[' static == masked ']'
++ '[' static == static ']'
++ LOG_INFO 'The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
++ message='The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
+Wed Nov 22 03:58:03 2023 - INFO  - The unit files have no installation config,This means they are not meant to be enabled using systemctl.
++ journalctl -u mdmonitor-oneshot.service
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of mdmonitor-oneshot.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of mdmonitor-oneshot.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed Nov 22 03:58:04 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Nov 22 03:58:04 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Nov 22 03:58:05 2023 - INFO  - Start to restore the test environment.
++ systemctl stop mdmonitor-oneshot.timer
++ systemctl stop mdmonitor-oneshot.service
++ mdadm -S md0
+mdadm: error opening md0: No such file or directory
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpl7tbkil7 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpl7tbkil7
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed Nov 22 03:58:17 2023 - INFO  - End to restore the test environment.

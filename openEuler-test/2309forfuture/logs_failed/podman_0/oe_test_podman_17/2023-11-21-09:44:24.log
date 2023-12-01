@@ -1,0 +1,286 @@
++ source ../common/common_podman.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Nov 21 09:44:26 2023 - INFO  - Start to prepare the test environment.
++ deploy_env
++ DNF_INSTALL 'podman podman-docker'
++ pkgs='podman podman-docker'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'podman podman-docker' --node 1 --tempfile ''
+Tue Nov 21 09:44:32 2023 - INFO  - pkgs:(podman podman-docker) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ echo -e '[registries.search]
+registries = ['\''docker.io'\'']
+
+[registries.insecure]
+registries = []
+
+[registries.block]
+registries = []
+'
++ podman pull postgres:alpine
+Resolving "postgres" using unqualified-search registries (/etc/containers/registries.conf)
+Trying to pull docker.io/library/postgres:alpine...
+Error: choosing an image from manifest list docker://postgres:alpine: no image found in image index for architecture riscv64, variant "", OS linux
++ podman run --name postgres -e POSTGRES_PASSWORD=secret -d postgres:alpine
+Resolving "postgres" using unqualified-search registries (/etc/containers/registries.conf)
+Trying to pull docker.io/library/postgres:alpine...
+time="2023-11-21T09:45:19+08:00" level=warning msg="failed, retrying in 1s ... (1/3). Error: initializing source docker://postgres:alpine: reading manifest alpine in docker.io/library/postgres: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limit"
+time="2023-11-21T09:45:55+08:00" level=warning msg="failed, retrying in 1s ... (2/3). Error: initializing source docker://postgres:alpine: reading manifest alpine in docker.io/library/postgres: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limit"
+time="2023-11-21T09:46:31+08:00" level=warning msg="failed, retrying in 1s ... (3/3). Error: initializing source docker://postgres:alpine: reading manifest alpine in docker.io/library/postgres: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limit"
+Error: initializing source docker://postgres:alpine: reading manifest alpine in docker.io/library/postgres: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limit
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Nov 21 09:47:09 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 09:47:10 2023 - INFO  - Start to run test.
++ podman image history --format=json postgres:alpine
++ grep comment
+Error: postgres:alpine: image not known
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_17.sh line 32'
++ message='oe_test_podman_17.sh line 32'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_17.sh line 32'
+Tue Nov 21 09:47:11 2023 - ERROR - oe_test_podman_17.sh line 32
++ '[' 0 -eq 1 ']'
++ return 0
++ podman image history --human postgres:alpine
++ grep B
+Error: postgres:alpine: image not known
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_17.sh line 34'
++ message='oe_test_podman_17.sh line 34'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_17.sh line 34'
+Tue Nov 21 09:47:12 2023 - ERROR - oe_test_podman_17.sh line 34
++ '[' 0 -eq 1 ']'
++ return 0
++ podman image history --no-trunc postgres:alpine
+++ podman images -aq
++ grep ''
+Error: postgres:alpine: image not known
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_17.sh line 36'
++ message='oe_test_podman_17.sh line 36'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_17.sh line 36'
+Tue Nov 21 09:47:13 2023 - ERROR - oe_test_podman_17.sh line 36
++ '[' 0 -eq 1 ']'
++ return 0
++ podman image history -q postgres:alpine
+++ podman images -aq
+Error: postgres:alpine: image not known
++ grep ''
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_17.sh line 38'
++ message='oe_test_podman_17.sh line 38'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_17.sh line 38'
+Tue Nov 21 09:47:14 2023 - ERROR - oe_test_podman_17.sh line 38
++ '[' 0 -eq 1 ']'
++ return 0
++ podman image ls --filter after=postgres:alpine
+Error: could not find local image for filter "after=postgres:alpine": postgres:alpine: image not known
++ CHECK_RESULT 125
++ actual_result=125
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 125 ']'
++ '[' 0 -eq 0 ']'
++ test 125x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_17.sh line 40'
++ message='oe_test_podman_17.sh line 40'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_17.sh line 40'
+Tue Nov 21 09:47:15 2023 - ERROR - oe_test_podman_17.sh line 40
++ '[' 0 -eq 1 ']'
++ return 0
++ podman image ls --all
++ grep postgres
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_17.sh line 42'
++ message='oe_test_podman_17.sh line 42'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_17.sh line 42'
+Tue Nov 21 09:47:16 2023 - ERROR - oe_test_podman_17.sh line 42
++ '[' 0 -eq 1 ']'
++ return 0
++ podman image ls --digests
++ grep DIGEST
+REPOSITORY  TAG         DIGEST      IMAGE ID    CREATED     SIZE
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ podman image ls --format json
++ grep postgres:alpine
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_17.sh line 46'
++ message='oe_test_podman_17.sh line 46'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_17.sh line 46'
+Tue Nov 21 09:47:18 2023 - ERROR - oe_test_podman_17.sh line 46
++ '[' 0 -eq 1 ']'
++ return 0
++ podman image ls --no-trunc
++ grep sha256
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_17.sh line 48'
++ message='oe_test_podman_17.sh line 48'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_17.sh line 48'
+Tue Nov 21 09:47:19 2023 - ERROR - oe_test_podman_17.sh line 48
++ '[' 0 -eq 1 ']'
++ return 0
++ podman image ls --noheading
++ grep TAG
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Nov 21 09:47:20 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 8
++ test 8 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Tue Nov 21 09:47:21 2023 - ERROR - failed to execute the case.
++ exit 8
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Nov 21 09:47:21 2023 - INFO  - Start to restore the test environment.
++ clear_env
++ podman stop postgres
+Error: no container with name or ID "postgres" found: no such container
++ podman rm --all
++ podman rmi -f --all
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Tue Nov 21 09:47:23 2023 - WARN  - no thing to do.
++ return 0
+++ ls
+++ grep -vE .sh
++ rm -rf
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue Nov 21 09:47:24 2023 - INFO  - End to restore the test environment.

@@ -1,0 +1,158 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Tue Nov 21 08:47:15 2023 - INFO  - Start environmental preparation.
++ cp /etc/login.defs /etc/login.defs-bak
++ grep '^test:' /etc/passwd
++ ls log
+ls: cannot access 'log': No such file or directory
++ ls testlog
+ls: cannot access 'testlog': No such file or directory
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Tue Nov 21 08:47:16 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Tue Nov 21 08:47:16 2023 - INFO  - Start executing testcase.
++ sed -i 's/PASS_MAX_DAYS\t99999/PASS_MAX_DAYS   5/g' /etc/login.defs
++ sed -i 's/PASS_WARN_AGE\t7/PASS_WARN_AGE   2/g' /etc/login.defs
++ useradd test
++ passwd test
+New password: Retype new password: Changing password for user test.
+passwd: all authentication tokens updated successfully.
++ date -s '4 day'
+Sat Nov 25 08:47:17 AM CST 2023
++ rm -rf /root/.ssh/known_hosts
++ expect
+spawn ssh test@127.0.0.1
+The authenticity of host '127.0.0.1 (127.0.0.1)' can't be established.
+ED25519 key fingerprint is SHA256:d3NEC93wlISSHHHavxHVwkwHLorEgd5Sljeqj8h17Zw.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '127.0.0.1' (ED25519) to the list of known hosts.
+test@127.0.0.1's password: 
+
+
+Welcome to 6.1.19-2.oe2303.riscv64
+
+System information as of time: 	Tue Nov 21 08:47:19 AM CST 2023
+
+System load: 	[0;33;40m1.08[0m
+Processes: 	113
+Memory used: 	2.2%
+Swap used: 	0.0%
+Usage On: 	21%
+IP address: 	192.168.114.3
+IP address: 	10.0.2.15
+Users online: 	1
+To run a command as administrator(user "root"),use "sudo <command>".
+[test@openeuler-riscv64 ~]$ exit
+logout
+Connection to 127.0.0.1 closed.
++ grep 'your password will expire in 1 day' testlog
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_set_password_validity.sh line 53'
++ message='oe_test_set_password_validity.sh line 53'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_set_password_validity.sh line 53'
+Tue Nov 21 08:47:19 2023 - ERROR - oe_test_set_password_validity.sh line 53
++ '[' 0 -eq 1 ']'
++ return 0
++ date -s '2 day'
+Thu Nov 23 08:47:19 AM CST 2023
++ expect
+spawn ssh test@127.0.0.1
+test@127.0.0.1's password: 
+Last login: Tue Nov 21 08:47:18 2023 from 127.0.0.1
+
+
+Welcome to 6.1.19-2.oe2303.riscv64
+
+System information as of time: 	Tue Nov 21 08:47:36 AM CST 2023
+
+System load: 	[0;33;40m1.06[0m
+Processes: 	113
+Memory used: 	2.5%
+Swap used: 	0.0%
+Usage On: 	21%
+IP address: 	192.168.114.3
+IP address: 	10.0.2.15
+Users online: 	1
+To run a command as administrator(user "root"),use "sudo <command>".
+[test@openeuler-riscv64 ~]$ exit
+logout
+Connection to 127.0.0.1 closed.
++ grep 'Current password' log
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_set_password_validity.sh line 92'
++ message='oe_test_set_password_validity.sh line 92'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_set_password_validity.sh line 92'
+Tue Nov 21 08:48:21 2023 - ERROR - oe_test_set_password_validity.sh line 92
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'Finish testcase execution.'
++ message='Finish testcase execution.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish testcase execution.'
+Tue Nov 21 08:48:21 2023 - INFO  - Finish testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z 2
++ test 2 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Tue Nov 21 08:48:22 2023 - ERROR - failed to execute the case.
++ exit 2
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Tue Nov 21 08:48:22 2023 - INFO  - start environment cleanup.
++ rm -rf log testlog /run/faillock/test
++ userdel -rf test
++ mv /etc/login.defs-bak /etc/login.defs -f
++ date -s '-6 day'
+Wed Nov 15 08:48:22 AM CST 2023
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Tue Nov 21 08:48:23 2023 - INFO  - Finish environment cleanup!

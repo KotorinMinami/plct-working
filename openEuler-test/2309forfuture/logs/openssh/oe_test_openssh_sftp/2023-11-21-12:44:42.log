@@ -1,0 +1,201 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Nov 21 12:44:44 2023 - INFO  - Start to prepare the test environment.
++ echo localhost
++ SSH_CMD '
+    echo '\''localhost'\'' >/tmp/hostname
+    useradd sftpuser -d /home/sftpuser -p openEuler12#$
+    chown -R root /home/sftpuser/
+    systemctl restart sshd
+    ' 192.168.114.5 'openEuler12#$' root
++ cmd='
+    echo '\''localhost'\'' >/tmp/hostname
+    useradd sftpuser -d /home/sftpuser -p openEuler12#$
+    chown -R root /home/sftpuser/
+    systemctl restart sshd
+    '
++ remoteip=192.168.114.5
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c '
+    echo '\''localhost'\'' >/tmp/hostname
+    useradd sftpuser -d /home/sftpuser -p openEuler12#$
+    chown -R root /home/sftpuser/
+    systemctl restart sshd
+    ' -i 192.168.114.5 -u root -p 'openEuler12#$' -t 300 -o 22
+Tue Nov 21 12:44:45 2023 - WARN  - the remote user uses the default configuration.
+Tue Nov 21 12:44:45 2023 - WARN  - the remote password uses the default configuration.
+Tue Nov 21 12:44:46 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@192.168.114.5 
+    echo 'localhost' >/tmp/hostname
+    useradd sftpuser -d /home/sftpuser -p openEuler12#$
+    chown -R root /home/sftpuser/
+    systemctl restart sshd
+    
+root@192.168.114.5's password: 
++ ret=0
++ test 0 -ne 0
++ return 0
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Nov 21 12:44:49 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 12:44:49 2023 - INFO  - Start to run test.
++ expect
+spawn sftp root@192.168.114.5
+root@192.168.114.5's password: 
+Connected to 192.168.114.5.
+No entry for terminal type "unknown";
+using dumb terminal settings.
+No entry for terminal type "unknown";
+using dumb terminal settings.
+sftp> ls
+mugen
+sftp> get /tmp/hostname /home/
+Fetching /tmp/hostname to /home/hostname
+hostname                                        0%    0     0.0KB/s   --:-- ETAhostname                                      100%   10     1.2KB/s   00:00    
+sftp> put /tmp/hostname /home/sftpuser/
+Uploading /tmp/hostname to /home/sftpuser/hostname
+hostname                                        0%    0     0.0KB/s   --:-- ETAhostname                                      100%   10     3.0KB/s   00:00    
+sftp> exit
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SSH_CMD '
+    grep localhost /home/sftpuser/hostname
+    ' 192.168.114.5 'openEuler12#$' root
++ cmd='
+    grep localhost /home/sftpuser/hostname
+    '
++ remoteip=192.168.114.5
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c '
+    grep localhost /home/sftpuser/hostname
+    ' -i 192.168.114.5 -u root -p 'openEuler12#$' -t 300 -o 22
+Tue Nov 21 12:45:01 2023 - WARN  - the remote user uses the default configuration.
+Tue Nov 21 12:45:01 2023 - WARN  - the remote password uses the default configuration.
+Tue Nov 21 12:45:02 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@192.168.114.5 
+    grep localhost /home/sftpuser/hostname
+    
+root@192.168.114.5's password: 
+localhost
++ ret=0
++ test 0 -ne 0
++ return 0
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep localhost /home/hostname
+localhost
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Nov 21 12:45:04 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Nov 21 12:45:05 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Nov 21 12:45:05 2023 - INFO  - Start to restore the test environment.
++ SSH_CMD '
+    chown -R sftpuser /home/sftpuser/
+    userdel -r sftpuser
+    rm -rf /home/sftpuser/hostname /tmp/hostname
+    systemctl restart sshd
+    ' 192.168.114.5 'openEuler12#$' root
++ cmd='
+    chown -R sftpuser /home/sftpuser/
+    userdel -r sftpuser
+    rm -rf /home/sftpuser/hostname /tmp/hostname
+    systemctl restart sshd
+    '
++ remoteip=192.168.114.5
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c '
+    chown -R sftpuser /home/sftpuser/
+    userdel -r sftpuser
+    rm -rf /home/sftpuser/hostname /tmp/hostname
+    systemctl restart sshd
+    ' -i 192.168.114.5 -u root -p 'openEuler12#$' -t 300 -o 22
+Tue Nov 21 12:45:06 2023 - WARN  - the remote user uses the default configuration.
+Tue Nov 21 12:45:06 2023 - WARN  - the remote password uses the default configuration.
+Tue Nov 21 12:45:07 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@192.168.114.5 
+    chown -R sftpuser /home/sftpuser/
+    userdel -r sftpuser
+    rm -rf /home/sftpuser/hostname /tmp/hostname
+    systemctl restart sshd
+    
+root@192.168.114.5's password: 
++ ret=0
++ test 0 -ne 0
++ return 0
++ rm -rf /home/hostname /tmp/hostname
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue Nov 21 12:45:09 2023 - INFO  - End to restore the test environment.

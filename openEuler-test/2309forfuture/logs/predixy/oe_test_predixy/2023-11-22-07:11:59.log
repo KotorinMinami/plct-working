@@ -1,0 +1,239 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Nov 22 07:12:01 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'predixy tar'
++ pkgs='predixy tar'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'predixy tar' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpy4rrnekj
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpy4rrnekj
++ tar -xvf ./common/data.tar.gz
+data/
+data/dc.conf
+data/latency.conf
+data/try.conf
+data/sentinel.conf
+data/predixy.conf
+data/auth.conf
+redis/
+redis/26380.conf
+redis/26381.conf
+redis/26379.conf
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
++ redis-server ./redis/26379.conf --sentinel
+669:X 22 Nov 07:12:34.789 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+669:X 22 Nov 07:12:34.790 # Redis version=4.0.14, bits=64, commit=00000000, modified=0, pid=669, just started
+669:X 22 Nov 07:12:34.790 # Configuration loaded
+669:X 22 Nov 07:12:34.801 * Increased maximum number of open files to 10032 (it was originally set to 1024).
+669:X 22 Nov 07:12:34.825 * Running mode=sentinel, port=26379.
+669:X 22 Nov 07:12:34.826 # Sentinel ID is da04b12452951998ee359e7c75cb29e739979727
+669:X 22 Nov 07:12:34.826 # +monitor master myshard001 127.0.0.1 36379 quorum 2
+669:X 22 Nov 07:12:34.826 # +monitor master myshard002 127.0.0.1 46379 quorum 2
+Wed Nov 22 07:12:35 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Nov 22 07:12:35 2023 - INFO  - Start to run test.
++ predixy -h
++ grep 'predixy -h or --help'
+   predixy -h or --help
++ CHECK_RESULT 0 0 0 'Check predixy -h failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check predixy -h failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ predixy --help
++ grep 'predixy -h or --help'
+   predixy -h or --help
++ CHECK_RESULT 0 0 0 'Check predixy --help failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check predixy --help failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ predixy -v
+++ rpm -qa predixy
+++ awk -F - '{print $2}'
++ grep 'predixy predixy-1.0.5'
+predixy predixy-1.0.5
++ CHECK_RESULT 0 0 0 'Check predixy -v failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check predixy -v failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ predixy --version
+++ rpm -qa predixy
+++ awk -F - '{print $2}'
++ grep 'predixy predixy-1.0.5'
+predixy predixy-1.0.5
++ CHECK_RESULT 0 0 0 'Check predixy --version failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check predixy --version failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ sleep 5
++ predixy ./data/predixy.conf --Name=demo
++ grep 'predixy running with Name:demo' tmp.txt
+2023-11-22 07:12:37.663682 N Proxy.cpp:141 predixy running with Name:demo Workers:1
++ CHECK_RESULT 0 0 0 'Check predixy --Name failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check predixy --Name failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ ps -aux
+++ grep 'predixy ./data'
+++ grep -v grep
+++ awk -F ' ' '{print $2}'
++ kill -9 690
++ rm -f tmp.txt
+oe_test_predixy.sh: line 25:   690 Killed                  predixy ./data/predixy.conf --Name=demo > tmp.txt
++ sleep 3
++ predixy ./data/predixy.conf --Bind=127.0.0.1:7617
++ grep 'Proxy.cpp:112 predixy listen in 127.0.0.1:7617' tmp.txt
+2023-11-22 07:12:42.829277 N Proxy.cpp:112 predixy listen in 127.0.0.1:7617
++ CHECK_RESULT 0 0 0 'Check predixy --Bind failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check predixy --Bind failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ ps -aux
+++ grep -v grep
+++ grep 'predixy ./data'
+++ awk -F ' ' '{print $2}'
++ kill -9 701
++ rm -f tmp.txt
+oe_test_predixy.sh: line 25:   701 Killed                  predixy ./data/predixy.conf --Bind=127.0.0.1:7617 > tmp.txt
++ sleep 3
++ predixy ./data/predixy.conf --WorkerThreads=2
++ grep 'predixy running with Name:PredixyExample Workers:2' tmp.txt
+2023-11-22 07:12:46.013296 N Proxy.cpp:141 predixy running with Name:PredixyExample Workers:2
++ CHECK_RESULT 0 0 0 'Check predixy --WorkerThreads failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check predixy --WorkerThreads failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ grep 'predixy ./data'
+++ ps -aux
+++ grep -v grep
+++ awk -F ' ' '{print $2}'
++ kill -9 712
++ rm -f tmp.txt
+oe_test_predixy.sh: line 25:   712 Killed                  predixy ./data/predixy.conf --WorkerThreads=2 > tmp.txt
++ sleep 3
++ predixy ./data/predixy.conf --localDC=bj
++ grep 'N Proxy.cpp:112 predixy listen in 127.0.0.1:7617' tmp.txt
+2023-11-22 07:12:49.222313 N Proxy.cpp:112 predixy listen in 127.0.0.1:7617
++ CHECK_RESULT 0 0 0 'Check predixy --localDC failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check predixy --localDC failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed Nov 22 07:12:52 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Nov 22 07:12:53 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Nov 22 07:12:53 2023 - INFO  - Start to restore the test environment.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpy4rrnekj ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpy4rrnekj
++ '[' 0 -ne 0 ']'
++ rm -rf data/ redis/ tmp.txt
+++ grep 'predixy ./data'
+++ ps -aux
+++ grep -v grep
+++ awk -F ' ' '{print $2}'
++ kill -9 724
+++ ps -aux
+++ grep redis
+++ awk 'NR==1{print $2}'
+669:X 22 Nov 07:13:04.859 # +sdown master myshard001 127.0.0.1 36379
+669:X 22 Nov 07:13:04.859 # +sdown master myshard002 127.0.0.1 46379
++ kill -9 669
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed Nov 22 07:13:05 2023 - INFO  - End to restore the test environment.
+/root/mugen/libs/locallibs/common_lib_python.sh: line 19:   669 Killed                  redis-server ./redis/26379.conf --sentinel
+/root/mugen/libs/locallibs/common_lib_python.sh: line 19:   724 Killed                  predixy ./data/predixy.conf --localDC=bj > tmp.txt

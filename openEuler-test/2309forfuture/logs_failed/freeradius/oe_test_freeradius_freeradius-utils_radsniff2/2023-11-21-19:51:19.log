@@ -1,0 +1,361 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ grep expect
++ rpm -qa
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Nov 21 19:51:22 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'freeradius freeradius-utils vim vim-common'
++ pkgs='freeradius freeradius-utils vim vim-common'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'freeradius freeradius-utils vim vim-common' --node 1 --tempfile ''
+Tue Nov 21 19:51:32 2023 - INFO  - pkgs:(freeradius freeradius-utils vim vim-common) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ systemctl start radiusd
++ SLEEP_WAIT 1
++ wait_time=1
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 1 --cmd '' --mode 1
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Nov 21 19:51:35 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 19:51:36 2023 - INFO  - Start to run test.
+++ radsniff -q -I ../common/test.pcap
++ '[' -z '' ']'
++ CHECK_RESULT 0 0 0 'radsniff -q execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radsniff -q execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ radsniff -I ../common/test.pcap -r 'Message-Authenticator = 0x00'
++ '[' -z ']'
++ CHECK_RESULT 0 0 0 'radsniff -r execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radsniff -r execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ radsniff -I ../common/test.pcap -R 'Message-Authenticator = 0x00'
++ '[' -z ']'
++ CHECK_RESULT 0 0 0 'radsniff -R execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radsniff -R execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ radsniff -s testing123 -I ../common/test.pcap
++ grep Access-Accept
+2021-03-11 15:49:10.324640 (2) Access-Accept Id 147 ../common/test.pcap:127.0.0.1:37868 <- 127.0.0.1:1812 +0.000 +0.000
++ CHECK_RESULT 0 0 0 'radsniff -s execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radsniff -s execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ radsniff -S -I ../common/test.pcap
++ xxd -b
+++ xxd -b ../common/test.pcap
++ grep '00000000: 11010100 11000011 10110010 10100001 00000010 00000000  ......
+00000006: 00000100 00000000 00000000 00000000 00000000 00000000  ......
+0000000c: 00000000 00000000 00000000 00000000 01011010 00010000  ....Z.
+00000012: 00000000 00000000 00000001 00000000 00000000 00000000  ......
+00000018: 01110110 11001011 01001001 01100000 11000010 11110000  v.I`..
+0000001e: 00000100 00000000 01010000 00000000 00000000 00000000  ..P...
+00000024: 01010000 00000000 00000000 00000000 00000000 00000000  P.....
+0000002a: 00000000 00000000 00000000 00000000 00000000 00000000  ......
+00000030: 00000000 00000000 00000000 00000000 00001000 00000000  ......
+00000036: 01000101 00000000 00000000 01000010 00100011 01011001  E..B#Y
+0000003c: 00000000 00000000 01000000 00010001 01011001 01010000  ..@.YP
+00000042: 01111111 00000000 00000000 00000001 01111111 00000000  ......
+00000048: 00000000 00000001 10010011 11101100 00000111 00010100  ......
+0000004e: 00000000 00101110 11111110 01000001 00001100 10010011  ...A..
+00000054: 00000000 00100110 10110011 00000110 00011111 11100100  .&....
+0000005a: 11001101 00111010 11111101 11111100 01101110 00100000  .:..n 
+00000060: 10111011 00011001 10110010 00000000 10001111 10000100  ......
+00000066: 01010000 00010010 00010110 10011000 10111100 01101000  P....h
+0000006c: 11110100 01001011 10111111 00001111 01111001 00010111  .K..y.
+00000072: 10010111 01000001 01010100 00010100 01111101 11101000  .AT.}.
+00000078: 01110110 11001011 01001001 01100000 00100000 11110100  v.I` .
+0000007e: 00000100 00000000 00111110 00000000 00000000 00000000  ..>...
+00000084: 00111110 00000000 00000000 00000000 00000000 00000000  >.....
+0000008a: 00000000 00000000 00000000 00000000 00000000 00000000  ......
+00000090: 00000000 00000000 00000000 00000000 00001000 00000000  ......
+00000096: 01000101 00000000 00000000 00110000 00100011 01011010  E..0#Z
+0000009c: 00000000 00000000 01000000 00010001 01011001 01100001  ..@.Ya
+000000a2: 01111111 00000000 00000000 00000001 01111111 00000000  ......
+000000a8: 00000000 00000001 00000111 00010100 10010011 11101100  ......
+000000ae: 00000000 00011100 11111110 00101111 00000010 10010011  .../..
+000000b4: 00000000 00010100 00111011 01101000 10010010 01110111  ..;h.w
+000000ba: 00010100 10100100 00111001 00010100 10100001 00111010  ..9..:
+000000c0: 00101000 00101100 01011100 10100001 11101010 01010010  (,\..R'
+2021-03-11 15:49:10.323778 (1) Status-Server Id 147 ../common/test.pcap:127.0.0.1:37868 -> 127.0.0.1:1812 +0.000
+2021-03-11 15:49:10.324640 (2) Access-Accept Id 147 ../common/test.pcap:127.0.0.1:37868 <- 127.0.0.1:1812 +0.000 +0.000
+00000000: 11010100 11000011 10110010 10100001 00000010 00000000  ......
+00000006: 00000100 00000000 00000000 00000000 00000000 00000000  ......
+0000000c: 00000000 00000000 00000000 00000000 01011010 00010000  ....Z.
+00000012: 00000000 00000000 00000001 00000000 00000000 00000000  ......
+00000018: 01110110 11001011 01001001 01100000 11000010 11110000  v.I`..
+0000001e: 00000100 00000000 01010000 00000000 00000000 00000000  ..P...
+00000024: 01010000 00000000 00000000 00000000 00000000 00000000  P.....
+0000002a: 00000000 00000000 00000000 00000000 00000000 00000000  ......
+00000030: 00000000 00000000 00000000 00000000 00001000 00000000  ......
+00000036: 01000101 00000000 00000000 01000010 00100011 01011001  E..B#Y
+0000003c: 00000000 00000000 01000000 00010001 01011001 01010000  ..@.YP
+00000042: 01111111 00000000 00000000 00000001 01111111 00000000  ......
+00000048: 00000000 00000001 10010011 11101100 00000111 00010100  ......
+0000004e: 00000000 00101110 11111110 01000001 00001100 10010011  ...A..
+00000054: 00000000 00100110 10110011 00000110 00011111 11100100  .&....
+0000005a: 11001101 00111010 11111101 11111100 01101110 00100000  .:..n 
+00000060: 10111011 00011001 10110010 00000000 10001111 10000100  ......
+00000066: 01010000 00010010 00010110 10011000 10111100 01101000  P....h
+0000006c: 11110100 01001011 10111111 00001111 01111001 00010111  .K..y.
+00000072: 10010111 01000001 01010100 00010100 01111101 11101000  .AT.}.
+00000078: 01110110 11001011 01001001 01100000 00100000 11110100  v.I` .
+0000007e: 00000100 00000000 00111110 00000000 00000000 00000000  ..>...
+00000084: 00111110 00000000 00000000 00000000 00000000 00000000  >.....
+0000008a: 00000000 00000000 00000000 00000000 00000000 00000000  ......
+00000090: 00000000 00000000 00000000 00000000 00001000 00000000  ......
+00000096: 01000101 00000000 00000000 00110000 00100011 01011010  E..0#Z
+0000009c: 00000000 00000000 01000000 00010001 01011001 01100001  ..@.Ya
+000000a2: 01111111 00000000 00000000 00000001 01111111 00000000  ......
+000000a8: 00000000 00000001 00000111 00010100 10010011 11101100  ......
+000000ae: 00000000 00011100 11111110 00101111 00000010 10010011  .../..
+000000b4: 00000000 00010100 00111011 01101000 10010010 01110111  ..;h.w
+000000ba: 00010100 10100100 00111001 00010100 10100001 00111010  ..9..:
++ CHECK_RESULT 0 0 0 'radsniff -S execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radsniff -S execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ radsniff -v
+++ rpm -q freeradius-utils
+++ awk -F - '{print $3}'
++ grep 3.0.26
+radsniff version 3.0.26, built on Mar 20 2023 at 16:24:05 libpcap version 1.10.3 (with TPACKET_V3)
++ CHECK_RESULT 0 0 0 'radsniff -v execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radsniff -v execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ radsniff -w /tmp/test.pcap -I ../common/test.pcap
+Usage: radsniff [options][stats options] -- [pcap files]
+options:
+  -a                    List all interfaces available for capture.
+  -c <count>            Number of packets to capture.
+  -C                    Enable UDP checksum validation.
+  -d <directory>        Set dictionary directory.
+  -d <raddb>            Set configuration directory (defaults to /etc/raddb).
+  -D <dictdir>          Set main dictionary directory (defaults to /usr/share/freeradius).
+  -e <event>[,<event>]  Only log requests with these event flags.
+                        Event may be one of the following:
+                        - received - a request or response.
+                        - norsp    - seen for a request.
+                        - rtx      - of a request that we've seen before.
+                        - noreq    - could be matched with the response.
+                        - reused   - ID too soon.
+                        - error    - decoding the packet.
+  -f <filter>           PCAP filter (default is 'udp port <port> or <port + 1> or 3799')
+  -h                    This help message.
+  -i <interface>        Capture packets from interface (defaults to all if supported).
+  -I <file>             Read packets from file (overrides input of -F).
+  -l <attr>[,<attr>]    Output packet sig and a list of attributes.
+  -L <attr>[,<attr>]    Detect retransmissions using these attributes to link requests.
+  -m                    Don't put interface(s) into promiscuous mode.
+  -p <port>             Filter packets by port (default is 1812).
+  -P <pidfile>          Daemonize and write out <pidfile>.
+  -q                    Print less debugging information.
+  -r <filter>           RADIUS attribute request filter.
+  -R <filter>           RADIUS attribute response filter.
+  -s <secret>           RADIUS secret.
+  -S                    Write PCAP data to stdout.
+  -v                    Show program version information.
+  -w <file>             Write output packets to file.
+  -x                    Print more debugging information.
+stats options:
+  -W <interval>         Periodically write out statistics every <interval> seconds.
+  -T <timeout>          How many milliseconds before the request is counted as lost (defaults to 5200).
++ xxd -b /tmp/test.pcap
+xxd: /tmp/test.pcap: No such file or directory
+++ xxd -b ../common/test.pcap
++ grep '00000000: 11010100 11000011 10110010 10100001 00000010 00000000  ......
+00000006: 00000100 00000000 00000000 00000000 00000000 00000000  ......
+0000000c: 00000000 00000000 00000000 00000000 01011010 00010000  ....Z.
+00000012: 00000000 00000000 00000001 00000000 00000000 00000000  ......
+00000018: 01110110 11001011 01001001 01100000 11000010 11110000  v.I`..
+0000001e: 00000100 00000000 01010000 00000000 00000000 00000000  ..P...
+00000024: 01010000 00000000 00000000 00000000 00000000 00000000  P.....
+0000002a: 00000000 00000000 00000000 00000000 00000000 00000000  ......
+00000030: 00000000 00000000 00000000 00000000 00001000 00000000  ......
+00000036: 01000101 00000000 00000000 01000010 00100011 01011001  E..B#Y
+0000003c: 00000000 00000000 01000000 00010001 01011001 01010000  ..@.YP
+00000042: 01111111 00000000 00000000 00000001 01111111 00000000  ......
+00000048: 00000000 00000001 10010011 11101100 00000111 00010100  ......
+0000004e: 00000000 00101110 11111110 01000001 00001100 10010011  ...A..
+00000054: 00000000 00100110 10110011 00000110 00011111 11100100  .&....
+0000005a: 11001101 00111010 11111101 11111100 01101110 00100000  .:..n 
+00000060: 10111011 00011001 10110010 00000000 10001111 10000100  ......
+00000066: 01010000 00010010 00010110 10011000 10111100 01101000  P....h
+0000006c: 11110100 01001011 10111111 00001111 01111001 00010111  .K..y.
+00000072: 10010111 01000001 01010100 00010100 01111101 11101000  .AT.}.
+00000078: 01110110 11001011 01001001 01100000 00100000 11110100  v.I` .
+0000007e: 00000100 00000000 00111110 00000000 00000000 00000000  ..>...
+00000084: 00111110 00000000 00000000 00000000 00000000 00000000  >.....
+0000008a: 00000000 00000000 00000000 00000000 00000000 00000000  ......
+00000090: 00000000 00000000 00000000 00000000 00001000 00000000  ......
+00000096: 01000101 00000000 00000000 00110000 00100011 01011010  E..0#Z
+0000009c: 00000000 00000000 01000000 00010001 01011001 01100001  ..@.Ya
+000000a2: 01111111 00000000 00000000 00000001 01111111 00000000  ......
+000000a8: 00000000 00000001 00000111 00010100 10010011 11101100  ......
+000000ae: 00000000 00011100 11111110 00101111 00000010 10010011  .../..
+000000b4: 00000000 00010100 00111011 01101000 10010010 01110111  ..;h.w
+000000ba: 00010100 10100100 00111001 00010100 10100001 00111010  ..9..:
+000000c0: 00101000 00101100 01011100 10100001 11101010 01010010  (,\..R'
++ CHECK_RESULT 1 0 0 'radsniff -w execution failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='radsniff -w execution failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'radsniff -w execution failed.'
++ LOG_ERROR 'radsniff -w execution failed.'
++ message='radsniff -w execution failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'radsniff -w execution failed.'
+Tue Nov 21 19:51:38 2023 - ERROR - radsniff -w execution failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_freeradius_freeradius-utils_radsniff2.sh line 48'
++ message='oe_test_freeradius_freeradius-utils_radsniff2.sh line 48'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_freeradius_freeradius-utils_radsniff2.sh line 48'
+Tue Nov 21 19:51:39 2023 - ERROR - oe_test_freeradius_freeradius-utils_radsniff2.sh line 48
++ '[' 0 -eq 1 ']'
++ return 0
++ radsniff -x -I ../common/test.pcap
++ grep Authenticator-Field
+	Authenticator-Field = 0xb3061fe4cd3afdfc6e20bb19b2008f84
+	Authenticator-Field = 0x3b68927714a43914a13a282c5ca1ea52
++ CHECK_RESULT 0 0 0 'radsniff -x execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radsniff -x execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ radsniff -W 2 -I ../common/test.pcap
++ grep 'Muting stats'
+Muting stats for the next 5200 milliseconds (warmup)
++ CHECK_RESULT 0 0 0 'radsniff -W execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radsniff -W execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ radsniff -T 100 -I ../common/test.pcap
++ grep Access-Accept
+2021-03-11 15:49:10.324640 (2) Access-Accept Id 147 ../common/test.pcap:127.0.0.1:37868 <- 127.0.0.1:1812 +0.000 +0.000
++ CHECK_RESULT 0 0 0 'radsniff -T execution failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='radsniff -T execution failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Nov 21 19:51:40 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Tue Nov 21 19:51:41 2023 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Nov 21 19:51:41 2023 - INFO  - Start to restore the test environment.
++ systemctl stop radiusd
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Tue Nov 21 19:51:42 2023 - WARN  - no thing to do.
++ return 0
++ rm -rf /etc/raddb
++ rm -rf /var/log/radius
++ rm -rf /tmp/test.pcap
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue Nov 21 19:51:43 2023 - INFO  - End to restore the test environment.

@@ -1,0 +1,303 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n function ']'
++ config_params
++ LOG_INFO 'Start loading data!'
++ message='Start loading data!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start loading data!'
+Tue Nov 21 06:36:20 2023 - INFO  - Start loading data!
+++ ls /sys/class/net/
+++ grep -Ewv 'lo.*|docker.*|bond.*|vlan.*|virbr.*|br.*'
+++ sed -n 1p
++++ grep 192.168.114.2
++++ ip route
++++ awk '{print$3}'
+++ grep -v enp0s3
++ test_eth1=enp0s4
+++ ls /sys/class/net/
+++ grep -Ewv 'lo.*|docker.*|bond.*|vlan.*|virbr.*|br.*'
+++ sed -n 2p
++++ ip route
++++ grep 192.168.114.2
++++ awk '{print$3}'
+++ grep -v enp0s3
++ test_eth2=enp0s5
++ LOG_INFO 'Loading data is complete!'
++ message='Loading data is complete!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Loading data is complete!'
+Tue Nov 21 06:36:21 2023 - INFO  - Loading data is complete!
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Tue Nov 21 06:36:21 2023 - INFO  - Start environment preparation.
++ nmcli c add type ethernet ifname enp0s4 con-name enp0s4 ip4 192.0.2.100/24
++ grep successfully
+Connection 'enp0s4' (33513be1-c39f-4328-be02-ceaa792c6dcc) successfully added.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ nmcli c add type ethernet ifname enp0s5 con-name enp0s5 ip4 192.0.3.100/24
++ grep successfully
+Connection 'enp0s5' (e6b537d5-2597-4f44-8d06-6593599046b5) successfully added.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Tue Nov 21 06:36:23 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase!'
++ message='Start executing testcase!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase!'
+Tue Nov 21 06:36:23 2023 - INFO  - Start executing testcase!
++ modprobe --first-time bonding
+modprobe: FATAL: Module bonding not found in directory /lib/modules/6.1.19-2.oe2303.riscv64
++ modinfo bonding
+modinfo: ERROR: Module bonding not found.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmcli_use_bonding.sh line 40'
++ message='oe_test_nmcli_use_bonding.sh line 40'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmcli_use_bonding.sh line 40'
+Tue Nov 21 06:36:23 2023 - ERROR - oe_test_nmcli_use_bonding.sh line 40
++ '[' 0 -eq 1 ']'
++ return 0
++ modprobe --help
+Usage:
+	modprobe [options] [-i] [-b] modulename
+	modprobe [options] -a [-i] [-b] modulename [modulename...]
+	modprobe [options] -r [-i] modulename
+	modprobe [options] -r -a [-i] modulename [modulename...]
+	modprobe [options] -c
+	modprobe [options] --dump-modversions filename
+Management Options:
+	-a, --all                   Consider every non-argument to
+	                            be a module name to be inserted
+	                            or removed (-r)
+	-r, --remove                Remove modules instead of inserting
+	    --remove-dependencies   Deprecated: use --remove-holders
+	    --remove-holders        Also remove module holders (use together with -r)
+	-w, --wait <MSEC>           When removing a module, wait up to MSEC for
+	                            module's refcount to become 0 so it can be
+	                            removed (use together with -r)
+	    --first-time            Fail if module already inserted or removed
+	-i, --ignore-install        Ignore install commands
+	-i, --ignore-remove         Ignore remove commands
+	-b, --use-blacklist         Apply blacklist to resolved alias.
+	-f, --force                 Force module insertion or removal.
+	                            implies --force-modversions and
+	                            --force-vermagic
+	    --force-modversion      Ignore module's version
+	    --force-vermagic        Ignore module's version magic
+
+Query Options:
+	-R, --resolve-alias         Only lookup and print alias and exit
+	-D, --show-depends          Only print module dependencies and exit
+	-c, --showconfig            Print out known configuration and exit
+	-c, --show-config           Same as --showconfig
+	    --show-modversions      Dump module symbol version and exit
+	    --dump-modversions      Same as --show-modversions
+	    --show-exports          Only print module exported symbol versions and exit
+
+General Options:
+	-n, --dry-run               Do not execute operations, just print out
+	-n, --show                  Same as --dry-run
+	-C, --config=FILE           Use FILE instead of default search paths
+	-d, --dirname=DIR           Use DIR as filesystem root for /lib/modules
+	-S, --set-version=VERSION   Use VERSION instead of `uname -r`
+	-s, --syslog                print to syslog, not stderr
+	-q, --quiet                 disable messages
+	-v, --verbose               enables more messages
+	-V, --version               show version
+	-h, --help                  show this help
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ifdown enp0s4
+oe_test_nmcli_use_bonding.sh: line 43: ifdown: command not found
++ ifdown enp0s5
+oe_test_nmcli_use_bonding.sh: line 44: ifdown: command not found
++ cp -r ifcfg-bond0 /etc/sysconfig/network-scripts/
++ cp -r ifcfg-bond0-slave-port1 /etc/sysconfig/network-scripts/
++ cp -r ifcfg-bond0-slave-port2 /etc/sysconfig/network-scripts/
++ sed -i s/test_eth1/enp0s4/g /etc/sysconfig/network-scripts/ifcfg-bond0-slave-port1
++ sed -i s/test_eth2/enp0s5/g /etc/sysconfig/network-scripts/ifcfg-bond0-slave-port2
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ifup enp0s4
++ grep successfully
+oe_test_nmcli_use_bonding.sh: line 51: ifup: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmcli_use_bonding.sh line 52'
++ message='oe_test_nmcli_use_bonding.sh line 52'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmcli_use_bonding.sh line 52'
+Tue Nov 21 06:36:24 2023 - ERROR - oe_test_nmcli_use_bonding.sh line 52
++ '[' 0 -eq 1 ']'
++ return 0
++ ifup enp0s5
+oe_test_nmcli_use_bonding.sh: line 53: ifup: command not found
++ grep successfully
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmcli_use_bonding.sh line 54'
++ message='oe_test_nmcli_use_bonding.sh line 54'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmcli_use_bonding.sh line 54'
+Tue Nov 21 06:36:25 2023 - ERROR - oe_test_nmcli_use_bonding.sh line 54
++ '[' 0 -eq 1 ']'
++ return 0
++ nmcli con load /etc/sysconfig/network-scripts/ifcfg-bond0
++ nmcli con load /etc/sysconfig/network-scripts/ifcfg-bond0-slave-port1
++ nmcli con load /etc/sysconfig/network-scripts/ifcfg-bond0-slave-port2
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ ip link show
++ grep bond0
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmcli_use_bonding.sh line 60'
++ message='oe_test_nmcli_use_bonding.sh line 60'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmcli_use_bonding.sh line 60'
+Tue Nov 21 06:36:26 2023 - ERROR - oe_test_nmcli_use_bonding.sh line 60
++ '[' 0 -eq 1 ']'
++ return 0
++ nmcli con show --active
++ grep bond0
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nmcli_use_bonding.sh line 62'
++ message='oe_test_nmcli_use_bonding.sh line 62'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nmcli_use_bonding.sh line 62'
+Tue Nov 21 06:36:27 2023 - ERROR - oe_test_nmcli_use_bonding.sh line 62
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End of testcase execution!'
++ message='End of testcase execution!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution!'
+Tue Nov 21 06:36:27 2023 - INFO  - End of testcase execution!
++ CASE_RESULT 0
++ case_re=0
++ test -z 5
++ test 5 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Tue Nov 21 06:36:27 2023 - ERROR - failed to execute the case.
++ exit 5
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Tue Nov 21 06:36:28 2023 - INFO  - start environment cleanup.
++ rm -rf /sys/class/net/bonding_masters
++ nmcli con delete bond0
+Connection 'bond0' (ad33d8b0-1f7b-cab9-9447-ba07f855b143) successfully deleted.
++ nmcli con delete bond0-slave-port1
+Connection 'bond0-slave-port1' (3b7601d1-b373-4fdf-a996-9d267d1cac40) successfully deleted.
++ nmcli con delete bond0-slave-port2
+Connection 'bond0-slave-port2' (00f0482c-824f-478f-9479-abf947f01c4a) successfully deleted.
++ nmcli con delete enp0s4
+Connection 'enp0s4' (33513be1-c39f-4328-be02-ceaa792c6dcc) successfully deleted.
++ nmcli con delete enp0s5
+Connection 'enp0s5' (e6b537d5-2597-4f44-8d06-6593599046b5) successfully deleted.
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Tue Nov 21 06:36:30 2023 - INFO  - Finish environment cleanup.

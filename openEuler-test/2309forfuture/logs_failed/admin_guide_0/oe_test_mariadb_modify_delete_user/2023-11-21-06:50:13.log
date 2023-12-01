@@ -1,0 +1,250 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Tue Nov 21 06:50:15 2023 - INFO  - Start environment preparation.
++ systemctl stop firewalld
+Failed to stop firewalld.service: Unit firewalld.service not loaded.
++ systemctl disable firewalld
+Failed to disable unit: Unit file firewalld.service does not exist.
++ setenforce 0
+setenforce: SELinux is disabled
++ groupadd mysql
++ useradd -g mysql mysql
++ echo 'openEuler12#$'
++ passwd --stdin mysql
+Changing password for user mysql.
+passwd: all authentication tokens updated successfully.
++ test -d /data
++ test -d /data/mariadb
++ cd /data/mariadb
++ mkdir data tmp run log
+mkdir: cannot create directory ‘data’: File exists
+mkdir: cannot create directory ‘tmp’: File exists
+mkdir: cannot create directory ‘run’: File exists
+mkdir: cannot create directory ‘log’: File exists
++ chown -R mysql:mysql /data
++ cd -
+/root/mugen/testcases/doc-test/admin_guide/oe_test_mariadb_modify_delete_user
++ rm -rf '/var/lib/mysql/*'
++ DNF_INSTALL mariadb-server
++ pkgs=mariadb-server
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs mariadb-server --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp_z74kv2c
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp_z74kv2c
++ systemctl start mariadb
+Job for mariadb.service failed because the control process exited with error code.
+See "systemctl status mariadb.service" and "journalctl -xeu mariadb.service" for details.
++ mysqladmin -uroot password 'openEuler12#$'
+mysqladmin: connect to server at 'localhost' failed
+error: 'Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)'
+Check that mysqld is running and that the socket: '/var/lib/mysql/mysql.sock' exists!
++ expect -c '
+    set timeout 10
+    log_file testlog
+    spawn mysql -u root -p 
+    expect {
+        "Enter*" { send "openEuler12#$\r";
+        expect "Maria*" { send "CREATE USER '\''userexample'\''@'\''localhost'\'' IDENTIFIED BY '\''123456'\'';\r"}
+	    expect "Maria*" { send "CREATE USER '\''userexample1'\''@'\''localhost'\'' IDENTIFIED BY '\''123456'\'';\r"}
+        expect "Maria*" { send "SELECT USER,HOST,PASSWORD FROM mysql.user;\r"}
+        expect "Maria*" { send "exit\r"}
+}
+}
+expect eof
+'
+spawn mysql -u root -p
+Enter password: 
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)
+expect: spawn id exp4 not open
+    while executing
+"expect "Maria*" { send "CREATE USER 'userexample1'@'localhost' IDENTIFIED BY '123456';\r"}"
+    invoked from within
+"expect {
+        "Enter*" { send "openEuler12#$\r";
+        expect "Maria*" { send "CREATE USER 'userexample'@'localhost' IDENTIFIED BY '123456';\r"}
+..."
++ grep 'SELECT USER' -A 10 testlog
++ grep localhost
++ grep -w userexample
++ grep 'SELECT USER' -A 10 testlog
++ grep -w userexample1
++ grep localhost
++ rm -rf testlog
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Tue Nov 21 06:51:34 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Tue Nov 21 06:51:34 2023 - INFO  - Start executing testcase.
++ expect -c '
+    set timeout 10
+    log_file testlog
+    spawn mysql -u root -p 
+    expect {
+        "Enter*" { send "openEuler12#$\r";
+        expect "Maria*" { send "RENAME USER '\''userexample1'\''@'\''localhost'\'' TO '\''userexample2'\''@'\''localhost'\'';\r"}
+	    expect "Maria*" { send "SET PASSWORD FOR '\''userexample'\''@'\''localhost'\'' = PASSWORD('\''0123456'\'');\r"}
+	    expect "Maria*" { send "DROP USER '\''userexample'\''@'\''localhost'\'';\r"}
+        expect "Maria*" { send "SELECT USER,HOST,PASSWORD FROM mysql.user;\r"}
+        expect "Maria*" { send "exit\r"}
+}
+}
+expect eof
+'
+spawn mysql -u root -p
+Enter password: 
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)
+expect: spawn id exp4 not open
+    while executing
+"expect "Maria*" { send "SET PASSWORD FOR 'userexample'@'localhost' = PASSWORD('0123456');\r"}"
+    invoked from within
+"expect {
+        "Enter*" { send "openEuler12#$\r";
+        expect "Maria*" { send "RENAME USER 'userexample1'@'localhost' TO 'userexample2'@'localhos..."
++ cat testlog
++ grep '>\ SELECT USER' -A 10
++ grep localhost
++ grep -w userexample1
+grep: warning: stray \ before white space
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ cat testlog
++ grep '>\ SELECT USER' -A 10
++ grep localhost
++ grep -w userexample2
+grep: warning: stray \ before white space
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mariadb_modify_delete_user.sh line 79'
++ message='oe_test_mariadb_modify_delete_user.sh line 79'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mariadb_modify_delete_user.sh line 79'
+Tue Nov 21 06:51:35 2023 - ERROR - oe_test_mariadb_modify_delete_user.sh line 79
++ '[' 0 -eq 1 ']'
++ return 0
++ cat testlog
++ grep 'ERROR 1133'
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ cat testlog
++ grep '>\ SELECT USER' -A 10
++ grep -w userexample
++ grep localhost
+grep: warning: stray \ before white space
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ LOG_INFO 'End of testcase execution.'
++ message='End of testcase execution.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution.'
+Tue Nov 21 06:51:35 2023 - INFO  - End of testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Tue Nov 21 06:51:36 2023 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Tue Nov 21 06:51:36 2023 - INFO  - start environment cleanup.
++ expect -c '
+    set timeout 10
+    spawn mysql -u root -p 
+    expect {
+        "Enter*" { send "openEuler12#$\r";
+        expect "Maria*" { send "DROP USER '\''userexample2'\''@'\''localhost'\'';\r"}
+        expect "Maria*" { send "exit\r"}
+}
+}
+expect eof
+'
+spawn mysql -u root -p
+Enter password: 
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)
+expect: spawn id exp3 not open
+    while executing
+"expect "Maria*" { send "exit\r"}"
+    invoked from within
+"expect {
+        "Enter*" { send "openEuler12#$\r";
+        expect "Maria*" { send "DROP USER 'userexample2'@'localhost';\r"}
+        expect "Maria*" ..."
++ setenforce 1
+setenforce: SELinux is disabled
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp_z74kv2c ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp_z74kv2c
++ '[' 0 -ne 0 ']'
++ userdel -r mysql
++ groupdel mysql
+groupdel: group 'mysql' does not exist
++ rm -rf testlog /data/mariadb
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Tue Nov 21 06:51:50 2023 - INFO  - Finish environment cleanup.

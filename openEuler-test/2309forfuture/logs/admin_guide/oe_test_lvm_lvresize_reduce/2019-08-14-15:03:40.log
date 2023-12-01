@@ -1,0 +1,150 @@
++ source ../common/disk_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Wed Aug 14 15:03:42 2019 - INFO  - Start environment preparation.
++ check_free_disk
+++ TEST_DISK
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ disks='vdb vdc vdd vde'
++ disk_list=($disks)
++ local_disk=vdb
++ local_disk1=vdc
++ local_disk2=vdd
++ local_disk3=vde
++ pvcreate -y /dev/vdc
+  Physical volume "/dev/vdc" successfully created.
++ vgcreate openeulertest /dev/vdc
+  Volume group "openeulertest" successfully created
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Wed Aug 14 15:03:47 2019 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase!'
++ message='Start executing testcase!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase!'
+Wed Aug 14 15:03:48 2019 - INFO  - Start executing testcase!
++ pvdisplay
++ grep 'PV Name'
++ grep /dev/vdc
+  PV Name               /dev/vdc
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgdisplay
++ grep 'VG Name'
++ grep openeulertest
+  VG Name               openeulertest
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ vgextend openeulertest /dev/vdb -y
+  Wiping ext4 signature on /dev/vdb.
+  Physical volume "/dev/vdb" successfully created.
+  Volume group "openeulertest" successfully extended
++ lvcreate -y -L 50MB -n test openeulertest
+  Rounding up size to full physical extent 52.00 MiB
+  Logical volume "test" created.
++ lvextend -y -L+1G /dev/openeulertest/test
+  Size of logical volume openeulertest/test changed from 52.00 MiB (13 extents) to 1.05 GiB (269 extents).
+  Logical volume openeulertest/test successfully resized.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect -c '
+    set timeout 10
+    log_file testlog
+    spawn lvresize -y -L-1G /dev/openeulertest/test 
+    expect y/n { send y\r}
+    expect eof
+    '
+spawn lvresize -y -L-1G /dev/openeulertest/test
+  WARNING: Reducing active logical volume to 52.00 MiB.
+  THIS MAY DESTROY YOUR DATA (filesystem etc.)
+  Size of logical volume openeulertest/test changed from 1.05 GiB (269 extents) to 52.00 MiB (13 extents).
+  Logical volume openeulertest/test successfully resized.
+expect: spawn id exp4 not open
+    while executing
+"expect eof"
++ grep -iE 'fail|error' testlog
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ LOG_INFO 'End of testcase execution!'
++ message='End of testcase execution!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution!'
+Wed Aug 14 15:03:50 2019 - INFO  - End of testcase execution!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Aug 14 15:03:50 2019 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Wed Aug 14 15:03:51 2019 - INFO  - start environment cleanup.
++ rm -rf testlog
++ lvremove -y openeulertest/test
+  Logical volume "test" successfully removed.
++ vgremove -y openeulertest
+  Volume group "openeulertest" successfully removed
++ pvremove /dev/vdc /dev/vdb
+  Labels on physical volume "/dev/vdc" successfully wiped.
+  Labels on physical volume "/dev/vdb" successfully wiped.
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Wed Aug 14 15:03:52 2019 - INFO  - Finish environment cleanup.

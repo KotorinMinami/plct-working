@@ -1,0 +1,311 @@
++ source ../common/common.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n function ']'
++ config_params
++ LOG_INFO 'Start to config params of the case.'
++ message='Start to config params of the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to config params of the case.'
+Tue Nov 21 16:38:26 2023 - INFO  - Start to config params of the case.
+++ mktemp -d -t nototools.XXXXXXXXXXXX
++ TMP_DIR=/tmp/nototools.yZXGhX3cMwmW
++ LOG_INFO 'End to config params of the case.'
++ message='End to config params of the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to config params of the case.'
+Tue Nov 21 16:38:27 2023 - INFO  - End to config params of the case.
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Nov 21 16:38:27 2023 - INFO  - Start to prepare the test environment.
++ common_pre
++ pip install -r ../common/requirements.txt
++ DNF_INSTALL 'nototools harfbuzz-devel cpio pango python3-gobject python3-cairo'
++ pkgs='nototools harfbuzz-devel cpio pango python3-gobject python3-cairo'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'nototools harfbuzz-devel cpio pango python3-gobject python3-cairo' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp6xov4hti
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp6xov4hti
++ notoconfig_pre
+++ mktemp -d -t nototools.SRC.XXXXXXXXXXXX
++ TMP_SRCDIR=/tmp/nototools.SRC.bvCKMobKLKti
++ yumdownloader --source nototools --destdir /tmp/nototools.SRC.bvCKMobKLKti
+No package nototools-0.2.17-1.oe2303.src available.
+Exiting due to strict setting.
+Error: No package nototools-0.2.17-1.oe2303.src available.
++ cpio -div -D /tmp/nototools.SRC.bvCKMobKLKti
++ rpm2cpio '/tmp/nototools.SRC.bvCKMobKLKti/*.rpm'
+rpm2cpio: /tmp/nototools.SRC.bvCKMobKLKti/*.rpm: No such file or directory
++ tar -zxf '/tmp/nototools.SRC.bvCKMobKLKti/*.tar.gz' --strip-components 1 --directory /tmp/nototools.SRC.bvCKMobKLKti
+tar (child): /tmp/nototools.SRC.bvCKMobKLKti/*.tar.gz: Cannot open: No such file or directory
+tar (child): Error is not recoverable: exiting now
+tar: Child returned status 2
+tar: Error is not recoverable: exiting now
++ echo noto_tools=/tmp/nototools.SRC.bvCKMobKLKti
++ for src in "fonts" "cjk" "emoji"
++ echo noto_fonts=/tmp/nototools.SRC.bvCKMobKLKti/noto-fonts
++ for src in "fonts" "cjk" "emoji"
++ echo noto_cjk=/tmp/nototools.SRC.bvCKMobKLKti/noto-cjk
++ for src in "fonts" "cjk" "emoji"
++ echo noto_emoji=/tmp/nototools.SRC.bvCKMobKLKti/noto-emoji
++ cp -rf ./font1.ttf /tmp/nototools.yZXGhX3cMwmW
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Nov 21 16:46:39 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 16:46:40 2023 - INFO  - Start to run test.
++ grep -q usage
++ notocoverage -h
++ CHECK_RESULT 0 0 0 'option: -h error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: -h error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ notocoverage --help
++ grep -q usage
++ CHECK_RESULT 0 0 0 'option: --help error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --help error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ notocoverage --ranges ./font1.ttf
++ grep -q ranges
++ CHECK_RESULT 0 0 0 'option: --ranges error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --ranges error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cd /tmp/nototools.yZXGhX3cMwmW
++ notocoverage --text ./font1.ttf
++ grep -q '2017 characters (of 2188)'
++ cat font1_chars.txt
++ grep -q 'Ј Љ Њ Ћ Ќ Ѝ Ў Џ А Б В Г'
++ CHECK_RESULT 0 0 0 'option: --text error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --text error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cd -
++ for i in "@" "$" "." "-"
++ notocoverage --sep @ ./font1.ttf
++ grep -q 'U+051B CYRILLIC SMALL LETTER QA'
+Traceback (most recent call last):
+  File "/usr/bin/notocoverage", line 33, in <module>
+    sys.exit(load_entry_point('notofonttools==0.2.17', 'console_scripts', 'notocoverage')())
+  File "/usr/lib/python3.10/site-packages/nototools/coverage.py", line 161, in main
+    _process_font(fontpath, args)
+  File "/usr/lib/python3.10/site-packages/nototools/coverage.py", line 114, in _process_font
+    _print_char_info(sorted_chars)
+  File "/usr/lib/python3.10/site-packages/nototools/coverage.py", line 79, in _print_char_info
+    print("U+%04X %s" % (char, name))
+BrokenPipeError: [Errno 32] Broken pipe
++ CHECK_RESULT 0 0 0 'option: --sep @ error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --sep @ error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ for i in "@" "$" "." "-"
++ notocoverage --sep '$' ./font1.ttf
++ grep -q 'U+051B CYRILLIC SMALL LETTER QA'
+Traceback (most recent call last):
+  File "/usr/bin/notocoverage", line 33, in <module>
+    sys.exit(load_entry_point('notofonttools==0.2.17', 'console_scripts', 'notocoverage')())
+  File "/usr/lib/python3.10/site-packages/nototools/coverage.py", line 161, in main
+    _process_font(fontpath, args)
+  File "/usr/lib/python3.10/site-packages/nototools/coverage.py", line 114, in _process_font
+    _print_char_info(sorted_chars)
+  File "/usr/lib/python3.10/site-packages/nototools/coverage.py", line 79, in _print_char_info
+    print("U+%04X %s" % (char, name))
+BrokenPipeError: [Errno 32] Broken pipe
++ CHECK_RESULT 0 0 0 'option: --sep $ error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --sep $ error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ for i in "@" "$" "." "-"
++ notocoverage --sep . ./font1.ttf
++ grep -q 'U+051B CYRILLIC SMALL LETTER QA'
+Traceback (most recent call last):
+  File "/usr/bin/notocoverage", line 33, in <module>
+    sys.exit(load_entry_point('notofonttools==0.2.17', 'console_scripts', 'notocoverage')())
+  File "/usr/lib/python3.10/site-packages/nototools/coverage.py", line 161, in main
+    _process_font(fontpath, args)
+  File "/usr/lib/python3.10/site-packages/nototools/coverage.py", line 114, in _process_font
+    _print_char_info(sorted_chars)
+  File "/usr/lib/python3.10/site-packages/nototools/coverage.py", line 79, in _print_char_info
+    print("U+%04X %s" % (char, name))
+BrokenPipeError: [Errno 32] Broken pipe
++ CHECK_RESULT 0 0 0 'option: --sep . error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --sep . error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ for i in "@" "$" "." "-"
++ notocoverage --sep - ./font1.ttf
++ grep -q 'U+051B CYRILLIC SMALL LETTER QA'
+Traceback (most recent call last):
+  File "/usr/bin/notocoverage", line 33, in <module>
+    sys.exit(load_entry_point('notofonttools==0.2.17', 'console_scripts', 'notocoverage')())
+  File "/usr/lib/python3.10/site-packages/nototools/coverage.py", line 161, in main
+    _process_font(fontpath, args)
+  File "/usr/lib/python3.10/site-packages/nototools/coverage.py", line 114, in _process_font
+    _print_char_info(sorted_chars)
+  File "/usr/lib/python3.10/site-packages/nototools/coverage.py", line 79, in _print_char_info
+    print("U+%04X %s" % (char, name))
+BrokenPipeError: [Errno 32] Broken pipe
++ CHECK_RESULT 0 0 0 'option: --sep - error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --sep - error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ notocoverage --info ./font1.ttf
++ grep -q 'U+051B CYRILLIC SMALL LETTER QA'
+Traceback (most recent call last):
+  File "/usr/bin/notocoverage", line 33, in <module>
+    sys.exit(load_entry_point('notofonttools==0.2.17', 'console_scripts', 'notocoverage')())
+  File "/usr/lib/python3.10/site-packages/nototools/coverage.py", line 161, in main
+    _process_font(fontpath, args)
+  File "/usr/lib/python3.10/site-packages/nototools/coverage.py", line 114, in _process_font
+    _print_char_info(sorted_chars)
+  File "/usr/lib/python3.10/site-packages/nototools/coverage.py", line 79, in _print_char_info
+    print("U+%04X %s" % (char, name))
+BrokenPipeError: [Errno 32] Broken pipe
++ CHECK_RESULT 0 0 0 'option: --info error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --info error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ notocoverage --chars_per_line 10 ./font1.ttf
++ grep -q 'U+051B CYRILLIC SMALL LETTER QA'
+Traceback (most recent call last):
+  File "/usr/bin/notocoverage", line 33, in <module>
+    sys.exit(load_entry_point('notofonttools==0.2.17', 'console_scripts', 'notocoverage')())
+  File "/usr/lib/python3.10/site-packages/nototools/coverage.py", line 161, in main
+    _process_font(fontpath, args)
+  File "/usr/lib/python3.10/site-packages/nototools/coverage.py", line 114, in _process_font
+    _print_char_info(sorted_chars)
+  File "/usr/lib/python3.10/site-packages/nototools/coverage.py", line 79, in _print_char_info
+    print("U+%04X %s" % (char, name))
+BrokenPipeError: [Errno 32] Broken pipe
++ CHECK_RESULT 0 0 0 'option: --chars_per_line error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --chars_per_line error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ notocoverage --limit 0-7F ./font1.ttf
++ grep -q 'limit to: 0000-007f'
++ CHECK_RESULT 0 0 0 'option: --limit error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --limit error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Nov 21 16:50:21 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Nov 21 16:50:22 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Nov 21 16:50:23 2023 - INFO  - Start to restore the test environment.
++ rm -rf /tmp/nototools.yZXGhX3cMwmW
++ common_post
++ rm -rf /tmp/nototools.SRC.bvCKMobKLKti /root/.notoconfig
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp6xov4hti ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp6xov4hti
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue Nov 21 16:51:31 2023 - INFO  - End to restore the test environment.

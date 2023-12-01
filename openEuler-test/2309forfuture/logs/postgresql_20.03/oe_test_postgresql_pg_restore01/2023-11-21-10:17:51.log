@@ -1,0 +1,390 @@
++ source ../common/lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Nov 21 10:17:53 2023 - INFO  - Start to prepare the test environment.
++ postgresql_install
++ DNF_INSTALL 'postgresql postgresql-server postgresql-devel postgresql-contrib'
++ pkgs='postgresql postgresql-server postgresql-devel postgresql-contrib'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'postgresql postgresql-server postgresql-devel postgresql-contrib' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp2ig6aqyz
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp2ig6aqyz
++ rm -rf '/tmp/.s.PGSQL*'
++ /usr/bin/postgresql-setup --initdb
+ * Initializing database in '/var/lib/pgsql/data'
+ * Initialized, logs are in /var/lib/pgsql/initdb_postgresql.log
++ sed -i s/ident/trust/g /var/lib/pgsql/data/pg_hba.conf
++ systemctl start postgresql
++ expect
+spawn su - postgres
+Last login: Tue Nov 21 10:16:43 CST 2023
+
+
+Welcome to 6.1.19-2.oe2303.riscv64
+
+System information as of time: 	Tue Nov 21 10:18:52 AM CST 2023
+
+System load: 	[0;33;40m1.60[0m
+Processes: 	116
+Memory used: 	3.4%
+Swap used: 	0.0%
+Usage On: 	21%
+IP address: 	10.0.2.15
+Users online: 	0
+To run a command as administrator(user "root"),use "sudo <command>".
+
+
+Welcome to 6.1.19-2.oe2303.riscv64
+
+System information as of time: 	Tue Nov 21 10:18:53 AM CST 2023
+
+System load: 	[0;33;40m1.60[0m
+Processes: 	116
+Memory used: 	3.4%
+Swap used: 	0.0%
+Usage On: 	21%
+IP address: 	10.0.2.15
+Users online: 	0
+To run a command as administrator(user "root"),use "sudo <command>".
+[postgres@openeuler-riscv64 ~]$ createdb testdb
+[postgres@openeuler-riscv64 ~]$ psql testdb
+psql (13.3)
+Type "help" for help.
+
+testdb=# create table test (id int, val numeric);
+CREATE TABLE
+create index on test(id);
+testdb=# create index on test(id);
+CREATE INDEX
+testdb=# create index on test(val);
+CREATE INDEX
+testdb=# insert into test select generate_series(1,10000),random();
+INSERT 0 10000
+testdb=# create table tab_big(vname text,souroid oid);
+CREATE TABLE
+testdb=# insert into tab_big values('passwd list',lo_import('/etc/passwd'));
+INSERT 0 1
+testdb=# CREATE SCHEMA myschema;
+create table myschema.test (id int, val numeric) with oids;
+CREATE SCHEMA
+testdb=# create table myschema.test (id int, val numeric) with oids;
+ERROR:  syntax error at or near "oids"
+LINE 1: create table myschema.test (id int, val numeric) with oids;
+                                                              ^
+testdb=# insert into myschema.test select generate_series(1,100),random();
+ERROR:  relation "myschema.test" does not exist
+LINE 1: insert into myschema.test select generate_series(1,100),rand...
+                    ^
+testdb=# create user testuder;
+CREATE ROLE
+testdb=# GRANT ALL ON test TO testuder;
+\q
+GRANT
+testdb=# \q
+[postgres@openeuler-riscv64 ~]$ + export LANG=en_US.UTF-8
++ LANG=en_US.UTF-8
++ su - postgres -c 'pg_dump -Fc testdb  -f testdb.dump'
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Nov 21 10:19:41 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 10:19:41 2023 - INFO  - Start to run test.
++ su - postgres -c 'pg_restore -c testdb.dump -v'
++ grep Completed
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_postgresql_pg_restore01.sh line 31'
++ message='oe_test_postgresql_pg_restore01.sh line 31'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_postgresql_pg_restore01.sh line 31'
+Tue Nov 21 10:19:44 2023 - ERROR - oe_test_postgresql_pg_restore01.sh line 31
++ '[' 0 -eq 1 ']'
++ return 0
++ su - postgres -c 'pg_restore -v -a testdb.dump'
++ grep Completed
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_postgresql_pg_restore01.sh line 33'
++ message='oe_test_postgresql_pg_restore01.sh line 33'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_postgresql_pg_restore01.sh line 33'
+Tue Nov 21 10:19:47 2023 - ERROR - oe_test_postgresql_pg_restore01.sh line 33
++ '[' 0 -eq 1 ']'
++ return 0
++ su - postgres -c 'dropdb testdb'
++ su - postgres -c 'pg_restore -C testdb.dump  -d postgres -v'
++ grep pg_restore
+pg_restore: connecting to database for restore
+pg_restore: creating DATABASE "testdb"
+pg_restore: connecting to new database "testdb"
+pg_restore: creating SCHEMA "myschema"
+pg_restore: creating TABLE "public.tab_big"
+pg_restore: creating TABLE "public.test"
+pg_restore: executing BLOB 16399
+pg_restore: processing data for table "public.tab_big"
+pg_restore: processing data for table "public.test"
+pg_restore: processing BLOBS
+pg_restore: restoring large object with OID 16399
+pg_restore: restored 1 large object
+pg_restore: creating INDEX "public.test_id_idx"
+pg_restore: creating INDEX "public.test_val_idx"
+pg_restore: creating ACL "public.TABLE test"
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'dropdb postgres'
++ su - postgres -c 'createdb postgres'
++ su - postgres -c 'pg_restore -e testdb.dump  -d postgres -v'
++ grep pg_restore
+pg_restore: connecting to database for restore
+pg_restore: creating SCHEMA "myschema"
+pg_restore: creating TABLE "public.tab_big"
+pg_restore: creating TABLE "public.test"
+pg_restore: executing BLOB 16399
+pg_restore: processing data for table "public.tab_big"
+pg_restore: processing data for table "public.test"
+pg_restore: processing BLOBS
+pg_restore: restoring large object with OID 16399
+pg_restore: restored 1 large object
+pg_restore: creating INDEX "public.test_id_idx"
+pg_restore: creating INDEX "public.test_val_idx"
+pg_restore: creating ACL "public.TABLE test"
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'dropdb postgres'
++ su - postgres -c 'createdb postgres'
++ grep pg_restore
++ su - postgres -c 'pg_restore -I id testdb.dump  -d postgres -v'
+pg_restore: connecting to database for restore
+pg_restore: implied data-only restore
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'dropdb postgres'
++ su - postgres -c 'createdb postgres'
++ su - postgres -c 'pg_restore -j 2 testdb.dump  -d postgres -v'
++ grep pg_restore
+pg_restore: connecting to database for restore
+pg_restore: processing item 3097 ENCODING ENCODING
+pg_restore: processing item 3098 STDSTRINGS STDSTRINGS
+pg_restore: processing item 3099 SEARCHPATH SEARCHPATH
+pg_restore: processing item 3100 DATABASE testdb
+pg_restore: processing item 6 SCHEMA myschema
+pg_restore: creating SCHEMA "myschema"
+pg_restore: processing item 202 TABLE tab_big
+pg_restore: creating TABLE "public.tab_big"
+pg_restore: processing item 201 TABLE test
+pg_restore: creating TABLE "public.test"
+pg_restore: processing item 3093 BLOB 16399
+pg_restore: executing BLOB 16399
+pg_restore: entering main parallel loop
+pg_restore: launching item 3091 TABLE DATA test
+pg_restore: launching item 3094 BLOBS BLOBS
+pg_restore: processing BLOBS
+pg_restore: restoring large object with OID 16399
+pg_restore: processing data for table "public.test"
+pg_restore: restored 1 large object
+pg_restore: finished item 3094 BLOBS BLOBS
+pg_restore: launching item 3092 TABLE DATA tab_big
+pg_restore: processing data for table "public.tab_big"
+pg_restore: finished item 3092 TABLE DATA tab_big
+pg_restore: finished item 3091 TABLE DATA test
+pg_restore: launching item 2959 INDEX test_id_idx
+pg_restore:pg_restore: creating INDEX "public.test_id_idx"
+pg_restore: creating INDEX "public.test_val_idx"
+pg_restore: finished item 2959 INDEX test_id_idx
+pg_restore: finished item 2960 INDEX test_val_idx
+pg_restore: launching item 3101 ACL TABLE test
+pg_restore: creating ACL "public.TABLE test"
+pg_restore: finished item 3101 ACL TABLE test
+pg_restore: finished main parallel loop
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'dropdb postgres'
++ su - postgres -c 'createdb postgres'
++ su - postgres -c 'pg_restore -l testdb.dump > testfile'
++ sed -i 3d /var/lib/pgsql/testfile
++ su - postgres -c 'pg_restore -L testfile testdb.dump  -d postgres -v'
++ grep pg_restore
+pg_restore: connecting to database for restore
+pg_restore: creating SCHEMA "myschema"
+pg_restore: creating TABLE "public.tab_big"
+pg_restore: creating TABLE "public.test"
+pg_restore: executing BLOB 16399
+pg_restore: processing data for table "public.tab_big"
+pg_restore: processing data for table "public.test"
+pg_restore: processing BLOBS
+pg_restore: restoring large object with OID 16399
+pg_restore: restored 1 large object
+pg_restore: creating INDEX "public.test_id_idx"
+pg_restore: creating INDEX "public.test_val_idx"
+pg_restore: creating ACL "public.TABLE test"
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'pg_restore -n myschema -t test testdb.dump -v'
++ grep pg_restore
+pg_restore: error: one of -d/--dbname and -f/--file must be specified
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'dropdb postgres'
++ su - postgres -c 'createdb postgres'
++ su - postgres -c 'pg_restore -N myschema testdb.dump -d postgres -v'
++ grep pg_restore
+pg_restore: connecting to database for restore
+pg_restore: creating SCHEMA "myschema"
+pg_restore: creating TABLE "public.tab_big"
+pg_restore: creating TABLE "public.test"
+pg_restore: executing BLOB 16399
+pg_restore: processing data for table "public.tab_big"
+pg_restore: processing data for table "public.test"
+pg_restore: processing BLOBS
+pg_restore: restoring large object with OID 16399
+pg_restore: restored 1 large object
+pg_restore: creating INDEX "public.test_id_idx"
+pg_restore: creating INDEX "public.test_val_idx"
+pg_restore: creating ACL "public.TABLE test"
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'dropdb postgres'
++ su - postgres -c 'createdb postgres'
++ su - postgres -c 'pg_restore -O testdb.dump -v'
++ grep pg_restore
+pg_restore: error: one of -d/--dbname and -f/--file must be specified
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Nov 21 10:20:44 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 2
++ test 2 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Tue Nov 21 10:20:45 2023 - ERROR - failed to execute the case.
++ exit 2
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Nov 21 10:20:45 2023 - INFO  - Start to restore the test environment.
++ systemctl stop postgresql
++ DNF_REMOVE 1 'postgresql postgresql-server postgresql-devel postgresql-contrib'
++ node=1
++ pkg_list='postgresql postgresql-server postgresql-devel postgresql-contrib'
++ mode=0
++ [[ -z /tmp/tmp2ig6aqyz ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs 'postgresql postgresql-server postgresql-devel postgresql-contrib' --tempfile /tmp/tmp2ig6aqyz
++ '[' 0 -ne 0 ']'
++ rm -rf /var/lib/pgsql/data /var/lib/pgsql/initdb_postgresql.log /var/lib/pgsql/testdb.dump /var/lib/pgsql/testfile
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue Nov 21 10:20:59 2023 - INFO  - End to restore the test environment.

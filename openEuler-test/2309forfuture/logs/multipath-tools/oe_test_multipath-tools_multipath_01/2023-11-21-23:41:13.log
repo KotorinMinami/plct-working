@@ -1,0 +1,507 @@
++ source common_multipath-tools.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Nov 21 23:41:15 2023 - INFO  - Start to prepare the test environment.
++ deploy_env
+++ TEST_DISK 2
+++ id=2
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 2
++ remote_disks=vdb
+++ echo vdb
+++ awk -F ' ' '{for(i=1;i<=NF;i++) if ($i!~/[0-9]/)j=i;print $j}'
++ remote_disk=/dev/vdb
++ P_SSH_CMD --node 2 --cmd 'dnf install -y scsi-target-utils; 
+        echo -e '\''n\np\n1\n\n+2000M\nw'\'' | fdisk /dev/vdb; 
+        echo -e '\''<target iqn.2013-12.com.make:ws.httpd>\nbacking-store /dev/vdb\n</target>'\'' >>/etc/tgt/targets.conf; 
+        systemctl restart tgtd; 
+        systemctl stop firewalld;'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --node 2 --cmd 'dnf install -y scsi-target-utils; 
+        echo -e '\''n\np\n1\n\n+2000M\nw'\'' | fdisk /dev/vdb; 
+        echo -e '\''<target iqn.2013-12.com.make:ws.httpd>\nbacking-store /dev/vdb\n</target>'\'' >>/etc/tgt/targets.conf; 
+        systemctl restart tgtd; 
+        systemctl stop firewalld;'
+Failed to stop firewalld.service: Unit firewalld.service not loaded.
++ DNF_REMOVE iscsi-initiator-utils
++ node=iscsi-initiator-utils
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Tue Nov 21 23:41:50 2023 - WARN  - no thing to do.
++ return 0
++ DNF_INSTALL 'iscsi-initiator-utils multipath-tools device-mapper-event device-mapper'
++ pkgs='iscsi-initiator-utils multipath-tools device-mapper-event device-mapper'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'iscsi-initiator-utils multipath-tools device-mapper-event device-mapper' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpgvaa7pvj
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpgvaa7pvj
++ systemctl restart iscsid
+Job for iscsid.service failed because the control process exited with error code.
+See "systemctl status iscsid.service" and "journalctl -xeu iscsid.service" for details.
++ iscsiadm -m discovery -t sendtargets -p 192.168.114.6
+iscsiadm: iscsid is not running. Could not start it up automatically using the startup command in the /etc/iscsi/iscsid.conf iscsid.startup setting. Please check that the file exists or that your init scripts have started iscsid.
+iscsiadm: can not connect to iSCSI daemon (111)!
+iscsiadm: Could not scan /sys/class/iscsi_transport.
+libkmod: kmod_module_insert_module: could not find module by name='iscsi_tcp'
+iscsiadm: Could not insert module tcp. Kmod error -2
+iscsiadm: iSCSI driver tcp is not loaded. Load the module then retry the command.
+iscsiadm: Could not perform SendTargets discovery: iSCSI driver not found. Please make sure it is loaded, and retry the operation
++ iscsiadm -m node -T iqn.2013-12.com.make:ws.httpd -l
+iscsiadm: No records found
++ mpathconf --enable --with_multipathd y
+modprobe: FATAL: Module dm_multipath not found in directory /lib/modules/6.1.19-2.oe2303.riscv64
+Job for multipathd.service failed because the control process exited with error code.
+See "systemctl status multipathd.service" and "journalctl -xeu multipathd.service" for details.
++ service multipathd start
+common_multipath-tools.sh: line 34: service: command not found
++ multipath -v2
+689.916624 | DM multipath kernel driver not loaded
++ multipath -ll
+689.991335 | DM multipath kernel driver not loaded
++ echo '
+defaults {
+       user_friendly_names       yes
+       max_fds                   max
+       queue_without_daemon      no
+       flush_on_last_del         yes
+}
+
+devices {
+       device {
+               vendor                  "IET "
+               product                 "VIRTUAL-DISK"
+               path_grouping_policy    multibus
+               getuid_callout          "/sbin/scsi_id -g -u -s/block/%n"
+               path_checker            directio
+               path_selector           "round-robin 0"
+               hardware_handler        "0"
+               failback                15
+               rr_weight               priorities
+               no_path_retry           queue
+               rr_min_io               100
+               product_blacklist       LUNZ
+       }
+}'
++ lsmod
++ grep dm_multipath
++ modprobe dm_multipath
+modprobe: FATAL: Module dm_multipath not found in directory /lib/modules/6.1.19-2.oe2303.riscv64
++ modprobe dm_multipath
+modprobe: FATAL: Module dm_multipath not found in directory /lib/modules/6.1.19-2.oe2303.riscv64
++ service multipathd restart
+common_multipath-tools.sh: line 63: service: command not found
++ chkconfig --level 345 multipathd on
+Note: Forwarding request to 'systemctl enable multipathd.service'.
+Created symlink /etc/systemd/system/sysinit.target.wants/multipathd.service → /usr/lib/systemd/system/multipathd.service.
+Created symlink /etc/systemd/system/sockets.target.wants/multipathd.socket → /usr/lib/systemd/system/multipathd.socket.
+++ TEST_DISK 1
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device disk --node 1
++ local_disks=vdb
+++ echo vdb
+++ awk -F ' ' '/sd[a-z]/ {for(i=1;i<=NF;i++) if ($i~/sd/ && $i!~/[0-9]/)j=i;print $j}'
++ local_disk=
+++ ls /dev/mapper
+++ grep mpath
+++ head -n 1
++ test_mapper=
+++ ls -l /dev/mapper/
+++ grep
+++ awk -F / '{print $2}'
+++ head -n 1
+Usage: grep [OPTION]... PATTERNS [FILE]...
+Try 'grep --help' for more information.
++ test_dm=
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Nov 21 23:42:50 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 23:42:50 2023 - INFO  - Start to run test.
++ multipath -v3
++ grep
+Usage: grep [OPTION]... PATTERNS [FILE]...
+Try 'grep --help' for more information.
+700.707086 | set open fds limit to 1073741816/1073741816
+700.707685 | loading /lib64/multipath/libchecktur.so checker
+700.710366 | checker tur: message table size = 3
+700.710952 | loading /lib64/multipath/libprioconst.so prioritizer
+700.712850 | _init_foreign: foreign library "nvme" is not enabled
+700.734799 | vda: device node name blacklisted
+700.737907 | vdb: device node name blacklisted
+700.738649 | loop0: device node name blacklisted
+700.739599 | loop1: device node name blacklisted
+700.740776 | loop2: device node name blacklisted
+700.741470 | loop3: device node name blacklisted
+700.742323 | loop4: device node name blacklisted
+700.743215 | loop5: device node name blacklisted
+700.744488 | loop6: device node name blacklisted
+700.745278 | loop7: device node name blacklisted
+700.745797 | multipath-tools v0.8.7 (09/08, 2021)
+700.746119 | libdevmapper version 1.02.189
+700.747660 | kernel device mapper v4.47.0
+700.748177 | DM multipath kernel driver not loaded
+700.748701 | unloading tur checker
+700.749116 | unloading const prioritizer
++ CHECK_RESULT 2
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_multipath-tools_multipath_01.sh line 34'
++ message='oe_test_multipath-tools_multipath_01.sh line 34'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_multipath-tools_multipath_01.sh line 34'
+Tue Nov 21 23:42:51 2023 - ERROR - oe_test_multipath-tools_multipath_01.sh line 34
++ '[' 0 -eq 1 ']'
++ return 0
++ multipath -ll
++ grep mpath -A 10
+701.378009 | DM multipath kernel driver not loaded
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_multipath-tools_multipath_01.sh line 36'
++ message='oe_test_multipath-tools_multipath_01.sh line 36'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_multipath-tools_multipath_01.sh line 36'
+Tue Nov 21 23:42:52 2023 - ERROR - oe_test_multipath-tools_multipath_01.sh line 36
++ '[' 0 -eq 1 ']'
++ return 0
++ multipath -l
++ grep mpath -A 10
+701.977565 | DM multipath kernel driver not loaded
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_multipath-tools_multipath_01.sh line 38'
++ message='oe_test_multipath-tools_multipath_01.sh line 38'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_multipath-tools_multipath_01.sh line 38'
+Tue Nov 21 23:42:52 2023 - ERROR - oe_test_multipath-tools_multipath_01.sh line 38
++ '[' 0 -eq 1 ']'
++ return 0
++ multipath -v3 -f /dev/
+702.538486 | '/dev/' is not a valid argument
+
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_multipath-tools_multipath_01.sh line 40'
++ message='oe_test_multipath-tools_multipath_01.sh line 40'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_multipath-tools_multipath_01.sh line 40'
+Tue Nov 21 23:42:53 2023 - ERROR - oe_test_multipath-tools_multipath_01.sh line 40
++ '[' 0 -eq 1 ']'
++ return 0
++ test -L /dev/mapper/1
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ service multipathd restart
+oe_test_multipath-tools_multipath_01.sh: line 43: service: command not found
++ sleep 10
++ multipath -v3 -R 1 -F
+713.193453 | set open fds limit to 1073741816/1073741816
+713.194023 | loading /lib64/multipath/libchecktur.so checker
+713.196711 | checker tur: message table size = 3
+713.197215 | loading /lib64/multipath/libprioconst.so prioritizer
+713.199704 | _init_foreign: foreign library "nvme" is not enabled
+713.200925 | multipath-tools v0.8.7 (09/08, 2021)
+713.201403 | libdevmapper version 1.02.189
+713.203455 | kernel device mapper v4.47.0
+713.203800 | DM multipath kernel driver not loaded
+713.204668 | unloading tur checker
+713.205385 | unloading const prioritizer
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_multipath-tools_multipath_01.sh line 46'
++ message='oe_test_multipath-tools_multipath_01.sh line 46'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_multipath-tools_multipath_01.sh line 46'
+Tue Nov 21 23:43:04 2023 - ERROR - oe_test_multipath-tools_multipath_01.sh line 46
++ '[' 0 -eq 1 ']'
++ return 0
++ test -L /dev/mapper/
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ service multipathd restart
+oe_test_multipath-tools_multipath_01.sh: line 49: service: command not found
++ multipath -a /dev/
++ grep added
+713.795994 | '/dev/' is not a valid argument
+
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_multipath-tools_multipath_01.sh line 51'
++ message='oe_test_multipath-tools_multipath_01.sh line 51'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_multipath-tools_multipath_01.sh line 51'
+Tue Nov 21 23:43:04 2023 - ERROR - oe_test_multipath-tools_multipath_01.sh line 51
++ '[' 0 -eq 1 ']'
++ return 0
++ grep 0000 /etc/multipath/wwids
+grep: /etc/multipath/wwids: No such file or directory
++ CHECK_RESULT 2
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_multipath-tools_multipath_01.sh line 53'
++ message='oe_test_multipath-tools_multipath_01.sh line 53'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_multipath-tools_multipath_01.sh line 53'
+Tue Nov 21 23:43:05 2023 - ERROR - oe_test_multipath-tools_multipath_01.sh line 53
++ '[' 0 -eq 1 ']'
++ return 0
++ multipath -v3 -C /dev/
++ grep -E 'checker|sda|/dev/'
+714.941465 | '/dev/' is not a valid argument
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ multipath -v3 -q
++ grep -C 10 'paths list'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_multipath-tools_multipath_01.sh line 57'
++ message='oe_test_multipath-tools_multipath_01.sh line 57'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_multipath-tools_multipath_01.sh line 57'
+Tue Nov 21 23:43:05 2023 - ERROR - oe_test_multipath-tools_multipath_01.sh line 57
++ '[' 0 -eq 1 ']'
++ return 0
++ multipath -v3 -d
++ grep -i dev
+715.646771 | vda: device node name blacklisted
+715.649886 | vdb: device node name blacklisted
+715.650649 | loop0: device node name blacklisted
+715.651267 | loop1: device node name blacklisted
+715.651940 | loop2: device node name blacklisted
+715.653014 | loop3: device node name blacklisted
+715.653829 | loop4: device node name blacklisted
+715.654600 | loop5: device node name blacklisted
+715.655238 | loop6: device node name blacklisted
+715.655869 | loop7: device node name blacklisted
+715.657019 | libdevmapper version 1.02.189
+715.658375 | kernel device mapper v4.47.0
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Nov 21 23:43:06 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 8
++ test 8 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Tue Nov 21 23:43:07 2023 - ERROR - failed to execute the case.
++ exit 8
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Nov 21 23:43:07 2023 - INFO  - Start to restore the test environment.
++ clear_env
++ P_SSH_CMD --node 2 --cmd 'dnf remove -y scsi-target-utils; echo -e '\''d\nw\n'\'' | fdisk /dev/vdb'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --node 2 --cmd 'dnf remove -y scsi-target-utils; echo -e '\''d\nw\n'\'' | fdisk /dev/vdb'
+Dependencies resolved.
+================================================================================
+ Package                 Arch        Version                Repository     Size
+================================================================================
+Removing:
+ scsi-target-utils       riscv64     1.0.79-4.oe2303        @mainline     569 k
+Removing unused dependencies:
+ lsof                    riscv64     4.97.0-2.oe2303        @mainline     198 k
+ pciutils                riscv64     3.9.0-1.oe2303         @mainline     286 k
+ perl-Config-General     noarch      2.65-1.oe2303          @mainline     108 k
+ rdma-core               riscv64     41.0-8.oe2303          @mainline     2.9 M
+ sg3_utils               riscv64     1.47-3.oe2303          @mainline     2.3 M
+
+Transaction Summary
+================================================================================
+Remove  6 Packages
+
+Freed space: 6.4 M
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Preparing        :                                                        1/1 
+  Running scriptlet: scsi-target-utils-1.0.79-4.oe2303.riscv64              1/1 
+  Running scriptlet: scsi-target-utils-1.0.79-4.oe2303.riscv64              1/6 
+  Erasing          : scsi-target-utils-1.0.79-4.oe2303.riscv64              1/6 
+warning: /etc/tgt/targets.conf saved as /etc/tgt/targets.conf.rpmsave
+
+  Running scriptlet: scsi-target-utils-1.0.79-4.oe2303.riscv64              1/6 
+  Erasing          : perl-Config-General-2.65-1.oe2303.noarch               2/6 
+  Running scriptlet: rdma-core-41.0-8.oe2303.riscv64                        3/6 
+  Erasing          : rdma-core-41.0-8.oe2303.riscv64                        3/6 
+  Running scriptlet: rdma-core-41.0-8.oe2303.riscv64                        3/6 
+  Erasing          : pciutils-3.9.0-1.oe2303.riscv64                        4/6 
+  Running scriptlet: pciutils-3.9.0-1.oe2303.riscv64                        4/6 
+  Erasing          : lsof-4.97.0-2.oe2303.riscv64                           5/6 
+  Erasing          : sg3_utils-1.47-3.oe2303.riscv64                        6/6 
+  Running scriptlet: sg3_utils-1.47-3.oe2303.riscv64                        6/6 
+  Verifying        : lsof-4.97.0-2.oe2303.riscv64                           1/6 
+  Verifying        : pciutils-3.9.0-1.oe2303.riscv64                        2/6 
+  Verifying        : perl-Config-General-2.65-1.oe2303.noarch               3/6 
+  Verifying        : rdma-core-41.0-8.oe2303.riscv64                        4/6 
+  Verifying        : scsi-target-utils-1.0.79-4.oe2303.riscv64              5/6 
+  Verifying        : sg3_utils-1.47-3.oe2303.riscv64                        6/6 
+
+Removed:
+  lsof-4.97.0-2.oe2303.riscv64                pciutils-3.9.0-1.oe2303.riscv64  
+  perl-Config-General-2.65-1.oe2303.noarch    rdma-core-41.0-8.oe2303.riscv64  
+  scsi-target-utils-1.0.79-4.oe2303.riscv64   sg3_utils-1.47-3.oe2303.riscv64  
+
+Complete!
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+
+Command (m for help): Selected partition 1
+Partition 1 has been deleted.
+
+Command (m for help): The partition table has been altered.
+Calling ioctl() to re-read partition table.
+Syncing disks.
++ iscsiadm -m node --logoutall=all
+iscsiadm: No matching sessions found
++ multipath -F
+734.687633 | DM multipath kernel driver not loaded
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpgvaa7pvj ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpgvaa7pvj
++ '[' 0 -ne 0 ']'
+++ ls
+++ grep -vE .sh
++ del_file=
++ rm -rf /tmp/disk1
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue Nov 21 23:43:40 2023 - INFO  - End to restore the test environment.

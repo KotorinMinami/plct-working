@@ -1,0 +1,184 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Nov 22 08:27:55 2023 - INFO  - Start to prepare the test environment.
++ dd if=/dev/zero of=/home/testzone count=20 bs=10M
+20+0 records in
+20+0 records out
+209715200 bytes (210 MB, 200 MiB) copied, 1.99067 s, 105 MB/s
++ losetup /dev/loop0 /home/testzone
++ CHECK_RESULT 0 0 0 'log message: Failed install minimap2 '
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='log message: Failed install minimap2 '
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Nov 22 08:27:57 2023 - INFO  - Start to run test.
++ mkfs.ext4 -F /dev/loop0
+mke2fs 1.46.5 (30-Dec-2021)
+Discarding device blocks:      0/204800             done                            
+Creating filesystem with 204800 1k blocks and 51200 inodes
+Filesystem UUID: bae7ec5c-a32b-4ff1-b87c-31676a2cfd8c
+Superblock backups stored on blocks: 
+	8193, 24577, 40961, 57345, 73729
+
+Allocating group tables:  0/25     done                            
+Writing inode tables:  0/25     done                            
+Creating journal (4096 blocks): done
+Writing superblocks and filesystem accounting information:  0/25     done
+
++ CHECK_RESULT 0 0 0 'formatting fail'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='formatting fail'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ mount /dev/loop0 /mnt
++ CHECK_RESULT 0 0 0 'mount fail'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='mount fail'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ echo test
++ grep test /mnt/testfile
+test
++ CHECK_RESULT 0 0 0 'test fail'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='test fail'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ umount /mnt
++ CHECK_RESULT 0 0 0 'umount fail'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='umount fail'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ dd if=/dev/zero of=/dev/loop0 bs=512 count=3
+3+0 records in
+3+0 records out
+1536 bytes (1.5 kB, 1.5 KiB) copied, 0.0034665 s, 443 kB/s
++ mount /dev/loop0 /mnt
+mount: /mnt: wrong fs type, bad option, bad superblock on /dev/loop0, missing codepage or helper program, or other error.
++ CHECK_RESULT 32 0 1 'Failure to destroy'
++ actual_result=32
++ expect_result=0
++ mode=1
++ error_log='Failure to destroy'
++ exit_mode=0
++ '[' -z 32 ']'
++ '[' 1 -eq 0 ']'
++ test 32x == 0x
++ return 0
++ e2fsck -y /dev/loop0
+e2fsck 1.46.5 (30-Dec-2021)
+ext2fs_open2: Bad magic number in super-block
+e2fsck: Superblock invalid, trying backup blocks...
+/dev/loop0 was not cleanly unmounted, check forced.
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+Block bitmap differences:  +(24577--24835) +(40961--41219) +(57345--57603) +(73729--73987)
+Fix? yes
+
+Free blocks count wrong for group #2 (8192, counted=8191).
+Fix? yes
+
+Free blocks count wrong (186285, counted=186284).
+Fix? yes
+
+Free inodes count wrong for group #0 (2037, counted=2036).
+Fix? yes
+
+Free inodes count wrong (51189, counted=51188).
+Fix? yes
+
+Padding at end of inode bitmap is not set. Fix? yes
+
+
+/dev/loop0: ***** FILE SYSTEM WAS MODIFIED *****
+/dev/loop0: 12/51200 files (0.0% non-contiguous), 18516/204800 blocks
++ mount /dev/loop0 /mnt
++ grep test /mnt/testfile
+test
++ CHECK_RESULT 0 0 0 'repair fail'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='repair fail'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Wed Nov 22 08:27:59 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Nov 22 08:28:00 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Nov 22 08:28:00 2023 - INFO  - Start to restore the test environment.
++ umount /mnt
++ losetup -d /dev/loop0
++ rm -rf /home/testzone
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Wed Nov 22 08:28:01 2023 - INFO  - End to restore the test environment.

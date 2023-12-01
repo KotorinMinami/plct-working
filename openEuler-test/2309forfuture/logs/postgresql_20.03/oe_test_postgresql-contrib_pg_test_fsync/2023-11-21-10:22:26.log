@@ -1,0 +1,327 @@
++ source ../common/lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ grep expect
++ rpm -qa
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Nov 21 10:22:29 2023 - INFO  - Start to prepare the test environment.
++ postgresql_install
++ DNF_INSTALL 'postgresql postgresql-server postgresql-devel postgresql-contrib'
++ pkgs='postgresql postgresql-server postgresql-devel postgresql-contrib'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'postgresql postgresql-server postgresql-devel postgresql-contrib' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmppwd6ddwh
++ '[' -z '' ']'
++ tmpfile=/tmp/tmppwd6ddwh
++ rm -rf '/tmp/.s.PGSQL*'
++ /usr/bin/postgresql-setup --initdb
+ * Initializing database in '/var/lib/pgsql/data'
+ * Initialized, logs are in /var/lib/pgsql/initdb_postgresql.log
++ sed -i s/ident/trust/g /var/lib/pgsql/data/pg_hba.conf
++ systemctl start postgresql
++ expect
+spawn su - postgres
+Last login: Tue Nov 21 10:21:16 CST 2023
+
+
+Welcome to 6.1.19-2.oe2303.riscv64
+
+System information as of time: 	Tue Nov 21 10:23:27 AM CST 2023
+
+System load: 	[0;33;40m1.64[0m
+Processes: 	115
+Memory used: 	2.6%
+Swap used: 	0.0%
+Usage On: 	21%
+IP address: 	10.0.2.15
+Users online: 	0
+To run a command as administrator(user "root"),use "sudo <command>".
+
+
+Welcome to 6.1.19-2.oe2303.riscv64
+
+System information as of time: 	Tue Nov 21 10:23:28 AM CST 2023
+
+System load: 	[0;33;40m1.64[0m
+Processes: 	115
+Memory used: 	2.6%
+Swap used: 	0.0%
+Usage On: 	21%
+IP address: 	10.0.2.15
+Users online: 	0
+To run a command as administrator(user "root"),use "sudo <command>".
+[postgres@openeuler-riscv64 ~]$ createdb testdb
+[postgres@openeuler-riscv64 ~]$ psql testdb
+psql (13.3)
+Type "help" for help.
+
+testdb=# create table test (id int, val numeric);
+CREATE TABLE
+create index on test(id);
+testdb=# create index on test(id);
+CREATE INDEX
+create index on test(val);
+testdb=# create index on test(val);
+CREATE INDEX
+testdb=# insert into test select generate_series(1,10000),random();
+INSERT 0 10000
+testdb=# create table tab_big(vname text,souroid oid);
+CREATE TABLE
+testdb=# insert into tab_big values('passwd list',lo_import('/etc/passwd'));
+INSERT 0 1
+testdb=# CREATE SCHEMA myschema;
+create table myschema.test (id int, val numeric) with oids;
+CREATE SCHEMA
+testdb=# create table myschema.test (id int, val numeric) with oids;
+ERROR:  syntax error at or near "oids"
+LINE 1: create table myschema.test (id int, val numeric) with oids;
+                                                              ^
+testdb=# insert into myschema.test select generate_series(1,100),random();
+ERROR:  relation "myschema.test" does not exist
+LINE 1: insert into myschema.test select generate_series(1,100),rand...
+                    ^
+testdb=# create user testuder;
+CREATE ROLE
+testdb=# GRANT ALL ON test TO testuder;
+\q
+GRANT
+testdb=# \q
+[postgres@openeuler-riscv64 ~]$ + export LANG=en_US.UTF-8
++ LANG=en_US.UTF-8
++ echo 'EXEC SQL CREATE TABLE testecpg (a int, b varchar(50));'
++ su - postgres -c 'pg_test_fsync -f testfile'
+5 seconds per test
+O_DIRECT supported on this platform for open_datasync and open_sync.
+
+Compare file sync methods using one 8kB write:
+(in wal_sync_method preference order, except fdatasync is Linux's default)
+        open_datasync                       804.639 ops/sec    1243 usecs/op
+        fdatasync                           824.827 ops/sec    1212 usecs/op
+        fsync                               372.923 ops/sec    2682 usecs/op
+        fsync_writethrough                              n/a
+        open_sync                           284.955 ops/sec    3509 usecs/op
+
+Compare file sync methods using two 8kB writes:
+(in wal_sync_method preference order, except fdatasync is Linux's default)
+        open_datasync                       103.311 ops/sec    9680 usecs/op
+        fdatasync                           191.569 ops/sec    5220 usecs/op
+        fsync                                83.895 ops/sec   11920 usecs/op
+        fsync_writethrough                              n/a
+        open_sync                            49.619 ops/sec   20154 usecs/op
+
+Compare open_sync with different write sizes:
+(This is designed to compare the cost of writing 16kB in different write
+open_sync sizes.)
+         1 * 16kB open_sync write            99.256 ops/sec   10075 usecs/op
+         2 *  8kB open_sync writes           49.146 ops/sec   20348 usecs/op
+         4 *  4kB open_sync writes           25.657 ops/sec   38975 usecs/op
+         8 *  2kB open_sync writes           12.378 ops/sec   80787 usecs/op
+        16 *  1kB open_sync writes            5.898 ops/sec  169543 usecs/op
+
+Test if fsync on non-write file descriptor is honored:
+(If the times are similar, fsync() can sync data written on a different
+descriptor.)
+        write, fsync, close                 100.466 ops/sec    9954 usecs/op
+        write, close, fsync                  98.167 ops/sec   10187 usecs/op
+
+Non-sync'ed 8kB writes:
+        write                             25386.989 ops/sec      39 usecs/op
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Nov 21 10:25:36 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 10:25:37 2023 - INFO  - Start to run test.
++ su - postgres -c 'pg_test_fsync -s 2'
+2 seconds per test
+O_DIRECT supported on this platform for open_datasync and open_sync.
+
+Compare file sync methods using one 8kB write:
+(in wal_sync_method preference order, except fdatasync is Linux's default)
+        open_datasync                       214.312 ops/sec    4666 usecs/op
+        fdatasync                           189.370 ops/sec    5281 usecs/op
+        fsync                               132.211 ops/sec    7564 usecs/op
+        fsync_writethrough                              n/a
+        open_sync                           363.428 ops/sec    2752 usecs/op
+
+Compare file sync methods using two 8kB writes:
+(in wal_sync_method preference order, except fdatasync is Linux's default)
+        open_datasync                       332.286 ops/sec    3009 usecs/op
+        fdatasync                           602.717 ops/sec    1659 usecs/op
+        fsync                               267.334 ops/sec    3741 usecs/op
+        fsync_writethrough                              n/a
+        open_sync                           120.411 ops/sec    8305 usecs/op
+
+Compare open_sync with different write sizes:
+(This is designed to compare the cost of writing 16kB in different write
+open_sync sizes.)
+         1 * 16kB open_sync write           268.710 ops/sec    3721 usecs/op
+         2 *  8kB open_sync writes          151.417 ops/sec    6604 usecs/op
+         4 *  4kB open_sync writes           71.251 ops/sec   14035 usecs/op
+         8 *  2kB open_sync writes           43.387 ops/sec   23048 usecs/op
+        16 *  1kB open_sync writes           18.293 ops/sec   54667 usecs/op
+
+Test if fsync on non-write file descriptor is honored:
+(If the times are similar, fsync() can sync data written on a different
+descriptor.)
+        write, fsync, close                 169.800 ops/sec    5889 usecs/op
+        write, close, fsync                  90.354 ops/sec   11068 usecs/op
+
+Non-sync'ed 8kB writes:
+        write                             25577.881 ops/sec      39 usecs/op
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pg_test_fsync -V
++ grep '(PostgreSQL)'
+pg_test_fsync (PostgreSQL) 13.3
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pg_test_fsync '-?'
++ grep Usage:
+Usage: pg_test_fsync [-f FILENAME] [-s SECS-PER-TEST]
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf testfile
++ su - postgres -c 'pg_test_timing -d 3'
++ grep '3 seconds'
+Testing timing overhead for 3 seconds.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pg_test_timing -V
++ grep '(PostgreSQL)'
+pg_test_timing (PostgreSQL) 13.3
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pg_test_timing '-?'
++ grep Usage:
+Usage: pg_test_timing [-d DURATION]
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pg_upgrade -V
++ grep '(PostgreSQL)'
+pg_upgrade (PostgreSQL) 13.3
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pg_upgrade '-?'
++ grep Usage:
+Usage:
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Nov 21 10:26:21 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Nov 21 10:26:22 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Nov 21 10:26:22 2023 - INFO  - Start to restore the test environment.
++ systemctl stop postgresql
++ DNF_REMOVE 1 'postgresql postgresql-server postgresql-devel postgresql-contrib'
++ node=1
++ pkg_list='postgresql postgresql-server postgresql-devel postgresql-contrib'
++ mode=0
++ [[ -z /tmp/tmppwd6ddwh ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs 'postgresql postgresql-server postgresql-devel postgresql-contrib' --tempfile /tmp/tmppwd6ddwh
++ '[' 0 -ne 0 ']'
++ rm -rf /var/lib/pgsql/data /var/lib/pgsql/initdb_postgresql.log
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue Nov 21 10:26:38 2023 - INFO  - End to restore the test environment.

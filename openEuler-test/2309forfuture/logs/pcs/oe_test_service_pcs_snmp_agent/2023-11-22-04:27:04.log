@@ -1,0 +1,878 @@
++ source ../common/ha.sh
+++ source ../common/common_lib.sh
++++ source /root/mugen/libs/locallibs/common_lib.sh
+++++ python3 --version
+++++ '[' 0 -eq 0 ']'
+++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed Nov 22 04:27:06 2023 - INFO  - Start environmental preparation.
++ service=pcs_snmp_agent.service
++ ha_pre
++ systemctl stop firewalld
+Failed to stop firewalld.service: Unit firewalld.service not loaded.
++ systemctl disable firewalld
+Failed to disable unit: Unit file firewalld.service does not exist.
++ flag=false
+++ getenforce
+++ grep Enforcing
++ '[' ']'
++ DNF_INSTALL 'corosync pacemaker pcs'
++ pkgs='corosync pacemaker pcs'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'corosync pacemaker pcs' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpy9qa_qn0
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpy9qa_qn0
+++ hostname
++ hostname=openeuler-riscv64
++ hostnamectl set-hostname ha1
++ cp /etc/hosts /etc/hosts_bak
++ echo '192.168.114.2 ha1
+192.168.114.6 ha2'
++ echo 'openEuler12#$'
++ passwd --stdin hacluster
+Changing password for user hacluster.
+passwd: all authentication tokens updated successfully.
++ echo 'totem {
+        version: 2
+        cluster_name: hacluster
+        crypto_cipher: none
+        crypto_hash: none
+}
+logging {         
+        fileline: off
+        to_stderr: yes
+        to_logfile: yes
+        logfile: /var/log/cluster/corosync.log
+        to_syslog: yes
+        debug: off
+        logger_subsys {
+               subsys: QUORUM
+               debug: off
+        }
+}
+quorum {
+        provider: corosync_votequorum
+        two_node: 1
+}
+nodelist {
+        node {
+               name: ha1
+               nodeid: 1
+               ring0_addr: 192.168.114.2
+        }
+        node {
+               name: ha2
+               nodeid: 2
+               ring0_addr: 192.168.114.6 
+        }
+}'
++ P_SSH_CMD --node 2 --cmd '
+    systemctl stop firewalld;
+    systemctl disable firewalld;
+    dnf install -y corosync pacemaker pcs;
+    hostnamectl set-hostname ha2;
+    echo openEuler12#$ | passwd --stdin hacluster;
+    mv /etc/hosts /etc/hosts_bak'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --node 2 --cmd '
+    systemctl stop firewalld;
+    systemctl disable firewalld;
+    dnf install -y corosync pacemaker pcs;
+    hostnamectl set-hostname ha2;
+    echo openEuler12#$ | passwd --stdin hacluster;
+    mv /etc/hosts /etc/hosts_bak'
+Last metadata expiration check: 1 day, 2:39:38 ago on Tue 21 Nov 2023 01:49:15 AM CST.
+Dependencies resolved.
+================================================================================
+ Package                         Arch     Version               Repo       Size
+================================================================================
+Installing:
+ corosync                        riscv64  3.1.5-1.oe2303        mainline  249 k
+ pacemaker                       riscv64  2.1.4-1.oe2303        mainline  392 k
+ pcs                             riscv64  0.11.2-1.oe2303       mainline  6.9 M
+Installing dependencies:
+ cifs-utils                      riscv64  7.0-1.oe2303          mainline   69 k
+ corosynclib                     riscv64  3.1.5-1.oe2303        mainline   40 k
+ ding-libs                       riscv64  0.6.1-45.oe2303       mainline   90 k
+ gssproxy                        riscv64  0.9.1-1.oe2303        mainline   91 k
+ inih                            riscv64  56-1.oe2303           mainline   23 k
+ keyutils                        riscv64  1.6.3-5.oe2303        mainline   52 k
+ krb5                            riscv64  1.20.1-1.oe2303       mainline   76 k
+ libknet1                        riscv64  1.22-1.oe2303         mainline   71 k
+ libknet1-compress-bzip2-plugin  riscv64  1.22-1.oe2303         mainline   10 k
+ libknet1-compress-lz4-plugin    riscv64  1.22-1.oe2303         mainline   10 k
+ libknet1-compress-lzma-plugin   riscv64  1.22-1.oe2303         mainline   10 k
+ libknet1-compress-lzo2-plugin   riscv64  1.22-1.oe2303         mainline   10 k
+ libknet1-compress-plugins-all   riscv64  1.22-1.oe2303         mainline  7.5 k
+ libknet1-compress-zlib-plugin   riscv64  1.22-1.oe2303         mainline  9.9 k
+ libknet1-compress-zstd-plugin   riscv64  1.22-1.oe2303         mainline   10 k
+ libknet1-crypto-nss-plugin      riscv64  1.22-1.oe2303         mainline   14 k
+ libknet1-crypto-openssl-plugin  riscv64  1.22-1.oe2303         mainline   12 k
+ libknet1-crypto-plugins-all     riscv64  1.22-1.oe2303         mainline  7.3 k
+ libknet1-plugins-all            riscv64  1.22-1.oe2303         mainline  7.2 k
+ libldb                          riscv64  2.6.1-2.oe2303        mainline  165 k
+ libnfsidmap                     riscv64  2:2.6.2-4.oe2303      mainline   60 k
+ libnozzle1                      riscv64  1.22-1.oe2303         mainline   27 k
+ libqb                           riscv64  2.0.0-1.oe2303        mainline   79 k
+ libsmbclient                    riscv64  4.17.5-2.oe2303       mainline   61 k
+ libtalloc                       riscv64  2.3.4-1.oe2303        mainline   26 k
+ libtdb                          riscv64  1.4.7-1.oe2303        mainline   47 k
+ libtevent                       riscv64  0.13.0-1.oe2303       mainline   37 k
+ libwbclient                     riscv64  4.17.5-2.oe2303       mainline   38 k
+ lmdb                            riscv64  0.9.30-2.oe2303       mainline   67 k
+ lzo                             riscv64  2.10-2.oe2303         mainline   62 k
+ net-snmp-libs                   riscv64  1:5.9.1-7.oe2303      mainline  595 k
+ nfs-utils                       riscv64  2:2.6.2-4.oe2303      mainline  298 k
+ nspr                            riscv64  4.35.0-2.oe2303       mainline  116 k
+ nss                             riscv64  3.85.0-2.oe2303       mainline  622 k
+ nss-softokn                     riscv64  3.85.0-2.oe2303       mainline  675 k
+ nss-util                        riscv64  3.85.0-2.oe2303       mainline  462 k
+ pacemaker-cli                   riscv64  2.1.4-1.oe2303        mainline  281 k
+ pacemaker-cluster-libs          riscv64  2.1.4-1.oe2303        mainline  113 k
+ pacemaker-libs                  riscv64  2.1.4-1.oe2303        mainline  636 k
+ pacemaker-schemas               noarch   2.1.4-1.oe2303        mainline   69 k
+ python3-pycurl                  riscv64  7.45.2-1.oe2303       mainline   70 k
+ python3-tornado                 riscv64  6.1-1.oe2303          mainline  726 k
+ quota                           riscv64  1:4.06-7.oe2303       mainline  232 k
+ resource-agents                 riscv64  4.2.0-4.oe2303        mainline  432 k
+ rpcbind                         riscv64  1.2.6-5.oe2303        mainline   45 k
+ ruby                            riscv64  3.1.3-133.oe2303      mainline  2.8 M
+ ruby-irb                        noarch   3.1.3-133.oe2303      mainline   67 k
+ rubygem-backports               noarch   3.20.1-1.oe2303       mainline  193 k
+ rubygem-daemons                 noarch   1.4.1-1.oe2303        mainline   34 k
+ rubygem-ethon                   noarch   0.9.0-2.oe2303        mainline   43 k
+ rubygem-eventmachine            riscv64  1.2.7-2.oe2303        mainline  159 k
+ rubygem-ffi                     riscv64  1.10.0-4.oe2303       mainline  102 k
+ rubygem-json                    riscv64  2.6.1-133.oe2303      mainline   47 k
+ rubygem-mustermann              noarch   1.1.1-1.oe2303        mainline   38 k
+ rubygem-open4                   noarch   1.3.4-2.oe2303        mainline   16 k
+ rubygem-openssl                 riscv64  3.0.1-133.oe2303      mainline  138 k
+ rubygem-psych                   riscv64  4.0.4-133.oe2303      mainline   48 k
+ rubygem-rack                    noarch   1:2.2.3.1-1.oe2303    mainline   97 k
+ rubygem-rack-protection         noarch   2.0.8.1-1.oe2303      mainline   21 k
+ rubygem-rack-test               noarch   0.8.3-2.oe2303        mainline   18 k
+ rubygem-rexml                   noarch   3.2.5-133.oe2303      mainline  100 k
+ rubygem-sinatra                 noarch   1:2.0.8.1-2.oe2303    mainline   78 k
+ rubygem-tilt                    noarch   2.0.8-5.oe2303        mainline   35 k
+ rubygem-webrick                 noarch   1.7.0-1.oe2303        mainline   64 k
+ rubygems                        noarch   3.3.26-133.oe2303     mainline  294 k
+ samba-client                    riscv64  4.17.5-2.oe2303       mainline  5.1 M
+ samba-common                    riscv64  4.17.5-2.oe2303       mainline   89 k
+ userspace-rcu                   riscv64  0.13.2-1.oe2303       mainline   89 k
+ xfsprogs                        riscv64  6.1.1-1.oe2303        mainline  1.0 M
+Installing weak dependencies:
+ nfs-utils-help                  riscv64  2:2.6.2-4.oe2303      mainline  102 k
+ rubygem-bigdecimal              riscv64  3.1.1-133.oe2303      mainline   60 k
+ rubygem-did_you_mean            noarch   1.6.1-133.oe2303      mainline   18 k
+ rubygem-io-console              riscv64  0.5.11-133.oe2303     mainline   21 k
+ rubygem-rdoc                    noarch   6.4.0-133.oe2303      mainline  466 k
+ xfsprogs-xfs_scrub              riscv64  6.1.1-1.oe2303        mainline   68 k
+
+Transaction Summary
+================================================================================
+Install  78 Packages
+
+Total download size: 25 M
+Installed size: 90 M
+Downloading Packages:
+(1/78): cifs-utils-7.0-1.oe2303.riscv64.rpm      73 kB/s |  69 kB     00:00    
+(2/78): corosynclib-3.1.5-1.oe2303.riscv64.rpm   41 kB/s |  40 kB     00:00    
+(3/78): ding-libs-0.6.1-45.oe2303.riscv64.rpm   1.4 MB/s |  90 kB     00:00    
+(4/78): gssproxy-0.9.1-1.oe2303.riscv64.rpm     1.3 MB/s |  91 kB     00:00    
+(5/78): inih-56-1.oe2303.riscv64.rpm            694 kB/s |  23 kB     00:00    
+(6/78): keyutils-1.6.3-5.oe2303.riscv64.rpm     1.4 MB/s |  52 kB     00:00    
+(7/78): krb5-1.20.1-1.oe2303.riscv64.rpm        2.0 MB/s |  76 kB     00:00    
+(8/78): libknet1-1.22-1.oe2303.riscv64.rpm      1.5 MB/s |  71 kB     00:00    
+(9/78): libknet1-compress-bzip2-plugin-1.22-1.o 327 kB/s |  10 kB     00:00    
+(10/78): libknet1-compress-lz4-plugin-1.22-1.oe 123 kB/s |  10 kB     00:00    
+(11/78): libknet1-compress-lzma-plugin-1.22-1.o 139 kB/s |  10 kB     00:00    
+(12/78): libknet1-compress-lzo2-plugin-1.22-1.o 304 kB/s |  10 kB     00:00    
+(13/78): libknet1-compress-plugins-all-1.22-1.o 194 kB/s | 7.5 kB     00:00    
+(14/78): libknet1-compress-zlib-plugin-1.22-1.o 317 kB/s | 9.9 kB     00:00    
+(15/78): libknet1-compress-zstd-plugin-1.22-1.o 294 kB/s |  10 kB     00:00    
+(16/78): libknet1-crypto-nss-plugin-1.22-1.oe23 430 kB/s |  14 kB     00:00    
+(17/78): libknet1-crypto-openssl-plugin-1.22-1. 380 kB/s |  12 kB     00:00    
+(18/78): libknet1-crypto-plugins-all-1.22-1.oe2 239 kB/s | 7.3 kB     00:00    
+(19/78): libknet1-plugins-all-1.22-1.oe2303.ris 226 kB/s | 7.2 kB     00:00    
+(20/78): libldb-2.6.1-2.oe2303.riscv64.rpm      2.1 MB/s | 165 kB     00:00    
+(21/78): libnfsidmap-2.6.2-4.oe2303.riscv64.rpm 752 kB/s |  60 kB     00:00    
+(22/78): libnozzle1-1.22-1.oe2303.riscv64.rpm   856 kB/s |  27 kB     00:00    
+(23/78): libqb-2.0.0-1.oe2303.riscv64.rpm       2.0 MB/s |  79 kB     00:00    
+(24/78): libsmbclient-4.17.5-2.oe2303.riscv64.r 1.5 MB/s |  61 kB     00:00    
+(25/78): libtalloc-2.3.4-1.oe2303.riscv64.rpm   672 kB/s |  26 kB     00:00    
+(26/78): libtdb-1.4.7-1.oe2303.riscv64.rpm      1.2 MB/s |  47 kB     00:00    
+(27/78): libtevent-0.13.0-1.oe2303.riscv64.rpm  1.1 MB/s |  37 kB     00:00    
+(28/78): libwbclient-4.17.5-2.oe2303.riscv64.rp 1.1 MB/s |  38 kB     00:00    
+(29/78): lmdb-0.9.30-2.oe2303.riscv64.rpm       1.7 MB/s |  67 kB     00:00    
+(30/78): lzo-2.10-2.oe2303.riscv64.rpm          1.6 MB/s |  62 kB     00:00    
+(31/78): net-snmp-libs-5.9.1-7.oe2303.riscv64.r 3.5 MB/s | 595 kB     00:00    
+(32/78): nfs-utils-2.6.2-4.oe2303.riscv64.rpm   1.2 MB/s | 298 kB     00:00    
+(33/78): nfs-utils-help-2.6.2-4.oe2303.riscv64. 809 kB/s | 102 kB     00:00    
+(34/78): nspr-4.35.0-2.oe2303.riscv64.rpm       1.6 MB/s | 116 kB     00:00    
+(35/78): nss-3.85.0-2.oe2303.riscv64.rpm        1.1 MB/s | 622 kB     00:00    
+(36/78): nss-softokn-3.85.0-2.oe2303.riscv64.rp 1.1 MB/s | 675 kB     00:00    
+(37/78): nss-util-3.85.0-2.oe2303.riscv64.rpm   3.5 MB/s | 462 kB     00:00    
+(38/78): corosync-3.1.5-1.oe2303.riscv64.rpm     89 kB/s | 249 kB     00:02    
+(39/78): pacemaker-2.1.4-1.oe2303.riscv64.rpm   2.3 MB/s | 392 kB     00:00    
+(40/78): pacemaker-cli-2.1.4-1.oe2303.riscv64.r 2.9 MB/s | 281 kB     00:00    
+(41/78): pacemaker-cluster-libs-2.1.4-1.oe2303. 901 kB/s | 113 kB     00:00    
+(42/78): pacemaker-libs-2.1.4-1.oe2303.riscv64. 1.2 MB/s | 636 kB     00:00    
+(43/78): pacemaker-schemas-2.1.4-1.oe2303.noarc 128 kB/s |  69 kB     00:00    
+(44/78): python3-pycurl-7.45.2-1.oe2303.riscv64  71 kB/s |  70 kB     00:00    
+(45/78): pcs-0.11.2-1.oe2303.riscv64.rpm        1.2 MB/s | 6.9 MB     00:05    
+(46/78): python3-tornado-6.1-1.oe2303.riscv64.r 129 kB/s | 726 kB     00:05    
+(47/78): quota-4.06-7.oe2303.riscv64.rpm         48 kB/s | 232 kB     00:04    
+(48/78): resource-agents-4.2.0-4.oe2303.riscv64 424 kB/s | 432 kB     00:01    
+(49/78): rpcbind-1.2.6-5.oe2303.riscv64.rpm      64 kB/s |  45 kB     00:00    
+(50/78): ruby-irb-3.1.3-133.oe2303.noarch.rpm    93 kB/s |  67 kB     00:00    
+(51/78): rubygem-bigdecimal-3.1.1-133.oe2303.ri 100 kB/s |  60 kB     00:00    
+(52/78): ruby-3.1.3-133.oe2303.riscv64.rpm      1.3 MB/s | 2.8 MB     00:02    
+(53/78): rubygem-backports-3.20.1-1.oe2303.noar 110 kB/s | 193 kB     00:01    
+(54/78): rubygem-daemons-1.4.1-1.oe2303.noarch.  80 kB/s |  34 kB     00:00    
+(55/78): rubygem-did_you_mean-1.6.1-133.oe2303. 482 kB/s |  18 kB     00:00    
+(56/78): rubygem-ethon-0.9.0-2.oe2303.noarch.rp 716 kB/s |  43 kB     00:00    
+(57/78): rubygem-eventmachine-1.2.7-2.oe2303.ri 1.4 MB/s | 159 kB     00:00    
+(58/78): rubygem-ffi-1.10.0-4.oe2303.riscv64.rp 470 kB/s | 102 kB     00:00    
+(59/78): rubygem-io-console-0.5.11-133.oe2303.r 114 kB/s |  21 kB     00:00    
+(60/78): rubygem-json-2.6.1-133.oe2303.riscv64. 320 kB/s |  47 kB     00:00    
+(61/78): rubygem-mustermann-1.1.1-1.oe2303.noar 776 kB/s |  38 kB     00:00    
+(62/78): rubygem-open4-1.3.4-2.oe2303.noarch.rp 330 kB/s |  16 kB     00:00    
+(63/78): rubygem-openssl-3.0.1-133.oe2303.riscv 1.2 MB/s | 138 kB     00:00    
+(64/78): rubygem-psych-4.0.4-133.oe2303.riscv64 424 kB/s |  48 kB     00:00    
+(65/78): rubygem-rack-2.2.3.1-1.oe2303.noarch.r 689 kB/s |  97 kB     00:00    
+(66/78): rubygem-rack-protection-2.0.8.1-1.oe23 264 kB/s |  21 kB     00:00    
+(67/78): rubygem-rack-test-0.8.3-2.oe2303.noarc 261 kB/s |  18 kB     00:00    
+(68/78): rubygem-rdoc-6.4.0-133.oe2303.noarch.r 1.3 MB/s | 466 kB     00:00    
+(69/78): rubygem-rexml-3.2.5-133.oe2303.noarch. 279 kB/s | 100 kB     00:00    
+(70/78): rubygem-sinatra-2.0.8.1-2.oe2303.noarc 163 kB/s |  78 kB     00:00    
+(71/78): rubygem-tilt-2.0.8-5.oe2303.noarch.rpm 209 kB/s |  35 kB     00:00    
+(72/78): rubygem-webrick-1.7.0-1.oe2303.noarch. 325 kB/s |  64 kB     00:00    
+(73/78): rubygems-3.3.26-133.oe2303.noarch.rpm  1.1 MB/s | 294 kB     00:00    
+(74/78): samba-common-4.17.5-2.oe2303.riscv64.r 106 kB/s |  89 kB     00:00    
+(75/78): userspace-rcu-0.13.2-1.oe2303.riscv64.  84 kB/s |  89 kB     00:01    
+(76/78): xfsprogs-xfs_scrub-6.1.1-1.oe2303.risc 101 kB/s |  68 kB     00:00    
+(77/78): samba-client-4.17.5-2.oe2303.riscv64.r 1.3 MB/s | 5.1 MB     00:03    
+(78/78): xfsprogs-6.1.1-1.oe2303.riscv64.rpm    279 kB/s | 1.0 MB     00:03    
+--------------------------------------------------------------------------------
+Total                                           1.5 MB/s |  25 MB     00:17     
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Preparing        :                                                        1/1 
+  Installing       : ruby-irb-3.1.3-133.oe2303.noarch                      1/78 
+  Installing       : rubygem-bigdecimal-3.1.1-133.oe2303.riscv64           2/78 
+  Installing       : rubygem-did_you_mean-1.6.1-133.oe2303.noarch          3/78 
+  Installing       : rubygem-io-console-0.5.11-133.oe2303.riscv64          4/78 
+  Installing       : rubygem-json-2.6.1-133.oe2303.riscv64                 5/78 
+  Installing       : rubygem-openssl-3.0.1-133.oe2303.riscv64              6/78 
+  Installing       : rubygem-psych-4.0.4-133.oe2303.riscv64                7/78 
+  Installing       : rubygem-rdoc-6.4.0-133.oe2303.noarch                  8/78 
+  Installing       : rubygems-3.3.26-133.oe2303.noarch                     9/78 
+  Installing       : ruby-3.1.3-133.oe2303.riscv64                        10/78 
+  Installing       : libknet1-1.22-1.oe2303.riscv64                       11/78 
+  Running scriptlet: libknet1-1.22-1.oe2303.riscv64                       11/78 
+  Installing       : libtalloc-2.3.4-1.oe2303.riscv64                     12/78 
+  Installing       : libqb-2.0.0-1.oe2303.riscv64                         13/78 
+  Installing       : rubygem-rack-1:2.2.3.1-1.oe2303.noarch               14/78 
+  Installing       : nspr-4.35.0-2.oe2303.riscv64                         15/78 
+  Installing       : corosynclib-3.1.5-1.oe2303.riscv64                   16/78 
+  Installing       : libtevent-0.13.0-1.oe2303.riscv64                    17/78 
+  Installing       : libtdb-1.4.7-1.oe2303.riscv64                        18/78 
+  Installing       : keyutils-1.6.3-5.oe2303.riscv64                      19/78 
+  Installing       : nss-3.85.0-2.oe2303.riscv64                          20/78 
+  Running scriptlet: nss-3.85.0-2.oe2303.riscv64                          20/78 
+  Installing       : nss-util-3.85.0-2.oe2303.riscv64                     21/78 
+  Installing       : nss-softokn-3.85.0-2.oe2303.riscv64                  22/78 
+  Installing       : libknet1-crypto-nss-plugin-1.22-1.oe2303.riscv64     23/78 
+  Installing       : rubygem-rack-protection-2.0.8.1-1.oe2303.noarch      24/78 
+  Installing       : rubygem-ffi-1.10.0-4.oe2303.riscv64                  25/78 
+  Installing       : rubygem-tilt-2.0.8-5.oe2303.noarch                   26/78 
+  Installing       : rubygem-mustermann-1.1.1-1.oe2303.noarch             27/78 
+  Installing       : userspace-rcu-0.13.2-1.oe2303.riscv64                28/78 
+  Running scriptlet: userspace-rcu-0.13.2-1.oe2303.riscv64                28/78 
+  Running scriptlet: rpcbind-1.2.6-5.oe2303.riscv64                       29/78 
+  Installing       : rpcbind-1.2.6-5.oe2303.riscv64                       29/78 
+  Running scriptlet: rpcbind-1.2.6-5.oe2303.riscv64                       29/78 
+Created symlink /etc/systemd/system/multi-user.target.wants/rpcbind.service → /usr/lib/systemd/system/rpcbind.service.
+Created symlink /etc/systemd/system/sockets.target.wants/rpcbind.socket → /usr/lib/systemd/system/rpcbind.socket.
+
+  Installing       : quota-1:4.06-7.oe2303.riscv64                        30/78 
+  Running scriptlet: quota-1:4.06-7.oe2303.riscv64                        30/78 
+  Installing       : rubygem-sinatra-1:2.0.8.1-2.oe2303.noarch            31/78 
+  Installing       : rubygem-ethon-0.9.0-2.oe2303.noarch                  32/78 
+  Installing       : rubygem-rack-test-0.8.3-2.oe2303.noarch              33/78 
+  Installing       : libknet1-compress-bzip2-plugin-1.22-1.oe2303.riscv   34/78 
+  Installing       : libknet1-compress-lz4-plugin-1.22-1.oe2303.riscv64   35/78 
+  Installing       : libknet1-compress-lzma-plugin-1.22-1.oe2303.riscv6   36/78 
+  Installing       : libknet1-compress-zlib-plugin-1.22-1.oe2303.riscv6   37/78 
+  Installing       : libknet1-compress-zstd-plugin-1.22-1.oe2303.riscv6   38/78 
+  Installing       : libknet1-crypto-openssl-plugin-1.22-1.oe2303.riscv   39/78 
+  Installing       : libknet1-crypto-plugins-all-1.22-1.oe2303.riscv64    40/78 
+  Installing       : rubygem-daemons-1.4.1-1.oe2303.noarch                41/78 
+  Installing       : rubygem-eventmachine-1.2.7-2.oe2303.riscv64          42/78 
+  Installing       : rubygem-rexml-3.2.5-133.oe2303.noarch                43/78 
+  Installing       : rubygem-backports-3.20.1-1.oe2303.noarch             44/78 
+  Installing       : rubygem-open4-1.3.4-2.oe2303.noarch                  45/78 
+  Installing       : rubygem-webrick-1.7.0-1.oe2303.noarch                46/78 
+  Installing       : python3-tornado-6.1-1.oe2303.riscv64                 47/78 
+  Installing       : python3-pycurl-7.45.2-1.oe2303.riscv64               48/78 
+  Installing       : pacemaker-schemas-2.1.4-1.oe2303.noarch              49/78 
+  Running scriptlet: pacemaker-libs-2.1.4-1.oe2303.riscv64                50/78 
+  Installing       : pacemaker-libs-2.1.4-1.oe2303.riscv64                50/78 
+  Installing       : pacemaker-cluster-libs-2.1.4-1.oe2303.riscv64        51/78 
+  Installing       : nfs-utils-help-2:2.6.2-4.oe2303.riscv64              52/78 
+  Installing       : net-snmp-libs-1:5.9.1-7.oe2303.riscv64               53/78 
+  Installing       : lzo-2.10-2.oe2303.riscv64                            54/78 
+  Running scriptlet: lzo-2.10-2.oe2303.riscv64                            54/78 
+  Installing       : libknet1-compress-lzo2-plugin-1.22-1.oe2303.riscv6   55/78 
+  Installing       : libknet1-compress-plugins-all-1.22-1.oe2303.riscv6   56/78 
+  Installing       : libknet1-plugins-all-1.22-1.oe2303.riscv64           57/78 
+  Installing       : lmdb-0.9.30-2.oe2303.riscv64                         58/78 
+  Installing       : libldb-2.6.1-2.oe2303.riscv64                        59/78 
+  Installing       : libsmbclient-4.17.5-2.oe2303.riscv64                 60/78 
+  Installing       : libwbclient-4.17.5-2.oe2303.riscv64                  61/78 
+  Installing       : samba-client-4.17.5-2.oe2303.riscv64                 62/78 
+  Running scriptlet: samba-client-4.17.5-2.oe2303.riscv64                 62/78 
+  Running scriptlet: samba-common-4.17.5-2.oe2303.riscv64                 63/78 
+  Installing       : samba-common-4.17.5-2.oe2303.riscv64                 63/78 
+  Running scriptlet: samba-common-4.17.5-2.oe2303.riscv64                 63/78 
+  Installing       : cifs-utils-7.0-1.oe2303.riscv64                      64/78 
+  Installing       : libnozzle1-1.22-1.oe2303.riscv64                     65/78 
+  Running scriptlet: libnozzle1-1.22-1.oe2303.riscv64                     65/78 
+  Installing       : corosync-3.1.5-1.oe2303.riscv64                      66/78 
+  Running scriptlet: corosync-3.1.5-1.oe2303.riscv64                      66/78 
+  Installing       : libnfsidmap-2:2.6.2-4.oe2303.riscv64                 67/78 
+  Installing       : krb5-1.20.1-1.oe2303.riscv64                         68/78 
+  Running scriptlet: krb5-1.20.1-1.oe2303.riscv64                         68/78 
+  Installing       : inih-56-1.oe2303.riscv64                             69/78 
+  Installing       : xfsprogs-xfs_scrub-6.1.1-1.oe2303.riscv64            70/78 
+  Installing       : xfsprogs-6.1.1-1.oe2303.riscv64                      71/78 
+  Installing       : ding-libs-0.6.1-45.oe2303.riscv64                    72/78 
+  Installing       : gssproxy-0.9.1-1.oe2303.riscv64                      73/78 
+  Running scriptlet: gssproxy-0.9.1-1.oe2303.riscv64                      73/78 
+  Running scriptlet: nfs-utils-2:2.6.2-4.oe2303.riscv64                   74/78 
+  Installing       : nfs-utils-2:2.6.2-4.oe2303.riscv64                   74/78 
+  Running scriptlet: nfs-utils-2:2.6.2-4.oe2303.riscv64                   74/78 
+  Installing       : resource-agents-4.2.0-4.oe2303.riscv64               75/78 
+  Installing       : pacemaker-cli-2.1.4-1.oe2303.riscv64                 76/78 
+  Running scriptlet: pacemaker-cli-2.1.4-1.oe2303.riscv64                 76/78 
+  Installing       : pacemaker-2.1.4-1.oe2303.riscv64                     77/78 
+  Running scriptlet: pacemaker-2.1.4-1.oe2303.riscv64                     77/78 
+  Installing       : pcs-0.11.2-1.oe2303.riscv64                          78/78 
+  Running scriptlet: pcs-0.11.2-1.oe2303.riscv64                          78/78 
+  Running scriptlet: libwbclient-4.17.5-2.oe2303.riscv64                  78/78 
+  Running scriptlet: pcs-0.11.2-1.oe2303.riscv64                          78/78 
+/usr/lib/tmpfiles.d/dbus.conf:13: Line references path below legacy directory /var/run/, updating /var/run/dbus/containers → /run/dbus/containers; please update the tmpfiles.d/ drop-in file accordingly.
+/usr/lib/tmpfiles.d/resource-agents.conf:1: Line references path below legacy directory /var/run/, updating /var/run/resource-agents → /run/resource-agents; please update the tmpfiles.d/ drop-in file accordingly.
+
+  Verifying        : cifs-utils-7.0-1.oe2303.riscv64                       1/78 
+  Verifying        : corosync-3.1.5-1.oe2303.riscv64                       2/78 
+  Verifying        : corosynclib-3.1.5-1.oe2303.riscv64                    3/78 
+  Verifying        : ding-libs-0.6.1-45.oe2303.riscv64                     4/78 
+  Verifying        : gssproxy-0.9.1-1.oe2303.riscv64                       5/78 
+  Verifying        : inih-56-1.oe2303.riscv64                              6/78 
+  Verifying        : keyutils-1.6.3-5.oe2303.riscv64                       7/78 
+  Verifying        : krb5-1.20.1-1.oe2303.riscv64                          8/78 
+  Verifying        : libknet1-1.22-1.oe2303.riscv64                        9/78 
+  Verifying        : libknet1-compress-bzip2-plugin-1.22-1.oe2303.riscv   10/78 
+  Verifying        : libknet1-compress-lz4-plugin-1.22-1.oe2303.riscv64   11/78 
+  Verifying        : libknet1-compress-lzma-plugin-1.22-1.oe2303.riscv6   12/78 
+  Verifying        : libknet1-compress-lzo2-plugin-1.22-1.oe2303.riscv6   13/78 
+  Verifying        : libknet1-compress-plugins-all-1.22-1.oe2303.riscv6   14/78 
+  Verifying        : libknet1-compress-zlib-plugin-1.22-1.oe2303.riscv6   15/78 
+  Verifying        : libknet1-compress-zstd-plugin-1.22-1.oe2303.riscv6   16/78 
+  Verifying        : libknet1-crypto-nss-plugin-1.22-1.oe2303.riscv64     17/78 
+  Verifying        : libknet1-crypto-openssl-plugin-1.22-1.oe2303.riscv   18/78 
+  Verifying        : libknet1-crypto-plugins-all-1.22-1.oe2303.riscv64    19/78 
+  Verifying        : libknet1-plugins-all-1.22-1.oe2303.riscv64           20/78 
+  Verifying        : libldb-2.6.1-2.oe2303.riscv64                        21/78 
+  Verifying        : libnfsidmap-2:2.6.2-4.oe2303.riscv64                 22/78 
+  Verifying        : libnozzle1-1.22-1.oe2303.riscv64                     23/78 
+  Verifying        : libqb-2.0.0-1.oe2303.riscv64                         24/78 
+  Verifying        : libsmbclient-4.17.5-2.oe2303.riscv64                 25/78 
+  Verifying        : libtalloc-2.3.4-1.oe2303.riscv64                     26/78 
+  Verifying        : libtdb-1.4.7-1.oe2303.riscv64                        27/78 
+  Verifying        : libtevent-0.13.0-1.oe2303.riscv64                    28/78 
+  Verifying        : libwbclient-4.17.5-2.oe2303.riscv64                  29/78 
+  Verifying        : lmdb-0.9.30-2.oe2303.riscv64                         30/78 
+  Verifying        : lzo-2.10-2.oe2303.riscv64                            31/78 
+  Verifying        : net-snmp-libs-1:5.9.1-7.oe2303.riscv64               32/78 
+  Verifying        : nfs-utils-2:2.6.2-4.oe2303.riscv64                   33/78 
+  Verifying        : nfs-utils-help-2:2.6.2-4.oe2303.riscv64              34/78 
+  Verifying        : nspr-4.35.0-2.oe2303.riscv64                         35/78 
+  Verifying        : nss-3.85.0-2.oe2303.riscv64                          36/78 
+  Verifying        : nss-softokn-3.85.0-2.oe2303.riscv64                  37/78 
+  Verifying        : nss-util-3.85.0-2.oe2303.riscv64                     38/78 
+  Verifying        : pacemaker-2.1.4-1.oe2303.riscv64                     39/78 
+  Verifying        : pacemaker-cli-2.1.4-1.oe2303.riscv64                 40/78 
+  Verifying        : pacemaker-cluster-libs-2.1.4-1.oe2303.riscv64        41/78 
+  Verifying        : pacemaker-libs-2.1.4-1.oe2303.riscv64                42/78 
+  Verifying        : pacemaker-schemas-2.1.4-1.oe2303.noarch              43/78 
+  Verifying        : pcs-0.11.2-1.oe2303.riscv64                          44/78 
+  Verifying        : python3-pycurl-7.45.2-1.oe2303.riscv64               45/78 
+  Verifying        : python3-tornado-6.1-1.oe2303.riscv64                 46/78 
+  Verifying        : quota-1:4.06-7.oe2303.riscv64                        47/78 
+  Verifying        : resource-agents-4.2.0-4.oe2303.riscv64               48/78 
+  Verifying        : rpcbind-1.2.6-5.oe2303.riscv64                       49/78 
+  Verifying        : ruby-3.1.3-133.oe2303.riscv64                        50/78 
+  Verifying        : ruby-irb-3.1.3-133.oe2303.noarch                     51/78 
+  Verifying        : rubygem-backports-3.20.1-1.oe2303.noarch             52/78 
+  Verifying        : rubygem-bigdecimal-3.1.1-133.oe2303.riscv64          53/78 
+  Verifying        : rubygem-daemons-1.4.1-1.oe2303.noarch                54/78 
+  Verifying        : rubygem-did_you_mean-1.6.1-133.oe2303.noarch         55/78 
+  Verifying        : rubygem-ethon-0.9.0-2.oe2303.noarch                  56/78 
+  Verifying        : rubygem-eventmachine-1.2.7-2.oe2303.riscv64          57/78 
+  Verifying        : rubygem-ffi-1.10.0-4.oe2303.riscv64                  58/78 
+  Verifying        : rubygem-io-console-0.5.11-133.oe2303.riscv64         59/78 
+  Verifying        : rubygem-json-2.6.1-133.oe2303.riscv64                60/78 
+  Verifying        : rubygem-mustermann-1.1.1-1.oe2303.noarch             61/78 
+  Verifying        : rubygem-open4-1.3.4-2.oe2303.noarch                  62/78 
+  Verifying        : rubygem-openssl-3.0.1-133.oe2303.riscv64             63/78 
+  Verifying        : rubygem-psych-4.0.4-133.oe2303.riscv64               64/78 
+  Verifying        : rubygem-rack-1:2.2.3.1-1.oe2303.noarch               65/78 
+  Verifying        : rubygem-rack-protection-2.0.8.1-1.oe2303.noarch      66/78 
+  Verifying        : rubygem-rack-test-0.8.3-2.oe2303.noarch              67/78 
+  Verifying        : rubygem-rdoc-6.4.0-133.oe2303.noarch                 68/78 
+  Verifying        : rubygem-rexml-3.2.5-133.oe2303.noarch                69/78 
+  Verifying        : rubygem-sinatra-1:2.0.8.1-2.oe2303.noarch            70/78 
+  Verifying        : rubygem-tilt-2.0.8-5.oe2303.noarch                   71/78 
+  Verifying        : rubygem-webrick-1.7.0-1.oe2303.noarch                72/78 
+  Verifying        : rubygems-3.3.26-133.oe2303.noarch                    73/78 
+  Verifying        : samba-client-4.17.5-2.oe2303.riscv64                 74/78 
+  Verifying        : samba-common-4.17.5-2.oe2303.riscv64                 75/78 
+  Verifying        : userspace-rcu-0.13.2-1.oe2303.riscv64                76/78 
+  Verifying        : xfsprogs-6.1.1-1.oe2303.riscv64                      77/78 
+  Verifying        : xfsprogs-xfs_scrub-6.1.1-1.oe2303.riscv64            78/78 
+
+Installed:
+  cifs-utils-7.0-1.oe2303.riscv64                                               
+  corosync-3.1.5-1.oe2303.riscv64                                               
+  corosynclib-3.1.5-1.oe2303.riscv64                                            
+  ding-libs-0.6.1-45.oe2303.riscv64                                             
+  gssproxy-0.9.1-1.oe2303.riscv64                                               
+  inih-56-1.oe2303.riscv64                                                      
+  keyutils-1.6.3-5.oe2303.riscv64                                               
+  krb5-1.20.1-1.oe2303.riscv64                                                  
+  libknet1-1.22-1.oe2303.riscv64                                                
+  libknet1-compress-bzip2-plugin-1.22-1.oe2303.riscv64                          
+  libknet1-compress-lz4-plugin-1.22-1.oe2303.riscv64                            
+  libknet1-compress-lzma-plugin-1.22-1.oe2303.riscv64                           
+  libknet1-compress-lzo2-plugin-1.22-1.oe2303.riscv64                           
+  libknet1-compress-plugins-all-1.22-1.oe2303.riscv64                           
+  libknet1-compress-zlib-plugin-1.22-1.oe2303.riscv64                           
+  libknet1-compress-zstd-plugin-1.22-1.oe2303.riscv64                           
+  libknet1-crypto-nss-plugin-1.22-1.oe2303.riscv64                              
+  libknet1-crypto-openssl-plugin-1.22-1.oe2303.riscv64                          
+  libknet1-crypto-plugins-all-1.22-1.oe2303.riscv64                             
+  libknet1-plugins-all-1.22-1.oe2303.riscv64                                    
+  libldb-2.6.1-2.oe2303.riscv64                                                 
+  libnfsidmap-2:2.6.2-4.oe2303.riscv64                                          
+  libnozzle1-1.22-1.oe2303.riscv64                                              
+  libqb-2.0.0-1.oe2303.riscv64                                                  
+  libsmbclient-4.17.5-2.oe2303.riscv64                                          
+  libtalloc-2.3.4-1.oe2303.riscv64                                              
+  libtdb-1.4.7-1.oe2303.riscv64                                                 
+  libtevent-0.13.0-1.oe2303.riscv64                                             
+  libwbclient-4.17.5-2.oe2303.riscv64                                           
+  lmdb-0.9.30-2.oe2303.riscv64                                                  
+  lzo-2.10-2.oe2303.riscv64                                                     
+  net-snmp-libs-1:5.9.1-7.oe2303.riscv64                                        
+  nfs-utils-2:2.6.2-4.oe2303.riscv64                                            
+  nfs-utils-help-2:2.6.2-4.oe2303.riscv64                                       
+  nspr-4.35.0-2.oe2303.riscv64                                                  
+  nss-3.85.0-2.oe2303.riscv64                                                   
+  nss-softokn-3.85.0-2.oe2303.riscv64                                           
+  nss-util-3.85.0-2.oe2303.riscv64                                              
+  pacemaker-2.1.4-1.oe2303.riscv64                                              
+  pacemaker-cli-2.1.4-1.oe2303.riscv64                                          
+  pacemaker-cluster-libs-2.1.4-1.oe2303.riscv64                                 
+  pacemaker-libs-2.1.4-1.oe2303.riscv64                                         
+  pacemaker-schemas-2.1.4-1.oe2303.noarch                                       
+  pcs-0.11.2-1.oe2303.riscv64                                                   
+  python3-pycurl-7.45.2-1.oe2303.riscv64                                        
+  python3-tornado-6.1-1.oe2303.riscv64                                          
+  quota-1:4.06-7.oe2303.riscv64                                                 
+  resource-agents-4.2.0-4.oe2303.riscv64                                        
+  rpcbind-1.2.6-5.oe2303.riscv64                                                
+  ruby-3.1.3-133.oe2303.riscv64                                                 
+  ruby-irb-3.1.3-133.oe2303.noarch                                              
+  rubygem-backports-3.20.1-1.oe2303.noarch                                      
+  rubygem-bigdecimal-3.1.1-133.oe2303.riscv64                                   
+  rubygem-daemons-1.4.1-1.oe2303.noarch                                         
+  rubygem-did_you_mean-1.6.1-133.oe2303.noarch                                  
+  rubygem-ethon-0.9.0-2.oe2303.noarch                                           
+  rubygem-eventmachine-1.2.7-2.oe2303.riscv64                                   
+  rubygem-ffi-1.10.0-4.oe2303.riscv64                                           
+  rubygem-io-console-0.5.11-133.oe2303.riscv64                                  
+  rubygem-json-2.6.1-133.oe2303.riscv64                                         
+  rubygem-mustermann-1.1.1-1.oe2303.noarch                                      
+  rubygem-open4-1.3.4-2.oe2303.noarch                                           
+  rubygem-openssl-3.0.1-133.oe2303.riscv64                                      
+  rubygem-psych-4.0.4-133.oe2303.riscv64                                        
+  rubygem-rack-1:2.2.3.1-1.oe2303.noarch                                        
+  rubygem-rack-protection-2.0.8.1-1.oe2303.noarch                               
+  rubygem-rack-test-0.8.3-2.oe2303.noarch                                       
+  rubygem-rdoc-6.4.0-133.oe2303.noarch                                          
+  rubygem-rexml-3.2.5-133.oe2303.noarch                                         
+  rubygem-sinatra-1:2.0.8.1-2.oe2303.noarch                                     
+  rubygem-tilt-2.0.8-5.oe2303.noarch                                            
+  rubygem-webrick-1.7.0-1.oe2303.noarch                                         
+  rubygems-3.3.26-133.oe2303.noarch                                             
+  samba-client-4.17.5-2.oe2303.riscv64                                          
+  samba-common-4.17.5-2.oe2303.riscv64                                          
+  userspace-rcu-0.13.2-1.oe2303.riscv64                                         
+  xfsprogs-6.1.1-1.oe2303.riscv64                                               
+  xfsprogs-xfs_scrub-6.1.1-1.oe2303.riscv64                                     
+
+Complete!
+Changing password for user hacluster.
+passwd: all authentication tokens updated successfully.
++ SSH_SCP /etc/hosts root@192.168.114.6:/etc/ 'openEuler12#$'
++ src=/etc/hosts
++ dest=root@192.168.114.6:/etc/
++ remotepasswd='openEuler12#$'
++ connport=22
++ bash /root/mugen/libs/locallibs/sshscp.sh -p 'openEuler12#$' -o 22 -s /etc/hosts -d root@192.168.114.6:/etc/
+Wed Nov 22 04:30:12 2023 - WARN  - the remote password uses the default configuration.
+Wed Nov 22 04:30:12 2023 - WARN  - the connect port using the default configuration
+spawn scp -P 22 -r /etc/hosts root@192.168.114.6:/etc/
+The authenticity of host '192.168.114.6 (192.168.114.6)' can't be established.
+ED25519 key fingerprint is SHA256:d3NEC93wlISSHHHavxHVwkwHLorEgd5Sljeqj8h17Zw.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '192.168.114.6' (ED25519) to the list of known hosts.
+root@192.168.114.6's password: 
+hosts                                           0%    0     0.0KB/s   --:-- ETAhosts                                         100%  422    61.4KB/s   00:00    
++ ret=0
++ test 0 -ne 0
++ return 0
++ SSH_SCP /etc/corosync/corosync.conf root@192.168.114.6:/etc/corosync/ 'openEuler12#$'
++ src=/etc/corosync/corosync.conf
++ dest=root@192.168.114.6:/etc/corosync/
++ remotepasswd='openEuler12#$'
++ connport=22
++ bash /root/mugen/libs/locallibs/sshscp.sh -p 'openEuler12#$' -o 22 -s /etc/corosync/corosync.conf -d root@192.168.114.6:/etc/corosync/
+Wed Nov 22 04:30:15 2023 - WARN  - the remote password uses the default configuration.
+Wed Nov 22 04:30:15 2023 - WARN  - the connect port using the default configuration
+spawn scp -P 22 -r /etc/corosync/corosync.conf root@192.168.114.6:/etc/corosync/
+root@192.168.114.6's password: 
+corosync.conf                                   0%    0     0.0KB/s   --:-- ETAcorosync.conf                                 100%  699   168.5KB/s   00:00    
++ ret=0
++ test 0 -ne 0
++ return 0
++ systemctl start pcsd
++ systemctl start pacemaker
++ pcs property set stonith-enabled=false
++ pcs property set no-quorum-policy=stop
++ crm_verify -L
++ systemctl start corosync
++ P_SSH_CMD --node 2 --cmd '
+    systemctl start pcsd;
+    systemctl start pacemaker;
+    pcs property set stonith-enabled=false;
+    pcs property set no-quorum-policy=stop;
+    crm_verify -L;
+    systemctl start corosync'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --node 2 --cmd '
+    systemctl start pcsd;
+    systemctl start pacemaker;
+    pcs property set stonith-enabled=false;
+    pcs property set no-quorum-policy=stop;
+    crm_verify -L;
+    systemctl start corosync'
+
++ cat
++ pcs host auth ha1 ha2
+Username: Password: ha1: Authorized
+ha2: Authorized
++ systemctl restart pacemaker
++ systemctl restart corosync
++ systemctl restart pcsd
++ P_SSH_CMD --node 2 --cmd '
+    systemctl restart pacemaker;
+    systemctl restart corosync;
+    systemctl restart pcsd'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --node 2 --cmd '
+    systemctl restart pacemaker;
+    systemctl restart corosync;
+    systemctl restart pcsd'
+
++ DNF_INSTALL pcs-snmp
++ pkgs=pcs-snmp
++ node=1
++ '[' -z /tmp/tmpy9qa_qn0 ']'
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs pcs-snmp --node 1 --tempfile /tmp/tmpy9qa_qn0
++ tmpfile2=/tmp/tmpy9qa_qn0
++ '[' -z /tmp/tmpy9qa_qn0 ']'
++ echo 'master agentx
+view systemview included .1.3.6.1.4.1.32723.100'
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Wed Nov 22 04:33:20 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Wed Nov 22 04:33:20 2023 - INFO  - Start testing...
++ test_execution pcs_snmp_agent.service
++ service=pcs_snmp_agent.service
+++ date '+%Y-%m-%d %T'
++ log_time='2023-11-22 04:33:20'
++ test_restart pcs_snmp_agent.service
++ service=pcs_snmp_agent.service
++ systemctl restart pcs_snmp_agent.service
++ CHECK_RESULT 0 0 0 'pcs_snmp_agent.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='pcs_snmp_agent.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status pcs_snmp_agent.service
++ grep 'Active: active'
+     Active: active (running) since Wed 2023-11-22 04:33:21 CST; 5s ago
++ CHECK_RESULT 0 0 0 'pcs_snmp_agent.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='pcs_snmp_agent.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop pcs_snmp_agent.service
++ CHECK_RESULT 0 0 0 'pcs_snmp_agent.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='pcs_snmp_agent.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status pcs_snmp_agent.service
++ grep 'Active: inactive'
+     Active: inactive (dead)
++ CHECK_RESULT 0 0 0 'pcs_snmp_agent.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='pcs_snmp_agent.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start pcs_snmp_agent.service
++ CHECK_RESULT 0 0 0 'pcs_snmp_agent.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='pcs_snmp_agent.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status pcs_snmp_agent.service
++ grep 'Active: active'
+     Active: active (running) since Wed 2023-11-22 04:33:32 CST; 5s ago
++ CHECK_RESULT 0 0 0 'pcs_snmp_agent.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='pcs_snmp_agent.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled pcs_snmp_agent.service
++ service=pcs_snmp_agent.service
+++ systemctl is-enabled pcs_snmp_agent.service
++ state=disabled
++ '[' disabled == enabled ']'
++ '[' disabled == disabled ']'
+++ systemctl enable pcs_snmp_agent.service
+++ grep 'Created symlink'
+++ awk '{print $3}'
++ symlink_file=/etc/systemd/system/multi-user.target.wants/pcs_snmp_agent.service
++ find /etc/systemd/system/multi-user.target.wants/pcs_snmp_agent.service
+/etc/systemd/system/multi-user.target.wants/pcs_snmp_agent.service
++ CHECK_RESULT 0 0 0 'pcs_snmp_agent.service enable failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='pcs_snmp_agent.service enable failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl disable pcs_snmp_agent.service
+Removed /etc/systemd/system/multi-user.target.wants/pcs_snmp_agent.service.
++ find /etc/systemd/system/multi-user.target.wants/pcs_snmp_agent.service
+find: ‘/etc/systemd/system/multi-user.target.wants/pcs_snmp_agent.service’: No such file or directory
++ CHECK_RESULT 1 0 1 'pcs_snmp_agent.service disable failed'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='pcs_snmp_agent.service disable failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ journalctl --since '2023-11-22 04:33:20' -u pcs_snmp_agent.service
++ grep -i 'fail\|error'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of pcs_snmp_agent.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of pcs_snmp_agent.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_reload pcs_snmp_agent.service
++ service=pcs_snmp_agent.service
++ systemctl start pcs_snmp_agent.service
++ grep 'Job type reload is not applicable'
++ systemctl reload pcs_snmp_agent.service
+Failed to reload pcs_snmp_agent.service: Job type reload is not applicable for unit pcs_snmp_agent.service.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit pcs_snmp_agent.service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit pcs_snmp_agent.service'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status pcs_snmp_agent.service
++ grep 'Active: active'
+     Active: active (running) since Wed 2023-11-22 04:33:32 CST; 13s ago
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Wed Nov 22 04:33:46 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Nov 22 04:33:47 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Wed Nov 22 04:33:47 2023 - INFO  - start environment cleanup.
++ systemctl stop pcs_snmp_agent.service
++ sed -i '/master agentx/d' /etc/snmp/snmpd.conf
++ sed -i '/view systemview included/d' /etc/snmp/snmpd.conf
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpy9qa_qn0 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpy9qa_qn0
++ '[' 0 -ne 0 ']'
++ ha_post
++ systemctl stop corosync
+Failed to stop corosync.service: Unit corosync.service not loaded.
++ systemctl stop pacemaker
+Failed to stop pacemaker.service: Unit pacemaker.service not loaded.
++ systemctl stop pcsd
+Failed to stop pcsd.service: Unit pcsd.service not loaded.
++ rm -rf /etc/hosts /etc/corosync/corosync.conf
++ mv /etc/hosts_bak /etc/hosts
++ hostnamectl set-hostname openeuler-riscv64
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpy9qa_qn0 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpy9qa_qn0
++ '[' 0 -ne 0 ']'
++ '[' false = true ']'
++ systemctl start firewalld
+Failed to start firewalld.service: Unit firewalld.service not found.
++ systemctl enable firewalld
+Failed to enable unit: Unit file firewalld.service does not exist.
++ P_SSH_CMD --node 2 --cmd '
+    systemctl stop corosync;
+    systemctl stop pacemaker;
+    systemctl stop pcsd;
+    rm -rf /etc/hosts /etc/corosync/corosync.conf;
+    mv /etc/hosts_bak /etc/hosts;
+    hostnamectl set-hostname openeuler-riscv64;
+    dnf remove -y corosync pacemaker pcs;
+    systemctl start firewalld;
+    systemctl enable firewalld'
++ python3 /root/mugen/libs/locallibs/ssh_cmd.py --node 2 --cmd '
+    systemctl stop corosync;
+    systemctl stop pacemaker;
+    systemctl stop pcsd;
+    rm -rf /etc/hosts /etc/corosync/corosync.conf;
+    mv /etc/hosts_bak /etc/hosts;
+    hostnamectl set-hostname openeuler-riscv64;
+    dnf remove -y corosync pacemaker pcs;
+    systemctl start firewalld;
+    systemctl enable firewalld'
+Failed to start firewalld.service: Unit firewalld.service not found.
+Failed to enable unit: Unit file firewalld.service does not exist.
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Wed Nov 22 04:35:03 2023 - INFO  - Finish environment cleanup!

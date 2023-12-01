@@ -1,0 +1,111 @@
++ source ../common/common.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Nov 21 18:40:52 2023 - INFO  - Start to prepare the test environment.
++ common_pre
++ pip install -r ../common/requirements.txt
++ DNF_INSTALL 'nototools harfbuzz-devel cpio pango python3-gobject python3-cairo'
++ pkgs='nototools harfbuzz-devel cpio pango python3-gobject python3-cairo'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'nototools harfbuzz-devel cpio pango python3-gobject python3-cairo' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpt9ug2wjs
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpt9ug2wjs
++ notoconfig_pre
+++ mktemp -d -t nototools.SRC.XXXXXXXXXXXX
++ TMP_SRCDIR=/tmp/nototools.SRC.jlFliDHdIdvU
++ yumdownloader --source nototools --destdir /tmp/nototools.SRC.jlFliDHdIdvU
+No package nototools-0.2.17-1.oe2303.src available.
+Exiting due to strict setting.
+Error: No package nototools-0.2.17-1.oe2303.src available.
++ rpm2cpio '/tmp/nototools.SRC.jlFliDHdIdvU/*.rpm'
++ cpio -div -D /tmp/nototools.SRC.jlFliDHdIdvU
+rpm2cpio: /tmp/nototools.SRC.jlFliDHdIdvU/*.rpm: No such file or directory
++ tar -zxf '/tmp/nototools.SRC.jlFliDHdIdvU/*.tar.gz' --strip-components 1 --directory /tmp/nototools.SRC.jlFliDHdIdvU
+tar (child): /tmp/nototools.SRC.jlFliDHdIdvU/*.tar.gz: Cannot open: No such file or directory
+tar (child): Error is not recoverable: exiting now
+tar: Child returned status 2
+tar: Error is not recoverable: exiting now
++ echo noto_tools=/tmp/nototools.SRC.jlFliDHdIdvU
++ for src in "fonts" "cjk" "emoji"
++ echo noto_fonts=/tmp/nototools.SRC.jlFliDHdIdvU/noto-fonts
++ for src in "fonts" "cjk" "emoji"
++ echo noto_cjk=/tmp/nototools.SRC.jlFliDHdIdvU/noto-cjk
++ for src in "fonts" "cjk" "emoji"
++ echo noto_emoji=/tmp/nototools.SRC.jlFliDHdIdvU/noto-emoji
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Nov 21 18:47:07 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 18:47:08 2023 - INFO  - Start to run test.
++ generate_sample_text.py 0-7F
++ grep -oE '( [A-Za-z0-9])*'
+grep: (standard input): binary file matches
++ CHECK_RESULT 0 0 0 'generate_sample_text.py run error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='generate_sample_text.py run error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Nov 21 18:47:09 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Nov 21 18:47:09 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Nov 21 18:47:10 2023 - INFO  - Start to restore the test environment.
++ common_post
++ rm -rf /tmp/nototools.SRC.jlFliDHdIdvU /root/.notoconfig
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpt9ug2wjs ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpt9ug2wjs
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue Nov 21 18:48:06 2023 - INFO  - End to restore the test environment.

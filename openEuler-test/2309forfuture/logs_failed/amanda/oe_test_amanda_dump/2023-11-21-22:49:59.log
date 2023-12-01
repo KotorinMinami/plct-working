@@ -1,0 +1,233 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Nov 21 22:50:01 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'amanda openssl'
++ pkgs='amanda openssl'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'amanda openssl' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp8btivw6m
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp8btivw6m
++ mkdir /etc/amanda
+mkdir: cannot create directory ‘/etc/amanda’: File exists
++ mkdir -p /amanda /amanda/vtapes/slot1 /amanda/vtapes/slot2 /amanda/vtapes/slot3 /amanda/vtapes/slot4 /amanda/holding /amanda/state/curinfo /amanda/state/log /amanda/state/index /etc/amanda/MyConfig
++ cp ./common/amanda.conf /etc/amanda/MyConfig
++ echo 'localhost /etc simple-gnutar-local'
++ cp ./common/backup-pubkey.pem /var/lib/amanda/backup-pubkey.pem
++ su - amandabackup -c 'echo '\''MyConfig'\'' > /var/lib/amanda/.am_passphrase'
++ chown -R amandabackup.disk /amanda /etc/amanda
++ su - amandabackup -c 'amdump MyConfig'
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Nov 21 22:51:12 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 22:51:13 2023 - INFO  - Start to run test.
++ su - amandabackup -c 'amdump_client --config DailySet1 list'
+amdump_client: warning: Warning: unable to close filehandle GEN1 properly: Broken pipe at /usr/sbin/amdump_client line 178, <GEN2> line 1.
+Request failed: resolve_hostname(amandahost): Name or service not known
++ CHECK_RESULT 0 0 0 'Check amdump_client failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check amdump_client failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ amrecover MyConfig
+[request failed: Connection refused]
+AMRECOVER Version 3.5.1. Contacting server on amandahost ...
++ CHECK_RESULT 1 0 0 'Check amrecover failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check amrecover failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check amrecover failed'
++ LOG_ERROR 'Check amrecover failed'
++ message='Check amrecover failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check amrecover failed'
+Tue Nov 21 22:51:43 2023 - ERROR - Check amrecover failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_amanda_dump.sh line 41'
++ message='oe_test_amanda_dump.sh line 41'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_amanda_dump.sh line 41'
+Tue Nov 21 22:51:44 2023 - ERROR - oe_test_amanda_dump.sh line 41
++ '[' 0 -eq 1 ']'
++ return 0
++ amservice localhost bsdtcp noop
+Request failed: Connection refused
++ CHECK_RESULT 1 0 0 'Check amservice failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check amservice failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check amservice failed'
++ LOG_ERROR 'Check amservice failed'
++ message='Check amservice failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check amservice failed'
+Tue Nov 21 22:51:57 2023 - ERROR - Check amservice failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_amanda_dump.sh line 43'
++ message='oe_test_amanda_dump.sh line 43'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_amanda_dump.sh line 43'
+Tue Nov 21 22:51:58 2023 - ERROR - oe_test_amanda_dump.sh line 43
++ '[' 0 -eq 1 ']'
++ return 0
++ su - amandabackup -c 'amrestore /dev/nst0 hostname.zmanda.com /var'
+ERROR: Can't open tape device /dev/nst0: No such file or directory
++ CHECK_RESULT 1 0 0 'Check amrestore failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check amrestore failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check amrestore failed'
++ LOG_ERROR 'Check amrestore failed'
++ message='Check amrestore failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check amrestore failed'
+Tue Nov 21 22:52:04 2023 - ERROR - Check amrestore failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_amanda_dump.sh line 45'
++ message='oe_test_amanda_dump.sh line 45'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_amanda_dump.sh line 45'
+Tue Nov 21 22:52:04 2023 - ERROR - oe_test_amanda_dump.sh line 45
++ '[' 0 -eq 1 ']'
++ return 0
++ su - amandabackup -c 'amfetchdump MyConfig simple-gnutar-local'
+No matching dumps found
++ CHECK_RESULT 1 0 0 'Check amfetchdump failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check amfetchdump failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check amfetchdump failed'
++ LOG_ERROR 'Check amfetchdump failed'
++ message='Check amfetchdump failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check amfetchdump failed'
+Tue Nov 21 22:52:10 2023 - ERROR - Check amfetchdump failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_amanda_dump.sh line 47'
++ message='oe_test_amanda_dump.sh line 47'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_amanda_dump.sh line 47'
+Tue Nov 21 22:52:11 2023 - ERROR - oe_test_amanda_dump.sh line 47
++ '[' 0 -eq 1 ']'
++ return 0
++ su - amandabackup -c 'amflush MyConfig'
+Could not find any Amanda directories to flush.
++ CHECK_RESULT 1 0 0 'Check amflush failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check amflush failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check amflush failed'
++ LOG_ERROR 'Check amflush failed'
++ message='Check amflush failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check amflush failed'
+Tue Nov 21 22:52:15 2023 - ERROR - Check amflush failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_amanda_dump.sh line 49'
++ message='oe_test_amanda_dump.sh line 49'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_amanda_dump.sh line 49'
+Tue Nov 21 22:52:16 2023 - ERROR - oe_test_amanda_dump.sh line 49
++ '[' 0 -eq 1 ']'
++ return 0
++ amoldrecover MyConfig
+amoldrecover: cannot connect to amandahost: No route to host
+AMRECOVER Version 3.5.1. Contacting server on amandahost ...
++ CHECK_RESULT 1 0 0 'Check amoldrecover failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check amoldrecover failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check amoldrecover failed'
++ LOG_ERROR 'Check amoldrecover failed'
++ message='Check amoldrecover failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check amoldrecover failed'
+Tue Nov 21 22:52:16 2023 - ERROR - Check amoldrecover failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_amanda_dump.sh line 51'
++ message='oe_test_amanda_dump.sh line 51'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_amanda_dump.sh line 51'
+Tue Nov 21 22:52:17 2023 - ERROR - oe_test_amanda_dump.sh line 51
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Nov 21 22:52:17 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 6
++ test 6 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Tue Nov 21 22:52:18 2023 - ERROR - failed to execute the case.
++ exit 6
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Nov 21 22:52:18 2023 - INFO  - Start to restore the test environment.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp8btivw6m ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp8btivw6m
++ '[' 0 -ne 0 ']'
++ rm -rf /amanda /etc/amanda tmp.txt
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue Nov 21 22:52:35 2023 - INFO  - End to restore the test environment.

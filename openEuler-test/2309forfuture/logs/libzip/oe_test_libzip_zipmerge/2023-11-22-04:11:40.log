@@ -1,0 +1,239 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Nov 22 04:11:42 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL libzip
++ pkgs=libzip
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs libzip --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpy9_latoc
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpy9_latoc
++ mkdir testdir1 testdir2
++ echo hello
++ echo hello
++ echo hello
++ echo HELlo
++ zip -r testdir1.zip testdir1/
+  adding: testdir1/ (stored 0%)
+  adding: testdir1/testA (stored 0%)
+  adding: testdir1/testfile1 (stored 0%)
++ zip -r testdir2.zip testdir2/
+  adding: testdir2/ (stored 0%)
+  adding: testdir2/testfile2 (stored 0%)
+  adding: testdir2/testa (stored 0%)
++ cp -r testdir2.zip testdir3.zip
++ echo world
++ zip -r testdir4.zip testdir2/
+  adding: testdir2/ (stored 0%)
+  adding: testdir2/testfile2 (stored 0%)
+  adding: testdir2/testa (stored 0%)
++ cp -r testdir4.zip testdir5.zip
++ cp -r testdir1.zip testdir6.zip
++ cp -r testdir2.zip testdir7.zip
++ cp -r testdir2.zip testdir8.zip
++ LOG_INFO 'Finish preparing the test environment.'
++ message='Finish preparing the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish preparing the test environment.'
+Wed Nov 22 04:12:10 2023 - INFO  - Finish preparing the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Nov 22 04:12:11 2023 - INFO  - Start to run test.
++ zipmerge -h
++ grep -i usage
+usage: zipmerge [-DhIiSsV] target-zip zip...
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ zipmerge -V
+++ grep -Eo '[0-9]\.[0-9]\.[0-9]'
+++ rpm -qa libzip
+++ awk -F - '{print$2}'
++ test 1.9.2 == 1.9.2
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ zipmerge -D testdir2.zip testdir3.zip
++ grep -i 'File already exists'
+zipmerge: cannot add 'testdir2/' to `testdir2.zip': File already exists
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ zipmerge -D testdir1.zip testdir3.zip
++ unzip testdir1.zip -d tmp1
++ grep testdir2
+   creating: tmp1/testdir2/
+ extracting: tmp1/testdir2/testfile2  
+ extracting: tmp1/testdir2/testa     
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ zipmerge -I testdir1.zip testdir5.zip
++ unzip testdir1.zip -d tmp2
+Archive:  testdir1.zip
+   creating: tmp2/testdir1/
+ extracting: tmp2/testdir1/testA     
+ extracting: tmp2/testdir1/testfile1  
+   creating: tmp2/testdir2/
+ extracting: tmp2/testdir2/testfile2  
+ extracting: tmp2/testdir2/testa     
++ grep world tmp2/testdir2/testfile2
+world
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep hello tmp2/testdir2/testfile2
++ CHECK_RESULT 1 0 1
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ echo -e 'y\ny\ny\n'
++ zipmerge -i testdir6.zip testdir3.zip
++ unzip testdir1.zip -d tmp3
++ grep testdir2
+   creating: tmp3/testdir2/
+ extracting: tmp3/testdir2/testfile2  
+ extracting: tmp3/testdir2/testa     
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ zipmerge -S testdir7.zip testdir4.zip
++ unzip testdir7.zip -d tmp4
+Archive:  testdir7.zip
+   creating: tmp4/testdir2/
+ extracting: tmp4/testdir2/testfile2  
+ extracting: tmp4/testdir2/testa     
++ grep world tmp4/testdir2/testfile2
+world
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ echo -e 'y\r'
++ zipmerge -i -s testdir8.zip testdir4.zip
+replace 'testdir2/testfile2' (6 / 363a3020) in `testdir8.zip'
+   with 'testdir2/testfile2' (6 / dd3861a8) from `testdir4.zip'? + unzip testdir8.zip -d tmp5
+Archive:  testdir8.zip
+   creating: tmp5/testdir2/
+ extracting: tmp5/testdir2/testfile2  
+ extracting: tmp5/testdir2/testa     
++ grep world tmp5/testdir2/testfile2
+world
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Wed Nov 22 04:12:13 2023 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Nov 22 04:12:13 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Wed Nov 22 04:12:14 2023 - INFO  - Start to restore the test environment.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpy9_latoc ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpy9_latoc
++ '[' 0 -ne 0 ']'
++ rm -rf testdir1 testdir1.zip testdir2 testdir2.zip testdir3.zip testdir4.zip testdir5.zip testdir6.zip testdir7.zip testdir8.zip testdir1.zip testdir2.zip testdir3.zip testdir4.zip testdir5.zip testdir6.zip testdir7.zip testdir8.zip tmp1 tmp2 tmp3 tmp4 tmp5
++ LOG_INFO 'Finish restoring the test environment.'
++ message='Finish restoring the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish restoring the test environment.'
+Wed Nov 22 04:12:22 2023 - INFO  - Finish restoring the test environment.

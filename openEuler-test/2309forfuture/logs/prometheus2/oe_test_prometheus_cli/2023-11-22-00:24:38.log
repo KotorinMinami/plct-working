@@ -1,0 +1,1205 @@
++ source ./common_lib.sh
+++ source ../common/common_lib.sh
++++ source /root/mugen/libs/locallibs/common_lib.sh
+++++ python3 --version
+++++ '[' 0 -eq 0 ']'
+++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n function ']'
++ config_params
++ LOG_INFO 'Start to config params of the case.'
++ message='Start to config params of the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to config params of the case.'
+Wed Nov 22 00:24:41 2023 - INFO  - Start to config params of the case.
+++ GET_FREE_PORT localhost
+++ ip=localhost
+++ start_port=1000
+++ end_port=10000
+++ python3 /root/mugen/libs/locallibs/free_port.py get --ip localhost --start 1000 --end 10000
++ free_port=8241
++ LOG_INFO 'End to config params of the case.'
++ message='End to config params of the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to config params of the case.'
+Wed Nov 22 00:24:43 2023 - INFO  - End to config params of the case.
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed Nov 22 00:24:44 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL prometheus2
++ pkgs=prometheus2
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs prometheus2 --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpbyry29a8
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpbyry29a8
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Wed Nov 22 00:26:07 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Wed Nov 22 00:26:07 2023 - INFO  - Start testing...
++ prometheus --version
++ grep 'prometheus, version'
+prometheus, version 2.20.0 (branch: non-git, revision: non-git)
++ CHECK_RESULT 0 0 0 'Failed to output version info.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to output version info.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ prometheus --help
++ grep 'usage: prometheus'
+usage: prometheus [<flags>]
++ CHECK_RESULT 0 0 0 'Failed to output version info.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to output version info.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wait_for_ready
++ LOG_INFO 'Waiting for Prometheus to be ready.'
++ prometheus --config.file=prometheus.yml
++ message='Waiting for Prometheus to be ready.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Waiting for Prometheus to be ready.'
+Wed Nov 22 00:26:11 2023 - INFO  - Waiting for Prometheus to be ready.
++ grep 'Server is ready to receive web requests.' ./prometheus.log
++ sleep 1s
++ grep 'Server is ready to receive web requests.' ./prometheus.log
+level=info ts=2023-11-21T16:26:12.504Z caller=main.go:652 msg="Server is ready to receive web requests."
++ LOG_INFO 'Prometheus is ready.'
++ message='Prometheus is ready.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Prometheus is ready.'
+Wed Nov 22 00:26:13 2023 - INFO  - Prometheus is ready.
++ curl -s localhost:9090/config
++ grep 'job_name: test_prometheus_cli'
+- job_name: test_prometheus_cli
++ CHECK_RESULT 0 0 0 'Failed to use specific config file.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use specific config file.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1090
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1090 Killed                  prometheus --config.file="prometheus.yml" > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:26:15 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ wait_for_ready
++ LOG_INFO 'Waiting for Prometheus to be ready.'
++ message='Waiting for Prometheus to be ready.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Waiting for Prometheus to be ready.'
++ prometheus --web.listen-address=0.0.0.0:8241
+Wed Nov 22 00:26:15 2023 - INFO  - Waiting for Prometheus to be ready.
++ grep 'Server is ready to receive web requests.' ./prometheus.log
++ sleep 1s
++ grep 'Server is ready to receive web requests.' ./prometheus.log
+level=info ts=2023-11-21T16:26:16.292Z caller=main.go:652 msg="Server is ready to receive web requests."
++ LOG_INFO 'Prometheus is ready.'
++ message='Prometheus is ready.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Prometheus is ready.'
+Wed Nov 22 00:26:17 2023 - INFO  - Prometheus is ready.
++ curl -s http://localhost:8241
++ grep Found
+<a href="/graph">Found</a>.
++ CHECK_RESULT 0 0 0 'Failed to use flag: --web.listen-address'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag: --web.listen-address'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1114
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1114 Killed                  prometheus --web.listen-address="0.0.0.0:${free_port}" > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:26:18 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ CHECK_RESULT 0 0 0 'Failed to use flag: --web.read-timeout'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag: --web.read-timeout'
++ exit_mode=0
++ prometheus --web.read-timeout=5m
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1137
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1137 Killed                  prometheus --web.read-timeout=5m > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:26:19 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ CHECK_RESULT 0 0 0 'Failed to use flag: --web.max-connections'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag: --web.max-connections'
++ exit_mode=0
++ '[' -z 0 ']'
++ prometheus --web.max-connections=100
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1149
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1149 Killed                  prometheus --web.max-connections=100 > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:26:20 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ wait_for_ready
++ LOG_INFO 'Waiting for Prometheus to be ready.'
++ message='Waiting for Prometheus to be ready.'
++ prometheus --web.external-url=the_external_url
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Waiting for Prometheus to be ready.'
+Wed Nov 22 00:26:21 2023 - INFO  - Waiting for Prometheus to be ready.
++ grep 'Server is ready to receive web requests.' ./prometheus.log
++ sleep 1s
++ grep 'Server is ready to receive web requests.' ./prometheus.log
+level=info ts=2023-11-21T16:26:21.412Z caller=main.go:652 msg="Server is ready to receive web requests."
++ LOG_INFO 'Prometheus is ready.'
++ message='Prometheus is ready.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Prometheus is ready.'
+Wed Nov 22 00:26:22 2023 - INFO  - Prometheus is ready.
++ curl -s http://localhost:9090
++ grep '<a href="/the_external_url">Found</a>.'
+<a href="/the_external_url">Found</a>.
++ CHECK_RESULT 0 0 0 'Failed to use flag: --web.external-url'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag: --web.external-url'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1162
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1162 Killed                  prometheus --web.external-url="the_external_url" > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:26:23 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ wait_for_ready
++ LOG_INFO 'Waiting for Prometheus to be ready.'
++ message='Waiting for Prometheus to be ready.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Waiting for Prometheus to be ready.'
++ prometheus --web.route-prefix=the_prefix
+Wed Nov 22 00:26:24 2023 - INFO  - Waiting for Prometheus to be ready.
++ grep 'Server is ready to receive web requests.' ./prometheus.log
++ sleep 1s
++ grep 'Server is ready to receive web requests.' ./prometheus.log
+level=info ts=2023-11-21T16:26:24.735Z caller=main.go:652 msg="Server is ready to receive web requests."
++ LOG_INFO 'Prometheus is ready.'
++ message='Prometheus is ready.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Prometheus is ready.'
+Wed Nov 22 00:26:25 2023 - INFO  - Prometheus is ready.
++ grep '<a href="/the_prefix">Found</a>.'
++ curl -s http://localhost:9090
+<a href="/the_prefix">Found</a>.
++ CHECK_RESULT 0 0 0 'Failed to use flag: --web.route-prefix'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag: --web.route-prefix'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1185
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1185 Killed                  prometheus --web.route-prefix="the_prefix" > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:26:26 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ CHECK_RESULT 0 0 0 'Failed to use flag: --web.user-assets'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag: --web.user-assets'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ prometheus --web.user-assets=./
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1208
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1208 Killed                  prometheus --web.user-assets=./ > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:26:27 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ wait_for_ready
++ LOG_INFO 'Waiting for Prometheus to be ready.'
++ message='Waiting for Prometheus to be ready.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Waiting for Prometheus to be ready.'
++ prometheus --web.enable-lifecycle
+Wed Nov 22 00:26:28 2023 - INFO  - Waiting for Prometheus to be ready.
++ grep 'Server is ready to receive web requests.' ./prometheus.log
++ sleep 1s
++ grep 'Server is ready to receive web requests.' ./prometheus.log
+level=info ts=2023-11-21T16:26:28.986Z caller=main.go:652 msg="Server is ready to receive web requests."
++ LOG_INFO 'Prometheus is ready.'
++ message='Prometheus is ready.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Prometheus is ready.'
+Wed Nov 22 00:26:30 2023 - INFO  - Prometheus is ready.
++ curl -s -X POST http://localhost:9090/-/quit
+Requesting termination... Goodbye!++ pgrep prometheus
++ CHECK_RESULT '' 1 0 'Failed to use flag: --web.enable-lifecycle'
++ actual_result=
++ expect_result=1
++ mode=0
++ error_log='Failed to use flag: --web.enable-lifecycle'
++ exit_mode=0
++ '[' -z '' ']'
++ LOG_ERROR 'Missing actual error code.'
++ message='Missing actual error code.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Missing actual error code.'
+Wed Nov 22 00:26:30 2023 - ERROR - Missing actual error code.
++ return 1
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 1
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ wait_for_ready
++ LOG_INFO 'Waiting for Prometheus to be ready.'
++ message='Waiting for Prometheus to be ready.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Waiting for Prometheus to be ready.'
++ prometheus --web.enable-admin-api
+Wed Nov 22 00:26:31 2023 - INFO  - Waiting for Prometheus to be ready.
++ grep 'Server is ready to receive web requests.' ./prometheus.log
++ sleep 1s
++ grep 'Server is ready to receive web requests.' ./prometheus.log
+level=info ts=2023-11-21T16:26:31.767Z caller=main.go:652 msg="Server is ready to receive web requests."
++ LOG_INFO 'Prometheus is ready.'
++ message='Prometheus is ready.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Prometheus is ready.'
+Wed Nov 22 00:26:33 2023 - INFO  - Prometheus is ready.
++ grep '"status":"success"'
++ curl -s -X POST http://localhost:9090/api/v1/admin/tsdb/snapshot
+{"status":"success","data":{"name":"20231121T162633Z-4d65822107fcfd52"}}
++ CHECK_RESULT 0 0 0 'Failed to use flag:  --web.enable-admin-api'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag:  --web.enable-admin-api'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1242
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1242 Killed                  prometheus --web.enable-admin-api > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:26:34 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ CHECK_RESULT 0 0 0 'Failed to use flag: --web.console.templates'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag: --web.console.templates'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ prometheus --web.console.templates=./
++ return 0
+++ pgrep -x prometheus
++ kill -9 1266
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1266 Killed                  prometheus --web.console.templates=./ > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:26:35 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ CHECK_RESULT 0 0 0 'Failed to use flag: --web.console.libraries'
++ prometheus --web.console.libraries=./
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag: --web.console.libraries'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1279
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1279 Killed                  prometheus --web.console.libraries=./ > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:26:36 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ wait_for_ready
++ LOG_INFO 'Waiting for Prometheus to be ready.'
++ message='Waiting for Prometheus to be ready.'
++ prometheus '--web.page-title=the title'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Waiting for Prometheus to be ready.'
+Wed Nov 22 00:26:36 2023 - INFO  - Waiting for Prometheus to be ready.
++ grep 'Server is ready to receive web requests.' ./prometheus.log
++ sleep 1s
++ grep 'Server is ready to receive web requests.' ./prometheus.log
+level=info ts=2023-11-21T16:26:36.969Z caller=main.go:652 msg="Server is ready to receive web requests."
++ LOG_INFO 'Prometheus is ready.'
++ message='Prometheus is ready.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Prometheus is ready.'
+Wed Nov 22 00:26:38 2023 - INFO  - Prometheus is ready.
++ curl -s http://localhost:9090/config
++ grep '<title>the title</title>'
+        <title>the title</title>
++ CHECK_RESULT 0 0 0 'Failed to use flag: --web.page-title'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag: --web.page-title'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1291
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1291 Killed                  prometheus --web.page-title="the title" > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:26:39 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ CHECK_RESULT 0 0 0 'Failed to use flag: --web.cors.origin'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag: --web.cors.origin'
++ exit_mode=0
++ '[' -z 0 ']'
++ prometheus '--web.cors.origin=.*'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1314
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1314 Killed                  prometheus --web.cors.origin=".*" > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:26:40 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ wait_for_ready
++ LOG_INFO 'Waiting for Prometheus to be ready.'
++ message='Waiting for Prometheus to be ready.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Waiting for Prometheus to be ready.'
++ prometheus --storage.tsdb.path=./the_data/
+Wed Nov 22 00:26:40 2023 - INFO  - Waiting for Prometheus to be ready.
++ grep 'Server is ready to receive web requests.' ./prometheus.log
++ sleep 1s
++ grep 'Server is ready to receive web requests.' ./prometheus.log
+level=info ts=2023-11-21T16:26:41.156Z caller=main.go:652 msg="Server is ready to receive web requests."
++ LOG_INFO 'Prometheus is ready.'
++ message='Prometheus is ready.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Prometheus is ready.'
+Wed Nov 22 00:26:42 2023 - INFO  - Prometheus is ready.
+++ ls ./the_data
+++ grep -cE 'chunks_head|lock|queries.active|wal'
++ CHECK_RESULT 4 4 0 'Failed to use flag: --storage.tsdb.path'
++ actual_result=4
++ expect_result=4
++ mode=0
++ error_log='Failed to use flag: --storage.tsdb.path'
++ exit_mode=0
++ '[' -z 4 ']'
++ '[' 0 -eq 0 ']'
++ test 4x '!=' 4x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1327
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1327 Killed                  prometheus --storage.tsdb.path="./the_data/" > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:26:43 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 1
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ CHECK_RESULT 0 0 0 'Failed to use flag: --storage.tsdb.retention'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag: --storage.tsdb.retention'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ prometheus --storage.tsdb.retention=1m
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1355
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1355 Killed                  prometheus --storage.tsdb.retention=1m > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:26:44 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ CHECK_RESULT 0 0 0 'Failed to use flag: --storage.tsdb.retention.time'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag: --storage.tsdb.retention.time'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ prometheus --storage.tsdb.retention.time=1m
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1367
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1367 Killed                  prometheus --storage.tsdb.retention.time=1m > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:26:45 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ CHECK_RESULT 0 0 0 'Failed to use flag: --storage.tsdb.retention.size'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag: --storage.tsdb.retention.size'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ prometheus --storage.tsdb.retention.size=1MB
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1379
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1379 Killed                  prometheus --storage.tsdb.retention.size=1MB > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:26:46 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ prometheus --storage.tsdb.no-lockfile
+++ grep -cE lock
+++ ls ./data
+ls: cannot access './data': No such file or directory
++ CHECK_RESULT 0 0 0 'Failed to use flag: --storage.tsdb.no-lockfile'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag: --storage.tsdb.no-lockfile'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1392
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1392 Killed                  prometheus --storage.tsdb.no-lockfile > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:26:47 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ CHECK_RESULT 0 0 0 'Failed to use flag: --storage.tsdb.allow-overlapping-blocks'
++ actual_result=0
++ prometheus --storage.tsdb.allow-overlapping-blocks
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag: --storage.tsdb.allow-overlapping-blocks'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1409
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1409 Killed                  prometheus --storage.tsdb.allow-overlapping-blocks > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:26:48 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ CHECK_RESULT 0 0 0 'Failed to use flag: --storage.tsdb.wal-compression'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag: --storage.tsdb.wal-compression'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ prometheus --storage.tsdb.wal-compression
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1422
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1422 Killed                  prometheus --storage.tsdb.wal-compression > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:26:49 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ CHECK_RESULT 0 0 0 'Failed to use flag: --storage.remote.flush-deadline'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag: --storage.remote.flush-deadline'
++ exit_mode=0
++ prometheus --storage.remote.flush-deadline=1m
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1434
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1434 Killed                  prometheus --storage.remote.flush-deadline=1m > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:26:50 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ CHECK_RESULT 0 0 0 'Failed to use flag: --storage.remote.read-sample-limit'
++ actual_result=0
++ prometheus --storage.remote.read-sample-limit=5
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag: --storage.remote.read-sample-limit'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1447
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1447 Killed                  prometheus --storage.remote.read-sample-limit=5 > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:26:51 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ CHECK_RESULT 0 0 0 'Failed to use flag: --storage.remote.read-concurrent-limit'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag: --storage.remote.read-concurrent-limit'
++ prometheus --storage.remote.read-concurrent-limit=5
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1459
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1459 Killed                  prometheus --storage.remote.read-concurrent-limit=5 > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:26:51 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ CHECK_RESULT 0 0 0 'Failed to use flag: --storage.remote.read-max-bytes-in-frame'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag: --storage.remote.read-max-bytes-in-frame'
++ exit_mode=0
++ prometheus --storage.remote.read-max-bytes-in-frame=100
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1472
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1472 Killed                  prometheus --storage.remote.read-max-bytes-in-frame=100 > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:26:52 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ CHECK_RESULT 0 0 0 'Failed to use flag: --rules.alert.for-outage-tolerance'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag: --rules.alert.for-outage-tolerance'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ prometheus --rules.alert.for-outage-tolerance=1h
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1485
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1485 Killed                  prometheus --rules.alert.for-outage-tolerance=1h > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:26:53 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ CHECK_RESULT 0 0 0 'Failed to use flag: --rules.alert.for-grace-period'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag: --rules.alert.for-grace-period'
++ exit_mode=0
++ '[' -z 0 ']'
++ prometheus --rules.alert.for-grace-period=5m
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1498
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1498 Killed                  prometheus --rules.alert.for-grace-period=5m > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:26:54 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ CHECK_RESULT 0 0 0 'Failed to use flag: --rules.alert.resend-delay'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag: --rules.alert.resend-delay'
++ exit_mode=0
++ prometheus --rules.alert.resend-delay=5m
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1510
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1510 Killed                  prometheus --rules.alert.resend-delay=5m > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:26:55 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ CHECK_RESULT 0 0 0 'Failed to use flag: --alertmanager.notification-queue-capacity'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag: --alertmanager.notification-queue-capacity'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ prometheus --alertmanager.notification-queue-capacity=100
++ return 0
+++ pgrep -x prometheus
++ kill -9 1522
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1522 Killed                  prometheus --alertmanager.notification-queue-capacity=100 > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:26:56 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ CHECK_RESULT 0 0 0 'Failed to use flag: --alertmanager.timeout'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag: --alertmanager.timeout'
++ exit_mode=0
++ '[' -z 0 ']'
++ prometheus --alertmanager.timeout=5s
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1535
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1535 Killed                  prometheus --alertmanager.timeout=5s > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:26:57 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ CHECK_RESULT 0 0 0 'Failed to use flag: --query.lookback-delta'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag: --query.lookback-delta'
++ exit_mode=0
++ '[' -z 0 ']'
++ prometheus --query.lookback-delta=2m
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1548
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1548 Killed                  prometheus --query.lookback-delta=2m > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:26:58 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ CHECK_RESULT 0 0 0 'Failed to use flag: --query.timeout'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag: --query.timeout'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ prometheus --query.timeout=2m
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1561
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1561 Killed                  prometheus --query.timeout=2m > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:26:59 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ CHECK_RESULT 0 0 0 'Failed to use flag: --query.max-concurrency'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag: --query.max-concurrency'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ prometheus --query.max-concurrency=10
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1574
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1574 Killed                  prometheus --query.max-concurrency=10 > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:27:00 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ CHECK_RESULT 0 0 0 'Failed to use flag: --query.max-samples'
++ actual_result=0
++ expect_result=0
++ prometheus --query.max-samples=100
++ mode=0
++ error_log='Failed to use flag: --query.max-samples'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1587
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1587 Killed                  prometheus --query.max-samples=100 > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:27:01 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ CHECK_RESULT 0 0 0 'Failed to use flag: --log.level'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag: --log.level'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ prometheus --log.level=debug
++ return 0
+++ pgrep -x prometheus
++ kill -9 1600
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1600 Killed                  prometheus --log.level=debug > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:27:02 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ wait_for_ready
++ LOG_INFO 'Waiting for Prometheus to be ready.'
++ message='Waiting for Prometheus to be ready.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Waiting for Prometheus to be ready.'
++ prometheus --log.format=json
+Wed Nov 22 00:27:02 2023 - INFO  - Waiting for Prometheus to be ready.
++ grep 'Server is ready to receive web requests.' ./prometheus.log
++ sleep 1s
++ grep 'Server is ready to receive web requests.' ./prometheus.log
+{"caller":"main.go:652","level":"info","msg":"Server is ready to receive web requests.","ts":"2023-11-21T16:27:02.912Z"}
++ LOG_INFO 'Prometheus is ready.'
++ message='Prometheus is ready.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Prometheus is ready.'
+Wed Nov 22 00:27:04 2023 - INFO  - Prometheus is ready.
++ grep '"level":"info","msg":"Server is ready to receive web requests."' ./prometheus.log
+{"caller":"main.go:652","level":"info","msg":"Server is ready to receive web requests.","ts":"2023-11-21T16:27:02.912Z"}
++ CHECK_RESULT 0 0 0 'Failed to use flag: --log.format'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to use flag: --log.format'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ clear_env
++ kill_process
++ is_running
++ pgrep -x prometheus
++ return 0
+++ pgrep -x prometheus
++ kill -9 1613
++ pgrep -x prometheus
+./common_lib.sh: line 38:  1613 Killed                  prometheus --log.format=json > prometheus.log 2>&1
++ LOG_INFO 'Succeed to terminate prometheus.'
++ message='Succeed to terminate prometheus.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Succeed to terminate prometheus.'
+Wed Nov 22 00:27:05 2023 - INFO  - Succeed to terminate prometheus.
++ rm -rf ./data
++ rm -rf ./prometheus.log
++ rm -rf ./the_data
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Wed Nov 22 00:27:05 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Nov 22 00:27:06 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start environment cleanup.'
++ message='Start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment cleanup.'
+Wed Nov 22 00:27:06 2023 - INFO  - Start environment cleanup.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpbyry29a8 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpbyry29a8
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Wed Nov 22 00:27:21 2023 - INFO  - Finish environment cleanup!

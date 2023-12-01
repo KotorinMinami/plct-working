@@ -1,0 +1,303 @@
++ source ../common/common.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n function ']'
++ config_params
++ LOG_INFO 'Start to config params of the case.'
++ message='Start to config params of the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to config params of the case.'
+Tue Nov 21 17:10:45 2023 - INFO  - Start to config params of the case.
++ TMP_DIR=/tmp/vs
++ LOG_INFO 'End to config params of the case.'
++ message='End to config params of the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to config params of the case.'
+Tue Nov 21 17:10:46 2023 - INFO  - End to config params of the case.
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Nov 21 17:10:47 2023 - INFO  - Start to prepare the test environment.
++ common_pre
++ pip install -r ../common/requirements.txt
++ DNF_INSTALL 'nototools harfbuzz-devel cpio pango python3-gobject python3-cairo'
++ pkgs='nototools harfbuzz-devel cpio pango python3-gobject python3-cairo'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'nototools harfbuzz-devel cpio pango python3-gobject python3-cairo' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpouf6fxj0
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpouf6fxj0
++ notoconfig_pre
+++ mktemp -d -t nototools.SRC.XXXXXXXXXXXX
++ TMP_SRCDIR=/tmp/nototools.SRC.xsChR3QT7eBj
++ yumdownloader --source nototools --destdir /tmp/nototools.SRC.xsChR3QT7eBj
+No package nototools-0.2.17-1.oe2303.src available.
+Exiting due to strict setting.
+Error: No package nototools-0.2.17-1.oe2303.src available.
++ cpio -div -D /tmp/nototools.SRC.xsChR3QT7eBj
++ rpm2cpio '/tmp/nototools.SRC.xsChR3QT7eBj/*.rpm'
+rpm2cpio: /tmp/nototools.SRC.xsChR3QT7eBj/*.rpm: No such file or directory
++ tar -zxf '/tmp/nototools.SRC.xsChR3QT7eBj/*.tar.gz' --strip-components 1 --directory /tmp/nototools.SRC.xsChR3QT7eBj
+tar (child): /tmp/nototools.SRC.xsChR3QT7eBj/*.tar.gz: Cannot open: No such file or directory
+tar (child): Error is not recoverable: exiting now
+tar: Child returned status 2
+tar: Error is not recoverable: exiting now
++ echo noto_tools=/tmp/nototools.SRC.xsChR3QT7eBj
++ for src in "fonts" "cjk" "emoji"
++ echo noto_fonts=/tmp/nototools.SRC.xsChR3QT7eBj/noto-fonts
++ for src in "fonts" "cjk" "emoji"
++ echo noto_cjk=/tmp/nototools.SRC.xsChR3QT7eBj/noto-cjk
++ for src in "fonts" "cjk" "emoji"
++ echo noto_emoji=/tmp/nototools.SRC.xsChR3QT7eBj/noto-emoji
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Nov 21 17:18:36 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 17:18:37 2023 - INFO  - Start to run test.
++ grep -q usage
++ add_vs_cmap.py -h
++ CHECK_RESULT 0 0 0 'option: -h error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: -h error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ add_vs_cmap.py --help
++ grep -q usage
++ CHECK_RESULT 0 0 0 'option: --help error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --help error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ add_vs_cmap.py -o changename.ttf font1.ttf
++ grep -q 'Noto Sans'
++ fc-scan /tmp/vs/changename.ttf
++ CHECK_RESULT 0 0 0 'option: -o error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: -o error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf /tmp/vs
++ add_vs_cmap.py --output changename.ttf font1.ttf
++ fc-scan /tmp/vs/changename.ttf
++ grep -q 'Noto Sans'
++ CHECK_RESULT 0 0 0 'option: --output error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --output error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf /tmp/vs
++ add_vs_cmap.py -s .test font1.ttf
++ fc-scan /tmp/vs/font1.test.ttf
++ grep -q 'Noto Sans'
++ CHECK_RESULT 0 0 0 'option: -s error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: -s error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf /tmp/vs
++ add_vs_cmap.py --suffix .test font1.ttf
++ fc-scan /tmp/vs/font1.test.ttf
++ grep -q 'Noto Sans'
++ CHECK_RESULT 0 0 0 'option: --suffix error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --suffix error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf /tmp/vs
++ add_vs_cmap.py -d /tmp/vs/test/ font1.ttf
++ fc-scan /tmp/vs/test/font1.ttf
++ grep -q 'Noto Sans'
++ CHECK_RESULT 0 0 0 'option: -d error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: -d error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf /tmp/vs
++ add_vs_cmap.py --dstdir /tmp/vs/test/ font1.ttf
++ grep -q 'Noto Sans'
++ fc-scan /tmp/vs/test/font1.ttf
++ CHECK_RESULT 0 0 0 'option: --dstdir error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --dstdir error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf /tmp/vs
++ for i in "emoji" "text"
++ add_vs_cmap.py -p emoji font1.ttf
++ fc-scan /tmp/vs/font1.ttf
++ grep -q 'Noto Sans'
++ CHECK_RESULT 0 0 0 'option: -p emoji error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: -p emoji error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf /tmp/vs
++ add_vs_cmap.py --presentation emoji font1.ttf
++ grep -q 'Noto Sans'
++ fc-scan /tmp/vs/font1.ttf
++ CHECK_RESULT 0 0 0 'option: --presentation emoji error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --presentation emoji error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf /tmp/vs
++ for i in "emoji" "text"
++ add_vs_cmap.py -p text font1.ttf
++ fc-scan /tmp/vs/font1.ttf
++ grep -q 'Noto Sans'
++ CHECK_RESULT 0 0 0 'option: -p text error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: -p text error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf /tmp/vs
++ add_vs_cmap.py --presentation text font1.ttf
++ fc-scan /tmp/vs/font1.ttf
++ grep -q 'Noto Sans'
++ CHECK_RESULT 0 0 0 'option: --presentation text error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --presentation text error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf /tmp/vs
++ add_vs_cmap.py font1.ttf -vs 10
++ fc-scan /tmp/vs/font1.ttf
++ grep -q 'Noto Sans'
++ CHECK_RESULT 0 0 0 'option: -vs error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: -vs error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf /tmp/vs
++ add_vs_cmap.py font1.ttf --vs_added 10
++ fc-scan /tmp/vs/font1.ttf
++ grep -q 'Noto Sans'
++ CHECK_RESULT 0 0 0 'option: --vs_added error'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='option: --vs_added error'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf /tmp/vs
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Nov 21 17:24:32 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Nov 21 17:24:32 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Nov 21 17:24:33 2023 - INFO  - Start to restore the test environment.
++ rm -rf /tmp/vs
++ common_post
++ rm -rf /tmp/nototools.SRC.xsChR3QT7eBj /root/.notoconfig
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpouf6fxj0 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpouf6fxj0
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue Nov 21 17:25:31 2023 - INFO  - End to restore the test environment.

@@ -1,0 +1,530 @@
++ source ../common/lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Nov 21 10:36:22 2023 - INFO  - Start to prepare the test environment.
++ postgresql_install
++ DNF_INSTALL 'postgresql postgresql-server postgresql-devel postgresql-contrib'
++ pkgs='postgresql postgresql-server postgresql-devel postgresql-contrib'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'postgresql postgresql-server postgresql-devel postgresql-contrib' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmphwbi2kx1
++ '[' -z '' ']'
++ tmpfile=/tmp/tmphwbi2kx1
++ rm -rf '/tmp/.s.PGSQL*'
++ /usr/bin/postgresql-setup --initdb
+ * Initializing database in '/var/lib/pgsql/data'
+ * Initialized, logs are in /var/lib/pgsql/initdb_postgresql.log
++ sed -i s/ident/trust/g /var/lib/pgsql/data/pg_hba.conf
++ systemctl start postgresql
++ expect
+spawn su - postgres
+Last login: Tue Nov 21 10:35:09 CST 2023
+
+
+Welcome to 6.1.19-2.oe2303.riscv64
+
+System information as of time: 	Tue Nov 21 10:37:26 AM CST 2023
+
+System load: 	[0;33;40m3.37[0m
+Processes: 	119
+Memory used: 	2.6%
+Swap used: 	0.0%
+Usage On: 	21%
+IP address: 	10.0.2.15
+Users online: 	0
+To run a command as administrator(user "root"),use "sudo <command>".
+
+
+Welcome to 6.1.19-2.oe2303.riscv64
+
+System information as of time: 	Tue Nov 21 10:37:27 AM CST 2023
+
+System load: 	[0;33;40m3.37[0m
+Processes: 	119
+Memory used: 	2.6%
+Swap used: 	0.0%
+Usage On: 	21%
+IP address: 	10.0.2.15
+Users online: 	0
+To run a command as administrator(user "root"),use "sudo <command>".
+[postgres@openeuler-riscv64 ~]$ createdb testdb
+[postgres@openeuler-riscv64 ~]$ psql testdb
+psql (13.3)
+Type "help" for help.
+
+testdb=# create table test (id int, val numeric);
+CREATE TABLE
+create index on test(id);
+testdb=# create index on test(id);
+CREATE INDEX
+testdb=# create index on test(val);
+CREATE INDEX
+testdb=# insert into test select generate_series(1,10000),random();
+INSERT 0 10000
+testdb=# create table tab_big(vname text,souroid oid);
+CREATE TABLE
+testdb=# insert into tab_big values('passwd list',lo_import('/etc/passwd'));
+INSERT 0 1
+testdb=# CREATE SCHEMA myschema;
+create table myschema.test (id int, val numeric) with oids;
+CREATE SCHEMA
+testdb=# create table myschema.test (id int, val numeric) with oids;
+ERROR:  syntax error at or near "oids"
+LINE 1: create table myschema.test (id int, val numeric) with oids;
+                                                              ^
+testdb=# insert into myschema.test select generate_series(1,100),random();
+ERROR:  relation "myschema.test" does not exist
+LINE 1: insert into myschema.test select generate_series(1,100),rand...
+                    ^
+testdb=# create user testuder;
+CREATE ROLE
+testdb=# GRANT ALL ON test TO testuder;
+\q
+GRANT
+testdb=# \q
+[postgres@openeuler-riscv64 ~]$ + export LANG=en_US.UTF-8
++ LANG=en_US.UTF-8
++ psql testdb -U postgres -h 127.0.0.1 '-ccreate index  test1_index  on  test(id,val);'
+CREATE INDEX
++ psql testdb -U postgres -h 127.0.0.1 '-ccreate index t_id_1 on test(id);'
+CREATE INDEX
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Nov 21 10:38:10 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 10:38:11 2023 - INFO  - Start to run test.
++ psql testdb -U postgres -h 127.0.0.1 '-cinsert into test select generate_series(1,10000),random();'
+INSERT 0 10000
+++ psql testdb -U postgres -h 127.0.0.1 -c 'select pg_indexes_size('\''test'\'');' -A -0 -t
+oe_test_postgresql_reindexdb.sh: line 32: warning: command substitution: ignored null byte in input
++ temp1=2703360
++ su - postgres -c 'reindexdb -a'
+reindexdb: reindexing database "postgres"
+reindexdb: reindexing database "template1"
+reindexdb: reindexing database "testdb"
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ psql testdb -U postgres -h 127.0.0.1 -c 'select pg_indexes_size('\''test'\'');' -A -0 -t
+oe_test_postgresql_reindexdb.sh: line 35: warning: command substitution: ignored null byte in input
++ temp2=2146304
++ '[' 2703360 -gt 2146304 ']'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ psql testdb -U postgres -h 127.0.0.1 -c 'insert into test select generate_series(1,10000),random();'
+INSERT 0 10000
+++ psql testdb -U postgres -h 127.0.0.1 -c 'select pg_indexes_size('\''test'\'');' -A -0 -t
+++ tr -cd '[0-9]'
++ temp1=4202496
++ su - postgres -c 'reindexdb -d testdb'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ tr -cd '[0-9]'
+++ psql testdb -U postgres -h 127.0.0.1 -c 'select pg_indexes_size('\''test'\'');' -A -0 -t
++ temp2=2940928
++ '[' 4202496 -gt 2940928 ']'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'reindexdb -e'
+SELECT pg_catalog.set_config('search_path', '', false);
+REINDEX DATABASE postgres;
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ psql testdb -U postgres -h 127.0.0.1 '-cinsert into test select generate_series(1,10000),random();'
+INSERT 0 10000
+++ psql testdb -U postgres -h 127.0.0.1 -c 'select pg_size_pretty(pg_relation_size('\''t_id_1'\''));' -A -0 -t
+++ tr -cd '[0-9]'
++ temp1=496
++ su - postgres -c 'reindexdb -i t_id_1 -d testdb'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ psql testdb -U postgres -h 127.0.0.1 -c 'select pg_size_pretty(pg_relation_size('\''t_id_1'\''));' -A -0 -t
+++ tr -cd '[0-9]'
++ temp2=496
++ '[' 496 -gt 496 ']'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_postgresql_reindexdb.sh line 53'
++ message='oe_test_postgresql_reindexdb.sh line 53'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_postgresql_reindexdb.sh line 53'
+Tue Nov 21 10:38:43 2023 - ERROR - oe_test_postgresql_reindexdb.sh line 53
++ '[' 0 -eq 1 ']'
++ return 0
++ su - postgres -c 'reindexdb -q'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ reindexdb '-?'
++ grep Usage:
+Usage:
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ psql testdb -U postgres -h 127.0.0.1 -c 'insert into myschema.test select generate_series(1,100000),random();'
+ERROR:  relation "myschema.test" does not exist
+LINE 1: insert into myschema.test select generate_series(1,100000),r...
+                    ^
+++ psql testdb -U postgres -h 127.0.0.1 -c 'select pg_size_pretty(pg_relation_size('\''test1_index'\''));' -A -0 -t
+++ tr -cd '[0-9]'
++ temp1=1864
++ su - postgres -c 'reindexdb -S myschema -d testdb'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ tr -cd '[0-9]'
+++ psql testdb -U postgres -h 127.0.0.1 -c 'select pg_size_pretty(pg_relation_size('\''test1_index'\''));' -A -0 -t
++ temp1=1864
++ '[' 1864 -gt 496 ']'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ psql testdb -U postgres -h 127.0.0.1 -c 'insert into test select generate_series(1,10000),random();'
+INSERT 0 10000
+++ psql testdb -U postgres -h 127.0.0.1 -c 'select pg_indexes_size('\''test'\'');' -A -0 -t
+oe_test_postgresql_reindexdb.sh: line 66: warning: command substitution: ignored null byte in input
++ temp1=5799936
++ su - postgres -c 'reindexdb -t test -d testdb'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ psql testdb -U postgres -h 127.0.0.1 -c 'select pg_indexes_size('\''test'\'');' -A -0 -t
+oe_test_postgresql_reindexdb.sh: line 69: warning: command substitution: ignored null byte in input
++ temp2=4374528
++ '[' 5799936 -gt 4374528 ']'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep DETAIL
++ su - postgres -c 'reindexdb -v'
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.01 s
+DETAIL:  CPU: user: 0.01 s, system: 0.00 s, elapsed: 0.01 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.01 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.01 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.01 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.01 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.01 s, system: 0.00 s, elapsed: 0.02 s
+DETAIL:  CPU: user: 0.02 s, system: 0.00 s, elapsed: 0.02 s
+DETAIL:  CPU: user: 0.01 s, system: 0.00 s, elapsed: 0.02 s
+DETAIL:  CPU: user: 0.02 s, system: 0.00 s, elapsed: 0.04 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.01 s
+DETAIL:  CPU: user: 0.01 s, system: 0.00 s, elapsed: 0.01 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.01 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.01 s, system: 0.00 s, elapsed: 0.01 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.01 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.01 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.01 s
+DETAIL:  CPU: user: 0.01 s, system: 0.00 s, elapsed: 0.01 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.01 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.01 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.01 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.01 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.04 s, system: 0.00 s, elapsed: 0.04 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.01 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.05 s, system: 0.01 s, elapsed: 0.06 s
+DETAIL:  CPU: user: 0.04 s, system: 0.01 s, elapsed: 0.07 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.01 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.01 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.01 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.01 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ reindexdb -V
++ grep PostgreSQL
+reindexdb (PostgreSQL) 13.3
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Nov 21 10:39:02 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Tue Nov 21 10:39:02 2023 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Nov 21 10:39:03 2023 - INFO  - Start to restore the test environment.
++ systemctl stop postgresql
++ DNF_REMOVE 1 'postgresql postgresql-server postgresql-devel postgresql-contrib'
++ node=1
++ pkg_list='postgresql postgresql-server postgresql-devel postgresql-contrib'
++ mode=0
++ [[ -z /tmp/tmphwbi2kx1 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs 'postgresql postgresql-server postgresql-devel postgresql-contrib' --tempfile /tmp/tmphwbi2kx1
++ '[' 0 -ne 0 ']'
++ rm -rf /var/lib/pgsql/data /var/lib/pgsql/initdb_postgresql.log
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue Nov 21 10:39:18 2023 - INFO  - End to restore the test environment.

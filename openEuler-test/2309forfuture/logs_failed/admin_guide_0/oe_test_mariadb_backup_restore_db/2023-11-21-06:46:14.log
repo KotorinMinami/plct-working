@@ -1,0 +1,529 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Tue Nov 21 06:46:16 2023 - INFO  - Start environment preparation.
++ systemctl stop firewalld
+Failed to stop firewalld.service: Unit firewalld.service not loaded.
++ systemctl disable firewalld
+Failed to disable unit: Unit file firewalld.service does not exist.
++ setenforce 0
+setenforce: SELinux is disabled
++ groupadd mysql
++ useradd -g mysql mysql
++ echo 'openEuler12#$'
++ passwd --stdin mysql
+Changing password for user mysql.
+passwd: all authentication tokens updated successfully.
++ test -d /data/mariadb
++ cd /data/mariadb
++ mkdir data tmp run log
+mkdir: cannot create directory ‘data’: File exists
+mkdir: cannot create directory ‘tmp’: File exists
+mkdir: cannot create directory ‘run’: File exists
+mkdir: cannot create directory ‘log’: File exists
++ chown -R mysql:mysql /data
++ cd -
+/root/mugen/testcases/doc-test/admin_guide/oe_test_mariadb_backup_restore_db
++ DNF_INSTALL mariadb-server
++ pkgs=mariadb-server
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs mariadb-server --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp6vh0umgw
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp6vh0umgw
++ rm -rf '/var/lib/mysql/*'
++ systemctl start mariadb
+Job for mariadb.service failed because the control process exited with error code.
+See "systemctl status mariadb.service" and "journalctl -xeu mariadb.service" for details.
++ mysqladmin -uroot password 'openEuler12#$'
+mysqladmin: connect to server at 'localhost' failed
+error: 'Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)'
+Check that mysqld is running and that the socket: '/var/lib/mysql/mysql.sock' exists!
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Tue Nov 21 06:47:37 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Tue Nov 21 06:47:37 2023 - INFO  - Start executing testcase.
++ expect -c '
+    set timeout 10
+    log_file testlog
+    spawn mysql -u root -p 
+    expect {
+        "Enter*" { send "openEuler12#$\r";
+        expect "Maria*" { send "CREATE DATABASE db1;\r"}
+        expect "Maria*" { send "CREATE DATABASE db2;\r"}
+        expect "Maria*" { send "use db1;\r"}
+	expect "Maria*" { send "create table tb1(id int(3), id1 int (3));\r"}
+	expect "Maria*" { send "INSERT INTO tb1(id, id1) VALUES (123,123);\r"}
+        expect "Maria*" { send "CREATE DATABASE db3;\r"}
+        expect "Maria*" { send "use db3;\r"}
+	expect "Maria*" { send "create table tb1(id int(3), name char(8));\r"}
+        expect "Maria*" { send "SHOW DATABASES;\r"}
+        expect "Maria*" { send "exit\r"}
+}
+}
+expect eof
+'
+spawn mysql -u root -p
+Enter password: 
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)
+expect: spawn id exp4 not open
+    while executing
+"expect "Maria*" { send "CREATE DATABASE db2;\r"}"
+    invoked from within
+"expect {
+        "Enter*" { send "openEuler12#$\r";
+        expect "Maria*" { send "CREATE DATABASE db1;\r"}
+        expect "Maria*" { send "CREATE DA..."
++ grep '\|' testlog
++ grep Database -A 5
++ grep -cwE 'db1|db2|db3'
+0
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mariadb_backup_restore_db.sh line 63'
++ message='oe_test_mariadb_backup_restore_db.sh line 63'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mariadb_backup_restore_db.sh line 63'
+Tue Nov 21 06:47:38 2023 - ERROR - oe_test_mariadb_backup_restore_db.sh line 63
++ '[' 0 -eq 1 ']'
++ return 0
++ expect -c '
+    set timeout 10
+    log_file testlog1
+    spawn mysql -u root -p 
+    expect {
+        "Enter*" { send "openEuler12#$\r";
+        expect "Maria*" { send "grant all privileges on *.* to '\''root'\''@'\''192.168.114.3'\'' IDENTIFIED BY '\''openEuler12#$'\'' WITH GRANT OPTION;\r"}
+        expect "Maria*" { send "flush privileges;\r"}
+        expect "Maria*" { send "exit\r"}
+}
+}
+expect eof
+'
+spawn mysql -u root -p
+Enter password: 
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)
+expect: spawn id exp4 not open
+    while executing
+"expect "Maria*" { send "flush privileges;\r"}"
+    invoked from within
+"expect {
+        "Enter*" { send "openEuler12#$\r";
+        expect "Maria*" { send "grant all privileges on *.* to 'root'@'192.168.114.3' IDENTIFIED B..."
++ grep -iE 'error|fail' testlog1
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)
++ CHECK_RESULT 0 1
++ actual_result=0
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 1x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mariadb_backup_restore_db.sh line 78'
++ message='oe_test_mariadb_backup_restore_db.sh line 78'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mariadb_backup_restore_db.sh line 78'
+Tue Nov 21 06:47:39 2023 - ERROR - oe_test_mariadb_backup_restore_db.sh line 78
++ '[' 0 -eq 1 ']'
++ return 0
++ mysqldump -uroot '-popenEuler12#$' --all-databases
+mysqldump: Got error: 2002: "Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)" when trying to connect
++ CHECK_RESULT 2
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mariadb_backup_restore_db.sh line 80'
++ message='oe_test_mariadb_backup_restore_db.sh line 80'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mariadb_backup_restore_db.sh line 80'
+Tue Nov 21 06:47:39 2023 - ERROR - oe_test_mariadb_backup_restore_db.sh line 80
++ '[' 0 -eq 1 ']'
++ return 0
+++ db1
+oe_test_mariadb_backup_restore_db.sh: line 81: db1: command not found
++ grep 'CREATE DATABASE .* ' alldb.sql
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mariadb_backup_restore_db.sh line 82'
++ message='oe_test_mariadb_backup_restore_db.sh line 82'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mariadb_backup_restore_db.sh line 82'
+Tue Nov 21 06:47:40 2023 - ERROR - oe_test_mariadb_backup_restore_db.sh line 82
++ '[' 0 -eq 1 ']'
++ return 0
+++ tb1
+oe_test_mariadb_backup_restore_db.sh: line 83: tb1: command not found
++ grep 'CREATE TABLE ' alldb.sql
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mariadb_backup_restore_db.sh line 84'
++ message='oe_test_mariadb_backup_restore_db.sh line 84'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mariadb_backup_restore_db.sh line 84'
+Tue Nov 21 06:47:40 2023 - ERROR - oe_test_mariadb_backup_restore_db.sh line 84
++ '[' 0 -eq 1 ']'
++ return 0
+++ db2
+oe_test_mariadb_backup_restore_db.sh: line 85: db2: command not found
++ grep 'CREATE DATABASE .* ' alldb.sql
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mariadb_backup_restore_db.sh line 86'
++ message='oe_test_mariadb_backup_restore_db.sh line 86'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mariadb_backup_restore_db.sh line 86'
+Tue Nov 21 06:47:41 2023 - ERROR - oe_test_mariadb_backup_restore_db.sh line 86
++ '[' 0 -eq 1 ']'
++ return 0
+++ db3
+oe_test_mariadb_backup_restore_db.sh: line 87: db3: command not found
++ grep 'CREATE DATABASE .* ' alldb.sql
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mariadb_backup_restore_db.sh line 88'
++ message='oe_test_mariadb_backup_restore_db.sh line 88'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mariadb_backup_restore_db.sh line 88'
+Tue Nov 21 06:47:41 2023 - ERROR - oe_test_mariadb_backup_restore_db.sh line 88
++ '[' 0 -eq 1 ']'
++ return 0
++ mysqldump -uroot '-popenEuler12#$' --databases db1
+mysqldump: Got error: 2002: "Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)" when trying to connect
+++ tb1
+oe_test_mariadb_backup_restore_db.sh: line 91: tb1: command not found
++ grep 'CREATE TABLE ' db1.sql
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mariadb_backup_restore_db.sh line 92'
++ message='oe_test_mariadb_backup_restore_db.sh line 92'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mariadb_backup_restore_db.sh line 92'
+Tue Nov 21 06:47:42 2023 - ERROR - oe_test_mariadb_backup_restore_db.sh line 92
++ '[' 0 -eq 1 ']'
++ return 0
+++ db1
+oe_test_mariadb_backup_restore_db.sh: line 93: db1: command not found
++ grep 'CREATE DATABASE .* ' db1.sql
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mariadb_backup_restore_db.sh line 94'
++ message='oe_test_mariadb_backup_restore_db.sh line 94'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mariadb_backup_restore_db.sh line 94'
+Tue Nov 21 06:47:43 2023 - ERROR - oe_test_mariadb_backup_restore_db.sh line 94
++ '[' 0 -eq 1 ']'
++ return 0
++ mysqldump -uroot '-popenEuler12#$' db1 tb1
+mysqldump: Got error: 2002: "Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)" when trying to connect
++ CHECK_RESULT 2
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mariadb_backup_restore_db.sh line 97'
++ message='oe_test_mariadb_backup_restore_db.sh line 97'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mariadb_backup_restore_db.sh line 97'
+Tue Nov 21 06:47:43 2023 - ERROR - oe_test_mariadb_backup_restore_db.sh line 97
++ '[' 0 -eq 1 ']'
++ return 0
+++ tb1
+oe_test_mariadb_backup_restore_db.sh: line 98: tb1: command not found
++ grep 'CREATE TABLE ' db1tb1.sql
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mariadb_backup_restore_db.sh line 99'
++ message='oe_test_mariadb_backup_restore_db.sh line 99'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mariadb_backup_restore_db.sh line 99'
+Tue Nov 21 06:47:44 2023 - ERROR - oe_test_mariadb_backup_restore_db.sh line 99
++ '[' 0 -eq 1 ']'
++ return 0
++ rm -rf db1.sql
++ mysqldump -uroot '-popenEuler12#$' -d db1
+mysqldump: Got error: 2002: "Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)" when trying to connect
+++ tb1
+oe_test_mariadb_backup_restore_db.sh: line 103: tb1: command not found
++ grep 'CREATE TABLE ' db1.sql
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mariadb_backup_restore_db.sh line 104'
++ message='oe_test_mariadb_backup_restore_db.sh line 104'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mariadb_backup_restore_db.sh line 104'
+Tue Nov 21 06:47:44 2023 - ERROR - oe_test_mariadb_backup_restore_db.sh line 104
++ '[' 0 -eq 1 ']'
++ return 0
++ rm -rf db1.sql
++ mysqldump -uroot '-popenEuler12#$' -t db1
+mysqldump: Got error: 2002: "Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)" when trying to connect
++ CHECK_RESULT 2
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mariadb_backup_restore_db.sh line 108'
++ message='oe_test_mariadb_backup_restore_db.sh line 108'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mariadb_backup_restore_db.sh line 108'
+Tue Nov 21 06:47:45 2023 - ERROR - oe_test_mariadb_backup_restore_db.sh line 108
++ '[' 0 -eq 1 ']'
++ return 0
+++ tb1
+oe_test_mariadb_backup_restore_db.sh: line 109: tb1: command not found
++ grep 'INSERT INTO ' db1.sql
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mariadb_backup_restore_db.sh line 110'
++ message='oe_test_mariadb_backup_restore_db.sh line 110'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mariadb_backup_restore_db.sh line 110'
+Tue Nov 21 06:47:45 2023 - ERROR - oe_test_mariadb_backup_restore_db.sh line 110
++ '[' 0 -eq 1 ']'
++ return 0
++ mysql -uroot '-popenEuler12#$' -t db3
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mariadb_backup_restore_db.sh line 113'
++ message='oe_test_mariadb_backup_restore_db.sh line 113'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mariadb_backup_restore_db.sh line 113'
+Tue Nov 21 06:47:46 2023 - ERROR - oe_test_mariadb_backup_restore_db.sh line 113
++ '[' 0 -eq 1 ']'
++ return 0
++ expect -c '
+    log_file testlogm
+    set timeout 10
+    spawn mysql -u root -p 
+    expect {
+        "Enter*" { send "openEuler12#$\r";
+        expect "Maria*" { send "use db3;\r"}
+        expect "Maria*" { send "show tables;\r"}
+        expect "Maria*" { send "exit\r"}
+}
+}
+expect
+'
+spawn mysql -u root -p
+Enter password: 
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)
+expect: spawn id exp4 not open
+    while executing
+"expect "Maria*" { send "show tables;\r"}"
+    invoked from within
+"expect {
+        "Enter*" { send "openEuler12#$\r";
+        expect "Maria*" { send "use db3;\r"}
+        expect "Maria*" { send "show tables;\r"}
+    ..."
++ grep tb1 testlogm
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_mariadb_backup_restore_db.sh line 128'
++ message='oe_test_mariadb_backup_restore_db.sh line 128'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_mariadb_backup_restore_db.sh line 128'
+Tue Nov 21 06:47:47 2023 - ERROR - oe_test_mariadb_backup_restore_db.sh line 128
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End of testcase execution.'
++ message='End of testcase execution.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution.'
+Tue Nov 21 06:47:47 2023 - INFO  - End of testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z 16
++ test 16 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Tue Nov 21 06:47:48 2023 - ERROR - failed to execute the case.
++ exit 16
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Tue Nov 21 06:47:48 2023 - INFO  - start environment cleanup.
++ expect -c '
+    set timeout 10
+    spawn mysql -u root -p 
+    expect {
+        "Enter*" { send "openEuler12#$\r";
+        expect "Maria*" { send "DROP DATABASE db1;\r"}
+        expect "Maria*" { send "DROP DATABASE db2;\r"}
+        expect "Maria*" { send "DROP DATABASE db3;\r"}
+        expect "Maria*" { send "exit\r"}
+}
+}
+expect eof
+'
+spawn mysql -u root -p
+Enter password: 
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)
+expect: spawn id exp3 not open
+    while executing
+"expect "Maria*" { send "DROP DATABASE db2;\r"}"
+    invoked from within
+"expect {
+        "Enter*" { send "openEuler12#$\r";
+        expect "Maria*" { send "DROP DATABASE db1;\r"}
+        expect "Maria*" { send "DROP DATABA..."
++ setenforce 1
+setenforce: SELinux is disabled
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp6vh0umgw ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp6vh0umgw
++ '[' 0 -ne 0 ']'
++ userdel -r mysql
++ groupdel mysql
+groupdel: group 'mysql' does not exist
++ rm -rf db1.sql db1tb1.sql alldb.sql data tmp run testlog testlog1 testlogm
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Tue Nov 21 06:48:02 2023 - INFO  - Finish environment cleanup.

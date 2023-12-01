@@ -1,0 +1,221 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Tue Nov 21 06:51:29 2023 - INFO  - Start environment preparation.
++ DNF_INSTALL 'vsftpd ftp'
++ pkgs='vsftpd ftp'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'vsftpd ftp' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpdfwnzod8
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpdfwnzod8
++ systemctl start vsftpd
++ useradd -m ftpuser1
++ echo 'openEuler12#$'
++ passwd --stdin ftpuser1
+Changing password for user ftpuser1.
+passwd: all authentication tokens updated successfully.
++ useradd -m ftpuser2
++ echo 'openEuler12#$'
++ passwd --stdin ftpuser2
+Changing password for user ftpuser2.
+passwd: all authentication tokens updated successfully.
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Tue Nov 21 06:52:02 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Tue Nov 21 06:52:03 2023 - INFO  - Start executing testcase.
++ cp /etc/vsftpd/vsftpd.conf /etc/vsftpd/vsftpd.conf.bak
++ echo use_localtime=YES
++ systemctl restart vsftpd
++ systemctl enable vsftpd
+Created symlink /etc/systemd/system/multi-user.target.wants/vsftpd.service → /usr/lib/systemd/system/vsftpd.service.
++ systemctl status vsftpd
++ grep running
+     Active: active (running) since Tue 2023-11-21 06:52:03 CST; 3s ago
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ echo banner_file=/etc/vsftpd/welcome.txt
++ echo 'Welcome to this FTP server!'
++ echo ftpuser2
++ echo ftpuser2
++ systemctl restart vsftpd
++ expect
+spawn ftp localhost
+Trying ::1...
+Connected to localhost (::1).
+220-Welcome to this FTP server!
+220 
+Name (localhost:root): ftpuser1
+331 Please specify the password.
+Password:
+230 Login successful.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp> pwd
+257 "/home/ftpuser1" is the current directory
+ftp> bye
+221 Goodbye.
++ grep 'Welcome to this FTP server' testlog
+220-Welcome to this FTP server!
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep '230 Login successful' testlog
+230 Login successful.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep 257 testlog
++ grep ftpuser1
+257 "/home/ftpuser1" is the current directory
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep '221 Goodbye' testlog
+221 Goodbye.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect
+spawn ftp localhost
+Trying ::1...
+Connected to localhost (::1).
+220-Welcome to this FTP server!
+220 
+Name (localhost:root): ftpuser2
+530 Permission denied.
+Login failed.
+ftp> pwd
+530 Please login with USER and PASS.
+ftp> bye
+221 Goodbye.
++ grep 'Welcome to this FTP server' testlog1
+220-Welcome to this FTP server!
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep -i 'Login failed' testlog1
+Login failed.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep '530 Permission denied' testlog1
+530 Permission denied.
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Nov 21 06:52:09 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Tue Nov 21 06:52:09 2023 - INFO  - start environment cleanup.
++ sed -i /ftpuser2/d /etc/vsftpd/user_list
++ sed -i /ftpuser2/d /etc/vsftpd/ftpusers
++ mv /etc/vsftpd/vsftpd.conf.bak /etc/vsftpd/vsftpd.conf
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpdfwnzod8 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpdfwnzod8
++ '[' 0 -ne 0 ']'
++ userdel -r ftpuser1
++ userdel -r ftpuser2
++ rm -rf testlog testlog1
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Tue Nov 21 06:52:22 2023 - INFO  - Finish environment cleanup.

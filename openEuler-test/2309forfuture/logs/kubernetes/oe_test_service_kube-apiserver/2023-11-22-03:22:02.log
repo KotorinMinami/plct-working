@@ -1,0 +1,665 @@
++ source ./common/common.sh
+++ source ../common/common_lib.sh
++++ source /root/mugen/libs/locallibs/common_lib.sh
+++++ python3 --version
+++++ '[' 0 -eq 0 ']'
+++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ grep expect
++ rpm -qa
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed Nov 22 03:22:04 2023 - INFO  - Start environmental preparation.
++ conf_common
++ pkg_path=/opt/cfssl.tar.gz
++ cfssl_path=/opt/cfssl
++++ dirname oe_test_service_kube-apiserver.sh
+++ cd .
+++ pwd
++ current_path=/root/mugen/testcases/cli-test/kubernetes
++ cert_path=/etc/kubernetes/pki
++ mkdir -p /opt/cfssl /etc/kubernetes/pki
+++ hostname
++ host_name=k8snode1
++ name_host=k8snode1
++ hostname
++ grep -i k8snode1
+k8snode1
++ kubernetes_install
++ DNF_INSTALL 'docker conntrack-tools socat kubernetes*' 1
++ pkgs='docker conntrack-tools socat kubernetes*'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'docker conntrack-tools socat kubernetes*' --node 1 --tempfile ''
+Wed Nov 22 03:22:12 2023 - INFO  - pkgs:(docker conntrack-tools socat kubernetes*) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ certificate_prepare
++ wget --no-check-certificate https://github.com/cloudflare/cfssl/archive/v1.5.0.tar.gz -O /opt/cfssl.tar.gz
+--2023-11-22 03:22:12--  https://github.com/cloudflare/cfssl/archive/v1.5.0.tar.gz
+Resolving github.com (github.com)... 20.205.243.166
+Connecting to github.com (github.com)|20.205.243.166|:443... connected.
+HTTP request sent, awaiting response... Read error (The TLS connection was non-properly terminated.) in headers.
+Retrying.
+
+--2023-11-22 03:24:14--  (try: 2)  https://github.com/cloudflare/cfssl/archive/v1.5.0.tar.gz
+Connecting to github.com (github.com)|20.205.243.166|:443... failed: Connection refused.
+Resolving github.com (github.com)... 20.205.243.166
+Connecting to github.com (github.com)|20.205.243.166|:443... failed: Connection refused.
++ test -f /opt/cfssl.tar.gz
++ which tar
+/usr/bin/tar
++ tar -zxvf /opt/cfssl.tar.gz -C /opt/cfssl --strip-components=1
+
+gzip: stdin: unexpected end of file
+tar: Child returned status 1
+tar: Error is not recoverable: exiting now
++ which golang
+which: no golang in (/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin)
++ DNF_INSTALL golang 1
++ pkgs=golang
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs golang --node 1 --tempfile ''
+Wed Nov 22 03:26:52 2023 - INFO  - pkgs:(golang) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ cd /opt/cfssl
++ make -j6
+fatal: not a git repository (or any of the parent directories): .git
+make: Nothing to be done for 'all'.
++ cp bin/cfssl bin/cfssl-bundle bin/cfssl-certinfo bin/cfssljson bin/cfssl-newkey bin/cfssl-scan /usr/local/bin/
++ cd /etc/kubernetes/pki
++ echo '{
+    "signing": {
+      "default": {
+        "expiry": "8760h"
+      },
+      "profiles": {
+        "kubernetes": {
+          "usages": [
+            "signing",
+            "key encipherment",
+            "server auth",
+            "client auth"
+          ],
+          "expiry": "8760h"
+        }
+      }
+    }
+  }'
++ echo '{
+    "CN": "Kubernetes",
+    "key": {
+      "algo": "rsa",
+      "size": 2048
+    },
+    "names": [
+      {
+        "C": "CN",
+        "L": "HangZhou",
+        "O": "openEuler",
+        "OU": "WWW",
+        "ST": "BinJiang"
+      }
+    ]
+  }'
++ cfssl gencert -initca ca-csr.json
++ cfssljson -bare ca
+2023/11/22 03:26:59 [INFO] generating a new CA key and certificate from CSR
+2023/11/22 03:26:59 [INFO] generate received request
+2023/11/22 03:26:59 [INFO] received CSR
+2023/11/22 03:26:59 [INFO] generating key: rsa-2048
+2023/11/22 03:27:02 [INFO] encoded CSR
+2023/11/22 03:27:02 [INFO] signed certificate with serial number 281773144044367087458731824748222973168693213073
++ echo '{
+    "CN": "admin",
+    "key": {
+      "algo": "rsa",
+      "size": 2048
+    },
+    "names": [
+      {
+        "C": "CN",
+        "L": "HangZhou",
+        "O": "system:masters",
+        "OU": "Containerum",
+        "ST": "BinJiang"
+      }
+    ]
+  }'
++ cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=kubernetes admin-csr.json
++ cfssljson -bare admin
+2023/11/22 03:27:02 [INFO] generate received request
+2023/11/22 03:27:02 [INFO] received CSR
+2023/11/22 03:27:02 [INFO] generating key: rsa-2048
+2023/11/22 03:27:05 [INFO] encoded CSR
+2023/11/22 03:27:05 [INFO] signed certificate with serial number 608154037441865169313654832950856853167274863048
+2023/11/22 03:27:05 [WARNING] This certificate lacks a "hosts" field. This makes it unsuitable for
+websites. For more information see the Baseline Requirements for the Issuance and Management
+of Publicly-Trusted Certificates, v.1.1.6, from the CA/Browser Forum (https://cabforum.org);
+specifically, section 10.2.3 ("Information Requirements").
++ echo '{
+    "CN": "service-accounts",
+    "key": {
+      "algo": "rsa",
+      "size": 2048
+    },
+    "names": [
+      {
+        "C": "CN",
+        "L": "HangZhou",
+        "O": "Kubernetes",
+        "OU": "openEuler k8s install",
+        "ST": "BinJiang"
+      }
+    ]
+  }'
++ cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=kubernetes service-account-csr.json
++ cfssljson -bare service-account
+2023/11/22 03:27:05 [INFO] generate received request
+2023/11/22 03:27:05 [INFO] received CSR
+2023/11/22 03:27:05 [INFO] generating key: rsa-2048
+2023/11/22 03:27:06 [INFO] encoded CSR
+2023/11/22 03:27:06 [INFO] signed certificate with serial number 584319559803651821587843470059684648880423668266
+2023/11/22 03:27:06 [WARNING] This certificate lacks a "hosts" field. This makes it unsuitable for
+websites. For more information see the Baseline Requirements for the Issuance and Management
+of Publicly-Trusted Certificates, v.1.1.6, from the CA/Browser Forum (https://cabforum.org);
+specifically, section 10.2.3 ("Information Requirements").
++ echo '{
+    "CN": "system:kube-controller-manager",
+    "key": {
+      "algo": "rsa",
+      "size": 2048
+    },
+    "names": [
+      {
+        "C": "CN",
+        "L": "HangZhou",
+        "O": "system:kube-controller-manager",
+        "OU": "openEuler k8s kcm",
+        "ST": "BinJiang"
+      }
+    ]
+  }'
++ cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=kubernetes kube-controller-manager-csr.json
++ cfssljson -bare kube-controller-manager
+2023/11/22 03:27:07 [INFO] generate received request
+2023/11/22 03:27:07 [INFO] received CSR
+2023/11/22 03:27:07 [INFO] generating key: rsa-2048
+2023/11/22 03:27:07 [INFO] encoded CSR
+2023/11/22 03:27:07 [INFO] signed certificate with serial number 155676089429728803649285724934455386313969057184
+2023/11/22 03:27:07 [WARNING] This certificate lacks a "hosts" field. This makes it unsuitable for
+websites. For more information see the Baseline Requirements for the Issuance and Management
+of Publicly-Trusted Certificates, v.1.1.6, from the CA/Browser Forum (https://cabforum.org);
+specifically, section 10.2.3 ("Information Requirements").
++ echo '{
+    "CN": "system:kube-proxy",
+    "key": {
+      "algo": "rsa",
+      "size": 2048
+    },
+    "names": [
+      {
+        "C": "CN",
+        "L": "HangZhou",
+        "O": "system:node-proxier",
+        "OU": "openEuler k8s kube proxy",
+        "ST": "BinJiang"
+      }
+    ]
+  }'
++ cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=kubernetes kube-proxy-csr.json
++ cfssljson -bare kube-proxy
+2023/11/22 03:27:08 [INFO] generate received request
+2023/11/22 03:27:08 [INFO] received CSR
+2023/11/22 03:27:08 [INFO] generating key: rsa-2048
+2023/11/22 03:27:09 [INFO] encoded CSR
+2023/11/22 03:27:09 [INFO] signed certificate with serial number 452454782397879241285851753910651740652186585631
+2023/11/22 03:27:09 [WARNING] This certificate lacks a "hosts" field. This makes it unsuitable for
+websites. For more information see the Baseline Requirements for the Issuance and Management
+of Publicly-Trusted Certificates, v.1.1.6, from the CA/Browser Forum (https://cabforum.org);
+specifically, section 10.2.3 ("Information Requirements").
++ echo '{
+    "CN": "system:kube-scheduler",
+    "key": {
+      "algo": "rsa",
+      "size": 2048
+    },
+    "names": [
+      {
+        "C": "CN",
+        "L": "HangZhou",
+        "O": "system:kube-scheduler",
+        "OU": "openEuler k8s kube scheduler",
+        "ST": "BinJiang"
+      }
+    ]
+  }'
++ cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=kubernetes kube-scheduler-csr.json
++ cfssljson -bare kube-scheduler
+2023/11/22 03:27:10 [INFO] generate received request
+2023/11/22 03:27:10 [INFO] received CSR
+2023/11/22 03:27:10 [INFO] generating key: rsa-2048
+2023/11/22 03:27:14 [INFO] encoded CSR
+2023/11/22 03:27:14 [INFO] signed certificate with serial number 399895397596456677352265175418584834788751534219
+2023/11/22 03:27:14 [WARNING] This certificate lacks a "hosts" field. This makes it unsuitable for
+websites. For more information see the Baseline Requirements for the Issuance and Management
+of Publicly-Trusted Certificates, v.1.1.6, from the CA/Browser Forum (https://cabforum.org);
+specifically, section 10.2.3 ("Information Requirements").
++ echo '{
+    "CN": "system:node:k8snode1",
+    "key": {
+      "algo": "rsa",
+      "size": 2048
+    },
+    "names": [
+      {
+        "C": "CN",
+        "L": "HangZhou",
+        "O": "system:nodes",
+        "OU": "openEuler k8s kubelet",
+        "ST": "BinJiang"
+      }
+    ]
+  }'
++ cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -hostname=k8snode1,127.0.0.1 -profile=kubernetes k8snode1-csr.json
++ cfssljson -bare k8snode1
+2023/11/22 03:27:14 [INFO] generate received request
+2023/11/22 03:27:14 [INFO] received CSR
+2023/11/22 03:27:14 [INFO] generating key: rsa-2048
+2023/11/22 03:27:18 [INFO] encoded CSR
+2023/11/22 03:27:18 [INFO] signed certificate with serial number 414549258944997601033539022096467421745647700290
++ echo '{
+    "CN": "kubernetes",
+    "key": {
+      "algo": "rsa",
+      "size": 2048
+    },
+    "names": [
+      {
+        "C": "CN",
+        "L": "HangZhou",
+        "O": "Kubernetes",
+        "OU": "openEuler k8s kube api server",
+        "ST": "BinJiang"
+      }
+    ]
+  }'
++ cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -hostname=10.32.0.1,127.0.0.1,kubernetes,kubernetes.default,kubernetes.default.svc,kubernetes.default.svc.cluster,kubernetes.svc.cluster.local -profile=kubernetes kubernetes-csr.json
++ cfssljson -bare kubernetes
+2023/11/22 03:27:18 [INFO] generate received request
+2023/11/22 03:27:18 [INFO] received CSR
+2023/11/22 03:27:18 [INFO] generating key: rsa-2048
+2023/11/22 03:27:19 [INFO] encoded CSR
+2023/11/22 03:27:19 [INFO] signed certificate with serial number 439983906508661704107496100133513595122645935180
++ cd /root/mugen/testcases/cli-test/kubernetes
++ etcd_install
++ DNF_INSTALL etcd
++ pkgs=etcd
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs etcd --node 1 --tempfile ''
+Wed Nov 22 03:27:26 2023 - INFO  - pkgs:(etcd) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ systemctl start etcd
+Job for etcd.service failed because the control process exited with error code.
+See "systemctl status etcd.service" and "journalctl -xeu etcd.service" for details.
++ kubeconfig_prepare
++ cd /etc/kubernetes/pki
++ kubectl config set-cluster openeuler-k8s --certificate-authority=/etc/kubernetes/pki/ca.pem --embed-certs=true --server=https://127.0.0.1:6443 --kubeconfig=kube-proxy.kubeconfig
+Cluster "openeuler-k8s" set.
++ kubectl config set-credentials system:kube-proxy --client-certificate=/etc/kubernetes/pki/kube-proxy.pem --client-key=/etc/kubernetes/pki/kube-proxy-key.pem --embed-certs=true --kubeconfig=kube-proxy.kubeconfig
+panic: runtime error: invalid memory address or nil pointer dereference
+[signal SIGSEGV: segmentation violation code=0x1 addr=0x8 pc=0x2aad880f88]
+
+goroutine 1 [running]:
+reflect.mapiternext(0x3f88190270?)
+	/usr/lib/golang/src/runtime/map.go:1380 +0x28
+k8s.io/kubernetes/vendor/github.com/modern-go/reflect2.(*UnsafeMapIterator).UnsafeNext(0x3fb1721108?)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/modern-go/reflect2/unsafe_map.go:136 +0x44
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*sortKeysMapEncoder).Encode(0x3f8887b920, 0x3f888510a8, 0x3f88100480)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_map.go:297 +0x328
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*placeholderEncoder).Encode(0x2aaeacf700?, 0x2aad8d0a01?, 0x3f88100498?)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect.go:332 +0x44
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*structFieldEncoder).Encode(0x3f888814a0, 0x2aae9feabd?, 0x3f88100480)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_struct_encoder.go:110 +0x70
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*structEncoder).Encode(0x3f888815f0, 0x3fff81bc71?, 0x3f88100480)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_struct_encoder.go:158 +0x72c
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*placeholderEncoder).Encode(0x2aaeacf700?, 0x2aadc34a01?, 0x3f88100498?)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect.go:332 +0x44
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*structFieldEncoder).Encode(0x3f88881860, 0x2aae9c3c31?, 0x3f88100480)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_struct_encoder.go:110 +0x70
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*structEncoder).Encode(0x3f888818c0, 0x2aaea75ac0?, 0x3f88100480)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_struct_encoder.go:158 +0x72c
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*sliceEncoder).Encode(0x3f881029a8, 0x3f880c74f8, 0x3f88100480)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_slice.go:38 +0x320
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*structFieldEncoder).Encode(0x3f88880c00, 0x2aae9c9b06?, 0x3f88100480)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_struct_encoder.go:110 +0x70
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*structEncoder).Encode(0x3f88880cf0, 0x8?, 0x3f88100480)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_struct_encoder.go:158 +0x72c
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*OptionalEncoder).Encode(0x3f880fe960?, 0x0?, 0x0?)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_optional.go:70 +0xe8
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*onePtrEncoder).Encode(0x3f880735a0, 0x3f880c74a0, 0x3f880b12f0?)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect.go:219 +0xa0
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*Stream).WriteVal(0x3f88100480, {0x2aaeb54e20, 0x3f880c74a0})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect.go:98 +0x194
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*frozenConfig).Marshal(0x3f880fe960, {0x2aaeb54e20, 0x3f880c74a0})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/config.go:299 +0xb0
+k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/json.(*Serializer).doEncode(0x2?, {0x2aaeca0a90?, 0x3f880c74a0?}, {0x2aaec97aa0, 0x3f88869f20})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/json/json.go:306 +0x80
+k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/json.(*Serializer).Encode(0x3f8832c050, {0x2aaeca0a90, 0x3f880c74a0}, {0x2aaec97aa0, 0x3f88869f20})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/json/json.go:301 +0x108
+k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/versioning.(*codec).doEncode(0x3f883a8320, {0x2aaeca0a40?, 0x3f881002a0}, {0x2aaec97aa0, 0x3f88869f20})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/versioning/versioning.go:244 +0x5a0
+k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/versioning.(*codec).Encode(0x3f883a8320, {0x2aaeca0a40, 0x3f881002a0}, {0x2aaec97aa0, 0x3f88869f20})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/versioning/versioning.go:184 +0x108
+k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime.Encode({0x3f85f32838, 0x3f883a8320}, {0x2aaeca0a40, 0x3f881002a0})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/codec.go:50 +0x80
+k8s.io/kubernetes/vendor/k8s.io/client-go/tools/clientcmd.Write(...)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/client-go/tools/clientcmd/loader.go:473
+k8s.io/kubernetes/vendor/k8s.io/client-go/tools/clientcmd.WriteToFile({{0x0, 0x0}, {0x0, 0x0}, {0x0, 0x3f88869950}, 0x3f88869980, 0x3f888699b0, 0x3f888699e0, {0x3f88519b17, ...}, ...}, ...)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/client-go/tools/clientcmd/loader.go:426 +0x138
+k8s.io/kubernetes/vendor/k8s.io/client-go/tools/clientcmd.ModifyConfig({0x2aaecaffa0, 0x3f88104640}, {{0x0, 0x0}, {0x0, 0x0}, {0x0, 0x3f88868f00}, 0x3f88868f30, 0x3f88868f60, ...}, ...)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/client-go/tools/clientcmd/config.go:294 +0x9b0
+k8s.io/kubernetes/vendor/k8s.io/kubectl/pkg/cmd/config.createAuthInfoOptions.run({{0x2aaecaffa0, 0x3f88104640}, {0x3fff81bc71, 0x11}, {0x1, {0x3fff81bc98, 0x22}}, {0x1, {0x3fff81bcc8, 0x26}}, ...})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/kubectl/pkg/cmd/config/create_authinfo.go:203 +0x19c
+k8s.io/kubernetes/vendor/k8s.io/kubectl/pkg/cmd/config.newCmdConfigSetAuthInfo.func1(0x3f88835340?, {0x2aae7289b5?, 0x5?, 0x5?})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/kubectl/pkg/cmd/config/create_authinfo.go:161 +0xb4
+k8s.io/kubernetes/vendor/github.com/spf13/cobra.(*Command).execute(0x3f88835340, {0x3f88104730, 0x5, 0x5})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/spf13/cobra/command.go:854 +0x4dc
+k8s.io/kubernetes/vendor/github.com/spf13/cobra.(*Command).ExecuteC(0x3f885002c0)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/spf13/cobra/command.go:958 +0x324
+k8s.io/kubernetes/vendor/github.com/spf13/cobra.(*Command).Execute(...)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/spf13/cobra/command.go:895
+main.main()
+	_output/local/go/src/k8s.io/kubernetes/cmd/kubectl/kubectl.go:49 +0x1a8
++ kubectl config set-context default --cluster=openeuler-k8s --user=system:kube-proxy --kubeconfig=kube-proxy.kubeconfig
+Context "default" modified.
++ kubectl config use-context default --kubeconfig=kube-proxy.kubeconfig
+Switched to context "default".
++ kubectl config set-cluster openeuler-k8s --certificate-authority=/etc/kubernetes/pki/ca.pem --embed-certs=true --server=https://127.0.0.1:6443 --kubeconfig=kube-controller-manager.kubeconfig
+Cluster "openeuler-k8s" set.
++ kubectl config set-credentials system:kube-controller-manager --client-certificate=/etc/kubernetes/pki/kube-controller-manager.pem --client-key=/etc/kubernetes/pki/kube-controller-manager-key.pem --embed-certs=true --kubeconfig=kube-controller-manager.kubeconfig
+panic: runtime error: invalid memory address or nil pointer dereference
+[signal SIGSEGV: segmentation violation code=0x1 addr=0x8 pc=0x2ab4489f88]
+
+goroutine 1 [running]:
+reflect.mapiternext(0x3f8c1f1650?)
+	/usr/lib/golang/src/runtime/map.go:1380 +0x28
+k8s.io/kubernetes/vendor/github.com/modern-go/reflect2.(*UnsafeMapIterator).UnsafeNext(0x3fb793e5b8?)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/modern-go/reflect2/unsafe_map.go:136 +0x44
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*sortKeysMapEncoder).Encode(0x3f8c8b2ba0, 0x3f8c8810a8, 0x3f8c5e7260)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_map.go:297 +0x328
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*placeholderEncoder).Encode(0x2ab56d8700?, 0x2ab44d9a01?, 0x3f8c5e7278?)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect.go:332 +0x44
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*structFieldEncoder).Encode(0x3f8c4193e0, 0x2ab5607abd?, 0x3f8c5e7260)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_struct_encoder.go:110 +0x70
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*structEncoder).Encode(0x3f8c419560, 0x3fd16c6c3d?, 0x3f8c5e7260)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_struct_encoder.go:158 +0x72c
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*placeholderEncoder).Encode(0x2ab56d8700?, 0x2ab483da01?, 0x3f8c5e7278?)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect.go:332 +0x44
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*structFieldEncoder).Encode(0x3f8c419800, 0x2ab55ccc31?, 0x3f8c5e7260)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_struct_encoder.go:110 +0x70
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*structEncoder).Encode(0x3f8c419860, 0x2ab567eac0?, 0x3f8c5e7260)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_struct_encoder.go:158 +0x72c
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*sliceEncoder).Encode(0x3f8c204270, 0x3f8c0c7238, 0x3f8c5e7260)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_slice.go:38 +0x320
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*structFieldEncoder).Encode(0x3f8c127cb0, 0x2ab55d2b06?, 0x3f8c5e7260)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_struct_encoder.go:110 +0x70
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*structEncoder).Encode(0x3f8c0930e0, 0x8?, 0x3f8c5e7260)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_struct_encoder.go:158 +0x72c
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*OptionalEncoder).Encode(0x3f8c1fc3c0?, 0x0?, 0x0?)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_optional.go:70 +0xe8
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*onePtrEncoder).Encode(0x3f8c1a1ac0, 0x3f8c0c71e0, 0x3f8c23c3f0?)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect.go:219 +0xa0
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*Stream).WriteVal(0x3f8c5e7260, {0x2ab575de20, 0x3f8c0c71e0})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect.go:98 +0x194
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*frozenConfig).Marshal(0x3f8c1fc3c0, {0x2ab575de20, 0x3f8c0c71e0})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/config.go:299 +0xb0
+k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/json.(*Serializer).doEncode(0x2?, {0x2ab58a9a90?, 0x3f8c0c71e0?}, {0x2ab58a0aa0, 0x3f8c8991a0})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/json/json.go:306 +0x80
+k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/json.(*Serializer).Encode(0x3f8c088190, {0x2ab58a9a90, 0x3f8c0c71e0}, {0x2ab58a0aa0, 0x3f8c8991a0})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/json/json.go:301 +0x108
+k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/versioning.(*codec).doEncode(0x3f8c0a65a0, {0x2ab58a9a40?, 0x3f8c5e71a0}, {0x2ab58a0aa0, 0x3f8c8991a0})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/versioning/versioning.go:244 +0x5a0
+k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/versioning.(*codec).Encode(0x3f8c0a65a0, {0x2ab58a9a40, 0x3f8c5e71a0}, {0x2ab58a0aa0, 0x3f8c8991a0})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/versioning/versioning.go:184 +0x108
+k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime.Encode({0x3f90115f20, 0x3f8c0a65a0}, {0x2ab58a9a40, 0x3f8c5e71a0})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/codec.go:50 +0x80
+k8s.io/kubernetes/vendor/k8s.io/client-go/tools/clientcmd.Write(...)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/client-go/tools/clientcmd/loader.go:473
+k8s.io/kubernetes/vendor/k8s.io/client-go/tools/clientcmd.WriteToFile({{0x0, 0x0}, {0x0, 0x0}, {0x0, 0x3f8c898bd0}, 0x3f8c898c00, 0x3f8c898c30, 0x3f8c898c60, {0x3f8c4a9ae7, ...}, ...}, ...)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/client-go/tools/clientcmd/loader.go:426 +0x138
+k8s.io/kubernetes/vendor/k8s.io/client-go/tools/clientcmd.ModifyConfig({0x2ab58b8fa0, 0x3f8c3c4370}, {{0x0, 0x0}, {0x0, 0x0}, {0x0, 0x3f8c898180}, 0x3f8c8981b0, 0x3f8c8981e0, ...}, ...)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/client-go/tools/clientcmd/config.go:294 +0x9b0
+k8s.io/kubernetes/vendor/k8s.io/kubectl/pkg/cmd/config.createAuthInfoOptions.run({{0x2ab58b8fa0, 0x3f8c3c4370}, {0x3fd16c6c3d, 0x1e}, {0x1, {0x3fd16c6c71, 0x2f}}, {0x1, {0x3fd16c6cae, 0x33}}, ...})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/kubectl/pkg/cmd/config/create_authinfo.go:203 +0x19c
+k8s.io/kubernetes/vendor/k8s.io/kubectl/pkg/cmd/config.newCmdConfigSetAuthInfo.func1(0x3f8c867340?, {0x2ab53319b5?, 0x5?, 0x5?})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/kubectl/pkg/cmd/config/create_authinfo.go:161 +0xb4
+k8s.io/kubernetes/vendor/github.com/spf13/cobra.(*Command).execute(0x3f8c867340, {0x3f8c3c44b0, 0x5, 0x5})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/spf13/cobra/command.go:854 +0x4dc
+k8s.io/kubernetes/vendor/github.com/spf13/cobra.(*Command).ExecuteC(0x3f8c420b00)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/spf13/cobra/command.go:958 +0x324
+k8s.io/kubernetes/vendor/github.com/spf13/cobra.(*Command).Execute(...)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/spf13/cobra/command.go:895
+main.main()
+	_output/local/go/src/k8s.io/kubernetes/cmd/kubectl/kubectl.go:49 +0x1a8
++ kubectl config set-context default --cluster=openeuler-k8s --user=system:kube-controller-manager --kubeconfig=kube-controller-manager.kubeconfig
+Context "default" modified.
++ kubectl config use-context default --kubeconfig=kube-controller-manager.kubeconfig
+Switched to context "default".
++ kubectl config set-cluster openeuler-k8s --certificate-authority=/etc/kubernetes/pki/ca.pem --embed-certs=true --server=https://127.0.0.1:6443 --kubeconfig=kube-scheduler.kubeconfig
+Cluster "openeuler-k8s" set.
++ kubectl config set-credentials system:kube-scheduler --client-certificate=/etc/kubernetes/pki/kube-scheduler.pem --client-key=/etc/kubernetes/pki/kube-scheduler-key.pem --embed-certs=true --kubeconfig=kube-scheduler.kubeconfig
+panic: runtime error: invalid memory address or nil pointer dereference
+[signal SIGSEGV: segmentation violation code=0x1 addr=0x8 pc=0x2ab4ef8f88]
+
+goroutine 1 [running]:
+reflect.mapiternext(0x3f90192270?)
+	/usr/lib/golang/src/runtime/map.go:1380 +0x28
+k8s.io/kubernetes/vendor/github.com/modern-go/reflect2.(*UnsafeMapIterator).UnsafeNext(0x3fbbf14108?)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/modern-go/reflect2/unsafe_map.go:136 +0x44
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*sortKeysMapEncoder).Encode(0x3f9089b710, 0x3f9086d0a8, 0x3f90307260)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_map.go:297 +0x328
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*placeholderEncoder).Encode(0x2ab6147700?, 0x2ab4f48a01?, 0x3f90307278?)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect.go:332 +0x44
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*structFieldEncoder).Encode(0x3f908a1290, 0x2ab6076abd?, 0x3f90307260)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_struct_encoder.go:110 +0x70
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*structEncoder).Encode(0x3f908a13e0, 0x3ff46c4c61?, 0x3f90307260)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_struct_encoder.go:158 +0x72c
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*placeholderEncoder).Encode(0x2ab6147700?, 0x2ab52aca01?, 0x3f90307278?)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect.go:332 +0x44
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*structFieldEncoder).Encode(0x3f908a1650, 0x2ab603bc31?, 0x3f90307260)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_struct_encoder.go:110 +0x70
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*structEncoder).Encode(0x3f908a16b0, 0x2ab60edac0?, 0x3f90307260)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_struct_encoder.go:158 +0x72c
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*sliceEncoder).Encode(0x3f90116d20, 0x3f900c6d68, 0x3f90307260)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_slice.go:38 +0x320
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*structFieldEncoder).Encode(0x3f908a61e0, 0x2ab6041b06?, 0x3f90307260)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_struct_encoder.go:110 +0x70
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*structEncoder).Encode(0x3f908a62d0, 0x8?, 0x3f90307260)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_struct_encoder.go:158 +0x72c
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*OptionalEncoder).Encode(0x3f900fe820?, 0x0?, 0x0?)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_optional.go:70 +0xe8
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*onePtrEncoder).Encode(0x3f90296f20, 0x3f900c6d10, 0x3f90432990?)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect.go:219 +0xa0
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*Stream).WriteVal(0x3f90307260, {0x2ab61cce20, 0x3f900c6d10})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect.go:98 +0x194
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*frozenConfig).Marshal(0x3f900fe820, {0x2ab61cce20, 0x3f900c6d10})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/config.go:299 +0xb0
+k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/json.(*Serializer).doEncode(0x2?, {0x2ab6318a90?, 0x3f900c6d10?}, {0x2ab630faa0, 0x3f9088bd10})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/json/json.go:306 +0x80
+k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/json.(*Serializer).Encode(0x3f90118140, {0x2ab6318a90, 0x3f900c6d10}, {0x2ab630faa0, 0x3f9088bd10})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/json/json.go:301 +0x108
+k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/versioning.(*codec).doEncode(0x3f903a8280, {0x2ab6318a40?, 0x3f90306c60}, {0x2ab630faa0, 0x3f9088bd10})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/versioning/versioning.go:244 +0x5a0
+k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/versioning.(*codec).Encode(0x3f903a8280, {0x2ab6318a40, 0x3f90306c60}, {0x2ab630faa0, 0x3f9088bd10})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/versioning/versioning.go:184 +0x108
+k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime.Encode({0x3f946a80f8, 0x3f903a8280}, {0x2ab6318a40, 0x3f90306c60})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/codec.go:50 +0x80
+k8s.io/kubernetes/vendor/k8s.io/client-go/tools/clientcmd.Write(...)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/client-go/tools/clientcmd/loader.go:473
+k8s.io/kubernetes/vendor/k8s.io/client-go/tools/clientcmd.WriteToFile({{0x0, 0x0}, {0x0, 0x0}, {0x0, 0x3f9088b740}, 0x3f9088b770, 0x3f9088b7a0, 0x3f9088b7d0, {0x3f903c49c7, ...}, ...}, ...)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/client-go/tools/clientcmd/loader.go:426 +0x138
+k8s.io/kubernetes/vendor/k8s.io/client-go/tools/clientcmd.ModifyConfig({0x2ab6327fa0, 0x3f9012c3c0}, {{0x0, 0x0}, {0x0, 0x0}, {0x0, 0x3f9088acf0}, 0x3f9088ad20, 0x3f9088ad50, ...}, ...)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/client-go/tools/clientcmd/config.go:294 +0x9b0
+k8s.io/kubernetes/vendor/k8s.io/kubectl/pkg/cmd/config.createAuthInfoOptions.run({{0x2ab6327fa0, 0x3f9012c3c0}, {0x3ff46c4c61, 0x15}, {0x1, {0x3ff46c4c8c, 0x26}}, {0x1, {0x3ff46c4cc0, 0x2a}}, ...})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/kubectl/pkg/cmd/config/create_authinfo.go:203 +0x19c
+k8s.io/kubernetes/vendor/k8s.io/kubectl/pkg/cmd/config.newCmdConfigSetAuthInfo.func1(0x3f90717340?, {0x2ab5da09b5?, 0x5?, 0x5?})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/kubectl/pkg/cmd/config/create_authinfo.go:161 +0xb4
+k8s.io/kubernetes/vendor/github.com/spf13/cobra.(*Command).execute(0x3f90717340, {0x3f9012c4b0, 0x5, 0x5})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/spf13/cobra/command.go:854 +0x4dc
+k8s.io/kubernetes/vendor/github.com/spf13/cobra.(*Command).ExecuteC(0x3f900bd080)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/spf13/cobra/command.go:958 +0x324
+k8s.io/kubernetes/vendor/github.com/spf13/cobra.(*Command).Execute(...)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/spf13/cobra/command.go:895
+main.main()
+	_output/local/go/src/k8s.io/kubernetes/cmd/kubectl/kubectl.go:49 +0x1a8
++ kubectl config set-context default --cluster=openeuler-k8s --user=system:kube-scheduler --kubeconfig=kube-scheduler.kubeconfig
+Context "default" modified.
++ kubectl config use-context default --kubeconfig=kube-scheduler.kubeconfig
+Switched to context "default".
++ kubectl config set-cluster openeuler-k8s --certificate-authority=/etc/kubernetes/pki/ca.pem --embed-certs=true --server=https://127.0.0.1:6443 --kubeconfig=admin.kubeconfig
+Cluster "openeuler-k8s" set.
++ kubectl config set-credentials admin --client-certificate=/etc/kubernetes/pki/admin.pem --client-key=/etc/kubernetes/pki/admin-key.pem --embed-certs=true --kubeconfig=admin.kubeconfig
+panic: runtime error: invalid memory address or nil pointer dereference
+[signal SIGSEGV: segmentation violation code=0x1 addr=0x8 pc=0x2ae29f4f88]
+
+goroutine 1 [running]:
+reflect.mapiternext(0x3f641b6270?)
+	/usr/lib/golang/src/runtime/map.go:1380 +0x28
+k8s.io/kubernetes/vendor/github.com/modern-go/reflect2.(*UnsafeMapIterator).UnsafeNext(0x3f8e3b0f18?)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/modern-go/reflect2/unsafe_map.go:136 +0x44
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*sortKeysMapEncoder).Encode(0x3f647f7560, 0x3f646d10a8, 0x3f643afce0)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_map.go:297 +0x328
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*placeholderEncoder).Encode(0x2ae3c43700?, 0x2ae2a44a01?, 0x3f643afcf8?)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect.go:332 +0x44
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*structFieldEncoder).Encode(0x3f647fd0e0, 0x2ae3b72abd?, 0x3f643afce0)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_struct_encoder.go:110 +0x70
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*structEncoder).Encode(0x3f647fd230, 0x3fc9afec8c?, 0x3f643afce0)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_struct_encoder.go:158 +0x72c
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*placeholderEncoder).Encode(0x2ae3c43700?, 0x2ae2da8a01?, 0x3f643afcf8?)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect.go:332 +0x44
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*structFieldEncoder).Encode(0x3f647fd4a0, 0x2ae3b37c31?, 0x3f643afce0)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_struct_encoder.go:110 +0x70
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*structEncoder).Encode(0x3f647fd500, 0x2ae3be9ac0?, 0x3f643afce0)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_struct_encoder.go:158 +0x72c
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*sliceEncoder).Encode(0x3f6450ed50, 0x3f640ecec8, 0x3f643afce0)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_slice.go:38 +0x320
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*structFieldEncoder).Encode(0x3f64804030, 0x2ae3b3db06?, 0x3f643afce0)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_struct_encoder.go:110 +0x70
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*structEncoder).Encode(0x3f64804120, 0x8?, 0x3f643afce0)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_struct_encoder.go:158 +0x72c
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*OptionalEncoder).Encode(0x3f641a4960?, 0x0?, 0x0?)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect_optional.go:70 +0xe8
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*onePtrEncoder).Encode(0x3f64490770, 0x3f640ece70, 0x3f643abfb0?)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect.go:219 +0xa0
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*Stream).WriteVal(0x3f643afce0, {0x2ae3cc8e20, 0x3f640ece70})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/reflect.go:98 +0x194
+k8s.io/kubernetes/vendor/github.com/json-iterator/go.(*frozenConfig).Marshal(0x3f641a4960, {0x2ae3cc8e20, 0x3f640ece70})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/json-iterator/go/config.go:299 +0xb0
+k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/json.(*Serializer).doEncode(0x2?, {0x2ae3e14a90?, 0x3f640ece70?}, {0x2ae3e0baa0, 0x3f64313b30})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/json/json.go:306 +0x80
+k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/json.(*Serializer).Encode(0x3f64108190, {0x2ae3e14a90, 0x3f640ece70}, {0x2ae3e0baa0, 0x3f64313b30})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/json/json.go:301 +0x108
+k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/versioning.(*codec).doEncode(0x3f643dc320, {0x2ae3e14a40?, 0x3f643afc20}, {0x2ae3e0baa0, 0x3f64313b30})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/versioning/versioning.go:244 +0x5a0
+k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/versioning.(*codec).Encode(0x3f643dc320, {0x2ae3e14a40, 0x3f643afc20}, {0x2ae3e0baa0, 0x3f64313b30})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/serializer/versioning/versioning.go:184 +0x108
+k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime.Encode({0x3f68b94398, 0x3f643dc320}, {0x2ae3e14a40, 0x3f643afc20})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/runtime/codec.go:50 +0x80
+k8s.io/kubernetes/vendor/k8s.io/client-go/tools/clientcmd.Write(...)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/client-go/tools/clientcmd/loader.go:473
+k8s.io/kubernetes/vendor/k8s.io/client-go/tools/clientcmd.WriteToFile({{0x0, 0x0}, {0x0, 0x0}, {0x0, 0x3f643134a0}, 0x3f643134d0, 0x3f64313500, 0x3f64313530, {0x3f642551b0, ...}, ...}, ...)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/client-go/tools/clientcmd/loader.go:426 +0x138
+k8s.io/kubernetes/vendor/k8s.io/client-go/tools/clientcmd.ModifyConfig({0x2ae3e23fa0, 0x3f643682d0}, {{0x0, 0x0}, {0x0, 0x0}, {0x0, 0x3f643129c0}, 0x3f643129f0, 0x3f64312a20, ...}, ...)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/client-go/tools/clientcmd/config.go:294 +0x9b0
+k8s.io/kubernetes/vendor/k8s.io/kubectl/pkg/cmd/config.createAuthInfoOptions.run({{0x2ae3e23fa0, 0x3f643682d0}, {0x3fc9afec8c, 0x5}, {0x1, {0x3fc9afeca7, 0x1d}}, {0x1, {0x3fc9afecd2, 0x21}}, ...})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/kubectl/pkg/cmd/config/create_authinfo.go:203 +0x19c
+k8s.io/kubernetes/vendor/k8s.io/kubectl/pkg/cmd/config.newCmdConfigSetAuthInfo.func1(0x3f64665340?, {0x2ae389c9b5?, 0x5?, 0x5?})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/k8s.io/kubectl/pkg/cmd/config/create_authinfo.go:161 +0xb4
+k8s.io/kubernetes/vendor/github.com/spf13/cobra.(*Command).execute(0x3f64665340, {0x3f643683c0, 0x5, 0x5})
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/spf13/cobra/command.go:854 +0x4dc
+k8s.io/kubernetes/vendor/github.com/spf13/cobra.(*Command).ExecuteC(0x3f643bd080)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/spf13/cobra/command.go:958 +0x324
+k8s.io/kubernetes/vendor/github.com/spf13/cobra.(*Command).Execute(...)
+	/home/abuild/rpmbuild/BUILD/kubernetes-1.20.2/src/k8s.io/kubernetes/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/spf13/cobra/command.go:895
+main.main()
+	_output/local/go/src/k8s.io/kubernetes/cmd/kubectl/kubectl.go:49 +0x1a8
++ kubectl config set-context default --cluster=openeuler-k8s --user=admin --kubeconfig=admin.kubeconfig
+Context "default" modified.
++ kubectl config use-context default --kubeconfig=admin.kubeconfig
+Switched to context "default".
++ cd /root/mugen/testcases/cli-test/kubernetes
++ apiserver_prepare
+++ head -c 32 /dev/urandom
+++ base64
++ echo 'kind: EncryptionConfig
+apiVersion: v1
+resources:
+  - resources:
+      - secrets
+    providers:
+      - aescbc:
+          keys:
+            - name: key1
+              secret: 07ludpFONj4qGlxfuRNFNtk35/KX9TaSLVAw1PXyfJs=
+      - identity: {}'
++ cat
++ echo '[Unit]
+Description=Kubernetes API Server
+Documentation=https://kubernetes.io/docs/reference/generated/kube-apiserver/
+After=network.target
+After=etcd.service
+[Service]
+EnvironmentFile=-/etc/kubernetes/config
+EnvironmentFile=-/etc/kubernetes/apiserver
+ExecStart=/usr/bin/kube-apiserver 	    $KUBE_ADVERTIS_ADDRESS 	    $KUBE_ALLOW_PRIVILEGED 	    $KUBE_AUTHORIZATION_MODE 	    $KUBE_ENABLE_ADMISSION_PLUGINS  	    $KUBE_SECURE_PORT 	    $KUBE_ENABLE_BOOTSTRAP_TOKEN_AUTH 	    $KUBE_ETCD_CAFILE 	    $KUBE_ETCD_CERTFILE 	    $KUBE_ETCD_KEYFILE 	    $KUBE_ETCD_SERVERS 	    $KUBE_CLIENT_CA_FILE 	    $KUBE_KUBELET_CERT_AUTH 	    $KUBE_KUBELET_CLIENT_CERT 	    $KUBE_KUBELET_CLIENT_KEY 	    $KUBE_PROXY_CLIENT_CERT_FILE 	    $KUBE_PROXY_CLIENT_KEY_FILE 	    $KUBE_TLS_CERT_FILE 	    $KUBE_TLS_PRIVATE_KEY_FILE 	    $KUBE_SERVICE_CLUSTER_IP_RANGE 	    $KUBE_SERVICE_ACCOUNT_ISSUER 	    $KUBE_SERVICE_ACCOUNT_KEY_FILE 	    $KUBE_SERVICE_ACCOUNT_SIGN_KEY_FILE 	    $KUBE_SERVICE_NODE_PORT_RANGE 	    $KUBE_LOGTOSTDERR 	    $KUBE_LOG_LEVEL 	    $KUBE_API_PORT 	    $KUBELET_PORT 	    $KUBE_ALLOW_PRIV 	    $KUBE_SERVICE_ADDRESSES 	    $KUBE_ADMISSION_CONTROL 	    $KUB_ENCRYPTION_PROVIDER_CONF 	    $KUBE_REQUEST_HEADER_ALLOWED_NAME 	    $KUBE_REQUEST_HEADER_EXTRA_HEADER_PREF 	    $KUBE_REQUEST_HEADER_GROUP_HEADER 	    $KUBE_REQUEST_HEADER_USERNAME_HEADER 	    $KUBE_API_ARGS
+Restart=on-failure
+Type=notify
+LimitNOFILE=65536
+[Install]
+WantedBy=multi-user.target'
++ sed -i 's\http://127.0.0.1:8080\https://127.0.0.1:6443\g' /etc/kubernetes/config
++ systemctl daemon-reload
++ systemctl start kube-apiserver
+Job for kube-apiserver.service failed because the control process exited with error code.
+See "systemctl status kube-apiserver.service" and "journalctl -xeu kube-apiserver.service" for details.
++ echo 'apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+    rbac.authorization.kubernetes.io/autoupdate: "true"
+  labels:
+    kubernetes.io/bootstrapping: rbac-defaults
+  name: system:kube-apiserver-to-kubelet
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - nodes/proxy
+      - nodes/stats
+      - nodes/log
+      - nodes/spec
+      - nodes/metrics
+    verbs:
+      - "*"'
++ kubectl apply --kubeconfig /etc/kubernetes/pki/admin.kubeconfig -f /etc/kubernetes/pki/admin_cluster_role.yaml
+Please enter Username: Wed Nov 22 03:52:02 2023 - ERROR - Timeout : Command 'bash -x oe_test_service_kube-apiserver.sh' timed out after 1799.9995594000002 seconds

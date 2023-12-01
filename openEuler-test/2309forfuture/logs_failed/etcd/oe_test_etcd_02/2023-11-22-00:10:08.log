@@ -1,0 +1,174 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Wed Nov 22 00:10:11 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL etcd
++ pkgs=etcd
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs etcd --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpxkyci8ac
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpxkyci8ac
++ systemctl start etcd
+Job for etcd.service failed because the control process exited with error code.
+See "systemctl status etcd.service" and "journalctl -xeu etcd.service" for details.
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Wed Nov 22 00:10:58 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Nov 22 00:10:59 2023 - INFO  - Start to run test.
++ grep 'active (running)'
++ systemctl status etcd
++ CHECK_RESULT 1 0 0 'Check etcd.service start failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check etcd.service start failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check etcd.service start failed'
++ LOG_ERROR 'Check etcd.service start failed'
++ message='Check etcd.service start failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check etcd.service start failed'
+Wed Nov 22 00:11:00 2023 - ERROR - Check etcd.service start failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_etcd_02.sh line 29'
++ message='oe_test_etcd_02.sh line 29'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_etcd_02.sh line 29'
+Wed Nov 22 00:11:00 2023 - ERROR - oe_test_etcd_02.sh line 29
++ '[' 0 -eq 1 ']'
++ return 0
++ etcdctl --endpoints=http://127.0.0.1:2379 member list
++ grep started
+{"level":"warn","ts":"2023-11-22T00:11:06.153+0800","caller":"clientv3/retry_interceptor.go:62","msg":"retrying of unary invoker failed","target":"endpoint://client-379506e0-eec5-45ed-9fbf-2baace4b95f0/127.0.0.1:2379","attempt":0,"error":"rpc error: code = DeadlineExceeded desc = latest balancer error: all SubConns are in TransientFailure, latest connection error: connection error: desc = \"transport: Error while dialing dial tcp 127.0.0.1:2379: connect: connection refused\""}
+Error: context deadline exceeded
++ CHECK_RESULT 1 0 0 'Check etcdctl --endpoints member command failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check etcdctl --endpoints member command failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check etcdctl --endpoints member command failed.'
++ LOG_ERROR 'Check etcdctl --endpoints member command failed.'
++ message='Check etcdctl --endpoints member command failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check etcdctl --endpoints member command failed.'
+Wed Nov 22 00:11:06 2023 - ERROR - Check etcdctl --endpoints member command failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_etcd_02.sh line 31'
++ message='oe_test_etcd_02.sh line 31'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_etcd_02.sh line 31'
+Wed Nov 22 00:11:07 2023 - ERROR - oe_test_etcd_02.sh line 31
++ '[' 0 -eq 1 ']'
++ return 0
++ etcdctl --write-out=table --endpoints=127.0.0.1:2379 endpoint status
++ grep -i ENDPOINT
+{"level":"warn","ts":"2023-11-22T00:11:12.348+0800","caller":"clientv3/retry_interceptor.go:62","msg":"retrying of unary invoker failed","target":"passthrough:///127.0.0.1:2379","attempt":0,"error":"rpc error: code = DeadlineExceeded desc = latest balancer error: connection error: desc = \"transport: Error while dialing dial tcp 127.0.0.1:2379: connect: connection refused\""}
+Failed to get the status of endpoint 127.0.0.1:2379 (context deadline exceeded)
+| ENDPOINT | ID | VERSION | DB SIZE | IS LEADER | IS LEARNER | RAFT TERM | RAFT INDEX | RAFT APPLIED INDEX | ERRORS |
++ CHECK_RESULT 0 0 0 'Check etcdctl --endpoints --write-out=table failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check etcdctl --endpoints --write-out=table failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ etcdctl --write-out=table --endpoints=127.0.0.1:2379 endpoint health
++ grep HEALTH
+{"level":"warn","ts":"2023-11-22T00:11:17.588+0800","caller":"clientv3/retry_interceptor.go:62","msg":"retrying of unary invoker failed","target":"endpoint://client-b4e35b8c-9507-4d5c-ade9-b0d448822f40/127.0.0.1:2379","attempt":0,"error":"rpc error: code = DeadlineExceeded desc = latest balancer error: all SubConns are in TransientFailure, latest connection error: connection error: desc = \"transport: Error while dialing dial tcp 127.0.0.1:2379: connect: connection refused\""}
+Error: unhealthy cluster
+|    ENDPOINT    | HEALTH |     TOOK     |           ERROR           |
++ CHECK_RESULT 0 0 0 'Check etcdctl --endpoints --write-out=table health failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check etcdctl --endpoints --write-out=table health failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ etcdctl --endpoints=127.0.0.1:2379 endpoint health
+{"level":"warn","ts":"2023-11-22T00:11:22.788+0800","caller":"clientv3/retry_interceptor.go:62","msg":"retrying of unary invoker failed","target":"endpoint://client-df3d6ec3-e131-460d-8261-6d9afb624a66/127.0.0.1:2379","attempt":0,"error":"rpc error: code = DeadlineExceeded desc = latest balancer error: all SubConns are in TransientFailure, latest connection error: connection error: desc = \"transport: Error while dialing dial tcp 127.0.0.1:2379: connect: connection refused\""}
+127.0.0.1:2379 is unhealthy: failed to commit proposal: context deadline exceeded
+Error: unhealthy cluster
++ CHECK_RESULT 1 0 0 'Check etcdctl --endpoints health failed'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check etcdctl --endpoints health failed'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check etcdctl --endpoints health failed'
++ LOG_ERROR 'Check etcdctl --endpoints health failed'
++ message='Check etcdctl --endpoints health failed'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check etcdctl --endpoints health failed'
+Wed Nov 22 00:11:23 2023 - ERROR - Check etcdctl --endpoints health failed
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_etcd_02.sh line 37'
++ message='oe_test_etcd_02.sh line 37'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_etcd_02.sh line 37'
+Wed Nov 22 00:11:23 2023 - ERROR - oe_test_etcd_02.sh line 37
++ '[' 0 -eq 1 ']'
++ return 0
++ etcdctl --endpoints=127.0.0.1:2379 endpoint status
++ grep true
+{"level":"warn","ts":"2023-11-22T00:11:29.036+0800","caller":"clientv3/retry_interceptor.go:62","msg":"retrying of unary invoker failed","target":"passthrough:///127.0.0.1:2379","attempt":0,"error":"rpc error: code = DeadlineExceeded desc = latest balancer error: connection error: desc = \"transport: Error while dialing dial tcp 127.0.0.1:2379: connect: connection refused\""}
+Failed to get the status of endpoint 127.0.0.1:2379 (context deadline exceeded)
++ CHECK_RESULT 1 0 0 'Check etcdctl --endpoints status failed.'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='Check etcdctl --endpoints status failed.'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'Check etcdctl --endpoints status failed.'
++ LOG_ERROR 'Check etcdctl --endpoints status failed.'
++ message='Check etcdctl --endpoints status failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check etcdctl --endpoints status failed.'
+Wed Nov 22 00:11:29 2023 - ERROR - Check etcdctl --endpoints status failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_etcd_02.sh line 39'
++ message='oe_test_etcd_02.sh line 39'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_etcd_02.sh line 39'
+Wed Nov 22 00:11:30 2023 - ERROR - oe_test_etcd_02.sh line 39
++ '[' 0 -eq 1 ']'
++ return 0
++ etcdctl snapshot save snapshot.db
++ grep 'Snapshot saved at snapshot.db'
+{"level":"info","ts":1700583090.2882843,"caller":"snapshot/v3_snapshot.go:119","msg":"created temporary db file","path":"snapshot.db.part"}
+Wed Nov 22 00:40:09 2023 - ERROR - Timeout : Command 'bash -x oe_test_etcd_02.sh' timed out after 1799.999514297 seconds

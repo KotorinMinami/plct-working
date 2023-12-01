@@ -1,0 +1,239 @@
++ source common/common_pcp.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Nov 21 10:12:31 2023 - INFO  - Start to prepare the test environment.
++ deploy_env
++ DNF_INSTALL pcp
++ pkgs=pcp
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs pcp --node 1 --tempfile ''
++ tmpfile2=/tmp/tmptxz03686
++ '[' -z '' ']'
++ tmpfile=/tmp/tmptxz03686
++ systemctl enable pmcd
+Created symlink /etc/systemd/system/multi-user.target.wants/pmcd.service → /usr/lib/systemd/system/pmcd.service.
++ systemctl start pmcd
++ systemctl enable pmlogger
+Created symlink /etc/systemd/system/multi-user.target.wants/pmlogger.service → /usr/lib/systemd/system/pmlogger.service.
++ systemctl start pmlogger
++ SLEEP_WAIT 10
++ wait_time=10
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 10 --cmd '' --mode 1
+++ hostname
++ host_name=openeuler-riscv64
+++ awk -F - '{print $2}'
+++ rpm -qa pcp
++ pcp_version=5.3.7
++ mkdir -p /var/log/pcp/ba
++ mkdir -p /usr/libexec/pcp/bin/
++ touch pmlogger_daily_report
++ chmod 744 pmlogger_daily_report
++ DNF_INSTALL pcp-zeroconf
++ pkgs=pcp-zeroconf
++ node=1
++ '[' -z /tmp/tmptxz03686 ']'
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs pcp-zeroconf --node 1 --tempfile /tmp/tmptxz03686
++ tmpfile2=/tmp/tmptxz03686
++ '[' -z /tmp/tmptxz03686 ']'
++ mv pmlogger_daily_report rm -rf /usr/libexec/pcp/bin/pmlogger_daily_report
+mv: invalid option -- 'r'
+Try 'mv --help' for more information.
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Nov 21 10:15:49 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 10:15:50 2023 - INFO  - Start to run test.
++ /usr/libexec/pcp/bin/pmlogger_daily_report -a yesterday
++ CHECK_RESULT 0 0 0 '-a option check failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='-a option check failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test -d /var/log/pcp/sa
++ CHECK_RESULT 0 0 0 '/var/log/pcp/sa check failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='/var/log/pcp/sa check failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ /usr/libexec/pcp/bin/pmlogger_daily_report -f momo.txt
++ CHECK_RESULT 0 0 0 '-f option check failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='-f option check failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ /usr/libexec/pcp/bin/pmlogger_daily_report -h openeuler-riscv64
++ CHECK_RESULT 0 0 0 '-h option check failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='-h option check failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ /usr/libexec/pcp/bin/pmlogger_daily_report -l dailyReport.txt
++ CHECK_RESULT 0 0 0 '-l option check failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='-l option check failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep pmlogger_daily_report dailyReport.txt
+pmlogger_daily_report: FATAL error: Failed to find input archive "/var/log/pcp/pmlogger/openeuler-riscv64/20231120".
++ CHECK_RESULT 0 0 0 'dailyReport.txt check failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='dailyReport.txt check failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ /usr/libexec/pcp/bin/pmlogger_daily_report -p
++ CHECK_RESULT 0 0 0 '-p option check failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='-p option check failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ /usr/libexec/pcp/bin/pmlogger_daily_report -o /var/log/pcp/ba/
++ CHECK_RESULT 0 0 0 '-o option check failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='-o option check failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test -d /var/log/pcp/ba
++ CHECK_RESULT 0 0 0 '/var/log/pcp/ba check failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='/var/log/pcp/ba check failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ /usr/libexec/pcp/bin/pmlogger_daily_report -t 30
++ CHECK_RESULT 0 0 0 '-t option check failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='-t option check failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ /usr/libexec/pcp/bin/pmlogger_daily_report -AV
++ CHECK_RESULT 0 0 0 '-AV option check failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='-AV option check failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep REPORTDIR=/var/log/pcp/sa /var/log/pcp/pmlogger/pmlogger_daily_report.log
+REPORTDIR=/var/log/pcp/sa
++ CHECK_RESULT 0 0 0 'pmlogger_daily_report.log check failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='pmlogger_daily_report.log check failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Nov 21 10:15:55 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Nov 21 10:15:55 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Nov 21 10:15:56 2023 - INFO  - Start to restore the test environment.
++ rm -rf /var/log/pcp/ba momo.txt dailyReport.txt
++ rm -rf /usr/libexec/pcp/bin/pmlogger_daily_report
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmptxz03686 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmptxz03686
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue Nov 21 10:17:04 2023 - INFO  - End to restore the test environment.

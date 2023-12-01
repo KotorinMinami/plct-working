@@ -1,0 +1,284 @@
++ source ../common/lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Nov 21 10:27:30 2023 - INFO  - Start to prepare the test environment.
++ postgresql_install
++ DNF_INSTALL 'postgresql postgresql-server postgresql-devel postgresql-contrib'
++ pkgs='postgresql postgresql-server postgresql-devel postgresql-contrib'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'postgresql postgresql-server postgresql-devel postgresql-contrib' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpl0895wjv
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpl0895wjv
++ rm -rf '/tmp/.s.PGSQL*'
++ /usr/bin/postgresql-setup --initdb
+ * Initializing database in '/var/lib/pgsql/data'
+ * Initialized, logs are in /var/lib/pgsql/initdb_postgresql.log
++ sed -i s/ident/trust/g /var/lib/pgsql/data/pg_hba.conf
++ systemctl start postgresql
++ expect
+spawn su - postgres
+Last login: Tue Nov 21 10:26:14 CST 2023
+
+
+Welcome to 6.1.19-2.oe2303.riscv64
+
+System information as of time: 	Tue Nov 21 10:28:27 AM CST 2023
+
+System load: 	[0;33;40m1.79[0m
+Processes: 	113
+Memory used: 	2.4%
+Swap used: 	0.0%
+Usage On: 	21%
+IP address: 	10.0.2.15
+Users online: 	0
+To run a command as administrator(user "root"),use "sudo <command>".
+
+
+Welcome to 6.1.19-2.oe2303.riscv64
+
+System information as of time: 	Tue Nov 21 10:28:29 AM CST 2023
+
+System load: 	[0;33;40m1.79[0m
+Processes: 	113
+Memory used: 	2.5%
+Swap used: 	0.0%
+Usage On: 	21%
+IP address: 	10.0.2.15
+Users online: 	0
+To run a command as administrator(user "root"),use "sudo <command>".
+[postgres@openeuler-riscv64 ~]$ createdb testdb
+[postgres@openeuler-riscv64 ~]$ psql testdb
+psql (13.3)
+Type "help" for help.
+
+testdb=# create table test (id int, val numeric);
+CREATE TABLE
+create index on test(id);
+testdb=# create index on test(id);
+CREATE INDEX
+create index on test(val);
+testdb=# create index on test(val);
+CREATE INDEX
+insert into test select generate_series(1,10000),random();
+testdb=# insert into test select generate_series(1,10000),random();
+INSERT 0 10000
+testdb=# create table tab_big(vname text,souroid oid);
+CREATE TABLE
+testdb=# insert into tab_big values('passwd list',lo_import('/etc/passwd'));
+INSERT 0 1
+testdb=# CREATE SCHEMA myschema;
+create table myschema.test (id int, val numeric) with oids;
+CREATE SCHEMA
+testdb=# create table myschema.test (id int, val numeric) with oids;
+ERROR:  syntax error at or near "oids"
+LINE 1: create table myschema.test (id int, val numeric) with oids;
+                                                              ^
+testdb=# insert into myschema.test select generate_series(1,100),random();
+ERROR:  relation "myschema.test" does not exist
+LINE 1: insert into myschema.test select generate_series(1,100),rand...
+                    ^
+testdb=# create user testuder;
+CREATE ROLE
+testdb=# GRANT ALL ON test TO testuder;
+\q
+GRANT
+testdb=# \q
+[postgres@openeuler-riscv64 ~]$ + export LANG=en_US.UTF-8
++ LANG=en_US.UTF-8
+++ su - postgres -c pg_controldata
+++ grep 'Prior checkpoint location:'
+++ awk '{printf $4}'
++ checkpoint=
+++ su - postgres -c pg_controldata
+++ grep 'Latest checkpoint'\''s REDO WAL file:'
+++ awk '{printf $6}'
++ WALfile=000000010000000000000001
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Nov 21 10:29:18 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 10:29:18 2023 - INFO  - Start to run test.
++ su - postgres -c 'pg_waldump 000000010000000000000001 -n 3 -b'
++ grep rmgr
+rmgr: XLOG        len (rec/tot):    114/   114, tx:          0, lsn: 0/01000028, prev 0/00000000, desc: CHECKPOINT_SHUTDOWN redo 0/1000028; tli 1; prev tli 1; fpw true; xid 0:3; oid 12000; multi 1; offset 0; oldest xid 3 in DB 1; oldest multi 1 in DB 1; oldest/newest commit timestamp xid: 0/0; oldest running xid 0; shutdown
+rmgr: XLOG        len (rec/tot):     30/    30, tx:          1, lsn: 0/010000A0, prev 0/01000028, desc: NEXTOID 20192
+rmgr: XLOG        len (rec/tot):     49/   137, tx:          1, lsn: 0/010000C0, prev 0/010000A0, desc: FPI 
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'pg_waldump 000000010000000000000001 -s  -n 3'
++ grep rmgr
+pg_waldump: error: could not parse start WAL location "-n"
+Try "pg_waldump --help" for more information.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_postgresql-contrib_pg_waldump.sh line 34'
++ message='oe_test_postgresql-contrib_pg_waldump.sh line 34'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_postgresql-contrib_pg_waldump.sh line 34'
+Tue Nov 21 10:29:23 2023 - ERROR - oe_test_postgresql-contrib_pg_waldump.sh line 34
++ '[' 0 -eq 1 ']'
++ return 0
++ su - postgres -c 'pg_waldump 000000010000000000000001 -f -s  -n 3'
++ grep rmgr
+pg_waldump: error: could not parse start WAL location "-n"
+Try "pg_waldump --help" for more information.
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_postgresql-contrib_pg_waldump.sh line 36'
++ message='oe_test_postgresql-contrib_pg_waldump.sh line 36'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_postgresql-contrib_pg_waldump.sh line 36'
+Tue Nov 21 10:29:26 2023 - ERROR - oe_test_postgresql-contrib_pg_waldump.sh line 36
++ '[' 0 -eq 1 ']'
++ return 0
++ su - postgres -c 'pg_waldump 000000010000000000000001 -n 3'
++ grep rmgr
+rmgr: XLOG        len (rec/tot):    114/   114, tx:          0, lsn: 0/01000028, prev 0/00000000, desc: CHECKPOINT_SHUTDOWN redo 0/1000028; tli 1; prev tli 1; fpw true; xid 0:3; oid 12000; multi 1; offset 0; oldest xid 3 in DB 1; oldest multi 1 in DB 1; oldest/newest commit timestamp xid: 0/0; oldest running xid 0; shutdown
+rmgr: XLOG        len (rec/tot):     30/    30, tx:          1, lsn: 0/010000A0, prev 0/01000028, desc: NEXTOID 20192
+rmgr: XLOG        len (rec/tot):     49/   137, tx:          1, lsn: 0/010000C0, prev 0/010000A0, desc: FPI , blkref #0: rel 1663/1/6117 blk 0 FPW
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'pg_waldump -p /var/lib/pgsql/data/pg_wal 000000010000000000000001 -n 1'
++ grep rmgr
+rmgr: XLOG        len (rec/tot):    114/   114, tx:          0, lsn: 0/01000028, prev 0/00000000, desc: CHECKPOINT_SHUTDOWN redo 0/1000028; tli 1; prev tli 1; fpw true; xid 0:3; oid 12000; multi 1; offset 0; oldest xid 3 in DB 1; oldest multi 1 in DB 1; oldest/newest commit timestamp xid: 0/0; oldest running xid 0; shutdown
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep rmgr
++ su - postgres -c 'pg_waldump 000000010000000000000001 -r Heap -n 3'
+rmgr: Heap        len (rec/tot):     59/  8183, tx:          3, lsn: 0/0109FA40, prev 0/0109FA20, desc: LOCK off 34: xid 3: flags 0x00 LOCK_ONLY EXCL_LOCK , blkref #0: rel 1663/1/1259 blk 0 FPW
+rmgr: Heap        len (rec/tot):     73/  4089, tx:          3, lsn: 0/010A1A50, prev 0/0109FA40, desc: UPDATE off 34 xmax 3 flags 0x00 ; new off 22 xmax 0, blkref #0: rel 1663/1/1259 blk 5 FPW, blkref #1: rel 1663/1/1259 blk 0
+rmgr: Heap        len (rec/tot):     53/   345, tx:          0, lsn: 0/010A6FC0, prev 0/010A6F88, desc: INPLACE off 1, blkref #0: rel 1664/0/1262 blk 0 FPW
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pg_waldump -V
++ grep '(PostgreSQL)'
+pg_waldump (PostgreSQL) 13.3
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ pg_waldump '-?'
++ grep Usage:
+Usage:
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Nov 21 10:29:33 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 2
++ test 2 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Tue Nov 21 10:29:34 2023 - ERROR - failed to execute the case.
++ exit 2
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Nov 21 10:29:34 2023 - INFO  - Start to restore the test environment.
++ systemctl stop postgresql
++ DNF_REMOVE 1 'postgresql postgresql-server postgresql-devel postgresql-contrib'
++ node=1
++ pkg_list='postgresql postgresql-server postgresql-devel postgresql-contrib'
++ mode=0
++ [[ -z /tmp/tmpl0895wjv ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs 'postgresql postgresql-server postgresql-devel postgresql-contrib' --tempfile /tmp/tmpl0895wjv
++ '[' 0 -ne 0 ']'
++ rm -rf /var/lib/pgsql/data /var/lib/pgsql/initdb_postgresql.log
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue Nov 21 10:29:49 2023 - INFO  - End to restore the test environment.

@@ -1,0 +1,116 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Tue Nov 21 20:54:25 2023 - INFO  - Start environmental preparation.
++ systemctl stop firewalld
+Failed to stop firewalld.service: Unit firewalld.service not loaded.
++ cp /opt/kafka/config/server.properties /opt/kafka/config/server.properties-bak
+cp: cannot stat '/opt/kafka/config/server.properties': No such file or directory
++ cp /etc/gala-gopher/config/gala-gopher.yaml /etc/gala-gopher/config/gala-gopher.yaml-bak
+cp: cannot stat '/etc/gala-gopher/config/gala-gopher.yaml': No such file or directory
++ DNF_INSTALL 'gala-gopher kafka'
++ pkgs='gala-gopher kafka'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'gala-gopher kafka' --node 1 --tempfile ''
++ tmpfile2='Last metadata expiration check: 19:05:37 ago on Tue 21 Nov 2023 01:49:15 AM CST.
+No match for argument: gala-gopher
+No match for argument: kafka
+Error: Unable to find a match: gala-gopher kafka'
++ '[' -z '' ']'
++ tmpfile='Last metadata expiration check: 19:05:37 ago on Tue 21 Nov 2023 01:49:15 AM CST.
+No match for argument: gala-gopher
+No match for argument: kafka
+Error: Unable to find a match: gala-gopher kafka'
++ sed -i 's/listeners=PLAINTEXT:\/\/:9092/listeners=PLAINTEXT:\/\/${NODE1_IPV4}:9092/g' /opt/kafka/config/server.properties
+sed: can't read /opt/kafka/config/server.properties: No such file or directory
++ SLEEP_WAIT 60
++ wait_time=60
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 60 --cmd '' --mode 1
++ ./opt/kafka/bin/zookeeper-server-start.sh /opt/kafka/config/zookeeper.properties
++ sed -i '0,/server: "localhost"/{s/server: "localhost"/server: "${NODE1_IPV4}"/}' /etc/gala-gopher/config/gala-gopher.yaml
++ ./opt/kafka/bin/kafka-server-start.sh /opt/kafka/config/server.properties
+sed: can't read /etc/gala-gopher/config/gala-gopher.yaml: No such file or directory
++ LOG_INFO 'End environmental preparation.'
++ message='End environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End environmental preparation.'
+Tue Nov 21 20:55:54 2023 - INFO  - End environmental preparation.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Tue Nov 21 20:55:54 2023 - INFO  - Start testing...
++ test_execution gala-gopher.service
+oe_test_service_gopher.sh: line 38: test_execution: command not found
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Tue Nov 21 20:55:55 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Nov 21 20:55:55 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Tue Nov 21 20:55:56 2023 - INFO  - start environment cleanup.
++ systemctl stop gala-gopher.service
+Failed to stop gala-gopher.service: Unit gala-gopher.service not loaded.
++ systemctl start firewalld
+Failed to start firewalld.service: Unit firewalld.service not found.
++ mv -f /opt/kafka/config/server.properties-bak /opt/kafka/config/server.properties
+mv: cannot stat '/opt/kafka/config/server.properties-bak': No such file or directory
++ mv -f /etc/gala-gopher/config/gala-gopher.yaml-bak /etc/gala-gopher/config/gala-gopher.yaml
+mv: cannot stat '/etc/gala-gopher/config/gala-gopher.yaml-bak': No such file or directory
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z Last metadata expiration check: 19:05:37 ago on Tue 21 Nov 2023 01:49:15 AM CST.
+No match for argument: gala-gopher
+No match for argument: kafka
+Error: Unable to find a match: gala-gopher kafka ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile 'Last metadata expiration check: 19:05:37 ago on Tue 21 Nov 2023 01:49:15 AM CST.
+No match for argument: gala-gopher
+No match for argument: kafka
+Error: Unable to find a match: gala-gopher kafka'
+Traceback (most recent call last):
+  File "/root/mugen/libs/locallibs/rpm_manage.py", line 192, in <module>
+    exitcode = rpm_remove(args.node, args.pkgs, args.tempfile)
+  File "/root/mugen/libs/locallibs/rpm_manage.py", line 163, in rpm_remove
+    with open(tmpfile, "r") as f:
+FileNotFoundError: [Errno 2] No such file or directory: 'Last metadata expiration check: 19:05:37 ago on Tue 21 Nov 2023 01:49:15 AM CST.\nNo match for argument: gala-gopher\nNo match for argument: kafka\nError: Unable to find a match: gala-gopher kafka'
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Tue Nov 21 20:55:59 2023 - INFO  - Finish environment cleanup!

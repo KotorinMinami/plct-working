@@ -1,0 +1,256 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Nov 21 17:38:40 2023 - INFO  - Start to prepare the test environment.
++ OLD_LANG=en_US.UTF-8
++ export LANG=en_US.UTF-8
++ LANG=en_US.UTF-8
++ DNF_INSTALL xz
++ pkgs=xz
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs xz --node 1 --tempfile ''
+Tue Nov 21 17:38:49 2023 - INFO  - pkgs:(xz) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ echo 'hello world'
++ echo 'hello world'
++ echo -e 'testxz\ntestxz1'
++ xz -k -f testxz
++ xz -k -f testxz1
++ xz -k -f -F lzma testxz
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Nov 21 17:38:50 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 17:38:51 2023 - INFO  - Start to run test.
++ unxz -z -k -f -vv -S .SUF testxz
+unxz: Filter chain: --lzma2=dict=8MiB,lc=3,lp=0,pb=2,mode=normal,nice=64,mf=bt4,depth=0
+unxz: 94 MiB of memory is required. The limiter is disabled.
+unxz: Decompression will need 9 MiB of memory.
+testxz: 68 B / 12 B = 5.667
++ CHECK_RESULT 0 0 0 'Test failed with option -S'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Test failed with option -S'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test -f testxz.SUF
++ CHECK_RESULT 0 0 0 'testxz.SUF does not exist'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='testxz.SUF does not exist'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ unxz -k -f -vv --files=testfile
++ grep -A 10 testxz
++ grep testxz1
+unxz: testxz1: File format not recognized
++ CHECK_RESULT 0 0 0 'Test failed with option --file'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Test failed with option --file'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ unxz -k -f -vv -F lzma testxz.lzma
+testxz.lzma: 35 B / 12 B = 2.917
++ CHECK_RESULT 0 0 0 'Test failed with option -F'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Test failed with option -F'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test -f testxz
++ CHECK_RESULT 0 0 0 'testxz.lzma does not exist'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='testxz.lzma does not exist'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ unxz -z -k -f -vv -C crc32 testxz
+unxz: Filter chain: --lzma2=dict=8MiB,lc=3,lp=0,pb=2,mode=normal,nice=64,mf=bt4,depth=0
+unxz: 94 MiB of memory is required. The limiter is disabled.
+unxz: Decompression will need 9 MiB of memory.
+testxz: 64 B / 12 B = 5.333
++ CHECK_RESULT 0 0 0 'Test failed with option -C'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Test failed with option -C'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ unxz -z -l testxz.xz
++ grep CRC32
+    1       1         64 B         12 B  5.333  CRC32   testxz.xz
++ CHECK_RESULT 0 0 0 'Test failed with option -l'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Test failed with option -l'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ unxz -z -k -f -vv --block-size=1 testxz
++ grep '392 B / 12 B > 9.999'
+testxz: 392 B / 12 B > 9.999
++ CHECK_RESULT 0 0 0 'Test failed with option --block-size'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Test failed with option --block-size'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ unxz -z -k -f -vv --block-list=1,2,128 testxz
++ grep '128 B / 12 B > 9.999'
+testxz: 128 B / 12 B > 9.999
++ CHECK_RESULT 0 0 0 'Test failed with option --block-list'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Test failed with option --block-list'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ unxz -z -k -f -vv --memlimit-compress=1 testxz
++ grep 'The limit is 1 B'
+unxz: 94 MiB of memory is required. The limit is 1 B.
+unxz: 13 MiB of memory is required. The limit is 1 B.
++ CHECK_RESULT 0 0 0 'Test failed with option --memlimit-compress'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Test failed with option --memlimit-compress'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ unxz -z -k -f -vv -d --memlimit-decompress=2 testxz.xz
++ grep 'The limit is 2 B'
+unxz: 9 MiB of memory is required. The limit is 2 B.
++ CHECK_RESULT 0 0 0 'Test failed with option --memlimit-decompress'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Test failed with option --memlimit-decompress'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ unxz -z -k -f -vv -F lzma --lzma1=dict=7MiB,lc=1,lp=1,pb=3,mode=normal,nice=128,mf=bt3,depth=1 testxz
++ grep lzma1=dict=7MiB,lc=1,lp=1,pb=3,mode=normal,nice=128,mf=bt3,depth=1
+unxz: Filter chain: --lzma1=dict=7MiB,lc=1,lp=1,pb=3,mode=normal,nice=128,mf=bt3,depth=1
++ CHECK_RESULT 0 0 0 'Test failed with option --lzma1'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Test failed with option --lzma1'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ unxz -z -k -f -vv --lzma2=dict=6MiB,lc=2,lp=2,pb=4,mode=fast,nice=256,mf=bt2,depth=2 testxz
++ grep lzma2=dict=6MiB,lc=2,lp=2,pb=4,mode=fast,nice=256,mf=bt2,depth=2
+unxz: Filter chain: --lzma2=dict=6MiB,lc=2,lp=2,pb=4,mode=fast,nice=256,mf=bt2,depth=2
++ CHECK_RESULT 0 0 0 'Test failed with option --lzma2'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Test failed with option --lzma2'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Nov 21 17:38:52 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Nov 21 17:38:52 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Nov 21 17:38:53 2023 - INFO  - Start to restore the test environment.
++ export LANG=en_US.UTF-8
++ LANG=en_US.UTF-8
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Tue Nov 21 17:38:53 2023 - WARN  - no thing to do.
++ return 0
++ rm -rf ./testfile ./testxz ./testxz1 ./testxz1.xz ./testxz.lzma ./testxz.SUF ./testxz.xz
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue Nov 21 17:38:54 2023 - INFO  - End to restore the test environment.

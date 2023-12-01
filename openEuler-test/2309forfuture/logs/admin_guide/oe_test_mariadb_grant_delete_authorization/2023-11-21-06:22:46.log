@@ -1,0 +1,332 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Tue Nov 21 06:22:48 2023 - INFO  - Start environment preparation.
++ systemctl stop firewalld
+Failed to stop firewalld.service: Unit firewalld.service not loaded.
++ systemctl disable firewalld
+Failed to disable unit: Unit file firewalld.service does not exist.
++ setenforce 0
+setenforce: SELinux is disabled
++ groupadd mysql
+groupadd: group 'mysql' already exists
++ useradd -g mysql mysql
+useradd: user 'mysql' already exists
++ echo 'openEuler12#$'
++ passwd --stdin mysql
+Changing password for user mysql.
+passwd: all authentication tokens updated successfully.
++ test -d /data/mariadb
++ mkdir -p /data/mariadb
++ cd /data/mariadb
++ mkdir data tmp run log
++ chown -R mysql:mysql /data
++ cd -
+/root/mugen/testcases/doc-test/admin_guide/oe_test_mariadb_grant_delete_authorization
++ DNF_INSTALL mariadb-server
++ pkgs=mariadb-server
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs mariadb-server --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpbwkkeko9
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpbwkkeko9
++ rm -rf /var/lib/mysql/auto.cnf /var/lib/mysql/binlog.000001 /var/lib/mysql/binlog.index /var/lib/mysql/ca-key.pem /var/lib/mysql/ca.pem /var/lib/mysql/client-cert.pem /var/lib/mysql/client-key.pem /var/lib/mysql/#ib_16384_0.dblwr /var/lib/mysql/#ib_16384_1.dblwr /var/lib/mysql/ib_buffer_pool /var/lib/mysql/ibdata1 /var/lib/mysql/#innodb_redo /var/lib/mysql/#innodb_temp /var/lib/mysql/mysql /var/lib/mysql/mysql.ibd /var/lib/mysql/mysql_upgrade_info /var/lib/mysql/performance_schema /var/lib/mysql/private_key.pem /var/lib/mysql/public_key.pem /var/lib/mysql/server-cert.pem /var/lib/mysql/server-key.pem /var/lib/mysql/sys /var/lib/mysql/undo_001 /var/lib/mysql/undo_002
++ systemctl start mariadb
++ mysqladmin -uroot password 'openEuler12#$'
++ expect -c '
+    set timeout 10
+    log_file testlog
+    spawn mysql -u root -p 
+    expect {
+        "Enter*" { send "openEuler12#$\r";
+        expect "Maria*" { send "CREATE USER '\''userexample'\''@'\''localhost'\'' IDENTIFIED BY '\''123456'\'';\r"}
+        expect "Maria*" { send "SELECT USER,HOST,PASSWORD FROM mysql.user;\r"}
+        expect "Maria*" { send "exit\r"}
+}
+}
+expect eof
+'
+spawn mysql -u root -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+CREATE USER 'userexample'@'localhost' IDENTIFIED BY '123456';
+Your MariaDB connection id is 4
+Server version: 10.5.16-MariaDB MariaDB Server
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+SELECT USER,HOST,PASSWORD FROM mysql.user;
+No entry for terminal type "unknown";
+using dumb terminal settings.
+No entry for terminal type "unknown";
+using dumb terminal settings.
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> CREATE USER 'userexample'@'localhost' IDENTIFIED BY '123456';
+Query OK, 0 rows affected (0.010 sec)
+
+MariaDB [(none)]> SELECT USER,HOST,PASSWORD FROM mysql.user;
++-------------+-----------+-------------------------------------------+
+| User        | Host      | Password                                  |
++-------------+-----------+-------------------------------------------+
+| mariadb.sys | localhost |                                           |
+| root        | localhost | *A43CCD8B921F6B97FACC5C0DA03CF92EDE3B670F |
+| mysql       | localhost | invalid                                   |
+| userexample | localhost | *6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9 |
++-------------+-----------+-------------------------------------------+
+4 rows in set (0.045 sec)
+
+MariaDB [(none)]> exit
+Bye
++ cat testlog
++ grep -w userexample
++ grep 'SELECT USER' -A 10
++ grep localhost
+MariaDB [(none)]> CREATE USER 'userexample'@'localhost' IDENTIFIED BY '123456';
+| userexample | localhost | *6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9 |
++ rm -rf testlog
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Tue Nov 21 06:24:11 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Tue Nov 21 06:24:11 2023 - INFO  - Start executing testcase.
++ expect -c '
+    set timeout 10
+    log_file testlog
+    spawn mysql -u root -p 
+    expect {
+        "Enter*" { send "openEuler12#$\r";
+        expect "Maria*" { send "GRANT SELECT,INSERT ON *.* TO '\''userexample'\''@'\''localhost'\'';\r"}
+        expect "Maria*" { send "SHOW GRANTS FOR '\''userexample'\''@'\''localhost'\'';\r"}
+        expect "Maria*" { send "exit\r"}
+}
+}
+expect eof
+'
+spawn mysql -u root -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 5
+Server version: 10.5.16-MariaDB MariaDB Server
+
+GRANT SELECT,INSERT ON *.* TO 'userexample'@'localhost';
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+SHOW GRANTS FOR 'userexample'@'localhost';
+No entry for terminal type "unknown";
+using dumb terminal settings.
+No entry for terminal type "unknown";
+using dumb terminal settings.
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> GRANT SELECT,INSERT ON *.* TO 'userexample'@'localhost';
+Query OK, 0 rows affected (0.005 sec)
+
+MariaDB [(none)]> SHOW GRANTS FOR 'userexample'@'localhost';
++-----------------------------------------------------------------------------------------------------------------------------+
+| Grants for userexample@localhost                                                                                            |
++-----------------------------------------------------------------------------------------------------------------------------+
+| GRANT SELECT, INSERT ON *.* TO `userexample`@`localhost` IDENTIFIED BY PASSWORD '*6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9' |
++-----------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.002 sec)
+
+MariaDB [(none)]> exit
+Bye
++ cat testlog
++ grep 'SHOW GRANTS FOR' -A 10
++ grep -w userexample
++ grep INSERT
++ grep SELECT
++ grep localhost
+MariaDB [(none)]> GRANT SELECT,INSERT ON *.* TO 'userexample'@'localhost';
+| GRANT SELECT, INSERT ON *.* TO `userexample`@`localhost` IDENTIFIED BY PASSWORD '*6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9' |
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -rf testlog
++ expect -c '
+    set timeout 10
+    log_file testlog
+    spawn mysql -u root -p 
+    expect {
+        "Enter*" { send "openEuler12#$\r";
+	    expect "Maria*" { send "REVOKE INSERT ON *.* FROM '\''userexample'\''@'\''localhost'\'';\r"}
+        expect "Maria*" { send "SHOW GRANTS FOR '\''userexample'\''@'\''localhost'\'';\r"}
+        expect "Maria*" { send "exit\r"}
+}
+}
+expect eof
+'
+spawn mysql -u root -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 6
+Server version: 10.5.16-MariaDB MariaDB Server
+
+REVOKE ICopyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+NSERT ON *.* FROM 'userexample'@'localhost';
+
+SHOW GRANTS FOR 'userexample'@'localhost';
+No entry for terminal type "unknown";
+using dumb terminal settings.
+No entry for terminal type "unknown";
+using dumb terminal settings.
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> REVOKE INSERT ON *.* FROM 'userexample'@'localhost';
+exit
+Query OK, 0 rows affected (0.004 sec)
+
+MariaDB [(none)]> SHOW GRANTS FOR 'userexample'@'localhost';
++---------------------------------------------------------------------------------------------------------------------+
+| Grants for userexample@localhost                                                                                    |
++---------------------------------------------------------------------------------------------------------------------+
+| GRANT SELECT ON *.* TO `userexample`@`localhost` IDENTIFIED BY PASSWORD '*6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9' |
++---------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.001 sec)
+
+MariaDB [(none)]> exit
+Bye
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cat testlog
++ grep 'SHOW GRANTS FOR' -A 10
++ grep -w userexample
++ grep localhost
++ grep SELECT
+| GRANT SELECT ON *.* TO `userexample`@`localhost` IDENTIFIED BY PASSWORD '*6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9' |
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ cat testlog
++ grep 'SHOW GRANTS FOR' -A 10
++ grep -w userexample
++ grep localhost
++ grep SELECT
++ grep INSERT
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ LOG_INFO 'End of testcase execution.'
++ message='End of testcase execution.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution.'
+Tue Nov 21 06:24:12 2023 - INFO  - End of testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Nov 21 06:24:13 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Tue Nov 21 06:24:13 2023 - INFO  - start environment cleanup.
++ expect -c '
+    set timeout 10
+    spawn mysql -u root -p 
+    expect {
+        "Enter*" { send "openEuler12#$\r";
+        expect "Maria*" { send "DROP USER '\''userexample'\''@'\''localhost'\'';\r"}
+        expect "Maria*" { send "exit\r"}
+}
+}
+expect eof
+'
+spawn mysql -u root -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 7
+Server version: 10.5.16-MariaDB MariaDB Server
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+DROP USER 'userexample'@'localhost';
+exit
+No entry for terminal type "unknown";
+using dumb terminal settings.
+No entry for terminal type "unknown";
+using dumb terminal settings.
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> DROP USER 'userexample'@'localhost';
+Query OK, 0 rows affected (0.007 sec)
+
+MariaDB [(none)]> exit
+Bye
++ setenforce 1
+setenforce: SELinux is disabled
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpbwkkeko9 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpbwkkeko9
++ '[' 0 -ne 0 ']'
++ userdel -r mysql
+userdel: mysql mail spool (/var/spool/mail/mysql) not found
++ groupdel mysql
+groupdel: group 'mysql' does not exist
++ rm -rf testlog
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Tue Nov 21 06:24:27 2023 - INFO  - Finish environment cleanup.

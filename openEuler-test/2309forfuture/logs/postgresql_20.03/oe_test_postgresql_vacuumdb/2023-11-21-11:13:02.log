@@ -1,0 +1,1049 @@
++ source ../common/lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Nov 21 11:13:04 2023 - INFO  - Start to prepare the test environment.
++ postgresql_install
++ DNF_INSTALL 'postgresql postgresql-server postgresql-devel postgresql-contrib'
++ pkgs='postgresql postgresql-server postgresql-devel postgresql-contrib'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'postgresql postgresql-server postgresql-devel postgresql-contrib' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpvui4u_2l
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpvui4u_2l
++ rm -rf '/tmp/.s.PGSQL*'
++ /usr/bin/postgresql-setup --initdb
+ * Initializing database in '/var/lib/pgsql/data'
+ * Initialized, logs are in /var/lib/pgsql/initdb_postgresql.log
++ sed -i s/ident/trust/g /var/lib/pgsql/data/pg_hba.conf
++ systemctl start postgresql
++ expect
+spawn su - postgres
+Last login: Tue Nov 21 11:11:51 CST 2023
+
+
+Welcome to 6.1.19-2.oe2303.riscv64
+
+System information as of time: 	Tue Nov 21 11:14:05 AM CST 2023
+
+System load: 	[0;33;40m3.43[0m
+Processes: 	121
+Memory used: 	2.6%
+Swap used: 	0.0%
+Usage On: 	21%
+IP address: 	10.0.2.15
+Users online: 	0
+To run a command as administrator(user "root"),use "sudo <command>".
+
+
+Welcome to 6.1.19-2.oe2303.riscv64
+
+System information as of time: 	Tue Nov 21 11:14:06 AM CST 2023
+
+System load: 	[0;33;40m3.43[0m
+Processes: 	121
+Memory used: 	2.6%
+Swap used: 	0.0%
+Usage On: 	21%
+IP address: 	10.0.2.15
+Users online: 	0
+To run a command as administrator(user "root"),use "sudo <command>".
+[postgres@openeuler-riscv64 ~]$ createdb testdb
+[postgres@openeuler-riscv64 ~]$ psql testdb
+psql (13.3)
+Type "help" for help.
+
+testdb=# create table test (id int, val numeric);
+CREATE TABLE
+create index on test(id);
+testdb=# create index on test(id);
+CREATE INDEX
+create index on test(val);
+testdb=# create index on test(val);
+CREATE INDEX
+insert into test select generate_series(1,10000),random();
+testdb=# insert into test select generate_series(1,10000),random();
+INSERT 0 10000
+create table tab_big(vname text,souroid oid);
+testdb=# create table tab_big(vname text,souroid oid);
+CREATE TABLE
+insert into tab_big values('passwd list',lo_import('/etc/passwd'));
+testdb=# insert into tab_big values('passwd list',lo_import('/etc/passwd'));
+INSERT 0 1
+CREATE SCHEMA myschema;
+create table myschema.test (id int, val numeric) with oids;
+testdb=# CREATE SCHEMA myschema;
+CREATE SCHEMA
+testdb=# create table myschema.test (id int, val numeric) with oids;
+ERROR:  syntax error at or near "oids"
+LINE 1: create table myschema.test (id int, val numeric) with oids;
+                                                              ^
+testdb=# insert into myschema.test select generate_series(1,100),random();
+ERROR:  relation "myschema.test" does not exist
+LINE 1: insert into myschema.test select generate_series(1,100),rand...
+                    ^
+testdb=# create user testuder;
+CREATE ROLE
+testdb=# GRANT ALL ON test TO testuder;
+GRANT
+testdb=# \q
+[postgres@openeuler-riscv64 ~]$ + export LANG=en_US.UTF-8
++ LANG=en_US.UTF-8
+++ psql -U postgres -h 127.0.0.1 -c 'select oid from pg_database where datname='\''testdb'\''' -t -0 -A
+oe_test_postgresql_vacuumdb.sh: line 24: warning: command substitution: ignored null byte in input
++ oid=16384
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Nov 21 11:14:49 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 11:14:49 2023 - INFO  - Start to run test.
++ psql testdb -U postgres -h 127.0.0.1 -c 'insert into test select generate_series(1,100000),random();'
+INSERT 0 100000
++ psql testdb -U postgres -h 127.0.0.1 -c 'delete from test'
+DELETE 110000
+++ awk '{printf $1}'
+++ du /var/lib/pgsql/data/base/16384
++ temp1=19908
++ su - postgres -c 'vacuumdb -a'
+vacuumdb: vacuuming database "postgres"
+vacuumdb: vacuuming database "template1"
+vacuumdb: vacuuming database "testdb"
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ du /var/lib/pgsql/data/base/16384
+++ awk '{printf $1}'
++ temp2=15244
++ '[' 19908 -gt 15244 ']'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ psql testdb -U postgres -h 127.0.0.1 -c 'insert into test select generate_series(1,100000),random();'
+INSERT 0 100000
++ psql testdb -U postgres -h 127.0.0.1 -c 'delete from test'
+DELETE 100000
+++ du /var/lib/pgsql/data/base/16384
+++ awk '{printf $1}'
++ temp1=26140
++ su - postgres -c 'vacuumdb -d testdb'
+vacuumdb: vacuuming database "testdb"
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ du /var/lib/pgsql/data/base/16384
+++ awk '{printf $1}'
++ temp2=21852
++ '[' 26140 -gt 21852 ']'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'vacuumdb -e'
+SELECT pg_catalog.set_config('search_path', '', false);
+vacuumdb: vacuuming database "postgres"
+RESET search_path;
+SELECT c.relname, ns.nspname FROM pg_catalog.pg_class c
+ JOIN pg_catalog.pg_namespace ns ON c.relnamespace OPERATOR(pg_catalog.=) ns.oid
+ LEFT JOIN pg_catalog.pg_class t ON c.reltoastrelid OPERATOR(pg_catalog.=) t.oid
+ WHERE c.relkind OPERATOR(pg_catalog.=) ANY (array['r', 'm'])
+ ORDER BY c.relpages DESC;
+SELECT pg_catalog.set_config('search_path', '', false);
+VACUUM pg_catalog.pg_proc;
+VACUUM pg_catalog.pg_depend;
+VACUUM pg_catalog.pg_attribute;
+VACUUM pg_catalog.pg_description;
+VACUUM pg_catalog.pg_collation;
+VACUUM pg_catalog.pg_statistic;
+VACUUM pg_catalog.pg_operator;
+VACUUM pg_catalog.pg_class;
+VACUUM pg_catalog.pg_rewrite;
+VACUUM pg_catalog.pg_type;
+VACUUM information_schema.sql_features;
+VACUUM pg_catalog.pg_amop;
+VACUUM pg_catalog.pg_amproc;
+VACUUM pg_catalog.pg_index;
+VACUUM pg_catalog.pg_ts_config_map;
+VACUUM pg_catalog.pg_aggregate;
+VACUUM pg_catalog.pg_opfamily;
+VACUUM pg_catalog.pg_opclass;
+VACUUM pg_catalog.pg_cast;
+VACUUM pg_catalog.pg_conversion;
+VACUUM pg_catalog.pg_init_privs;
+VACUUM pg_catalog.pg_language;
+VACUUM pg_catalog.pg_authid;
+VACUUM information_schema.sql_parts;
+VACUUM pg_catalog.pg_namespace;
+VACUUM information_schema.sql_sizing;
+VACUUM pg_catalog.pg_database;
+VACUUM pg_catalog.pg_tablespace;
+VACUUM pg_catalog.pg_auth_members;
+VACUUM pg_catalog.pg_shdepend;
+VACUUM pg_catalog.pg_shdescription;
+VACUUM pg_catalog.pg_ts_config;
+VACUUM pg_catalog.pg_constraint;
+VACUUM pg_catalog.pg_ts_dict;
+VACUUM pg_catalog.pg_ts_parser;
+VACUUM pg_catalog.pg_ts_template;
+VACUUM pg_catalog.pg_extension;
+VACUUM pg_catalog.pg_range;
+VACUUM information_schema.sql_implementation_info;
+VACUUM pg_catalog.pg_am;
+VACUUM pg_catalog.pg_transform;
+VACUUM pg_catalog.pg_sequence;
+VACUUM pg_catalog.pg_publication;
+VACUUM pg_catalog.pg_publication_rel;
+VACUUM pg_catalog.pg_subscription_rel;
+VACUUM pg_catalog.pg_largeobject;
+VACUUM pg_catalog.pg_foreign_data_wrapper;
+VACUUM pg_catalog.pg_foreign_server;
+VACUUM pg_catalog.pg_largeobject_metadata;
+VACUUM pg_catalog.pg_subscription;
+VACUUM pg_catalog.pg_statistic_ext;
+VACUUM pg_catalog.pg_statistic_ext_data;
+VACUUM pg_catalog.pg_trigger;
+VACUUM pg_catalog.pg_event_trigger;
+VACUUM pg_catalog.pg_policy;
+VACUUM pg_catalog.pg_replication_origin;
+VACUUM pg_catalog.pg_enum;
+VACUUM pg_catalog.pg_default_acl;
+VACUUM pg_catalog.pg_user_mapping;
+VACUUM pg_catalog.pg_foreign_table;
+VACUUM pg_catalog.pg_seclabel;
+VACUUM pg_catalog.pg_db_role_setting;
+VACUUM pg_catalog.pg_shseclabel;
+VACUUM pg_catalog.pg_attrdef;
+VACUUM pg_catalog.pg_partitioned_table;
+VACUUM pg_catalog.pg_inherits;
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ du /var/lib/pgsql/data/base/16384
+++ awk '{printf $1}'
++ temp2=21852
++ su - postgres -c 'vacuumdb -d testdb -f'
+vacuumdb: vacuuming database "testdb"
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ du /var/lib/pgsql/data/base/16384
+++ awk '{printf $1}'
++ temp3=6956
++ '[' 21852 -gt 6956 ']'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'vacuumdb -F -e'
+SELECT pg_catalog.set_config('search_path', '', false);
+vacuumdb: vacuuming database "postgres"
+RESET search_path;
+SELECT c.relname, ns.nspname FROM pg_catalog.pg_class c
+ JOIN pg_catalog.pg_namespace ns ON c.relnamespace OPERATOR(pg_catalog.=) ns.oid
+ LEFT JOIN pg_catalog.pg_class t ON c.reltoastrelid OPERATOR(pg_catalog.=) t.oid
+ WHERE c.relkind OPERATOR(pg_catalog.=) ANY (array['r', 'm'])
+ ORDER BY c.relpages DESC;
+SELECT pg_catalog.set_config('search_path', '', false);
+VACUUM (FREEZE) pg_catalog.pg_proc;
+VACUUM (FREEZE) pg_catalog.pg_depend;
+VACUUM (FREEZE) pg_catalog.pg_attribute;
+VACUUM (FREEZE) pg_catalog.pg_description;
+VACUUM (FREEZE) pg_catalog.pg_collation;
+VACUUM (FREEZE) pg_catalog.pg_statistic;
+VACUUM (FREEZE) pg_catalog.pg_operator;
+VACUUM (FREEZE) pg_catalog.pg_class;
+VACUUM (FREEZE) pg_catalog.pg_rewrite;
+VACUUM (FREEZE) pg_catalog.pg_type;
+VACUUM (FREEZE) information_schema.sql_features;
+VACUUM (FREEZE) pg_catalog.pg_amop;
+VACUUM (FREEZE) pg_catalog.pg_amproc;
+VACUUM (FREEZE) pg_catalog.pg_index;
+VACUUM (FREEZE) pg_catalog.pg_ts_config_map;
+VACUUM (FREEZE) pg_catalog.pg_aggregate;
+VACUUM (FREEZE) pg_catalog.pg_opfamily;
+VACUUM (FREEZE) pg_catalog.pg_opclass;
+VACUUM (FREEZE) pg_catalog.pg_cast;
+VACUUM (FREEZE) pg_catalog.pg_conversion;
+VACUUM (FREEZE) pg_catalog.pg_init_privs;
+VACUUM (FREEZE) pg_catalog.pg_language;
+VACUUM (FREEZE) pg_catalog.pg_authid;
+VACUUM (FREEZE) information_schema.sql_parts;
+VACUUM (FREEZE) pg_catalog.pg_namespace;
+VACUUM (FREEZE) information_schema.sql_sizing;
+VACUUM (FREEZE) pg_catalog.pg_database;
+VACUUM (FREEZE) pg_catalog.pg_tablespace;
+VACUUM (FREEZE) pg_catalog.pg_auth_members;
+VACUUM (FREEZE) pg_catalog.pg_shdepend;
+VACUUM (FREEZE) pg_catalog.pg_shdescription;
+VACUUM (FREEZE) pg_catalog.pg_ts_config;
+VACUUM (FREEZE) pg_catalog.pg_constraint;
+VACUUM (FREEZE) pg_catalog.pg_ts_dict;
+VACUUM (FREEZE) pg_catalog.pg_ts_parser;
+VACUUM (FREEZE) pg_catalog.pg_ts_template;
+VACUUM (FREEZE) pg_catalog.pg_extension;
+VACUUM (FREEZE) pg_catalog.pg_range;
+VACUUM (FREEZE) information_schema.sql_implementation_info;
+VACUUM (FREEZE) pg_catalog.pg_am;
+VACUUM (FREEZE) pg_catalog.pg_transform;
+VACUUM (FREEZE) pg_catalog.pg_sequence;
+VACUUM (FREEZE) pg_catalog.pg_publication;
+VACUUM (FREEZE) pg_catalog.pg_publication_rel;
+VACUUM (FREEZE) pg_catalog.pg_subscription_rel;
+VACUUM (FREEZE) pg_catalog.pg_largeobject;
+VACUUM (FREEZE) pg_catalog.pg_foreign_data_wrapper;
+VACUUM (FREEZE) pg_catalog.pg_foreign_server;
+VACUUM (FREEZE) pg_catalog.pg_largeobject_metadata;
+VACUUM (FREEZE) pg_catalog.pg_subscription;
+VACUUM (FREEZE) pg_catalog.pg_statistic_ext;
+VACUUM (FREEZE) pg_catalog.pg_statistic_ext_data;
+VACUUM (FREEZE) pg_catalog.pg_trigger;
+VACUUM (FREEZE) pg_catalog.pg_event_trigger;
+VACUUM (FREEZE) pg_catalog.pg_policy;
+VACUUM (FREEZE) pg_catalog.pg_replication_origin;
+VACUUM (FREEZE) pg_catalog.pg_enum;
+VACUUM (FREEZE) pg_catalog.pg_default_acl;
+VACUUM (FREEZE) pg_catalog.pg_user_mapping;
+VACUUM (FREEZE) pg_catalog.pg_foreign_table;
+VACUUM (FREEZE) pg_catalog.pg_seclabel;
+VACUUM (FREEZE) pg_catalog.pg_db_role_setting;
+VACUUM (FREEZE) pg_catalog.pg_shseclabel;
+VACUUM (FREEZE) pg_catalog.pg_attrdef;
+VACUUM (FREEZE) pg_catalog.pg_partitioned_table;
+VACUUM (FREEZE) pg_catalog.pg_inherits;
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'vacuumdb -j 2 -a -e'
+SELECT pg_catalog.set_config('search_path', '', false);
+SELECT datname FROM pg_database WHERE datallowconn ORDER BY 1;
+SELECT pg_catalog.set_config('search_path', '', false);
+vacuumdb: vacuuming database "postgres"
+RESET search_path;
+SELECT c.relname, ns.nspname FROM pg_catalog.pg_class c
+ JOIN pg_catalog.pg_namespace ns ON c.relnamespace OPERATOR(pg_catalog.=) ns.oid
+ LEFT JOIN pg_catalog.pg_class t ON c.reltoastrelid OPERATOR(pg_catalog.=) t.oid
+ WHERE c.relkind OPERATOR(pg_catalog.=) ANY (array['r', 'm'])
+ ORDER BY c.relpages DESC;
+SELECT pg_catalog.set_config('search_path', '', false);
+SELECT pg_catalog.set_config('search_path', '', false);
+VACUUM pg_catalog.pg_proc;
+VACUUM pg_catalog.pg_depend;
+VACUUM pg_catalog.pg_attribute;
+VACUUM pg_catalog.pg_description;
+VACUUM pg_catalog.pg_collation;
+VACUUM pg_catalog.pg_statistic;
+VACUUM pg_catalog.pg_operator;
+VACUUM pg_catalog.pg_class;
+VACUUM pg_catalog.pg_rewrite;
+VACUUM pg_catalog.pg_type;
+VACUUM information_schema.sql_features;
+VACUUM pg_catalog.pg_amop;
+VACUUM pg_catalog.pg_amproc;
+VACUUM pg_catalog.pg_index;
+VACUUM pg_catalog.pg_ts_config_map;
+VACUUM pg_catalog.pg_aggregate;
+VACUUM pg_catalog.pg_opfamily;
+VACUUM pg_catalog.pg_opclass;
+VACUUM pg_catalog.pg_cast;
+VACUUM pg_catalog.pg_conversion;
+VACUUM pg_catalog.pg_init_privs;
+VACUUM pg_catalog.pg_language;
+VACUUM pg_catalog.pg_authid;
+VACUUM information_schema.sql_parts;
+VACUUM pg_catalog.pg_namespace;
+VACUUM information_schema.sql_sizing;
+VACUUM pg_catalog.pg_database;
+VACUUM pg_catalog.pg_tablespace;
+VACUUM pg_catalog.pg_auth_members;
+VACUUM pg_catalog.pg_shdepend;
+VACUUM pg_catalog.pg_shdescription;
+VACUUM pg_catalog.pg_ts_config;
+VACUUM pg_catalog.pg_constraint;
+VACUUM pg_catalog.pg_ts_dict;
+VACUUM pg_catalog.pg_ts_parser;
+VACUUM pg_catalog.pg_ts_template;
+VACUUM pg_catalog.pg_extension;
+VACUUM pg_catalog.pg_range;
+VACUUM information_schema.sql_implementation_info;
+VACUUM pg_catalog.pg_am;
+VACUUM pg_catalog.pg_transform;
+VACUUM pg_catalog.pg_sequence;
+VACUUM pg_catalog.pg_publication;
+VACUUM pg_catalog.pg_publication_rel;
+VACUUM pg_catalog.pg_subscription_rel;
+VACUUM pg_catalog.pg_largeobject;
+VACUUM pg_catalog.pg_foreign_data_wrapper;
+VACUUM pg_catalog.pg_foreign_server;
+VACUUM pg_catalog.pg_largeobject_metadata;
+VACUUM pg_catalog.pg_subscription;
+VACUUM pg_catalog.pg_statistic_ext;
+VACUUM pg_catalog.pg_statistic_ext_data;
+VACUUM pg_catalog.pg_trigger;
+VACUUM pg_catalog.pg_event_trigger;
+VACUUM pg_catalog.pg_policy;
+VACUUM pg_catalog.pg_replication_origin;
+VACUUM pg_catalog.pg_enum;
+VACUUM pg_catalog.pg_default_acl;
+VACUUM pg_catalog.pg_user_mapping;
+VACUUM pg_catalog.pg_foreign_table;
+VACUUM pg_catalog.pg_seclabel;
+VACUUM pg_catalog.pg_db_role_setting;
+VACUUM pg_catalog.pg_shseclabel;
+VACUUM pg_catalog.pg_attrdef;
+VACUUM pg_catalog.pg_partitioned_table;
+VACUUM pg_catalog.pg_inherits;
+SELECT pg_catalog.set_config('search_path', '', false);
+vacuumdb: vacuuming database "template1"
+RESET search_path;
+SELECT c.relname, ns.nspname FROM pg_catalog.pg_class c
+ JOIN pg_catalog.pg_namespace ns ON c.relnamespace OPERATOR(pg_catalog.=) ns.oid
+ LEFT JOIN pg_catalog.pg_class t ON c.reltoastrelid OPERATOR(pg_catalog.=) t.oid
+ WHERE c.relkind OPERATOR(pg_catalog.=) ANY (array['r', 'm'])
+ ORDER BY c.relpages DESC;
+SELECT pg_catalog.set_config('search_path', '', false);
+SELECT pg_catalog.set_config('search_path', '', false);
+VACUUM pg_catalog.pg_proc;
+VACUUM pg_catalog.pg_depend;
+VACUUM pg_catalog.pg_attribute;
+VACUUM pg_catalog.pg_description;
+VACUUM pg_catalog.pg_collation;
+VACUUM pg_catalog.pg_statistic;
+VACUUM pg_catalog.pg_operator;
+VACUUM pg_catalog.pg_class;
+VACUUM pg_catalog.pg_rewrite;
+VACUUM pg_catalog.pg_type;
+VACUUM information_schema.sql_features;
+VACUUM pg_catalog.pg_amop;
+VACUUM pg_catalog.pg_amproc;
+VACUUM pg_catalog.pg_index;
+VACUUM pg_catalog.pg_ts_config_map;
+VACUUM pg_catalog.pg_aggregate;
+VACUUM pg_catalog.pg_opfamily;
+VACUUM pg_catalog.pg_opclass;
+VACUUM pg_catalog.pg_cast;
+VACUUM pg_catalog.pg_conversion;
+VACUUM pg_catalog.pg_init_privs;
+VACUUM pg_catalog.pg_language;
+VACUUM pg_catalog.pg_authid;
+VACUUM information_schema.sql_parts;
+VACUUM pg_catalog.pg_namespace;
+VACUUM information_schema.sql_sizing;
+VACUUM pg_catalog.pg_database;
+VACUUM pg_catalog.pg_tablespace;
+VACUUM pg_catalog.pg_auth_members;
+VACUUM pg_catalog.pg_shdepend;
+VACUUM pg_catalog.pg_shdescription;
+VACUUM pg_catalog.pg_ts_config;
+VACUUM pg_catalog.pg_constraint;
+VACUUM pg_catalog.pg_ts_dict;
+VACUUM pg_catalog.pg_ts_parser;
+VACUUM pg_catalog.pg_ts_template;
+VACUUM pg_catalog.pg_extension;
+VACUUM pg_catalog.pg_range;
+VACUUM information_schema.sql_implementation_info;
+VACUUM pg_catalog.pg_am;
+VACUUM pg_catalog.pg_transform;
+VACUUM pg_catalog.pg_sequence;
+VACUUM pg_catalog.pg_publication;
+VACUUM pg_catalog.pg_publication_rel;
+VACUUM pg_catalog.pg_subscription_rel;
+VACUUM pg_catalog.pg_largeobject;
+VACUUM pg_catalog.pg_foreign_data_wrapper;
+VACUUM pg_catalog.pg_foreign_server;
+VACUUM pg_catalog.pg_largeobject_metadata;
+VACUUM pg_catalog.pg_subscription;
+VACUUM pg_catalog.pg_statistic_ext;
+VACUUM pg_catalog.pg_statistic_ext_data;
+VACUUM pg_catalog.pg_trigger;
+VACUUM pg_catalog.pg_event_trigger;
+VACUUM pg_catalog.pg_policy;
+VACUUM pg_catalog.pg_replication_origin;
+VACUUM pg_catalog.pg_enum;
+VACUUM pg_catalog.pg_default_acl;
+VACUUM pg_catalog.pg_user_mapping;
+VACUUM pg_catalog.pg_foreign_table;
+VACUUM pg_catalog.pg_seclabel;
+VACUUM pg_catalog.pg_db_role_setting;
+VACUUM pg_catalog.pg_shseclabel;
+VACUUM pg_catalog.pg_attrdef;
+VACUUM pg_catalog.pg_partitioned_table;
+VACUUM pg_catalog.pg_inherits;
+SELECT pg_catalog.set_config('search_path', '', false);
+vacuumdb: vacuuming database "testdb"
+RESET search_path;
+SELECT c.relname, ns.nspname FROM pg_catalog.pg_class c
+ JOIN pg_catalog.pg_namespace ns ON c.relnamespace OPERATOR(pg_catalog.=) ns.oid
+ LEFT JOIN pg_catalog.pg_class t ON c.reltoastrelid OPERATOR(pg_catalog.=) t.oid
+ WHERE c.relkind OPERATOR(pg_catalog.=) ANY (array['r', 'm'])
+ ORDER BY c.relpages DESC;
+SELECT pg_catalog.set_config('search_path', '', false);
+SELECT pg_catalog.set_config('search_path', '', false);
+VACUUM pg_catalog.pg_proc;
+VACUUM pg_catalog.pg_depend;
+VACUUM pg_catalog.pg_attribute;
+VACUUM pg_catalog.pg_description;
+VACUUM pg_catalog.pg_collation;
+VACUUM pg_catalog.pg_statistic;
+VACUUM pg_catalog.pg_operator;
+VACUUM pg_catalog.pg_rewrite;
+VACUUM pg_catalog.pg_class;
+VACUUM pg_catalog.pg_type;
+VACUUM information_schema.sql_features;
+VACUUM pg_catalog.pg_amop;
+VACUUM pg_catalog.pg_amproc;
+VACUUM pg_catalog.pg_index;
+VACUUM pg_catalog.pg_ts_config_map;
+VACUUM pg_catalog.pg_init_privs;
+VACUUM pg_catalog.pg_opclass;
+VACUUM pg_catalog.pg_opfamily;
+VACUUM pg_catalog.pg_cast;
+VACUUM pg_catalog.pg_aggregate;
+VACUUM pg_catalog.pg_conversion;
+VACUUM pg_catalog.pg_am;
+VACUUM public.tab_big;
+VACUUM pg_catalog.pg_authid;
+VACUUM pg_catalog.pg_largeobject;
+VACUUM pg_catalog.pg_constraint;
+VACUUM pg_catalog.pg_language;
+VACUUM pg_catalog.pg_largeobject_metadata;
+VACUUM pg_catalog.pg_namespace;
+VACUUM pg_catalog.pg_database;
+VACUUM pg_catalog.pg_tablespace;
+VACUUM pg_catalog.pg_auth_members;
+VACUUM pg_catalog.pg_shdepend;
+VACUUM pg_catalog.pg_shdescription;
+VACUUM pg_catalog.pg_ts_config;
+VACUUM pg_catalog.pg_ts_dict;
+VACUUM pg_catalog.pg_ts_parser;
+VACUUM pg_catalog.pg_ts_template;
+VACUUM pg_catalog.pg_extension;
+VACUUM pg_catalog.pg_range;
+VACUUM information_schema.sql_implementation_info;
+VACUUM information_schema.sql_parts;
+VACUUM information_schema.sql_sizing;
+VACUUM pg_catalog.pg_statistic_ext;
+VACUUM pg_catalog.pg_inherits;
+VACUUM pg_catalog.pg_enum;
+VACUUM pg_catalog.pg_db_role_setting;
+VACUUM pg_catalog.pg_attrdef;
+VACUUM pg_catalog.pg_statistic_ext_data;
+VACUUM pg_catalog.pg_sequence;
+VACUUM pg_catalog.pg_publication;
+VACUUM pg_catalog.pg_subscription;
+VACUUM pg_catalog.pg_publication_rel;
+VACUUM pg_catalog.pg_subscription_rel;
+VACUUM pg_catalog.pg_foreign_server;
+VACUUM pg_catalog.pg_policy;
+VACUUM pg_catalog.pg_replication_origin;
+VACUUM pg_catalog.pg_default_acl;
+VACUUM pg_catalog.pg_seclabel;
+VACUUM pg_catalog.pg_shseclabel;
+VACUUM pg_catalog.pg_partitioned_table;
+VACUUM pg_catalog.pg_transform;
+VACUUM pg_catalog.pg_user_mapping;
+VACUUM pg_catalog.pg_foreign_table;
+VACUUM public.test;
+VACUUM pg_catalog.pg_foreign_data_wrapper;
+VACUUM pg_catalog.pg_trigger;
+VACUUM pg_catalog.pg_event_trigger;
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'vacuumdb -q'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ psql testdb -U postgres -h 127.0.0.1 -c 'create table test2 (id int, val numeric);'
+CREATE TABLE
++ psql testdb -U postgres -h 127.0.0.1 -c 'insert into test2 select generate_series(1,1000),random();'
+INSERT 0 1000
++ psql testdb -U postgres -h 127.0.0.1 -c 'delete from test2'
+DELETE 1000
+++ awk '{printf $1}'
+++ du /var/lib/pgsql/data/base/16384
++ temp1=8344
++ su - postgres -c 'vacuumdb -d testdb -t test2'
+vacuumdb: vacuuming database "testdb"
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ awk '{printf $1}'
+++ du /var/lib/pgsql/data/base/16384
++ temp2=8288
++ '[' 8344 -gt 8288 ']'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'vacuumdb -v'
++ grep DETAIL
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
+DETAIL:  0 dead row versions cannot be removed yet, oldest xmin: 578
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep '(PostgreSQL)'
++ vacuumdb -V
+vacuumdb (PostgreSQL) 13.3
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ su - postgres -c 'vacuumdb -z -e'
+SELECT pg_catalog.set_config('search_path', '', false);
+vacuumdb: vacuuming database "postgres"
+RESET search_path;
+SELECT c.relname, ns.nspname FROM pg_catalog.pg_class c
+ JOIN pg_catalog.pg_namespace ns ON c.relnamespace OPERATOR(pg_catalog.=) ns.oid
+ LEFT JOIN pg_catalog.pg_class t ON c.reltoastrelid OPERATOR(pg_catalog.=) t.oid
+ WHERE c.relkind OPERATOR(pg_catalog.=) ANY (array['r', 'm'])
+ ORDER BY c.relpages DESC;
+SELECT pg_catalog.set_config('search_path', '', false);
+VACUUM (ANALYZE) pg_catalog.pg_proc;
+VACUUM (ANALYZE) pg_catalog.pg_depend;
+VACUUM (ANALYZE) pg_catalog.pg_attribute;
+VACUUM (ANALYZE) pg_catalog.pg_description;
+VACUUM (ANALYZE) pg_catalog.pg_collation;
+VACUUM (ANALYZE) pg_catalog.pg_statistic;
+VACUUM (ANALYZE) pg_catalog.pg_operator;
+VACUUM (ANALYZE) pg_catalog.pg_class;
+VACUUM (ANALYZE) pg_catalog.pg_rewrite;
+VACUUM (ANALYZE) pg_catalog.pg_type;
+VACUUM (ANALYZE) information_schema.sql_features;
+VACUUM (ANALYZE) pg_catalog.pg_amop;
+VACUUM (ANALYZE) pg_catalog.pg_amproc;
+VACUUM (ANALYZE) pg_catalog.pg_index;
+VACUUM (ANALYZE) pg_catalog.pg_ts_config_map;
+VACUUM (ANALYZE) pg_catalog.pg_aggregate;
+VACUUM (ANALYZE) pg_catalog.pg_opfamily;
+VACUUM (ANALYZE) pg_catalog.pg_opclass;
+VACUUM (ANALYZE) pg_catalog.pg_cast;
+VACUUM (ANALYZE) pg_catalog.pg_conversion;
+VACUUM (ANALYZE) pg_catalog.pg_init_privs;
+VACUUM (ANALYZE) pg_catalog.pg_language;
+VACUUM (ANALYZE) pg_catalog.pg_authid;
+VACUUM (ANALYZE) information_schema.sql_parts;
+VACUUM (ANALYZE) pg_catalog.pg_namespace;
+VACUUM (ANALYZE) information_schema.sql_sizing;
+VACUUM (ANALYZE) pg_catalog.pg_database;
+VACUUM (ANALYZE) pg_catalog.pg_tablespace;
+VACUUM (ANALYZE) pg_catalog.pg_auth_members;
+VACUUM (ANALYZE) pg_catalog.pg_shdepend;
+VACUUM (ANALYZE) pg_catalog.pg_shdescription;
+VACUUM (ANALYZE) pg_catalog.pg_ts_config;
+VACUUM (ANALYZE) pg_catalog.pg_constraint;
+VACUUM (ANALYZE) pg_catalog.pg_ts_dict;
+VACUUM (ANALYZE) pg_catalog.pg_ts_parser;
+VACUUM (ANALYZE) pg_catalog.pg_ts_template;
+VACUUM (ANALYZE) pg_catalog.pg_extension;
+VACUUM (ANALYZE) pg_catalog.pg_range;
+VACUUM (ANALYZE) information_schema.sql_implementation_info;
+VACUUM (ANALYZE) pg_catalog.pg_am;
+VACUUM (ANALYZE) pg_catalog.pg_transform;
+VACUUM (ANALYZE) pg_catalog.pg_sequence;
+VACUUM (ANALYZE) pg_catalog.pg_publication;
+VACUUM (ANALYZE) pg_catalog.pg_publication_rel;
+VACUUM (ANALYZE) pg_catalog.pg_subscription_rel;
+VACUUM (ANALYZE) pg_catalog.pg_largeobject;
+VACUUM (ANALYZE) pg_catalog.pg_foreign_data_wrapper;
+VACUUM (ANALYZE) pg_catalog.pg_foreign_server;
+VACUUM (ANALYZE) pg_catalog.pg_largeobject_metadata;
+VACUUM (ANALYZE) pg_catalog.pg_subscription;
+VACUUM (ANALYZE) pg_catalog.pg_statistic_ext;
+VACUUM (ANALYZE) pg_catalog.pg_statistic_ext_data;
+VACUUM (ANALYZE) pg_catalog.pg_trigger;
+VACUUM (ANALYZE) pg_catalog.pg_event_trigger;
+VACUUM (ANALYZE) pg_catalog.pg_policy;
+VACUUM (ANALYZE) pg_catalog.pg_replication_origin;
+VACUUM (ANALYZE) pg_catalog.pg_enum;
+VACUUM (ANALYZE) pg_catalog.pg_default_acl;
+VACUUM (ANALYZE) pg_catalog.pg_user_mapping;
+VACUUM (ANALYZE) pg_catalog.pg_foreign_table;
+VACUUM (ANALYZE) pg_catalog.pg_seclabel;
+VACUUM (ANALYZE) pg_catalog.pg_db_role_setting;
+VACUUM (ANALYZE) pg_catalog.pg_shseclabel;
+VACUUM (ANALYZE) pg_catalog.pg_attrdef;
+VACUUM (ANALYZE) pg_catalog.pg_partitioned_table;
+VACUUM (ANALYZE) pg_catalog.pg_inherits;
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ psql testdb -U postgres -h 127.0.0.1 -c 'insert into test select generate_series(1,100000),random();'
+INSERT 0 100000
++ psql testdb -U postgres -h 127.0.0.1 -c 'delete from test'
+DELETE 100000
+++ awk '{printf $1}'
+++ du /var/lib/pgsql/data/base/16384
++ temp1=19216
++ su - postgres -c 'vacuumdb -Z -e'
+SELECT pg_catalog.set_config('search_path', '', false);
+vacuumdb: vacuuming database "postgres"
+RESET search_path;
+SELECT c.relname, ns.nspname FROM pg_catalog.pg_class c
+ JOIN pg_catalog.pg_namespace ns ON c.relnamespace OPERATOR(pg_catalog.=) ns.oid
+ LEFT JOIN pg_catalog.pg_class t ON c.reltoastrelid OPERATOR(pg_catalog.=) t.oid
+ WHERE c.relkind OPERATOR(pg_catalog.=) ANY (array['r', 'm'])
+ ORDER BY c.relpages DESC;
+SELECT pg_catalog.set_config('search_path', '', false);
+ANALYZE pg_catalog.pg_proc;
+ANALYZE pg_catalog.pg_depend;
+ANALYZE pg_catalog.pg_attribute;
+ANALYZE pg_catalog.pg_description;
+ANALYZE pg_catalog.pg_collation;
+ANALYZE pg_catalog.pg_statistic;
+ANALYZE pg_catalog.pg_operator;
+ANALYZE pg_catalog.pg_class;
+ANALYZE pg_catalog.pg_rewrite;
+ANALYZE pg_catalog.pg_type;
+ANALYZE information_schema.sql_features;
+ANALYZE pg_catalog.pg_amop;
+ANALYZE pg_catalog.pg_amproc;
+ANALYZE pg_catalog.pg_index;
+ANALYZE pg_catalog.pg_ts_config_map;
+ANALYZE pg_catalog.pg_aggregate;
+ANALYZE pg_catalog.pg_opfamily;
+ANALYZE pg_catalog.pg_opclass;
+ANALYZE pg_catalog.pg_cast;
+ANALYZE pg_catalog.pg_conversion;
+ANALYZE pg_catalog.pg_init_privs;
+ANALYZE pg_catalog.pg_language;
+ANALYZE pg_catalog.pg_authid;
+ANALYZE information_schema.sql_parts;
+ANALYZE pg_catalog.pg_namespace;
+ANALYZE information_schema.sql_sizing;
+ANALYZE pg_catalog.pg_database;
+ANALYZE pg_catalog.pg_tablespace;
+ANALYZE pg_catalog.pg_auth_members;
+ANALYZE pg_catalog.pg_shdepend;
+ANALYZE pg_catalog.pg_shdescription;
+ANALYZE pg_catalog.pg_ts_config;
+ANALYZE pg_catalog.pg_constraint;
+ANALYZE pg_catalog.pg_ts_dict;
+ANALYZE pg_catalog.pg_ts_parser;
+ANALYZE pg_catalog.pg_ts_template;
+ANALYZE pg_catalog.pg_extension;
+ANALYZE pg_catalog.pg_range;
+ANALYZE information_schema.sql_implementation_info;
+ANALYZE pg_catalog.pg_am;
+ANALYZE pg_catalog.pg_transform;
+ANALYZE pg_catalog.pg_sequence;
+ANALYZE pg_catalog.pg_publication;
+ANALYZE pg_catalog.pg_publication_rel;
+ANALYZE pg_catalog.pg_subscription_rel;
+ANALYZE pg_catalog.pg_largeobject;
+ANALYZE pg_catalog.pg_foreign_data_wrapper;
+ANALYZE pg_catalog.pg_foreign_server;
+ANALYZE pg_catalog.pg_largeobject_metadata;
+ANALYZE pg_catalog.pg_subscription;
+ANALYZE pg_catalog.pg_statistic_ext;
+ANALYZE pg_catalog.pg_statistic_ext_data;
+ANALYZE pg_catalog.pg_trigger;
+ANALYZE pg_catalog.pg_event_trigger;
+ANALYZE pg_catalog.pg_policy;
+ANALYZE pg_catalog.pg_replication_origin;
+ANALYZE pg_catalog.pg_enum;
+ANALYZE pg_catalog.pg_default_acl;
+ANALYZE pg_catalog.pg_user_mapping;
+ANALYZE pg_catalog.pg_foreign_table;
+ANALYZE pg_catalog.pg_seclabel;
+ANALYZE pg_catalog.pg_db_role_setting;
+ANALYZE pg_catalog.pg_shseclabel;
+ANALYZE pg_catalog.pg_attrdef;
+ANALYZE pg_catalog.pg_partitioned_table;
+ANALYZE pg_catalog.pg_inherits;
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
+++ awk '{printf $1}'
+++ du /var/lib/pgsql/data/base/16384
++ temp2=19216
++ '[' 19216 -eq 19216 ']'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ grep Usage:
++ vacuumdb '-?'
+Usage:
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Nov 21 11:16:04 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Nov 21 11:16:05 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Nov 21 11:16:05 2023 - INFO  - Start to restore the test environment.
++ systemctl stop postgresql
++ DNF_REMOVE 1 'postgresql postgresql-server postgresql-devel postgresql-contrib'
++ node=1
++ pkg_list='postgresql postgresql-server postgresql-devel postgresql-contrib'
++ mode=0
++ [[ -z /tmp/tmpvui4u_2l ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs 'postgresql postgresql-server postgresql-devel postgresql-contrib' --tempfile /tmp/tmpvui4u_2l
++ '[' 0 -ne 0 ']'
++ rm -rf /var/lib/pgsql/data /var/lib/pgsql/initdb_postgresql.log
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue Nov 21 11:16:21 2023 - INFO  - End to restore the test environment.

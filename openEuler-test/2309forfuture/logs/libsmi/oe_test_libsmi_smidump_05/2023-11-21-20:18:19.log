@@ -1,0 +1,1120 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment'
++ message='Start to prepare the test environment'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment'
+Tue Nov 21 20:18:21 2023 - INFO  - Start to prepare the test environment
++ DNF_INSTALL libsmi
++ pkgs=libsmi
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs libsmi --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp4nocbexn
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp4nocbexn
++ cp /usr/share/mibs/ietf/IF-MIB IF-MIB
++ LOG_INFO 'End to prepare the test environment'
++ message='End to prepare the test environment'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment'
+Tue Nov 21 20:19:00 2023 - INFO  - End to prepare the test environment
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 20:19:00 2023 - INFO  - Start to run test.
++ smidump -f svg IF-MIB
++ grep -e '//SVG - Learning By Coding'
+//SVG - Learning By Coding - http://www.datenverdrahten.de/svglbc/
++ CHECK_RESULT 0 0 0 'L31: -f svg No Pass'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='L31: -f svg No Pass'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ smidump -f svg --svg-width=100 IF-MIB
+<?xml version="1.0"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg preserveAspectRatio="xMinYMin meet"
+     width="100" height="700" viewBox="0.00 -546.56 1262.59 1143.13"
+     version="1.1"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     onload="init(evt)" onzoom="ZoomControl()">
+
+<style type="text/css">
+<![CDATA[
+text.tooltip {
+    font-family: "Courier New", Courier, monospace;
+}
+]]>
+</style>
+
+<script type="text/ecmascript">
+<![CDATA[
+//The scripts for the tooltip and moveobj are based on work from
+//SVG - Learning By Coding - http://www.datenverdrahten.de/svglbc/
+//Author: Dr. Thomas Meinike 11/03 - thomas@handmadecode.de
+var svgdoc,svgroot,paths,revert;
+var collapsed = new Array(2);
+var name = new Array(85);
+var clickStatus = new Array(85);
+var redCount = new Array(85);
+var salmonCount = new Array(85);
+var moveObj,rect,x,y,attr1,attr2,wert1,wert2,zoom=1,active=false;
+
+function MoveObj(evt)
+{
+    if (active) {
+	var roundx, roundy;
+	var curtrans=svgroot.currentTranslate;
+	var ctx=curtrans.x;
+	var cty=curtrans.y;
+
+	x=evt.clientX()
+	y=evt.clientY()
+	wert1=(x-ctx)*zoom*12.63+0.00+attr1-5;
+	wert2=(y-cty)*zoom*12.63+-546.56+attr2-5;
+	roundx=Math.round(wert1*100)/100;
+	roundy=Math.round(wert2*100)/100;
+
+	moveObj.setAttribute("transform","translate("+roundx+","+roundy+")");
+    }
+}
+
+function ClickObj(evt)
+{
+    rect=evt.target.parentNode.getElementsByTagName("rect").item(0);
+    moveObj=evt.target.parentNode;
+    attr1=rect.getAttribute("width")/2;
+    attr2=rect.getAttribute("height")/2;
+    active=true;
+}
+
+function OutOfObj(evt)
+{
+    if (active) {
+	active=false;
+	findAdjacentEdges();
+    }
+}
+
+function findAdjacentEdges()
+{
+    var rectl, rectlid, i, nodenames;
+    rectl = rect;
+    rectlid = rectl.getAttribute("id");
+    for (i=0; i<paths.length; i++) {
+	nodenames = paths.item(i).getAttribute("id").split("-");
+	if (nodenames[0] == rectlid || nodenames[1] == rectlid) {
+	    repaintEdge(paths.item(i), nodenames, i);
+	}
+    }
+}
+
+function repaintEdge(edge, nodenames, j)
+{
+    var startnode, endnode, attr, i, k, l, m, alpha, beta;
+    var nodesx, nodesy, nodeex, nodeey, nodesw, nodesh, nodeew, nodeeh;
+    var edgesx, edgesy, edgeex, edgeey, sx, sy, ex, ey;
+
+    //extract node coordinates and dimensions
+    startnode = svgdoc.getElementById(nodenames[0]);
+    nodesw=startnode.getAttribute("width");
+    nodesh=startnode.getAttribute("height");
+    attr = startnode.parentNode.attributes;
+    for (i=0;i<attr.length;i++) {
+        if (attr.item(i).nodeName == "transform") {
+	    k = attr.item(i).nodeValue.indexOf("(");
+	    l = attr.item(i).nodeValue.indexOf(",");
+	    m = attr.item(i).nodeValue.indexOf(")");
+	    nodesx = parseFloat(attr.item(i).nodeValue.substring(k+1,l));
+	    nodesy = parseFloat(attr.item(i).nodeValue.substring(l+1,m));
+	}
+    }
+    endnode = svgdoc.getElementById(nodenames[1]);
+    nodeew=endnode.getAttribute("width");
+    nodeeh=endnode.getAttribute("height");
+    attr = endnode.parentNode.attributes;
+    for (i=0;i<attr.length;i++) {
+        if (attr.item(i).nodeName == "transform") {
+	    k = attr.item(i).nodeValue.indexOf("(");
+	    l = attr.item(i).nodeValue.indexOf(",");
+	    m = attr.item(i).nodeValue.indexOf(")");
+	    nodeex = parseFloat(attr.item(i).nodeValue.substring(k+1,l));
+	    nodeey = parseFloat(attr.item(i).nodeValue.substring(l+1,m));
+	}
+    }
+
+    alpha = Math.atan((nodesy-nodeey)/(nodesx-nodeex));
+    if (alpha < 0)
+	alpha += Math.PI;
+
+    //calculate intersection of edge and startNode
+    beta = Math.atan(nodesh/nodesw);
+    if (alpha < beta
+	|| (alpha > Math.PI-beta && alpha < Math.PI+beta)
+	|| alpha > 2*Math.PI-beta) {
+	//intersection at left or right border
+	if (nodesx < nodeex) {
+	    edgesx = nodesx - 0 + nodesw/2;
+	} else {
+	    edgesx = nodesx - nodesw/2;
+	}
+	if (nodesy < nodeey) {
+	    edgesy = nodesy - 0 + Math.abs(nodesw*Math.tan(alpha)/2);
+	} else {
+	    edgesy = nodesy - Math.abs(nodesw*Math.tan(alpha)/2);
+	}
+    } else {
+	//intersection at top or bottom border
+	if (nodesy < nodeey) {
+	    edgesy = nodesy - 0 + nodesh/2;
+	} else {
+	    edgesy = nodesy - nodesh/2;
+	}
+	if (nodesx < nodeex) {
+	    edgesx = nodesx - 0 + Math.abs(nodesh/(2*Math.tan(alpha)));
+	} else {
+	    edgesx = nodesx - Math.abs(nodesh/(2*Math.tan(alpha)));
+	}
+    }
+
+    //calculate intersection of edge and endNode
+    beta = Math.atan(nodeeh/nodeew);
+    if (alpha < beta
+	|| (alpha > Math.PI-beta && alpha < Math.PI+beta)
+	|| alpha > 2*Math.PI-beta) {
+	//intersection at left or right border
+	if (nodesx > nodeex) {
+	    edgeex = nodeex - 0 + nodeew/2;
+	} else {
+	    edgeex = nodeex - nodeew/2;
+	}
+	if (nodesy > nodeey) {
+	    edgeey = nodeey - 0 + Math.abs(nodeew*Math.tan(alpha)/2);
+	} else {
+	    edgeey = nodeey - Math.abs(nodeew*Math.tan(alpha)/2);
+	}
+    } else {
+	//intersection at top or bottom border
+	if (nodesy > nodeey) {
+	    edgeey = nodeey - 0 + nodeeh/2;
+	} else {
+	    edgeey = nodeey - nodeeh/2;
+	}
+	if (nodesx > nodeex) {
+	    edgeex = nodeex - 0 + Math.abs(nodeeh/(2*Math.tan(alpha)));
+	} else {
+	    edgeex = nodeex - Math.abs(nodeeh/(2*Math.tan(alpha)));
+	}
+    }
+
+    //set new edge coordinates
+    sx=Math.round(edgesx*100)/100;
+    ex=Math.round(edgeex*100)/100;
+    sy=Math.round(edgesy*100)/100;
+    ey=Math.round(edgeey*100)/100;
+
+    if (sx < ex) {
+	if (revert[j] == 1) {
+	    revert[j] = 0;
+	    flipEdgeMarks(edge);
+	}
+	edge.setAttribute("d","M "+sx+" "+sy+" "+ex+" "+ey);
+    } else {
+	if (revert[j] == 0) {
+	    revert[j] = 1;
+	    flipEdgeMarks(edge);
+	}
+	edge.setAttribute("d","M "+ex+" "+ey+" "+sx+" "+sy);
+    }
+}
+
+function flipEdgeMarks(edge)
+{
+    var attr, i, j, done, textpaths, pathnamei, offset;
+
+    //revert start- and end-markers
+    attr = edge.attributes;
+    done = 0;
+    for (i=0;i<attr.length;i++) {
+        if (attr.item(i).nodeName == "marker-start") {
+	    for (j=i;j<attr.length;j++) {
+		if (attr.item(j).nodeName == "marker-end") {
+		    done = 1;
+		}
+	    }
+	    if (done == 0) {
+		//start->end
+		edge.removeAttribute("marker-start");
+		edge.setAttribute("marker-end","url(#arrowend)");
+		break;
+	    }
+	}
+        if (attr.item(i).nodeName == "marker-end") {
+	    for (j=i;j<attr.length;j++) {
+		if (attr.item(j).nodeName == "marker-start") {
+		    done = 1;
+		}
+	    }
+	    if (done == 0) {
+		//end->start
+		edge.removeAttribute("marker-end");
+		edge.setAttribute("marker-start","url(#arrowstart)");
+		break;
+	    }
+	}
+    }
+
+    //revert cardinalities
+    textpaths = svgdoc.getElementsByTagName("textPath");
+    for (i=0;i<textpaths.length;i++) {
+	pathname = textpaths.item(i).getAttribute("xlink:href").replace(/#/,"");
+	if (pathname == edge.getAttribute("id")) {
+	    offset = textpaths.item(i).getAttribute("startOffset").substr(0,2);
+	    textpaths.item(i).setAttribute("startOffset",100 - offset + "%")
+	}
+    }
+}
+
+function getSVGDoc(load_evt)
+{
+    svgdoc=load_evt.target.ownerDocument;
+    svgroot=svgdoc.documentElement;
+    texte=svgdoc.getElementById("tooltip").getElementsByTagName("text");
+    for (i=1; i<470; i++) {
+	textNode=texte.item(1).cloneNode("true");
+	svgdoc.getElementById("tooltip").appendChild(textNode);
+    }
+    texte=svgdoc.getElementById("tooltip").getElementsByTagName("text");
+}
+
+function ShowTooltipMZ(mousemove_event,txt)
+{
+    var ttrelem,tttelem,ttline,posx,posy,curtrans,ctx,cty,txt;
+    var maxbreite,tmp,i;
+    ttrelem=svgdoc.getElementById("ttr");
+    tttelem=svgdoc.getElementById("ttt");
+    ttline=svgdoc.getElementById("ttl");
+    posx=mousemove_event.clientX;
+    posy=mousemove_event.clientY;
+    for (i=1;i<=470;i++)
+	texte.item(i).firstChild.data="";
+    tttelem.childNodes.item(0).data="";
+    tmp=txt.split("\n");
+    maxbreite=0;
+    for (i=0;i<tmp.length;i++) {
+	if (tmp[i]=="")
+	    continue;
+	tttelem.childNodes.item(0).data=tmp[i];
+	if (maxbreite<tttelem.getComputedTextLength())
+	    maxbreite=tttelem.getComputedTextLength();
+    }
+    curtrans=svgroot.currentTranslate;
+    ctx=curtrans.x;
+    cty=curtrans.y;
+    ttrelem.setAttribute("x",posx-ctx+10);
+    ttrelem.setAttribute("y",posy-cty-20+10);
+    ttrelem.setAttribute("width",maxbreite*0.92+10);
+    ttrelem.setAttribute("height",tmp.length*15+3);
+    ttrelem.setAttribute("style",
+			    "fill: #FFC; stroke: #000; stroke-width: 0.5px");
+    for (i=1; i<=tmp.length; i++) {
+	if (tmp[i-1]=="-- -- --") {
+	    ttline.setAttribute("x1", posx-ctx+10);
+	    ttline.setAttribute("y1", parseInt(i-1)*15+posy-cty);
+	    ttline.setAttribute("x2", posx-ctx+10+maxbreite*0.92+10);
+	    ttline.setAttribute("y2", parseInt(i-1)*15+posy-cty);
+	    ttline.setAttribute("style", "stroke: #000; stroke-width: 0.5px");
+	} else {
+	    texte.item(i).firstChild.data=tmp[i-1];
+	    texte.item(i).setAttribute("x",posx-ctx+15);
+	    texte.item(i).setAttribute("y",parseInt(i-1)*15+posy-cty+3);
+	    texte.item(i).setAttribute("style","fill: #00E; font-size: 11px");
+	}
+    }
+    svgdoc.getElementById("tooltip").style.setProperty("visibility","visible");
+}
+
+function HideTooltip()
+{
+    svgdoc.getElementById("ttl").style.setProperty("visibility","hidden");
+    svgdoc.getElementById("tooltip").style.setProperty("visibility","hidden");
+}
+
+function ZoomControl()
+{
+    var curzoom;
+    curzoom=svgroot.currentScale;
+    svgdoc.getElementById("tooltip").setAttribute("transform",
+							"scale("+1/curzoom+")");
+    zoom=1/curzoom;
+}
+
+function collapse(evt)
+{
+    var i, k, l, m, svgdoc, obj, targetID, targetX, targetY, attr;
+    obj = evt.getTarget();
+    svgdoc = obj.ownerDocument;
+    //extract coordinates and id of the clicked text
+    attr = obj.parentNode.parentNode.attributes;
+    for (i=0;i<attr.length;i++) {
+        if (attr.item(i).nodeName == "transform") {
+            k = attr.item(i).nodeValue.indexOf("(");
+            l = attr.item(i).nodeValue.indexOf(",");
+            m = attr.item(i).nodeValue.indexOf(")");
+            targetX = attr.item(i).nodeValue.substring(k+1,l);
+            targetY = attr.item(i).nodeValue.substring(l+1,m);
+        }
+        if (attr.item(i).nodeName == "id") {
+            targetID = attr.item(i).nodeValue.substr(2);
+        }
+    }
+    //decide if we are collapsing or uncollapsing
+    if (collapsed[0][targetID] == 0) {
+        hideInfos(evt, obj, svgdoc, targetX, targetY, targetID, attr);
+        collapsed[0][targetID] = 1;
+    } else {
+        showHiddenInfos(evt, obj, svgdoc, targetX, targetY, targetID, attr);
+        collapsed[0][targetID] = 0;
+    }
+}
+
+function showHiddenInfos(evt, obj, svgdoc, targetX, targetY, targetID, attr)
+{
+    var i, k, l, m, nextObj, nextX, nextY, gapY=0, clickedID;
+    //change clicked text
+    obj.firstChild.data="--";
+    targetID++;
+    nextObj = svgdoc.getElementById("MI"+targetID);
+    if (nextObj == null)
+        return;
+    //show child texts again
+    for (;;) {
+        attr = nextObj.attributes;
+        for (i=0;i<attr.length;i++) {
+            if (attr.item(i).nodeName == "transform") {
+                k = attr.item(i).nodeValue.indexOf("(");
+                l = attr.item(i).nodeValue.indexOf(",");
+                m = attr.item(i).nodeValue.indexOf(")");
+                nextX = attr.item(i).nodeValue.substring(k+1,l);
+                nextY = attr.item(i).nodeValue.substring(l+1,m);
+            }
+        }
+        if (nextX > targetX) {
+            nextObj.style.setProperty("visibility","visible");
+            gapY += 15;
+            if (collapsed[0][targetID] == 1) {
+                targetID = collapsed[1][targetID];
+            } else {
+                targetID++;
+            }
+            nextObj = svgdoc.getElementById("MI"+targetID);
+            if (nextObj == null)
+                break;
+        } else {
+            break;
+        }
+    }
+    if (nextObj == null)
+        return;
+    //move following texts downwards
+    while (nextObj != null) {
+        attr = nextObj.attributes;
+        for (i=0;i<attr.length;i++) {
+            if (attr.item(i).nodeName == "transform") {
+                k = attr.item(i).nodeValue.indexOf("(");
+                l = attr.item(i).nodeValue.indexOf(",");
+                m = attr.item(i).nodeValue.indexOf(")");
+                nextX = attr.item(i).nodeValue.substring(k+1,l);
+                nextY = attr.item(i).nodeValue.substring(l+1,m);
+            }
+        }
+        nextY = nextY - 1 + gapY + 1;
+        nextObj.setAttribute("transform","translate("+nextX+","+nextY+")");
+        targetID++;
+        nextObj = svgdoc.getElementById("MI"+targetID);
+    }
+}
+
+function hideInfos(evt, obj, svgdoc, targetX, targetY, targetID, attr)
+{
+    var i, k, l, m, nextObj, nextX, nextY, gapY=0;
+    clickedID = targetID;
+    //change clicked text
+    obj.firstChild.data="+";
+    targetID++;
+    nextObj = svgdoc.getElementById("MI"+targetID);
+    if (nextObj == null)
+        return;
+    //wipe out child texts
+    for (;;) {
+        attr = nextObj.attributes;
+        for (i=0;i<attr.length;i++) {
+            if (attr.item(i).nodeName == "transform") {
+                k = attr.item(i).nodeValue.indexOf("(");
+                l = attr.item(i).nodeValue.indexOf(",");
+                m = attr.item(i).nodeValue.indexOf(")");
+                nextX = attr.item(i).nodeValue.substring(k+1,l);
+                nextY = attr.item(i).nodeValue.substring(l+1,m);
+            }
+        }
+        if (nextX > targetX) {
+            nextObj.style.setProperty("visibility","hidden");
+            gapY += 15;
+            if (collapsed[0][targetID] == 1) {
+                targetID = collapsed[1][targetID];
+            } else {
+                targetID++;
+            }
+            nextObj = svgdoc.getElementById("MI"+targetID);
+            if (nextObj == null)
+                break;
+        } else {
+            break;
+        }
+    }
+    //save next uncollapsed element in array
+    collapsed[1][clickedID] = targetID;
+    if (nextObj == null)
+        return;
+    //move following texts upwards
+    while (nextObj != null) {
+        attr = nextObj.attributes;
+        for (i=0;i<attr.length;i++) {
+            if (attr.item(i).nodeName == "transform") {
+                k = attr.item(i).nodeValue.indexOf("(");
+                l = attr.item(i).nodeValue.indexOf(",");
+                m = attr.item(i).nodeValue.indexOf(")");
+                nextX = attr.item(i).nodeValue.substring(k+1,l);
+                nextY = attr.item(i).nodeValue.substring(l+1,m);
+            }
+        }
+        nextY -= gapY;
+        nextObj.setAttribute("transform","translate("+nextX+","+nextY+")");
+        targetID++;
+        nextObj = svgdoc.getElementById("MI"+targetID);
+    }
+}
+
+function init(evt)
+{
+    var nodenames, startnode, endnode, attr, i, j, k, l, m, nodesx, nodeex;
+    collapsed[0] = new Array(39);
+    collapsed[1] = new Array(39);
+    for (i=0; i<39; i++) {
+        collapsed[0][i] = 0;
+        collapsed[1][i] = 0;
+    }
+    for (i=0; i<85; i++) {
+	name[i] = "";
+	clickStatus[i] = 0;
+	redCount[i] = 0;
+	salmonCount[i] = 0;
+    }
+    getSVGDoc(evt);
+
+    //check which edges are printed from right to left
+    paths = svgdoc.getElementsByTagName("path");
+    revert = new Array(paths.length);
+    for (j=0; j<paths.length; j++) {
+	nodenames = paths.item(j).getAttribute("id").split("-");
+	startnode = svgdoc.getElementById(nodenames[0]);
+	attr = startnode.parentNode.attributes;
+	for (i=0;i<attr.length;i++) {
+	    if (attr.item(i).nodeName == "transform") {
+		k = attr.item(i).nodeValue.indexOf("(");
+		l = attr.item(i).nodeValue.indexOf(",");
+		m = attr.item(i).nodeValue.indexOf(")");
+		nodesx = parseFloat(attr.item(i).nodeValue.substring(k+1,l));
+	    }
+	}
+	endnode = svgdoc.getElementById(nodenames[1]);
+	attr = endnode.parentNode.attributes;
+	for (i=0;i<attr.length;i++) {
+	    if (attr.item(i).nodeName == "transform") {
+		k = attr.item(i).nodeValue.indexOf("(");
+		l = attr.item(i).nodeValue.indexOf(",");
+		m = attr.item(i).nodeValue.indexOf(")");
+		nodeex = parseFloat(attr.item(i).nodeValue.substring(k+1,l));
+	    }
+	}
+	if (nodesx > nodeex) {
+	    revert[j] = 1;
+	} else {
+	    revert[j] = 0;
+	}
+    }
+}
+
+function setStatus(evt, color1, color2)
+{
+    var clickObj = evt.getTarget();
+    var clickObjName = clickObj.getAttribute('id');
+
+    //find i corresponding to the clicked object
+    for (i=0; i<85; i++) {
+	if (name[i] == "") {
+	    name[i] = clickObjName;
+	    break;
+	}
+	if (name[i] != clickObjName)
+	    continue;
+	break;
+    }
+
+    //toggle click status, color clicked object
+    if (clickStatus[i] == 0) {
+	clickStatus[i] = 1;
+	clickObj.setAttribute("style","fill: "+color1);
+    } else {
+	clickStatus[i] = 0;
+	clickObj.setAttribute("style","fill: "+color2);
+    }
+
+    //adjust color-counter
+    if (color1 == 'red') {
+	if (clickStatus[i] == 1) {
+	    redCount[i]++;
+	} else {
+	    redCount[i]--;
+	}
+    }
+    if (color1 == 'salmon') {
+	if (clickStatus[i] == 1) {
+	    salmonCount[i]++;
+	} else {
+	    salmonCount[i]--;
+	}
+    }
+
+    if (clickStatus[i] == 0 && salmonCount[i] > 0) {
+	clickObj.setAttribute("style","fill: salmon");
+    }
+}
+
+function changeColor(evt, targetObjName, color1, color2)
+{
+    var clickObj = evt.getTarget();
+    var clickObjName = clickObj.getAttribute('id');
+    var targetObj = svgDocument.getElementById(targetObjName);
+
+    //find i corresponding to the clicked object
+    for (i=0; i<85; i++) {
+	if (name[i] != clickObjName)
+	    continue;
+	break;
+    }
+
+    //find j corresponding to the target object
+    for (j=0; j<85; j++) {
+	if (name[j] == "") {
+	    name[j] = targetObjName;
+	    break;
+	}
+	if (name[j] != targetObjName)
+	    continue;
+	break;
+    }
+
+    //adjust color-counter
+    if (color1 == 'red') {
+	if (clickStatus[i] == 1) {
+	    redCount[j]++;
+	} else {
+	    redCount[j]--;
+	}
+    }
+    if (color1 == 'salmon') {
+	if (clickStatus[i] == 1) {
+	    salmonCount[j]++;
+	} else {
+	    salmonCount[j]--;
+	}
+    }
+}
+
+function colorText(targetObjName, color)
+{
+    var targetObj = svgDocument.getElementById(targetObjName);
+
+    //find i corresponding to the target object
+    for (i=0; i<85; i++) {
+	if (name[i] != targetObjName)
+	    continue;
+	break;
+    }
+
+    //color text
+    if (i == 85) {
+	targetObj.setAttribute("style","fill: "+color);
+	return;
+    }
+    if (redCount[i] == 0 && salmonCount[i] == 0) {
+	targetObj.setAttribute("style","fill: "+color);
+    }
+    if (salmonCount[i] > 0) {
+	if (color == 'red') {
+	    targetObj.setAttribute("style","fill: red");
+	} else {
+	    if (redCount[i] > 0) {
+		targetObj.setAttribute("style","fill: red");
+	    } else {
+		targetObj.setAttribute("style","fill: salmon");
+	    }
+	}
+    }
+}
+// ]]>
+</script>
+
+ <title>Conceptual model of IF-MIB - generated by smidump 0.4.8</title>
+ <defs>
+   <marker id="arrowstart" markerWidth="12" markerHeight="8" refX="0" refY="4" orient="auto">
+     <line x1="12" y1="0" x2="0" y2="4" fill="none" stroke="black"/>
+     <line x1="0" y1="4" x2="12" y2="8" fill="none" stroke="black"/>
+   </marker>
+   <marker id="arrowend" markerWidth="12" markerHeight="8" refX="12" refY="4" orient="auto">
+     <line x1="0" y1="0" x2="12" y2="4" fill="none" stroke="black"/>
+     <line x1="12" y1="4" x2="0" y2="8" fill="none" stroke="black"/>
+   </marker>
+ </defs>
+
+ <path id="ifTable-ifXTable"
+       d="M 718.72 115.04 836.59 235.57"
+       stroke="black" marker-start="url(#arrowstart)"/>
+ <text text-anchor="middle">
+    <textPath xlink:href="#ifTable-ifXTable" startOffset="10%">
+       1</textPath>
+ </text>
+ <text text-anchor="middle">
+    <textPath xlink:href="#ifTable-ifXTable" startOffset="50%">
+       augments</textPath>
+ </text>
+ <text text-anchor="middle">
+    <textPath xlink:href="#ifTable-ifXTable" startOffset="90%">
+       1</textPath>
+ </text>
+ <path id="ifTable-ifRcvAddressTable"
+       d="M 248.00 105.79 515.72 37.24"
+       stroke="black" marker-end="url(#arrowend)"/>
+ <text text-anchor="middle">
+    <textPath xlink:href="#ifTable-ifRcvAddressTable" startOffset="90%">
+       1</textPath>
+ </text>
+ <text text-anchor="middle">
+    <textPath xlink:href="#ifTable-ifRcvAddressTable" startOffset="50%">
+       expands</textPath>
+ </text>
+ <text text-anchor="middle">
+    <textPath xlink:href="#ifTable-ifRcvAddressTable" startOffset="10%">
+       *</textPath>
+ </text>
+ <path id="ifTable-ifStackTable"
+       d="M 664.10 -156.25 735.58 -411.56"
+       stroke-dasharray="10, 10" stroke="black" marker-end="url(#arrowend)"/>
+  <g transform="translate(617.22,11.25)">
+    <rect id="ifTable" x="-101.50" y="-167.50" width="203.00" height="335.00"
+          fill="white" stroke="black"/>
+    <rect x="-99.50" y="-165.50" width="16" height="16" rx="4" ry="4" stroke-width="3" stroke="gray" fill="white"
+          onmousedown="ClickObj(evt)" onclick="ClickObj(evt)" onmousemove="MoveObj(evt)" onmouseup="OutOfObj(evt)" onmouseout="OutOfObj(evt)"/>
+    <polygon points="-101.50 -147.50 101.50 -147.50"
+          fill="none" stroke="black"/>
+    <text x="0" y="-152.50" fill="rgb(0%,0%,0%)" style="text-anchor:middle; font-weight:bold" onmousemove="ShowTooltipMZ(evt,'A list of interface entries.  The number of entries is\ngiven by the value of ifNumber.\n-- -- --\nAn entry containing management information applicable to a\nparticular interface.')" onmouseout="HideTooltip(evt)">
+         ifEntry</text>
+  <text id="ifTableLastChange" fill="rgb(0%,0%,0%)" x="-95.50" y="-132.50">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-91.50" onmousemove="ShowTooltipMZ(evt,'The value of sysUpTime at the time of the last creation or\ndeletion of an entry in the ifTable.  If the number of\nentries has been unchanged since the last re-initialization\nof the local network management subsystem, then this object\ncontains a zero value.')" onmouseout="HideTooltip(evt)">ifTableLastChange:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">TimeTicks</tspan></text>
+    <polygon points="-101.50 -127.50 101.50 -127.50"
+          fill="none" stroke="black"/>
+  <text fill="rgb(0%,0%,0%)" x="-95.50" y="-112.50">
+<tspan x="-91.50" onmousemove="ShowTooltipMZ(evt,'A unique value, greater than zero, for each interface.  It\nis recommended that values are assigned contiguously\nstarting from 1.  The value for each interface sub-layer\nmust remain constant at least from one re-initialization of\nthe entity\'s network management system to the next re-\ninitialization.')" onmouseout="HideTooltip(evt)">ifIndex:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'A unique value, greater than zero, for each interface or\ninterface sub-layer in the managed system.  It is\nrecommended that values are assigned contiguously starting\nfrom 1.  The value for each interface sub-layer must remain\nconstant at least from one re-initialization of the entity\'s\nnetwork management system to the next re-initialization.')" onmouseout="HideTooltip(evt)">InterfaceIndex</tspan></text>
+    <polygon points="-101.50 -107.50 101.50 -107.50"
+          fill="none" stroke="black"/>
+  <text id="ifIndex" fill="rgb(0%,0%,0%)" x="-95.50" y="-92.50">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-91.50" onmousemove="ShowTooltipMZ(evt,'A unique value, greater than zero, for each interface.  It\nis recommended that values are assigned contiguously\nstarting from 1.  The value for each interface sub-layer\nmust remain constant at least from one re-initialization of\nthe entity\'s network management system to the next re-\ninitialization.')" onmouseout="HideTooltip(evt)">ifIndex:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'A unique value, greater than zero, for each interface or\ninterface sub-layer in the managed system.  It is\nrecommended that values are assigned contiguously starting\nfrom 1.  The value for each interface sub-layer must remain\nconstant at least from one re-initialization of the entity\'s\nnetwork management system to the next re-initialization.')" onmouseout="HideTooltip(evt)">InterfaceIndex</tspan></text>
+  <text id="ifDescr" fill="rgb(0%,0%,0%)" x="-95.50" y="-77.50">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-91.50" onmousemove="ShowTooltipMZ(evt,'A textual string containing information about the\ninterface.  This string should include the name of the\nmanufacturer, the product name and the version of the\ninterface hardware/software.')" onmouseout="HideTooltip(evt)">ifDescr:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'DisplayString is defined in module SNMPv2-TC:\n\nRepresents textual information taken from the NVT ASCII\ncharacter set, as defined in pages 4, 10-11 of RFC 854.\n\nTo summarize RFC 854, the NVT ASCII repertoire specifies:\n\n  - the use of character codes 0-127 (decimal)\n\n  - the graphics characters (32-126) are interpreted as\n    US ASCII\n\n  - NUL, LF, CR, BEL, BS, HT, VT and FF have the special\n    meanings specified in RFC 854\n\n  - the other 25 codes have no standard interpretation\n\n  - the sequence \'CR LF\' means newline\n\n  - the sequence \'CR NUL\' means carriage-return\n\n  - an \'LF\' not preceded by a \'CR\' means moving to the\n    same column on the next line.\n\n  - the sequence \'CR x\' for any x other than LF or NUL is\n    illegal.  (Note that this also means that a string may\n    end with either \'CR LF\' or \'CR NUL\', but not with CR.)\n\nAny object defined using this syntax may not exceed 255\ncharacters in length.')" onmouseout="HideTooltip(evt)">DisplayString</tspan></text>
+  <text id="ifType" fill="rgb(0%,0%,0%)" x="-95.50" y="-62.50">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-91.50" onmousemove="ShowTooltipMZ(evt,'The type of interface.  Additional values for ifType are\nassigned by the Internet Assigned Numbers Authority (IANA),\nthrough updating the syntax of the IANAifType textual\nconvention.')" onmouseout="HideTooltip(evt)">ifType:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'IANAifType is defined in module IANAifType-MIB:\n\nThis data type is used as the syntax of the ifType\nobject in the (updated) definition of MIB-II\'s\nifTable.\n\nThe definition of this textual convention with the\naddition of newly assigned values is published\nperiodically by the IANA, in either the Assigned\nNumbers RFC, or some derivative of it specific to\nInternet Network Management number assignments.  (The\nlatest arrangements can be obtained by contacting the\nIANA.)\n\nRequests for new values should be made to IANA via\nemail (iana&amp;iana.org).\n\nThe relationship between the assignment of ifType\nvalues and of OIDs to particular media-specific MIBs\nis solely the purview of IANA and is subject to change\nwithout notice.  Quite often, a media-specific MIB\'s\nOID-subtree assignment within MIB-II\'s \'transmission\'\nsubtree will be the same as its ifType value.\nHowever, in some circumstances this will not be the\ncase, and implementors must not pre-assume any\nspecific relationship between ifType values and\ntransmission subtree OIDs.')" onmouseout="HideTooltip(evt)">IANAifType</tspan></text>
+  <text id="ifMtu" fill="rgb(0%,0%,0%)" x="-95.50" y="-47.50">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-91.50" onmousemove="ShowTooltipMZ(evt,'The size of the largest packet which can be sent/received\non the interface, specified in octets.  For interfaces that\nare used for transmitting network datagrams, this is the\nsize of the largest network datagram that can be sent on the\ninterface.')" onmouseout="HideTooltip(evt)">ifMtu:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">Integer32</tspan></text>
+  <text id="ifSpeed" fill="rgb(0%,0%,0%)" x="-95.50" y="-32.50">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-91.50" onmousemove="ShowTooltipMZ(evt,'An estimate of the interface\'s current bandwidth in bits\nper second.  For interfaces which do not vary in bandwidth\nor for those where no accurate estimation can be made, this\nobject should contain the nominal bandwidth.  If the\nbandwidth of the interface is greater than the maximum value\nreportable by this object then this object should report its\nmaximum value (4,294,967,295) and ifHighSpeed must be used\nto report the interace\'s speed.  For a sub-layer which has\nno concept of bandwidth, this object should be zero.')" onmouseout="HideTooltip(evt)">ifSpeed:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">Gauge32</tspan></text>
+  <text id="ifPhysAddress" fill="rgb(0%,0%,0%)" x="-95.50" y="-17.50">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-91.50" onmousemove="ShowTooltipMZ(evt,'The interface\'s address at its protocol sub-layer.  For\nexample, for an 802.x interface, this object normally\ncontains a MAC address.  The interface\'s media-specific MIB\nmust define the bit and byte ordering and the format of the\nvalue of this object.  For interfaces which do not have such\nan address (e.g., a serial line), this object should contain\nan octet string of zero length.')" onmouseout="HideTooltip(evt)">ifPhysAddress:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'PhysAddress is defined in module SNMPv2-TC:\n\nRepresents media- or physical-level addresses.')" onmouseout="HideTooltip(evt)">PhysAddress</tspan></text>
+  <text id="ifAdminStatus" fill="rgb(0%,0%,0%)" x="-95.50" y="-2.50">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-91.50" onmousemove="ShowTooltipMZ(evt,'The desired state of the interface.  The testing(3) state\nindicates that no operational packets can be passed.  When a\nmanaged system initializes, all interfaces start with\nifAdminStatus in the down(2) state.  As a result of either\nexplicit management action or per configuration information\nretained by the managed system, ifAdminStatus is then\nchanged to either the up(1) or testing(3) states (or remains\nin the down(2) state).')" onmouseout="HideTooltip(evt)">ifAdminStatus:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">Enumeration</tspan></text>
+  <text id="ifOperStatus" fill="rgb(0%,0%,0%)" x="-95.50" y="12.50">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-91.50" onmousemove="ShowTooltipMZ(evt,'The current operational state of the interface.  The\ntesting(3) state indicates that no operational packets can\nbe passed.  If ifAdminStatus is down(2) then ifOperStatus\nshould be down(2).  If ifAdminStatus is changed to up(1)\nthen ifOperStatus should change to up(1) if the interface is\nready to transmit and receive network traffic; it should\nchange to dormant(5) if the interface is waiting for\nexternal actions (such as a serial line waiting for an\nincoming connection); it should remain in the down(2) state\nif and only if there is a fault that prevents it from going\nto the up(1) state; it should remain in the notPresent(6)\nstate if the interface has missing (typically, hardware)\ncomponents.')" onmouseout="HideTooltip(evt)">ifOperStatus:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">Enumeration</tspan></text>
+  <text id="ifLastChange" fill="rgb(0%,0%,0%)" x="-95.50" y="27.50">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-91.50" onmousemove="ShowTooltipMZ(evt,'The value of sysUpTime at the time the interface entered\nits current operational state.  If the current state was\nentered prior to the last re-initialization of the local\nnetwork management subsystem, then this object contains a\nzero value.')" onmouseout="HideTooltip(evt)">ifLastChange:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">TimeTicks</tspan></text>
+  <text id="ifInOctets" fill="rgb(0%,0%,0%)" x="-95.50" y="42.50">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-91.50" onmousemove="ShowTooltipMZ(evt,'The total number of octets received on the interface,\n\n\nincluding framing characters.\n\nDiscontinuities in the value of this counter can occur at\nre-initialization of the management system, and at other\ntimes as indicated by the value of\nifCounterDiscontinuityTime.')" onmouseout="HideTooltip(evt)">ifInOctets:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">Counter32</tspan></text>
+  <text id="ifInUcastPkts" fill="rgb(0%,0%,0%)" x="-95.50" y="57.50">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-91.50" onmousemove="ShowTooltipMZ(evt,'The number of packets, delivered by this sub-layer to a\nhigher (sub-)layer, which were not addressed to a multicast\nor broadcast address at this sub-layer.\n\nDiscontinuities in the value of this counter can occur at\nre-initialization of the management system, and at other\ntimes as indicated by the value of\nifCounterDiscontinuityTime.')" onmouseout="HideTooltip(evt)">ifInUcastPkts:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">Counter32</tspan></text>
+  <text id="ifInDiscards" fill="rgb(0%,0%,0%)" x="-95.50" y="72.50">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-91.50" onmousemove="ShowTooltipMZ(evt,'The number of inbound packets which were chosen to be\ndiscarded even though no errors had been detected to prevent\n\n\ntheir being deliverable to a higher-layer protocol.  One\npossible reason for discarding such a packet could be to\nfree up buffer space.\n\nDiscontinuities in the value of this counter can occur at\nre-initialization of the management system, and at other\ntimes as indicated by the value of\nifCounterDiscontinuityTime.')" onmouseout="HideTooltip(evt)">ifInDiscards:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">Counter32</tspan></text>
+  <text id="ifInErrors" fill="rgb(0%,0%,0%)" x="-95.50" y="87.50">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-91.50" onmousemove="ShowTooltipMZ(evt,'For packet-oriented interfaces, the number of inbound\npackets that contained errors preventing them from being\ndeliverable to a higher-layer protocol.  For character-\noriented or fixed-length interfaces, the number of inbound\ntransmission units that contained errors preventing them\nfrom being deliverable to a higher-layer protocol.\n\nDiscontinuities in the value of this counter can occur at\nre-initialization of the management system, and at other\ntimes as indicated by the value of\nifCounterDiscontinuityTime.')" onmouseout="HideTooltip(evt)">ifInErrors:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">Counter32</tspan></text>
+  <text id="ifInUnknownProtos" fill="rgb(0%,0%,0%)" x="-95.50" y="102.50">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-91.50" onmousemove="ShowTooltipMZ(evt,'For packet-oriented interfaces, the number of packets\nreceived via the interface which were discarded because of\nan unknown or unsupported protocol.  For character-oriented\nor fixed-length interfaces that support protocol\nmultiplexing the number of transmission units received via\nthe interface which were discarded because of an unknown or\nunsupported protocol.  For any interface that does not\nsupport protocol multiplexing, this counter will always be\n0.\n\nDiscontinuities in the value of this counter can occur at\nre-initialization of the management system, and at other\ntimes as indicated by the value of\nifCounterDiscontinuityTime.')" onmouseout="HideTooltip(evt)">ifInUnknownProtos:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">Counter32</tspan></text>
+  <text id="ifOutOctets" fill="rgb(0%,0%,0%)" x="-95.50" y="117.50">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-91.50" onmousemove="ShowTooltipMZ(evt,'The total number of octets transmitted out of the\ninterface, including framing characters.\n\nDiscontinuities in the value of this counter can occur at\nre-initialization of the management system, and at other\ntimes as indicated by the value of\nifCounterDiscontinuityTime.')" onmouseout="HideTooltip(evt)">ifOutOctets:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">Counter32</tspan></text>
+  <text id="ifOutUcastPkts" fill="rgb(0%,0%,0%)" x="-95.50" y="132.50">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-91.50" onmousemove="ShowTooltipMZ(evt,'The total number of packets that higher-level protocols\nrequested be transmitted, and which were not addressed to a\nmulticast or broadcast address at this sub-layer, including\nthose that were discarded or not sent.\n\nDiscontinuities in the value of this counter can occur at\nre-initialization of the management system, and at other\ntimes as indicated by the value of\nifCounterDiscontinuityTime.')" onmouseout="HideTooltip(evt)">ifOutUcastPkts:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">Counter32</tspan></text>
+  <text id="ifOutDiscards" fill="rgb(0%,0%,0%)" x="-95.50" y="147.50">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-91.50" onmousemove="ShowTooltipMZ(evt,'The number of outbound packets which were chosen to be\ndiscarded even though no errors had been detected to prevent\ntheir being transmitted.  One possible reason for discarding\nsuch a packet could be to free up buffer space.\n\nDiscontinuities in the value of this counter can occur at\nre-initialization of the management system, and at other\ntimes as indicated by the value of\nifCounterDiscontinuityTime.')" onmouseout="HideTooltip(evt)">ifOutDiscards:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">Counter32</tspan></text>
+  <text id="ifOutErrors" fill="rgb(0%,0%,0%)" x="-95.50" y="162.50">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-91.50" onmousemove="ShowTooltipMZ(evt,'For packet-oriented interfaces, the number of outbound\npackets that could not be transmitted because of errors.\nFor character-oriented or fixed-length interfaces, the\nnumber of outbound transmission units that could not be\ntransmitted because of errors.\n\nDiscontinuities in the value of this counter can occur at\nre-initialization of the management system, and at other\ntimes as indicated by the value of\nifCounterDiscontinuityTime.')" onmouseout="HideTooltip(evt)">ifOutErrors:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">Counter32</tspan></text>
+  </g>
+  <g transform="translate(753.07,-474.06)">
+    <rect id="ifStackTable" x="-147.00" y="-62.50" width="294.00" height="125.00"
+          fill="white" stroke="black"/>
+    <rect x="-145.00" y="-60.50" width="16" height="16" rx="4" ry="4" stroke-width="3" stroke="gray" fill="white"
+          onmousedown="ClickObj(evt)" onclick="ClickObj(evt)" onmousemove="MoveObj(evt)" onmouseup="OutOfObj(evt)" onmouseout="OutOfObj(evt)"/>
+    <polygon points="-147.00 -42.50 147.00 -42.50"
+          fill="none" stroke="black"/>
+    <text x="0" y="-47.50" fill="rgb(0%,0%,0%)" style="text-anchor:middle; font-weight:bold" onmousemove="ShowTooltipMZ(evt,'The table containing information on the relationships\nbetween the multiple sub-layers of network interfaces.  In\nparticular, it contains information on which sub-layers run\n\'on top of\' which other sub-layers, where each sub-layer\ncorresponds to a conceptual row in the ifTable.  For\nexample, when the sub-layer with ifIndex value x runs over\nthe sub-layer with ifIndex value y, then this table\ncontains:\n\n  ifStackStatus.x.y=active\n\nFor each ifIndex value, I, which identifies an active\ninterface, there are always at least two instantiated rows\nin this table associated with I.  For one of these rows, I\nis the value of ifStackHigherLayer; for the other, I is the\nvalue of ifStackLowerLayer.  (If I is not involved in\nmultiplexing, then these are the only two rows associated\nwith I.)\n\nFor example, two rows exist even for an interface which has\nno others stacked on top or below it:\n\n  ifStackStatus.0.x=active\n  ifStackStatus.x.0=active \n-- -- --\nInformation on a particular relationship between two sub-\nlayers, specifying that one sub-layer runs on \'top\' of the\nother sub-layer.  Each sub-layer corresponds to a conceptual\nrow in the ifTable.')" onmouseout="HideTooltip(evt)">
+         ifStackEntry</text>
+  <text id="ifStackLastChange" fill="rgb(0%,0%,0%)" x="-141.00" y="-27.50">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-137.00" onmousemove="ShowTooltipMZ(evt,'The value of sysUpTime at the time of the last change of\nthe (whole) interface stack.  A change of the interface\nstack is defined to be any creation, deletion, or change in\nvalue of any instance of ifStackStatus.  If the interface\nstack has been unchanged since the last re-initialization of\nthe local network management subsystem, then this object\ncontains a zero value.')" onmouseout="HideTooltip(evt)">ifStackLastChange:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">TimeTicks</tspan></text>
+    <polygon points="-147.00 -22.50 147.00 -22.50"
+          fill="none" stroke="black"/>
+  <text fill="rgb(0%,0%,0%)" x="-141.00" y="-7.50">
+<tspan x="-137.00" onmousemove="ShowTooltipMZ(evt,'The value of ifIndex corresponding to the higher sub-layer\nof the relationship, i.e., the sub-layer which runs on \'top\'\nof the sub-layer identified by the corresponding instance of\nifStackLowerLayer.  If there is no higher sub-layer (below\nthe internetwork layer), then this object has the value 0.')" onmouseout="HideTooltip(evt)">ifStackHigherLayer:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This textual convention is an extension of the\nInterfaceIndex convention.  The latter defines a greater\nthan zero value used to identify an interface or interface\nsub-layer in the managed system.  This extension permits the\nadditional value of zero.  the value zero is object-specific\nand must therefore be defined as part of the description of\nany object which uses this syntax.  Examples of the usage of\nzero might include situations where interface was unknown,\nor when none or all interfaces need to be referenced.')" onmouseout="HideTooltip(evt)">InterfaceIndexOrZero</tspan></text>
+  <text fill="rgb(0%,0%,0%)" x="-141.00" y="7.50">
+<tspan x="-137.00" onmousemove="ShowTooltipMZ(evt,'The value of ifIndex corresponding to the lower sub-layer\nof the relationship, i.e., the sub-layer which runs \'below\'\nthe sub-layer identified by the corresponding instance of\nifStackHigherLayer.  If there is no lower sub-layer, then\nthis object has the value 0.')" onmouseout="HideTooltip(evt)">ifStackLowerLayer:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This textual convention is an extension of the\nInterfaceIndex convention.  The latter defines a greater\nthan zero value used to identify an interface or interface\nsub-layer in the managed system.  This extension permits the\nadditional value of zero.  the value zero is object-specific\nand must therefore be defined as part of the description of\nany object which uses this syntax.  Examples of the usage of\nzero might include situations where interface was unknown,\nor when none or all interfaces need to be referenced.')" onmouseout="HideTooltip(evt)">InterfaceIndexOrZero</tspan></text>
+    <polygon points="-147.00 12.50 147.00 12.50"
+          fill="none" stroke="black"/>
+  <text id="ifStackHigherLayer" fill="rgb(0%,0%,0%)" x="-141.00" y="27.50">
+    <tspan style="text-anchor:middle">-</tspan><tspan x="-137.00" onmousemove="ShowTooltipMZ(evt,'The value of ifIndex corresponding to the higher sub-layer\nof the relationship, i.e., the sub-layer which runs on \'top\'\nof the sub-layer identified by the corresponding instance of\nifStackLowerLayer.  If there is no higher sub-layer (below\nthe internetwork layer), then this object has the value 0.')" onmouseout="HideTooltip(evt)">ifStackHigherLayer:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This textual convention is an extension of the\nInterfaceIndex convention.  The latter defines a greater\nthan zero value used to identify an interface or interface\nsub-layer in the managed system.  This extension permits the\nadditional value of zero.  the value zero is object-specific\nand must therefore be defined as part of the description of\nany object which uses this syntax.  Examples of the usage of\nzero might include situations where interface was unknown,\nor when none or all interfaces need to be referenced.')" onmouseout="HideTooltip(evt)">InterfaceIndexOrZero</tspan></text>
+  <text id="ifStackLowerLayer" fill="rgb(0%,0%,0%)" x="-141.00" y="42.50">
+    <tspan style="text-anchor:middle">-</tspan><tspan x="-137.00" onmousemove="ShowTooltipMZ(evt,'The value of ifIndex corresponding to the lower sub-layer\nof the relationship, i.e., the sub-layer which runs \'below\'\nthe sub-layer identified by the corresponding instance of\nifStackHigherLayer.  If there is no lower sub-layer, then\nthis object has the value 0.')" onmouseout="HideTooltip(evt)">ifStackLowerLayer:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This textual convention is an extension of the\nInterfaceIndex convention.  The latter defines a greater\nthan zero value used to identify an interface or interface\nsub-layer in the managed system.  This extension permits the\nadditional value of zero.  the value zero is object-specific\nand must therefore be defined as part of the description of\nany object which uses this syntax.  Examples of the usage of\nzero might include situations where interface was unknown,\nor when none or all interfaces need to be referenced.')" onmouseout="HideTooltip(evt)">InterfaceIndexOrZero</tspan></text>
+  <text id="ifStackStatus" fill="rgb(0%,0%,0%)" x="-141.00" y="57.50">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-137.00" onmousemove="ShowTooltipMZ(evt,'The status of the relationship between two sub-layers.\n\nChanging the value of this object from \'active\' to\n\'notInService\' or \'destroy\' will likely have consequences up\nand down the interface stack.  Thus, write access to this\nobject is likely to be inappropriate for some types of\ninterfaces, and many implementations will choose not to\nsupport write-access for any type of interface.')" onmouseout="HideTooltip(evt)">ifStackStatus:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'RowStatus is defined in module SNMPv2-TC:\n\nThe RowStatus textual convention is used to manage the\ncreation and deletion of conceptual rows, and is used as the\nvalue of the SYNTAX clause for the status column of a\nconceptual row (as described in Section 7.7.1 of [2].)\nThe status column has six defined values:\n\n     - `active\', which indicates that the conceptual row is\n     available for use by the managed device;\n\n     - `notInService\', which indicates that the conceptual\n     row exists in the agent, but is unavailable for use by\n     the managed device (see NOTE below); \'notInService\' has\n     no implication regarding the internal consistency of\n     the row, availability of resources, or consistency with\n     the current state of the managed device;\n\n     - `notReady\', which indicates that the conceptual row\n     exists in the agent, but is missing information\n     necessary in order to be available for use by the\n     managed device (i.e., one or more required columns in\n     the conceptual row have not been instanciated);\n\n     - `createAndGo\', which is supplied by a management\n     station wishing to create a new instance of a\n     conceptual row and to have its status automatically set\n     to active, making it available for use by the managed\n     device;\n\n     - `createAndWait\', which is supplied by a management\n     station wishing to create a new instance of a\n     conceptual row (but not make it available for use by\n     the managed device); and,\n\n     - `destroy\', which is supplied by a management station\n     wishing to delete all of the instances associated with\n     an existing conceptual row.\n\nWhereas five of the six values (all except `notReady\') may\nbe specified in a management protocol set operation, only\nthree values will be returned in response to a management\nprotocol retrieval operation:  `notReady\', `notInService\' or\n`active\'.  That is, when queried, an existing conceptual row\nhas only three states:  it is either available for use by\nthe managed device (the status column has value `active\');\nit is not available for use by the managed device, though\nthe agent has sufficient information to attempt to make it\nso (the status column has value `notInService\'); or, it is\nnot available for use by the managed device, and an attempt\nto make it so would fail because the agent has insufficient\ninformation (the state column has value `notReady\').\n\n                         NOTE WELL\n\n     This textual convention may be used for a MIB table,\n     irrespective of whether the values of that table\'s\n     conceptual rows are able to be modified while it is\n     active, or whether its conceptual rows must be taken\n     out of service in order to be modified.  That is, it is\n     the responsibility of the DESCRIPTION clause of the\n     status column to specify whether the status column must\n     not be `active\' in order for the value of some other\n     column of the same conceptual row to be modified.  If\n     such a specification is made, affected columns may be\n     changed by an SNMP set PDU if the RowStatus would not\n     be equal to `active\' either immediately before or after\n     processing the PDU.  In other words, if the PDU also\n     contained a varbind that would change the RowStatus\n     value, the column in question may be changed if the\n     RowStatus was not equal to `active\' as the PDU was\n     received, or if the varbind sets the status to a value\n     other than \'active\'.\n\n\nAlso note that whenever any elements of a row exist, the\nRowStatus column must also exist.\n\nTo summarize the effect of having a conceptual row with a\nstatus column having a SYNTAX clause value of RowStatus,\nconsider the following state diagram:\n\n\n                             STATE\n  +--------------+-----------+-------------+-------------\n  |      A       |     B     |      C      |      D\n  |              |status col.|status column|\n  |status column |    is     |      is     |status column\nACTION    |does not exist|  notReady | notInService|  is active\n--------------+--------------+-----------+-------------+-------------\nset status    |noError    -&gt;D|inconsist- |inconsistent-|inconsistent-\ncolumn to     |       or     |   entValue|        Value|        Value\ncreateAndGo   |inconsistent- |           |             |\n  |         Value|           |             |\n--------------+--------------+-----------+-------------+-------------\nset status    |noError  see 1|inconsist- |inconsistent-|inconsistent-\ncolumn to     |       or     |   entValue|        Value|        Value\ncreateAndWait |wrongValue    |           |             |\n--------------+--------------+-----------+-------------+-------------\nset status    |inconsistent- |inconsist- |noError      |noError\ncolumn to     |         Value|   entValue|             |\nactive        |              |           |             |\n  |              |     or    |             |\n  |              |           |             |\n  |              |see 2   -&gt;D|see 8     -&gt;D|          -&gt;D\n--------------+--------------+-----------+-------------+-------------\nset status    |inconsistent- |inconsist- |noError      |noError   -&gt;C\ncolumn to     |         Value|   entValue|             |\nnotInService  |              |           |             |\n  |              |     or    |             |      or\n  |              |           |             |\n  |              |see 3   -&gt;C|          -&gt;C|see 6\n--------------+--------------+-----------+-------------+-------------\nset status    |noError       |noError    |noError      |noError   -&gt;A\ncolumn to     |              |           |             |      or\ndestroy       |           -&gt;A|        -&gt;A|          -&gt;A|see 7\n--------------+--------------+-----------+-------------+-------------\nset any other |see 4         |noError    |noError      |see 5\ncolumn to some|              |           |             |\nvalue         |              |      see 1|          -&gt;C|          -&gt;D\n--------------+--------------+-----------+-------------+-------------\n\n(1) goto B or C, depending on information available to the\nagent.\n\n(2) if other variable bindings included in the same PDU,\nprovide values for all columns which are missing but\nrequired, and all columns have acceptable values, then\nreturn noError and goto D.\n\n(3) if other variable bindings included in the same PDU,\nprovide legal values for all columns which are missing but\nrequired, then return noError and goto C.\n\n(4) at the discretion of the agent, the return value may be\neither:\n\n     inconsistentName:  because the agent does not choose to\n     create such an instance when the corresponding\n     RowStatus instance does not exist, or\n\n     inconsistentValue:  if the supplied value is\n     inconsistent with the state of some other MIB object\'s\n     value, or\n\n     noError: because the agent chooses to create the\n     instance.\n\nIf noError is returned, then the instance of the status\ncolumn must also be created, and the new state is B or C,\ndepending on the information available to the agent.  If\ninconsistentName or inconsistentValue is returned, the row\nremains in state A.\n\n(5) depending on the MIB definition for the column/table,\neither noError or inconsistentValue may be returned.\n\n(6) the return value can indicate one of the following\nerrors:\n\n     wrongValue: because the agent does not support\n     notInService (e.g., an agent which does not support\n     createAndWait), or\n\n     inconsistentValue: because the agent is unable to take\n     the row out of service at this time, perhaps because it\n     is in use and cannot be de-activated.\n\n(7) the return value can indicate the following error:\n\n     inconsistentValue: because the agent is unable to\n     remove the row at this time, perhaps because it is in\n     use and cannot be de-activated.\n\n(8) the transition to D can fail, e.g., if the values of the\nconceptual row are inconsistent, then the error code would\nbe inconsistentValue.\n\nNOTE: Other processing of (this and other varbinds of) the\nset request may result in a response other than noError\nbeing returned, e.g., wrongValue, noCreation, etc.\n\n\n                  Conceptual Row Creation\n\nThere are four potential interactions when creating a\nconceptual row:  selecting an instance-identifier which is\nnot in use; creating the conceptual row; initializing any\nobjects for which the agent does not supply a default; and,\nmaking the conceptual row available for use by the managed\ndevice.\n\nInteraction 1: Selecting an Instance-Identifier\n\nThe algorithm used to select an instance-identifier varies\nfor each conceptual row.  In some cases, the instance-\nidentifier is semantically significant, e.g., the\ndestination address of a route, and a management station\nselects the instance-identifier according to the semantics.\n\nIn other cases, the instance-identifier is used solely to\ndistinguish conceptual rows, and a management station\nwithout specific knowledge of the conceptual row might\nexamine the instances present in order to determine an\nunused instance-identifier.  (This approach may be used, but\nit is often highly sub-optimal; however, it is also a\nquestionable practice for a naive management station to\nattempt conceptual row creation.)\n\nAlternately, the MIB module which defines the conceptual row\nmight provide one or more objects which provide assistance\nin determining an unused instance-identifier.  For example,\nif the conceptual row is indexed by an integer-value, then\nan object having an integer-valued SYNTAX clause might be\ndefined for such a purpose, allowing a management station to\nissue a management protocol retrieval operation.  In order\nto avoid unnecessary collisions between competing management\nstations, `adjacent\' retrievals of this object should be\ndifferent.\n\nFinally, the management station could select a pseudo-random\nnumber to use as the index.  In the event that this index\nwas already in use and an inconsistentValue was returned in\nresponse to the management protocol set operation, the\nmanagement station should simply select a new pseudo-random\nnumber and retry the operation.\n\nA MIB designer should choose between the two latter\nalgorithms based on the size of the table (and therefore the\nefficiency of each algorithm).  For tables in which a large\nnumber of entries are expected, it is recommended that a MIB\nobject be defined that returns an acceptable index for\ncreation.  For tables with small numbers of entries, it is\nrecommended that the latter pseudo-random index mechanism be\nused.\n\nInteraction 2: Creating the Conceptual Row\n\nOnce an unused instance-identifier has been selected, the\nmanagement station determines if it wishes to create and\nactivate the conceptual row in one transaction or in a\nnegotiated set of interactions.\n\nInteraction 2a: Creating and Activating the Conceptual Row\n\nThe management station must first determine the column\nrequirements, i.e., it must determine those columns for\nwhich it must or must not provide values.  Depending on the\ncomplexity of the table and the management station\'s\nknowledge of the agent\'s capabilities, this determination\ncan be made locally by the management station.  Alternately,\nthe management station issues a management protocol get\noperation to examine all columns in the conceptual row that\nit wishes to create.  In response, for each column, there\nare three possible outcomes:\n\n     - a value is returned, indicating that some other\n     management station has already created this conceptual\n     row.  We return to interaction 1.\n\n     - the exception `noSuchInstance\' is returned,\n     indicating that the agent implements the object-type\n     associated with this column, and that this column in at\n     least one conceptual row would be accessible in the MIB\n     view used by the retrieval were it to exist. For those\n     columns to which the agent provides read-create access,\n     the `noSuchInstance\' exception tells the management\n     station that it should supply a value for this column\n     when the conceptual row is to be created.\n\n     - the exception `noSuchObject\' is returned, indicating\n     that the agent does not implement the object-type\n     associated with this column or that there is no\n     conceptual row for which this column would be\n     accessible in the MIB view used by the retrieval.  As\n     such, the management station can not issue any\n     management protocol set operations to create an\n     instance of this column.\n\nOnce the column requirements have been determined, a\nmanagement protocol set operation is accordingly issued.\nThis operation also sets the new instance of the status\ncolumn to `createAndGo\'.\n\nWhen the agent processes the set operation, it verifies that\nit has sufficient information to make the conceptual row\navailable for use by the managed device.  The information\navailable to the agent is provided by two sources:  the\nmanagement protocol set operation which creates the\nconceptual row, and, implementation-specific defaults\nsupplied by the agent (note that an agent must provide\nimplementation-specific defaults for at least those objects\nwhich it implements as read-only).  If there is sufficient\ninformation available, then the conceptual row is created, a\n`noError\' response is returned, the status column is set to\n`active\', and no further interactions are necessary (i.e.,\ninteractions 3 and 4 are skipped).  If there is insufficient\ninformation, then the conceptual row is not created, and the\nset operation fails with an error of `inconsistentValue\'.\nOn this error, the management station can issue a management\nprotocol retrieval operation to determine if this was\nbecause it failed to specify a value for a required column,\nor, because the selected instance of the status column\nalready existed.  In the latter case, we return to\ninteraction 1.  In the former case, the management station\ncan re-issue the set operation with the additional\ninformation, or begin interaction 2 again using\n`createAndWait\' in order to negotiate creation of the\nconceptual row.\n\n                         NOTE WELL\n\n     Regardless of the method used to determine the column\n     requirements, it is possible that the management\n     station might deem a column necessary when, in fact,\n     the agent will not allow that particular columnar\n     instance to be created or written.  In this case, the\n     management protocol set operation will fail with an\n     error such as `noCreation\' or `notWritable\'.  In this\n     case, the management station decides whether it needs\n     to be able to set a value for that particular columnar\n     instance.  If not, the management station re-issues the\n     management protocol set operation, but without setting\n     a value for that particular columnar instance;\n     otherwise, the management station aborts the row\n     creation algorithm.\n\nInteraction 2b: Negotiating the Creation of the Conceptual\nRow\n\nThe management station issues a management protocol set\noperation which sets the desired instance of the status\ncolumn to `createAndWait\'.  If the agent is unwilling to\nprocess a request of this sort, the set operation fails with\nan error of `wrongValue\'.  (As a consequence, such an agent\nmust be prepared to accept a single management protocol set\noperation, i.e., interaction 2a above, containing all of the\ncolumns indicated by its column requirements.)  Otherwise,\nthe conceptual row is created, a `noError\' response is\nreturned, and the status column is immediately set to either\n`notInService\' or `notReady\', depending on whether it has\nsufficient information to (attempt to) make the conceptual\nrow available for use by the managed device.  If there is\nsufficient information available, then the status column is\nset to `notInService\'; otherwise, if there is insufficient\ninformation, then the status column is set to `notReady\'.\nRegardless, we proceed to interaction 3.\n\nInteraction 3: Initializing non-defaulted Objects\n\nThe management station must now determine the column\nrequirements.  It issues a management protocol get operation\nto examine all columns in the created conceptual row.  In\nthe response, for each column, there are three possible\noutcomes:\n\n     - a value is returned, indicating that the agent\n     implements the object-type associated with this column\n     and had sufficient information to provide a value.  For\n     those columns to which the agent provides read-create\n     access (and for which the agent allows their values to\n     be changed after their creation), a value return tells\n     the management station that it may issue additional\n     management protocol set operations, if it desires, in\n     order to change the value associated with this column.\n\n     - the exception `noSuchInstance\' is returned,\n     indicating that the agent implements the object-type\n     associated with this column, and that this column in at\n     least one conceptual row would be accessible in the MIB\n     view used by the retrieval were it to exist. However,\n     the agent does not have sufficient information to\n     provide a value, and until a value is provided, the\n     conceptual row may not be made available for use by the\n     managed device.  For those columns to which the agent\n     provides read-create access, the `noSuchInstance\'\n     exception tells the management station that it must\n     issue additional management protocol set operations, in\n     order to provide a value associated with this column.\n\n     - the exception `noSuchObject\' is returned, indicating\n     that the agent does not implement the object-type\n     associated with this column or that there is no\n     conceptual row for which this column would be\n     accessible in the MIB view used by the retrieval.  As\n     such, the management station can not issue any\n     management protocol set operations to create an\n     instance of this column.\n\nIf the value associated with the status column is\n`notReady\', then the management station must first deal with\nall `noSuchInstance\' columns, if any.  Having done so, the\nvalue of the status column becomes `notInService\', and we\nproceed to interaction 4.\n\nInteraction 4: Making the Conceptual Row Available\n\nOnce the management station is satisfied with the values\nassociated with the columns of the conceptual row, it issues\na management protocol set operation to set the status column\nto `active\'.  If the agent has sufficient information to\nmake the conceptual row available for use by the managed\ndevice, the management protocol set operation succeeds (a\n`noError\' response is returned).  Otherwise, the management\nprotocol set operation fails with an error of\n`inconsistentValue\'.\n\n                         NOTE WELL\n\n     A conceptual row having a status column with value\n     `notInService\' or `notReady\' is unavailable to the\n     managed device.  As such, it is possible for the\n     managed device to create its own instances during the\n     time between the management protocol set operation\n     which sets the status column to `createAndWait\' and the\n     management protocol set operation which sets the status\n     column to `active\'.  In this case, when the management\n     protocol set operation is issued to set the status\n     column to `active\', the values held in the agent\n     supersede those used by the managed device.\n\nIf the management station is prevented from setting the\nstatus column to `active\' (e.g., due to management station\nor network failure) the conceptual row will be left in the\n`notInService\' or `notReady\' state, consuming resources\nindefinitely.  The agent must detect conceptual rows that\nhave been in either state for an abnormally long period of\ntime and remove them.  It is the responsibility of the\nDESCRIPTION clause of the status column to indicate what an\nabnormally long period of time would be.  This period of\ntime should be long enough to allow for human response time\n(including `think time\') between the creation of the\nconceptual row and the setting of the status to `active\'.\nIn the absence of such information in the DESCRIPTION\nclause, it is suggested that this period be approximately 5\nminutes in length.  This removal action applies not only to\nnewly-created rows, but also to previously active rows which\nare set to, and left in, the notInService state for a\nprolonged period exceeding that which is considered normal\nfor such a conceptual row.\n\n                 Conceptual Row Suspension\n\nWhen a conceptual row is `active\', the management station\nmay issue a management protocol set operation which sets the\ninstance of the status column to `notInService\'.  If the\nagent is unwilling to do so, the set operation fails with an\nerror of `wrongValue\' or `inconsistentValue\'.  Otherwise,\nthe conceptual row is taken out of service, and a `noError\'\nresponse is returned.  It is the responsibility of the\nDESCRIPTION clause of the status column to indicate under\nwhat circumstances the status column should be taken out of\nservice (e.g., in order for the value of some other column\nof the same conceptual row to be modified).\n\n\n                  Conceptual Row Deletion\n\nFor deletion of conceptual rows, a management protocol set\noperation is issued which sets the instance of the status\ncolumn to `destroy\'.  This request may be made regardless of\nthe current value of the status column (e.g., it is possible\nto delete conceptual rows which are either `notReady\',\n`notInService\' or `active\'.)  If the operation succeeds,\nthen all instances associated with the conceptual row are\nimmediately removed.')" onmouseout="HideTooltip(evt)">RowStatus</tspan></text>
+  </g>
+  <g transform="translate(129.00,136.26)">
+    <rect id="ifRcvAddressTable" x="-119.00" y="-52.50" width="238.00" height="105.00"
+          fill="white" stroke="black"/>
+    <rect x="-117.00" y="-50.50" width="16" height="16" rx="4" ry="4" stroke-width="3" stroke="gray" fill="white"
+          onmousedown="ClickObj(evt)" onclick="ClickObj(evt)" onmousemove="MoveObj(evt)" onmouseup="OutOfObj(evt)" onmouseout="OutOfObj(evt)"/>
+    <polygon points="-119.00 -32.50 119.00 -32.50"
+          fill="none" stroke="black"/>
+    <text x="0" y="-37.50" fill="rgb(0%,0%,0%)" style="text-anchor:middle; font-weight:bold" onmousemove="ShowTooltipMZ(evt,'This table contains an entry for each address (broadcast,\nmulticast, or uni-cast) for which the system will receive\npackets/frames on a particular interface, except as follows:\n\n- for an interface operating in promiscuous mode, entries\nare only required for those addresses for which the system\nwould receive frames were it not operating in promiscuous\nmode.\n\n\n- for 802.5 functional addresses, only one entry is\nrequired, for the address which has the functional address\nbit ANDed with the bit mask of all functional addresses for\nwhich the interface will accept frames.\n\nA system is normally able to use any unicast address which\ncorresponds to an entry in this table as a source address.\n-- -- --\nA list of objects identifying an address for which the\nsystem will accept packets/frames on the particular\ninterface identified by the index value ifIndex.')" onmouseout="HideTooltip(evt)">
+         ifRcvAddressEntry</text>
+  <text fill="rgb(0%,0%,0%)" x="-113.00" y="-17.50">
+<tspan x="-109.00" onmousemove="ShowTooltipMZ(evt,'A unique value, greater than zero, for each interface.  It\nis recommended that values are assigned contiguously\nstarting from 1.  The value for each interface sub-layer\nmust remain constant at least from one re-initialization of\nthe entity\'s network management system to the next re-\ninitialization.')" onmouseout="HideTooltip(evt)">ifIndex:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'A unique value, greater than zero, for each interface or\ninterface sub-layer in the managed system.  It is\nrecommended that values are assigned contiguously starting\nfrom 1.  The value for each interface sub-layer must remain\nconstant at least from one re-initialization of the entity\'s\nnetwork management system to the next re-initialization.')" onmouseout="HideTooltip(evt)">InterfaceIndex</tspan></text>
+  <text fill="rgb(0%,0%,0%)" x="-113.00" y="-2.50">
+<tspan x="-109.00" onmousemove="ShowTooltipMZ(evt,'An address for which the system will accept packets/frames\non this entry\'s interface.')" onmouseout="HideTooltip(evt)">ifRcvAddressAddress:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'PhysAddress is defined in module SNMPv2-TC:\n\nRepresents media- or physical-level addresses.')" onmouseout="HideTooltip(evt)">PhysAddress</tspan></text>
+    <polygon points="-119.00 2.50 119.00 2.50"
+          fill="none" stroke="black"/>
+  <text id="ifRcvAddressAddress" fill="rgb(0%,0%,0%)" x="-113.00" y="17.50">
+    <tspan style="text-anchor:middle">-</tspan><tspan x="-109.00" onmousemove="ShowTooltipMZ(evt,'An address for which the system will accept packets/frames\non this entry\'s interface.')" onmouseout="HideTooltip(evt)">ifRcvAddressAddress:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'PhysAddress is defined in module SNMPv2-TC:\n\nRepresents media- or physical-level addresses.')" onmouseout="HideTooltip(evt)">PhysAddress</tspan></text>
+  <text id="ifRcvAddressStatus" fill="rgb(0%,0%,0%)" x="-113.00" y="32.50">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-109.00" onmousemove="ShowTooltipMZ(evt,'This object is used to create and delete rows in the\nifRcvAddressTable.')" onmouseout="HideTooltip(evt)">ifRcvAddressStatus:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'RowStatus is defined in module SNMPv2-TC:\n\nThe RowStatus textual convention is used to manage the\ncreation and deletion of conceptual rows, and is used as the\nvalue of the SYNTAX clause for the status column of a\nconceptual row (as described in Section 7.7.1 of [2].)\nThe status column has six defined values:\n\n     - `active\', which indicates that the conceptual row is\n     available for use by the managed device;\n\n     - `notInService\', which indicates that the conceptual\n     row exists in the agent, but is unavailable for use by\n     the managed device (see NOTE below); \'notInService\' has\n     no implication regarding the internal consistency of\n     the row, availability of resources, or consistency with\n     the current state of the managed device;\n\n     - `notReady\', which indicates that the conceptual row\n     exists in the agent, but is missing information\n     necessary in order to be available for use by the\n     managed device (i.e., one or more required columns in\n     the conceptual row have not been instanciated);\n\n     - `createAndGo\', which is supplied by a management\n     station wishing to create a new instance of a\n     conceptual row and to have its status automatically set\n     to active, making it available for use by the managed\n     device;\n\n     - `createAndWait\', which is supplied by a management\n     station wishing to create a new instance of a\n     conceptual row (but not make it available for use by\n     the managed device); and,\n\n     - `destroy\', which is supplied by a management station\n     wishing to delete all of the instances associated with\n     an existing conceptual row.\n\nWhereas five of the six values (all except `notReady\') may\nbe specified in a management protocol set operation, only\nthree values will be returned in response to a management\nprotocol retrieval operation:  `notReady\', `notInService\' or\n`active\'.  That is, when queried, an existing conceptual row\nhas only three states:  it is either available for use by\nthe managed device (the status column has value `active\');\nit is not available for use by the managed device, though\nthe agent has sufficient information to attempt to make it\nso (the status column has value `notInService\'); or, it is\nnot available for use by the managed device, and an attempt\nto make it so would fail because the agent has insufficient\ninformation (the state column has value `notReady\').\n\n                         NOTE WELL\n\n     This textual convention may be used for a MIB table,\n     irrespective of whether the values of that table\'s\n     conceptual rows are able to be modified while it is\n     active, or whether its conceptual rows must be taken\n     out of service in order to be modified.  That is, it is\n     the responsibility of the DESCRIPTION clause of the\n     status column to specify whether the status column must\n     not be `active\' in order for the value of some other\n     column of the same conceptual row to be modified.  If\n     such a specification is made, affected columns may be\n     changed by an SNMP set PDU if the RowStatus would not\n     be equal to `active\' either immediately before or after\n     processing the PDU.  In other words, if the PDU also\n     contained a varbind that would change the RowStatus\n     value, the column in question may be changed if the\n     RowStatus was not equal to `active\' as the PDU was\n     received, or if the varbind sets the status to a value\n     other than \'active\'.\n\n\nAlso note that whenever any elements of a row exist, the\nRowStatus column must also exist.\n\nTo summarize the effect of having a conceptual row with a\nstatus column having a SYNTAX clause value of RowStatus,\nconsider the following state diagram:\n\n\n                             STATE\n  +--------------+-----------+-------------+-------------\n  |      A       |     B     |      C      |      D\n  |              |status col.|status column|\n  |status column |    is     |      is     |status column\nACTION    |does not exist|  notReady | notInService|  is active\n--------------+--------------+-----------+-------------+-------------\nset status    |noError    -&gt;D|inconsist- |inconsistent-|inconsistent-\ncolumn to     |       or     |   entValue|        Value|        Value\ncreateAndGo   |inconsistent- |           |             |\n  |         Value|           |             |\n--------------+--------------+-----------+-------------+-------------\nset status    |noError  see 1|inconsist- |inconsistent-|inconsistent-\ncolumn to     |       or     |   entValue|        Value|        Value\ncreateAndWait |wrongValue    |           |             |\n--------------+--------------+-----------+-------------+-------------\nset status    |inconsistent- |inconsist- |noError      |noError\ncolumn to     |         Value|   entValue|             |\nactive        |              |           |             |\n  |              |     or    |             |\n  |              |           |             |\n  |              |see 2   -&gt;D|see 8     -&gt;D|          -&gt;D\n--------------+--------------+-----------+-------------+-------------\nset status    |inconsistent- |inconsist- |noError      |noError   -&gt;C\ncolumn to     |         Value|   entValue|             |\nnotInService  |              |           |             |\n  |              |     or    |             |      or\n  |              |           |             |\n  |              |see 3   -&gt;C|          -&gt;C|see 6\n--------------+--------------+-----------+-------------+-------------\nset status    |noError       |noError    |noError      |noError   -&gt;A\ncolumn to     |              |           |             |      or\ndestroy       |           -&gt;A|        -&gt;A|          -&gt;A|see 7\n--------------+--------------+-----------+-------------+-------------\nset any other |see 4         |noError    |noError      |see 5\ncolumn to some|              |           |             |\nvalue         |              |      see 1|          -&gt;C|          -&gt;D\n--------------+--------------+-----------+-------------+-------------\n\n(1) goto B or C, depending on information available to the\nagent.\n\n(2) if other variable bindings included in the same PDU,\nprovide values for all columns which are missing but\nrequired, and all columns have acceptable values, then\nreturn noError and goto D.\n\n(3) if other variable bindings included in the same PDU,\nprovide legal values for all columns which are missing but\nrequired, then return noError and goto C.\n\n(4) at the discretion of the agent, the return value may be\neither:\n\n     inconsistentName:  because the agent does not choose to\n     create such an instance when the corresponding\n     RowStatus instance does not exist, or\n\n     inconsistentValue:  if the supplied value is\n     inconsistent with the state of some other MIB object\'s\n     value, or\n\n     noError: because the agent chooses to create the\n     instance.\n\nIf noError is returned, then the instance of the status\ncolumn must also be created, and the new state is B or C,\ndepending on the information available to the agent.  If\ninconsistentName or inconsistentValue is returned, the row\nremains in state A.\n\n(5) depending on the MIB definition for the column/table,\neither noError or inconsistentValue may be returned.\n\n(6) the return value can indicate one of the following\nerrors:\n\n     wrongValue: because the agent does not support\n     notInService (e.g., an agent which does not support\n     createAndWait), or\n\n     inconsistentValue: because the agent is unable to take\n     the row out of service at this time, perhaps because it\n     is in use and cannot be de-activated.\n\n(7) the return value can indicate the following error:\n\n     inconsistentValue: because the agent is unable to\n     remove the row at this time, perhaps because it is in\n     use and cannot be de-activated.\n\n(8) the transition to D can fail, e.g., if the values of the\nconceptual row are inconsistent, then the error code would\nbe inconsistentValue.\n\nNOTE: Other processing of (this and other varbinds of) the\nset request may result in a response other than noError\nbeing returned, e.g., wrongValue, noCreation, etc.\n\n\n                  Conceptual Row Creation\n\nThere are four potential interactions when creating a\nconceptual row:  selecting an instance-identifier which is\nnot in use; creating the conceptual row; initializing any\nobjects for which the agent does not supply a default; and,\nmaking the conceptual row available for use by the managed\ndevice.\n\nInteraction 1: Selecting an Instance-Identifier\n\nThe algorithm used to select an instance-identifier varies\nfor each conceptual row.  In some cases, the instance-\nidentifier is semantically significant, e.g., the\ndestination address of a route, and a management station\nselects the instance-identifier according to the semantics.\n\nIn other cases, the instance-identifier is used solely to\ndistinguish conceptual rows, and a management station\nwithout specific knowledge of the conceptual row might\nexamine the instances present in order to determine an\nunused instance-identifier.  (This approach may be used, but\nit is often highly sub-optimal; however, it is also a\nquestionable practice for a naive management station to\nattempt conceptual row creation.)\n\nAlternately, the MIB module which defines the conceptual row\nmight provide one or more objects which provide assistance\nin determining an unused instance-identifier.  For example,\nif the conceptual row is indexed by an integer-value, then\nan object having an integer-valued SYNTAX clause might be\ndefined for such a purpose, allowing a management station to\nissue a management protocol retrieval operation.  In order\nto avoid unnecessary collisions between competing management\nstations, `adjacent\' retrievals of this object should be\ndifferent.\n\nFinally, the management station could select a pseudo-random\nnumber to use as the index.  In the event that this index\nwas already in use and an inconsistentValue was returned in\nresponse to the management protocol set operation, the\nmanagement station should simply select a new pseudo-random\nnumber and retry the operation.\n\nA MIB designer should choose between the two latter\nalgorithms based on the size of the table (and therefore the\nefficiency of each algorithm).  For tables in which a large\nnumber of entries are expected, it is recommended that a MIB\nobject be defined that returns an acceptable index for\ncreation.  For tables with small numbers of entries, it is\nrecommended that the latter pseudo-random index mechanism be\nused.\n\nInteraction 2: Creating the Conceptual Row\n\nOnce an unused instance-identifier has been selected, the\nmanagement station determines if it wishes to create and\nactivate the conceptual row in one transaction or in a\nnegotiated set of interactions.\n\nInteraction 2a: Creating and Activating the Conceptual Row\n\nThe management station must first determine the column\nrequirements, i.e., it must determine those columns for\nwhich it must or must not provide values.  Depending on the\ncomplexity of the table and the management station\'s\nknowledge of the agent\'s capabilities, this determination\ncan be made locally by the management station.  Alternately,\nthe management station issues a management protocol get\noperation to examine all columns in the conceptual row that\nit wishes to create.  In response, for each column, there\nare three possible outcomes:\n\n     - a value is returned, indicating that some other\n     management station has already created this conceptual\n     row.  We return to interaction 1.\n\n     - the exception `noSuchInstance\' is returned,\n     indicating that the agent implements the object-type\n     associated with this column, and that this column in at\n     least one conceptual row would be accessible in the MIB\n     view used by the retrieval were it to exist. For those\n     columns to which the agent provides read-create access,\n     the `noSuchInstance\' exception tells the management\n     station that it should supply a value for this column\n     when the conceptual row is to be created.\n\n     - the exception `noSuchObject\' is returned, indicating\n     that the agent does not implement the object-type\n     associated with this column or that there is no\n     conceptual row for which this column would be\n     accessible in the MIB view used by the retrieval.  As\n     such, the management station can not issue any\n     management protocol set operations to create an\n     instance of this column.\n\nOnce the column requirements have been determined, a\nmanagement protocol set operation is accordingly issued.\nThis operation also sets the new instance of the status\ncolumn to `createAndGo\'.\n\nWhen the agent processes the set operation, it verifies that\nit has sufficient information to make the conceptual row\navailable for use by the managed device.  The information\navailable to the agent is provided by two sources:  the\nmanagement protocol set operation which creates the\nconceptual row, and, implementation-specific defaults\nsupplied by the agent (note that an agent must provide\nimplementation-specific defaults for at least those objects\nwhich it implements as read-only).  If there is sufficient\ninformation available, then the conceptual row is created, a\n`noError\' response is returned, the status column is set to\n`active\', and no further interactions are necessary (i.e.,\ninteractions 3 and 4 are skipped).  If there is insufficient\ninformation, then the conceptual row is not created, and the\nset operation fails with an error of `inconsistentValue\'.\nOn this error, the management station can issue a management\nprotocol retrieval operation to determine if this was\nbecause it failed to specify a value for a required column,\nor, because the selected instance of the status column\nalready existed.  In the latter case, we return to\ninteraction 1.  In the former case, the management station\ncan re-issue the set operation with the additional\ninformation, or begin interaction 2 again using\n`createAndWait\' in order to negotiate creation of the\nconceptual row.\n\n                         NOTE WELL\n\n     Regardless of the method used to determine the column\n     requirements, it is possible that the management\n     station might deem a column necessary when, in fact,\n     the agent will not allow that particular columnar\n     instance to be created or written.  In this case, the\n     management protocol set operation will fail with an\n     error such as `noCreation\' or `notWritable\'.  In this\n     case, the management station decides whether it needs\n     to be able to set a value for that particular columnar\n     instance.  If not, the management station re-issues the\n     management protocol set operation, but without setting\n     a value for that particular columnar instance;\n     otherwise, the management station aborts the row\n     creation algorithm.\n\nInteraction 2b: Negotiating the Creation of the Conceptual\nRow\n\nThe management station issues a management protocol set\noperation which sets the desired instance of the status\ncolumn to `createAndWait\'.  If the agent is unwilling to\nprocess a request of this sort, the set operation fails with\nan error of `wrongValue\'.  (As a consequence, such an agent\nmust be prepared to accept a single management protocol set\noperation, i.e., interaction 2a above, containing all of the\ncolumns indicated by its column requirements.)  Otherwise,\nthe conceptual row is created, a `noError\' response is\nreturned, and the status column is immediately set to either\n`notInService\' or `notReady\', depending on whether it has\nsufficient information to (attempt to) make the conceptual\nrow available for use by the managed device.  If there is\nsufficient information available, then the status column is\nset to `notInService\'; otherwise, if there is insufficient\ninformation, then the status column is set to `notReady\'.\nRegardless, we proceed to interaction 3.\n\nInteraction 3: Initializing non-defaulted Objects\n\nThe management station must now determine the column\nrequirements.  It issues a management protocol get operation\nto examine all columns in the created conceptual row.  In\nthe response, for each column, there are three possible\noutcomes:\n\n     - a value is returned, indicating that the agent\n     implements the object-type associated with this column\n     and had sufficient information to provide a value.  For\n     those columns to which the agent provides read-create\n     access (and for which the agent allows their values to\n     be changed after their creation), a value return tells\n     the management station that it may issue additional\n     management protocol set operations, if it desires, in\n     order to change the value associated with this column.\n\n     - the exception `noSuchInstance\' is returned,\n     indicating that the agent implements the object-type\n     associated with this column, and that this column in at\n     least one conceptual row would be accessible in the MIB\n     view used by the retrieval were it to exist. However,\n     the agent does not have sufficient information to\n     provide a value, and until a value is provided, the\n     conceptual row may not be made available for use by the\n     managed device.  For those columns to which the agent\n     provides read-create access, the `noSuchInstance\'\n     exception tells the management station that it must\n     issue additional management protocol set operations, in\n     order to provide a value associated with this column.\n\n     - the exception `noSuchObject\' is returned, indicating\n     that the agent does not implement the object-type\n     associated with this column or that there is no\n     conceptual row for which this column would be\n     accessible in the MIB view used by the retrieval.  As\n     such, the management station can not issue any\n     management protocol set operations to create an\n     instance of this column.\n\nIf the value associated with the status column is\n`notReady\', then the management station must first deal with\nall `noSuchInstance\' columns, if any.  Having done so, the\nvalue of the status column becomes `notInService\', and we\nproceed to interaction 4.\n\nInteraction 4: Making the Conceptual Row Available\n\nOnce the management station is satisfied with the values\nassociated with the columns of the conceptual row, it issues\na management protocol set operation to set the status column\nto `active\'.  If the agent has sufficient information to\nmake the conceptual row available for use by the managed\ndevice, the management protocol set operation succeeds (a\n`noError\' response is returned).  Otherwise, the management\nprotocol set operation fails with an error of\n`inconsistentValue\'.\n\n                         NOTE WELL\n\n     A conceptual row having a status column with value\n     `notInService\' or `notReady\' is unavailable to the\n     managed device.  As such, it is possible for the\n     managed device to create its own instances during the\n     time between the management protocol set operation\n     which sets the status column to `createAndWait\' and the\n     management protocol set operation which sets the status\n     column to `active\'.  In this case, when the management\n     protocol set operation is issued to set the status\n     column to `active\', the values held in the agent\n     supersede those used by the managed device.\n\nIf the management station is prevented from setting the\nstatus column to `active\' (e.g., due to management station\nor network failure) the conceptual row will be left in the\n`notInService\' or `notReady\' state, consuming resources\nindefinitely.  The agent must detect conceptual rows that\nhave been in either state for an abnormally long period of\ntime and remove them.  It is the responsibility of the\nDESCRIPTION clause of the status column to indicate what an\nabnormally long period of time would be.  This period of\ntime should be long enough to allow for human response time\n(including `think time\') between the creation of the\nconceptual row and the setting of the status to `active\'.\nIn the absence of such information in the DESCRIPTION\nclause, it is suggested that this period be approximately 5\nminutes in length.  This removal action applies not only to\nnewly-created rows, but also to previously active rows which\nare set to, and left in, the notInService state for a\nprolonged period exceeding that which is considered normal\nfor such a conceptual row.\n\n                 Conceptual Row Suspension\n\nWhen a conceptual row is `active\', the management station\nmay issue a management protocol set operation which sets the\ninstance of the status column to `notInService\'.  If the\nagent is unwilling to do so, the set operation fails with an\nerror of `wrongValue\' or `inconsistentValue\'.  Otherwise,\nthe conceptual row is taken out of service, and a `noError\'\nresponse is returned.  It is the responsibility of the\nDESCRIPTION clause of the status column to indicate under\nwhat circumstances the status column should be taken out of\nservice (e.g., in order for the value of some other column\nof the same conceptual row to be modified).\n\n\n                  Conceptual Row Deletion\n\nFor deletion of conceptual rows, a management protocol set\noperation is issued which sets the instance of the status\ncolumn to `destroy\'.  This request may be made regardless of\nthe current value of the status column (e.g., it is possible\nto delete conceptual rows which are either `notReady\',\n`notInService\' or `active\'.)  If the operation succeeds,\nthen all instances associated with the conceptual row are\nimmediately removed.')" onmouseout="HideTooltip(evt)">RowStatus</tspan></text>
+  <text id="ifRcvAddressType" fill="rgb(0%,0%,0%)" x="-113.00" y="47.50">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-109.00" onmousemove="ShowTooltipMZ(evt,'This object has the value nonVolatile(3) for those entries\nin the table which are valid and will not be deleted by the\nnext restart of the managed system.  Entries having the\nvalue volatile(2) are valid and exist, but have not been\nsaved, so that will not exist after the next restart of the\nmanaged system.  Entries having the value other(1) are valid\nand exist but are not classified as to whether they will\ncontinue to exist after the next restart.')" onmouseout="HideTooltip(evt)">ifRcvAddressType:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">Enumeration</tspan></text>
+  </g>
+  <g transform="translate(969.59,371.56)">
+    <rect id="ifXTable" x="-133.00" y="-165.00" width="266.00" height="330.00"
+          fill="white" stroke="black"/>
+    <rect x="-131.00" y="-163.00" width="16" height="16" rx="4" ry="4" stroke-width="3" stroke="gray" fill="white"
+          onmousedown="ClickObj(evt)" onclick="ClickObj(evt)" onmousemove="MoveObj(evt)" onmouseup="OutOfObj(evt)" onmouseout="OutOfObj(evt)"/>
+    <polygon points="-133.00 -145.00 133.00 -145.00"
+          fill="none" stroke="black"/>
+    <text x="0" y="-150.00" fill="rgb(0%,0%,0%)" style="text-anchor:middle; font-weight:bold" onmousemove="ShowTooltipMZ(evt,'A list of interface entries.  The number of entries is\ngiven by the value of ifNumber.  This table contains\nadditional objects for the interface table.\n-- -- --\nAn entry containing additional management information\napplicable to a particular interface.')" onmouseout="HideTooltip(evt)">
+         ifXEntry</text>
+  <text fill="rgb(0%,0%,0%)" x="-127.00" y="-130.00">
+<tspan x="-123.00" onmousemove="ShowTooltipMZ(evt,'A unique value, greater than zero, for each interface.  It\nis recommended that values are assigned contiguously\nstarting from 1.  The value for each interface sub-layer\nmust remain constant at least from one re-initialization of\nthe entity\'s network management system to the next re-\ninitialization.')" onmouseout="HideTooltip(evt)">ifIndex:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'A unique value, greater than zero, for each interface or\ninterface sub-layer in the managed system.  It is\nrecommended that values are assigned contiguously starting\nfrom 1.  The value for each interface sub-layer must remain\nconstant at least from one re-initialization of the entity\'s\nnetwork management system to the next re-initialization.')" onmouseout="HideTooltip(evt)">InterfaceIndex</tspan></text>
+    <polygon points="-133.00 -125.00 133.00 -125.00"
+          fill="none" stroke="black"/>
+  <text id="ifName" fill="rgb(0%,0%,0%)" x="-127.00" y="-110.00">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-123.00" onmousemove="ShowTooltipMZ(evt,'The textual name of the interface.  The value of this\nobject should be the name of the interface as assigned by\nthe local device and should be suitable for use in commands\nentered at the device\'s `console\'.  This might be a text\nname, such as `le0\' or a simple port number, such as `1\',\ndepending on the interface naming syntax of the device.  If\nseveral entries in the ifTable together represent a single\ninterface as named by the device, then each will have the\nsame value of ifName.  Note that for an agent which responds\nto SNMP queries concerning an interface on some other\n(proxied) device, then the value of ifName for such an\ninterface is the proxied device\'s local name for it.\n\nIf there is no local name, or this object is otherwise not\napplicable, then this object contains a zero-length string.')" onmouseout="HideTooltip(evt)">ifName:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'DisplayString is defined in module SNMPv2-TC:\n\nRepresents textual information taken from the NVT ASCII\ncharacter set, as defined in pages 4, 10-11 of RFC 854.\n\nTo summarize RFC 854, the NVT ASCII repertoire specifies:\n\n  - the use of character codes 0-127 (decimal)\n\n  - the graphics characters (32-126) are interpreted as\n    US ASCII\n\n  - NUL, LF, CR, BEL, BS, HT, VT and FF have the special\n    meanings specified in RFC 854\n\n  - the other 25 codes have no standard interpretation\n\n  - the sequence \'CR LF\' means newline\n\n  - the sequence \'CR NUL\' means carriage-return\n\n  - an \'LF\' not preceded by a \'CR\' means moving to the\n    same column on the next line.\n\n  - the sequence \'CR x\' for any x other than LF or NUL is\n    illegal.  (Note that this also means that a string may\n    end with either \'CR LF\' or \'CR NUL\', but not with CR.)\n\nAny object defined using this syntax may not exceed 255\ncharacters in length.')" onmouseout="HideTooltip(evt)">DisplayString</tspan></text>
+  <text id="ifInMulticastPkts" fill="rgb(0%,0%,0%)" x="-127.00" y="-95.00">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-123.00" onmousemove="ShowTooltipMZ(evt,'The number of packets, delivered by this sub-layer to a\nhigher (sub-)layer, which were addressed to a multicast\naddress at this sub-layer.  For a MAC layer protocol, this\nincludes both Group and Functional addresses.\n\nDiscontinuities in the value of this counter can occur at\nre-initialization of the management system, and at other\n\n\ntimes as indicated by the value of\nifCounterDiscontinuityTime.')" onmouseout="HideTooltip(evt)">ifInMulticastPkts:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">Counter32</tspan></text>
+  <text id="ifInBroadcastPkts" fill="rgb(0%,0%,0%)" x="-127.00" y="-80.00">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-123.00" onmousemove="ShowTooltipMZ(evt,'The number of packets, delivered by this sub-layer to a\nhigher (sub-)layer, which were addressed to a broadcast\naddress at this sub-layer.\n\nDiscontinuities in the value of this counter can occur at\nre-initialization of the management system, and at other\ntimes as indicated by the value of\nifCounterDiscontinuityTime.')" onmouseout="HideTooltip(evt)">ifInBroadcastPkts:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">Counter32</tspan></text>
+  <text id="ifOutMulticastPkts" fill="rgb(0%,0%,0%)" x="-127.00" y="-65.00">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-123.00" onmousemove="ShowTooltipMZ(evt,'The total number of packets that higher-level protocols\nrequested be transmitted, and which were addressed to a\nmulticast address at this sub-layer, including those that\nwere discarded or not sent.  For a MAC layer protocol, this\nincludes both Group and Functional addresses.\n\nDiscontinuities in the value of this counter can occur at\nre-initialization of the management system, and at other\ntimes as indicated by the value of\nifCounterDiscontinuityTime.')" onmouseout="HideTooltip(evt)">ifOutMulticastPkts:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">Counter32</tspan></text>
+  <text id="ifOutBroadcastPkts" fill="rgb(0%,0%,0%)" x="-127.00" y="-50.00">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-123.00" onmousemove="ShowTooltipMZ(evt,'The total number of packets that higher-level protocols\nrequested be transmitted, and which were addressed to a\nbroadcast address at this sub-layer, including those that\nwere discarded or not sent.\n\nDiscontinuities in the value of this counter can occur at\nre-initialization of the management system, and at other\n\n\ntimes as indicated by the value of\nifCounterDiscontinuityTime.')" onmouseout="HideTooltip(evt)">ifOutBroadcastPkts:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">Counter32</tspan></text>
+  <text id="ifHCInOctets" fill="rgb(0%,0%,0%)" x="-127.00" y="-35.00">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-123.00" onmousemove="ShowTooltipMZ(evt,'The total number of octets received on the interface,\nincluding framing characters.  This object is a 64-bit\nversion of ifInOctets.\n\nDiscontinuities in the value of this counter can occur at\nre-initialization of the management system, and at other\ntimes as indicated by the value of\nifCounterDiscontinuityTime.')" onmouseout="HideTooltip(evt)">ifHCInOctets:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">Counter64</tspan></text>
+  <text id="ifHCInUcastPkts" fill="rgb(0%,0%,0%)" x="-127.00" y="-20.00">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-123.00" onmousemove="ShowTooltipMZ(evt,'The number of packets, delivered by this sub-layer to a\nhigher (sub-)layer, which were not addressed to a multicast\nor broadcast address at this sub-layer.  This object is a\n64-bit version of ifInUcastPkts.\n\nDiscontinuities in the value of this counter can occur at\nre-initialization of the management system, and at other\ntimes as indicated by the value of\nifCounterDiscontinuityTime.')" onmouseout="HideTooltip(evt)">ifHCInUcastPkts:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">Counter64</tspan></text>
+  <text id="ifHCInMulticastPkts" fill="rgb(0%,0%,0%)" x="-127.00" y="-5.00">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-123.00" onmousemove="ShowTooltipMZ(evt,'The number of packets, delivered by this sub-layer to a\nhigher (sub-)layer, which were addressed to a multicast\naddress at this sub-layer.  For a MAC layer protocol, this\nincludes both Group and Functional addresses.  This object\nis a 64-bit version of ifInMulticastPkts.\n\nDiscontinuities in the value of this counter can occur at\nre-initialization of the management system, and at other\ntimes as indicated by the value of\nifCounterDiscontinuityTime.')" onmouseout="HideTooltip(evt)">ifHCInMulticastPkts:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">Counter64</tspan></text>
+  <text id="ifHCInBroadcastPkts" fill="rgb(0%,0%,0%)" x="-127.00" y="10.00">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-123.00" onmousemove="ShowTooltipMZ(evt,'The number of packets, delivered by this sub-layer to a\nhigher (sub-)layer, which were addressed to a broadcast\naddress at this sub-layer.  This object is a 64-bit version\nof ifInBroadcastPkts.\n\nDiscontinuities in the value of this counter can occur at\nre-initialization of the management system, and at other\ntimes as indicated by the value of\nifCounterDiscontinuityTime.')" onmouseout="HideTooltip(evt)">ifHCInBroadcastPkts:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">Counter64</tspan></text>
+  <text id="ifHCOutOctets" fill="rgb(0%,0%,0%)" x="-127.00" y="25.00">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-123.00" onmousemove="ShowTooltipMZ(evt,'The total number of octets transmitted out of the\ninterface, including framing characters.  This object is a\n64-bit version of ifOutOctets.\n\nDiscontinuities in the value of this counter can occur at\nre-initialization of the management system, and at other\ntimes as indicated by the value of\nifCounterDiscontinuityTime.')" onmouseout="HideTooltip(evt)">ifHCOutOctets:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">Counter64</tspan></text>
+  <text id="ifHCOutUcastPkts" fill="rgb(0%,0%,0%)" x="-127.00" y="40.00">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-123.00" onmousemove="ShowTooltipMZ(evt,'The total number of packets that higher-level protocols\nrequested be transmitted, and which were not addressed to a\nmulticast or broadcast address at this sub-layer, including\nthose that were discarded or not sent.  This object is a\n64-bit version of ifOutUcastPkts.\n\nDiscontinuities in the value of this counter can occur at\nre-initialization of the management system, and at other\ntimes as indicated by the value of\nifCounterDiscontinuityTime.')" onmouseout="HideTooltip(evt)">ifHCOutUcastPkts:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">Counter64</tspan></text>
+  <text id="ifHCOutMulticastPkts" fill="rgb(0%,0%,0%)" x="-127.00" y="55.00">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-123.00" onmousemove="ShowTooltipMZ(evt,'The total number of packets that higher-level protocols\nrequested be transmitted, and which were addressed to a\nmulticast address at this sub-layer, including those that\nwere discarded or not sent.  For a MAC layer protocol, this\nincludes both Group and Functional addresses.  This object\nis a 64-bit version of ifOutMulticastPkts.\n\nDiscontinuities in the value of this counter can occur at\nre-initialization of the management system, and at other\ntimes as indicated by the value of\nifCounterDiscontinuityTime.')" onmouseout="HideTooltip(evt)">ifHCOutMulticastPkts:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">Counter64</tspan></text>
+  <text id="ifHCOutBroadcastPkts" fill="rgb(0%,0%,0%)" x="-127.00" y="70.00">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-123.00" onmousemove="ShowTooltipMZ(evt,'The total number of packets that higher-level protocols\nrequested be transmitted, and which were addressed to a\nbroadcast address at this sub-layer, including those that\nwere discarded or not sent.  This object is a 64-bit version\nof ifOutBroadcastPkts.\n\nDiscontinuities in the value of this counter can occur at\nre-initialization of the management system, and at other\ntimes as indicated by the value of\nifCounterDiscontinuityTime.')" onmouseout="HideTooltip(evt)">ifHCOutBroadcastPkts:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">Counter64</tspan></text>
+  <text id="ifLinkUpDownTrapEnable" fill="rgb(0%,0%,0%)" x="-127.00" y="85.00">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-123.00" onmousemove="ShowTooltipMZ(evt,'Indicates whether linkUp/linkDown traps should be generated\nfor this interface.\n\nBy default, this object should have the value enabled(1) for\ninterfaces which do not operate on \'top\' of any other\ninterface (as defined in the ifStackTable), and disabled(2)\notherwise.')" onmouseout="HideTooltip(evt)">ifLinkUpDownTrapEnable:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">Enumeration</tspan></text>
+  <text id="ifHighSpeed" fill="rgb(0%,0%,0%)" x="-127.00" y="100.00">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-123.00" onmousemove="ShowTooltipMZ(evt,'An estimate of the interface\'s current bandwidth in units\nof 1,000,000 bits per second.  If this object reports a\nvalue of `n\' then the speed of the interface is somewhere in\nthe range of `n-500,000\' to `n+499,999\'.  For interfaces\nwhich do not vary in bandwidth or for those where no\naccurate estimation can be made, this object should contain\nthe nominal bandwidth.  For a sub-layer which has no concept\nof bandwidth, this object should be zero.')" onmouseout="HideTooltip(evt)">ifHighSpeed:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">Gauge32</tspan></text>
+  <text id="ifPromiscuousMode" fill="rgb(0%,0%,0%)" x="-127.00" y="115.00">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-123.00" onmousemove="ShowTooltipMZ(evt,'This object has a value of false(2) if this interface only\naccepts packets/frames that are addressed to this station.\nThis object has a value of true(1) when the station accepts\nall packets/frames transmitted on the media.  The value\ntrue(1) is only legal on certain types of media.  If legal,\nsetting this object to a value of true(1) may require the\ninterface to be reset before becoming effective.\n\nThe value of ifPromiscuousMode does not affect the reception\nof broadcast and multicast packets/frames by the interface.')" onmouseout="HideTooltip(evt)">ifPromiscuousMode:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'TruthValue is defined in module SNMPv2-TC:\n\nRepresents a boolean value.')" onmouseout="HideTooltip(evt)">TruthValue</tspan></text>
+  <text id="ifConnectorPresent" fill="rgb(0%,0%,0%)" x="-127.00" y="130.00">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-123.00" onmousemove="ShowTooltipMZ(evt,'This object has the value \'true(1)\' if the interface\nsublayer has a physical connector and the value \'false(2)\'\notherwise.')" onmouseout="HideTooltip(evt)">ifConnectorPresent:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'TruthValue is defined in module SNMPv2-TC:\n\nRepresents a boolean value.')" onmouseout="HideTooltip(evt)">TruthValue</tspan></text>
+  <text id="ifAlias" fill="rgb(0%,0%,0%)" x="-127.00" y="145.00">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-123.00" onmousemove="ShowTooltipMZ(evt,'This object is an \'alias\' name for the interface as\nspecified by a network manager, and provides a non-volatile\n\'handle\' for the interface.\n\nOn the first instantiation of an interface, the value of\nifAlias associated with that interface is the zero-length\nstring.  As and when a value is written into an instance of\nifAlias through a network management set operation, then the\nagent must retain the supplied value in the ifAlias instance\nassociated with the same interface for as long as that\ninterface remains instantiated, including across all re-\ninitializations/reboots of the network management system,\nincluding those which result in a change of the interface\'s\nifIndex value.\n\nAn example of the value which a network manager might store\nin this object for a WAN interface is the (Telco\'s) circuit\nnumber/identifier of the interface.\n\nSome agents may support write-access only for interfaces\nhaving particular values of ifType.  An agent which supports\nwrite access to this object is required to keep the value in\nnon-volatile storage, but it may limit the length of new\nvalues depending on how much storage is already occupied by\nthe current values for other interfaces.')" onmouseout="HideTooltip(evt)">ifAlias:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'DisplayString is defined in module SNMPv2-TC:\n\nRepresents textual information taken from the NVT ASCII\ncharacter set, as defined in pages 4, 10-11 of RFC 854.\n\nTo summarize RFC 854, the NVT ASCII repertoire specifies:\n\n  - the use of character codes 0-127 (decimal)\n\n  - the graphics characters (32-126) are interpreted as\n    US ASCII\n\n  - NUL, LF, CR, BEL, BS, HT, VT and FF have the special\n    meanings specified in RFC 854\n\n  - the other 25 codes have no standard interpretation\n\n  - the sequence \'CR LF\' means newline\n\n  - the sequence \'CR NUL\' means carriage-return\n\n  - an \'LF\' not preceded by a \'CR\' means moving to the\n    same column on the next line.\n\n  - the sequence \'CR x\' for any x other than LF or NUL is\n    illegal.  (Note that this also means that a string may\n    end with either \'CR LF\' or \'CR NUL\', but not with CR.)\n\nAny object defined using this syntax may not exceed 255\ncharacters in length.')" onmouseout="HideTooltip(evt)">DisplayString</tspan></text>
+  <text id="ifCounterDiscontinuityTime" fill="rgb(0%,0%,0%)" x="-127.00" y="160.00">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-123.00" onmousemove="ShowTooltipMZ(evt,'The value of sysUpTime on the most recent occasion at which\nany one or more of this interface\'s counters suffered a\ndiscontinuity.  The relevant counters are the specific\ninstances associated with this interface of any Counter32 or\n\n\nCounter64 object contained in the ifTable or ifXTable.  If\nno such discontinuities have occurred since the last re-\ninitialization of the local management subsystem, then this\nobject contains a zero value.')" onmouseout="HideTooltip(evt)">ifCounterDiscontinuityTime:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'TimeStamp is defined in module SNMPv2-TC:\n\nThe value of the sysUpTime object at which a specific\noccurrence happened.  The specific occurrence must be\ndefined in the description of any object defined using this\ntype.\n\nIf sysUpTime is reset to zero as a result of a re-\ninitialization of the network management (sub)system, then\nthe values of all TimeStamp objects are also reset.\nHowever, after approximately 497 days without a re-\ninitialization, the sysUpTime object will reach 2^^32-1 and\nthen increment around to zero; in this case, existing values\nof TimeStamp objects do not change.  This can lead to\nambiguities in the value of TimeStamp objects.')" onmouseout="HideTooltip(evt)">TimeStamp</tspan></text>
+  </g>
+  <g transform="translate(80.00,566.56)">
+    <rect id="interfaces" x="-70.00" y="-20.00" width="140.00" height="40.00"
+          fill="white" stroke="black"/>
+    <rect x="-68.00" y="-18.00" width="16" height="16" rx="4" ry="4" stroke-width="3" stroke="gray" fill="white"
+          onmousedown="ClickObj(evt)" onclick="ClickObj(evt)" onmousemove="MoveObj(evt)" onmouseup="OutOfObj(evt)" onmouseout="OutOfObj(evt)"/>
+    <polygon points="-70.00 0.00 70.00 0.00"
+          fill="none" stroke="black"/>
+    <text x="0" y="-5.00" fill="" style="text-anchor:middle; font-weight:bold">
+         interfaces</text>
+  <text id="ifNumber" fill="rgb(0%,0%,0%)" x="-64.00" y="15.00">
+    <tspan style="text-anchor:middle">+</tspan><tspan x="-60.00" onmousemove="ShowTooltipMZ(evt,'The number of network interfaces (regardless of their\ncurrent state) present on this system.')" onmouseout="HideTooltip(evt)">ifNumber:</tspan>
+    <tspan onmousemove="ShowTooltipMZ(evt,'This is a basetype.')" onmouseout="HideTooltip(evt)">Integer32</tspan></text>
+  </g>
+ <g transform="translate(1112.59,-536.56) scale(1.00)">
+ <g id="MI0" transform="translate(0.00,10.00)">
+  <text>
+   <tspan style="text-anchor:middle" onclick="collapse(evt)">--</tspan>
+   <tspan x="5">Modules</tspan>
+  </text>
+ </g>
+ <g id="MI1" transform="translate(15.00,25.00)">
+  <text>
+   <tspan style="text-anchor:middle" onclick="collapse(evt)">--</tspan>
+   <tspan x="5" onmousemove="ShowTooltipMZ(evt,'The MIB module to describe generic objects for network\ninterface sub-layers.  This MIB is an updated version of\nMIB-II\'s ifTable, and incorporates the extensions defined in\nRFC 1229.')" onmouseout="HideTooltip(evt)">IF-MIB</tspan>
+  </text>
+ </g>
+ <g id="MI2" transform="translate(35.00,40.00)">
+  <text onmousemove="ShowTooltipMZ(evt,'Clarifications agreed upon by the Interfaces MIB WG, and\npublished as RFC 2863.')" onmouseout="HideTooltip(evt)">2000-06-14</text>
+ </g>
+ <g id="MI3" transform="translate(35.00,55.00)">
+  <text onmousemove="ShowTooltipMZ(evt,'Revisions made by the Interfaces MIB WG, and published in\nRFC 2233.')" onmouseout="HideTooltip(evt)">1996-02-28 21:55</text>
+ </g>
+ <g id="MI4" transform="translate(35.00,70.00)">
+  <text onmousemove="ShowTooltipMZ(evt,'Initial revision, published as part of RFC 1573.')" onmouseout="HideTooltip(evt)">1993-11-08 21:55</text>
+ </g>
+ <g id="MI5" transform="translate(0.00,100.00)">
+  <text>
+   <tspan style="text-anchor:middle" onclick="collapse(evt)">--</tspan>
+   <tspan x="5">Notifications</tspan>
+  </text>
+ </g>
+ <g id="MI6" transform="translate(15.00,115.00)">
+  <text>
+   <tspan style="text-anchor:middle" onclick="collapse(evt)">--</tspan>
+   <tspan x="5">IF-MIB</tspan>
+  </text>
+ </g>
+ <g id="MI7" transform="translate(35.00,130.00)">
+  <text id="linkDown" fill="rgb(0%,0%,0%)" onmousemove="ShowTooltipMZ(evt,'A linkDown trap signifies that the SNMP entity, acting in\nan agent role, has detected that the ifOperStatus object for\none of its communication links is about to enter the down\nstate from some other state (but not from the notPresent\nstate).  This other state is indicated by the included value\nof ifOperStatus.');colorText('ifIndex','red');colorText('ifAdminStatus','red');colorText('ifOperStatus','red')" onclick="setStatus(evt,'red','rgb(0%,0%,0%)');changeColor(evt,'ifIndex','red','rgb(0%,0%,0%)');changeColor(evt,'ifAdminStatus','red','rgb(0%,0%,0%)');changeColor(evt,'ifOperStatus','red','rgb(0%,0%,0%)')" onmouseout="HideTooltip(evt);colorText('ifIndex','rgb(0%,0%,0%)');colorText('ifAdminStatus','rgb(0%,0%,0%)');colorText('ifOperStatus','rgb(0%,0%,0%)')">linkDown</text>
+ </g>
+ <g id="MI8" transform="translate(35.00,145.00)">
+  <text id="linkUp" fill="rgb(0%,0%,0%)" onmousemove="ShowTooltipMZ(evt,'A linkUp trap signifies that the SNMP entity, acting in an\nagent role, has detected that the ifOperStatus object for\none of its communication links left the down state and\ntransitioned into some other state (but not into the\nnotPresent state).  This other state is indicated by the\nincluded value of ifOperStatus.');colorText('ifIndex','red');colorText('ifAdminStatus','red');colorText('ifOperStatus','red')" onclick="setStatus(evt,'red','rgb(0%,0%,0%)');changeColor(evt,'ifIndex','red','rgb(0%,0%,0%)');changeColor(evt,'ifAdminStatus','red','rgb(0%,0%,0%)');changeColor(evt,'ifOperStatus','red','rgb(0%,0%,0%)')" onmouseout="HideTooltip(evt);colorText('ifIndex','rgb(0%,0%,0%)');colorText('ifAdminStatus','rgb(0%,0%,0%)');colorText('ifOperStatus','rgb(0%,0%,0%)')">linkUp</text>
+ </g>
+ <g id="MI9" transform="translate(0.00,175.00)">
+  <text>
+   <tspan style="text-anchor:middle" onclick="collapse(evt)">--</tspan>
+   <tspan x="5">Object Groups</tspan>
+  </text>
+ </g>
+ <g id="MI10" transform="translate(15.00,190.00)">
+  <text>
+   <tspan style="text-anchor:middle" onclick="collapse(evt)">--</tspan>
+   <tspan x="5">IF-MIB</tspan>
+  </text>
+ </g>
+ <g id="MI11" transform="translate(35.00,205.00)">
+  <text id="ifFixedLengthGroup" fill="rgb(0%,0%,0%)" onmousemove="ShowTooltipMZ(evt,'A collection of objects providing information specific to\nnon-high speed (non-high speed interfaces transmit and\nreceive at speeds less than or equal to 20,000,000\nbits/second) character-oriented or fixed-length-transmission\nnetwork interfaces.');colorText('ifInOctets','red');colorText('ifOutOctets','red');colorText('ifInUnknownProtos','red');colorText('ifInErrors','red');colorText('ifOutErrors','red')" onclick="setStatus(evt,'red','rgb(0%,0%,0%)');changeColor(evt,'ifInOctets','red','rgb(0%,0%,0%)');changeColor(evt,'ifOutOctets','red','rgb(0%,0%,0%)');changeColor(evt,'ifInUnknownProtos','red','rgb(0%,0%,0%)');changeColor(evt,'ifInErrors','red','rgb(0%,0%,0%)');changeColor(evt,'ifOutErrors','red','rgb(0%,0%,0%)')" onmouseout="HideTooltip(evt);colorText('ifInOctets','rgb(0%,0%,0%)');colorText('ifOutOctets','rgb(0%,0%,0%)');colorText('ifInUnknownProtos','rgb(0%,0%,0%)');colorText('ifInErrors','rgb(0%,0%,0%)');colorText('ifOutErrors','rgb(0%,0%,0%)')">ifFixedLengthGroup</text>
+ </g>
+ <g id="MI12" transform="translate(35.00,220.00)">
+  <text id="ifHCFixedLengthGroup" fill="rgb(0%,0%,0%)" onmousemove="ShowTooltipMZ(evt,'A collection of objects providing information specific to\nhigh speed (greater than 20,000,000 bits/second) character-\noriented or fixed-length-transmission network interfaces.');colorText('ifHCInOctets','red');colorText('ifHCOutOctets','red');colorText('ifInOctets','red');colorText('ifOutOctets','red');colorText('ifInUnknownProtos','red');colorText('ifInErrors','red');colorText('ifOutErrors','red')" onclick="setStatus(evt,'red','rgb(0%,0%,0%)');changeColor(evt,'ifHCInOctets','red','rgb(0%,0%,0%)');changeColor(evt,'ifHCOutOctets','red','rgb(0%,0%,0%)');changeColor(evt,'ifInOctets','red','rgb(0%,0%,0%)');changeColor(evt,'ifOutOctets','red','rgb(0%,0%,0%)');changeColor(evt,'ifInUnknownProtos','red','rgb(0%,0%,0%)');changeColor(evt,'ifInErrors','red','rgb(0%,0%,0%)');changeColor(evt,'ifOutErrors','red','rgb(0%,0%,0%)')" onmouseout="HideTooltip(evt);colorText('ifHCInOctets','rgb(0%,0%,0%)');colorText('ifHCOutOctets','rgb(0%,0%,0%)');colorText('ifInOctets','rgb(0%,0%,0%)');colorText('ifOutOctets','rgb(0%,0%,0%)');colorText('ifInUnknownProtos','rgb(0%,0%,0%)');colorText('ifInErrors','rgb(0%,0%,0%)');colorText('ifOutErrors','rgb(0%,0%,0%)')">ifHCFixedLengthGroup</text>
+ </g>
+ <g id="MI13" transform="translate(35.00,235.00)">
+  <text id="ifPacketGroup" fill="rgb(0%,0%,0%)" onmousemove="ShowTooltipMZ(evt,'A collection of objects providing information specific to\nnon-high speed (non-high speed interfaces transmit and\nreceive at speeds less than or equal to 20,000,000\nbits/second) packet-oriented network interfaces.');colorText('ifInOctets','red');colorText('ifOutOctets','red');colorText('ifInUnknownProtos','red');colorText('ifInErrors','red');colorText('ifOutErrors','red');colorText('ifMtu','red');colorText('ifInUcastPkts','red');colorText('ifInMulticastPkts','red');colorText('ifInBroadcastPkts','red');colorText('ifInDiscards','red');colorText('ifOutUcastPkts','red');colorText('ifOutMulticastPkts','red');colorText('ifOutBroadcastPkts','red');colorText('ifOutDiscards','red');colorText('ifPromiscuousMode','red')" onclick="setStatus(evt,'red','rgb(0%,0%,0%)');changeColor(evt,'ifInOctets','red','rgb(0%,0%,0%)');changeColor(evt,'ifOutOctets','red','rgb(0%,0%,0%)');changeColor(evt,'ifInUnknownProtos','red','rgb(0%,0%,0%)');changeColor(evt,'ifInErrors','red','rgb(0%,0%,0%)');changeColor(evt,'ifOutErrors','red','rgb(0%,0%,0%)');changeColor(evt,'ifMtu','red','rgb(0%,0%,0%)');changeColor(evt,'ifInUcastPkts','red','rgb(0%,0%,0%)');changeColor(evt,'ifInMulticastPkts','red','rgb(0%,0%,0%)');changeColor(evt,'ifInBroadcastPkts','red','rgb(0%,0%,0%)');changeColor(evt,'ifInDiscards','red','rgb(0%,0%,0%)');changeColor(evt,'ifOutUcastPkts','red','rgb(0%,0%,0%)');changeColor(evt,'ifOutMulticastPkts','red','rgb(0%,0%,0%)');changeColor(evt,'ifOutBroadcastPkts','red','rgb(0%,0%,0%)');changeColor(evt,'ifOutDiscards','red','rgb(0%,0%,0%)');changeColor(evt,'ifPromiscuousMode','red','rgb(0%,0%,0%)')" onmouseout="HideTooltip(evt);colorText('ifInOctets','rgb(0%,0%,0%)');colorText('ifOutOctets','rgb(0%,0%,0%)');colorText('ifInUnknownProtos','rgb(0%,0%,0%)');colorText('ifInErrors','rgb(0%,0%,0%)');colorText('ifOutErrors','rgb(0%,0%,0%)');colorText('ifMtu','rgb(0%,0%,0%)');colorText('ifInUcastPkts','rgb(0%,0%,0%)');colorText('ifInMulticastPkts','rgb(0%,0%,0%)');colorText('ifInBroadcastPkts','rgb(0%,0%,0%)');colorText('ifInDiscards','rgb(0%,0%,0%)');colorText('ifOutUcastPkts','rgb(0%,0%,0%)');colorText('ifOutMulticastPkts','rgb(0%,0%,0%)');colorText('ifOutBroadcastPkts','rgb(0%,0%,0%)');colorText('ifOutDiscards','rgb(0%,0%,0%)');colorText('ifPromiscuousMode','rgb(0%,0%,0%)')">ifPacketGroup</text>
+ </g>
+ <g id="MI14" transform="translate(35.00,250.00)">
+  <text id="ifHCPacketGroup" fill="rgb(0%,0%,0%)" onmousemove="ShowTooltipMZ(evt,'A collection of objects providing information specific to\nhigh speed (greater than 20,000,000 bits/second but less\nthan or equal to 650,000,000 bits/second) packet-oriented\nnetwork interfaces.');colorText('ifHCInOctets','red');colorText('ifHCOutOctets','red');colorText('ifInOctets','red');colorText('ifOutOctets','red');colorText('ifInUnknownProtos','red');colorText('ifInErrors','red');colorText('ifOutErrors','red');colorText('ifMtu','red');colorText('ifInUcastPkts','red');colorText('ifInMulticastPkts','red');colorText('ifInBroadcastPkts','red');colorText('ifInDiscards','red');colorText('ifOutUcastPkts','red');colorText('ifOutMulticastPkts','red');colorText('ifOutBroadcastPkts','red');colorText('ifOutDiscards','red');colorText('ifPromiscuousMode','red')" onclick="setStatus(evt,'red','rgb(0%,0%,0%)');changeColor(evt,'ifHCInOctets','red','rgb(0%,0%,0%)');changeColor(evt,'ifHCOutOctets','red','rgb(0%,0%,0%)');changeColor(evt,'ifInOctets','red','rgb(0%,0%,0%)');changeColor(evt,'ifOutOctets','red','rgb(0%,0%,0%)');changeColor(evt,'ifInUnknownProtos','red','rgb(0%,0%,0%)');changeColor(evt,'ifInErrors','red','rgb(0%,0%,0%)');changeColor(evt,'ifOutErrors','red','rgb(0%,0%,0%)');changeColor(evt,'ifMtu','red','rgb(0%,0%,0%)');changeColor(evt,'ifInUcastPkts','red','rgb(0%,0%,0%)');changeColor(evt,'ifInMulticastPkts','red','rgb(0%,0%,0%)');changeColor(evt,'ifInBroadcastPkts','red','rgb(0%,0%,0%)');changeColor(evt,'ifInDiscards','red','rgb(0%,0%,0%)');changeColor(evt,'ifOutUcastPkts','red','rgb(0%,0%,0%)');changeColor(evt,'ifOutMulticastPkts','red','rgb(0%,0%,0%)');changeColor(evt,'ifOutBroadcastPkts','red','rgb(0%,0%,0%)');changeColor(evt,'ifOutDiscards','red','rgb(0%,0%,0%)');changeColor(evt,'ifPromiscuousMode','red','rgb(0%,0%,0%)')" onmouseout="HideTooltip(evt);colorText('ifHCInOctets','rgb(0%,0%,0%)');colorText('ifHCOutOctets','rgb(0%,0%,0%)');colorText('ifInOctets','rgb(0%,0%,0%)');colorText('ifOutOctets','rgb(0%,0%,0%)');colorText('ifInUnknownProtos','rgb(0%,0%,0%)');colorText('ifInErrors','rgb(0%,0%,0%)');colorText('ifOutErrors','rgb(0%,0%,0%)');colorText('ifMtu','rgb(0%,0%,0%)');colorText('ifInUcastPkts','rgb(0%,0%,0%)');colorText('ifInMulticastPkts','rgb(0%,0%,0%)');colorText('ifInBroadcastPkts','rgb(0%,0%,0%)');colorText('ifInDiscards','rgb(0%,0%,0%)');colorText('ifOutUcastPkts','rgb(0%,0%,0%)');colorText('ifOutMulticastPkts','rgb(0%,0%,0%)');colorText('ifOutBroadcastPkts','rgb(0%,0%,0%)');colorText('ifOutDiscards','rgb(0%,0%,0%)');colorText('ifPromiscuousMode','rgb(0%,0%,0%)')">ifHCPacketGroup</text>
+ </g>
+ <g id="MI15" transform="translate(35.00,265.00)">
+  <text id="ifVHCPacketGroup" fill="rgb(0%,0%,0%)" onmousemove="ShowTooltipMZ(evt,'A collection of objects providing information specific to\nhigher speed (greater than 650,000,000 bits/second) packet-\noriented network interfaces.');colorText('ifHCInUcastPkts','red');colorText('ifHCInMulticastPkts','red');colorText('ifHCInBroadcastPkts','red');colorText('ifHCOutUcastPkts','red');colorText('ifHCOutMulticastPkts','red');colorText('ifHCOutBroadcastPkts','red');colorText('ifHCInOctets','red');colorText('ifHCOutOctets','red');colorText('ifInOctets','red');colorText('ifOutOctets','red');colorText('ifInUnknownProtos','red');colorText('ifInErrors','red');colorText('ifOutErrors','red');colorText('ifMtu','red');colorText('ifInUcastPkts','red');colorText('ifInMulticastPkts','red');colorText('ifInBroadcastPkts','red');colorText('ifInDiscards','red');colorText('ifOutUcastPkts','red');colorText('ifOutMulticastPkts','red');colorText('ifOutBroadcastPkts','red');colorText('ifOutDiscards','red');colorText('ifPromiscuousMode','red')" onclick="setStatus(evt,'red','rgb(0%,0%,0%)');changeColor(evt,'ifHCInUcastPkts','red','rgb(0%,0%,0%)');changeColor(evt,'ifHCInMulticastPkts','red','rgb(0%,0%,0%)');changeColor(evt,'ifHCInBroadcastPkts','red','rgb(0%,0%,0%)');changeColor(evt,'ifHCOutUcastPkts','red','rgb(0%,0%,0%)');changeColor(evt,'ifHCOutMulticastPkts','red','rgb(0%,0%,0%)');changeColor(evt,'ifHCOutBroadcastPkts','red','rgb(0%,0%,0%)');changeColor(evt,'ifHCInOctets','red','rgb(0%,0%,0%)');changeColor(evt,'ifHCOutOctets','red','rgb(0%,0%,0%)');changeColor(evt,'ifInOctets','red','rgb(0%,0%,0%)');changeColor(evt,'ifOutOctets','red','rgb(0%,0%,0%)');changeColor(evt,'ifInUnknownProtos','red','rgb(0%,0%,0%)');changeColor(evt,'ifInErrors','red','rgb(0%,0%,0%)');changeColor(evt,'ifOutErrors','red','rgb(0%,0%,0%)');changeColor(evt,'ifMtu','red','rgb(0%,0%,0%)');changeColor(evt,'ifInUcastPkts','red','rgb(0%,0%,0%)');changeColor(evt,'ifInMulticastPkts','red','rgb(0%,0%,0%)');changeColor(evt,'ifInBroadcastPkts','red','rgb(0%,0%,0%)');changeColor(evt,'ifInDiscards','red','rgb(0%,0%,0%)');changeColor(evt,'ifOutUcastPkts','red','rgb(0%,0%,0%)');changeColor(evt,'ifOutMulticastPkts','red','rgb(0%,0%,0%)');changeColor(evt,'ifOutBroadcastPkts','red','rgb(0%,0%,0%)');changeColor(evt,'ifOutDiscards','red','rgb(0%,0%,0%)');changeColor(evt,'ifPromiscuousMode','red','rgb(0%,0%,0%)')" onmouseout="HideTooltip(evt);colorText('ifHCInUcastPkts','rgb(0%,0%,0%)');colorText('ifHCInMulticastPkts','rgb(0%,0%,0%)');colorText('ifHCInBroadcastPkts','rgb(0%,0%,0%)');colorText('ifHCOutUcastPkts','rgb(0%,0%,0%)');colorText('ifHCOutMulticastPkts','rgb(0%,0%,0%)');colorText('ifHCOutBroadcastPkts','rgb(0%,0%,0%)');colorText('ifHCInOctets','rgb(0%,0%,0%)');colorText('ifHCOutOctets','rgb(0%,0%,0%)');colorText('ifInOctets','rgb(0%,0%,0%)');colorText('ifOutOctets','rgb(0%,0%,0%)');colorText('ifInUnknownProtos','rgb(0%,0%,0%)');colorText('ifInErrors','rgb(0%,0%,0%)');colorText('ifOutErrors','rgb(0%,0%,0%)');colorText('ifMtu','rgb(0%,0%,0%)');colorText('ifInUcastPkts','rgb(0%,0%,0%)');colorText('ifInMulticastPkts','rgb(0%,0%,0%)');colorText('ifInBroadcastPkts','rgb(0%,0%,0%)');colorText('ifInDiscards','rgb(0%,0%,0%)');colorText('ifOutUcastPkts','rgb(0%,0%,0%)');colorText('ifOutMulticastPkts','rgb(0%,0%,0%)');colorText('ifOutBroadcastPkts','rgb(0%,0%,0%)');colorText('ifOutDiscards','rgb(0%,0%,0%)');colorText('ifPromiscuousMode','rgb(0%,0%,0%)')">ifVHCPacketGroup</text>
+ </g>
+ <g id="MI16" transform="translate(35.00,280.00)">
+  <text id="ifRcvAddressGroup" fill="rgb(0%,0%,0%)" onmousemove="ShowTooltipMZ(evt,'A collection of objects providing information on the\nmultiple addresses which an interface receives.');colorText('ifRcvAddressStatus','red');colorText('ifRcvAddressType','red')" onclick="setStatus(evt,'red','rgb(0%,0%,0%)');changeColor(evt,'ifRcvAddressStatus','red','rgb(0%,0%,0%)');changeColor(evt,'ifRcvAddressType','red','rgb(0%,0%,0%)')" onmouseout="HideTooltip(evt);colorText('ifRcvAddressStatus','rgb(0%,0%,0%)');colorText('ifRcvAddressType','rgb(0%,0%,0%)')">ifRcvAddressGroup</text>
+ </g>
+ <g id="MI17" transform="translate(35.00,295.00)">
+  <text id="ifGeneralInformationGroup" fill="rgb(0%,0%,0%)" onmousemove="ShowTooltipMZ(evt,'A collection of objects providing information applicable to\nall network interfaces.');colorText('ifIndex','red');colorText('ifDescr','red');colorText('ifType','red');colorText('ifSpeed','red');colorText('ifPhysAddress','red');colorText('ifAdminStatus','red');colorText('ifOperStatus','red');colorText('ifLastChange','red');colorText('ifLinkUpDownTrapEnable','red');colorText('ifConnectorPresent','red');colorText('ifHighSpeed','red');colorText('ifName','red');colorText('ifNumber','red');colorText('ifAlias','red');colorText('ifTableLastChange','red')" onclick="setStatus(evt,'red','rgb(0%,0%,0%)');changeColor(evt,'ifIndex','red','rgb(0%,0%,0%)');changeColor(evt,'ifDescr','red','rgb(0%,0%,0%)');changeColor(evt,'ifType','red','rgb(0%,0%,0%)');changeColor(evt,'ifSpeed','red','rgb(0%,0%,0%)');changeColor(evt,'ifPhysAddress','red','rgb(0%,0%,0%)');changeColor(evt,'ifAdminStatus','red','rgb(0%,0%,0%)');changeColor(evt,'ifOperStatus','red','rgb(0%,0%,0%)');changeColor(evt,'ifLastChange','red','rgb(0%,0%,0%)');changeColor(evt,'ifLinkUpDownTrapEnable','red','rgb(0%,0%,0%)');changeColor(evt,'ifConnectorPresent','red','rgb(0%,0%,0%)');changeColor(evt,'ifHighSpeed','red','rgb(0%,0%,0%)');changeColor(evt,'ifName','red','rgb(0%,0%,0%)');changeColor(evt,'ifNumber','red','rgb(0%,0%,0%)');changeColor(evt,'ifAlias','red','rgb(0%,0%,0%)');changeColor(evt,'ifTableLastChange','red','rgb(0%,0%,0%)')" onmouseout="HideTooltip(evt);colorText('ifIndex','rgb(0%,0%,0%)');colorText('ifDescr','rgb(0%,0%,0%)');colorText('ifType','rgb(0%,0%,0%)');colorText('ifSpeed','rgb(0%,0%,0%)');colorText('ifPhysAddress','rgb(0%,0%,0%)');colorText('ifAdminStatus','rgb(0%,0%,0%)');colorText('ifOperStatus','rgb(0%,0%,0%)');colorText('ifLastChange','rgb(0%,0%,0%)');colorText('ifLinkUpDownTrapEnable','rgb(0%,0%,0%)');colorText('ifConnectorPresent','rgb(0%,0%,0%)');colorText('ifHighSpeed','rgb(0%,0%,0%)');colorText('ifName','rgb(0%,0%,0%)');colorText('ifNumber','rgb(0%,0%,0%)');colorText('ifAlias','rgb(0%,0%,0%)');colorText('ifTableLastChange','rgb(0%,0%,0%)')">ifGeneralInformationGroup</text>
+ </g>
+ <g id="MI18" transform="translate(35.00,310.00)">
+  <text id="ifStackGroup2" fill="rgb(0%,0%,0%)" onmousemove="ShowTooltipMZ(evt,'A collection of objects providing information on the\nlayering of MIB-II interfaces.');colorText('ifStackStatus','red');colorText('ifStackLastChange','red')" onclick="setStatus(evt,'red','rgb(0%,0%,0%)');changeColor(evt,'ifStackStatus','red','rgb(0%,0%,0%)');changeColor(evt,'ifStackLastChange','red','rgb(0%,0%,0%)')" onmouseout="HideTooltip(evt);colorText('ifStackStatus','rgb(0%,0%,0%)');colorText('ifStackLastChange','rgb(0%,0%,0%)')">ifStackGroup2</text>
+ </g>
+ <g id="MI19" transform="translate(35.00,325.00)">
+  <text id="ifCounterDiscontinuityGroup" fill="rgb(0%,0%,0%)" onmousemove="ShowTooltipMZ(evt,'A collection of objects providing information specific to\ninterface counter discontinuities.');colorText('ifCounterDiscontinuityTime','red')" onclick="setStatus(evt,'red','rgb(0%,0%,0%)');changeColor(evt,'ifCounterDiscontinuityTime','red','rgb(0%,0%,0%)')" onmouseout="HideTooltip(evt);colorText('ifCounterDiscontinuityTime','rgb(0%,0%,0%)')">ifCounterDiscontinuityGroup</text>
+ </g>
+ <g id="MI20" transform="translate(0.00,355.00)">
+  <text>
+   <tspan style="text-anchor:middle" onclick="collapse(evt)">--</tspan>
+   <tspan x="5">Notification Groups</tspan>
+  </text>
+ </g>
+ <g id="MI21" transform="translate(15.00,370.00)">
+  <text>
+   <tspan style="text-anchor:middle" onclick="collapse(evt)">--</tspan>
+   <tspan x="5">IF-MIB</tspan>
+  </text>
+ </g>
+ <g id="MI22" transform="translate(35.00,385.00)">
+  <text id="linkUpDownNotificationsGroup" fill="rgb(0%,0%,0%)" onmousemove="ShowTooltipMZ(evt,'The notifications which indicate specific changes in the\nvalue of ifOperStatus.');colorText('linkUp','red');colorText('ifIndex','red');colorText('ifAdminStatus','red');colorText('ifOperStatus','red');colorText('linkDown','red');colorText('ifIndex','red');colorText('ifAdminStatus','red');colorText('ifOperStatus','red')" onclick="setStatus(evt,'red','rgb(0%,0%,0%)');changeColor(evt,'linkUp','red','rgb(0%,0%,0%)');changeColor(evt,'ifIndex','red','rgb(0%,0%,0%)');changeColor(evt,'ifAdminStatus','red','rgb(0%,0%,0%)');changeColor(evt,'ifOperStatus','red','rgb(0%,0%,0%)');changeColor(evt,'linkDown','red','rgb(0%,0%,0%)');changeColor(evt,'ifIndex','red','rgb(0%,0%,0%)');changeColor(evt,'ifAdminStatus','red','rgb(0%,0%,0%)');changeColor(evt,'ifOperStatus','red','rgb(0%,0%,0%)')" onmouseout="HideTooltip(evt);colorText('linkUp','rgb(0%,0%,0%)');colorText('ifIndex','rgb(0%,0%,0%)');colorText('ifAdminStatus','rgb(0%,0%,0%)');colorText('ifOperStatus','rgb(0%,0%,0%)');colorText('linkDown','rgb(0%,0%,0%)');colorText('ifIndex','rgb(0%,0%,0%)');colorText('ifAdminStatus','rgb(0%,0%,0%)');colorText('ifOperStatus','rgb(0%,0%,0%)')">linkUpDownNotificationsGroup</text>
+ </g>
+ <g id="MI23" transform="translate(0.00,415.00)">
+  <text>
+   <tspan style="text-anchor:middle" onclick="collapse(evt)">--</tspan>
+   <tspan x="5">Compliance Statements</tspan>
+  </text>
+ </g>
+ <g id="MI24" transform="translate(15.00,430.00)">
+  <text>
+   <tspan style="text-anchor:middle" onclick="collapse(evt)">--</tspan>
+   <tspan x="5">IF-MIB</tspan>
+  </text>
+ </g>
+ <g id="MI25" transform="translate(30.00,445.00)">
+  <text fill="rgb(0%,0%,0%)">
+   <tspan style="text-anchor:middle" onclick="collapse(evt)">--</tspan>
+   <tspan x="5" onmousemove="ShowTooltipMZ(evt,'The compliance statement for SNMP entities which have\nnetwork interfaces.')" onmouseout="HideTooltip(evt)">ifCompliance3</tspan>
+  </text>
+ </g>
+ <g id="MI26" transform="translate(45.00,460.00)">
+  <text fill="rgb(0%,0%,0%)">
+   <tspan style="text-anchor:middle" onclick="collapse(evt)">--</tspan>
+    <tspan x="5">IF-MIB</tspan>
+  </text>
+ </g>
+ <g id="MI27" transform="translate(65.00,475.00)">
+  <text id="mandatorygroupsifCompliance3IF-MIB" fill="rgb(0%,0%,0%)" onmousemove="colorText('ifGeneralInformationGroup','red');colorText('ifIndex','red');colorText('ifDescr','red');colorText('ifType','red');colorText('ifSpeed','red');colorText('ifPhysAddress','red');colorText('ifAdminStatus','red');colorText('ifOperStatus','red');colorText('ifLastChange','red');colorText('ifLinkUpDownTrapEnable','red');colorText('ifConnectorPresent','red');colorText('ifHighSpeed','red');colorText('ifName','red');colorText('ifNumber','red');colorText('ifAlias','red');colorText('ifTableLastChange','red');colorText('linkUpDownNotificationsGroup','red');colorText('linkUp','red');colorText('ifIndex','red');colorText('ifAdminStatus','red');colorText('ifOperStatus','red');colorText('linkDown','red');colorText('ifIndex','red');colorText('ifAdminStatus','red');colorText('ifOperStatus','red')" onclick="setStatus(evt,'red','rgb(0%,0%,0%)');changeColor(evt,'ifGeneralInformationGroup','red','rgb(0%,0%,0%)');changeColor(evt,'ifIndex','red','rgb(0%,0%,0%)');changeColor(evt,'ifDescr','red','rgb(0%,0%,0%)');changeColor(evt,'ifType','red','rgb(0%,0%,0%)');changeColor(evt,'ifSpeed','red','rgb(0%,0%,0%)');changeColor(evt,'ifPhysAddress','red','rgb(0%,0%,0%)');changeColor(evt,'ifAdminStatus','red','rgb(0%,0%,0%)');changeColor(evt,'ifOperStatus','red','rgb(0%,0%,0%)');changeColor(evt,'ifLastChange','red','rgb(0%,0%,0%)');changeColor(evt,'ifLinkUpDownTrapEnable','red','rgb(0%,0%,0%)');changeColor(evt,'ifConnectorPresent','red','rgb(0%,0%,0%)');changeColor(evt,'ifHighSpeed','red','rgb(0%,0%,0%)');changeColor(evt,'ifName','red','rgb(0%,0%,0%)');changeColor(evt,'ifNumber','red','rgb(0%,0%,0%)');changeColor(evt,'ifAlias','red','rgb(0%,0%,0%)');changeColor(evt,'ifTableLastChange','red','rgb(0%,0%,0%)');changeColor(evt,'linkUpDownNotificationsGroup','red','rgb(0%,0%,0%)');changeColor(evt,'linkUp','red','rgb(0%,0%,0%)');changeColor(evt,'ifIndex','red','rgb(0%,0%,0%)');changeColor(evt,'ifAdminStatus','red','rgb(0%,0%,0%)');changeColor(evt,'ifOperStatus','red','rgb(0%,0%,0%)');changeColor(evt,'linkDown','red','rgb(0%,0%,0%)');changeColor(evt,'ifIndex','red','rgb(0%,0%,0%)');changeColor(evt,'ifAdminStatus','red','rgb(0%,0%,0%)');changeColor(evt,'ifOperStatus','red','rgb(0%,0%,0%)')" onmouseout="colorText('ifGeneralInformationGroup','rgb(0%,0%,0%)');colorText('ifIndex','rgb(0%,0%,0%)');colorText('ifDescr','rgb(0%,0%,0%)');colorText('ifType','rgb(0%,0%,0%)');colorText('ifSpeed','rgb(0%,0%,0%)');colorText('ifPhysAddress','rgb(0%,0%,0%)');colorText('ifAdminStatus','rgb(0%,0%,0%)');colorText('ifOperStatus','rgb(0%,0%,0%)');colorText('ifLastChange','rgb(0%,0%,0%)');colorText('ifLinkUpDownTrapEnable','rgb(0%,0%,0%)');colorText('ifConnectorPresent','rgb(0%,0%,0%)');colorText('ifHighSpeed','rgb(0%,0%,0%)');colorText('ifName','rgb(0%,0%,0%)');colorText('ifNumber','rgb(0%,0%,0%)');colorText('ifAlias','rgb(0%,0%,0%)');colorText('ifTableLastChange','rgb(0%,0%,0%)');colorText('linkUpDownNotificationsGroup','rgb(0%,0%,0%)');colorText('linkUp','rgb(0%,0%,0%)');colorText('ifIndex','rgb(0%,0%,0%)');colorText('ifAdminStatus','rgb(0%,0%,0%)');colorText('ifOperStatus','rgb(0%,0%,0%)');colorText('linkDown','rgb(0%,0%,0%)');colorText('ifIndex','rgb(0%,0%,0%)');colorText('ifAdminStatus','rgb(0%,0%,0%)');colorText('ifOperStatus','rgb(0%,0%,0%)')">Mandatory Groups</text>
+ </g>
+ <g id="MI28" transform="translate(65.00,490.00)">
+  <text id="groupifCompliance3ifFixedLengthGroupIF-MIB" fill="rgb(0%,0%,0%)" onmousemove="ShowTooltipMZ(evt,'This group is mandatory for those network interfaces which\nare character-oriented or transmit data in fixed-length\ntransmission units, and for which the value of the\ncorresponding instance of ifSpeed is less than or equal to\n20,000,000 bits/second.');colorText('ifFixedLengthGroup','salmon');colorText('ifInOctets','salmon');colorText('ifOutOctets','salmon');colorText('ifInUnknownProtos','salmon');colorText('ifInErrors','salmon');colorText('ifOutErrors','salmon')" onclick="setStatus(evt,'salmon','rgb(0%,0%,0%)');changeColor(evt,'ifFixedLengthGroup','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifInOctets','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifOutOctets','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifInUnknownProtos','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifInErrors','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifOutErrors','salmon','rgb(0%,0%,0%)')" onmouseout="HideTooltip(evt);colorText('ifFixedLengthGroup','rgb(0%,0%,0%)');colorText('ifInOctets','rgb(0%,0%,0%)');colorText('ifOutOctets','rgb(0%,0%,0%)');colorText('ifInUnknownProtos','rgb(0%,0%,0%)');colorText('ifInErrors','rgb(0%,0%,0%)');colorText('ifOutErrors','rgb(0%,0%,0%)')">Group ifFixedLengthGroup</text>
+ </g>
+ <g id="MI29" transform="translate(65.00,505.00)">
+  <text id="groupifCompliance3ifHCFixedLengthGroupIF-MIB" fill="rgb(0%,0%,0%)" onmousemove="ShowTooltipMZ(evt,'This group is mandatory for those network interfaces which\nare character-oriented or transmit data in fixed-length\ntransmission units, and for which the value of the\ncorresponding instance of ifSpeed is greater than 20,000,000\nbits/second.');colorText('ifHCFixedLengthGroup','salmon');colorText('ifHCInOctets','salmon');colorText('ifHCOutOctets','salmon');colorText('ifInOctets','salmon');colorText('ifOutOctets','salmon');colorText('ifInUnknownProtos','salmon');colorText('ifInErrors','salmon');colorText('ifOutErrors','salmon')" onclick="setStatus(evt,'salmon','rgb(0%,0%,0%)');changeColor(evt,'ifHCFixedLengthGroup','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifHCInOctets','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifHCOutOctets','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifInOctets','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifOutOctets','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifInUnknownProtos','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifInErrors','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifOutErrors','salmon','rgb(0%,0%,0%)')" onmouseout="HideTooltip(evt);colorText('ifHCFixedLengthGroup','rgb(0%,0%,0%)');colorText('ifHCInOctets','rgb(0%,0%,0%)');colorText('ifHCOutOctets','rgb(0%,0%,0%)');colorText('ifInOctets','rgb(0%,0%,0%)');colorText('ifOutOctets','rgb(0%,0%,0%)');colorText('ifInUnknownProtos','rgb(0%,0%,0%)');colorText('ifInErrors','rgb(0%,0%,0%)');colorText('ifOutErrors','rgb(0%,0%,0%)')">Group ifHCFixedLengthGroup</text>
+ </g>
+ <g id="MI30" transform="translate(65.00,520.00)">
+  <text id="groupifCompliance3ifPacketGroupIF-MIB" fill="rgb(0%,0%,0%)" onmousemove="ShowTooltipMZ(evt,'This group is mandatory for those network interfaces which\nare packet-oriented, and for which the value of the\ncorresponding instance of ifSpeed is less than or equal to\n20,000,000 bits/second.');colorText('ifPacketGroup','salmon');colorText('ifInOctets','salmon');colorText('ifOutOctets','salmon');colorText('ifInUnknownProtos','salmon');colorText('ifInErrors','salmon');colorText('ifOutErrors','salmon');colorText('ifMtu','salmon');colorText('ifInUcastPkts','salmon');colorText('ifInMulticastPkts','salmon');colorText('ifInBroadcastPkts','salmon');colorText('ifInDiscards','salmon');colorText('ifOutUcastPkts','salmon');colorText('ifOutMulticastPkts','salmon');colorText('ifOutBroadcastPkts','salmon');colorText('ifOutDiscards','salmon');colorText('ifPromiscuousMode','salmon')" onclick="setStatus(evt,'salmon','rgb(0%,0%,0%)');changeColor(evt,'ifPacketGroup','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifInOctets','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifOutOctets','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifInUnknownProtos','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifInErrors','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifOutErrors','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifMtu','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifInUcastPkts','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifInMulticastPkts','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifInBroadcastPkts','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifInDiscards','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifOutUcastPkts','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifOutMulticastPkts','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifOutBroadcastPkts','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifOutDiscards','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifPromiscuousMode','salmon','rgb(0%,0%,0%)')" onmouseout="HideTooltip(evt);colorText('ifPacketGroup','rgb(0%,0%,0%)');colorText('ifInOctets','rgb(0%,0%,0%)');colorText('ifOutOctets','rgb(0%,0%,0%)');colorText('ifInUnknownProtos','rgb(0%,0%,0%)');colorText('ifInErrors','rgb(0%,0%,0%)');colorText('ifOutErrors','rgb(0%,0%,0%)');colorText('ifMtu','rgb(0%,0%,0%)');colorText('ifInUcastPkts','rgb(0%,0%,0%)');colorText('ifInMulticastPkts','rgb(0%,0%,0%)');colorText('ifInBroadcastPkts','rgb(0%,0%,0%)');colorText('ifInDiscards','rgb(0%,0%,0%)');colorText('ifOutUcastPkts','rgb(0%,0%,0%)');colorText('ifOutMulticastPkts','rgb(0%,0%,0%)');colorText('ifOutBroadcastPkts','rgb(0%,0%,0%)');colorText('ifOutDiscards','rgb(0%,0%,0%)');colorText('ifPromiscuousMode','rgb(0%,0%,0%)')">Group ifPacketGroup</text>
+ </g>
+ <g id="MI31" transform="translate(65.00,535.00)">
+  <text id="groupifCompliance3ifHCPacketGroupIF-MIB" fill="rgb(0%,0%,0%)" onmousemove="ShowTooltipMZ(evt,'This group is mandatory only for those network interfaces\nwhich are packet-oriented and for which the value of the\ncorresponding instance of ifSpeed is greater than 20,000,000\nbits/second but less than or equal to 650,000,000\nbits/second.');colorText('ifHCPacketGroup','salmon');colorText('ifHCInOctets','salmon');colorText('ifHCOutOctets','salmon');colorText('ifInOctets','salmon');colorText('ifOutOctets','salmon');colorText('ifInUnknownProtos','salmon');colorText('ifInErrors','salmon');colorText('ifOutErrors','salmon');colorText('ifMtu','salmon');colorText('ifInUcastPkts','salmon');colorText('ifInMulticastPkts','salmon');colorText('ifInBroadcastPkts','salmon');colorText('ifInDiscards','salmon');colorText('ifOutUcastPkts','salmon');colorText('ifOutMulticastPkts','salmon');colorText('ifOutBroadcastPkts','salmon');colorText('ifOutDiscards','salmon');colorText('ifPromiscuousMode','salmon')" onclick="setStatus(evt,'salmon','rgb(0%,0%,0%)');changeColor(evt,'ifHCPacketGroup','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifHCInOctets','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifHCOutOctets','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifInOctets','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifOutOctets','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifInUnknownProtos','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifInErrors','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifOutErrors','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifMtu','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifInUcastPkts','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifInMulticastPkts','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifInBroadcastPkts','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifInDiscards','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifOutUcastPkts','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifOutMulticastPkts','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifOutBroadcastPkts','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifOutDiscards','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifPromiscuousMode','salmon','rgb(0%,0%,0%)')" onmouseout="HideTooltip(evt);colorText('ifHCPacketGroup','rgb(0%,0%,0%)');colorText('ifHCInOctets','rgb(0%,0%,0%)');colorText('ifHCOutOctets','rgb(0%,0%,0%)');colorText('ifInOctets','rgb(0%,0%,0%)');colorText('ifOutOctets','rgb(0%,0%,0%)');colorText('ifInUnknownProtos','rgb(0%,0%,0%)');colorText('ifInErrors','rgb(0%,0%,0%)');colorText('ifOutErrors','rgb(0%,0%,0%)');colorText('ifMtu','rgb(0%,0%,0%)');colorText('ifInUcastPkts','rgb(0%,0%,0%)');colorText('ifInMulticastPkts','rgb(0%,0%,0%)');colorText('ifInBroadcastPkts','rgb(0%,0%,0%)');colorText('ifInDiscards','rgb(0%,0%,0%)');colorText('ifOutUcastPkts','rgb(0%,0%,0%)');colorText('ifOutMulticastPkts','rgb(0%,0%,0%)');colorText('ifOutBroadcastPkts','rgb(0%,0%,0%)');colorText('ifOutDiscards','rgb(0%,0%,0%)');colorText('ifPromiscuousMode','rgb(0%,0%,0%)')">Group ifHCPacketGroup</text>
+ </g>
+ <g id="MI32" transform="translate(65.00,550.00)">
+  <text id="groupifCompliance3ifVHCPacketGroupIF-MIB" fill="rgb(0%,0%,0%)" onmousemove="ShowTooltipMZ(evt,'This group is mandatory only for those network interfaces\nwhich are packet-oriented and for which the value of the\ncorresponding instance of ifSpeed is greater than\n650,000,000 bits/second.');colorText('ifVHCPacketGroup','salmon');colorText('ifHCInUcastPkts','salmon');colorText('ifHCInMulticastPkts','salmon');colorText('ifHCInBroadcastPkts','salmon');colorText('ifHCOutUcastPkts','salmon');colorText('ifHCOutMulticastPkts','salmon');colorText('ifHCOutBroadcastPkts','salmon');colorText('ifHCInOctets','salmon');colorText('ifHCOutOctets','salmon');colorText('ifInOctets','salmon');colorText('ifOutOctets','salmon');colorText('ifInUnknownProtos','salmon');colorText('ifInErrors','salmon');colorText('ifOutErrors','salmon');colorText('ifMtu','salmon');colorText('ifInUcastPkts','salmon');colorText('ifInMulticastPkts','salmon');colorText('ifInBroadcastPkts','salmon');colorText('ifInDiscards','salmon');colorText('ifOutUcastPkts','salmon');colorText('ifOutMulticastPkts','salmon');colorText('ifOutBroadcastPkts','salmon');colorText('ifOutDiscards','salmon');colorText('ifPromiscuousMode','salmon')" onclick="setStatus(evt,'salmon','rgb(0%,0%,0%)');changeColor(evt,'ifVHCPacketGroup','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifHCInUcastPkts','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifHCInMulticastPkts','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifHCInBroadcastPkts','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifHCOutUcastPkts','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifHCOutMulticastPkts','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifHCOutBroadcastPkts','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifHCInOctets','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifHCOutOctets','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifInOctets','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifOutOctets','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifInUnknownProtos','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifInErrors','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifOutErrors','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifMtu','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifInUcastPkts','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifInMulticastPkts','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifInBroadcastPkts','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifInDiscards','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifOutUcastPkts','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifOutMulticastPkts','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifOutBroadcastPkts','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifOutDiscards','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifPromiscuousMode','salmon','rgb(0%,0%,0%)')" onmouseout="HideTooltip(evt);colorText('ifVHCPacketGroup','rgb(0%,0%,0%)');colorText('ifHCInUcastPkts','rgb(0%,0%,0%)');colorText('ifHCInMulticastPkts','rgb(0%,0%,0%)');colorText('ifHCInBroadcastPkts','rgb(0%,0%,0%)');colorText('ifHCOutUcastPkts','rgb(0%,0%,0%)');colorText('ifHCOutMulticastPkts','rgb(0%,0%,0%)');colorText('ifHCOutBroadcastPkts','rgb(0%,0%,0%)');colorText('ifHCInOctets','rgb(0%,0%,0%)');colorText('ifHCOutOctets','rgb(0%,0%,0%)');colorText('ifInOctets','rgb(0%,0%,0%)');colorText('ifOutOctets','rgb(0%,0%,0%)');colorText('ifInUnknownProtos','rgb(0%,0%,0%)');colorText('ifInErrors','rgb(0%,0%,0%)');colorText('ifOutErrors','rgb(0%,0%,0%)');colorText('ifMtu','rgb(0%,0%,0%)');colorText('ifInUcastPkts','rgb(0%,0%,0%)');colorText('ifInMulticastPkts','rgb(0%,0%,0%)');colorText('ifInBroadcastPkts','rgb(0%,0%,0%)');colorText('ifInDiscards','rgb(0%,0%,0%)');colorText('ifOutUcastPkts','rgb(0%,0%,0%)');colorText('ifOutMulticastPkts','rgb(0%,0%,0%)');colorText('ifOutBroadcastPkts','rgb(0%,0%,0%)');colorText('ifOutDiscards','rgb(0%,0%,0%)');colorText('ifPromiscuousMode','rgb(0%,0%,0%)')">Group ifVHCPacketGroup</text>
+ </g>
+ <g id="MI33" transform="translate(65.00,565.00)">
+  <text id="groupifCompliance3ifCounterDiscontinuityGroupIF-MIB" fill="rgb(0%,0%,0%)" onmousemove="ShowTooltipMZ(evt,'This group is mandatory for those network interfaces that\nare required to maintain counters (i.e., those for which one\nof the ifFixedLengthGroup, ifHCFixedLengthGroup,\nifPacketGroup, ifHCPacketGroup, or ifVHCPacketGroup is\nmandatory).');colorText('ifCounterDiscontinuityGroup','salmon');colorText('ifCounterDiscontinuityTime','salmon')" onclick="setStatus(evt,'salmon','rgb(0%,0%,0%)');changeColor(evt,'ifCounterDiscontinuityGroup','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifCounterDiscontinuityTime','salmon','rgb(0%,0%,0%)')" onmouseout="HideTooltip(evt);colorText('ifCounterDiscontinuityGroup','rgb(0%,0%,0%)');colorText('ifCounterDiscontinuityTime','rgb(0%,0%,0%)')">Group ifCounterDiscontinuityGroup</text>
+ </g>
+ <g id="MI34" transform="translate(65.00,580.00)">
+  <text id="groupifCompliance3ifRcvAddressGroupIF-MIB" fill="rgb(0%,0%,0%)" onmousemove="ShowTooltipMZ(evt,'The applicability of this group MUST be defined by the\nmedia-specific MIBs.  Media-specific MIBs must define the\nexact meaning, use, and semantics of the addresses in this\ngroup.');colorText('ifRcvAddressGroup','salmon');colorText('ifRcvAddressStatus','salmon');colorText('ifRcvAddressType','salmon')" onclick="setStatus(evt,'salmon','rgb(0%,0%,0%)');changeColor(evt,'ifRcvAddressGroup','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifRcvAddressStatus','salmon','rgb(0%,0%,0%)');changeColor(evt,'ifRcvAddressType','salmon','rgb(0%,0%,0%)')" onmouseout="HideTooltip(evt);colorText('ifRcvAddressGroup','rgb(0%,0%,0%)');colorText('ifRcvAddressStatus','rgb(0%,0%,0%)');colorText('ifRcvAddressType','rgb(0%,0%,0%)')">Group ifRcvAddressGroup</text>
+ </g>
+ <g id="MI35" transform="translate(65.00,595.00)">
+  <text id="objectifCompliance3ifLinkUpDownTrapEnableIF-MIB" fill="rgb(0%,0%,0%)" onmousemove="ShowTooltipMZ(evt,'Write access is not required.');colorText('ifLinkUpDownTrapEnable','salmon')" onclick="setStatus(evt,'salmon','rgb(0%,0%,0%)');changeColor(evt,'ifLinkUpDownTrapEnable','salmon','rgb(0%,0%,0%)')" onmouseout="HideTooltip(evt);colorText('ifLinkUpDownTrapEnable','rgb(0%,0%,0%)')">Object ifLinkUpDownTrapEnable</text>
+ </g>
+ <g id="MI36" transform="translate(65.00,610.00)">
+  <text id="objectifCompliance3ifPromiscuousModeIF-MIB" fill="rgb(0%,0%,0%)" onmousemove="ShowTooltipMZ(evt,'Write access is not required.');colorText('ifPromiscuousMode','salmon')" onclick="setStatus(evt,'salmon','rgb(0%,0%,0%)');changeColor(evt,'ifPromiscuousMode','salmon','rgb(0%,0%,0%)')" onmouseout="HideTooltip(evt);colorText('ifPromiscuousMode','rgb(0%,0%,0%)')">Object ifPromiscuousMode</text>
+ </g>
+ <g id="MI37" transform="translate(65.00,625.00)">
+  <text id="objectifCompliance3ifAdminStatusIF-MIB" fill="rgb(0%,0%,0%)" onmousemove="ShowTooltipMZ(evt,'Write access is not required, nor is support for the value\ntesting(3).');colorText('ifAdminStatus','salmon')" onclick="setStatus(evt,'salmon','rgb(0%,0%,0%)');changeColor(evt,'ifAdminStatus','salmon','rgb(0%,0%,0%)')" onmouseout="HideTooltip(evt);colorText('ifAdminStatus','rgb(0%,0%,0%)')">Object ifAdminStatus</text>
+ </g>
+ <g id="MI38" transform="translate(65.00,640.00)">
+  <text id="objectifCompliance3ifAliasIF-MIB" fill="rgb(0%,0%,0%)" onmousemove="ShowTooltipMZ(evt,'Write access is not required.');colorText('ifAlias','salmon')" onclick="setStatus(evt,'salmon','rgb(0%,0%,0%)');changeColor(evt,'ifAlias','salmon','rgb(0%,0%,0%)')" onmouseout="HideTooltip(evt);colorText('ifAlias','rgb(0%,0%,0%)')">Object ifAlias</text>
+ </g>
+ </g>
+ <g transform="translate(0.00,-546.56) scale(12.63)">
+ <g id="tooltip" style="visibility: hidden">
+   <rect id="ttr" x="0" y="0" rx="5" ry="5" width="100" height="16"/>
+   <line id="ttl" x1="0" y1="0" x2="0" y2="0"/>
+   <text class="tooltip" xml:space="preserve" id="ttt" x="0" y="0" style="visibility: hidden">dyn. Text</text>
+   <text class="tooltip" xml:space="preserve" x="-10" y="-10">dyn. Text</text>
+ </g>
+ </g>
+</svg>
++ grep -e 'width="100"'
+Tue Nov 21 20:48:19 2023 - ERROR - Timeout : Command 'bash -x oe_test_libsmi_smidump_05.sh' timed out after 1799.9996032020001 seconds

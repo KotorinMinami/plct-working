@@ -1,0 +1,259 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environment preparation.'
++ message='Start environment preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment preparation.'
+Tue Nov 21 06:36:09 2023 - INFO  - Start environment preparation.
++ systemctl stop firewalld
+Failed to stop firewalld.service: Unit firewalld.service not loaded.
++ systemctl disable firewalld
+Failed to disable unit: Unit file firewalld.service does not exist.
++ setenforce 0
+setenforce: SELinux is disabled
++ groupadd mysql
+groupadd: group 'mysql' already exists
++ useradd -g mysql mysql
+useradd: user 'mysql' already exists
++ echo 'openEuler12#$'
++ passwd --stdin mysql
+Changing password for user mysql.
+passwd: all authentication tokens updated successfully.
++ test -d /data
++ rm -rf /data
++ mkdir /data
++ test -d /data/mariadb
++ mkdir -p /data/mariadb
++ cd /data/mariadb
++ mkdir data tmp run log
++ chown -R mysql:mysql /data
++ cd -
+/root/mugen/testcases/doc-test/admin_guide/oe_test_mariadb_install_run_uninstall
++ LOG_INFO 'Environmental preparation is over.'
++ message='Environmental preparation is over.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Environmental preparation is over.'
+Tue Nov 21 06:36:10 2023 - INFO  - Environmental preparation is over.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Tue Nov 21 06:36:11 2023 - INFO  - Start executing testcase.
++ rm -rf /var/lib/mysql/auto.cnf /var/lib/mysql/binlog.000001 /var/lib/mysql/binlog.index /var/lib/mysql/ca-key.pem /var/lib/mysql/ca.pem /var/lib/mysql/client-cert.pem /var/lib/mysql/client-key.pem /var/lib/mysql/#ib_16384_0.dblwr /var/lib/mysql/#ib_16384_1.dblwr /var/lib/mysql/ib_buffer_pool /var/lib/mysql/ibdata1 /var/lib/mysql/#innodb_redo /var/lib/mysql/#innodb_temp /var/lib/mysql/mysql /var/lib/mysql/mysql.ibd /var/lib/mysql/mysql_upgrade_info /var/lib/mysql/performance_schema /var/lib/mysql/private_key.pem /var/lib/mysql/public_key.pem /var/lib/mysql/server-cert.pem /var/lib/mysql/server-key.pem /var/lib/mysql/sys /var/lib/mysql/undo_001 /var/lib/mysql/undo_002
++ DNF_INSTALL mariadb-server
++ pkgs=mariadb-server
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs mariadb-server --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp1koeqpdu
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp1koeqpdu
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start mariadb
++ mysqladmin -uroot password 'openEuler12#$'
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect -c '
+    log_file testlog
+    spawn  mysql_secure_installation
+    expect {
+        "*enter for none\)" {send "openEuler12#$\r"
+        expect "*\[Y\/n\]" {send "N\r"}
+        expect "*\[Y\/n\]" {send "Y\r"}
+        expect "*\[Y\/n\]" {send "Y\r"}
+        expect "*\[Y\/n\]" {send "Y\r"}
+        expect "*\[Y\/n\]" {send "Y\r"}
+}
+}
+expect eof
+'
+spawn mysql_secure_installation
+
+NOTE: RUNNING ALL PARTS OF THIS SCRIPT IS RECOMMENDED FOR ALL MariaDB
+      SERVERS IN PRODUCTION USE!  PLEASE READ EACH STEP CAREFULLY!
+
+In order to log into MariaDB to secure it, we'll need the current
+password for the root user. If you've just installed MariaDB, and
+haven't set the root password yet, you should just press enter here.
+
+Enter current password for root (enter for none): 
+OK, successfully used password, moving on...
+
+Setting the root password or using the unix_socket ensures that nobody
+can log into the MariaDB root user without the proper authorisation.
+N
+
+Y
+You already have your root account protected, so you can safely answer 'n'.
+
+Switch to unix_socket authentication [Y/n] Y
+Y
+Y
+ ... skipping.
+
+You already have your root account protected, so you can safely answer 'n'.
+
+Change the root password? [Y/n] New password: 
+Re-enter new password: 
+Password updated successfully!
+Reloading privilege tables..
+ ... Success!
+
+
+By default, a MariaDB installation has an anonymous user, allowing anyone
+to log into MariaDB without having to have a user account created for
+them.  This is intended only for testing, and to make the installation
+go a bit smoother.  You should remove them before moving into a
+production environment.
+
+Remove anonymous users? [Y/n]  ... Success!
+
+Normally, root should only be allowed to connect from 'localhost'.  This
+ensures that someone cannot guess at the root password from the network.
+
+Disallow root login remotely? [Y/n] + grep -i error testlog
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
++ expect -c '
+    set timeout 30
+    log_file testlog
+    spawn mysql -u root -p
+    expect {
+        "Enter*" {send "openEuler12#$\r"
+        expect "Maria*" {send "create database target_db;\r"}
+	    expect "Maria*" {send "drop database target_db;\r"}
+        expect "Maria*" {send "exit;\r"}
+}
+}
+expect eof
+'
+spawn mysql -u root -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+create database target_db;
+Your MariaDB connection id is 8
+Server version: 10.5.16-MariaDB MariaDB Server
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+drop database target_db;
+No entry for terminal type "unknown";
+using dumb terminal settings.
+No entry for terminal type "unknown";
+using dumb terminal settings.
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> create database target_db;
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [(none)]> drop database target_db;
+Query OK, 0 rows affected (0.009 sec)
+
+MariaDB [(none)]> exit;
+Bye
++ grep -iE 'fail|error' testlog
++ CHECK_RESULT 1 1
++ actual_result=1
++ expect_result=1
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 1x
++ return 0
+++ ps -ef
+++ grep mysql
+++ grep -v grep
+++ awk '{print $2}'
+++ grep -v test
++ sql_pid=5976
++ kill -9 5976
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End of testcase execution.'
++ message='End of testcase execution.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of testcase execution.'
+Tue Nov 21 06:37:42 2023 - INFO  - End of testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Nov 21 06:37:42 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Tue Nov 21 06:37:42 2023 - INFO  - start environment cleanup.
++ setenforce 1
+setenforce: SELinux is disabled
++ userdel -r mysql
+userdel: mysql mail spool (/var/spool/mail/mysql) not found
++ groupdel mysql
+groupdel: group 'mysql' does not exist
++ rm -rf testlog
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp1koeqpdu ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp1koeqpdu
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup.'
++ message='Finish environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup.'
+Tue Nov 21 06:37:56 2023 - INFO  - Finish environment cleanup.

@@ -1,0 +1,336 @@
++ source ../common/common_podman.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Nov 21 07:06:01 2023 - INFO  - Start to prepare the test environment.
++ deploy_env
++ DNF_INSTALL 'podman podman-docker'
++ pkgs='podman podman-docker'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'podman podman-docker' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmp96jc9zo6
++ '[' -z '' ']'
++ tmpfile=/tmp/tmp96jc9zo6
++ echo -e '[registries.search]
+registries = ['\''docker.io'\'']
+
+[registries.insecure]
+registries = []
+
+[registries.block]
+registries = []
+'
++ podman pull postgres:alpine
+Resolving "postgres" using unqualified-search registries (/etc/containers/registries.conf)
+Trying to pull docker.io/library/postgres:alpine...
+Error: choosing an image from manifest list docker://postgres:alpine: no image found in image index for architecture riscv64, variant "", OS linux
++ podman run --name postgres -e POSTGRES_PASSWORD=secret -d postgres:alpine
+Resolving "postgres" using unqualified-search registries (/etc/containers/registries.conf)
+Trying to pull docker.io/library/postgres:alpine...
+Error: choosing an image from manifest list docker://postgres:alpine: no image found in image index for architecture riscv64, variant "", OS linux
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Nov 21 07:08:58 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 07:08:59 2023 - INFO  - Start to run test.
++ podman push postgres:alpine dir:/tmp/myimage
++ grep 'Storing signatures'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_03.sh line 32'
++ message='oe_test_podman_03.sh line 32'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_03.sh line 32'
+Tue Nov 21 07:09:00 2023 - ERROR - oe_test_podman_03.sh line 32
++ '[' 0 -eq 1 ']'
++ return 0
++ podman push --authfile temp-auths/myauths.json postgres:alpine dir:/tmp/myimage
+Error: stat temp-auths/myauths.json: no such file or directory
++ CHECK_RESULT 125
++ actual_result=125
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 125 ']'
++ '[' 0 -eq 0 ']'
++ test 125x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_03.sh line 34'
++ message='oe_test_podman_03.sh line 34'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_03.sh line 34'
+Tue Nov 21 07:09:01 2023 - ERROR - oe_test_podman_03.sh line 34
++ '[' 0 -eq 1 ']'
++ return 0
++ test -f /tmp/myimage/manifest.json
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_03.sh line 36'
++ message='oe_test_podman_03.sh line 36'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_03.sh line 36'
+Tue Nov 21 07:09:02 2023 - ERROR - oe_test_podman_03.sh line 36
++ '[' 0 -eq 1 ']'
++ return 0
++ podman push --format oci postgres:alpine dir:/tmp/myimage
+Error: postgres:alpine: image not known
++ CHECK_RESULT 125
++ actual_result=125
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 125 ']'
++ '[' 0 -eq 0 ']'
++ test 125x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_03.sh line 38'
++ message='oe_test_podman_03.sh line 38'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_03.sh line 38'
+Tue Nov 21 07:09:03 2023 - ERROR - oe_test_podman_03.sh line 38
++ '[' 0 -eq 1 ']'
++ return 0
++ grep oci /tmp/myimage/manifest.json
+grep: /tmp/myimage/manifest.json: No such file or directory
++ CHECK_RESULT 2
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_03.sh line 40'
++ message='oe_test_podman_03.sh line 40'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_03.sh line 40'
+Tue Nov 21 07:09:03 2023 - ERROR - oe_test_podman_03.sh line 40
++ '[' 0 -eq 1 ']'
++ return 0
++ podman push --compress postgres:alpine dir:/tmp/myimage
+Error: postgres:alpine: image not known
++ CHECK_RESULT 125
++ actual_result=125
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 125 ']'
++ '[' 0 -eq 0 ']'
++ test 125x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_03.sh line 42'
++ message='oe_test_podman_03.sh line 42'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_03.sh line 42'
+Tue Nov 21 07:09:04 2023 - ERROR - oe_test_podman_03.sh line 42
++ '[' 0 -eq 1 ']'
++ return 0
++ grep image.rootfs.diff.tar.gzip /tmp/myimage/manifest.json
+grep: /tmp/myimage/manifest.json: No such file or directory
++ CHECK_RESULT 2
++ actual_result=2
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 2 ']'
++ '[' 0 -eq 0 ']'
++ test 2x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_03.sh line 44'
++ message='oe_test_podman_03.sh line 44'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_03.sh line 44'
+Tue Nov 21 07:09:05 2023 - ERROR - oe_test_podman_03.sh line 44
++ '[' 0 -eq 1 ']'
++ return 0
++ podman push -q postgres:alpine dir:/tmp/myimage
++ grep 'Storing signatures'
++ CHECK_RESULT 1 0 1
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ podman push --remove-signatures postgres:alpine dir:/tmp/myimage
++ grep 'Writing manifest'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_03.sh line 48'
++ message='oe_test_podman_03.sh line 48'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_03.sh line 48'
+Tue Nov 21 07:09:06 2023 - ERROR - oe_test_podman_03.sh line 48
++ '[' 0 -eq 1 ']'
++ return 0
++ podman push --tls-verify postgres:alpine dir:/tmp/myimage
++ grep 'Copying blob'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_03.sh line 50'
++ message='oe_test_podman_03.sh line 50'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_03.sh line 50'
+Tue Nov 21 07:09:07 2023 - ERROR - oe_test_podman_03.sh line 50
++ '[' 0 -eq 1 ']'
++ return 0
++ podman push --creds postgres:screte postgres:alpine dir:/tmp/myimage
++ grep 'Writing manifest'
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_03.sh line 52'
++ message='oe_test_podman_03.sh line 52'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_03.sh line 52'
+Tue Nov 21 07:09:09 2023 - ERROR - oe_test_podman_03.sh line 52
++ '[' 0 -eq 1 ']'
++ return 0
++ rm -rf /tmp/myimage
++ podman push --cert-dir /tmp postgres:alpine dir:/tmp/myimage
+Error: postgres:alpine: image not known
++ CHECK_RESULT 125
++ actual_result=125
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 125 ']'
++ '[' 0 -eq 0 ']'
++ test 125x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_03.sh line 55'
++ message='oe_test_podman_03.sh line 55'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_03.sh line 55'
+Tue Nov 21 07:09:10 2023 - ERROR - oe_test_podman_03.sh line 55
++ '[' 0 -eq 1 ']'
++ return 0
++ test -d /tmp/myimage
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_podman_03.sh line 57'
++ message='oe_test_podman_03.sh line 57'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_podman_03.sh line 57'
+Tue Nov 21 07:09:10 2023 - ERROR - oe_test_podman_03.sh line 57
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Nov 21 07:09:11 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 12
++ test 12 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Tue Nov 21 07:09:11 2023 - ERROR - failed to execute the case.
++ exit 12
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Nov 21 07:09:12 2023 - INFO  - Start to restore the test environment.
++ clear_env
++ podman stop postgres
+Error: no container with name or ID "postgres" found: no such container
++ podman rm --all
++ podman rmi -f --all
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmp96jc9zo6 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmp96jc9zo6
++ '[' 0 -ne 0 ']'
+++ grep -vE .sh
+++ ls
++ rm -rf /tmp/myimage
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue Nov 21 07:10:12 2023 - INFO  - End to restore the test environment.

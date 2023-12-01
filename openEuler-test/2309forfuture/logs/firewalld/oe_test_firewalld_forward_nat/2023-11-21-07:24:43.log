@@ -1,0 +1,427 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Tue Nov 21 07:24:45 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL net-tools
++ pkgs=net-tools
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs net-tools --node 1 --tempfile ''
+Tue Nov 21 07:24:52 2023 - INFO  - pkgs:(net-tools) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ SSH_CMD 'sudo dnf install -y net-tools' 192.168.114.7 'openEuler12#$' root
++ cmd='sudo dnf install -y net-tools'
++ remoteip=192.168.114.7
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'sudo dnf install -y net-tools' -i 192.168.114.7 -u root -p 'openEuler12#$' -t 300 -o 22
+Tue Nov 21 07:24:53 2023 - WARN  - the remote user uses the default configuration.
+Tue Nov 21 07:24:54 2023 - WARN  - the remote password uses the default configuration.
+Tue Nov 21 07:24:54 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@192.168.114.7 sudo dnf install -y net-tools
+root@192.168.114.7's password: 
+Last metadata expiration check: 0:03:16 ago on Tue 21 Nov 2023 07:21:44 AM CST.
+Dependencies resolved.
+================================================================================
+ Package           Architecture    Version               Repository        Size
+================================================================================
+Installing:
+ net-tools         riscv64         2.10-3.oe2303         mainline         200 k
+
+Transaction Summary
+================================================================================
+Install  1 Package
+
+Total download size: 200 k
+Installed size: 874 k
+Downloading Packages:
+net-tools-2.10-3.oe2303.riscv64.rpm             244 kB/s | 200 kB     00:00    
+--------------------------------------------------------------------------------
+Total                                           237 kB/s | 200 kB     00:00     
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Preparing        :                                                        1/1 
+  Installing       : net-tools-2.10-3.oe2303.riscv64                        1/1 
+  Running scriptlet: net-tools-2.10-3.oe2303.riscv64                        1/1 
+  Verifying        : net-tools-2.10-3.oe2303.riscv64                        1/1 
+
+Installed:
+  net-tools-2.10-3.oe2303.riscv64                                               
+
+Complete!
++ ret=0
++ test 0 -ne 0
++ return 0
++ test 0 -ne 0
++ sudo systemctl start firewalld
+Failed to start firewalld.service: Unit firewalld.service not found.
+++ TEST_NIC 1
+++ id=1
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device nic --node 1
+Tue Nov 21 07:25:15 2023 - INFO  - pkgs:(lshw) is already installed
++ net_cards='enp0s4 enp0s5'
+++ echo 'enp0s4 enp0s5'
+++ awk -F ' ' '{print $1}'
++ net_card2=enp0s4
+++ TEST_NIC 2
+++ id=2
+++ python3 /root/mugen/libs/locallibs/get_test_device.py --device nic --node 2
+Tue Nov 21 07:25:31 2023 - INFO  - pkgs:(lshw) is already installed
++ remote_net_cards='enp0s3 enp0s4'
+++ echo 'enp0s3 enp0s4'
+++ awk -F ' ' '{print $1}'
++ remote_net_card2=enp0s3
+++ sudo firewall-cmd --get-zone-of-interface=enp0s3
+sudo: firewall-cmd: command not found
++ zone1=
+++ sudo firewall-cmd --get-zone-of-interface=enp0s4
+sudo: firewall-cmd: command not found
++ zone2=
++ cp /etc/sysctl.conf /etc/sysctl.conf.bak
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Tue Nov 21 07:25:41 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start executing testcase.'
++ message='Start executing testcase.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start executing testcase.'
+Tue Nov 21 07:25:42 2023 - INFO  - Start executing testcase.
++ firewall-cmd --reload
+oe_test_firewalld_forward_nat.sh: line 40: firewall-cmd: command not found
++ systemctl restart firewalld
+Failed to restart firewalld.service: Unit firewalld.service not found.
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ sudo ifconfig enp0s4 192.168.100.1/24
++ sudo ifconfig enp0s4 up
++ SSH_CMD 'sudo ifconfig enp0s3 192.168.100.2/24;sudo ifconfig enp0s3 up;sudo route add default  gw 192.168.100.1' 192.168.114.7 'openEuler12#$' root
++ cmd='sudo ifconfig enp0s3 192.168.100.2/24;sudo ifconfig enp0s3 up;sudo route add default  gw 192.168.100.1'
++ remoteip=192.168.114.7
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'sudo ifconfig enp0s3 192.168.100.2/24;sudo ifconfig enp0s3 up;sudo route add default  gw 192.168.100.1' -i 192.168.114.7 -u root -p 'openEuler12#$' -t 300 -o 22
+Tue Nov 21 07:25:45 2023 - WARN  - the remote user uses the default configuration.
+Tue Nov 21 07:25:46 2023 - WARN  - the remote password uses the default configuration.
+Tue Nov 21 07:25:46 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@192.168.114.7 sudo ifconfig enp0s3 192.168.100.2/24;sudo ifconfig enp0s3 up;sudo route add default  gw 192.168.100.1
+root@192.168.114.7's password: 
++ ret=0
++ test 0 -ne 0
++ return 0
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ SSH_CMD 'ping baidu.com -I enp0s3 -c 1' 192.168.114.7 'openEuler12#$' root
++ cmd='ping baidu.com -I enp0s3 -c 1'
++ remoteip=192.168.114.7
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'ping baidu.com -I enp0s3 -c 1' -i 192.168.114.7 -u root -p 'openEuler12#$' -t 300 -o 22
+Tue Nov 21 07:25:52 2023 - WARN  - the remote user uses the default configuration.
+Tue Nov 21 07:25:52 2023 - WARN  - the remote password uses the default configuration.
+Tue Nov 21 07:25:53 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@192.168.114.7 ping baidu.com -I enp0s3 -c 1
+root@192.168.114.7's password: 
+PING baidu.com (39.156.66.10) from 192.168.100.2 enp0s3: 56(84) bytes of data.
+
+--- baidu.com ping statistics ---
+1 packets transmitted, 0 received, 100% packet loss, time 0ms
+
++ ret=1
++ test 1 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:1'
++ message='Failed in remote CMD operation:1'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:1'
+Tue Nov 21 07:26:05 2023 - ERROR - Failed in remote CMD operation:1
++ return 1
++ CHECK_RESULT 1 0 1
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ echo net.ipv4.ip_forward=1
++ sysctl -p
+net.ipv4.ip_forward = 1
+net.ipv4.ip_forward = 1
++ CHECK_RESULT 0
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ sudo firewall-cmd --zone=external --change-interface=enp0s3
+sudo: firewall-cmd: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_firewalld_forward_nat.sh line 54'
++ message='oe_test_firewalld_forward_nat.sh line 54'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_firewalld_forward_nat.sh line 54'
+Tue Nov 21 07:26:08 2023 - ERROR - oe_test_firewalld_forward_nat.sh line 54
++ '[' 0 -eq 1 ']'
++ return 0
++ sudo firewall-cmd --zone=internal --change-interface=enp0s4
+sudo: firewall-cmd: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_firewalld_forward_nat.sh line 56'
++ message='oe_test_firewalld_forward_nat.sh line 56'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_firewalld_forward_nat.sh line 56'
+Tue Nov 21 07:26:09 2023 - ERROR - oe_test_firewalld_forward_nat.sh line 56
++ '[' 0 -eq 1 ']'
++ return 0
++ sudo firewall-cmd --zone=external --add-masquerade
+sudo: firewall-cmd: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_firewalld_forward_nat.sh line 59'
++ message='oe_test_firewalld_forward_nat.sh line 59'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_firewalld_forward_nat.sh line 59'
+Tue Nov 21 07:26:09 2023 - ERROR - oe_test_firewalld_forward_nat.sh line 59
++ '[' 0 -eq 1 ']'
++ return 0
++ sudo firewall-cmd --direct --passthrough ipv4 -t nat -A POSTROUTING -o enp0s3 -j MASQUERADE -s 192.168.100.0/24
+sudo: firewall-cmd: command not found
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_firewalld_forward_nat.sh line 61'
++ message='oe_test_firewalld_forward_nat.sh line 61'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_firewalld_forward_nat.sh line 61'
+Tue Nov 21 07:26:10 2023 - ERROR - oe_test_firewalld_forward_nat.sh line 61
++ '[' 0 -eq 1 ']'
++ return 0
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ SSH_CMD 'ping baidu.com -I enp0s3 -c 1' 192.168.114.7 'openEuler12#$' root
++ cmd='ping baidu.com -I enp0s3 -c 1'
++ remoteip=192.168.114.7
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'ping baidu.com -I enp0s3 -c 1' -i 192.168.114.7 -u root -p 'openEuler12#$' -t 300 -o 22
+Tue Nov 21 07:26:13 2023 - WARN  - the remote user uses the default configuration.
+Tue Nov 21 07:26:13 2023 - WARN  - the remote password uses the default configuration.
+Tue Nov 21 07:26:14 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@192.168.114.7 ping baidu.com -I enp0s3 -c 1
+root@192.168.114.7's password: 
+PING baidu.com (39.156.66.10) from 192.168.100.2 enp0s3: 56(84) bytes of data.
+
+--- baidu.com ping statistics ---
+1 packets transmitted, 0 received, 100% packet loss, time 0ms
+
++ ret=1
++ test 1 -ne 0
++ LOG_ERROR 'Failed in remote CMD operation:1'
++ message='Failed in remote CMD operation:1'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Failed in remote CMD operation:1'
+Tue Nov 21 07:26:26 2023 - ERROR - Failed in remote CMD operation:1
++ return 1
++ CHECK_RESULT 1
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log=
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n ''
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_firewalld_forward_nat.sh line 65'
++ message='oe_test_firewalld_forward_nat.sh line 65'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_firewalld_forward_nat.sh line 65'
+Tue Nov 21 07:26:27 2023 - ERROR - oe_test_firewalld_forward_nat.sh line 65
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'Finish testcase execution.'
++ message='Finish testcase execution.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish testcase execution.'
+Tue Nov 21 07:26:27 2023 - INFO  - Finish testcase execution.
++ CASE_RESULT 0
++ case_re=0
++ test -z 5
++ test 5 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Tue Nov 21 07:26:28 2023 - ERROR - failed to execute the case.
++ exit 5
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Tue Nov 21 07:26:28 2023 - INFO  - start environment cleanup.
++ sudo firewall-cmd --direct --passthrough ipv4 -t nat -D POSTROUTING -oenp0s3 -j MASQUERADE -s 192.168.100.0/24
+sudo: firewall-cmd: command not found
++ sudo firewall-cmd --zone=external --remove-masquerade
+sudo: firewall-cmd: command not found
++ '[' '!' -z '' ']'
++ '[' '!' -z '' ']'
++ sudo firewall-cmd --zone=internal --remove-interface=enp0s4
+sudo: firewall-cmd: command not found
++ sudo ip addr del 192.168.100.1 dev enp0s4
+Warning: Executing wildcard deletion to stay compatible with old scripts.
+         Explicitly specify the prefix length (192.168.100.1/32) to avoid this warning.
+         This special behaviour is likely to disappear in further releases,
+         fix your scripts!
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Tue Nov 21 07:26:29 2023 - WARN  - no thing to do.
++ return 0
++ SSH_CMD 'sudo ip addr del 192.168.100.2 dev enp0s3;sudo route del default  gw 192.168.100.1;sleep 2;sudo dnf remove -y net-tools' 192.168.114.7 'openEuler12#$' root
++ cmd='sudo ip addr del 192.168.100.2 dev enp0s3;sudo route del default  gw 192.168.100.1;sleep 2;sudo dnf remove -y net-tools'
++ remoteip=192.168.114.7
++ remotepasswd='openEuler12#$'
++ remoteuser=root
++ timeout=300
++ connport=22
++ bash /root/mugen/libs/locallibs/sshcmd.sh -c 'sudo ip addr del 192.168.100.2 dev enp0s3;sudo route del default  gw 192.168.100.1;sleep 2;sudo dnf remove -y net-tools' -i 192.168.114.7 -u root -p 'openEuler12#$' -t 300 -o 22
+Tue Nov 21 07:26:29 2023 - WARN  - the remote user uses the default configuration.
+Tue Nov 21 07:26:30 2023 - WARN  - the remote password uses the default configuration.
+Tue Nov 21 07:26:30 2023 - WARN  - the connect port using the default configuration
+spawn ssh -o ConnectTimeout=300 -p 22 root@192.168.114.7 sudo ip addr del 192.168.100.2 dev enp0s3;sudo route del default  gw 192.168.100.1;sleep 2;sudo dnf remove -y net-tools
+root@192.168.114.7's password: 
+Warning: Executing wildcard deletion to stay compatible with old scripts.
+         Explicitly specify the prefix length (192.168.100.2/32) to avoid this warning.
+         This special behaviour is likely to disappear in further releases,
+         fix your scripts!
+SIOCDELRT: No such process
+Dependencies resolved.
+================================================================================
+ Package          Architecture   Version                 Repository        Size
+================================================================================
+Removing:
+ net-tools        riscv64        2.10-3.oe2303           @mainline        874 k
+
+Transaction Summary
+================================================================================
+Remove  1 Package
+
+Freed space: 874 k
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Preparing        :                                                        1/1 
+  Running scriptlet: net-tools-2.10-3.oe2303.riscv64                        1/1 
+  Erasing          : net-tools-2.10-3.oe2303.riscv64                        1/1 
+  Running scriptlet: net-tools-2.10-3.oe2303.riscv64                        1/1 
+  Verifying        : net-tools-2.10-3.oe2303.riscv64                        1/1 
+
+Removed:
+  net-tools-2.10-3.oe2303.riscv64                                               
+
+Complete!
++ ret=0
++ test 0 -ne 0
++ return 0
++ mv /etc/sysctl.conf.bak /etc/sysctl.conf
++ sudo firewall-cmd --reload
+sudo: firewall-cmd: command not found
++ systemctl restart firewalld
+Failed to restart firewalld.service: Unit firewalld.service not found.
++ SLEEP_WAIT 2
++ wait_time=2
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 2 --cmd '' --mode 1
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Tue Nov 21 07:26:47 2023 - INFO  - Finish environment cleanup!

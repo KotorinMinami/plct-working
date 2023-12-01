@@ -1,0 +1,210 @@
++ source ../common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Tue Nov 21 05:08:06 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL systemd-container
++ pkgs=systemd-container
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs systemd-container --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpdwygmhro
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpdwygmhro
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Tue Nov 21 05:08:35 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start testing...'
++ message='Start testing...'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start testing...'
+Tue Nov 21 05:08:36 2023 - INFO  - Start testing...
++ test_execution systemd-machined.service
++ service=systemd-machined.service
+++ date '+%Y-%m-%d %T'
++ log_time='2023-11-21 05:08:36'
++ test_restart systemd-machined.service
++ service=systemd-machined.service
++ systemctl restart systemd-machined.service
++ CHECK_RESULT 0 0 0 'systemd-machined.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-machined.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ grep 'Active: active'
++ systemctl status systemd-machined.service
+     Active: active (running) since Tue 2023-11-21 05:08:36 CST; 5s ago
++ CHECK_RESULT 0 0 0 'systemd-machined.service restart failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-machined.service restart failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl stop systemd-machined.service
++ CHECK_RESULT 0 0 0 'systemd-machined.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-machined.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status systemd-machined.service
++ grep 'Active: inactive'
+     Active: inactive (dead)
++ CHECK_RESULT 0 0 0 'systemd-machined.service stop failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-machined.service stop failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl start systemd-machined.service
++ CHECK_RESULT 0 0 0 'systemd-machined.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-machined.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ SLEEP_WAIT 5
++ wait_time=5
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 5 --cmd '' --mode 1
++ systemctl status systemd-machined.service
++ grep 'Active: active'
+     Active: active (running) since Tue 2023-11-21 05:08:48 CST; 5s ago
++ CHECK_RESULT 0 0 0 'systemd-machined.service start failed'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='systemd-machined.service start failed'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ test_enabled systemd-machined.service
++ service=systemd-machined.service
+++ systemctl is-enabled systemd-machined.service
++ state=static
++ '[' static == enabled ']'
++ '[' static == disabled ']'
++ '[' static == masked ']'
++ '[' static == static ']'
++ LOG_INFO 'The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
++ message='The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'The unit files have no installation config,This means they are not meant to be enabled using systemctl.'
+Tue Nov 21 05:08:54 2023 - INFO  - The unit files have no installation config,This means they are not meant to be enabled using systemctl.
++ journalctl --since '2023-11-21 05:08:36' -u systemd-machined.service
++ grep -i 'fail\|error'
++ grep -v -i 'DEBUG\|INFO\|WARNING'
++ CHECK_RESULT 1 0 1 'There is an error message for the log of systemd-machined.service'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='There is an error message for the log of systemd-machined.service'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ test_reload systemd-machined.service
++ service=systemd-machined.service
++ systemctl start systemd-machined.service
++ grep 'Job type reload is not applicable'
++ systemctl reload systemd-machined.service
+Failed to reload systemd-machined.service: Job type reload is not applicable for unit systemd-machined.service.
++ CHECK_RESULT 0 0 0 'Job type reload is not applicable for unit systemd-machined.service'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Job type reload is not applicable for unit systemd-machined.service'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ systemctl status systemd-machined.service
++ grep 'Active: active'
+     Active: active (running) since Tue 2023-11-21 05:08:48 CST; 6s ago
++ LOG_INFO 'Finish test!'
++ message='Finish test!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish test!'
+Tue Nov 21 05:08:55 2023 - INFO  - Finish test!
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Nov 21 05:08:55 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start environment cleanup.'
++ message='Start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environment cleanup.'
+Tue Nov 21 05:08:56 2023 - INFO  - Start environment cleanup.
++ systemctl stop systemd-machined.service
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpdwygmhro ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpdwygmhro
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Tue Nov 21 05:09:06 2023 - INFO  - Finish environment cleanup!

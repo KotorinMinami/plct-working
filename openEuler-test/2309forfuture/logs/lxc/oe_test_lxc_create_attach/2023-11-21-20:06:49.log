@@ -1,0 +1,222 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Nov 21 20:06:52 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'lxc lxc-devel lxc-libs lxcfs lxcfs-tools tar busybox'
++ pkgs='lxc lxc-devel lxc-libs lxcfs lxcfs-tools tar busybox'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'lxc lxc-devel lxc-libs lxcfs lxcfs-tools tar busybox' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpzeaniqfz
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpzeaniqfz
+++ rpm -qa lxc
+++ awk -F - '{print $2}'
++ version=4.0.3
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Nov 21 20:08:03 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 20:08:03 2023 - INFO  - Start to run test.
++ lxc-create --help
++ grep -i Usage
+Usage: lxc-create --name=NAME --template=TEMPLATE [OPTION...] [-- template-options]
+      --usage                      Give a short usage message
++ CHECK_RESULT 0 0 0 'Check lxc-create --help failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check lxc-create --help failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ lxc-create --usage
++ grep -i 'Usage: lxc-create'
+Usage: lxc-create [-B|--bdev=BDEV] [-f|--config=CONFIG] [-t|--template=TEMPLATE] [-0|--lvname=LVNAME] 
++ CHECK_RESULT 0 0 0 'Check lxc-create --usage failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check lxc-create --usage failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ lxc-create --version
++ grep 4.0.3
+4.0.3
++ CHECK_RESULT 0 0 0 'Check lxc-create --version failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check lxc-create --version failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ lxc-create -t /usr/share/lxc/templates/lxc-busybox -n myEuler1
+egrep: warning: egrep is obsolescent; using grep -E
+chmod: cannot access '/var/lib/lxc/myEuler1/rootfs/bin/passwd': No such file or directory
++ CHECK_RESULT 0 0 0 'Failed to set up container.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to set up container.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ lxc-attach --help
++ grep -i Usage
+Usage: lxc-attach --name=NAME [-- COMMAND]
+      --usage                      Give a short usage message
++ CHECK_RESULT 0 0 0 'Check lxc-attach --help failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check lxc-attach --help failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ lxc-attach --usage
++ grep -i 'Usage: lxc-attach'
+Usage: lxc-attach [-e|--elevated-privileges[=ELEVATED-PRIVILEGES]] [-a|--arch=ARCH] [-s|--namespaces=NAMESPACES] [-R|--remount-sys-proc] 
++ CHECK_RESULT 0 0 0 'Check lxc-attach --usage failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check lxc-attach --usage failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ lxc-attach --version
++ grep 4.0.3
+4.0.3
++ CHECK_RESULT 0 0 0 'Check lxc-attach --version failed.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Check lxc-attach --version failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ lxc-start myEuler1
+lxc-start: myEuler1: lxccontainer.c: do_lxcapi_start: 1042 Empty args detected
+lxc-start: myEuler1: tools/lxc_start.c: main: 412 The container failed to start
+lxc-start: myEuler1: tools/lxc_start.c: main: 415 To get more details, run the container in foreground mode
+lxc-start: myEuler1: tools/lxc_start.c: main: 417 Additional information can be obtained by setting the --logfile and --logpriority options
++ expect -c '
+    log_file testlog2
+    spawn lxc-attach -n myEuler1
+    expect "#"
+    send "exit\r"
+    expect eof
+'
+spawn lxc-attach -n myEuler1
+lxc-attach: myEuler1: attach.c: lxc_attach: 1314 Failed to get init pid
+myEuler1:tools/lxc_attach.c:main:731 starting container process caused "Internal error, failed to call attach"send: spawn id exp4 not open
+    while executing
+"send "exit\r""
++ grep 'while executing' testlog2
+    while executing
++ CHECK_RESULT 0 1 0 'Check lxc-attach -n failed.'
++ actual_result=0
++ expect_result=1
++ mode=0
++ error_log='Check lxc-attach -n failed.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 1x
++ test -n 'Check lxc-attach -n failed.'
++ LOG_ERROR 'Check lxc-attach -n failed.'
++ message='Check lxc-attach -n failed.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'Check lxc-attach -n failed.'
+Tue Nov 21 20:08:11 2023 - ERROR - Check lxc-attach -n failed.
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_lxc_create_attach.sh line 53'
++ message='oe_test_lxc_create_attach.sh line 53'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_lxc_create_attach.sh line 53'
+Tue Nov 21 20:08:12 2023 - ERROR - oe_test_lxc_create_attach.sh line 53
++ '[' 0 -eq 1 ']'
++ return 0
++ grep exit testlog2
+"send "exit\r""
++ CHECK_RESULT 0 0 0 'Failed to exit container.'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Failed to exit container.'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Nov 21 20:08:12 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Tue Nov 21 20:08:13 2023 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'Start to restore the tet environment.'
++ message='Start to restore the tet environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the tet environment.'
+Tue Nov 21 20:08:13 2023 - INFO  - Start to restore the tet environment.
++ rm -rf testlog2
++ lxc-stop myEuler1
+lxc-stop: myEuler1: tools/lxc_stop.c: main: 170 myEuler1 is not running
++ lxc-destroy myEuler1
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpzeaniqfz ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpzeaniqfz
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the tet environment.'
++ message='End to restore the tet environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the tet environment.'
+Tue Nov 21 20:08:31 2023 - INFO  - End to restore the tet environment.

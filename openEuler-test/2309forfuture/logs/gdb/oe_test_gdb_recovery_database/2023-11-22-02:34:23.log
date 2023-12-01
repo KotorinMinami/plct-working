@@ -1,0 +1,135 @@
++ source ../common/common_lib.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start environmental preparation.'
++ message='Start environmental preparation.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start environmental preparation.'
+Wed Nov 22 02:34:25 2023 - INFO  - Start environmental preparation.
++ DNF_INSTALL gdbm
++ pkgs=gdbm
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs gdbm --node 1 --tempfile ''
+Wed Nov 22 02:34:33 2023 - INFO  - pkgs:(gdbm) is already installed
++ tmpfile2=
++ '[' -z '' ']'
++ tmpfile=
++ mkdir /tmp/test
++ cd /tmp/test
++ gdbmtool -n test.gdbm
++ LOG_INFO 'End of environmental preparation!'
++ message='End of environmental preparation!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of environmental preparation!'
+Wed Nov 22 02:34:33 2023 - INFO  - End of environmental preparation!
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Wed Nov 22 02:34:34 2023 - INFO  - Start to run test.
++ gdbm_dump test.gdbm test.dump
++ test -e test.dump
++ CHECK_RESULT 0 0 0 'Generation failure 1'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Generation failure 1'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ rm -f test.gdbm
++ test -e test.gdbm
++ CHECK_RESULT 1 0 1 'Delete failure'
++ actual_result=1
++ expect_result=0
++ mode=1
++ error_log='Delete failure'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 1 -eq 0 ']'
++ test 1x == 0x
++ return 0
++ gdbm_load test.dump test123.gdbm
++ test -e test123.gdbm
++ CHECK_RESULT 0 0 0 'Generation failure 2'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Generation failure 2'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ expect
+spawn gdbmtool test123.gdbm
+
+Welcome to the gdbm tool.  Type ? for help.
+
+gdbmtool> l
+1 ut00001
+gdbmtool> quit
++ grep '1 ut00001' log.txt
+1 ut00001
++ CHECK_RESULT 0 0 0 'Recovery failure'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='Recovery failure'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End of the test.'
++ message='End of the test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End of the test.'
+Wed Nov 22 02:34:35 2023 - INFO  - End of the test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Wed Nov 22 02:34:35 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'start environment cleanup.'
++ message='start environment cleanup.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'start environment cleanup.'
+Wed Nov 22 02:34:36 2023 - INFO  - start environment cleanup.
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z '' ]]
++ [[ -z '' ]]
++ LOG_WARN 'no thing to do.'
++ message='no thing to do.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level warn --message 'no thing to do.'
+Wed Nov 22 02:34:37 2023 - WARN  - no thing to do.
++ return 0
++ rm -rf /tmp/test
++ LOG_INFO 'Finish environment cleanup!'
++ message='Finish environment cleanup!'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Finish environment cleanup!'
+Wed Nov 22 02:34:37 2023 - INFO  - Finish environment cleanup!

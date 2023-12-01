@@ -1,0 +1,128 @@
++ source ../common/common.sh
+++ source /root/mugen/libs/locallibs/common_lib.sh
++++ python3 --version
++++ '[' 0 -eq 0 ']'
++++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Nov 21 18:32:18 2023 - INFO  - Start to prepare the test environment.
++ common_pre
++ pip install -r ../common/requirements.txt
++ DNF_INSTALL 'nototools harfbuzz-devel cpio pango python3-gobject python3-cairo'
++ pkgs='nototools harfbuzz-devel cpio pango python3-gobject python3-cairo'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'nototools harfbuzz-devel cpio pango python3-gobject python3-cairo' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpczhl79xf
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpczhl79xf
++ notoconfig_pre
+++ mktemp -d -t nototools.SRC.XXXXXXXXXXXX
++ TMP_SRCDIR=/tmp/nototools.SRC.DNaP7S2WZopi
++ yumdownloader --source nototools --destdir /tmp/nototools.SRC.DNaP7S2WZopi
+No package nototools-0.2.17-1.oe2303.src available.
+Exiting due to strict setting.
+Error: No package nototools-0.2.17-1.oe2303.src available.
++ rpm2cpio '/tmp/nototools.SRC.DNaP7S2WZopi/*.rpm'
++ cpio -div -D /tmp/nototools.SRC.DNaP7S2WZopi
+rpm2cpio: /tmp/nototools.SRC.DNaP7S2WZopi/*.rpm: No such file or directory
++ tar -zxf '/tmp/nototools.SRC.DNaP7S2WZopi/*.tar.gz' --strip-components 1 --directory /tmp/nototools.SRC.DNaP7S2WZopi
+tar (child): /tmp/nototools.SRC.DNaP7S2WZopi/*.tar.gz: Cannot open: No such file or directory
+tar (child): Error is not recoverable: exiting now
+tar: Child returned status 2
+tar: Error is not recoverable: exiting now
++ echo noto_tools=/tmp/nototools.SRC.DNaP7S2WZopi
++ for src in "fonts" "cjk" "emoji"
++ echo noto_fonts=/tmp/nototools.SRC.DNaP7S2WZopi/noto-fonts
++ for src in "fonts" "cjk" "emoji"
++ echo noto_cjk=/tmp/nototools.SRC.DNaP7S2WZopi/noto-cjk
++ for src in "fonts" "cjk" "emoji"
++ echo noto_emoji=/tmp/nototools.SRC.DNaP7S2WZopi/noto-emoji
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Nov 21 18:38:35 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 18:38:36 2023 - INFO  - Start to run test.
++ fix_noto_cjk_thin.py ./NotoSansCJKjp-Thin.otf
+Traceback (most recent call last):
+  File "/usr/bin/fix_noto_cjk_thin.py", line 88, in <module>
+    main(sys.argv)
+  File "/usr/bin/fix_noto_cjk_thin.py", line 84, in main
+    fix_font(font_filename)
+  File "/usr/bin/fix_noto_cjk_thin.py", line 44, in fix_font
+    assert record.langID == 0x0409
+AssertionError
++ CHECK_RESULT 1 0 0 'fix_noto_cjk_thin.py run error'
++ actual_result=1
++ expect_result=0
++ mode=0
++ error_log='fix_noto_cjk_thin.py run error'
++ exit_mode=0
++ '[' -z 1 ']'
++ '[' 0 -eq 0 ']'
++ test 1x '!=' 0x
++ test -n 'fix_noto_cjk_thin.py run error'
++ LOG_ERROR 'fix_noto_cjk_thin.py run error'
++ message='fix_noto_cjk_thin.py run error'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'fix_noto_cjk_thin.py run error'
+Tue Nov 21 18:38:37 2023 - ERROR - fix_noto_cjk_thin.py run error
++ (( exec_result++ ))
++ LOG_ERROR 'oe_test_nototools_base_fix_noto_cjk_thin.sh line 38'
++ message='oe_test_nototools_base_fix_noto_cjk_thin.sh line 38'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'oe_test_nototools_base_fix_noto_cjk_thin.sh line 38'
+Tue Nov 21 18:38:37 2023 - ERROR - oe_test_nototools_base_fix_noto_cjk_thin.sh line 38
++ '[' 0 -eq 1 ']'
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Nov 21 18:38:38 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z 1
++ test 1 -gt 0
++ LOG_ERROR 'failed to execute the case.'
++ message='failed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level error --message 'failed to execute the case.'
+Tue Nov 21 18:38:38 2023 - ERROR - failed to execute the case.
++ exit 1
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Nov 21 18:38:39 2023 - INFO  - Start to restore the test environment.
++ rm -rf
++ common_post
++ rm -rf /tmp/nototools.SRC.DNaP7S2WZopi /root/.notoconfig
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpczhl79xf ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpczhl79xf
++ '[' 0 -ne 0 ']'
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue Nov 21 18:39:37 2023 - INFO  - End to restore the test environment.

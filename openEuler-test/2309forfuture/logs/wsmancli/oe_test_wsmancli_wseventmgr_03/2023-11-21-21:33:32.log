@@ -1,0 +1,236 @@
++ source /root/mugen/libs/locallibs/common_lib.sh
+++ python3 --version
+++ '[' 0 -eq 0 ']'
+++ source /root/mugen/libs/locallibs/common_lib_python.sh
++ main
+++ type -t post_test
++ '[' -n function ']'
++ trap post_test EXIT INT HUP TERM
++ rpm -qa
++ grep expect
+++ type -t config_params
++ '[' -n '' ']'
+++ type -t pre_test
++ '[' -n function ']'
++ pre_test
++ LOG_INFO 'Start to prepare the test environment.'
++ message='Start to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to prepare the test environment.'
+Tue Nov 21 21:33:34 2023 - INFO  - Start to prepare the test environment.
++ DNF_INSTALL 'wsmancli openwsman-server docker'
++ pkgs='wsmancli openwsman-server docker'
++ node=1
++ '[' -z '' ']'
++ tmpfile=
+++ python3 /root/mugen/libs/locallibs/rpm_manage.py install --pkgs 'wsmancli openwsman-server docker' --node 1 --tempfile ''
++ tmpfile2=/tmp/tmpnu01el83
++ '[' -z '' ']'
++ tmpfile=/tmp/tmpnu01el83
++ cp common/simple_auth.passwd /etc/openwsman/test_simple_auth.passwd
++ openwsmand -c common/openwsman.conf
++ docker run -d -it --rm -p 0.0.0.0:5988:5988 -p 0.0.0.0:5989:5989 --name openpegasus kschopmeyer/openpegasus-server:0.1.1
+260413c748cdcdbe19f31e7a52710d17a4545f5cdd5d145efed555dc3c50dd84
++ SLEEP_WAIT 20
++ wait_time=20
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 20 --cmd '' --mode 1
++ LOG_INFO 'End to prepare the test environment.'
++ message='End to prepare the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to prepare the test environment.'
+Tue Nov 21 21:35:39 2023 - INFO  - End to prepare the test environment.
+++ type -t run_test
++ '[' -n function ']'
++ run_test
++ LOG_INFO 'Start to run test.'
++ message='Start to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to run test.'
+Tue Nov 21 21:35:40 2023 - INFO  - Start to run test.
++ wseventmgr subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -b http://wsman:wsman@localhost:5985/wsman -R -G pull
++ grep '<wse:Delivery Mode="http://schemas.dmtf.org/wbem/wsman/1/wsman/Pull">'
+Connection failed. response code = 400
+      <wse:Delivery Mode="http://schemas.dmtf.org/wbem/wsman/1/wsman/Pull">
++ CHECK_RESULT 0 0 0 'wamancli.wseventmgr: faild to test -G '
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli.wseventmgr: faild to test -G '
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wseventmgr subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -b http://wsman:wsman@localhost:5985/wsman -R -s httpbasic
++ grep '<wsman:Auth Profile="http://schemas.dmtf.org/wbem/wsman/1/wsman/secprofile/http/basic"/>'
+Connection failed. response code = 400
+        <wsman:Auth Profile="http://schemas.dmtf.org/wbem/wsman/1/wsman/secprofile/http/basic"/>
++ CHECK_RESULT 0 0 0 'wamancli.wseventmgr: faild to test -s '
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli.wseventmgr: faild to test -s '
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wseventmgr subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -b http://wsman:wsman@localhost:5985/wsman -R -s httpbasic -U testname --delivery-password testpass
++ grep '<n2:UsernameToken>'
+Connection failed. response code = 400
+          <n2:UsernameToken>
++ CHECK_RESULT 0 0 0 'wamancli.wseventmgr: faild to test -U --delivery-password'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli.wseventmgr: faild to test -U --delivery-password'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wseventmgr subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -b http://wsman:wsman@localhost:5985/wsman -R -T AAAA
++ grep '<wsman:CertificateThumbprint>AAAA</wsman:CertificateThumbprint>'
+Connection failed. response code = 400
+          <wsman:CertificateThumbprint>AAAA</wsman:CertificateThumbprint>
++ CHECK_RESULT 0 0 0 'wamancli.wseventmgr: faild to test -T '
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli.wseventmgr: faild to test -T '
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wseventmgr subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -b http://wsman:wsman@localhost:5985/wsman -R -r 600
++ grep '<wse:Expires>PT600.000000S</wse:Expires>'
+Connection failed. response code = 400
+      <wse:Expires>PT600.000000S</wse:Expires>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test -r'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test -r'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wseventmgr subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -b http://wsman:wsman@localhost:5985/wsman -R --event-reference-properties '<test/>'
++ grep '<wsa:ReferenceProperties>'
+Connection failed. response code = 400
+          <wsa:ReferenceProperties>
++ CHECK_RESULT 0 0 0 'wamancli: faild to test --event-reference-properties'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli: faild to test --event-reference-properties'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wseventmgr subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -b http://wsman:wsman@localhost:5985/wsman -R -H 10
++ grep '<wsman:Heartbeats>PT10.000000S</wsman:Heartbeats>'
+Connection failed. response code = 400
+        <wsman:Heartbeats>PT10.000000S</wsman:Heartbeats>
++ CHECK_RESULT 0 0 0 'wamancli.wseventmgr: faild to test -H -R'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli.wseventmgr: faild to test -H -R'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wseventmgr subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -b http://wsman:wsman@localhost:5985/wsman -R -l
++ grep '<wsman:SendBookmarks/>'
+Connection failed. response code = 400
+      <wsman:SendBookmarks/>
++ CHECK_RESULT 0 0 0 'wamancli.wseventmgr: faild to test -l '
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli.wseventmgr: faild to test -l '
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ wseventmgr subscribe 'http://schemas.dmtf.org/wbem/wscim/1/*' -x 'SELECT * FROM CIM_ProcessIndication' -D http://schemas.microsoft.com/wbem/wsman/1/WQL -Z http://127.0.0.1:80/eventsink -b http://wsman:wsman@localhost:5985/wsman -E
+<?xml version="1.0" encoding="UTF-8"?>
+<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing">
+  <s:Header>
+    <wsa:To>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</wsa:To>
+    <wsa:Action>http://schemas.xmlsoap.org/ws/2004/08/addressing/fault</wsa:Action>
+    <wsa:RelatesTo>uuid:adca4b9d-0aa9-1aa9-8002-563412005452</wsa:RelatesTo>
+    <wsa:MessageID>uuid:adcaf2c2-0aa9-1aa9-8013-563412005452</wsa:MessageID>
+  </s:Header>
+  <s:Body>
+    <s:Fault>
+      <s:Code>
+        <s:Value>s:Sender</s:Value>
+        <s:Subcode>
+          <s:Value>wsa:ActionNotSupported</s:Value>
+        </s:Subcode>
+      </s:Code>
+      <s:Reason>
+        <s:Text xml:lang="en">The action is not supported by the service.</s:Text>
+      </s:Reason>
+    </s:Fault>
+  </s:Body>
+</s:Envelope>
+Connection failed. response code = 400
++ CHECK_RESULT 0 0 0 'wamancli.wseventmgr:: faild to test -E'
++ actual_result=0
++ expect_result=0
++ mode=0
++ error_log='wamancli.wseventmgr:: faild to test -E'
++ exit_mode=0
++ '[' -z 0 ']'
++ '[' 0 -eq 0 ']'
++ test 0x '!=' 0x
++ return 0
++ LOG_INFO 'End to run test.'
++ message='End to run test.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to run test.'
+Tue Nov 21 21:35:42 2023 - INFO  - End to run test.
++ CASE_RESULT 0
++ case_re=0
++ test -z ''
++ test 0 -eq 0
++ LOG_INFO 'succeed to execute the case.'
++ message='succeed to execute the case.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'succeed to execute the case.'
+Tue Nov 21 21:35:42 2023 - INFO  - succeed to execute the case.
++ exec_result=
++ exit 0
++ post_test
++ LOG_INFO 'Start to restore the test environment.'
++ message='Start to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'Start to restore the test environment.'
+Tue Nov 21 21:35:43 2023 - INFO  - Start to restore the test environment.
+++ pgrep openwsmand
++ kill -9 2678
++ rm -rf /etc/openwsman/test_simple_auth.passwd
++ docker stop openpegasus
+Error response from daemon: No such container: openpegasus
++ DNF_REMOVE
++ node=1
++ pkg_list=
++ mode=0
++ [[ -z /tmp/tmpnu01el83 ]]
++ '[' 0 -ne 0 ']'
++ '[' 1 == 0 ']'
++ python3 /root/mugen/libs/locallibs/rpm_manage.py remove --node 1 --pkgs '' --tempfile /tmp/tmpnu01el83
++ '[' 0 -ne 0 ']'
++ SLEEP_WAIT 10
++ wait_time=10
++ cmd=
++ mode=1
++ python3 /root/mugen/libs/locallibs/sleep_wait.py --time 10 --cmd '' --mode 1
++ LOG_INFO 'End to restore the test environment.'
++ message='End to restore the test environment.'
++ python3 /root/mugen/libs/locallibs/mugen_log.py --level info --message 'End to restore the test environment.'
+Tue Nov 21 21:36:17 2023 - INFO  - End to restore the test environment.
