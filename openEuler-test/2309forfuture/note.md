@@ -56,7 +56,7 @@
 
 - 23.09失败原因：源中无此软件包可供安装
 
-## aosp
+## aops
 
 ### oe_test_service_aops-ceres
 
@@ -66,7 +66,7 @@
 
 ### oe_test_struts_001
 
-- 23.09失败原因：与riscv相同，执行后确实对应log,需要进一步分析可用性
+- 23.09失败原因：与x86相同，执行后对应相同log,需要进一步分析可用性
 
 ## smoke-OVS
 
@@ -126,4 +126,125 @@
 ### oe_test_service_firebird-superserver
 
 - 23.09失败原因： 安装后对应的systemd模块与mugen脚本指定的不一致，x86上也是，可能为mugen脚本抑或软件更新原因
- 
+
+## cowsay
+
+### oe_test_cowsay
+
+- 23.09失败原因：源中无此软件包可供安装
+
+## etmemd
+
+### oe_test_etmem_001
+
+- 23.09失败原因：x86上报错一致，暂认为测试套件存在问题
+
+## hyperscan
+
+### oe_test_hyperscan_simplegrep
+
+- 23.09失败原因：源中无此软件包可供安装
+
+## dim
+
+### oe_test_dim_measure_001
+
+- 23.09失败原因:缺失内核模块kvdo
+
+### oe_test_dim_measure_002
+
+- 23.09失败原因:gcc未安装
+
+## cri-o
+
+### oe_test_service_crio
+
+- 23.09失败原因：源中无此软件包可供安装
+
+## python-wheel
+
+### oe_test_python-wheel_python2-wheel_command
+
+- 23.09失败原因：源中无此软件包可供安装
+
+## rootsh
+
+重测通过
+
+## nodejs-clean-css
+
+### oe_test_cleancss_01
+
+- 23.09失败原因：yum whatprovides显示nodejs-clean-css提供了cleancss,但实际安装后cleancss命令未在PATH中，x86亦然
+
+### oe_test_cleancss_02
+
+- 23.09失败原因：yum whatprovides显示nodejs-clean-css提供了cleancss,但实际安装后cleancss命令未在PATH中，x86亦然
+
+## assimp
+
+### oe_test_assimp_01
+
+- 23.09失败原因：yum whatprovides显示assimp提供了assimp,但实际安装后assimp命令未在PATH中，x86亦然
+
+### oe_test_assimp_02
+
+- 23.09失败原因：yum whatprovides显示assimp提供了assimp,但实际安装后assimp命令未在PATH中，x86亦然
+
+## novnc
+
+### oe_test_novnc
+
+- 23.09失败原因：脚本中expect语句影响，vncserver启动失败，导致后续测试失败，功能正常
+
+- 后续：需提交issue讨论如何修改
+
+## keepalived_cli
+
+### oe_test_keepalived_cli
+
+- 23.09失败原因：脚本中suite2cases配置文档中无多机器信息，鉴定为此测试例无法正常使用
+
+## httplib2
+
+### oe_test_httplib2
+
+- 23.09失败原因：源中无软件包python2-httplib2
+
+## docker-engine
+
+### oe_test_service_docker
+
+- 23.09失败原因：脚本问题，没有处理输出的双引号
+
+## derby
+
+### oe_test_service_derby
+
+- 23.09失败原因：systemctl stop derby时停止apache derby network service超时导致报错信息
+
+## conntrack-tools
+
+### oe_test_service_conntrackd
+
+- 23.09失败原因：默认配置文件无法满足启动条件，同x86
+
+## Keras
+
+### oe_test_Keras
+
+- 23.09失败原因：未安装numpy,pip install tensorflow失败,提供的链接中并无riscv可用的tensorflow包或者pip存在问题，无法从对应镜像站中下载到对应的tensorflow包
+
+## boom-boot
+
+### oe_test_boom_boot_01
+
+- 23.09失败原因：脚本问题，脚本指令参数次序无法被23.09的boom解析，怀疑为软件更新导致，而且新版本可能不允许配置文件无对应文件，x86同
+
+### oe_test_boom_boot_02
+
+- 23.09失败原因：脚本问题，脚本指令参数次序无法被23.09的boom解析，怀疑为软件更新导致，而且新版本可能不允许配置文件无对应文件，x86同
+
+### oe_test_boom_boot_03
+
+- 23.09失败原因：脚本问题，脚本指令参数次序无法被23.09的boom解析，怀疑为软件更新导致，而且新版本可能不允许配置文件无对应文件，x86同
