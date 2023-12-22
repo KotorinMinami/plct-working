@@ -248,3 +248,85 @@
 ### oe_test_boom_boot_03
 
 - 23.09失败原因：脚本问题，脚本指令参数次序无法被23.09的boom解析，怀疑为软件更新导致，而且新版本可能不允许配置文件无对应文件，x86同
+
+## StratoVirt_user_guide
+
+### oe_test_manage_stratovirt_vm
+
+- 23.09失败原因：架构相关，目前无riscv64可用的vmlinux.bin，以及无软件包stratovirt
+
+### oe_test_manage_stratovirt_vm_resources
+
+- 23.09失败原因：架构相关，目前无riscv64可用的vmlinux.bin，以及无软件包stratovirt
+
+### oe_test_ready_environment
+
+- 23.09失败原因：架构相关，目前无riscv64可用的vmlinux.bin，以及无软件包stratovirt
+
+## mailman
+
+### oe_test_service_mailman
+
+- 23.09失败原因：同x86,怀疑软件更新或对应链接未建立，在安装mailman后无mailman.service文件但存在mailman3.service文件
+
+## pcs
+
+### oe_test_service_pcs_snmp_agent
+
+- 日志显示成功，为mugen运行是对结果统计错误
+
+- 结论：样例可用
+
+## whois
+
+### oe_test_whois_03
+
+- 23.09失败原因：脚本问题，grep字段为‘A short decription related to the object’ 实际上 description 拼写错误
+
+- 结论：需要提交issue
+
+## sassc
+
+### oe_test_sassc_01
+
+- 23.09失败原因：同x86，sassc -m 参数解析需要为 ‘-minline’ 脚本中为 ‘-m inline’ 此时sassc 会将inline解析为路径
+
+- 结论：需要提交issue讨论具体情况
+
+## openmpi
+
+### oe_test_openmpi_single_01
+
+- 23.09失败原因：x86中无法找到ompi-dvm软件包导致失败，使用dnf provides也无法找到，怀疑已被移除，riscv存在mpiexec无法正确执行mpicc编译出来的软件的情况，报错为mca_base_component_repository_open: unable to open mca_pmix_ext3x: /usr/lib64/openmpi/lib/openmpi/mca_pmix_ext3x.so: undefined symbol: pmix_value_load (ignored)
+
+- 结论：需要提交issue
+
+### oe_test_openmpi_single_02
+
+- 23.09失败原因：同x86,openmpi中包含软件包与之前有所不同，导致对应测试失败
+
+### oe_test_openmpi_cluster
+
+- 23.09失败原因：同x86,openmpi中包含软件包与之前有所不同，导致对应测试失败
+
+## nbdkit
+
+### oe_test_nbdkit_02
+
+- 23.09失败原因：同x86，nbdkit --selinux-label system_u:object_r:svirt_t:s0 example1 报错 selinux-label: setsockcreatecon_raw: Invalid argument
+
+## itstool_2.0.4
+
+### oe_test_itstool_2.0.4
+
+- 23.09失败原因：同x86报错
+
+## jython
+
+### oe_test_jython_03
+
+- 手动未复现，复测也通过，测试例可用
+
+
+
+
